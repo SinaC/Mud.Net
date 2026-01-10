@@ -11,6 +11,8 @@ public interface IQuest
     IPlayableCharacter Character { get; }
     INonPlayableCharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
+    string DebugName { get; }
+
     string Title { get; }
     string? Description { get; }
     int Level { get; }
@@ -33,13 +35,4 @@ public interface IQuest
     bool DecreasePulseLeft(int pulseCount); // true if timed out
     void Complete();
     void Abandon();
-}
-
-public interface IQuestObjective
-{
-    int Id { get; }
-    bool IsCompleted { get; }
-    string CompletionState { get; }
-
-    void Reset();
 }

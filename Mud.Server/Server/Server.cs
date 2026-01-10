@@ -11,6 +11,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Network.Interfaces;
 using Mud.Repository.Interfaces;
+using Mud.Server.Commands.Character.PlayableCharacter.Quest;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -33,6 +34,7 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
+using Mud.Server.Quest.Objectives;
 using Mud.Server.Random;
 using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
@@ -1319,29 +1321,32 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         foreach (var player in Players.Where(x => x.Impersonating != null))
         {
+            var impersonating = player.Impersonating!;
             try
             {
-                if (player.Impersonating!.Quests?.Any(y => y.TimeLimit > 0) == true)
+                // quest time out ?
+                if (impersonating.Quests.Any(x => x.TimeLimit > 0))
                 {
-                    var quests = player.Impersonating!.Quests.Where(x => x.TimeLimit > 0).ToArray(); // clone because quest list may be modified
+                    var quests = impersonating.Quests.Where(x => x.TimeLimit > 0).ToArray(); // clone because quest list may be modified
                     foreach (var quest in quests)
                     {
                         var timedOut = quest.DecreasePulseLeft(pulseCount);
                         if (timedOut)
                         {
                             quest.Timeout();
-                            player.Impersonating.RemoveQuest(quest);
+                            impersonating.RemoveQuest(quest);
                         }
                     }
                 }
-                if (player.Impersonating!.PulseLeftBeforeNextAutomaticQuest > 0)
+                // decrease time until next automatic quest
+                if (impersonating.PulseLeftBeforeNextAutomaticQuest > 0)
                 {
-                    player.Impersonating.DecreasePulseLeftBeforeNextAutomaticQuest(pulseCount);
+                    impersonating.DecreasePulseLeftBeforeNextAutomaticQuest(pulseCount);
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError("Exception while handling cooldowns of {name}. Exception: {ex}", player.Impersonating!.DebugName, ex);
+                Logger.LogError("Exception while handling quests of {name}. Exception: {ex}", player.Impersonating!.DebugName, ex);
             }
         }
     }
@@ -1372,7 +1377,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         if (npc != null)
                         {
                             Logger.LogDebug("Non-playable character stop fighting, resetting it");
-                            npc.Reset();
+                            npc.Reset(); // TODO
                         }
                     }
                     // check auto-assist
@@ -1446,7 +1451,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandlePlayers(int pulseCount)
     {
-        foreach (PlayingClient playingClient in _players.Values)
+        foreach (var playingClient in _players.Values)
         {
             try
             {
@@ -1625,7 +1630,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleItems(int pulseCount)
     {
-        //Logger.LogDebug("HandleItems {0} {1}", CurrentTime, DateTime.Now);
         var decayingItems = ItemManager.Items.Where(x => x.DecayPulseLeft > 0).ToArray(); // clone bause decaying item will be removed from list
         foreach (var decayingItem in decayingItems)
         {
@@ -1636,7 +1640,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 if (decayingItem.DecayPulseLeft == 0)
                 {
                     Logger.LogDebug("Item {name} decays", decayingItem.DebugName);
-                    string msg = "{0:N} crumbles into dust.";
+                    var msg = "{0:N} crumbles into dust.";
                     switch (decayingItem)
                     {
                         case IItemCorpse _:
@@ -1668,7 +1672,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         wasOnCharacter.Act(ActOptions.ToCharacter, msg, decayingItem);
                     else if (decayingItem.ContainedInto is IRoom wasInRoom)
                     {
-                        foreach (ICharacter character in wasInRoom.People)
+                        foreach (var character in wasInRoom.People)
                             character.Act(ActOptions.ToCharacter, msg, decayingItem);
                     }
 
@@ -1698,6 +1702,42 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 Logger.LogError("Exception while handling item {name}. Exception: {ex}", decayingItem.DebugName, ex);
             }
         }
+
+        // handle quest items respawn (only for predefined quests)
+        var questsWithFloorItemQuestObjective = Players
+            .Where(x => x.Impersonating != null)
+            .Select(x => x.Impersonating!)
+            .SelectMany(x => x.Quests.OfType<IPredefinedQuest>().Where(x => x.Objectives.OfType<FloorItemQuestObjective>().Any(y => !y.IsCompleted)))
+            .DistinctBy(x => x.Blueprint.Id)
+            .ToArray();
+        foreach (var quest in questsWithFloorItemQuestObjective)
+        {
+            try
+            {
+                quest.SpawnQuestItemOnFloorIfNeeded();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception while handling spawn of quest item {name} [id: {id}]. Exception: {ex}", quest.Title, quest.Blueprint.Id, ex);
+            }
+        }
+
+        // handle quest items despawn (only for predefined quests)
+        var questItemBlueprintIdsFoundInQuestObjectives = questsWithFloorItemQuestObjective.SelectMany(x => x.Objectives).OfType<FloorItemQuestObjective>().Select(x => x.ItemBlueprint.Id).Distinct().ToArray();
+        var questItemsFoundOnFloor = RoomManager.Rooms.SelectMany(x => x.Content).OfType<IItemQuest>().ToArray(); // TODO: check everywhere ? ItemManager.Items.OfType<IItemQuest> instead ?
+        var questItemsToRemove = questItemsFoundOnFloor.Where(x => !questItemBlueprintIdsFoundInQuestObjectives.Contains(x.Blueprint.Id)).ToArray();
+        foreach (var questItemToRemove in questItemsToRemove)
+        {
+            try
+            {
+                Logger.LogInformation("Despawn quest item {name} contained into {room} because it's not found anymore on any active quest", questItemToRemove.DebugName, questItemToRemove.ContainedInto.DebugName);
+                ItemManager.RemoveItem(questItemToRemove);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception while handling despawn of quest item {name}. Exception: {ex}", questItemToRemove.DebugName, ex);
+            }
+        }
     }
 
     private void HandleRooms(int pulseCount)
@@ -1712,7 +1752,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         if (!string.IsNullOrWhiteSpace(timeUpdate))
         {
             // inform non-sleeping and outdoors players
-            foreach (IPlayableCharacter character in CharacterManager.PlayableCharacters.Where(x => 
+            foreach (var character in CharacterManager.PlayableCharacters.Where(x => 
                 x.Position > Positions.Sleeping 
                 && x.Room != null 
                 && !x.Room.RoomFlags.IsSet("Indoors")

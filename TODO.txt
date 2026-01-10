@@ -1,24 +1,36 @@
 INGOING
 DONE
-    different kind of immortal mode
-        NoDeath = 0x0001, // cannot die from damage
-        Holylight = 0x0002, // can see anything
-        Infinite = 0x0004, // infinite resource/no max weight/never full/no CD
-        PassThru = 0x0008, // can go anywhere, no key needed
-        AlwaysSafe = 0x0010, // will always be safe
-        Omniscient = 0x0020, // known every skills/spells/passives and never miss using/casting
-        UberMode: NoDeath+HolyLight+Infinite+PassThru+AlwaysSafe+Omniscient
+    2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
+        for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated
+    quest item generated on the floor issue: if multiple people are on the same quest, only one instance should be visible by each player
+        issue repro steps:
+            connect 2 players and get same quest with at least one floor item objective
+            each player on the quest will see 2 items on the floor and will be allowed to get both items from the floor
+            -> owner to solve the issue ? -> no!
+            solution is to use HandleItems to load item if needed (if a player is on a quest with floor item and there is not already an item on the floor, spawn it)
+            + when a player disconnect, delete item only if none is on the 'same' quest
+    QuestSanityCheck enhanced to detect invalid item/location/mob/incoherent objectives
+    clean quest items when none is on a quest with floor objective on that item (once every minute ?)
+    fix quest statistics issue in GenerateQuest
+    fix admin guards issue
+
 ==========
 == TODO ==
 ==========
+
+Add StayDeath item flags
+    set it on quest item
+
+HandleViolence: what should npc.Reset do ?
 
 Use ImmortalModes.Omniscient in AbilityLearned, we have to create an artificial AbilityUsage or define an ImmortalAbilityUsages class which will create AbilityUsage on the fly for every ability
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
     -> must artificially create an AbilityUsage for that purpose
     in fact, it's recompute known abilities which mess up learned abilities in pfile because it only considers racial abilities and abilities in learned groups
+new field in character ? GivenAbilities storing abilities out of learned that can be used by character
 
-who admin/player command
+finish who admin/player command
 
 Removing as much as possible this is IPlayableCharacter and this is INonPlayableCharacter in CharacterBase
 
@@ -34,8 +46,6 @@ rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
 
 quests:
-    2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
-        for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated
     quest history
     quest save completed quests
     quest tree (prereq)
@@ -156,7 +166,6 @@ make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 redo DoScore, DoAffects
-check if IStat, MStat and RStat display new informations
 cannot quit while affected by an harmful aura/periodic aura
 while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
 remove Send(..., bool addTrailingNewLine)

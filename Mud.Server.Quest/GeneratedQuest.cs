@@ -36,8 +36,6 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
     protected void Initialize(IPlayableCharacter character, INonPlayableCharacter giver, IRoom room, int level, int timeLimit)
     {
-        Character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsRequested);
-
         Room = room;
         Character = character;
         Giver = giver;
@@ -46,6 +44,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         Giver = giver;
         Level = level;
         TimeLimit = timeLimit;
+
+        character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsRequested);
     }
 
 
@@ -72,9 +72,9 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         // TODO: description
         Description = null;
 
-        var itemQuestObjective = new ItemQuestObjective { Blueprint = itemQuestBlueprint, Total = 1 };
+        var itemQuestObjective = new FloorItemQuestObjective { ItemBlueprint = itemQuestBlueprint, Total = 1 };
         _objectives.Add(itemQuestObjective);
-        itemQuest.SetTimer(TimeSpan.FromMinutes(timeLimit + 5)); // make sure to destroy item
+        itemQuest.SetTimer(TimeSpan.FromMinutes(timeLimit + 5)); // make sure to destroy item (just in case we missed the destroy)
         return true;
     }
 
@@ -104,8 +104,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
         var questKillLootTable = ServiceProvider.GetRequiredService<QuestKillLootTable<int>>();
         questKillLootTable.AddItem(itemQuestBlueprint.Id, 100); // TODO: 100% ?
-        var itemQuestObjective = new ItemQuestObjective { Blueprint = itemQuestBlueprint, Total = 1 };
-        var locationQuestObject = new LocationQuestObjective { Blueprint = room.Blueprint };
+        var itemQuestObjective = new LootItemQuestObjective { ItemBlueprint = itemQuestBlueprint, Total = 1 };
+        var locationQuestObject = new LocationQuestObjective { RoomBlueprint = room.Blueprint };
         _objectives.Add(itemQuestObjective);
         _objectives.Add(locationQuestObject);
         _killLootTable.Add(target.Blueprint.Id, questKillLootTable);
@@ -129,8 +129,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         // TODO: description
         Description = null;
 
-        var killQuestObjective = new KillQuestObjective { Blueprint = target.Blueprint, Total = 1 };
-        var locationQuestObject = new LocationQuestObjective { Blueprint = room.Blueprint };
+        var killQuestObjective = new KillQuestObjective { TargetBlueprint = target.Blueprint, Total = 1 };
+        var locationQuestObject = new LocationQuestObjective { RoomBlueprint = room.Blueprint };
         _objectives.Add(killQuestObjective);
         _objectives.Add(locationQuestObject);
         return true;
@@ -150,6 +150,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
     }
 
     #region IQuest
+
+    public override string DebugName => $"{Title}[Generated]";
 
     public override string Title { get; protected set; } = null!;
 
@@ -172,7 +174,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
     {
         Character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsCompleted);
 
-        if (_objectives.OfType<ItemQuestObjective>() != null)
+        if (_objectives.OfType<ItemQuestObjectiveBase>() != null)
             DestroyQuestItems();
 
         // rewards

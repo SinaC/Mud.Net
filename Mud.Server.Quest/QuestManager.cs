@@ -18,11 +18,11 @@ public class QuestManager : IQuestManager
     private IServiceProvider ServiceProvider { get; }
     private ICharacterManager CharacterManager { get; }
     private IRandomManager RandomManager { get; }
-    private QuestOptions QuestOptions { get; }
+    private GeneratedQuestOptions GeneratedQuestOptions { get; }
 
     private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
 
-    public QuestManager(ILogger<QuestManager> logger, IServiceProvider serviceProvider, ICharacterManager characterManager, IRandomManager randomManager, IOptions<QuestOptions> questOptions)
+    public QuestManager(ILogger<QuestManager> logger, IServiceProvider serviceProvider, ICharacterManager characterManager, IRandomManager randomManager, IOptions<GeneratedQuestOptions> generatedQuestOptions)
     {
         _questBlueprints = [];
 
@@ -31,7 +31,7 @@ public class QuestManager : IQuestManager
 
         CharacterManager = characterManager;
         RandomManager = randomManager;
-        QuestOptions = questOptions.Value;
+        GeneratedQuestOptions = generatedQuestOptions.Value;
     }
 
     public IReadOnlyCollection<QuestBlueprint> QuestBlueprints
@@ -82,7 +82,7 @@ public class QuestManager : IQuestManager
         if (chance <= 10)
         {
             var timeLimit = 10 + RandomManager.Next(20);
-            var itemId = RandomManager.Random(QuestOptions.ItemToFindBlueprintIds);
+            var itemId = RandomManager.Random(GeneratedQuestOptions.ItemToFindBlueprintIds);
             var quest = ServiceProvider.GetRequiredService<IGeneratedQuest>();
             var initialized = quest.Initialize(pc, questGiver, itemId, target, target.Room, timeLimit);
             if (!initialized)
@@ -94,7 +94,7 @@ public class QuestManager : IQuestManager
         else if (chance <= 35)
         {
             var timeLimit = 10 + RandomManager.Next(20);
-            var itemId = RandomManager.Random(QuestOptions.ItemToFindBlueprintIds);
+            var itemId = RandomManager.Random(GeneratedQuestOptions.ItemToFindBlueprintIds);
             var quest = ServiceProvider.GetRequiredService<IGeneratedQuest>();
             var initialized = quest.Initialize(pc, questGiver, itemId, target.Room, target.Level, timeLimit);
             if (!initialized)

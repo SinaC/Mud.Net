@@ -1,8 +1,8 @@
 ﻿namespace Mud.Server.Options;
 
-public class QuestOptions
+public class GeneratedQuestOptions
 {
-    public const string SectionName = "Quest.Settings";
+    public const string SectionName = "GeneratedQuest.Settings";
 
     public required int[] ItemToFindBlueprintIds { get; set; }
 }

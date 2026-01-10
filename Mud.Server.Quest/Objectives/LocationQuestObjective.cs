@@ -5,7 +5,9 @@ namespace Mud.Server.Quest.Objectives;
 
 public class LocationQuestObjective : IQuestObjective
 {
-    public required RoomBlueprint Blueprint { get; set; }
+
+    public required RoomBlueprint RoomBlueprint { get; set; }
+
     public bool Explored { get; set; }
 
     #region IQuestObjective
@@ -15,8 +17,8 @@ public class LocationQuestObjective : IQuestObjective
     public bool IsCompleted => Explored;
 
     public string CompletionState => IsCompleted
-        ? $"{Blueprint.Name,-20}: explored"
-        : $"{Blueprint.Name,-20}: not explored";
+        ? $"{RoomBlueprint.Name,-20}: explored"
+        : $"{RoomBlueprint.Name,-20}: not explored";
 
     public void Reset()
     {

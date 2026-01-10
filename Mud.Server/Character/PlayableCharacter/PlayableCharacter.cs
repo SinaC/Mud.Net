@@ -818,7 +818,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (target is IItemQuest questItem)
         {
             // See only if on this quest
-            if (questItem.IsQuestObjective(this, false))
+            if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || questItem.IsQuestObjective(this, false))
                 return true;
             return false;
         }

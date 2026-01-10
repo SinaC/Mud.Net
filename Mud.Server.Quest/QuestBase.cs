@@ -34,6 +34,8 @@ public abstract class QuestBase : IQuest
 
     public INonPlayableCharacter Giver { get; protected set; } = null!;
 
+    public abstract string DebugName { get; }
+
     public abstract string Title { get; protected set; }
 
     public abstract string? Description { get; protected set; }
@@ -62,8 +64,8 @@ public abstract class QuestBase : IQuest
             return;
         // generate only items which are not quest objective or not completed quest objective
         var forbiddenIds = new HashSet<int>();
-        foreach(var itemQuestObjective in _objectives.OfType<ItemQuestObjective>().Where(x => x.IsCompleted))
-            forbiddenIds.Add(itemQuestObjective.Blueprint.Id);
+        foreach(var itemQuestObjective in _objectives.OfType<LootItemQuestObjective>().Where(x => x.IsCompleted))
+            forbiddenIds.Add(itemQuestObjective.ItemBlueprint.Id);
         var killLoots = table.GenerateLoots(forbiddenIds);
         if (killLoots != null)
         {
@@ -72,7 +74,7 @@ public abstract class QuestBase : IQuest
                 var questItemBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(lootBlueprintId);
                 if (questItemBlueprint != null)
                 {
-                    ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
+                    var item = ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
                     Logger.LogDebug("Loot objective {lootBlueprintId} generated for {name}", lootBlueprintId, Character.DisplayName);
                 }
                 else
@@ -89,7 +91,7 @@ public abstract class QuestBase : IQuest
             return;
         if (AreObjectivesFulfilled)
             return;
-        foreach (var objective in _objectives.OfType<KillQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == victim.Blueprint.Id))
+        foreach (var objective in _objectives.OfType<KillQuestObjective>().Where(x => !x.IsCompleted && x.TargetBlueprint.Id == victim.Blueprint.Id))
         {
             objective.Count++;
             Character.Send($"%y%Quest '{Title}': {objective.CompletionState}%x%");
@@ -105,14 +107,14 @@ public abstract class QuestBase : IQuest
         // if forced, reset completion state and recount item in inventory
         if (force)
         {
-            foreach (var objective in _objectives.OfType<ItemQuestObjective>().Where(x => x.Blueprint.Id == item.Blueprint.Id))
+            foreach (var objective in _objectives.OfType<ItemQuestObjectiveBase>().Where(x => x.ItemBlueprint.Id == item.Blueprint.Id))
                 objective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == item.Blueprint.Id);
             return;
         }
         //
         if (AreObjectivesFulfilled)
             return;
-        foreach (var objective in _objectives.OfType<ItemQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == item.Blueprint.Id))
+        foreach (var objective in _objectives.OfType<ItemQuestObjectiveBase>().Where(x => !x.IsCompleted && x.ItemBlueprint.Id == item.Blueprint.Id))
         {
             objective.Count++;
             Character.Send($"%y%Quest '{Title}': {objective.CompletionState}%x%");
@@ -127,7 +129,7 @@ public abstract class QuestBase : IQuest
             return;
         if (AreObjectivesFulfilled)
             return;
-        foreach (var objective in _objectives.OfType<LocationQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == room.Blueprint.Id))
+        foreach (var objective in _objectives.OfType<LocationQuestObjective>().Where(x => !x.IsCompleted && x.RoomBlueprint.Id == room.Blueprint.Id))
         {
             objective.Explored = true;
             Character.Send($"%y%Quest '{Title}': {objective.CompletionState}%x%");
@@ -141,15 +143,15 @@ public abstract class QuestBase : IQuest
         foreach (var objective in _objectives)
         {
             objective.Reset();
-            if (objective is ItemQuestObjective itemQuestObjective)
-                itemQuestObjective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
+            if (objective is ItemQuestObjectiveBase itemQuestObjective)
+                itemQuestObjective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.ItemBlueprint.Id);
         }
     }
 
     public virtual void Timeout()
     {
         Character.Send($"%R%You have run out of time for quest '{Title}'.%x%");
-        if (ShouldQuestItemBeDestroyed && _objectives.OfType<ItemQuestObjective>().Any())
+        if (ShouldQuestItemBeDestroyed && _objectives.OfType<ItemQuestObjectiveBase>().Any())
             DestroyQuestItems();
     }
 
@@ -166,17 +168,16 @@ public abstract class QuestBase : IQuest
     public virtual void Abandon()
     {
         // TODO: xp loss ?
-        if (ShouldQuestItemBeDestroyed && _objectives.OfType<ItemQuestObjective>().Any())
+        if (ShouldQuestItemBeDestroyed && _objectives.OfType<ItemQuestObjectiveBase>().Any())
             DestroyQuestItems();
     }
 
     #endregion
 
-
     protected virtual void DestroyQuestItems()
     {
         // Gather quest items
-        var questItems = Character.Inventory.Where(x => x.Blueprint != null && _objectives.OfType<ItemQuestObjective>().Any(i => i.Blueprint.Id == x.Blueprint.Id)).ToList();
+        var questItems = Character.Inventory.Where(x => x.Blueprint != null && _objectives.OfType<ItemQuestObjectiveBase>().Any(i => i.ItemBlueprint.Id == x.Blueprint.Id)).ToList();
         foreach (var questItem in questItems)
         {
             Logger.LogDebug("Destroying quest item {itemName} in {characterName}", questItem.DebugName, Character.DebugName);

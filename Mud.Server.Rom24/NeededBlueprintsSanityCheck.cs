@@ -73,6 +73,7 @@ namespace Mud.Server.Rom24
                 Logger.LogError("'a sub issue shield' blueprint {blueprintId} not found or not weapon (needed for outfit command)", Rom24Options.MudSchool.Shield);
             if (ItemManager.GetItemBlueprint<ItemLightBlueprint>(Rom24Options.MudSchool.Banner) == null)
                 Logger.LogError("'a sub issue banner' blueprint {blueprintId} not found or not weapon (needed for outfit command)", Rom24Options.MudSchool.Banner);
+
             return false;
         }
     }
