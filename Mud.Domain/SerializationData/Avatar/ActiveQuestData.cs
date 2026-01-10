@@ -1,6 +1,6 @@
 ﻿namespace Mud.Domain.SerializationData.Avatar;
 
-public class CurrentQuestData
+public class ActiveQuestData
 {
     public required int QuestId { get; set; }
 
@@ -14,5 +14,5 @@ public class CurrentQuestData
 
     public required int GiverRoomId { get; set; }
 
-    public required CurrentQuestObjectiveData[] Objectives { get; set; }
+    public required ActiveQuestObjectiveData[] Objectives { get; set; }
 }

@@ -48,7 +48,7 @@ public class Destroy : PlayableCharacterGameAction
         // Update quest if needed
         if (What is IItemQuest itemQuest)
         {
-            foreach (IQuest quest in Actor.Quests)
+            foreach (IQuest quest in Actor.ActiveQuests)
                 quest.Update(itemQuest, true);
         }
         //

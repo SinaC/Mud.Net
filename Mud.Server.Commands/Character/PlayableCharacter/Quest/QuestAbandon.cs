@@ -24,7 +24,7 @@ public class QuestAbandon : PlayableCharacterGameAction
             return "Abandon which quest?";
         int id = actionInput.Parameters[0].AsNumber;
         What = id > 0 
-            ? Actor.Quests.ElementAtOrDefault(id - 1)!
+            ? Actor.ActiveQuests.ElementAtOrDefault(id - 1)!
             : null!;
         if (What == null)
             return "No such quest.";

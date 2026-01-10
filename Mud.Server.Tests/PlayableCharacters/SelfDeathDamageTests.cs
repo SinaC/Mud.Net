@@ -58,7 +58,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Practices = 0,
                 AutoFlags = AutoFlags.None,
                 Currencies = [],
-                CurrentQuests = [],
+                ActiveQuests = [],
                 LearnedAbilities = [],
                 LearnedAbilityGroups = [],
                 Conditions = [],

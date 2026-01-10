@@ -1,6 +1,6 @@
 ﻿namespace Mud.Domain.SerializationData.Avatar;
 
-public class CurrentQuestObjectiveData
+public class ActiveQuestObjectiveData
 {
     public required int ObjectiveId { get; set; }
 

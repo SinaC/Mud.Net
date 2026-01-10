@@ -37,7 +37,7 @@ public class QuestAuto : PlayableCharacterGameAction
             return "You cannot get any quest here.";
         QuestGiver = questGiver;
 
-        if (Actor.Quests.OfType<IGeneratedQuest>().Any())
+        if (Actor.ActiveQuests.OfType<IGeneratedQuest>().Any())
             return Actor.ActPhrase("{0:N} tells you 'But you're already on a quest!'", QuestGiver);
 
         if (Actor.PulseLeftBeforeNextAutomaticQuest > 0)

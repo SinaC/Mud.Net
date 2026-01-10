@@ -63,9 +63,11 @@ public interface IPlayableCharacter : ICharacter
     int PulseLeftBeforeNextAutomaticQuest { get; }
     void SetTimeLeftBeforeNextAutomaticQuest(TimeSpan timeSpan);
     int DecreasePulseLeftBeforeNextAutomaticQuest(int pulseCount);
-    IEnumerable<IQuest> Quests { get; }
+    IEnumerable<IQuest> ActiveQuests { get; }
     void AddQuest(IQuest quest);
     void RemoveQuest(IQuest quest);
+    IEnumerable<ICompletedQuest> CompletedQuests { get; }
+    void AddCompletedQuest(ICompletedQuest quest);
 
     // Room
     IRoom RecallRoom { get; }

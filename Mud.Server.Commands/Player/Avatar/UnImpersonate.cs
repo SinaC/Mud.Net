@@ -27,7 +27,7 @@ public class UnImpersonate : PlayerGameAction
         if (Impersonating.Fighting != null)
             return "Not while fighting!";
 
-        if (Impersonating.Quests.OfType<IGeneratedQuest>().Any())
+        if (Impersonating.ActiveQuests.OfType<IGeneratedQuest>().Any())
         {
             if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].Value != "stop")
                 return "But you are still on an automated quest! use 'unimpersonate stop' to confirm";
@@ -38,7 +38,7 @@ public class UnImpersonate : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        var generatedQuests = Impersonating.Quests.OfType<IGeneratedQuest>().ToArray();
+        var generatedQuests = Impersonating.ActiveQuests.OfType<IGeneratedQuest>().ToArray();
         foreach (var generatedQuest in generatedQuests)
         {
             generatedQuest.Delete();

@@ -1341,9 +1341,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             try
             {
                 // quest time out ?
-                if (impersonating.Quests.Any(x => x.TimeLimit > 0))
+                if (impersonating.ActiveQuests.Any(x => x.TimeLimit > 0))
                 {
-                    var quests = impersonating.Quests.Where(x => x.TimeLimit > 0).ToArray(); // clone because quest list may be modified
+                    var quests = impersonating.ActiveQuests.Where(x => x.TimeLimit > 0).ToArray(); // clone because quest list may be modified
                     foreach (var quest in quests)
                     {
                         var timedOut = quest.DecreasePulseLeft(pulseCount);
@@ -1723,7 +1723,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         var questsWithFloorItemQuestObjective = Players
             .Where(x => x.Impersonating != null)
             .Select(x => x.Impersonating!)
-            .SelectMany(x => x.Quests.OfType<IPredefinedQuest>().Where(x => x.Objectives.OfType<FloorItemQuestObjective>().Any(y => !y.IsCompleted)))
+            .SelectMany(x => x.ActiveQuests.OfType<IPredefinedQuest>().Where(x => x.Objectives.OfType<FloorItemQuestObjective>().Any(y => !y.IsCompleted)))
             .DistinctBy(x => x.Blueprint.Id)
             .ToArray();
         foreach (var quest in questsWithFloorItemQuestObjective)

@@ -27,7 +27,7 @@ namespace Mud.Repository.Tests
                 Trains = 0,
                 Practices = 0,
                 AutoFlags = AutoFlags.Sacrifice | AutoFlags.Affect,
-                CurrentQuests = [],
+                ActiveQuests = [],
                 LearnedAbilities = [],
                 LearnedAbilityGroups = [],
                 Conditions = [],
@@ -121,7 +121,7 @@ namespace Mud.Repository.Tests
   ""AutoFlags"": 127,
   ""Currencies"": {},
   ""PulseLeftBeforeNextAutomaticQuest"": 0,
-  ""CurrentQuests"": [],
+  ""ActiveQuests"": [],
   ""LearnedAbilities"": [
     {
       ""Name"": ""Cat Form"",

@@ -10,7 +10,6 @@ using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
-using Mud.Server.Commands.Admin.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
@@ -36,6 +35,7 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
+using Mud.Server.Quest;
 using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
@@ -59,7 +59,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     private readonly ArrayByEnum<long, AvatarStatisticTypes> _statistics;
     private readonly ArrayByEnum<int, Currencies> _currencies;
-    private readonly List<IQuest> _quests;
+    private readonly List<IQuest> _activeQuests;
+    private readonly List<ICompletedQuest> _completedQuests;
     private readonly ArrayByEnum<int, Conditions> _conditions;
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
@@ -78,7 +79,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         _statistics = [];
         _currencies = [];
-        _quests = [];
+        _activeQuests = [];
+        _completedQuests = [];
         _conditions = new();
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _pets = [];
@@ -235,12 +237,20 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             foreach (var itemData in data.Inventory)
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
         }
-        // Quests
-        if (data.CurrentQuests != null)
+        // Active quests
+        if (data.ActiveQuests != null)
         {
-            foreach (var questData in data.CurrentQuests)
+            foreach (var questData in data.ActiveQuests)
             {
                 QuestManager.AddQuest(questData, this);
+            }
+        }
+        // Completed quests
+        if (data.CompletedQuests != null)
+        {
+            foreach (var completeQuest in data.CompletedQuests)
+            {
+                QuestManager.AddCompletedQuest(completeQuest, this);
             }
         }
         // Auras
@@ -895,17 +905,24 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return PulseLeftBeforeNextAutomaticQuest;
     }
 
-    public IEnumerable<IQuest> Quests => _quests;
+    public IEnumerable<IQuest> ActiveQuests => _activeQuests;
 
     public void AddQuest(IQuest quest)
     {
         // TODO: max quest ?
-        _quests.Add(quest);
+        _activeQuests.Add(quest);
     }
 
     public void RemoveQuest(IQuest quest)
     {
-        _quests.Remove(quest);
+        _activeQuests.Remove(quest);
+    }
+
+    public IEnumerable<ICompletedQuest> CompletedQuests => _completedQuests;
+
+    public void AddCompletedQuest(ICompletedQuest quest)
+    {
+        _completedQuests.Add(quest);
     }
 
     // Room
@@ -1148,8 +1165,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Conditions = _conditions.ToDictionary(),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
-            PulseLeftBeforeNextAutomaticQuest = PulseLeftBeforeNextAutomaticQuest,
-            CurrentQuests = Quests.OfType<IPredefinedQuest>().Select(x => x.MapQuestData()).ToArray(), // don't save generated quest
+            ActiveQuests = ActiveQuests.OfType<IPredefinedQuest>().Select(x => x.MapQuestData()).ToArray(), // don't save generated quest
             Auras = MapAuraData(),
             CharacterFlags = BaseCharacterFlags.Serialize(),
             Immunities = BaseImmunities.Serialize(),
@@ -1163,7 +1179,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
             Pets = Pets.Select(x => x.MapPetData()).ToArray(),
             Statistics = _statistics.ToDictionary(),
-            ImmortalMode = ImmortalMode
+            ImmortalMode = ImmortalMode,
+            CompletedQuests = _completedQuests.Select(x => x.MapCompletedQuestData()).ToArray(),
+            PulseLeftBeforeNextAutomaticQuest = PulseLeftBeforeNextAutomaticQuest,
         };
         return data;
     }
@@ -1488,7 +1506,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected void RemoveGeneratedQuests()
     {
-        var generatedQuests = Quests.OfType<IGeneratedQuest>().ToArray();
+        var generatedQuests = ActiveQuests.OfType<IGeneratedQuest>().ToArray();
         foreach (var generatedQuest in generatedQuests)
         {
             generatedQuest.Delete();

@@ -15,6 +15,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
 using Mud.Server.Random;
+using System.Security.Authentication;
 
 namespace Mud.Server.Quest;
 
@@ -51,12 +52,12 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
         Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsRequested);
     }
 
-    public bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character)
+    public bool Initialize(QuestBlueprint blueprint, ActiveQuestData questData, IPlayableCharacter character)
     {
         Character = character;
         // don't update statistics, we were already on that quest
 
-        // Extract informations from CurrentQuestData
+        // Extract informations from ActiveQuestData
         Blueprint = blueprint;
         StartTime = questData.StartTime;
         PulseLeft = questData.PulseLeft;
@@ -133,7 +134,20 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
         }
     }
 
-    public CurrentQuestData MapQuestData()
+    public ICompletedQuest? GenerateCompletedQuest()
+    {
+        if (!AreObjectivesFulfilled || CompletionTime is null)
+            return null;
+        return new CompletedQuest
+        {
+            QuestId = Blueprint.Id,
+            QuestBlueprint = Blueprint,
+            StartTime = StartTime,
+            CompletionTime = CompletionTime!.Value
+        };
+    }
+
+    public ActiveQuestData MapQuestData()
     {
         return new()
         {
@@ -143,10 +157,10 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
             CompletionTime = CompletionTime,
             GiverId = Giver.Blueprint.Id,
             GiverRoomId = Giver.Room?.Blueprint.Id ?? 0,
-            Objectives = Objectives.Select(x => new CurrentQuestObjectiveData
+            Objectives = Objectives.Select(x => new ActiveQuestObjectiveData
             {
                 ObjectiveId = x.Id,
-                Count = ComputeObjectiveCurrentQuestObjectiveDataCount(x)
+                Count = ComputeObjectiveActiveQuestObjectiveDataCount(x)
             }).ToArray()
         };
     }
@@ -239,7 +253,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
 
     #endregion
 
-    private int ComputeObjectiveCurrentQuestObjectiveDataCount(IQuestObjective questObjective)
+    private int ComputeObjectiveActiveQuestObjectiveDataCount(IQuestObjective questObjective)
     {
         switch (questObjective)
         {

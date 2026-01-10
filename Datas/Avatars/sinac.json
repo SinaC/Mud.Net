@@ -14,7 +14,7 @@
   "AutoFlags": 127,
   "Currencies": {},
   "PulseLeftBeforeNextAutomaticQuest": 0,
-  "CurrentQuests": [
+  "ActiveQuests": [
     {
       "QuestId": 1,
       "StartTime": "2020-06-23T21:12:53.326539+02:00",
