@@ -211,7 +211,7 @@ public class Cstat : AdminGameAction
         // TODO: Table ?
         sb.Append($"{id + 1,2}) {questType}{difficultyColor}{quest.Title}%x%: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
         if (quest.TimeLimit > 0)
-            sb.Append($" Time left: {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
+            sb.Append($" Time left: {Pulse.ToTimeSpan(quest.PulseLeft).FormatDelay()}");
         if (quest is IGeneratedQuest generatedQuest)
             sb.Append($" Room: {generatedQuest.Room.DisplayName} [{generatedQuest.Room.Blueprint.Id}]");
         sb.AppendLine();

@@ -12,12 +12,10 @@ namespace Mud.Server.Commands.Player.Avatar;
 public class DeleteAvatar : PlayerGameAction
 {
     private IServerPlayerCommand ServerPlayerCommand { get; }
-    private IUniquenessManager UniquenessManager { get; }
 
-    public DeleteAvatar(IServerPlayerCommand serverPlayerCommand, IUniquenessManager uniquenessManager)
+    public DeleteAvatar(IServerPlayerCommand serverPlayerCommand)
     {
         ServerPlayerCommand = serverPlayerCommand;
-        UniquenessManager = uniquenessManager;
     }
 
     protected string AvatarName { get; set; } = default!;
@@ -43,7 +41,7 @@ public class DeleteAvatar : PlayerGameAction
         if (Actor.AvatarNameDeletionConfirmationNeeded != null && !StringCompareHelpers.StringEquals(Actor.AvatarNameDeletionConfirmationNeeded, avatarName))
         {
             Actor.ResetAvatarNameDeletionConfirmationNeeded();
-            Actor.SetLag(5 * Pulse.PulsePerSeconds);
+            Actor.SetLag(Pulse.FromSeconds(5));
             return "Wrong avatar name confirmed. Wait 5 seconds.";
         }
 

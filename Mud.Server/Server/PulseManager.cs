@@ -40,10 +40,10 @@ public class PulseManager : IPulseManager
             PulseResetValue = resetValue,
             PulseAction = action
         });
-        Logger.LogInformation("Adding Pulse {name} with {initialValue} pulse initial, {resetValue} pulse reset value and method: {methodName}", name, initialValue, resetValue, action.Method.Name);
+        Logger.LogInformation("Adding Pulse {name} with initial {initialValue}, reset {resetValue} and method: {methodName}", name, Common.Pulse.ToTimeSpan(initialValue), Common.Pulse.ToTimeSpan(resetValue), action.Method.Name);
     }
 
-    public void Pulse()
+    public void Pulse(int pulseExecutionTimeLimitInMs)
     {
         Stopwatch sw = new();
         foreach (var entry in _entries)
@@ -56,7 +56,7 @@ public class PulseManager : IPulseManager
                 sw.Restart();
                 entry.PulseAction(entry.PulseResetValue);
                 sw.Stop();
-                if (sw.ElapsedMilliseconds > Common.Pulse.PulseDelay)
+                if (sw.ElapsedMilliseconds > pulseExecutionTimeLimitInMs)
                     Logger.LogWarning("PULSE SLOW: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
                 else
                     Logger.LogTrace("PULSE: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);

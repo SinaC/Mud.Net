@@ -108,7 +108,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         // 7) check cooldown
         int cooldownPulseLeft = User.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{AbilityDefinition.Name} is in cooldown for {Pulse.ToTimeSpan(cooldownPulseLeft).FormatDelay()}.";
 
         return null;
     }

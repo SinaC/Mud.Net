@@ -75,7 +75,7 @@ public class Istat : AdminGameAction
         sb.AppendFormatLine("Cost: {0} Weight: {1}", What.Cost, What.Weight);
         sb.AppendFormatLine("CarryCount: {0} TotalWeight: {1}", What.CarryCount, What.TotalWeight);
         if (What.DecayPulseLeft > 0)
-            sb.AppendFormatLine("Decay in {0}", (What.DecayPulseLeft / Pulse.PulsePerSeconds).FormatDelay());
+            sb.AppendFormatLine("Decay in {0}", Pulse.ToTimeSpan(What.DecayPulseLeft).FormatDelay());
         sb.AppendFormatLine("Flags: {0} (base: {1})", What.ItemFlags, What.BaseItemFlags);
         //
         if (What is IItemArmor armor)
@@ -141,7 +141,7 @@ public class Istat : AdminGameAction
         }
         //
         if (What is IItemLight light)
-            sb.AppendFormatLine("Time left: {0}", light.IsInfinite ? "Infinite" : (light.TimeLeft * 60).FormatDelay());
+            sb.AppendFormatLine("Time left: {0}", light.IsInfinite ? "Infinite" : TimeSpan.FromMinutes(light.TimeLeft).FormatDelay());
         //
         if (What is IItemMoney money)
             sb.AppendFormatLine("Silver: {0} Gold: {1}", money.SilverCoins, money.GoldCoins);

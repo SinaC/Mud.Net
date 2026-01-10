@@ -1,18 +1,6 @@
 INGOING
 DONE
-    2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
-        for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated
-    quest item generated on the floor issue: if multiple people are on the same quest, only one instance should be visible by each player
-        issue repro steps:
-            connect 2 players and get same quest with at least one floor item objective
-            each player on the quest will see 2 items on the floor and will be allowed to get both items from the floor
-            -> owner to solve the issue ? -> no!
-            solution is to use HandleItems to load item if needed (if a player is on a quest with floor item and there is not already an item on the floor, spawn it)
-            + when a player disconnect, delete item only if none is on the 'same' quest
-    QuestSanityCheck enhanced to detect invalid item/location/mob/incoherent objectives
-    clean quest items when none is on a quest with floor objective on that item (once every minute ?)
-    fix quest statistics issue in GenerateQuest
-    fix admin guards issue
+    Pulse and Delay uniformization
 
 ==========
 == TODO ==

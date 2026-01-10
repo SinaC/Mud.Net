@@ -43,7 +43,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
     {
         Character = character;
         StartTime = TimeManager.CurrentTime;
-        PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
+        PulseLeft = Pulse.FromMinutes(blueprint.TimeLimit);
         Blueprint = blueprint;
         Giver = giver;
         BuildObjectives(character);

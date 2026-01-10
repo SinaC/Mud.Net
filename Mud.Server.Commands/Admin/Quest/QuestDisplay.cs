@@ -59,7 +59,7 @@ public class QuestDisplay : AdminGameAction
     {
         sb.AppendFormat($"{id + 1,2}) {quest.Title}: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
         if (quest.TimeLimit > 0)
-            sb.Append($" Time left : {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
+            sb.Append($" Time left : {Pulse.ToTimeSpan(quest.PulseLeft).FormatDelay()}");
         sb.AppendLine();
         foreach (IQuestObjective objective in quest.Objectives)
             sb.AppendFormatLine($"     {objective.CompletionState}");

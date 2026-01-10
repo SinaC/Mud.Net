@@ -775,7 +775,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 psyGain /= 2;
             }
             //
-            var byMinuteDivisor = (decimal)Pulse.PulsePerMinutes / pulseCount;
+            var byMinuteDivisor = Pulse.ToMinutes(pulseCount);
             hitGain /= byMinuteDivisor;
             moveGain /= byMinuteDivisor;
             manaGain /= byMinuteDivisor;
@@ -792,7 +792,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             || this[ResourceKinds.Rage] != 0) // rage decrease
         {
             var (energyGain, rageGain) = CalculateResourcesDeltaBySecond();
-            var bySecondDivisor = (decimal)pulseCount / Pulse.PulsePerSeconds;
+            var bySecondDivisor = Pulse.ToSeconds(pulseCount);
             energyGain /= bySecondDivisor;
             rageGain /= bySecondDivisor;
 

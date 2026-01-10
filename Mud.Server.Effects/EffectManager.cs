@@ -27,6 +27,8 @@ public class EffectManager : IEffectManager
             .ToDictionary(x => x.attribute.Name, x => x.executionType);
     }
 
+    public int Count => EffectsByName.Count;
+
     public IEffect<TEntity>? CreateInstance<TEntity>(string effectName)
         where TEntity : IEntity
     {

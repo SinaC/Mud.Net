@@ -11,14 +11,15 @@ using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Network.Interfaces;
 using Mud.Repository.Interfaces;
-using Mud.Server.Commands.Character.PlayableCharacter.Quest;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
@@ -32,6 +33,7 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
@@ -61,6 +63,9 @@ namespace Mud.Server.Server;
 [Export(typeof(IServerPlayerCommand))]
 public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
 {
+    private const int GameLoopIterationExecutionTimeLimitInMs = 250; // each game loop iteration should run in less than 250ms
+    private const int PulseExecutionTimeLimitInMs = 150; // each pulse should run in less than 150ms
+
     // This allows fast lookup with client or player BUT both structures must be modified at the same time
     private readonly object _playingClientLockObject = new();
     private readonly ConcurrentDictionary<IClient, PlayingClient> _clients;
@@ -88,7 +93,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IClassManager ClassManager { get; }
     private IRaceManager RaceManager { get; }
     private IAbilityManager AbilityManager { get; }
+    private IAbilityGroupManager AbilityGroupManager { get; }
+    private IEffectManager EffectManager { get; }
     private IWeaponEffectManager WeaponEffectManager { get; }
+    private IAffectManager AffectManager { get; }
+    private ISpecialBehaviorManager SpecialBehaviorManager { get; }
     private IAreaManager AreaManager { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
@@ -104,7 +113,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     public Server(ILogger<Server> logger, IServiceProvider serviceProvider, IOptions<ServerOptions> serverOptions,
         IAccountRepository accountRepository, IAvatarRepository avatarRepository,
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
-        IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
+        IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager, IEffectManager effectManager, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, ISpecialBehaviorManager specialBehaviorManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
         IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks)
     {
@@ -120,7 +129,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         ClassManager = classManager;
         RaceManager = raceManager;
         AbilityManager = abilityManager;
+        AbilityGroupManager = abilityGroupManager;
+        EffectManager = effectManager;
         WeaponEffectManager = weaponEffectManager;
+        AffectManager = affectManager;
+        SpecialBehaviorManager = specialBehaviorManager;
         AreaManager = areaManager;
         RoomManager = roomManager;
         CharacterManager = characterManager;
@@ -155,10 +168,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         TimeManager.Initialize();
 
         // Perform some validity/sanity checks
-        if (ServerOptions.PerformSanityChecks)
-        {
-            PerformSanityChecks();
-        }
+        PerformSanityChecks();
 
         DisplayStats();
 
@@ -166,7 +176,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         if (ServerOptions.DumpOnInitialize)
             Dump();
 
-        // TODO: other sanity checks
         // TODO: check room/item/character id uniqueness
 
         // Initialize UniquenessManager
@@ -229,15 +238,22 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void DisplayStats()
     {
+        Logger.LogInformation("#Commands: {count}", GameActionManager.GameActions.Count());
+        Logger.LogInformation("#Affects: {count}", AffectManager.Count);
+        Logger.LogInformation("#Effects: {count}", EffectManager.Count);
         Logger.LogInformation("#WeaponEffects: {count}", WeaponEffectManager.Count);
+        Logger.LogInformation("#Specials: {count}", SpecialBehaviorManager.Count);
         Logger.LogInformation("#Abilities: {count}", AbilityManager.Abilities.Count());
         Logger.LogInformation("#Weapons: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Weapon));
         Logger.LogInformation("#Passives: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
         Logger.LogInformation("#Spells: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
         Logger.LogInformation("#Skills: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
+        Logger.LogInformation("#AbilityGroups: {count}", AbilityGroupManager.AbilityGroups.Count());
         Logger.LogInformation("#Classes: {count}", ClassManager.Classes.Count());
         Logger.LogInformation("#Races: {count}", RaceManager.PlayableRaces.Count());
         Logger.LogInformation("#QuestBlueprints: {count}", QuestManager.QuestBlueprints.Count);
+        Logger.LogInformation("#AreasBlueprints: {count}", AreaManager.AreaBlueprints.Count);
+        Logger.LogInformation("#Areas: {count}", AreaManager.Areas.Count());
         Logger.LogInformation("#RoomBlueprints: {count}", RoomManager.RoomBlueprints.Count);
         Logger.LogInformation("#Rooms: {count}", RoomManager.Rooms.Count());
         Logger.LogInformation("#CharacterBlueprints: {count}", CharacterManager.CharacterBlueprints.Count);
@@ -595,7 +611,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)}%x%");
         else
             Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : string.Empty)}%x%");
-        _pulseBeforeShutdown = seconds * Pulse.PulsePerSeconds;
+        _pulseBeforeShutdown = Pulse.FromSeconds(seconds);
     }
 
     public void Promote(IPlayer player, AdminLevels level)
@@ -1142,29 +1158,29 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         if (_pulseBeforeShutdown >= 0)
         {
             _pulseBeforeShutdown--;
-            if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*15)
+            if (_pulseBeforeShutdown == Pulse.FromMinutes(15))
                 Broadcast("%R%Shutdown in 15 minutes%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*10)
+            if (_pulseBeforeShutdown == Pulse.FromMinutes(10))
                 Broadcast("%R%Shutdown in 10 minutes%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*5)
+            if (_pulseBeforeShutdown == Pulse.FromMinutes(5))
                 Broadcast("%R%Shutdown in 5 minutes%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerMinutes)
+            if (_pulseBeforeShutdown == Pulse.FromMinutes(1))
                 Broadcast("%R%Shutdown in 1 minute%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*30)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(30))
                 Broadcast("%R%Shutdown in 30 seconds%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*15)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(15))
                 Broadcast("%R%Shutdown in 15 seconds%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*10)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(10))
                 Broadcast("%R%Shutdown in 10 seconds%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*5)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(5))
                 Broadcast("%R%Shutdown in 5%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*4)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(4))
                 Broadcast("%R%Shutdown in 4%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*3)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(3))
                 Broadcast("%R%Shutdown in 3%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*2)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(2))
                 Broadcast("%R%Shutdown in 2%x%");
-            if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*1)
+            if (_pulseBeforeShutdown == Pulse.FromSeconds(1))
                 Broadcast("%R%Shutdown in 1%x%");
             else if (_pulseBeforeShutdown == 0)
             {
@@ -1778,18 +1794,18 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void GameLoopTask()
     {
-        PulseManager.Add("Auras", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
-        PulseManager.Add("CDs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
-        PulseManager.Add("Quests", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
-        PulseManager.Add("Violence", Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
-        PulseManager.Add("Resources", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleResources);
-        PulseManager.Add("NPCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 4, HandleNonPlayableCharacters);
-        PulseManager.Add("NPCs+PCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleCharacters);
-        PulseManager.Add("PCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
-        PulseManager.Add("Items", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleItems);
-        PulseManager.Add("Rooms", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
-        PulseManager.Add("Time", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
-        PulseManager.Add("Areas", Pulse.PulsePerMinutes * 3, Pulse.PulsePerMinutes * 3, HandleAreas);
+        PulseManager.Add("Auras", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleAuras);
+        PulseManager.Add("CDs", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleCooldowns);
+        PulseManager.Add("Quests", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleQuests);
+        PulseManager.Add("Resources", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleResources);
+        PulseManager.Add("Violence", Pulse.FromSeconds(1), Pulse.PulseViolence, HandleViolence);
+        PulseManager.Add("NPCs", Pulse.FromSeconds(1), Pulse.FromSeconds(4), HandleNonPlayableCharacters);
+        PulseManager.Add("NPCs+PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleCharacters);
+        PulseManager.Add("PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandlePlayers);
+        PulseManager.Add("Items", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleItems);
+        PulseManager.Add("Rooms", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleRooms);
+        PulseManager.Add("Time", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleTime); // 1 minute IRL = 1 hour IG
+        PulseManager.Add("Areas", Pulse.FromMinutes(3), Pulse.FromMinutes(3), HandleAreas);
 
         try
         {
@@ -1813,7 +1829,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 HandleShutdown();
 
                 // trigger pulses
-                var pulseElapsed = MonitorAction(sw, PulseManager.Pulse);
+                var pulseElapsed = MonitorAction(sw, () => PulseManager.Pulse(PulseExecutionTimeLimitInMs));
 
                 // aggressive NPC
                 // TODO: move HandleAggressiveNonPlayableCharacters to PulseManager with InitialValue and ResetValue 1 (4 times a second)
@@ -1832,7 +1848,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
                 // calculate wait time to reach 250ms for the loop, then wait
                 long elapsedMs = tickStopwatch.ElapsedMilliseconds; // in milliseconds
-                if (elapsedMs < Pulse.PulseDelay)
+                if (elapsedMs < GameLoopIterationExecutionTimeLimitInMs)
                 {
                     Logger.LogTrace("Input ms: {inputElapsed}", inputElapsed);
                     Logger.LogTrace("pulse ms: {pulseElapsed}", pulseElapsed);
@@ -1840,7 +1856,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Logger.LogTrace("output ms: {outputElapsed}", outputElapsed);
                     Logger.LogTrace("cleanup ms: {cleanupElapsed}", cleanupElapsed);
 
-                    int sleepTime = (int)(Pulse.PulseDelay - elapsedMs); // game loop should iterate every 250ms
+                    int sleepTime = (int)(GameLoopIterationExecutionTimeLimitInMs - elapsedMs); // game loop should iterate every 250ms
                     //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                     //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
                     //Logger.LogDebug("Elapsed {0}ms | {1}ticks | {2}ns -> sleep {3}ms", elapsedMs, elapsedTick, elapsedNs, sleepTime);

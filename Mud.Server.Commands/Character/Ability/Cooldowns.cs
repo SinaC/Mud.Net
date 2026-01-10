@@ -43,10 +43,10 @@ public class Cooldowns : CharacterGameAction
             StringBuilder sb = new();
             sb.AppendLine("%c%Following abilities are in cooldown:%x%");
             foreach (var cooldown in Actor.AbilitiesInCooldown
-                .Select(x => new { AbilityName = x.Key, SecondsLeft = x.Value / Pulse.PulsePerSeconds })
-                .OrderBy(x => x.SecondsLeft))
+                .Select(x => new { AbilityName = x.Key, TimeLeft = Pulse.ToTimeSpan(x.Value) })
+                .OrderBy(x => x.TimeLeft))
             {
-                sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.SecondsLeft.FormatDelay());
+                sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.TimeLeft.FormatDelay());
             }
             Actor.Send(sb);
             return;
@@ -55,6 +55,6 @@ public class Cooldowns : CharacterGameAction
         if (pulseLeft <= 0)
             Actor.Send("{0} is not in cooldown.", AbilityLearned.Name);
         else
-            Actor.Send("{0} is in cooldown for {1}.", AbilityLearned.Name, (pulseLeft / Pulse.PulsePerSeconds).FormatDelay());
+            Actor.Send("{0} is in cooldown for {1}.", AbilityLearned.Name, Pulse.ToTimeSpan(pulseLeft).FormatDelay());
     }
 }

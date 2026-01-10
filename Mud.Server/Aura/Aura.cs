@@ -137,7 +137,8 @@ public class Aura : IAura
                 Level,
                 AuraFlags.HasFlag(AuraFlags.Permanent)
                     ? ""
-                    : $"%G%{(PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}%x% left",
+                    //: $"%G%{(PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}%x% left",
+                    : $"%G%{Pulse.ToTimeSpan(PulseLeft).FormatDelay()}%x% left",
                 AuraFlags == AuraFlags.None
                     ? ""
                     : AuraFlags.ToString());

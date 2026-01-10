@@ -2,7 +2,7 @@
 {
     public  interface ISpecialBehaviorManager
     {
-        IReadOnlyCollection<string> Specials { get; }
+        int Count { get; }
 
         public ISpecialBehavior? CreateInstance(string name);
     }

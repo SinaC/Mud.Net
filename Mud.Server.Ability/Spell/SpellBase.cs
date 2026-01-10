@@ -86,7 +86,7 @@ public abstract class SpellBase : ISpell
         // 4) check cooldown
         int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{AbilityDefinition.Name} is in cooldown for {Pulse.ToTimeSpan(cooldownPulseLeft).FormatDelay()}.";
 
         // 5) check resource cost
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);

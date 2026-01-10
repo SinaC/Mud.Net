@@ -1,5 +1,4 @@
-﻿using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.AbilityGroup
 {
