@@ -2,11 +2,11 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3031,
-  "SilverCoins": 91,
+  "RoomId": 3001,
+  "SilverCoins": 93,
   "GoldCoins": 5111,
   "Wimpy": 0,
-  "Experience": 6574,
+  "Experience": 6580,
   "Alignment": -46,
   "Trains": 35,
   "Practices": 61,
@@ -15,7 +15,34 @@
     "QuestPoints": 17
   },
   "PulseLeftBeforeNextAutomaticQuest": 0,
-  "CurrentQuests": [],
+  "CurrentQuests": [
+    {
+      "QuestId": 1,
+      "StartTime": "2026-01-10T14:26:26.0474247+01:00",
+      "PulseLeft": 0,
+      "CompletionTime": null,
+      "GiverId": 10,
+      "GiverRoomId": 3025,
+      "Objectives": [
+        {
+          "ObjectiveId": 2,
+          "Count": 1
+        },
+        {
+          "ObjectiveId": 1,
+          "Count": 0
+        },
+        {
+          "ObjectiveId": 0,
+          "Count": 1
+        },
+        {
+          "ObjectiveId": 3,
+          "Count": 1
+        }
+      ]
+    }
+  ],
   "LearnedAbilities": [
     {
       "Name": "sword",
@@ -243,7 +270,7 @@
     }
   ],
   "Statistics": {
-    "NpcKill": 0,
+    "NpcKill": 2,
     "PcKill": 0,
     "NpcKilled": 0,
     "PcKilled": 0,
@@ -251,7 +278,7 @@
     "GoldEarned": 0,
     "GoldSpent": 15,
     "GoldStolen": 0,
-    "SilverEarned": 0,
+    "SilverEarned": 2,
     "SilverSpent": 0,
     "SilverStolen": 0,
     "RecallUsed": 0,
@@ -266,11 +293,12 @@
     "GeneratedQuestsCompleted": 0,
     "GeneratedQuestsAbandoned": 0,
     "GeneratedQuestsTimedout": 0,
-    "PredefinedQuestsRequested": 0,
+    "PredefinedQuestsRequested": 1,
     "PredefinedQuestsCompleted": 0,
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
+  "ImmortalMode": "None",
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
@@ -278,7 +306,7 @@
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 155,
+    "HitPoints": 188,
     "MovePoints": 188,
     "Mana": 203,
     "Psy": 100,
@@ -550,6 +578,13 @@
       "Level": 0,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 80000,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "StayDeath",
       "Auras": []
     }
   ],

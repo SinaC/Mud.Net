@@ -134,7 +134,9 @@ public interface ICharacter : IEntity, IContainer
 
     // Act
     void Act(ActOptions option, string format, params object[] arguments);
+    void Act(ActOptions option, Positions minPosition, string format, params object[] arguments);
     void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
+    void ActToNotVictim(ICharacter victim, Positions minPosition, string format, params object[] arguments); // to everyone except this and victim
     string ActPhrase(string format, params object[] arguments);
 
     // Equipments

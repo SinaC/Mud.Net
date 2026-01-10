@@ -50,13 +50,13 @@ namespace Mud.Server.Common
             var mysticalWords = Translate(spellName);
 
             // Say to people in room except source (if target is fluent with that spell, hear the spell clearly)
-            foreach (var target in caster.Room.People.Where(x => x != caster))
+            foreach (var target in caster.Room.People.Where(x => x != caster && x.CanSee(caster)))
             {
                 var (_, abilityLearned) = target.GetAbilityLearnedAndPercentage(spellName);
                 if (abilityLearned != null && abilityLearned.Level < target.Level)
-                    target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", caster, spellName); // known the spell
+                    target.Act(ActOptions.ToCharacter, "%W%{0} casts the spell '{1}'%x%.", caster, spellName); // known the spell
                 else
-                    target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", caster, mysticalWords); // doesn't known the spell
+                    target.Act(ActOptions.ToCharacter, "%W%{0} utters the words, '{1}'%x%.", caster, mysticalWords); // doesn't known the spell
             }
         }
 

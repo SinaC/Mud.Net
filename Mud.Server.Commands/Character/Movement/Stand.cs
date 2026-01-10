@@ -58,9 +58,5 @@ public class Stand : CharacterGameAction
         Actor.DisplayChangePositionMessage(Actor.Position, Positions.Standing, What);
         Actor.ChangePosition(Positions.Standing);
         Actor.ChangeFurniture(What);
-        // Autolook if impersonated/incarnated
-        StringBuilder sb = new();
-        Actor.Room.Append(sb, Actor);
-        Actor.Send(sb);
     }
 }

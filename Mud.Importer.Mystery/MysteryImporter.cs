@@ -1012,7 +1012,7 @@ public class MysteryImporter : IImporter
         if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
         if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags.Set("Humming");
         if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags.Set("Dark");
-        //STAY_DEATH if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) flags.Set("Lock;
+        if (IsSet(objectData.ExtraFlags, ITEM_STAY_DEATH)) itemFlags.Set("StayDeath"); // ITEM_LOCK has been replaced with ITEM_STAY_DEATH in mystery
         if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) itemFlags.Set("Evil");
         if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) itemFlags.Set("Invis");
         if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) itemFlags.Set("Magic");

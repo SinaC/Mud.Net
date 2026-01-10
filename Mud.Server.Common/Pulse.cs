@@ -15,14 +15,14 @@ public class Pulse
             : seconds * PulsePerSeconds;
 
     public static decimal ToSeconds(int pulse)
-        => (decimal)pulse / PulsePerSeconds;
+        => (decimal)PulsePerSeconds / pulse;
 
     public static int FromMinutes(int minutes)
         => minutes == -1
             ? -1
             : minutes * PulsePerMinutes;
     public static decimal ToMinutes(int pulse)
-        => (decimal)pulse / PulsePerMinutes;
+        => (decimal)PulsePerMinutes / pulse;
 
     public static int FromTimeSpan(TimeSpan ts)
         => ts.Equals(Infinite)

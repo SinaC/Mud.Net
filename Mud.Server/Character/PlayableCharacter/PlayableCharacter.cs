@@ -1407,11 +1407,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
     }
 
-    protected override IEnumerable<ICharacter> GetActTargets(ActOptions option)
+    protected override IEnumerable<ICharacter> GetActTargets(ActOptions option, Positions minPosition)
     {
         if (option == ActOptions.ToGroup)
-            return Group?.Members ?? this.Yield();
-        return base.GetActTargets(option);
+            return Group?.Members ?? this.Yield(); // no check on position
+        return base.GetActTargets(option, minPosition);
     }
 
     protected override void HandleDeath()
@@ -1434,7 +1434,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             var room = RoomManager.DefaultDeathRoom ?? RoomManager.DefaultRecallRoom;
             ChangeRoom(room, true);
-            ChangePosition(Positions.Sleeping);
+            ChangePosition(Positions.Resting);
             AddAurasFromBaseFlags();
             Recompute(); // don't reset hp
         }

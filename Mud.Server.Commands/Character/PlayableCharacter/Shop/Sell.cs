@@ -70,7 +70,7 @@ public class Sell : ShopPlayableCharacterGameActionBase
         Actor.UpdateMoney(silver, gold);
         Keeper.shopKeeper.DeductCost(Cost);
 
-        if (What is IItemTrash)
+        if (What is IItemTrash || What.ItemFlags.IsSet("SellExtract"))
             ItemManager.RemoveItem(What);
         else
         {

@@ -1,13 +1,14 @@
 INGOING
 DONE
-    Pulse and Delay uniformization
+    add StayDeath item flags
+        set it on quest item
+    item flags SellExtract use in item cost when selling (implies full price) and destroyed when bought by shop keeper
+    byMinuteDivisor and bySecondDivisor fixed (was inverse of expected value)
+    Act should not send any message if position < resting
 
 ==========
 == TODO ==
 ==========
-
-Add StayDeath item flags
-    set it on quest item
 
 HandleViolence: what should npc.Reset do ?
 
@@ -242,6 +243,9 @@ Its a bit more complex, but here is how one MMORPG that I am rather familiar wit
 
 mudbytes
 http://www.mudbytes.net/files/tags/RoT/
+
+diku
+https://github.com/Seifert69/DikuMUD3
 
 lua:
 http://dotnetslackers.com/articles/wpf/Integrate-Lua-into-WPF-Games.aspx

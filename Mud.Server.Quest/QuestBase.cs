@@ -75,6 +75,8 @@ public abstract class QuestBase : IQuest
                 if (questItemBlueprint != null)
                 {
                     var item = ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
+                    if (item != null)
+                        item.AddBaseItemFlags(false, "StayDeath");
                     Logger.LogDebug("Loot objective {lootBlueprintId} generated for {name}", lootBlueprintId, Character.DisplayName);
                 }
                 else

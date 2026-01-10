@@ -1,4 +1,5 @@
 ﻿using Mud.Blueprints.Character;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -67,6 +68,8 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
             return 0;
         var cost = (long)item.Cost * shopBlueprint.ProfitBuy / 100;
         if (cost <= 0)
+            return 0;
+        if (item.ItemFlags.IsSet("SellExtract")) // no haggling if item is SellExtract
             return cost;
         if (tryToHaggle)
         {
@@ -86,7 +89,7 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
     {
         var cost = (long)petBlueprint.Level * petBlueprint.Level * 10 * petShopBlueprint.ProfitBuy / 100;
         if (cost <= 0)
-            return cost;
+            return 0;
         if (tryToHaggle)
         {
             // pick one change cost passive
@@ -111,8 +114,11 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
             cost = item.Cost * shopBlueprint.ProfitSell / 100;
         if (cost <= 0)
             return 0;
+        if (item.ItemFlags.IsSet("SellExtract")) // no lowered price nor haggling if item is SellExtract
+            return cost;
+        // lower price depending on quantity/quality
         // more copy -> lower price
-        foreach (IItem itemInventory in shopKeeper.Inventory)
+        foreach (var itemInventory in shopKeeper.Inventory)
             if (itemInventory.Blueprint.Id == item.Blueprint.Id)
             {
                 if (itemInventory.ItemFlags.IsSet("Inventory"))

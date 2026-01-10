@@ -392,22 +392,28 @@ public abstract class CharacterBase : EntityBase, ICharacter
     // Act
     // IFormattable cannot be used because formatting depends on who'll receive the message (CanSee check)
     public void Act(ActOptions option, string format, params object[] arguments)
+        => Act(option, Positions.Resting, format, arguments);
+
+    public void Act(ActOptions option, Positions minPosition, string format, params object[] arguments)
     {
         //
-        IEnumerable<ICharacter> targets = GetActTargets(option);
+        IEnumerable<ICharacter> targets = GetActTargets(option, minPosition);
         //
-        foreach (ICharacter target in targets)
+        foreach (var target in targets)
         {
-            string phrase = FormatActOneLine(target, format, arguments);
+            var phrase = FormatActOneLine(target, format, arguments);
             target.Send(phrase);
         }
     }
 
     public void ActToNotVictim(ICharacter victim, string format, params object[] arguments) // to everyone except this and victim
+        => ActToNotVictim(victim, Positions.Resting, format, arguments);
+
+    public void ActToNotVictim(ICharacter victim, Positions minPosition, string format, params object[] arguments) // to everyone except this and victim
     {
-        foreach (ICharacter to in Room.People.Where(x => x != this && x != victim))
+        foreach (var to in Room.People.Where(x => x != this && x != victim && x.Position >= minPosition))
         {
-            string phrase = FormatActOneLine(to, format, arguments);
+            var phrase = FormatActOneLine(to, format, arguments);
             to.Send(phrase);
         }
     }
@@ -468,114 +474,102 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public void DisplayChangePositionMessage(Positions oldPosition, Positions newPosition, IItemFurniture? furniture)
     {
+        string phrase = string.Empty;
+
         switch (newPosition)
         {
             case Positions.Sleeping:
-                if (furniture == null)
-                    Act(ActOptions.ToAll, "{0:N} go{0:v} to sleep.", this);
-                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                    Act(ActOptions.ToAll, "{0:N} go{0:v} sleep at {1}.", this, furniture);
-                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                    Act(ActOptions.ToAll, "{0:N} go{0:v} sleep on {1}.", this, furniture);
-                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                    Act(ActOptions.ToAll, "{0:N} go{0:v} sleep in {1}.", this, furniture);
-                return;
+                if (furniture == null) phrase = "{0:N} go{0:v} to sleep.";
+                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} go{0:v} sleep at {1}.";
+                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} go{0:v} sleep on {1}.";
+                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} go{0:v} sleep in {1}.";
+                break;
             case Positions.Resting:
                 switch (oldPosition)
                 {
                     case Positions.Sleeping:
-                        if (furniture == null)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and start{0:v} resting.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and rest{0:v} at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and rest{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and rest{0:v} in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "{0:N} wake{0:v} and start{0:v} resting.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} wake{0:v} and rest{0:v} at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} wake{0:v} and rest{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} wake{0:v} and rest{0:v} in {1}.";
+                        break;
                     case Positions.Sitting:
-                        if (furniture == null)
-                            Act(ActOptions.ToRoom, "{0;N} rest{0:v}.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} rest{0:v} at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} rest{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} rest{0:v} in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "{0;N} rest{0:v}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} rest{0:v} at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} rest{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} rest{0:v} in {1}.";
+                        break;
                     case Positions.Standing:
-                        if (furniture == null)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down and rest{0:v}.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down at {1} and rest{0:v}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1} and rest{0:v}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} rest{0:v} in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "{0:N} sit{0:v} down and rest{0:v}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} sit{0:v} down at {1} and rest{0:v}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} sit{0:v} on {1} and rest{0:v}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} rest{0:v} in {1}.";
+                        break;
                 }
-                return;
+                break;
             case Positions.Sitting:
                 switch (oldPosition)
                 {
-                    case Positions.Sleeping:
-                        if (furniture == null)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} up.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} in {1}.", this, furniture);
-                        return;
+                    case Positions.Sleeping: // we have to use Send because this is sleeping and ActToNotVictim
+                        if (furniture == null) phrase = "{0:N} wake{0:v} and sit{0:v} up.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} wake{0:v} and sit{0:v} at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} wake{0:v} and sit{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} wake{0:v} and sit{0:v} in {1}.";
+                        break;
                     case Positions.Resting:
-                        if (furniture == null)
-                            Send("You stop resting.");
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "You stop resting.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} sit{0:v} at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} sit{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} sit{0:v} in {1}.";
+                        break;
                     case Positions.Standing:
-                        if (furniture == null)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "{0:N} sit{0:v} down.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} sit{0:v} down at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} sit{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} sit{0:v} down in {1}.";
+                        break;
                 }
-                return;
+                break;
             case Positions.Standing:
                 switch (oldPosition)
                 {
                     case Positions.Sleeping:
-                        if (furniture == null)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} up.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "{0:N} wake{0:v} up and stand{0:v} up.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} wake{0:v} up and stand{0:v} at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} wake{0:v} up and stand{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} wake{0:v} up and stand{0:v} in {1}.";
+                        break;
                     case Positions.Resting:
                     case Positions.Sitting:
-                        if (furniture == null)
-                            Act(ActOptions.ToAll, "{0:N} stand{0:v} up.", this);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                            Act(ActOptions.ToAll, "{0:N} stand{0:v} at {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                            Act(ActOptions.ToAll, "{0:N} stand{0:v} on {1}.", this, furniture);
-                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                            Act(ActOptions.ToAll, "{0:N} stand{0:v} in {1}.", this, furniture);
-                        return;
+                        if (furniture == null) phrase = "{0:N} stand{0:v} up.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At) phrase = "{0:N} stand{0:v} at {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On) phrase = "{0:N} stand{0:v} on {1}.";
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In) phrase = "{0:N} stand{0:v} in {1}.";
+                        break;
                 }
-                return;
+                break;
+        }
+        if (oldPosition == Positions.Sleeping)
+        {
+            // we cannot use Act(ToAll) because 'this' is sleeping and will not receive message (min position is resting by default)
+            // we cannot use Act(ToAll, Positions.Sleeping) because other people could be sleeping and should not receive the message
+            if (furniture == null)
+            {
+                Act(ActOptions.ToCharacter, Positions.Sleeping, phrase, this);
+                ActToNotVictim(this, phrase, this);
+            }
+            else
+            {
+                Act(ActOptions.ToCharacter, Positions.Sleeping, phrase, this, furniture);
+                ActToNotVictim(this, phrase, this, furniture);
+            }
+        }
+        else
+        {
+            if (furniture == null)
+                Act(ActOptions.ToAll, phrase, this);
+            else
+                Act(ActOptions.ToAll, phrase, this, furniture);
         }
     }
 
@@ -2012,19 +2006,19 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Followers will not automatically enter portal
     }
 
-    protected virtual IEnumerable<ICharacter> GetActTargets(ActOptions option)
+    protected virtual IEnumerable<ICharacter> GetActTargets(ActOptions option, Positions minPosition)
     {
         switch (option)
         {
             case ActOptions.ToAll:
-                return Room.People;
+                return Room.People.Where(x => x.Position >= minPosition);
             case ActOptions.ToRoom:
-                return Room.People.Where(x => x != this);
+                return Room.People.Where(x => x != this && x.Position >= minPosition);
             case ActOptions.ToGroup:
                 Logger.LogWarning("Act with option ToGroup used on generic CharacterBase");
                 return []; // defined only for PlayableCharacter
             case ActOptions.ToCharacter:
-                return [this];
+                return Position >= minPosition ? [this] : [];
             default:
                 Logger.LogError("Act with invalid option: {option}", option);
                 return [];
