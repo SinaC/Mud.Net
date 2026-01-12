@@ -1688,8 +1688,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         wasOnCharacter.Act(ActOptions.ToCharacter, msg, decayingItem);
                     else if (decayingItem.ContainedInto is IRoom wasInRoom)
                     {
-                        foreach (var character in wasInRoom.People)
-                            character.Act(ActOptions.ToCharacter, msg, decayingItem);
+                        decayingItem.Act(wasInRoom.People, msg, decayingItem);
                     }
 
                     // If container or playable character corpse, move items to contained into (except quest item)

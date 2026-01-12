@@ -130,6 +130,7 @@ public interface ICharacter : IEntity, IContainer
     void ChangeLeader(ICharacter? character);
 
     // Group
+    IEnumerable<IPlayableCharacter> GetPlayableCharactersImpactedByKill();
     bool IsSameGroupOrPet(ICharacter character);
 
     // Act
@@ -159,6 +160,9 @@ public interface ICharacter : IEntity, IContainer
     bool CanSee(IItem? item);
     bool CanSee(IExit? exit);
     bool CanSee(IRoom? room);
+
+    // Loot
+    bool CanLoot(IItem? target);
 
     // Attributes
     int BaseAttribute(CharacterAttributes attribute);
@@ -195,8 +199,10 @@ public interface ICharacter : IEntity, IContainer
     void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
     DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display); // 'this' is dealt damage by 'source' using an ability
     DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using a weapon
+    void HandleAutoGold(IItemCorpse corpse);
+    void HandleAutoLoot(IItemCorpse corpse);
+    void HandleAutoSacrifice(IItemCorpse corpse);
     IItemCorpse? RawKilled(ICharacter? killer, bool payoff);
-    void KillingPayoff(ICharacter victim, IItemCorpse? corpse);
     bool SavesSpell(int level, SchoolTypes damageType);
     bool IsSafeSpell(ICharacter caster, bool area);
     string? IsSafe(ICharacter aggressor);

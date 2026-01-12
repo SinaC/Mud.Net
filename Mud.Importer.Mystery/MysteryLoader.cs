@@ -545,7 +545,7 @@ public class MysteryLoader : TextBasedLoader
                         else
                             Warn("ParseResets: 'D': bad 'locks': {0}", arg3);
                     }
-                    // ResetData is not stored
+                    roomData.Resets.Add(resetData);
                 }
             }
             else if (letter == 'R')

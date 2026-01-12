@@ -31,6 +31,11 @@ public abstract class WearCharacterGameActionBase : CharacterGameAction
                 Actor.Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
             return false;
         }
+        if (item is IItemQuest)
+        {
+            Actor.Act(ActOptions.ToCharacter, "{0} cannot be worn.", item);
+            return false;
+        }
         // search slot
         var equipmentSlot = Actor.SearchEquipmentSlot(item, replace);
         if (equipmentSlot == null)

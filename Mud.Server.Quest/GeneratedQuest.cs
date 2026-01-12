@@ -76,6 +76,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         var itemQuestObjective = new FloorItemQuestObjective { ItemBlueprint = itemQuestBlueprint, Total = 1 };
         _objectives.Add(itemQuestObjective);
         itemQuest.SetTimer(TimeSpan.FromMinutes(timeLimit + 5)); // make sure to destroy item (just in case we missed the destroy)
+        itemQuest.AddBaseItemFlags(false, "NoDrop"); // to be sure quest item cannot be dropped/given/sold/...
         return true;
     }
 

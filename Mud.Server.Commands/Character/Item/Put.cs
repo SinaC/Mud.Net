@@ -84,6 +84,13 @@ public class Put : CharacterGameAction
             Actor.Send("You can't let go of it.");
             return false;
         }
+
+        if (item is IItemQuest)
+        {
+            Actor.Send("You cannot put that anywhere.");
+            return false;
+        }
+
         if (container.Content.Count() + 1 > container.MaxItems)
         {
             Actor.Send("It won't fit.");

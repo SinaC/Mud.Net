@@ -1,9 +1,13 @@
 INGOING
 DONE
-    cannot get again an already complete quest
-    rename CurrentQuest into ActiveQuest
-    quest history
-    quest save completed quests
+    Door resets were not stored in Rom/Rot/Mystery loaded
+    text added when door are closed/locked in reset room
+    Quest sub commands
+    Auto sub commands
+    Use master and group member in CreateCorpse and KillingPayoff to trigger quest objectives and death rewards
+    every member should loot the corpse starting with killer -> every one has a chance to get quest item
+    autosac will be performed by killer
+    CanLoot added, used in addition to CanSee to know if an item can be looted by a character
 
 ==========
 == TODO ==
@@ -63,8 +67,6 @@ would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which i
 
 handle shapeshift using new type of affect
 cat form/bear form with new affects
-
-generic dot affect
 
 try to change every checks on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access

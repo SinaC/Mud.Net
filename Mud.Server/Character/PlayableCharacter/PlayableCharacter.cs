@@ -486,6 +486,19 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         ? 1000
         : base.MaxCarryNumber;
 
+    public override IEnumerable<IPlayableCharacter> GetPlayableCharactersImpactedByKill()
+    {
+        var characters = new List<IPlayableCharacter>();
+        if (Group != null)
+        {
+            foreach (var character in Group.Members)
+                characters.Add(character);
+        }
+        else
+            characters.Add(this);
+        return characters;
+    }
+
     // Combat
     public override void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier) // 'this' starts a combat with 'victim'
     {
@@ -577,52 +590,52 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         //    return;
     }
 
-    public override void KillingPayoff(ICharacter victim, IItemCorpse? corpse) // Gain xp/gold/reputation/...
+    public override void HandleAutoGold(IItemCorpse corpse)
+    {
+        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Gold) && corpse.Content.Any())
+        {
+            var corpseContent = corpse.Content.OfType<IItemMoney>().Where(CanLoot).ToArray();
+            foreach (var money in corpseContent)
+                GetItem(money, corpse);
+        }
+    }
+
+    public override void HandleAutoLoot(IItemCorpse corpse)
+    {
+        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Loot) && corpse.Content.Any())
+        {
+            var corpseContent = corpse.Content.Where(CanLoot).ToArray();
+            foreach (var item in corpseContent)
+                GetItem(item, corpse);
+        }
+    }
+
+    public override void HandleAutoSacrifice(IItemCorpse corpse)
+    {
+        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Sacrifice) && !corpse.Content.Any()) // TODO: corpse empty only if autoloot is set?
+            SacrificeItem(corpse);
+    }
+
+    public void KillingPayoff(ICharacter victim, int groupLevelSum) // Gain xp/gold/reputation/...
     {
         var killStatistics = victim is IPlayableCharacter
             ? AvatarStatisticTypes.PcKill
             : AvatarStatisticTypes.NpcKill;
         IncrementStatistics(killStatistics);
+
         // Gain xp and alignment
-        if (this != victim && victim is INonPlayableCharacter) // gain xp only for non-playable victim
+        if (this != victim && victim is INonPlayableCharacter) // gain xp only for NPC victim
         {
-            var members = (Group?.Members ?? this.Yield()).ToArray();
-            int sumLevels = members.Sum(x => x.Level);
             // Gain xp and change alignment
-            foreach (var member in members)
+            var (experience, alignment) = ComputeExperienceAndAlignment(victim, groupLevelSum);
+            if (experience > 0)
             {
-                var (experience, alignment) = ComputeExperienceAndAlignment(victim, sumLevels);
-                if (experience > 0)
-                {
-                    member.Send("%y%You gain {0} experience points.%x%", experience);
-                    member.GainExperience(experience);
-                }
-                member.UpdateAlignment(alignment);
+                Send("%y%You gain {0} experience points.%x%", experience);
+                GainExperience(experience);
             }
-            // TODO: reputation
-            if (corpse != null && !corpse.IsPlayableCharacterCorpse)
-            {
-                // autogold
-                if (AutoFlags.HasFlag(AutoFlags.Gold) && corpse.Content.Any())
-                {
-                    var corpseContent = corpse.Content.OfType<IItemMoney>().Where(CanSee).ToArray();
-                    foreach (var money in corpseContent)
-                        GetItem(money, corpse);
-                }
-
-                // autoloot
-                if (AutoFlags.HasFlag(AutoFlags.Loot) && corpse.Content.Any())
-                {
-                    var corpseContent = corpse.Content.Where(CanSee).ToArray();
-                    foreach (var item in corpseContent)
-                        GetItem(item, corpse);
-                }
-
-                // autosac
-                if (AutoFlags.HasFlag(AutoFlags.Sacrifice) && !corpse.Content.Any()) // TODO: corpse empty only if autoloot is set?
-                    SacrificeItem(corpse);
-            }
+            UpdateAlignment(alignment);
         }
+        // TODO: reputation
     }
 
     // Abilities
@@ -828,11 +841,24 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (target is IItemQuest questItem)
         {
             // See only if on this quest
-            if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || questItem.IsQuestObjective(this, false))
+            if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || questItem.IsQuestObjective(this, false)) // we don't care if the objective is completed or not
                 return true;
             return false;
         }
         return base.CanSee(target);
+    }
+
+    // Loot
+    public override bool CanLoot(IItem? target)
+    {
+        if (target is IItemQuest questItem)
+        {
+            // See only if on this quest
+            if (CanSee(target) && questItem.IsQuestObjective(this, true)) // can loot only if objective is not complete
+                return true;
+            return false;
+        }
+        return base.CanLoot(target);
     }
 
     // Impersonation
@@ -1106,7 +1132,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return false;
         long extraSilver = Math.DivRem(amountSilver, members.Length, out long shareSilver);
         long extraGold = Math.DivRem(amountGold, members.Length, out long shareGold);
-        if (shareSilver == 0 || shareGold == 0)
+        if (shareSilver == 0 && shareGold == 0)
         {
             Send("Don't even bother, cheapstake.");
             return false;
@@ -1316,6 +1342,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
+
+    protected override int CharacterTypeSpecificDamageModifier(int damage)
+    {
+        if (this[Conditions.Drunk] > 10)
+            damage = 9 * damage / 10;
+        return damage;
+    }
 
     protected override bool CanGoTo(IRoom destination)
         => true;
@@ -1548,10 +1581,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     private (int experience, int alignment) ComputeExperienceAndAlignment(ICharacter victim, int totalLevel)
     {
-        int experience;
-        int alignment = 0;
+        var experience = 0;
+        var alignment = 0;
 
-        int levelDiff = victim.Level - Level;
+        var levelDiff = victim.Level - Level;
         // compute base experience
         var baseExp = levelDiff switch
         {

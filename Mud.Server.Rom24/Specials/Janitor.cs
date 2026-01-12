@@ -17,7 +17,7 @@ namespace Mud.Server.Rom24.Specials
                 return false;
 
             // pick some trash
-            var trash = npc.Room.Content.FirstOrDefault(x => (x is IItemTrash || x is IItemDrinkContainer || x.Cost < 10) && !x.NoTake && npc.CanSee(x) /*&& npc.CanLoot(x)*/);
+            var trash = npc.Room.Content.FirstOrDefault(x => (x is IItemTrash || x is IItemDrinkContainer || x.Cost < 10) && !x.NoTake && npc.CanLoot(x));
             if (trash == null)
                 return false;
 

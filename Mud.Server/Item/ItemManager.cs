@@ -104,7 +104,7 @@ public class ItemManager : IItemManager
         return corpse;
     }
 
-    public IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer)
+    public IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, IEnumerable<IPlayableCharacter> playableCharactersImpactedByKill)
     {
         var blueprint = GetItemBlueprint<ItemCorpseBlueprint>(CorpseBlueprintId);
         if (blueprint == null)
@@ -113,7 +113,7 @@ public class ItemManager : IItemManager
             return null;
         }
         var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
-        corpse.Initialize(guid, blueprint, room, victim, killer);
+        corpse.Initialize(guid, blueprint, room, victim, playableCharactersImpactedByKill);
         if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
             Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(corpse);

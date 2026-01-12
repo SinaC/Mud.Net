@@ -6,6 +6,7 @@ using Mud.DataStructures;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
+using Mud.Server.Commands.Character.Combat;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -389,6 +390,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return (pcCh1 != null && pcCh1.IsSameGroupOrPet(character)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(this));
     }
 
+    public abstract IEnumerable<IPlayableCharacter> GetPlayableCharactersImpactedByKill();
+
     // Act
     // IFormattable cannot be used because formatting depends on who'll receive the message (CanSee check)
     public void Act(ActOptions option, string format, params object[] arguments)
@@ -686,6 +689,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         return true;
     }
+
+    public virtual bool CanLoot(IItem? target)
+        => CanSee(target);
 
     // Attributes
     public int BaseAttribute(CharacterAttributes attribute)
@@ -1267,6 +1273,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return damageResults;
     }
 
+    public abstract void HandleAutoGold(IItemCorpse corpse);
+    public abstract void HandleAutoLoot(IItemCorpse corpse);
+    public abstract void HandleAutoSacrifice(IItemCorpse corpse);
+
     public IItemCorpse? RawKilled(ICharacter? killer, bool payoff)
     {
         if (!IsValid)
@@ -1287,17 +1297,42 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Death cry
         ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
 
+        // Get each character that will be impacted by death (group member, pet master, ...)
+        var playableCharactersImpactedByKill = killer?.GetPlayableCharactersImpactedByKill().ToArray();
+
         // Create corpse
         IItemCorpse? corpse = null;
-        if (killer != null)
-            corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, killer);
+        if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
+            corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, playableCharactersImpactedByKill);
         else
             corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this);
 
-        // Gain/lose xp/reputation auto loot/gold/sac
+        // Gain/lose xp/reputation for each member of groups + auto loot/gold/sac for killer
+        // TODO: what about quest items found in corpse ? killer will get them all if he/she's on the same quest as other group members
         if (payoff)
         {
-            killer?.KillingPayoff(this, corpse);
+            if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
+            {
+                // xp/reputation
+                var groupLevelSum = playableCharactersImpactedByKill.Sum(x => x.Level);
+                foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill)
+                    playableCharacterImpactedByKill?.KillingPayoff(this, groupLevelSum);
+
+                // autogold by killer
+                if (corpse != null && killer != null)
+                    killer.HandleAutoGold(corpse);
+                // autoloot by each PC impacted by kill (this will enable quest item to be retrieved by master and group members) starting by killer
+                if (corpse != null)
+                {
+                    foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill.OrderBy(x => x == killer ? 0 : 1))
+                        playableCharacterImpactedByKill.HandleAutoLoot(corpse);
+                }
+                // autosac
+                if (corpse != null && killer != null)
+                    killer.HandleAutoSacrifice(corpse);
+            }
+
+            //
             DeathPayoff(killer);
         }
 
@@ -1306,8 +1341,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         return corpse;
     }
-
-    public abstract void KillingPayoff(ICharacter victim, IItemCorpse? corpse);
 
     public bool SavesSpell(int level, SchoolTypes damageType)
     {
@@ -1607,7 +1640,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public virtual bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
     {
         //
-        if (item.NoTake)
+        if (item.NoTake || !CanLoot(item))
         {
             Send("You can't take that.");
             return false;
@@ -1964,6 +1997,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     #endregion
+
+    protected abstract int CharacterTypeSpecificDamageModifier(int damage);
 
     protected abstract bool CanGoTo(IRoom destination);
 
@@ -2544,7 +2579,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 StandUpInCombatIfPossible();
             }
             // Tell the victim to fight back!
-            if (Position >= Positions.Sleeping) // TODO: > Stunned
+            if (source.Position >= Positions.Sleeping) // TODO: > Stunned
             {
                 // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
                 if (source.Fighting == null)
@@ -2577,10 +2612,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // drunk reduction
         if (damage > 1)
-        {
-            if (this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
-                damage -= damage / 10;
-        }
+            damage = CharacterTypeSpecificDamageModifier(damage);
 
         if (damage > 1)
         {
@@ -2600,10 +2632,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 damage = 0;
                 break;
             case ResistanceLevels.Resistant:
-                damage -= damage / 3;
+                damage = 2 * damage / 3;
                 break;
             case ResistanceLevels.Vulnerable:
-                damage += damage / 2;
+                damage =  3 * damage / 2;
                 break;
         }
 

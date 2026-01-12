@@ -25,7 +25,7 @@ public interface IItemManager
         where TItem : class, IItem;
 
     IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
-    IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);
+    IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, IEnumerable<IPlayableCharacter> playableCharactersImpactedByKill);
     IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container);
 
     void RemoveItem(IItem item);

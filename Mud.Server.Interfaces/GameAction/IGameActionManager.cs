@@ -9,6 +9,10 @@ public interface IGameActionManager
 
     string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
         where TActor: IActor;
+
+    string? Execute<TActor>(Type gameActionType, TActor actor, string? commandLine)
+        where TActor : IActor;
+
     string? Execute<TGameAction, TActor>(TActor actor, string? commandLine)
         where TActor : IActor;
 
