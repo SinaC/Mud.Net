@@ -3,7 +3,6 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
@@ -25,7 +24,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 The commands are as follows:
 
 all       : active every 'auto'
-assit     : makes you help group members in combat
+assist    : makes you help group members in combat
 exit      : display room exits upon entering a room
 sacrifice : sacrifice dead monsters (if autoloot is on, only empty corpes)
 gold      : take all gold from dead mobiles
@@ -34,16 +33,33 @@ loot      : take all equipment from dead mobiles
 affect    : display your affects when looking your score")]
 public class Auto : PlayableCharacterGameAction
 {
-    private IWiznet Wiznet { get; }
+    private IGameActionManager GameActionManager { get; }
 
-    public Auto(IWiznet wiznet)
+    public Auto(IGameActionManager gameActionManager)
     {
-        Wiznet = wiznet;
+        GameActionManager = gameActionManager;
     }
 
-    protected bool Display { get; set; }
-    protected bool SetAll { get; set; }
-    protected AutoFlags What { get; set; }
+    protected enum Actions
+    {
+        Display,
+        SubCommand
+    }
+
+    protected (string? parameter, AutoFlags Flag, Type? GameActionType)[] ActionTable { get; } =
+[
+        ("assist", AutoFlags.Assist, typeof(AutoAssist)),
+        ("exit", AutoFlags.Exit, typeof(AutoExit)),
+        ("sacrifice", AutoFlags.Sacrifice, typeof(AutoSacrifice)),
+        ("gold", AutoFlags.Gold, typeof(AutoGold)),
+        ("split", AutoFlags.Split, typeof(AutoSplit)),
+        ("loot", AutoFlags.Loot, typeof(AutoLoot)),
+        ("affect", AutoFlags.Affect, typeof(AutoAffect)),
+    ];
+
+    protected Actions Action { get; set; }
+    protected AutoFlags? What { get; set; }
+    protected Type? GameActionType { get; set; }
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -53,89 +69,48 @@ public class Auto : PlayableCharacterGameAction
 
         if (actionInput.Parameters.Length == 0)
         {
-            Display = true;
+            Action = Actions.Display;
             return null;
         }
 
         if (actionInput.Parameters[0].IsAll)
         {
-            SetAll = true;
+            Action = Actions.SubCommand;
+            GameActionType = typeof(AutoAll);
             return null;
         }
 
-        bool found = EnumHelpers.TryFindByPrefix(actionInput.Parameters[0].Value, out var flag, AutoFlags.None);
-        if (!found)
-            return "This is not a valid auto.";
+        // search in action table
+        foreach (var actionTableEntry in ActionTable.Where(x => x.parameter is not null && x.GameActionType is not null))
+        {
+            if (actionTableEntry.parameter!.StartsWith(actionInput.Parameters[0].Value))
+            {
+                Action = Actions.SubCommand;
+                What = actionTableEntry.Flag;
+                GameActionType = actionTableEntry.GameActionType;
+                return null;
+            }
+        }
 
-        What = flag;
-        return null;
+        return "This is not a valid auto.";
     }
 
     public override void Execute(IActionInput actionInput)
     {
-        if (Display)
+        switch (Action)
         {
-            StringBuilder sb = new ();
-            foreach (var autoFlag in Enum.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
-                sb.AppendFormatLine("{0}: {1}", autoFlag.PrettyPrint(), Actor.AutoFlags.HasFlag(autoFlag) ? "ON" : "OFF");
+            case Actions.Display:
+                StringBuilder sb = new();
+                foreach (var autoFlag in Enum.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
+                    sb.AppendFormatLine("{0}: {1}", autoFlag.PrettyPrint(), Actor.AutoFlags.HasFlag(autoFlag) ? "ON" : "OFF");
+                Actor.Send(sb);
+                return;
 
-            Actor.Send(sb);
-            return;
-        }
-
-        if (SetAll)
-        {
-            foreach (var autoFlag in Enum.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
-                Actor.AddAutoFlags(autoFlag);
-            Actor.Send("Ok.");
-            return;
-        }
-
-        if (Actor.AutoFlags.HasFlag(What))
-        {
-            Actor.RemoveAutoFlags(What);
-            string msg = AutoRemovedMessage(What);
-            Actor.Send(msg);
-        }
-        else
-        {
-            Actor.AddAutoFlags(What);
-            string msg = AutoAddedMessage(What);
-            Actor.Send(msg);
-        }
-    }
-
-    private string AutoAddedMessage(AutoFlags flag)
-    {
-        switch (flag)
-        {
-            case AutoFlags.Assist: return "You will now assist when needed.";
-            case AutoFlags.Exit: return "Exits will now be displayed.";
-            case AutoFlags.Sacrifice: return "Automatic corpse sacrificing set.";
-            case AutoFlags.Gold: return "Automatic gold looting set.";
-            case AutoFlags.Loot: return "Automatic corpse looting set.";
-            case AutoFlags.Split: return "Automatic gold splitting set.";
-            case AutoFlags.Affect: return "Affects will now be displayed when looking your score.";
-            default:
-                Wiznet.Log($"AutoAddedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return "???";
-        }
-    }
-
-    private string AutoRemovedMessage(AutoFlags flag)
-    {
-        switch (flag)
-        {
-            case AutoFlags.Assist: return "Autoassist removed.";
-            case AutoFlags.Exit: return "Exits will no longer be displayed.";
-            case AutoFlags.Sacrifice: return "Autosacrificing removed.";
-            case AutoFlags.Gold: return "Autogold removed.";
-            case AutoFlags.Loot: return "Autolooting removed.";
-            case AutoFlags.Split: return "Autosplitting removed.";
-            case AutoFlags.Affect: return "Autoaffect removed.";
-            default:
-                Wiznet.Log($"AutoRemovedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return "???";
+            case Actions.SubCommand:
+                var executionResults = GameActionManager.Execute(GameActionType!, Actor, null);
+                if (executionResults != null)
+                    Actor.Send(executionResults);
+                return;
         }
     }
 }

@@ -76,6 +76,7 @@ public interface IPlayableCharacter : ICharacter
     bool StopImpersonation();
 
     // Combat
+    void KillingPayoff(ICharacter victim, int groupLevelSum);
     void GainExperience(long experience); // add/substract experience
 
     // Ability

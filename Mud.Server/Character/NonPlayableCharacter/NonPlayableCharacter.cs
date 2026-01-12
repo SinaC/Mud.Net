@@ -331,9 +331,16 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override bool CanSee(IItem? target)
     {
-        if (target is IItemQuest questItem)
+        if (target is IItemQuest)
             return false;
         return base.CanSee(target);
+    }
+
+    public override bool CanLoot(IItem? target)
+    {
+        if (target is IItemQuest)
+            return false;
+        return base.CanLoot(target);
     }
 
     public override ImmortalModeFlags ImmortalMode => ImmortalModeFlags.None;
@@ -345,6 +352,21 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public override int MaxCarryNumber => ActFlags.IsSet("Pet")
         ? 0
         : base.MaxCarryNumber;
+
+    public override IEnumerable<IPlayableCharacter> GetPlayableCharactersImpactedByKill()
+    {
+        if (Master == null)
+            return [];
+        var characters = new List<IPlayableCharacter>();
+        if (Master.Group != null)
+        {
+            foreach (var character in Master.Group.Members)
+                characters.Add(character);
+        }
+        else
+            characters.Add(Master);
+        return characters;
+    }
 
     // Combat
     public override void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier) // 'this' starts a combat with 'victim'
@@ -484,10 +506,21 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
     }
 
-    public override void KillingPayoff(ICharacter victim, IItemCorpse? corpse)
+    public override void HandleAutoGold(IItemCorpse corpse)
     {
         // NOP
     }
+
+    public override void HandleAutoLoot(IItemCorpse corpse)
+    {
+        // NOP
+    }
+
+    public override void HandleAutoSacrifice(IItemCorpse corpse)
+    {
+        // NOP
+    }
+
 
     #endregion
 
@@ -752,6 +785,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
+
+    protected override int CharacterTypeSpecificDamageModifier(int damage)
+        => damage; // nop
 
     protected override bool CanGoTo(IRoom destination)
     {

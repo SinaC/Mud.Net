@@ -84,10 +84,9 @@ public class GameActionManager : IGameActionManager
         return null;
     }
 
-    public string? Execute<TGameAction, TActor>(TActor actor, string? commandLine)
+    public string? Execute<TActor>(Type gameActionType, TActor actor, string? commandLine)
         where TActor : IActor
     {
-        var gameActionType = typeof(TGameAction);
         if (!_staticGameActionInfosByExecutionType.TryGetValue(gameActionType, out var gameActionInfo))
         {
             Logger.LogError("GameAction type {type} not found in GameActionManager.", gameActionType.FullName ?? "???");
@@ -99,6 +98,10 @@ public class GameActionManager : IGameActionManager
             : CommandParser.SplitParameters(commandLine).Select(CommandParser.ParseParameter).ToArray();
         return Execute(gameActionInfo, actor, commandLine!, command, parameters);
     }
+
+    public string? Execute<TGameAction, TActor>(TActor actor, string? commandLine)
+        where TActor : IActor
+        => Execute<TActor>(typeof(TGameAction), actor, commandLine);
 
     public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
         where TActor : IActor

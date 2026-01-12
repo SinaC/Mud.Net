@@ -409,6 +409,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
             Logger.LogError("Cannot create quest item {itemBlueprintId} for quest {blueprintId}", itemQuestBlueprint.Id, Blueprint.Id);
             return;
         }
+        itemQuest.AddBaseItemFlags(false, "NoDrop"); // to be sure quest item cannot be dropped/given/sold/...
         if (TimeLimit > 0)
         {
             itemQuest.SetTimer(TimeSpan.FromMinutes(TimeLimit + 5)); // make sure to destroy item (just in case we missed the destroy)

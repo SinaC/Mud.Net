@@ -1,11 +1,9 @@
-﻿using Mud.Blueprints.Quest;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 using System.Text;
@@ -40,18 +38,24 @@ public class Quest : PlayableCharacterGameAction
     {
         DisplayAll,
         Display,
-        Auto,
-        Abandon,
-        Complete,
-        Get,
-        Info,
-        List,
-        History
+        SubCommand
     }
 
+    protected (string? parameter, Type? GameActionType)[] ActionTable { get; } =
+    [
+        ("auto", typeof(QuestAuto)),
+        ("abandon", typeof(QuestAbandon)),
+        ("complete", typeof(QuestComplete)),
+        ("get", typeof(QuestGet)),
+        ("info", typeof(QuestInfo)),
+        ("list", typeof(QuestList)),
+        ("history", typeof(QuestHistory)),
+    ];
+
     protected Actions Action { get; set; }
-    protected IQuest What { get; set; } = default!;
-    protected string CommandLine { get; set; } = default!;
+    protected Type? GameActionType { get; set; }
+    protected IQuest? What { get; set; }
+    protected string? CommandLine { get; set; }
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -79,59 +83,16 @@ public class Quest : PlayableCharacterGameAction
             return null;
         }
 
-        // quest auto
-        if ("auto".StartsWith(actionInput.Parameters[0].Value))
+        // search in action table
+        foreach (var actionTableEntry in ActionTable.Where(x => x.parameter is not null && x.GameActionType is not null))
         {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.Auto;
-            return null;
-        }
-        // quest abandon id
-        if ("abandon".StartsWith(actionInput.Parameters[0].Value))
-        {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.Abandon;
-            return null;
-        }
-
-        // quest complete id
-        if ("complete".StartsWith(actionInput.Parameters[0].Value))
-        {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.Complete;
-            return null;
-        }
-
-        // quest get all|title
-        if ("get".StartsWith(actionInput.Parameters[0].Value))
-        {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.Get;
-            return null;
-        }
-
-        // quest info
-        if ("info".StartsWith(actionInput.Parameters[0].Value))
-        {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.Info;
-            return null;
-        }
-
-        // quest list
-        if ("list".StartsWith(actionInput.Parameters[0].Value))
-        {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.List;
-            return null;
-        }
-
-        // quest history
-        if ("history".StartsWith(actionInput.Parameters[0].Value))
-        {
-            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
-            Action = Actions.List;
-            return null;
+            if (actionTableEntry.parameter!.StartsWith(actionInput.Parameters[0].Value))
+            {
+                Action = Actions.SubCommand;
+                GameActionType = actionTableEntry.GameActionType;
+                CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
+                return null;
+            }
         }
 
         return BuildCommandSyntax();
@@ -172,59 +133,15 @@ public class Quest : PlayableCharacterGameAction
             case Actions.Display:
                 {
                     StringBuilder sb = new ();
-                    BuildQuestSummary(sb, What, null);
+                    BuildQuestSummary(sb, What!, null);
                     Actor.Page(sb);
                     return;
                 }
-            case Actions.Auto:
-                {
-                    var executionResults = GameActionManager.Execute<QuestAuto, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
-            case Actions.Abandon:
-                {
-                    var executionResults = GameActionManager.Execute<QuestAbandon, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
-            case Actions.Complete:
-                {
-                    var executionResults = GameActionManager.Execute<QuestComplete, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
-            case Actions.Get:
-                {
-                    var executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
-            case Actions.Info:
-                {
-                    var executionResults = GameActionManager.Execute<QuestInfo, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
-            case Actions.List:
-                {
-                    var executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
-            case Actions.History:
-                {
-                    var executionResults = GameActionManager.Execute<QuestHistory, IPlayableCharacter>(Actor, CommandLine);
-                    if (executionResults != null)
-                        Actor.Send(executionResults);
-                    return;
-                }
+            case Actions.SubCommand:
+                var executionResults = GameActionManager.Execute(GameActionType!, Actor, CommandLine);
+                if (executionResults != null)
+                    Actor.Send(executionResults);
+                return;
         }
     }
 

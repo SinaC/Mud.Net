@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common;
-using Mud.Domain;
-using Mud.Importer;
-using Mud.Importer.Rom;
-using Mud.Network.Interfaces;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.LootTable;
 using Mud.Blueprints.Quest;
 using Mud.Blueprints.Room;
+using Mud.Common;
+using Mud.Domain;
+using Mud.Importer;
+using Mud.Network.Interfaces;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
@@ -540,7 +539,7 @@ public partial class ServerWindow : Window, INetworkServer
             Title = "Complex quest",
             Description = "Kill 3 fido, get 5 quest item 2, get 2 quest item 1 on beggar and explore temple square",
             Level = 50,
-            Experience = 50000,
+            Experience = 50,
             Gold = 20,
             ShouldQuestItemBeDestroyed = true,
             KillObjectives =
@@ -596,7 +595,7 @@ public partial class ServerWindow : Window, INetworkServer
             Title = "Simple exploration quest",
             Description = "Explore temple of mota, temple square, market square and common square",
             Level = 10,
-            Experience = 10000,
+            Experience = 50,
             Gold = 20,
             TimeLimit = 5,
             LocationObjectives =

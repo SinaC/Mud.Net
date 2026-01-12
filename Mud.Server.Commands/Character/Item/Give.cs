@@ -74,6 +74,9 @@ public class Give : CharacterGameAction
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
 
+        if (What is IItemQuest)
+            return "You cannot give that.";
+
         if (Whom.CarryNumber + What.CarryCount > Whom.MaxCarryNumber)
             return Actor.ActPhrase("{0:N} has {0:s} hands full.", Whom);
 

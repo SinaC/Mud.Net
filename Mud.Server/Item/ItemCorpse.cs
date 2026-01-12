@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Blueprints.Item;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -10,12 +11,9 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
-using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Item;
 
@@ -144,19 +142,22 @@ public class ItemCorpse : ItemBase, IItemCorpse
         }
     }
 
-    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, IEnumerable<IPlayableCharacter> playableCharactersImpactedByKill)
     {
         Initialize(guid, blueprint, room, victim);
 
-        // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
-        if (killer != null && killer is IPlayableCharacter playableCharacterKiller && victim is INonPlayableCharacter nonPlayableCharacterVictim)
+        if (victim is INonPlayableCharacter npcVictim)
         {
-            foreach (var quest in playableCharacterKiller.ActiveQuests)
+            // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
+            foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill)
             {
-                // Update kill objectives
-                quest.Update(nonPlayableCharacterVictim);
-                // Generate loot on corpse
-                quest.GenerateKillLoot(nonPlayableCharacterVictim, this);
+                foreach (var quest in playableCharacterImpactedByKill.ActiveQuests)
+                {
+                    // Update kill objectives
+                    quest.Update(npcVictim);
+                    // Generate loot on corpse
+                    quest.GenerateKillLoot(npcVictim, this);
+                }
             }
         }
     }

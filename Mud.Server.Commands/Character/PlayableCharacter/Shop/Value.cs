@@ -36,7 +36,7 @@ public class Value : ShopPlayableCharacterGameActionBase
         if (actionInput.Parameters.Length == 0)
             return "Value what?";
 
-        What = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
+        What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)
             return Actor.ActPhrase("{0:N} tells you 'You don't have that item'.", Keeper.shopKeeper);
 
@@ -45,6 +45,9 @@ public class Value : ShopPlayableCharacterGameActionBase
 
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
+
+        if (What is IItemQuest)
+            return "You cannot value that.";
 
         Cost = GetSellCost(Keeper.shopKeeper, shopBlueprint, What, false);
         if (Cost <= 0 || What.DecayPulseLeft > 0)

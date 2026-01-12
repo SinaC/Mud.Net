@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
+using System.ComponentModel.Design.Serialization;
 
 namespace Mud.Server.Server;
 
@@ -269,18 +270,33 @@ public class ResetManager : IResetManager
                             {
                                 case DoorOperations.OpenedAndUnlocked:
                                     Logger.LogDebug("Room {blueprintId}: D: set opened/unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
-                                    exit.Open();
-                                    exit.Unlock();
+                                    if (exit.IsLocked)
+                                        exit.Unlock();
+                                    if (exit.IsClosed)
+                                        exit.Open();
                                     break;
                                 case DoorOperations.ClosedAndUnlocked:
                                     Logger.LogDebug("Room {blueprintId}: D: set closed/unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
-                                    exit.Close();
-                                    exit.Unlock();
+                                    if (exit.IsLocked)
+                                        exit.Unlock();
+                                    if (!exit.IsClosed)
+                                    {
+                                        room.Act(room.People, "The {0} closes.", exit);
+                                        exit.Close();
+                                    }
                                     break;
                                 case DoorOperations.ClosedAndLocked:
                                     Logger.LogDebug("Room {blueprintId}: D: set closed/locked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
-                                    exit.Close();
-                                    exit.Lock();
+                                    if (!exit.IsClosed)
+                                    {
+                                        room.Act(room.People, "The {0} closes.", exit);
+                                        exit.Close();
+                                    }
+                                    if (!exit.IsLocked)
+                                    {
+                                        room.Act(room.People, "The {0} clicks.", exit);
+                                        exit.Lock();
+                                    }
                                     break;
                                 default:
                                     Logger.LogWarning("Room {blueprintId}: D: Invalid operation {operation} for exit {exitDirection}", room.Blueprint.Id, doorReset.Operation, doorReset.ExitDirection);

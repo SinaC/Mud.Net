@@ -96,7 +96,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 
             playerMock.Verify(x => x.Send("You have been KILLED!!", It.IsAny<bool>()), Times.Once);
-            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), pc, pc), Times.Once);
+            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), pc, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Contains(pc))), Times.Once);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
-            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), npc, npc), Times.Once);
+            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), npc), Times.Once);
         }
 
         private static CharacterNormalBlueprint GenerateBluePrint()
@@ -138,7 +138,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             {
                 Id = 1,
                 Name = "mob1",
-                ActFlags = new ActFlags("NoAlign", "Gain"),
+                ActFlags = new ActFlags("NoAlign"),
                 OffensiveFlags = new OffensiveFlags("AreaAttack", "Bash"),
                 CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"),
                 Immunities = new IRVFlags(),

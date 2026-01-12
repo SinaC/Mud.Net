@@ -49,6 +49,9 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
 
+        if (What is IItemQuest)
+            return "You cannot sell that.";
+
         Cost = GetSellCost(Keeper.shopKeeper, shopBlueprint, What, true);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
             return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
