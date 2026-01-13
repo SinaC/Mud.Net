@@ -289,6 +289,14 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override string DebugName => $"{DisplayName}[{Blueprint?.Id ?? -1}]";
 
+    public override void OnAuraRemoved(IAura aura)
+    {
+        base.OnAuraRemoved(aura);
+
+        if (StringCompareHelpers.StringEquals(aura.AbilityName, "Charm Person")) // if charm person wears off, remove master
+            ChangeMaster(null);
+    }
+
     public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
     {
         StringBuilder displayName = new();
@@ -506,6 +514,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
     }
 
+    public override bool DropItemsOnDeath => ActFlags.IsSet("DropItemsOnDeath");
+
     public override void HandleAutoGold(IItemCorpse corpse)
     {
         // NOP
@@ -545,9 +555,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         // If 'this' is NPC and in objective list or in kill loot table
         return questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => !o.IsCompleted && o.TargetBlueprint.Id == Blueprint.Id)
-                || questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).Any(q => q.KillLootTable.ContainsKey(Blueprint.Id));
+                || questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).Any(q => q.Objectives.OfType<LootItemQuestObjective>().Where(o => !o.IsCompleted).Any(x => q.KillLootTable.GetValueOrDefault(Blueprint.Id)?.ObjectiveIds?.Contains(x.Id) == true));
     }
-
 
     public IPlayableCharacter? Master { get; protected set; }
 
@@ -786,8 +795,49 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
 
+    protected override WiznetFlags DeathWiznetFlags => WiznetFlags.MobDeaths;
+
+    protected override bool CreateCorpseOnDeath => !ActFlags.IsSet("NoCorpse");
+
+    protected override void HandleMoneyOnDeath(IItemCorpse? corpse)
+    {
+        var silver = SilverCoins;
+        var gold = GoldCoins;
+        
+        if (DropItemsOnDeath || corpse == null)
+            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
+        else
+            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
+    }
+
+    protected override void GenerateLootsOnDeath(IItemCorpse? corpse)
+    {
+        var loots = Blueprint?.LootTable?.GenerateLoots();
+        if (loots != null && loots.Count != 0)
+        {
+            foreach (var loot in loots)
+            {
+                if (DropItemsOnDeath || corpse == null)
+                    ItemManager.AddItem(Guid.NewGuid(), loot, Room); // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
+                else
+                    ItemManager.AddItem(Guid.NewGuid(), loot, corpse);
+            }
+        }
+    }
+
     protected override int CharacterTypeSpecificDamageModifier(int damage)
         => damage; // nop
+
+    protected override bool CanMove()
+    {
+        if (Master != null && Master.Room == Room)
+        {
+            // Slave cannot leave a room without Master
+            Send("What? And leave your beloved master?");
+            return false;
+        }
+        return true;
+    }
 
     protected override bool CanGoTo(IRoom destination)
     {

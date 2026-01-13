@@ -73,7 +73,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         // TODO: description
         Description = null;
 
-        var itemQuestObjective = new FloorItemQuestObjective { ItemBlueprint = itemQuestBlueprint, Total = 1 };
+        var itemQuestObjective = new FloorItemQuestObjective { Id = 1, ItemBlueprint = itemQuestBlueprint, Total = 1 };
         _objectives.Add(itemQuestObjective);
         itemQuest.SetTimer(TimeSpan.FromMinutes(timeLimit + 5)); // make sure to destroy item (just in case we missed the destroy)
         itemQuest.AddBaseItemFlags(false, "NoDrop"); // to be sure quest item cannot be dropped/given/sold/...
@@ -99,9 +99,10 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         Description = null;
 
         var questKillLootTable = ServiceProvider.GetRequiredService<QuestKillLootTable<int>>();
+        questKillLootTable.ObjectiveIds = [1]; // linked to objective 1
         questKillLootTable.AddItem(itemQuestBlueprint.Id, 100); // TODO: 100% ?
-        var itemQuestObjective = new LootItemQuestObjective { ItemBlueprint = itemQuestBlueprint, Total = 1 };
-        var locationQuestObject = new LocationQuestObjective { RoomBlueprint = room.Blueprint };
+        var itemQuestObjective = new LootItemQuestObjective { Id = 1, ItemBlueprint = itemQuestBlueprint, Total = 1 };
+        var locationQuestObject = new LocationQuestObjective { Id = 2, RoomBlueprint = room.Blueprint };
         _objectives.Add(itemQuestObjective);
         _objectives.Add(locationQuestObject);
         _killLootTable.Add(target.Blueprint.Id, questKillLootTable);
@@ -119,8 +120,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         // TODO: description
         Description = null;
 
-        var killQuestObjective = new KillQuestObjective { TargetBlueprint = target.Blueprint, Total = 1 };
-        var locationQuestObject = new LocationQuestObjective { RoomBlueprint = room.Blueprint };
+        var killQuestObjective = new KillQuestObjective { Id = 1, TargetBlueprint = target.Blueprint, Total = 1 };
+        var locationQuestObject = new LocationQuestObjective { Id = 2, RoomBlueprint = room.Blueprint };
         _objectives.Add(killQuestObjective);
         _objectives.Add(locationQuestObject);
         return true;

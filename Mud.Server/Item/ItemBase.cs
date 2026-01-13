@@ -98,6 +98,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
+
     // Recompute
 
     public override void Recompute()
@@ -121,6 +122,19 @@ public abstract class ItemBase: EntityBase, IItem
 
         // 3) Apply own auras
         ApplyAuras<IItem>(this, this);
+    }
+
+    //
+    public override void OnAuraRemoved(IAura aura)
+    {
+        base.OnAuraRemoved(aura);
+
+        var abilityDefinition = AbilityManager[aura.AbilityName];
+        if (abilityDefinition != null && abilityDefinition.HasItemWearOffMessage)
+        {
+            var holder = ContainedInto as ICharacter ?? EquippedBy;
+            holder?.Act(ActOptions.ToCharacter, abilityDefinition.ItemWearOffMessage!, this);
+        }
     }
 
     //

@@ -4,7 +4,7 @@ using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("Holylight", "Avatar", "Immortal"), MustBeImpersonated]
+[AdminCommand("holylight", "Avatar", "Immortal"), MustBeImpersonated]
 [Syntax("[cmd]")]
 public class Holylight : ImmortalBase
 {

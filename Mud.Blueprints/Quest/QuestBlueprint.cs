@@ -2,7 +2,7 @@
 
 public class QuestBlueprint
 {
-    public int Id { get; set; }
+    public required int Id { get; set; }
     public string Title { get; set; } = default!;
     public string Description { get; set; } = default!;
     public int Level { get; set; }

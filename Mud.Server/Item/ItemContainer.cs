@@ -11,6 +11,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Item.SerializationData;
 
 namespace Mud.Server.Item;
 
@@ -51,7 +52,7 @@ public class ItemContainer : ItemBase, IItemContainer
         WeightMultiplier = blueprint.WeightMultiplier;
         if (itemContainerData.Contains?.Length > 0)
         {
-            foreach (ItemData itemData in itemContainerData.Contains)
+            foreach (var itemData in itemContainerData.Contains)
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
         }
     }

@@ -4,7 +4,7 @@ using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("Infinite", "Avatar", "Immortal"), MustBeImpersonated]
+[AdminCommand("infinite", "Avatar", "Immortal"), MustBeImpersonated]
 [Syntax("[cmd]")]
 public class Infinite : ImmortalBase
 {

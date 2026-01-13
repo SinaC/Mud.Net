@@ -186,23 +186,7 @@ public abstract class EntityBase : ActorBase, IEntity
         if (!removed)
             Logger.LogWarning("ICharacter.RemoveAura: Trying to remove unknown aura");
         else
-        {
-            // TODO: replace with virtual method
-            var abilityDefinition = AbilityManager[aura.AbilityName!]; // TODO: why aura.AbilityName! instead of aura.AbilityName
-            if (abilityDefinition != null)
-            {
-                if (this is ICharacter && abilityDefinition.HasCharacterWearOffMessage)
-                    Send(abilityDefinition.CharacterWearOffMessage!);
-                else if (this is IItem item && abilityDefinition.HasItemWearOffMessage)
-                {
-                    var holder = item.ContainedInto as ICharacter ?? item.EquippedBy;
-                    holder?.Act(ActOptions.ToCharacter, abilityDefinition.ItemWearOffMessage!, this);
-                }
-            }
-            // TODO: remove this crappy thing, replace with wear off func
-            if (StringCompareHelpers.StringEquals(aura.AbilityName!, "Charm Person") && this is INonPlayableCharacter npc)
-                npc.ChangeMaster(null);
-        }
+            OnAuraRemoved(aura);
         aura.OnRemoved();
         if (recompute && removed)
             Recompute();
@@ -216,6 +200,11 @@ public abstract class EntityBase : ActorBase, IEntity
             RemoveAura(aura, false);
         if (recompute)
             Recompute();
+    }
+
+    public virtual void OnAuraRemoved(IAura aura)
+    {
+        // NOP
     }
 
     public virtual string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)

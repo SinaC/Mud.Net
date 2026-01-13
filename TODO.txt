@@ -1,28 +1,27 @@
 INGOING
 DONE
-    Door resets were not stored in Rom/Rot/Mystery loaded
-    text added when door are closed/locked in reset room
-    Quest sub commands
-    Auto sub commands
-    Use master and group member in CreateCorpse and KillingPayoff to trigger quest objectives and death rewards
-    every member should loot the corpse starting with killer -> every one has a chance to get quest item
-    autosac will be performed by killer
-    CanLoot added, used in addition to CanSee to know if an item can be looted by a character
+    OmniscientManager (used by ImmortalModes.Omniscient) generates AbiltityUsage for every abilities using class info or fake one if not found in class, and set learned to 100%
+        used in PlayableCharacter where abilities are used
+    Omniscient command added
+    Lore learned check added
+    Check on ItemQuest added in Steal
+    DualWield moved to POC passives
+    Aura wear off char/item messages handled in derived classes instead of EntityBase
+    Item serialization data moved to dedicated folder
+    NoCorpse and DropItemsOnDeath Act flags added -> moving items to corpse moved from ItemCorpse to CharacterBase
+        NoCorpse: when killed, will not create a corpse (if NoCorpse is set and DropItemsOnDeath is not set, inventory/equipments/... will be destroyed)
+        DropItemsOnDeath: when killed, inventory/equipments/... will be dropped on the floor instead of corpse
+    IsQuestObjective fixed for NPC in loot table, we are still displaying a mob as quest objective even if objective was complete for that item loot
 
 ==========
 == TODO ==
 ==========
 
-Use ImmortalModes.Omniscient in AbilityLearned, we have to create an artificial AbilityUsage or define an ImmortalAbilityUsages class which will create AbilityUsage on the fly for every ability
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
     -> must artificially create an AbilityUsage for that purpose
     in fact, it's recompute known abilities which mess up learned abilities in pfile because it only considers racial abilities and abilities in learned groups
-new field in character ? GivenAbilities storing abilities out of learned that can be used by character
-
-finish who admin/player command
-
-Removing as much as possible this is IPlayableCharacter and this is INonPlayableCharacter in CharacterBase
+    new field in character ? GivenAbilities storing abilities out of learned that can be used by character
 
 short display for flag pretty print
 
@@ -35,6 +34,11 @@ cross-area items/mobs (resets from an area pointing to another area)
 rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
 
+handle inviso attacks differently
+
+aura/ability flags
+    ChangeVisibility: for invis like skills/spells, could be used in Damage function to make source visible if needed
+
 quests:
     quest tree (prereq)
     repeteable or not quests
@@ -44,12 +48,14 @@ when losing connection, keep player in game during a few minutes in autoflee/rec
 linkdead
 limbo/autoquit timer
 
+stunned doesn't seem to be used
+
 use SafeList where List is used (everywhere except in XXXManager)
 
 use resource cost for 'holy word': cost of 100% move and half hp
 
 new combat system
-    how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
+    how to handle mob assist ? (ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
     for the moment auto assist is forced for PC
     kill reward
         first group to hit the mob will receive the reward
@@ -75,6 +81,7 @@ restore should only remove 'negative' auras
 add colors everywhere :)
 
 finish score
+finish who admin/player command
 
 critical hit
 

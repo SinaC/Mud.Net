@@ -13,7 +13,8 @@ public class QuestKillLootTable<T> // generated loot when killing mob while on a
     private IRandomManager RandomManager { get; }
 
     public string Name { get; set; } = default!;
-    public List<QuestKillLootTableEntry<T>> Entries { get; set; } = default!;
+    public List<QuestKillLootTableEntry<T>> Entries { get; set; } = [];
+    public required int[] ObjectiveIds { get; set; } = []; // objectives linked to this kill table
 
     public QuestKillLootTable(ILogger<QuestKillLootTable<T>> logger, IRandomManager randomManager)
     {
@@ -23,7 +24,6 @@ public class QuestKillLootTable<T> // generated loot when killing mob while on a
 
     public bool AddItem(T item, int percentage)
     {
-        Entries ??= [];
         // TODO: check if already exists ?
         Entries.Add(new QuestKillLootTableEntry<T>
         {
@@ -36,7 +36,7 @@ public class QuestKillLootTable<T> // generated loot when killing mob while on a
     public List<T> GenerateLoots(IEnumerable<T> forbiddenIds)
     {
         List<T> loots = [];
-        if (Entries != null)
+        if (Entries != null && Entries.Count > 0)
         {
             foreach (var entry in Entries.Where(x => forbiddenIds == null || forbiddenIds.All(y => !y.Equals(x.Value))))
             {

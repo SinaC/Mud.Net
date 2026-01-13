@@ -38,5 +38,7 @@ public class SpellTestRoom : CharacterBuffSpellBase
         base.Invoke();
 
         Victim.Room.Recompute();
+
+        Caster.Send("Ok.");
     }
 }

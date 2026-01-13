@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Domain.SerializationData.Account;
 using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Item;
+using Mud.Server.Item.SerializationData;
 using System.Text.Json;
 
 namespace Mud.Repository.Tests

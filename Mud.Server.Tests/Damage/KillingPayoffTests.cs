@@ -139,7 +139,7 @@ public class KillingPayoffTests
             HitPointDiceBonus = 23,
         };
 
-        var pc = new PlayableCharacter(pcLoggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!);
+        var pc = new PlayableCharacter(pcLoggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
         var pet = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, null!, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pet.Initialize(Guid.NewGuid(), petBlueprint, roomMock.Object);
@@ -301,9 +301,9 @@ public class KillingPayoffTests
             HitPointDiceBonus = 23,
         };
 
-        var pc1 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!);
+        var pc1 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc1.Initialize(Guid.NewGuid(), pcData1, playerMock.Object, roomMock.Object);
-        var pc2 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!);
+        var pc2 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc2.Initialize(Guid.NewGuid(), pcData2, playerMock.Object, roomMock.Object);
         var group = new Group.Group(pc1);
         group.AddMember(pc2);

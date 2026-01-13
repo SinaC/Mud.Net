@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
-using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
@@ -12,6 +11,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Item.SerializationData;
 using Mud.Server.Options;
 using Mud.Server.Random;
 
@@ -20,13 +20,12 @@ namespace Mud.Server.Item;
 [Item(typeof(ItemCorpseBlueprint), typeof(ItemCorpseData))]
 public class ItemCorpse : ItemBase, IItemCorpse
 {
+    private string _corpseName = null!;
+    private bool _hasBeenGeneratedByKillingCharacter;
     private readonly List<IItem> _content;
 
     private IRandomManager RandomManager { get; }
     private IItemManager ItemManager { get; }
-
-    private string CorpseName { get; set; } = null!;
-    private bool HasBeenGeneratedByKillingCharacter { get; set; }
 
     public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
@@ -41,8 +40,8 @@ public class ItemCorpse : ItemBase, IItemCorpse
     {
         base.Initialize(guid, blueprint, container);
 
-        CorpseName = null!;
-        HasBeenGeneratedByKillingCharacter = false;
+        _corpseName = null!;
+        _hasBeenGeneratedByKillingCharacter = false;
         IsPlayableCharacterCorpse = false;
     }
 
@@ -50,13 +49,13 @@ public class ItemCorpse : ItemBase, IItemCorpse
     {
         base.Initialize(guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildShortDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), container);
 
-        CorpseName = itemCorpseData.CorpseName;
-        HasBeenGeneratedByKillingCharacter = itemCorpseData.HasBeenGeneratedByKillingCharacter;
+        _corpseName = itemCorpseData.CorpseName;
+        _hasBeenGeneratedByKillingCharacter = itemCorpseData.HasBeenGeneratedByKillingCharacter;
 
         IsPlayableCharacterCorpse = itemCorpseData.IsPlayableCharacterCorpse;
         if (itemCorpseData.Contains?.Length > 0)
         {
-            foreach (ItemData itemData in itemCorpseData.Contains)
+            foreach (var itemData in itemCorpseData.Contains)
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
         }
     }
@@ -65,8 +64,8 @@ public class ItemCorpse : ItemBase, IItemCorpse
     {
         Initialize(guid, blueprint, BuildName(victim.DisplayName, true, blueprint), BuildShortDescription(victim.DisplayName, true, blueprint), BuildDescription(victim.DisplayName, true, blueprint), room);
 
-        CorpseName = victim.DisplayName;
-        HasBeenGeneratedByKillingCharacter = true;
+        _corpseName = victim.DisplayName;
+        _hasBeenGeneratedByKillingCharacter = true;
 
         IsPlayableCharacterCorpse = victim is IPlayableCharacter;
 
@@ -80,65 +79,6 @@ public class ItemCorpse : ItemBase, IItemCorpse
         {
             DecayPulseLeft = Pulse.FromMinutes(RandomManager.Range(3, 6));
             NoTake = false;
-        }
-
-        // Money
-        if (victim.SilverCoins > 0 || victim.GoldCoins > 0)
-        {
-            long silver = victim.SilverCoins;
-            long gold = victim.GoldCoins;
-            if ((silver > 1 || gold > 1)
-                && victim is IPlayableCharacter pcVictim) // player keep half their money and leave the rest in the body
-            {
-                silver /= 2;
-                gold /= 2;
-                pcVictim.UpdateMoney(-silver, -gold);
-            }
-
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, this);
-        }
-
-        // Fill corpse with inventory
-        var inventory = victim.Inventory.ToArray();
-        foreach (var item in inventory)
-        {
-            var result = PerformActionOnItem(victim, item);
-            if (result == PerformActionOnItemResults.MoveToCorpse)
-                item.ChangeContainer(this);
-            else if (result == PerformActionOnItemResults.MoveToRoom)
-                item.ChangeContainer(victim.Room);
-            else if (result == PerformActionOnItemResults.Destroy)
-                ItemManager.RemoveItem(item);
-        }
-
-        // Fill corpse with equipment
-        var equipment = victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToArray();
-        foreach (var item in equipment)
-        {
-            var result = PerformActionOnItem(victim, item);
-            if (result == PerformActionOnItemResults.MoveToCorpse)
-            {
-                item.ChangeEquippedBy(null, false);
-                item.ChangeContainer(this);
-            }
-            else if (result == PerformActionOnItemResults.MoveToRoom)
-            {
-                item.ChangeEquippedBy(null, false);
-                item.ChangeContainer(victim.Room);
-            }
-            else if (result == PerformActionOnItemResults.Destroy)
-                ItemManager.RemoveItem(item);
-        }
-
-        // Check victim loot table (only if victim is NPC)
-        if (victim is INonPlayableCharacter npcVictim)
-        {
-            var loots = npcVictim.Blueprint?.LootTable?.GenerateLoots();
-            if (loots != null && loots.Count != 0)
-            {
-                foreach (int loot in loots)
-                    ItemManager.AddItem(Guid.NewGuid(), loot, this);
-            }
         }
     }
 
@@ -199,14 +139,14 @@ public class ItemCorpse : ItemBase, IItemCorpse
         return new ItemCorpseData
         {
             ItemId = Blueprint.Id,
-            CorpseName = CorpseName,
+            CorpseName = _corpseName,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
             Contains = MapContent(),
             IsPlayableCharacterCorpse = IsPlayableCharacterCorpse,
-            HasBeenGeneratedByKillingCharacter = HasBeenGeneratedByKillingCharacter,
+            HasBeenGeneratedByKillingCharacter = _hasBeenGeneratedByKillingCharacter,
         };
     }
 
@@ -224,57 +164,6 @@ public class ItemCorpse : ItemBase, IItemCorpse
         => generated
             ? $"The corpse of {corpseName} is lying here."
             : blueprint.Description;
-
-    // Perform actions on item before putting it in corpse
-    private enum PerformActionOnItemResults
-    {
-        Nop, // stays on character
-        MoveToCorpse, // move item to corpse
-        MoveToRoom, // move item to room
-        Destroy, // destroy item
-    }
-
-    private PerformActionOnItemResults PerformActionOnItem(ICharacter victim, IItem item)
-    {
-        if (item.ItemFlags.IsSet("Inventory"))
-            return PerformActionOnItemResults.Destroy;
-        if (item.ItemFlags.IsSet("StayDeath"))
-            return PerformActionOnItemResults.Nop;
-        if (item is IItemPotion)
-            item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(500,1000)));
-        else if (item is IItemScroll)
-            item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
-        if (item.ItemFlags.IsSet("VisibleDeath"))
-            item.RemoveBaseItemFlags(false, "VisibleDeath");
-        var isFloating = item.WearLocation == WearLocations.Float;
-        if (isFloating)
-        {
-            if (item.ItemFlags.IsSet("RotDeath"))
-            {
-                if (item is IItemContainer container && container.Content.Any())
-                {
-                    victim.Act(ActOptions.ToRoom, "{0} evaporates, scattering its contents.", item);
-                    var content = container.Content.ToArray();
-                    foreach (var contentItem in content)
-                        contentItem.ChangeContainer(victim.Room);
-                }
-                else
-                    victim.Act(ActOptions.ToRoom, "{0} evaporates.", item);
-                return PerformActionOnItemResults.Destroy;
-            }
-            victim.Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
-            item.Recompute();
-            return PerformActionOnItemResults.MoveToRoom;
-        }
-        if (item.ItemFlags.IsSet("RotDeath"))
-        {
-            int duration = RandomManager.Range(5, 10);
-            item.SetTimer(TimeSpan.FromMinutes(duration));
-            item.RemoveBaseItemFlags(false, "RotDeath");
-        }
-        item.Recompute();
-        return PerformActionOnItemResults.MoveToCorpse;
-    }
 
     private ItemData[] MapContent()
     {
