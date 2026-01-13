@@ -23,7 +23,7 @@ public interface IQuest
     int PulseLeft { get; }
     DateTime? CompletionTime { get; }
 
-    IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable { get; }
+    IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable { get; } // key: mob blueprint id
     IEnumerable<IQuestObjective> Objectives { get; }
 
     void GenerateKillLoot(INonPlayableCharacter victim, IContainer container);

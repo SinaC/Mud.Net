@@ -145,6 +145,7 @@ public abstract class QuestBase : IQuest
         foreach (var objective in _objectives)
         {
             objective.Reset();
+            DestroyQuestItems();
             if (objective is ItemQuestObjectiveBase itemQuestObjective)
                 itemQuestObjective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.ItemBlueprint.Id);
         }
@@ -176,7 +177,8 @@ public abstract class QuestBase : IQuest
 
     #endregion
 
-    protected virtual void DestroyQuestItems()
+    protected virtual void 
+        DestroyQuestItems()
     {
         // Gather quest items
         var questItems = Character.Inventory.Where(x => x.Blueprint != null && _objectives.OfType<ItemQuestObjectiveBase>().Any(i => i.ItemBlueprint.Id == x.Blueprint.Id)).ToList();

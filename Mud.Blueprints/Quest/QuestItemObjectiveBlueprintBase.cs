@@ -2,7 +2,7 @@
 
 public abstract class QuestItemObjectiveBlueprintBase
 {
-    public int Id { get; set; }
-    public int ItemBlueprintId { get; set; }
-    public int Count { get; set; }
+    public required int Id { get; set; }
+    public required int ItemBlueprintId { get; set; }
+    public required int Count { get; set; }
 }

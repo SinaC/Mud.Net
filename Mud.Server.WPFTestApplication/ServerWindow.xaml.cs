@@ -524,7 +524,8 @@ public partial class ServerWindow : Window, INetworkServer
 
         // Quest
         QuestKillLootTable<int> quest1KillLoot = ServiceProvider.GetRequiredService<QuestKillLootTable<int>>();
-        quest1KillLoot.Name = "Quest 1 kill 1 table";
+        quest1KillLoot.Name = "Quest 1 objective 2 kill 1 table";
+        quest1KillLoot.ObjectiveIds = [2];
         quest1KillLoot.Entries =
             [
                 new()
@@ -700,5 +701,43 @@ public partial class ServerWindow : Window, INetworkServer
             ItemFlags = new ItemFlags("glowing", "magic"),
         };
         ItemManager.AddItemBlueprint(lightBlueprint);
+        // add one NoCorpse/DropItemsOnDeath mob
+        var ghostBlueprint = new CharacterNormalBlueprint
+        {
+            Id = 10,
+            Name = "ghost",
+            ShortDescription = "A ghost",
+            Description = "A ghost is here",
+            Sex = Sex.Neutral,
+            Level = 10,
+            LongDescription = "A ghost is here" + Environment.NewLine,
+            Wealth = 0,
+            Alignment = 0,
+            DamageNoun = "buzz",
+            DamageType = SchoolTypes.Bash,
+            DamageDiceCount = 5,
+            DamageDiceValue = 10,
+            DamageDiceBonus = 10,
+            HitPointDiceCount = 20,
+            HitPointDiceValue = 30,
+            HitPointDiceBonus = 300,
+            ManaDiceCount = 0,
+            ManaDiceValue = 0,
+            ManaDiceBonus = 0,
+            HitRollBonus = 10,
+            ArmorBash = 300,
+            ArmorPierce = 200,
+            ArmorSlash = 400,
+            ArmorExotic = 0,
+            ActFlags = new ActFlags("NoCorpse", "DropItemsOnDeath"),
+            OffensiveFlags = new OffensiveFlags("Bash"),
+            CharacterFlags = new CharacterFlags("Haste"),
+            Immunities = new IRVFlags(),
+            Resistances = new IRVFlags(),
+            Vulnerabilities = new IRVFlags(),
+            ShieldFlags = new ShieldFlags(),
+        };
+        var ghost = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), ghostBlueprint, onTheBridge);
+        ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, ghost!);
     }
 }

@@ -18,19 +18,9 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public Insectoid(ILogger<Insectoid> logger, IAbilityManager abilityManager)
         : base(logger, abilityManager)
     {
-        AddNaturalAbility("Test", 0);
         AddNaturalAbility("Dual Wield", 0);
         AddNaturalAbility("Third Wield", 0); // only if warrior
         AddNaturalAbility("Fourth Wield", 0); // only if warrior
-
-        // Test race with all spells
-        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
-        {
-            if (StringCompareHelpers.StringEquals(abilityDefinition.Name, "word of recall"))
-                AddNaturalAbility(1, abilityDefinition.Name, [(ResourceKinds.Mana, 5, CostAmountOperators.PercentageMax), (ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 1);
-            else
-                AddNaturalAbility(1, abilityDefinition.Name, ResourceKinds.Mana, 5, CostAmountOperators.PercentageMax, 1);
-        }
     }
 
     #region IRace

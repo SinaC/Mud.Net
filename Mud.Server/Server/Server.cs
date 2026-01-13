@@ -1500,63 +1500,23 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         {
             try
             {
-                var pc = ch as IPlayableCharacter;
-                if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
-                    Logger.LogWarning("Impersonable {name} is not impersonated", ch.DebugName);
-
-                // TODO: check to see if need to go home
-                /*
-                 *  if (IS_NPC(ch) && ch->zone != NULL && ch->zone != ch->in_room->area
-            && ch->desc == NULL &&  ch->fighting == NULL 
-	    && !IS_AFFECTED(ch,AFF_CHARM) && number_percent() < 5)
-            {
-            	act("$n wanders on home.",ch,NULL,NULL,TO_ROOM);
-            	extract_char(ch,TRUE);
-            	continue;
-            }*/
-
                 // regen is now handled in HandleResources
-                //// Update resources
-                //character.Regen();
 
-                // Light
-                var light = ch.GetEquipment<IItemLight>(EquipmentSlots.Light);
-                if (light != null
-                    && light.IsLighten)
+                // dots/hots
+                if (!ch.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
                 {
-                    bool turnedOff = light.DecreaseTimeLeft();
-                    if (turnedOff && ch.Room != null)
+                    // apply a random periodic affects if any
+                    var periodicAuras = ch.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
+                    if (periodicAuras.Length > 0)
                     {
-                        ch.Room.DecreaseLight();
-                        ch.Act(ActOptions.ToRoom, "{0} goes out.", light);
-                        ch.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
-                        ItemManager.RemoveItem(light);
-                    }
-                    else if (!light.IsInfinite && light.TimeLeft < 5)
-                        ch.Act(ActOptions.ToCharacter, "{0} flickers.", light);
-                }
-
-                // Update conditions
-                pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
-                // TODO: not if undead from here
-                pc?.GainCondition(Conditions.Full, ch.Size > Sizes.Medium ? -4 : -2);
-                pc?.GainCondition(Conditions.Thirst, -1);
-                pc?.GainCondition(Conditions.Hunger, ch.Size > Sizes.Medium ? -2 : -1);
-
-                // apply a random periodic affect if any
-                var periodicAuras = ch.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
-                if (periodicAuras.Length > 0)
-                {
-                    var periodicAura = periodicAuras.Random(RandomManager);
-                    if (periodicAura != null)
-                    {
-                        var affect = periodicAura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
-                        affect?.Apply(periodicAura, ch);
+                        var periodicAura = periodicAuras.Random(RandomManager);
+                        if (periodicAura != null)
+                        {
+                            var affect = periodicAura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
+                            affect?.Apply(periodicAura, ch);
+                        }
                     }
                 }
-
-                // TODO: limbo
-                // TODO: autosave, autoquit
             }
             catch (Exception ex)
             { 
@@ -1577,6 +1537,17 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         {
             try
             {
+                // TODO: check to see if need to go home
+                /*
+                *  if (IS_NPC(ch) && ch->zone != NULL && ch->zone != ch->in_room->area
+                && ch->desc == NULL &&  ch->fighting == NULL 
+            && !IS_AFFECTED(ch,AFF_CHARM) && number_percent() < 5)
+                {
+                    act("$n wanders on home.",ch,NULL,NULL,TO_ROOM);
+                    extract_char(ch,TRUE);
+                    continue;
+                }*/
+
                 // special behavior ?
                 if (npc.SpecialBehavior != null)
                 {
@@ -1640,6 +1611,59 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             catch (Exception ex)
             {
                 Logger.LogError("Exception while handling npc {name}. Exception: {ex}", npc.DebugName, ex);
+            }
+        }
+    }
+
+    private void HandlePlayableCharacters(int pulseCount)
+    {
+        var pcs = CharacterManager.PlayableCharacters.Where(x =>
+                x.IsValid
+                && x.Room != null);
+        foreach (var pc in pcs)
+        {
+            try
+            {
+                // notify non-impersonnated PC
+                if (pc.ImpersonatedBy == null) // TODO: remove after x minutes
+                    Logger.LogWarning("Impersonable {name} is not impersonated", pc.DebugName);
+
+                // Light
+                if (!pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+                {
+                    var light = pc.GetEquipment<IItemLight>(EquipmentSlots.Light);
+                    if (light != null
+                        && light.IsLighten)
+                    {
+                        bool turnedOff = light.DecreaseTimeLeft();
+                        if (turnedOff && pc.Room != null)
+                        {
+                            pc.Room.DecreaseLight();
+                            pc.Act(ActOptions.ToRoom, "{0} goes out.", light);
+                            pc.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
+                            ItemManager.RemoveItem(light);
+                        }
+                        else if (!light.IsInfinite && light.TimeLeft < 5)
+                            pc.Act(ActOptions.ToCharacter, "{0} flickers.", light);
+                    }
+                }
+
+                // Update conditions
+                if (!pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+                {
+                    pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
+                    // TODO: not if undead from here
+                    pc?.GainCondition(Conditions.Full, pc.Size > Sizes.Medium ? -4 : -2);
+                    pc?.GainCondition(Conditions.Thirst, -1);
+                    pc?.GainCondition(Conditions.Hunger, pc.Size > Sizes.Medium ? -2 : -1);
+                }
+
+                // TODO: limbo
+                // TODO: autosave, autoquit
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception while handling pc {name}. Exception: {ex}", pc.DebugName, ex);
             }
         }
     }
@@ -1799,12 +1823,13 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         PulseManager.Add("Resources", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleResources);
         PulseManager.Add("Violence", Pulse.FromSeconds(1), Pulse.PulseViolence, HandleViolence);
         PulseManager.Add("NPCs", Pulse.FromSeconds(1), Pulse.FromSeconds(4), HandleNonPlayableCharacters);
+        PulseManager.Add("PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandlePlayableCharacters);
         PulseManager.Add("NPCs+PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleCharacters);
-        PulseManager.Add("PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandlePlayers);
+        PulseManager.Add("Players", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandlePlayers);
         PulseManager.Add("Items", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleItems);
         PulseManager.Add("Rooms", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleRooms);
         PulseManager.Add("Time", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleTime); // 1 minute IRL = 1 hour IG
-        PulseManager.Add("Areas", Pulse.FromMinutes(3), Pulse.FromMinutes(3), HandleAreas);
+        PulseManager.Add("Areas", Pulse.FromMinutes(2), Pulse.FromMinutes(2), HandleAreas);
 
         try
         {

@@ -89,7 +89,7 @@ public class Steal : SkillBase
         What = FindHelpers.FindByName(Victim.Inventory.Concat(Victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)), whatParameter)!;
         if (What == null)
             return "You can't find it.";
-        if (What.ItemFlags.HasAny("NoDrop", "Inventory")
+        if (What.ItemFlags.HasAny("NoDrop", "Inventory") || What is IItemQuest
             || What.Level > Actor.Level)
             return "You can't pry it away.";
         if (Actor.CarryNumber + What.CarryCount > Actor.MaxCarryNumber)

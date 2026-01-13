@@ -32,6 +32,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Server.Random;
+using Mud.Server.Room;
 using System.Text;
 
 namespace Mud.Server.Character;
@@ -123,6 +124,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
     #region IEntity
 
     // TODO: override RelativeDescription ?
+
+    public override void OnAuraRemoved(IAura aura)
+    {
+        base.OnAuraRemoved(aura);
+
+        var abilityDefinition = AbilityManager[aura.AbilityName];
+        if (abilityDefinition != null && abilityDefinition.HasCharacterWearOffMessage)
+            Send(abilityDefinition.CharacterWearOffMessage!);
+    }
 
     public override bool ChangeIncarnation(IAdmin? admin)
     {
@@ -335,7 +345,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
 
     // Abilities
-    public IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
+    public virtual IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
 
     public void AddLearnedAbility(IAbilityUsage abilityUsage)
         => AddLearnedAbility(abilityUsage, false, false);
@@ -940,12 +950,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         //TODO exit flags such as climb, ...
 
-        if (this is INonPlayableCharacter npc && npc.Master != null && npc.Master.Room == Room) // TODO: no more cast like this
-        {
-            // Slave cannot leave a room without Master
-            Send("What? And leave your beloved master?");
+        if (!CanMove())
             return false;
-        }
 
         if (Daze > 5)
         {
@@ -1273,6 +1279,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return damageResults;
     }
 
+    public abstract bool DropItemsOnDeath { get; }
     public abstract void HandleAutoGold(IItemCorpse corpse);
     public abstract void HandleAutoLoot(IItemCorpse corpse);
     public abstract void HandleAutoSacrifice(IItemCorpse corpse);
@@ -1285,27 +1292,29 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return null;
         }
 
-        if (this is INonPlayableCharacter)
-            Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
-        else
-            Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
+        Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", DeathWiznetFlags);
 
         StopFighting(true);
         // Remove auras
         RemoveAuras(_ => true, false);
 
         // Death cry
-        ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
+        ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry + body part creation
 
         // Get each character that will be impacted by death (group member, pet master, ...)
         var playableCharactersImpactedByKill = killer?.GetPlayableCharactersImpactedByKill().ToArray();
 
-        // Create corpse
+        // Create corpse if needed
         IItemCorpse? corpse = null;
-        if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
-            corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, playableCharactersImpactedByKill);
-        else
-            corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this);
+        if (CreateCorpseOnDeath)
+        {
+            if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
+                corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, playableCharactersImpactedByKill);
+            else
+                corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this);
+        }
+        // Handle inventory/equipments/...
+        HandleItemsOnDeath(corpse);
 
         // Gain/lose xp/reputation for each member of groups + auto loot/gold/sac for killer
         // TODO: what about quest items found in corpse ? killer will get them all if he/she's on the same quest as other group members
@@ -1564,6 +1573,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         Send("PANIC! You couldn't escape!");
         return false;
+    }
+
+    public void OnDamagePerformed(int damage, DamageSources damageSource)
+    {
+        RageGenerator.GenerateRageFromOutgoingDamage(this, damage, damageSource);
     }
 
     // Abilities
@@ -1998,7 +2012,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     #endregion
 
+    protected abstract WiznetFlags DeathWiznetFlags { get; }
+
+    protected abstract bool CreateCorpseOnDeath { get; }
+
+    protected abstract void HandleMoneyOnDeath(IItemCorpse? corpse);
+
+    protected abstract void GenerateLootsOnDeath(IItemCorpse? corpse);
+
     protected abstract int CharacterTypeSpecificDamageModifier(int damage);
+
+    protected abstract bool CanMove();
 
     protected abstract bool CanGoTo(IRoom destination);
 
@@ -2714,10 +2738,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // hurt the victim
         _currentResources[(int)ResourceKinds.HitPoints] -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
+
         // check if can die
         if (CannotDie
             && this[ResourceKinds.HitPoints] < 1)
             _currentResources[(int)ResourceKinds.HitPoints] = 1;
+
         // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
         var isDead = this[ResourceKinds.HitPoints] <= 0;
 
@@ -2760,12 +2786,112 @@ public abstract class CharacterBase : EntityBase, ICharacter
         RageGenerator.GenerateRageFromIncomingDamage(this, damage, damageSource);
     }
 
-    public void OnDamagePerformed(int damage, DamageSources damageSource)
+    private void HandleItemsOnDeath(IItemCorpse? corpse)
     {
-        RageGenerator.GenerateRageFromOutgoingDamage(this, damage, damageSource);
+        // Money
+        HandleMoneyOnDeath(corpse);
+
+        // Fill corpse with inventory
+        var inventory = Inventory.ToArray();
+        foreach (var item in inventory)
+        {
+            var result = HandleItemOnDeath(item, corpse);
+            switch (result)
+            {
+                case HandleItemOnDeathResults.MoveToCorpse:
+                    item.ChangeContainer(corpse);
+                    break;
+                case HandleItemOnDeathResults.MoveToRoom:
+                    item.ChangeContainer(Room);
+                    break;
+                case HandleItemOnDeathResults.Destroy:
+                    ItemManager.RemoveItem(item);
+                    break;
+            }
+        }
+
+        // Fill corpse with equipment
+        var equipment = Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToArray();
+        foreach (var item in equipment)
+        {
+            var result = HandleItemOnDeath(item, corpse);
+            switch (result)
+            {
+                case HandleItemOnDeathResults.MoveToCorpse:
+                    item.ChangeEquippedBy(null, false);
+                    item.ChangeContainer(corpse);
+                    break;
+                case HandleItemOnDeathResults.MoveToRoom:
+                    item.ChangeEquippedBy(null, false);
+                    item.ChangeContainer(Room);
+                    break;
+                case HandleItemOnDeathResults.Destroy:
+                    ItemManager.RemoveItem(item);
+                    break;
+            }
+        }
+
+        // Check victim loot table
+        GenerateLootsOnDeath(corpse);
+    }
+
+    // Perform actions on item before putting it in corpse
+    private enum HandleItemOnDeathResults
+    {
+        Nop, // stays on character
+        MoveToCorpse, // move item to corpse
+        MoveToRoom, // move item to room
+        Destroy, // destroy item
+    }
+
+    private HandleItemOnDeathResults HandleItemOnDeath(IItem item, IItemCorpse? corpse)
+    {
+        if (item.ItemFlags.IsSet("Inventory"))
+            return HandleItemOnDeathResults.Destroy;
+        if (item.ItemFlags.IsSet("StayDeath"))
+            return HandleItemOnDeathResults.Nop;
+        if (item is IItemPotion)
+            item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(500, 1000)));
+        else if (item is IItemScroll)
+            item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
+        if (item.ItemFlags.IsSet("VisibleDeath"))
+            item.RemoveBaseItemFlags(false, "VisibleDeath");
+        var isFloating = item.WearLocation == WearLocations.Float;
+        if (isFloating)
+        {
+            if (item.ItemFlags.IsSet("RotDeath"))
+            {
+                if (item is IItemContainer container && container.Content.Any())
+                {
+                    Act(ActOptions.ToRoom, "{0} evaporates, scattering its contents.", item);
+                    var content = container.Content.ToArray();
+                    foreach (var contentItem in content)
+                        contentItem.ChangeContainer(Room);
+                }
+                else
+                    Act(ActOptions.ToRoom, "{0} evaporates.", item);
+                return HandleItemOnDeathResults.Destroy;
+            }
+            Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
+            item.Recompute();
+            return HandleItemOnDeathResults.MoveToRoom;
+        }
+        if (item.ItemFlags.IsSet("RotDeath"))
+        {
+            var duration = RandomManager.Range(5, 10);
+            item.SetTimer(TimeSpan.FromMinutes(duration));
+            item.RemoveBaseItemFlags(false, "RotDeath");
+        }
+        item.Recompute();
+        if (DropItemsOnDeath || corpse == null)
+        {
+            Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
+            return HandleItemOnDeathResults.MoveToRoom;
+        }
+        return HandleItemOnDeathResults.MoveToCorpse;
     }
 
     //
-    protected IAbilityLearned? GetAbilityLearned(string abilityName)
+    protected virtual IAbilityLearned? GetAbilityLearned(string abilityName)
         => _learnedAbilities.GetValueOrDefault(abilityName);
 }

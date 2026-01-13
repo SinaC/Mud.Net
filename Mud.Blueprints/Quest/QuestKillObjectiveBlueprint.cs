@@ -2,7 +2,7 @@
 
 public class QuestKillObjectiveBlueprint
 {
-    public int Id { get; set; }
-    public int CharacterBlueprintId { get; set; }
-    public int Count { get; set; }
+    public required int Id { get; set; }
+    public required int CharacterBlueprintId { get; set; }
+    public required int Count { get; set; }
 }

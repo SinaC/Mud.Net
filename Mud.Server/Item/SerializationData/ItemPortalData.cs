@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 
-namespace Mud.Server.Item;
+namespace Mud.Server.Item.SerializationData;
 
 [JsonBaseType(typeof(ItemData), "portal")]
 public class ItemPortalData : ItemData

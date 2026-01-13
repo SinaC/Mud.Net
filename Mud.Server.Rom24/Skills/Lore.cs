@@ -8,6 +8,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
@@ -42,6 +43,12 @@ public class Lore : ItemInventorySkillBase
 
     protected override bool Invoke()
     {
+        if (!RandomManager.Chance(Learned))
+        {
+            Actor.Act(ActOptions.ToCharacter, "You see nothing special about {0}.", Item);
+            return false;
+        }
+
         StringBuilder sb = new();
         sb.AppendFormatLine("Object {0} is type {1}, extra flags {2}.", Item.DisplayName, Item.GetType().Name.Replace("IItem", string.Empty).Replace("Item", string.Empty), Item.ItemFlags.ToString() ?? "(none)");
         sb.AppendFormatLine("Weight is {0}, value is {1}, level is {2}.", Item.TotalWeight / 10, Item.Cost, Item.Level);
@@ -100,7 +107,7 @@ public class Lore : ItemInventorySkillBase
     private static StringBuilder AppendSpell(StringBuilder sb, string spell)
     {
         if (!string.IsNullOrWhiteSpace(spell))
-            sb.AppendFormatLine(" '{0}'", spell);
+            sb.AppendFormat(" '{0}'", spell);
         return sb;
     }
 }

@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Item.SerializationData;
 
 namespace Mud.Server.Item;
 

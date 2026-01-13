@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Actor;
+﻿using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -30,6 +31,7 @@ public interface IEntity : IActor
     void AddAura(IAura aura, bool recompute);
     void RemoveAura(IAura aura, bool recompute);
     void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute);
+    void OnAuraRemoved(IAura aura);
 
     // Incarnation
     bool ChangeIncarnation(IAdmin? admin);

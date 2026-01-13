@@ -6,6 +6,7 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -44,6 +45,8 @@ public class SpellTest : ItemOrDefensiveSpellBase
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Pouet")},
             new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Magic"), Operator = AffectOperators.Or },
             new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Weapon"), Operator = AffectOperators.Or });
+
+        Caster.Send("Ok.");
     }
 
     protected override void Invoke(IItem item)

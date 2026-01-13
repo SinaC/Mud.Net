@@ -12,7 +12,7 @@ public class LocationQuestObjective : IQuestObjective
 
     #region IQuestObjective
 
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     public bool IsCompleted => Explored;
 

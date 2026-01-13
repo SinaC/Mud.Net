@@ -7,6 +7,7 @@ namespace Mud.Server.Commands.Admin.Quest;
 
 [AdminCommand("questreset", "Quest")]
 [Syntax("[cmd] <character>")]
+[Alias("qreset")]
 public class QuestReset : AdminGameAction
 {
     private ICharacterManager CharacterManager { get; }

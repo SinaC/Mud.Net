@@ -11,6 +11,7 @@ namespace Mud.Server.Commands.Admin.Quest;
 
 [AdminCommand("questdisplay", "Quest")]
 [Syntax("[cmd] <character>")]
+[Alias("qdisplay")]
 public class QuestDisplay : AdminGameAction
 {
     private ICharacterManager CharacterManager { get; }

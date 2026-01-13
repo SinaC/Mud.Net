@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Passives;
+namespace Mud.Server.POC.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 4)]
 public class DualWield : PassiveBase, IAdditionalHitPassive

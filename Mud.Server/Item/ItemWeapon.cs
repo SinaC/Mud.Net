@@ -18,6 +18,7 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using System.Text;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Item.SerializationData;
 
 namespace Mud.Server.Item;
 

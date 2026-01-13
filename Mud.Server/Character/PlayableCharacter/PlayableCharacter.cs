@@ -35,7 +35,6 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Server.Quest;
 using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
@@ -55,6 +54,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private IRaceManager RaceManager { get; }
     private IQuestManager QuestManager { get; }
     private IAbilityGroupManager AbilityGroupManager { get; }
+    private IOmniscienceManager OmniscienceManager { get; }
     private int MaxLevel { get; }
 
     private readonly ArrayByEnum<long, AvatarStatisticTypes> _statistics;
@@ -67,7 +67,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
     private ImmortalModeFlags _immortalMode;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet)
     {
         WorldOptions = worldOptions;
@@ -75,6 +75,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         RaceManager = raceManager;
         QuestManager = questManager;
         AbilityGroupManager = abilityGroupManager;
+        OmniscienceManager = omniscienceManager;
         MaxLevel = WorldOptions.Value.MaxLevel;
 
         _statistics = [];
@@ -590,6 +591,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         //    return;
     }
 
+    public override bool DropItemsOnDeath => false;
+
     public override void HandleAutoGold(IItemCorpse corpse)
     {
         if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Gold) && corpse.Content.Any())
@@ -639,6 +642,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Abilities
+    public override IEnumerable<IAbilityLearned> LearnedAbilities
+        => ImmortalMode.HasFlag(ImmortalModeFlags.Omniscient)
+            ? OmniscienceManager.LearnedAbilities 
+            : base.LearnedAbilities;
+
     public override (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedAndPercentage(IItemWeapon? weapon)
     {
         string abilityName = null!;
@@ -666,20 +674,25 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public override (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedAndPercentage(string abilityName)
     {
         var abilityLearned = GetAbilityLearned(abilityName);
+
         int learned = 0;
-        if (abilityLearned != null && abilityLearned.Level <= Level)
+        if (ImmortalMode.HasFlag(ImmortalModeFlags.Omniscient))
+            learned = abilityLearned?.Learned ?? 100;
+        else if (abilityLearned != null && abilityLearned.Level <= Level)
+        {
             learned = abilityLearned.Learned;
 
-        if (Daze > 0)
-        {
-            if (abilityLearned?.AbilityUsage?.AbilityDefinition.Type == AbilityTypes.Spell)
-                learned /= 2;
-            else
-                learned = (learned * 2) / 3;
-        }
+            if (Daze > 0)
+            {
+                if (abilityLearned?.AbilityUsage?.AbilityDefinition.Type == AbilityTypes.Spell)
+                    learned /= 2;
+                else
+                    learned = (learned * 2) / 3;
+            }
 
-        if (this[Conditions.Drunk] > 10)
-            learned = (learned * 9 ) / 10;
+            if (this[Conditions.Drunk] > 10)
+                learned = (learned * 9) / 10;
+        }
 
         return (Math.Clamp(learned, 0, 100), abilityLearned);
     }
@@ -1343,12 +1356,41 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
 
+    protected override WiznetFlags DeathWiznetFlags => WiznetFlags.Deaths;
+
+    protected override bool CreateCorpseOnDeath => true;
+
+    protected override void HandleMoneyOnDeath(IItemCorpse? corpse)
+    {
+        var silver = SilverCoins;
+        var gold = GoldCoins;
+        if (silver > 1 || gold > 1) // player keep half their money and leave the rest in the body
+        {
+            silver /= 2;
+            gold /= 2;
+            UpdateMoney(-silver, -gold);
+        }
+
+        if (DropItemsOnDeath || corpse == null)
+            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
+        else
+            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
+    }
+
+    protected override void GenerateLootsOnDeath(IItemCorpse? corpse)
+    {
+        // NOP
+    }
+
     protected override int CharacterTypeSpecificDamageModifier(int damage)
     {
         if (this[Conditions.Drunk] > 10)
             damage = 9 * damage / 10;
         return damage;
     }
+
+    protected override bool CanMove()
+        => true;
 
     protected override bool CanGoTo(IRoom destination)
         => true;
@@ -1574,6 +1616,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             }
         }
     }
+
+    protected override IAbilityLearned? GetAbilityLearned(string abilityName)
+        => ImmortalMode.HasFlag(ImmortalModeFlags.Omniscient)
+            ? OmniscienceManager[abilityName]
+            : base.GetAbilityLearned(abilityName);
 
     #endregion
 
