@@ -43,9 +43,10 @@ public class Cfind : AdminGameAction
             sb.AppendLine("No matches");
         else
         {
-            sb.AppendLine("Id         DisplayName                    Room");
+            sb.AppendLine("Id       DisplayName                    Room");
+            sb.AppendLine("--------------------------------------------");
             foreach (INonPlayableCharacter character in characters)
-                sb.AppendLine($"{character.Blueprint.Id.ToString() ?? "Player",-10} {character.DisplayName,-30} {character.Room?.DebugName ?? "none"}");
+                sb.AppendLine($"{character.Blueprint.Id.ToString() ?? "Player",-8} {character.DisplayName,-30} {character.Room?.DebugName ?? "none"}");
         }
         Actor.Page(sb);
     }

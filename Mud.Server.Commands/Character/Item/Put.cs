@@ -54,16 +54,16 @@ public class Put : CharacterGameAction
             // list must be cloned because it'll be modified when putting an item
             What = !whatParameter.IsAllOnly
                 // put all.item [in] container
-                ? FindHelpers.FindAllByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter).ToArray()
+                ? FindHelpers.FindAllByName(Actor.Inventory.Where(Actor.CanSee), whatParameter).ToArray()
                 // put all [in] container
-                : Actor.Inventory.Where(x => Actor.CanSee(x)).ToArray();
+                : Actor.Inventory.Where(Actor.CanSee).ToArray();
             if (What.Length == 0)
                 return StringHelpers.ItemInventoryNotFound;
             return null;
         }
 
         // put item [in] container
-        var item = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter);
+        var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), whatParameter);
         if (item == null)
             return StringHelpers.ItemInventoryNotFound;
         What = [item];

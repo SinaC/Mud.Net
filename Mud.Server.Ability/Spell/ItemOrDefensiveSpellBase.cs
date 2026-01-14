@@ -20,8 +20,7 @@ public abstract class ItemOrDefensiveSpellBase : SpellBase, ITargetedAction
 
     public IEnumerable<IEntity> ValidTargets(ICharacter caster)
         =>
-        caster.Room.People.Where(caster.CanSee).OfType<IEntity>()
-        .Concat(caster.Inventory.Where(caster.CanSee));
+        caster.Room.People.Where(caster.CanSee).OfType<IEntity>().Concat(caster.Inventory.Where(caster.CanSee));
 
     protected override void Invoke()
     {

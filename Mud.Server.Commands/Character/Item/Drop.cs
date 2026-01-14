@@ -87,7 +87,7 @@ public class Drop : CharacterGameAction
             return null;
         }
         // drop item
-        var item = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter);
+        var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), whatParameter);
         if (item == null)
             return StringHelpers.ItemInventoryNotFound;
         if (item is IItemQuest)

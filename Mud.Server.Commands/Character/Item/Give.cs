@@ -41,7 +41,7 @@ public class Give : CharacterGameAction
             if (whatMoney == "coin" || whatMoney == "coins" || whatMoney == "silver" || whatMoney == "gold")
             {
                 // check parameters
-                Whom = FindHelpers.FindByName(Actor.Room.People.Where(x => Actor.CanSee(x)), actionInput.Parameters[2])!;
+                Whom = FindHelpers.FindByName(Actor.Room.People.Where(Actor.CanSee), actionInput.Parameters[2])!;
                 if (Whom == null)
                     return StringHelpers.CharacterNotFound;
                 if (amount <= 0)
@@ -63,11 +63,11 @@ public class Give : CharacterGameAction
             }
         }
 
-        What = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
+        What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)
             return StringHelpers.ItemInventoryNotFound;
 
-        Whom = FindHelpers.FindByName(Actor.Room.People.Where(x => Actor.CanSee(x)), actionInput.Parameters[1])!;
+        Whom = FindHelpers.FindByName(Actor.Room.People.Where(Actor.CanSee), actionInput.Parameters[1])!;
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
 

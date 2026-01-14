@@ -2,6 +2,7 @@
 using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Commands.Character.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -134,15 +135,22 @@ public class Buy : ShopPlayableCharacterGameActionBase
 
     public override void Execute(IActionInput actionInput)
     {
-        var (silver, gold) = Actor.DeductCost(TotalCost);
-        Keeper.shopKeeper.UpdateMoney(TotalCost % 100, TotalCost / 100);
+        var silverCost = TotalCost % 100;
+        var goldCost = TotalCost / 100;
+        Actor.DeductCost(TotalCost);
+        // TODO
+        // could use DeductCost returned values to add some flavor texts
+        // lets imagine ch has 35 silver and 10 gold and buy something for 375 silver
+        //      375 is transformed into -25 silver and 4 gold
+        // we could display, ch gives 4 gold pieces to shopkeeper and gives ch 25 silver pieces in change.
+        Keeper.shopKeeper.UpdateMoney(silverCost, goldCost);
 
         if (Item is not null)
         {
             if (Count == 1)
-                Actor.Act(ActOptions.ToAll, "{0:N} buy{0:v} {1} for {2} silver and {3} gold piece{4}.", Actor, Item, silver, gold, TotalCost == 1 ? string.Empty : "s");
+                Actor.Act(ActOptions.ToAll, "{0:N} buy{0:v} {1} for {2} silver and {3} gold piece{4}.", Actor, Item, silverCost, goldCost, TotalCost == 1 ? string.Empty : "s");
             else
-                Actor.Act(ActOptions.ToAll, "{0:N} buy{0:v} {1} * {2} for {3} silver and {4} gold piece{5}.", Actor, Count!, Item, silver, gold, TotalCost == 1 ? string.Empty : "s");
+                Actor.Act(ActOptions.ToAll, "{0:N} buy{0:v} {1} * {2} for {3} silver and {4} gold piece{5}.", Actor, Count!, Item, silverCost, goldCost, TotalCost == 1 ? string.Empty : "s");
             // Inventory items are created on the fly
             if (Item.ItemFlags.IsSet("Inventory"))
             {

@@ -591,7 +591,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         //    return;
     }
 
-    public override bool DropItemsOnDeath => false;
+    public override bool NoLootOnDeath => false;
 
     public override void HandleAutoGold(IItemCorpse corpse)
     {
@@ -827,8 +827,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public override (long silverSpent, long goldSpent) DeductCost(long cost)
     {
         var (silverSpent, goldSpent) = base.DeductCost(cost);
-        IncrementStatistics(AvatarStatisticTypes.SilverSpent, silverSpent);
-        IncrementStatistics(AvatarStatisticTypes.GoldSpent, goldSpent);
+        IncrementStatistics(AvatarStatisticTypes.MoneySpent, cost);
         return (silverSpent, goldSpent);
     }
 
@@ -1212,7 +1211,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Vulnerabilities = BaseVulnerabilities.Serialize(),
             ShieldFlags = BaseShieldFlags.Serialize(),
             Attributes = Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
-            LearnedAbilities = LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(),
+            LearnedAbilities = base.LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(), // use base.LearnedAbilities to avoid retrieve every abilities if Ominiscient immortal flags is active
             LearnedAbilityGroups = LearnedAbilityGroups.Select(x => x.MapLearnedAbilityGroupData()).ToArray(),
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
@@ -1371,7 +1370,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             UpdateMoney(-silver, -gold);
         }
 
-        if (DropItemsOnDeath || corpse == null)
+        if (corpse == null)
             ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
         else
             ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);

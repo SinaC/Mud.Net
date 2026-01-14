@@ -76,7 +76,7 @@ public class Farsight : NoTargetSpellBase
         {
             Caster.Act(ActOptions.ToRoom, "{0:N} looks all around.", Caster);
             // Current room
-            foreach (ICharacter victim in Caster.Room.People.Where(x => Caster.CanSee(x)))
+            foreach (var victim in Caster.Room.People.Where(Caster.CanSee))
                 sb.AppendFormatLine(DistanceFormat[0], victim.RelativeDisplayName(Caster));
             // Scan in each direction with a max distance of 3
             foreach (var direction in Enum.GetValues<ExitDirections>())
@@ -112,7 +112,7 @@ public class Farsight : NoTargetSpellBase
 
     private void ScanRoom(StringBuilder sb, IRoom room, ExitDirections direction, int distance)
     {
-        foreach (ICharacter victim in room.People.Where(Caster.CanSee))
+        foreach (var victim in room.People.Where(Caster.CanSee))
             sb.AppendFormatLine(DistanceFormat[distance], victim.RelativeDisplayName(Caster), direction);
     }
 }

@@ -35,7 +35,7 @@ public class Quaff : CastSpellCharacterGameActionBase
         if (actionInput.Parameters.Length == 0)
             return "Quaff what?";
 
-        var item = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+        var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0]);
         if (item == null)
             return "You do not have that potion.";
 

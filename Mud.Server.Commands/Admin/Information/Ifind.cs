@@ -45,9 +45,10 @@ public class Ifind : AdminGameAction
             sb.AppendLine("No matches");
         else
         {
-            sb.AppendLine("Id         DisplayName                    ContainedInto");
+            sb.AppendLine("Id       DisplayName                    ContainedInto");
+            sb.AppendLine("-----------------------------------------------------");
             foreach (var item in items)
-                sb.AppendLine($"{item.Blueprint.Id,-10} {item.DisplayName,-30} {DisplayEntityAndContainer(item) ?? "(none)"}");
+                sb.AppendLine($"{item.Blueprint.Id,-8} {item.DisplayName,-30} {DisplayEntityAndContainer(item) ?? "(none)"}");
         }
         Actor.Page(sb);
     }
