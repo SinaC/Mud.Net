@@ -55,9 +55,10 @@ public class FountainTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemFountain>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var fountain = new ItemFountain(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
+        var fountain = new ItemFountain(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
         fountain.Initialize(Guid.NewGuid(), fountainBlueprint, roomMock.Object);
 
         return fountain;

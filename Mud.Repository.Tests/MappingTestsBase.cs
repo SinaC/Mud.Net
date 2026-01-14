@@ -4,7 +4,7 @@ using Mud.Common;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Server.Affects.Character;
-using Mud.Server.Item.SerializationData;
+using Mud.Server.Domain.SerializationData;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

@@ -173,9 +173,10 @@ public class DrinkContainerTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemDrinkContainer>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var drinkContainer = new ItemDrinkContainer(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
+        var drinkContainer = new ItemDrinkContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
         drinkContainer.Initialize(Guid.NewGuid(), drinkContainerBlueprint, roomMock.Object);
 
         return drinkContainer;

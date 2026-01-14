@@ -10,6 +10,7 @@ public class ItemFlagValues : IFlagValues
     private static readonly string[] Flags = 
     [
         "StayDeath",
+        "RandomStats"
     ];
 
     public IEnumerable<string> AvailableFlags => Flags;

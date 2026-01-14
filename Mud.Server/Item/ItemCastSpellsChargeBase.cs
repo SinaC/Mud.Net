@@ -1,22 +1,22 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.Server.Interfaces.Ability;
+using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Item.SerializationData;
+using Mud.Server.Random;
 
 namespace Mud.Server.Item;
 
 public abstract class ItemCastSpellsChargeBase : ItemBase, IItemCastSpellsCharge
 {
-    protected ItemCastSpellsChargeBase(ILogger<ItemCastSpellsChargeBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    protected ItemCastSpellsChargeBase(ILogger<ItemCastSpellsChargeBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
 
@@ -24,18 +24,27 @@ public abstract class ItemCastSpellsChargeBase : ItemBase, IItemCastSpellsCharge
     {
         base.Initialize(guid, blueprint, containedInto);
 
-        SpellLevel = blueprint.SpellLevel;
         MaxChargeCount = blueprint.MaxChargeCount;
-        CurrentChargeCount = blueprint.CurrentChargeCount;
         SpellName = blueprint.Spell;
         AlreadyRecharged = blueprint.AlreadyRecharged;
+
+        if (blueprint.ItemFlags != null && blueprint.ItemFlags.IsSet("RandomStats"))
+        {
+            SpellLevel = RandomManager.Range(blueprint.SpellLevel * 90 / 100, blueprint.SpellLevel * 110 / 100);
+            CurrentChargeCount = RandomManager.Fuzzy(blueprint.CurrentChargeCount);
+        }
+        else
+        {
+            SpellLevel = blueprint.SpellLevel;
+            CurrentChargeCount = blueprint.CurrentChargeCount;
+        }
     }
 
     public void Initialize(Guid guid, ItemCastSpellsChargeBlueprintBase blueprint, ItemCastSpellsChargeData data, IContainer containedInto)
     {
         base.Initialize(guid, blueprint, data, containedInto);
 
-        SpellLevel = blueprint.SpellLevel;
+        SpellLevel = data.SpellLevel;
         MaxChargeCount = data.MaxChargeCount;
         CurrentChargeCount = data.CurrentChargeCount;
         SpellName = blueprint.Spell;
@@ -61,25 +70,6 @@ public abstract class ItemCastSpellsChargeBase : ItemBase, IItemCastSpellsCharge
         MaxChargeCount = maxChargeCount;
         CurrentChargeCount = Math.Min(currentChargeCount, MaxChargeCount);
     }
-
-    #region IItem
-
-    public override ItemData MapItemData()
-    {
-        return new ItemWandData
-        {
-            ItemId = Blueprint.Id,
-            Level = Level,
-            DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags.Serialize(),
-            Auras = MapAuraData(),
-            MaxChargeCount = MaxChargeCount,
-            CurrentChargeCount = CurrentChargeCount,
-            AlreadyRecharged = AlreadyRecharged
-        };
-    }
-
-    #endregion
 
     #endregion
 }

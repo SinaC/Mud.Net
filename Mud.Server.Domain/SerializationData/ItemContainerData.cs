@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 
-namespace Mud.Server.Item.SerializationData;
+namespace Mud.Server.Domain.SerializationData;
 
 [JsonBaseType(typeof(ItemData), "container")]
 public class ItemContainerData : ItemData

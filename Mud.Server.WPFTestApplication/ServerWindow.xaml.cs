@@ -701,6 +701,29 @@ public partial class ServerWindow : Window, INetworkServer
             ItemFlags = new ItemFlags("glowing", "magic"),
         };
         ItemManager.AddItemBlueprint(lightBlueprint);
+
+        // add item with some RandomStats
+        ItemWeaponBlueprint weaponBlueprint = new()
+        {
+            Id = 98,
+            Name = "sinac bardiche",
+            ShortDescription = "SinaC's bardiche",
+            Description = "SinaC's bardiche is here",
+            WearLocation = WearLocations.Wield2H,
+            Level = 45,
+            Cost = 0,
+            NoTake = false,
+            ItemFlags = new ItemFlags("RandomStats"),
+            DiceCount = 20,
+            DiceValue = 15,
+            DamageType = SchoolTypes.Slash,
+            DamageNoun = "thwack",
+            Flags = new WeaponFlags("vorpal", "sharp"),
+            Type = WeaponTypes.Polearm,
+            Weight = 50,
+        };
+        ItemManager.AddItemBlueprint(weaponBlueprint);
+
         // add one NoLootOnDeath mob
         var ghostBlueprint = new CharacterNormalBlueprint
         {

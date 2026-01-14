@@ -263,13 +263,14 @@ public class PortalTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemPortal>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomManagerMock = new Mock<IRoomManager>();
         var roomMock = new Mock<IRoom>();
 
         roomMock.SetupGet(x => x.Blueprint).Returns(new RoomBlueprint { Id = 123 });
         roomManagerMock.SetupGet(x => x.Rooms).Returns([roomMock.Object]);
 
-        var portal = new ItemPortal(loggerMock.Object, null!, null!, null!, messageForwardOptions, roomManagerMock.Object, null!);
+        var portal = new ItemPortal(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, roomManagerMock.Object, null!);
         portal.Initialize(Guid.NewGuid(), portalBlueprint, roomMock.Object);
 
         return portal;

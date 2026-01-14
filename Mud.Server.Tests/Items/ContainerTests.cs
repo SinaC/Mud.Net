@@ -168,9 +168,10 @@ public class ContainerTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemContainer>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var container = new ItemContainer(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!, null!);
+        var container = new ItemContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, null!);
         container.Initialize(Guid.NewGuid(), containerBlueprint, roomMock.Object);
 
         return container;

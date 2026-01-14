@@ -4,11 +4,14 @@ public class ItemData
 {
     public required int ItemId { get; set; }
 
-    public required int Level { get; set; }
+    public required int Level { get; set; } // can be randomized during creation if RandomStats is set
+
+    public required int Cost { get; set; } // can be randomized during creation if RandomStats is set
 
     public required int DecayPulseLeft { get; set; }
 
     public required string ItemFlags { get; set; }
 
     public required AuraData[] Auras { get; set; }
+
 }

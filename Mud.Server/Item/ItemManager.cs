@@ -197,7 +197,15 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemManager: cannot create instance of Item {itemType}", itemDefinition.ItemType.FullName);
             return null;
         }
-        itemDefinition.InitializeWithItemDataMethod.Invoke(item, [guid, blueprint, itemData, container]);
+        try
+        {
+            itemDefinition.InitializeWithItemDataMethod.Invoke(item, [guid, blueprint, itemData, container]);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("ItemManager: cannot initialize item {itemType} blueprint Id {blueprintId} item data type {itemDataType} Exception: {ex}.", itemDefinition.ItemType.FullName, blueprint.Id, itemDefinition.GetType().FullName, ex);
+            return null;
+        }
         // add item to collection
         if (item.Name == null || item.Id == Guid.Empty)
         {

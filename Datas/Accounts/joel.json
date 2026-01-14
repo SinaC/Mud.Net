@@ -17,9 +17,9 @@
     {
       "Name": "linh",
       "Version": 1,
-      "Level": 1,
+      "Level": 3,
       "Class": "Cleric",
-      "Race": "Cleric",
+      "Race": "Human",
       "RoomId": 3001
     }
   ]

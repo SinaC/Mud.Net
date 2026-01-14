@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using System.Text;
 
@@ -14,6 +15,8 @@ public interface IAura
     int PulseLeft { get; } // irrelevant if AuraFlags.Permanent is set
 
     string AbilityName { get; }
+
+    IAbilityDefinition? AbilityDefinition { get; }
 
     AuraFlags AuraFlags { get; }
 

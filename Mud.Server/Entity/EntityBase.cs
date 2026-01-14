@@ -25,15 +25,13 @@ public abstract class EntityBase : ActorBase, IEntity
     private readonly List<IAura> _auras;
 
     protected ICommandParser CommandParser { get; }
-    protected IAbilityManager AbilityManager { get; }
     protected bool PrefixForwardedMessages { get; }
     protected bool ForwardSlaveMessages { get; }
 
-    protected EntityBase(ILogger<EntityBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions)
+    protected EntityBase(ILogger<EntityBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions)
         : base(logger, gameActionManager)
     {
         CommandParser = commandParser;
-        AbilityManager = abilityManager;
         PrefixForwardedMessages = messageForwardOptions.Value.PrefixForwardedMessages;
         ForwardSlaveMessages = messageForwardOptions.Value.ForwardSlaveMessages;
 

@@ -61,7 +61,7 @@ public abstract class TestBase
         tableValuesMock.Setup(x => x.HitBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-5);
         tableValuesMock.Setup(x => x.DamBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-20);
 
-        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         npc.Initialize(Guid.NewGuid(), blueprint, room);
 
         return npc;
@@ -71,6 +71,7 @@ public abstract class TestBase
     {
         var loggerMock = new Mock<ILogger<ItemWeapon>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
 
         var weaponBlueprint = new ItemWeaponBlueprint
         {
@@ -81,7 +82,7 @@ public abstract class TestBase
             Flags = new WeaponFlags(weaponFlags),
         };
 
-        var weapon = new ItemWeapon(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!, null!, null!);
+        var weapon = new ItemWeapon(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, null!, null!);
         weapon.Initialize(Guid.NewGuid(), weaponBlueprint, room);
 
         return weapon;
@@ -91,6 +92,7 @@ public abstract class TestBase
     {
         var loggerMock = new Mock<ILogger<ItemArmor>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
 
         var armorBlueprint = new ItemArmorBlueprint
         {
@@ -100,7 +102,7 @@ public abstract class TestBase
             ItemFlags = new ItemFlags(itemFlags),
         };
 
-        var armor = new ItemArmor(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
+        var armor = new ItemArmor(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
         armor.Initialize(Guid.NewGuid(), armorBlueprint, room);
 
         return armor;
@@ -118,7 +120,7 @@ public abstract class TestBase
             RoomFlags = new RoomFlags(roomFlags),
         };
 
-        var room = new Room.Room(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!);
+        var room = new Room.Room(loggerMock.Object, null!, null!, messageForwardOptions, null!);
         room.Initialize(Guid.NewGuid(), roomBlueprint, areaMock.Object);
 
         return room;

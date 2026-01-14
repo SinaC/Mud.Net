@@ -1,23 +1,25 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.DataStructures.Trie;
 using Mud.Blueprints.Item;
-using Mud.Server.Interfaces.Ability;
+using Mud.DataStructures.Trie;
+using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Commands.Admin.Administration;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Random;
 
 namespace Mud.Server.Item;
 
-[Item(typeof(ItemShieldBlueprint), typeof(ItemData))]
+[Item(typeof(ItemShieldBlueprint), typeof(ItemShieldData))]
 public class ItemShield : ItemBase, IItemShield
 {
-    public ItemShield(ILogger<ItemShield> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemShield(ILogger<ItemShield> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
 
@@ -25,14 +27,17 @@ public class ItemShield : ItemBase, IItemShield
     {
         base.Initialize(guid, blueprint, containedInto);
 
-        Armor = blueprint.Armor;
+        if (blueprint.ItemFlags != null && blueprint.ItemFlags.IsSet("RandomStats"))
+            Armor = RandomManager.Range(blueprint.Armor * 95 / 100, blueprint.Armor * 105 / 100);
+        else
+            Armor = blueprint.Armor;
     }
 
-    public void Initialize(Guid guid, ItemShieldBlueprint blueprint, ItemData itemData, IContainer containedInto)
+    public void Initialize(Guid guid, ItemShieldBlueprint blueprint, ItemShieldData itemData, IContainer containedInto)
     {
         base.Initialize(guid, blueprint, itemData, containedInto);
 
-        Armor = blueprint.Armor;
+        Armor = itemData.Armor;
     }
 
     #region IItemShield
@@ -44,6 +49,24 @@ public class ItemShield : ItemBase, IItemShield
     #endregion
 
     public int Armor { get; private set; }
+
+    #region ItemBase
+
+    public override ItemShieldData MapItemData()
+    {
+        return new ItemShieldData
+        {
+            ItemId = Blueprint.Id,
+            Level = Level,
+            Cost = Cost,
+            DecayPulseLeft = DecayPulseLeft,
+            ItemFlags = BaseItemFlags.Serialize(),
+            Auras = MapAuraData(),
+            Armor = Armor
+        };
+    }
+
+    #endregion
 
     #endregion
 }

@@ -97,9 +97,10 @@ public class LightTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemLight>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var light = new ItemLight(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
+        var light = new ItemLight(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
         light.Initialize(Guid.NewGuid(), lightBlueprint, roomMock.Object);
 
         return light;

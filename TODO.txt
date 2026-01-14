@@ -1,11 +1,22 @@
 INGOING
 DONE
-    Add NoLootOnDeath act flags: when killed, destroy its inventory/equipments
-    DropItemsOnDeath act flags removed
-    rfind admin command added
-    display bug in Buy, we were displayed deduced costs return instead of real value (deduce costs could be negative if not enough silver coins)
-    AvatarStatistics GoldSpent and SilverSpent merged into MoneySpent
-    saved LearnedAbilities must be _learnedAbilities (use base.LearnedAbilities) or it will save OmniscienceManager learned abilities
+    add ItemFlags RandomStats: will randomize a little bit stats
+    ItemData and derived ItemXXXData have to store additional informations
+    Item.Initialize must randomize if RandomStats is set
+        cost: 80% -> 120%
+        level: -5 -> +5 (keep in range 1 -> maxLevel)
+        weapon:
+            dice count: increase by -1 -> +1
+            dice value: increase by -1 -> +1
+        armor:
+            ac: 95% -> 105%
+        scroll/potion/pill:
+            spell level: 95% -> 105%
+        wand/staff:
+            spell level: 95% -> 105%
+            current charge count: 90% -> 110%
+    remove AbilityManager from EntityBase
+    AbilityDefinition added in Aura -> no more AbilityManager needed in ItemBase/EntityBase/RoomBase/DispelManager
 
 ==========
 == TODO ==
@@ -29,10 +40,6 @@ rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
 
 handle inviso attacks differently
-
-aura/ability flags
-    ChangeVisibility: for invis like skills/spells, could be used in Damage function to make source visible if needed
-    Cancellation/DispelMagic could use this information
 
 quests:
     quest tree (prereq)
@@ -73,7 +80,13 @@ cat form/bear form with new affects
 
 try to change every checks on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
+instead of check on ability name 'Charm Person', 'Curse', ... we should check any aura with an affect with flag CharmPerson/Curse/...
+we could have different spells can apply Curse (HolyWord for example) or Charm Person
 restore should only remove 'negative' auras
+EntityBase.GetAura should use flags, effect name, ...
+aura/ability flags
+    ChangeVisibility: for invis like skills/spells, could be used in Damage function to make source visible if needed
+    Cancellation/DispelMagic could use this information
 
 add colors everywhere :)
 
@@ -116,9 +129,6 @@ missing help: use dumpcommands
 
 UNIT TESTS
 use xunit + moq
-
-Item.GetAura should be based on flags and not ability (check Curse spell)
-in general way, Aura should be based on flags instead of abilities (with an optional ability)
 
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput
