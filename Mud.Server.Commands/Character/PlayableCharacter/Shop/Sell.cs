@@ -39,7 +39,7 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (actionInput.Parameters.Length == 0)
             return "Sell what?";
 
-        What = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
+        What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)
             return Actor.ActPhrase("{0:N} tells you 'You don't have that item'.", Keeper.shopKeeper);
 

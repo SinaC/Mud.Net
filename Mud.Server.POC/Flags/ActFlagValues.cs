@@ -9,8 +9,8 @@ public class ActFlagValues : IFlagValues
 {
     private static readonly string[] Flags = 
     [
-        "NoCorpse", // when killed, will not create a corpse (if NoCorpse is set and DropItemsOnDeath is not set, inventory/equipments/... will be destroyed)
-        "DropItemsOnDeath" // when killed, inventory/equipments/... will be dropped on the floor instead of corpse
+        "NoCorpse", // when killed, will not create a corpse -> inventory/equipments will be dropped on the floor
+        "NoLootOnDeath" // when killed, destroy its inventory/equipments
     ];
 
     public IEnumerable<string> AvailableFlags => Flags;

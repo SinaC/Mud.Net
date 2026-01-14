@@ -211,7 +211,7 @@ public class Look : CharacterGameAction
             }
             StringBuilder sb = new();
             sb.AppendFormatLine("{0} holds:", ItemContainer.RelativeDisplayName(Actor));
-            ItemsHelpers.AppendItems(sb, ItemContainer.Content.Where(x => Actor.CanSee(x)), Actor, true, true);
+            ItemsHelpers.AppendItems(sb, ItemContainer.Content.Where(Actor.CanSee), Actor, true, true);
             Actor.Send(sb);
         }
         else if (Victim != null)
@@ -254,9 +254,9 @@ public class Look : CharacterGameAction
     protected bool FindItemByExtraDescriptionOrName(ICommandParameter parameter, ref int count, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
     {
         description = null!;
-        foreach (var item in Actor.Inventory.Where(x => Actor.CanSee(x))
+        foreach (var item in Actor.Inventory.Where(Actor.CanSee)
             .Concat(Actor.Equipments.Where(x => x.Item != null && Actor.CanSee(x.Item)).Select(x => x.Item!))
-            .Concat(Actor.Room.Content.Where(x => Actor.CanSee(x))))
+            .Concat(Actor.Room.Content.Where(Actor.CanSee)))
         {
             // Search in item extra description keywords
             if (item.ExtraDescriptions != null)

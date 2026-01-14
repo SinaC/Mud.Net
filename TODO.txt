@@ -1,17 +1,11 @@
 INGOING
 DONE
-    OmniscientManager (used by ImmortalModes.Omniscient) generates AbiltityUsage for every abilities using class info or fake one if not found in class, and set learned to 100%
-        used in PlayableCharacter where abilities are used
-    Omniscient command added
-    Lore learned check added
-    Check on ItemQuest added in Steal
-    DualWield moved to POC passives
-    Aura wear off char/item messages handled in derived classes instead of EntityBase
-    Item serialization data moved to dedicated folder
-    NoCorpse and DropItemsOnDeath Act flags added -> moving items to corpse moved from ItemCorpse to CharacterBase
-        NoCorpse: when killed, will not create a corpse (if NoCorpse is set and DropItemsOnDeath is not set, inventory/equipments/... will be destroyed)
-        DropItemsOnDeath: when killed, inventory/equipments/... will be dropped on the floor instead of corpse
-    IsQuestObjective fixed for NPC in loot table, we are still displaying a mob as quest objective even if objective was complete for that item loot
+    Add NoLootOnDeath act flags: when killed, destroy its inventory/equipments
+    DropItemsOnDeath act flags removed
+    rfind admin command added
+    display bug in Buy, we were displayed deduced costs return instead of real value (deduce costs could be negative if not enough silver coins)
+    AvatarStatistics GoldSpent and SilverSpent merged into MoneySpent
+    saved LearnedAbilities must be _learnedAbilities (use base.LearnedAbilities) or it will save OmniscienceManager learned abilities
 
 ==========
 == TODO ==
@@ -38,6 +32,7 @@ handle inviso attacks differently
 
 aura/ability flags
     ChangeVisibility: for invis like skills/spells, could be used in Damage function to make source visible if needed
+    Cancellation/DispelMagic could use this information
 
 quests:
     quest tree (prereq)
@@ -47,6 +42,8 @@ quests:
 when losing connection, keep player in game during a few minutes in autoflee/recall mode and automatically impersonated when reconnecting
 linkdead
 limbo/autoquit timer
+
+check if each room is accessible thru normal move or with portal
 
 stunned doesn't seem to be used
 
@@ -111,7 +108,6 @@ reimplement hot/dot
 
 when a player connects, if no avatar found -> switch to avatar create state machine
 compatibility must only be in blueprint loading
-check CanSee usage, if lambda can be removed
 choose between flags as bits or strings (example RoomFlags and CharacterFlags)
 check usage of OnCleaned/OnRemoved
 stop cloning list and stop removing while iterating -> flag the entity as soft deleted and remove them in Cleanup phase

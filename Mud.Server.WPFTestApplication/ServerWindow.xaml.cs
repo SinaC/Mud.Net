@@ -701,7 +701,7 @@ public partial class ServerWindow : Window, INetworkServer
             ItemFlags = new ItemFlags("glowing", "magic"),
         };
         ItemManager.AddItemBlueprint(lightBlueprint);
-        // add one NoCorpse/DropItemsOnDeath mob
+        // add one NoLootOnDeath mob
         var ghostBlueprint = new CharacterNormalBlueprint
         {
             Id = 10,
@@ -711,7 +711,7 @@ public partial class ServerWindow : Window, INetworkServer
             Sex = Sex.Neutral,
             Level = 10,
             LongDescription = "A ghost is here" + Environment.NewLine,
-            Wealth = 0,
+            Wealth = 150,
             Alignment = 0,
             DamageNoun = "buzz",
             DamageType = SchoolTypes.Bash,
@@ -729,7 +729,7 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorPierce = 200,
             ArmorSlash = 400,
             ArmorExotic = 0,
-            ActFlags = new ActFlags("NoCorpse", "DropItemsOnDeath"),
+            ActFlags = new ActFlags("NoLootOnDeath"),
             OffensiveFlags = new OffensiveFlags("Bash"),
             CharacterFlags = new CharacterFlags("Haste"),
             Immunities = new IRVFlags(),
@@ -739,5 +739,44 @@ public partial class ServerWindow : Window, INetworkServer
         };
         var ghost = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), ghostBlueprint, onTheBridge);
         ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, ghost!);
+
+        // add one NoCorpse mob
+        var spiritBlueprint = new CharacterNormalBlueprint
+        {
+            Id = 10,
+            Name = "spirit",
+            ShortDescription = "A spirit",
+            Description = "A spirit is here",
+            Sex = Sex.Neutral,
+            Level = 10,
+            LongDescription = "A spirit is here" + Environment.NewLine,
+            Wealth = 150,
+            Alignment = 0,
+            DamageNoun = "buzz",
+            DamageType = SchoolTypes.Bash,
+            DamageDiceCount = 5,
+            DamageDiceValue = 10,
+            DamageDiceBonus = 10,
+            HitPointDiceCount = 20,
+            HitPointDiceValue = 30,
+            HitPointDiceBonus = 300,
+            ManaDiceCount = 0,
+            ManaDiceValue = 0,
+            ManaDiceBonus = 0,
+            HitRollBonus = 10,
+            ArmorBash = 300,
+            ArmorPierce = 200,
+            ArmorSlash = 400,
+            ArmorExotic = 0,
+            ActFlags = new ActFlags("NoCorpse"),
+            OffensiveFlags = new OffensiveFlags("Bash"),
+            CharacterFlags = new CharacterFlags("Haste"),
+            Immunities = new IRVFlags(),
+            Resistances = new IRVFlags(),
+            Vulnerabilities = new IRVFlags(),
+            ShieldFlags = new ShieldFlags(),
+        };
+        var spirit = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), spiritBlueprint, inn);
+        ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, spirit!);
     }
 }

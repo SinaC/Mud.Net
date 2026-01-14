@@ -86,7 +86,7 @@ public class Examine : CharacterGameAction
                 else
                 {
                     sb.AppendFormatLine("{0} holds:", container.RelativeDisplayName(Actor));
-                    ItemsHelpers.AppendItems(sb, container.Content.Where(x => Actor.CanSee(x)), Actor, true, true);
+                    ItemsHelpers.AppendItems(sb, container.Content.Where(Actor.CanSee), Actor, true, true);
                 }
                 break;
             case IItemMoney money:

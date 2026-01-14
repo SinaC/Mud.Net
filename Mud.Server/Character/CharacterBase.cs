@@ -6,7 +6,6 @@ using Mud.DataStructures;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
-using Mud.Server.Commands.Character.Combat;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -32,7 +31,6 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Server.Random;
-using Mud.Server.Room;
 using System.Text;
 
 namespace Mud.Server.Character;
@@ -1279,7 +1277,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return damageResults;
     }
 
-    public abstract bool DropItemsOnDeath { get; }
+    public abstract bool NoLootOnDeath { get; }
     public abstract void HandleAutoGold(IItemCorpse corpse);
     public abstract void HandleAutoLoot(IItemCorpse corpse);
     public abstract void HandleAutoSacrifice(IItemCorpse corpse);
@@ -2846,6 +2844,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     private HandleItemOnDeathResults HandleItemOnDeath(IItem item, IItemCorpse? corpse)
     {
+        if (NoLootOnDeath)
+            return HandleItemOnDeathResults.Destroy;
+
         if (item.ItemFlags.IsSet("Inventory"))
             return HandleItemOnDeathResults.Destroy;
         if (item.ItemFlags.IsSet("StayDeath"))
@@ -2883,7 +2884,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             item.RemoveBaseItemFlags(false, "RotDeath");
         }
         item.Recompute();
-        if (DropItemsOnDeath || corpse == null)
+        if (corpse == null)
         {
             Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
             return HandleItemOnDeathResults.MoveToRoom;

@@ -199,7 +199,7 @@ public interface ICharacter : IEntity, IContainer
     void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
     DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display); // 'this' is dealt damage by 'source' using an ability
     DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using a weapon
-    bool DropItemsOnDeath { get; }
+    bool NoLootOnDeath { get; }
     void HandleAutoGold(IItemCorpse corpse);
     void HandleAutoLoot(IItemCorpse corpse);
     void HandleAutoSacrifice(IItemCorpse corpse);

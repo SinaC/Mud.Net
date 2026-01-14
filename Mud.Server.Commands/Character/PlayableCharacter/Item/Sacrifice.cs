@@ -37,13 +37,13 @@ public class Sacrifice : PlayableCharacterGameAction
 
         if (!actionInput.Parameters[0].IsAll)
         {
-            var item = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            var item = FindHelpers.FindByName(Actor.Room.Content.Where(Actor.CanSee), actionInput.Parameters[0]);
             if (item == null)
                 return StringHelpers.CantFindIt;
             What = [item];
         }
         else
-            What = Actor.Room.Content.Where(x => Actor.CanSee(x)).ToArray();
+            What = [.. Actor.Room.Content.Where(x => Actor.CanSee(x))];
 
         return null;
     }

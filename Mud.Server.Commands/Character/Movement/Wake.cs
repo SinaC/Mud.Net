@@ -34,7 +34,7 @@ public class Wake : CharacterGameAction
         if (Actor.Position <= Positions.Sleeping)
             return "You are asleep yourself!";
 
-        Whom = FindHelpers.FindByName(Actor.Room.People.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
+        Whom = FindHelpers.FindByName(Actor.Room.People.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
         if (Whom.Position > Positions.Sleeping)

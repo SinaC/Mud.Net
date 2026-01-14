@@ -48,7 +48,7 @@ public class Order : PlayableCharacterGameAction
             Whom = Actor.Room.NonPlayableCharacters.Where(x => x.Master == Actor && x.CharacterFlags.IsSet("Charm")).ToArray();
         else
         {
-            var target = FindHelpers.FindByName(Actor.Room.NonPlayableCharacters.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            var target = FindHelpers.FindByName(Actor.Room.NonPlayableCharacters.Where(Actor.CanSee), actionInput.Parameters[0]);
             if (target == null)
                 return StringHelpers.CharacterNotFound;
 

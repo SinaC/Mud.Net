@@ -514,7 +514,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
     }
 
-    public override bool DropItemsOnDeath => ActFlags.IsSet("DropItemsOnDeath");
+    public override bool NoLootOnDeath => ActFlags.IsSet("NoLootOnDeath");
 
     public override void HandleAutoGold(IItemCorpse corpse)
     {
@@ -801,10 +801,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void HandleMoneyOnDeath(IItemCorpse? corpse)
     {
+        if (NoLootOnDeath)
+            return;
+
         var silver = SilverCoins;
         var gold = GoldCoins;
         
-        if (DropItemsOnDeath || corpse == null)
+        if (corpse == null)
             ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
         else
             ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
@@ -812,12 +815,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void GenerateLootsOnDeath(IItemCorpse? corpse)
     {
+        if (NoLootOnDeath)
+            return;
+
         var loots = Blueprint?.LootTable?.GenerateLoots();
         if (loots != null && loots.Count != 0)
         {
             foreach (var loot in loots)
             {
-                if (DropItemsOnDeath || corpse == null)
+                if (corpse == null)
                     ItemManager.AddItem(Guid.NewGuid(), loot, Room); // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
                 else
                     ItemManager.AddItem(Guid.NewGuid(), loot, corpse);

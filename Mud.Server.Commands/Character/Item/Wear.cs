@@ -46,16 +46,16 @@ public class Wear : WearCharacterGameActionBase
             // We have to clone list because it'll be modified when wearing an item
             What = !whatParameter.IsAllOnly
                 // get all.item
-                ? FindHelpers.FindAllByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter).ToArray()
+                ? FindHelpers.FindAllByName(Actor.Inventory.Where(Actor.CanSee), whatParameter).ToArray()
                 // get all
-                : Actor.Inventory.Where(x => Actor.CanSee(x)).ToArray();
+                : Actor.Inventory.Where(Actor.CanSee).ToArray();
             if (What.Length == 0)
                 return StringHelpers.ItemInventoryNotFound;
             Replace = false;
             return null;
         }
         // wear item
-        var item = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter);
+        var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), whatParameter);
         if (item == null)
             return StringHelpers.ItemInventoryNotFound;
         What = [item];

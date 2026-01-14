@@ -30,7 +30,7 @@ public class Sleep : CharacterGameAction
         // Search valid furniture if any
         if (actionInput.Parameters.Length != 0)
         {
-            var item = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            var item = FindHelpers.FindByName(Actor.Room.Content.Where(Actor.CanSee), actionInput.Parameters[0]);
             if (item == null)
                 return StringHelpers.ItemNotFound;
 

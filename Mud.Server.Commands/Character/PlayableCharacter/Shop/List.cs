@@ -51,7 +51,7 @@ public class List : ShopPlayableCharacterGameActionBase
         {
             sb.AppendLine("[Lvl Price Qty] Item");
             foreach (var itemAndCost in Keeper.shopKeeper.Inventory
-                .Where(x => Actor.CanSee(x))
+                .Where(Actor.CanSee)
                 .GroupBy(x => x.Blueprint.Id)
                 .Select(g => new
                 {
