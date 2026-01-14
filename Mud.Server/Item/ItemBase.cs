@@ -11,7 +11,6 @@ using Mud.Server.Domain;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -20,6 +19,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
+using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
 
@@ -28,12 +28,16 @@ namespace Mud.Server.Item;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public abstract class ItemBase: EntityBase, IItem
 {
+    protected int MaxLevel { get; }
+    protected IRandomManager RandomManager { get; }
     protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
-    {
+    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions)
+    { 
+        MaxLevel = worldOptions.Value.MaxLevel;
+        RandomManager = randomManager;
         RoomManager = roomManager;
         AuraManager = auraManager;
 
@@ -51,9 +55,16 @@ public abstract class ItemBase: EntityBase, IItem
         ContainedInto = containedInto; // set above container as our container
         WearLocation = blueprint.WearLocation;
         Level = blueprint.Level;
-        Weight = blueprint.Weight;
         Cost = blueprint.Cost;
+        Weight = blueprint.Weight;
         NoTake = blueprint.NoTake;
+
+        if (blueprint.ItemFlags != null && blueprint.ItemFlags.IsSet("RandomStats"))
+        {
+            Cost = RandomManager.Range(blueprint.Cost * 80 / 100, blueprint.Cost * 120 / 100);
+            if (Level < MaxLevel)
+                Level = Math.Clamp(RandomManager.Range(blueprint.Level - 5, blueprint.Level + 5), 1, MaxLevel);
+        }
 
         BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), blueprint.ItemFlags, null);
     }
@@ -72,12 +83,13 @@ public abstract class ItemBase: EntityBase, IItem
         Initialize(guid, blueprint, name, shortDescription, description, containedInto);
 
         Level = data.Level;
+        Cost = data.Cost;
         DecayPulseLeft = data.DecayPulseLeft;
         BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), new ItemFlags(data.ItemFlags), null);
         // Auras
         if (data.Auras != null)
         {
-            foreach (AuraData auraData in data.Auras)
+            foreach (var auraData in data.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
         ResetAttributesAndResourcesAndFlags();
@@ -129,11 +141,10 @@ public abstract class ItemBase: EntityBase, IItem
     {
         base.OnAuraRemoved(aura);
 
-        var abilityDefinition = AbilityManager[aura.AbilityName];
-        if (abilityDefinition != null && abilityDefinition.HasItemWearOffMessage)
+        if (aura.AbilityDefinition != null && aura.AbilityDefinition.HasItemWearOffMessage)
         {
             var holder = ContainedInto as ICharacter ?? EquippedBy;
-            holder?.Act(ActOptions.ToCharacter, abilityDefinition.ItemWearOffMessage!, this);
+            holder?.Act(ActOptions.ToCharacter, aura.AbilityDefinition.ItemWearOffMessage!, this);
         }
     }
 
@@ -329,7 +340,8 @@ public abstract class ItemBase: EntityBase, IItem
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
-            Auras = MapAuraData()
+            Auras = MapAuraData(),
+            Cost = Cost,
         };
     }
 

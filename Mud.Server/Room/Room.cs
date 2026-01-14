@@ -14,7 +14,6 @@ using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
@@ -38,8 +37,8 @@ public class Room : EntityBase, IRoom
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
+    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions)
     {
         TimeManager = timeManager;
 

@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3025,
+  "RoomId": 3001,
   "SilverCoins": 93,
   "GoldCoins": 5111,
   "Wimpy": 0,
@@ -14,6 +14,7 @@
   "Currencies": {
     "QuestPoints": 17
   },
+  "PulseLeftBeforeNextAutomaticQuest": 0,
   "ActiveQuests": [
     {
       "QuestId": 1,
@@ -274,8 +275,8 @@
     "NpcKilled": 0,
     "PcKilled": 0,
     "NoSourceKilled": 0,
-    "MoneySpent": 15,
     "GoldEarned": 0,
+    "MoneySpent": 15,
     "GoldStolen": 0,
     "SilverEarned": 2,
     "SilverStolen": 0,
@@ -297,8 +298,6 @@
     "PredefinedQuestsTimedout": 0
   },
   "ImmortalMode": "None",
-  "CompletedQuests": [],
-  "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
@@ -524,11 +523,11 @@
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
-        "DiceCount": 5,
-        "DiceValue": 3,
         "ItemId": 103,
         "Level": 3,
         "Cost": 0,
+        "DiceCount": 5,
+        "DiceValue": 3,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
         "Auras": []
@@ -548,96 +547,29 @@
   ],
   "Inventory": [
     {
-      "ItemId": 80000,
-      "Level": 0,
+      "$type": "wand",
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 2108,
+      "Level": 8,
       "Cost": 0,
+      "SpellLevel": 5,
       "DecayPulseLeft": 0,
-      "ItemFlags": "StayDeath",
-      "Auras": []
-    },
-    {
-      "ItemId": 107,
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 3715,
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Magic,MeltOnDrop",
-      "Auras": []
-    },
-    {
-      "ItemId": 3162,
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 5,
-      "DiceValue": 5,
-      "ItemId": 103,
-      "Level": 3,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 107,
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 109,
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 5,
-      "DiceValue": 5,
-      "ItemId": 103,
-      "Level": 3,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 109,
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
+      "ItemFlags": "Glowing,Magic",
       "Auras": []
     },
     {
       "$type": "wand",
-      "SpellLevel": 5,
-      "MaxChargeCount": 1,
-      "CurrentChargeCount": 1,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
       "AlreadyRecharged": false,
-      "ItemId": 106,
-      "Level": 3,
+      "ItemId": 2108,
+      "Level": 8,
       "Cost": 0,
+      "SpellLevel": 5,
       "DecayPulseLeft": 0,
-      "ItemFlags": "",
+      "ItemFlags": "Glowing,Magic",
       "Auras": []
     },
     {
@@ -655,32 +587,322 @@
     },
     {
       "$type": "wand",
-      "SpellLevel": 5,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
+      "MaxChargeCount": 1,
+      "CurrentChargeCount": 1,
       "AlreadyRecharged": false,
-      "ItemId": 2108,
-      "Level": 8,
+      "ItemId": 106,
+      "Level": 3,
       "Cost": 0,
+      "SpellLevel": 5,
       "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
+      "ItemFlags": "",
       "Auras": []
     },
     {
-      "$type": "wand",
-      "SpellLevel": 5,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 2108,
-      "Level": 8,
+      "ItemId": 109,
+      "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "ItemId": 103,
+      "Level": 3,
+      "Cost": 0,
+      "DiceCount": 5,
+      "DiceValue": 5,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 109,
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 107,
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "ItemId": 103,
+      "Level": 3,
+      "Cost": 0,
+      "DiceCount": 5,
+      "DiceValue": 5,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 3162,
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 3715,
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,MeltOnDrop",
+      "Auras": []
+    },
+    {
+      "ItemId": 107,
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 80000,
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "StayDeath",
       "Auras": []
     }
   ],
-  "Auras": [],
+  "Auras": [
+    {
+      "AbilityName": "Giant Strength",
+      "Level": 1,
+      "PulseLeft": 9348,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "Strength",
+          "Modifier": 4
+        }
+      ]
+    },
+    {
+      "AbilityName": "Detect Evil",
+      "Level": 1,
+      "PulseLeft": 9544,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "DetectEvil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Detect Good",
+      "Level": 1,
+      "PulseLeft": 9576,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "DetectGood"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Detect Invis",
+      "Level": 1,
+      "PulseLeft": 9592,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "DetectInvis"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Detect Hidden",
+      "Level": 1,
+      "PulseLeft": 9648,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "DetectHidden"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Shock Shield",
+      "Level": 1,
+      "PulseLeft": 9348,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ShockShield"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Fire Shield",
+      "Level": 1,
+      "PulseLeft": 9148,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "FireShield"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Ice Shield",
+      "Level": 1,
+      "PulseLeft": 8948,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "IceShield"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Berserk",
+      "Level": 1,
+      "PulseLeft": 4348,
+      "AuraFlags": "NoDispel",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Berserk"
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "DamRoll",
+          "Modifier": 9
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "ArmorBash",
+          "Modifier": 9
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "AllArmor",
+          "Modifier": 90
+        }
+      ]
+    },
+    {
+      "AbilityName": "Protection Evil",
+      "Level": 13,
+      "PulseLeft": 5084,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "HitRoll",
+          "Modifier": -1
+        },
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "ProtectEvil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Protection Good",
+      "Level": 21,
+      "PulseLeft": 5128,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "HitRoll",
+          "Modifier": -1
+        },
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectGood"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "ProtectGood"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Sanctuary",
+      "Level": 21,
+      "PulseLeft": 1332,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "Sanctuary"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "Sanctuary"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Haste",
+      "Level": 49,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "Dexterity",
+          "Modifier": 4
+        },
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Haste"
+        },
+        {
+          "$type": "CharacterAdditionalHitAffectData",
+          "AdditionalHitCount": 1
+        }
+      ]
+    }
+  ],
   "CharacterFlags": "",
   "Immunities": "",
   "Resistances": "Fire,Cold",

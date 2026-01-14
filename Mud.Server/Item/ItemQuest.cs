@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.DataStructures.Trie;
 using Mud.Blueprints.Item;
-using Mud.Server.Interfaces.Ability;
+using Mud.DataStructures.Trie;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -12,15 +12,15 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
-using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Random;
 
 namespace Mud.Server.Item;
 
 [Item(typeof(ItemQuestBlueprint), typeof(ItemData))]
 public class ItemQuest : ItemBase, IItemQuest
 {
-    public ItemQuest(ILogger<ItemQuest> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemQuest(ILogger<ItemQuest> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
 

@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "joel",
   "CreationTime": "2026-01-06T16:48:55.9985363+01:00",
-  "RoomId": 3758,
+  "RoomId": 3001,
   "SilverCoins": 0,
   "GoldCoins": 0,
   "Wimpy": 0,
@@ -10,11 +10,10 @@
   "Alignment": 750,
   "Trains": 0,
   "Practices": 9,
-  "AutoFlags": 127,
+  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
     "QuestPoints": 0
   },
-  "PulseLeftBeforeNextAutomaticQuest": 0,
   "ActiveQuests": [],
   "LearnedAbilities": [
     {
@@ -479,12 +478,43 @@
   "Aliases": {},
   "Cooldowns": {},
   "Pets": [],
+  "Statistics": {
+    "NpcKill": 0,
+    "PcKill": 0,
+    "NpcKilled": 0,
+    "PcKilled": 0,
+    "NoSourceKilled": 0,
+    "MoneySpent": 0,
+    "GoldEarned": 0,
+    "GoldStolen": 0,
+    "SilverEarned": 0,
+    "SilverStolen": 0,
+    "RecallUsed": 0,
+    "FoodEaten": 0,
+    "BeveragesConsumed": 0,
+    "PillEaten": 0,
+    "PotionQuaffed": 0,
+    "PortalUsed": 0,
+    "QuestPointsEarned": 0,
+    "QuestPointsSpent": 0,
+    "GeneratedQuestsRequested": 0,
+    "GeneratedQuestsCompleted": 0,
+    "GeneratedQuestsAbandoned": 0,
+    "GeneratedQuestsTimedout": 0,
+    "PredefinedQuestsRequested": 0,
+    "PredefinedQuestsCompleted": 0,
+    "PredefinedQuestsAbandoned": 0,
+    "PredefinedQuestsTimedout": 0
+  },
+  "ImmortalMode": "None",
+  "CompletedQuests": [],
+  "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "linh",
   "Race": "human",
   "Class": "cleric",
   "Level": 3,
-  "Sex": 2,
-  "Size": 2,
+  "Sex": "Female",
+  "Size": "Medium",
   "CurrentResources": {
     "HitPoints": 34,
     "MovePoints": 114,
@@ -505,44 +535,55 @@
   },
   "Equipments": [
     {
-      "Slot": 1,
+      "Slot": "Light",
       "Item": {
         "$type": "light",
         "TimeLeft": 12000,
         "ItemId": 3716,
         "Level": 0,
+        "Cost": 380,
         "DecayPulseLeft": 0,
         "ItemFlags": "Glowing,Magic",
         "Auras": []
       }
     },
     {
-      "Slot": 4,
+      "Slot": "Chest",
       "Item": {
+        "$type": "armor",
+        "Bash": 1,
+        "Pierce": 1,
+        "Slash": 1,
+        "Exotic": 0,
         "ItemId": 3703,
         "Level": 0,
+        "Cost": 144,
         "DecayPulseLeft": 0,
         "ItemFlags": "MeltOnDrop",
         "Auras": []
       }
     },
     {
-      "Slot": 13,
+      "Slot": "MainHand",
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
+        "DiceCount": 1,
+        "DiceValue": 6,
         "ItemId": 3700,
         "Level": 1,
+        "Cost": 250,
         "DecayPulseLeft": 0,
         "ItemFlags": "MeltOnDrop",
         "Auras": []
       }
     },
     {
-      "Slot": 14,
+      "Slot": "OffHand",
       "Item": {
         "ItemId": 3704,
         "Level": 0,
+        "Cost": 108,
         "DecayPulseLeft": 0,
         "ItemFlags": "MeltOnDrop",
         "Auras": []

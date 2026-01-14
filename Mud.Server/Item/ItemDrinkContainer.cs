@@ -1,24 +1,24 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.DataStructures.Trie;
 using Mud.Blueprints.Item;
-using Mud.Server.Interfaces.Ability;
+using Mud.DataStructures.Trie;
+using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Item.SerializationData;
+using Mud.Server.Random;
 
 namespace Mud.Server.Item;
 
 [Item(typeof(ItemDrinkContainerBlueprint), typeof(ItemDrinkContainerData))]
 public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
 {
-    public ItemDrinkContainer(ILogger<ItemDrinkContainer> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-            : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemDrinkContainer(ILogger<ItemDrinkContainer> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+            : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
 
@@ -107,12 +107,13 @@ public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
 
     #region ItemBase
 
-    public override ItemData MapItemData()
+    public override ItemDrinkContainerData MapItemData()
     {
         return new ItemDrinkContainerData
         {
             ItemId = Blueprint.Id,
             Level = Level,
+            Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             MaxLiquidAmount = MaxLiquid,

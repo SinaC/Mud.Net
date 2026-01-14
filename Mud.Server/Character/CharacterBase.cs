@@ -54,6 +54,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     private readonly Dictionary<string, int> _cooldownsPulseLeft;
     private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
+    protected IAbilityManager AbilityManager { get; }
     protected IRandomManager RandomManager { get; }
     protected ITableValues TableValues { get; }
     protected IRoomManager RoomManager { get; }
@@ -67,9 +68,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions)
     {
+        AbilityManager = abilityManager;
         RandomManager = randomManager;
         TableValues = tableValues;
         RoomManager = roomManager;
@@ -127,9 +129,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         base.OnAuraRemoved(aura);
 
-        var abilityDefinition = AbilityManager[aura.AbilityName];
-        if (abilityDefinition != null && abilityDefinition.HasCharacterWearOffMessage)
-            Send(abilityDefinition.CharacterWearOffMessage!);
+        if (aura.AbilityDefinition != null && aura.AbilityDefinition.HasCharacterWearOffMessage)
+            Send(aura.AbilityDefinition.CharacterWearOffMessage!);
     }
 
     public override bool ChangeIncarnation(IAdmin? admin)

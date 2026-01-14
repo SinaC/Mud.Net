@@ -1,7 +1,9 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
@@ -13,36 +15,36 @@ public class Aura : IAura
 {
     private readonly List<IAffect> _affects;
 
-    public Aura(string abilityName, IEntity source, AuraFlags flags, int level, TimeSpan duration, params IAffect?[]? affects)
+    private Aura(IAbilityDefinition? abilityDefinition, IEntity source, AuraFlags flags, int level, int pulseLeft, params IAffect?[]? affects)
     {
         IsValid = true;
 
-        AbilityName = abilityName;
+        AbilityDefinition = abilityDefinition;
         Source = source;
         AuraFlags = flags;
         Level = level;
-        PulseLeft = Pulse.FromTimeSpan(duration);
+        PulseLeft = pulseLeft;
         _affects = (affects ?? Enumerable.Empty<IAffect?>()).Where(x => x != null!).Select(x => x!).ToList();
     }
 
-    public Aura(string abilityName, IEntity source, AuraFlags flags, int level, params IAffect?[]? affects)
+    public Aura(IAbilityDefinition? abilityDefinition, IEntity source, AuraFlags flags, int level, TimeSpan duration, params IAffect?[]? affects)
+        : this(abilityDefinition, source, flags, level, Pulse.FromTimeSpan(duration), affects)
     {
-        IsValid = true;
-
-        AbilityName = abilityName;
-        Source = source;
-        AuraFlags = flags | AuraFlags.Permanent;
-        Level = level;
-        PulseLeft = -1;
-        _affects = (affects ?? Enumerable.Empty<IAffect?>()).Where(x => x != null!).Select(x => x!).ToList();
     }
 
-    public Aura(IAffectManager affectManager, AuraData auraData)
+    public Aura(IAbilityDefinition? abilityDefinition, IEntity source, AuraFlags flags, int level, params IAffect?[]? affects)
+        : this(abilityDefinition, source, flags | AuraFlags.Permanent, level, -1, affects)
+    {
+    }
+
+    public Aura(IAffectManager affectManager, IAbilityManager abilityManager, AuraData auraData)
     {
         IsValid = true;
 
         // TODO: source
-        AbilityName = auraData.AbilityName;
+        AbilityDefinition = auraData.AbilityName is null
+            ? null
+            : abilityManager[auraData.AbilityName];
         AuraFlags = auraData.AuraFlags;
         Level = auraData.Level;
         PulseLeft = auraData.PulseLeft;
@@ -66,7 +68,9 @@ public class Aura : IAura
 
     public int PulseLeft { get; private set; }
 
-    public string AbilityName { get; }
+    public string AbilityName => AbilityDefinition?.Name ?? string.Empty;
+
+    public IAbilityDefinition? AbilityDefinition { get; }
 
     public IEntity? Source { get; private set; }
 

@@ -4,14 +4,13 @@ using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Item.SerializationData;
 using Mud.Server.Options;
 using Mud.Server.Random;
 
@@ -24,13 +23,11 @@ public class ItemCorpse : ItemBase, IItemCorpse
     private bool _hasBeenGeneratedByKillingCharacter;
     private readonly List<IItem> _content;
 
-    private IRandomManager RandomManager { get; }
     private IItemManager ItemManager { get; }
 
-    public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
-        RandomManager = randomManager;
         ItemManager = itemManager;
 
         _content = [];
@@ -134,13 +131,14 @@ public class ItemCorpse : ItemBase, IItemCorpse
 
     #region ItemBase
 
-    public override ItemData MapItemData()
+    public override ItemCorpseData MapItemData()
     {
         return new ItemCorpseData
         {
             ItemId = Blueprint.Id,
             CorpseName = _corpseName,
             Level = Level,
+            Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),

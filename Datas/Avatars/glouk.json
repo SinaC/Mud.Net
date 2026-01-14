@@ -202,12 +202,12 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15803,
-    "MovePoints": 1131,
-    "Mana": 5301,
+    "HitPoints": 15809,
+    "MovePoints": 1143,
+    "Mana": 5307,
     "Psy": 100,
     "Energy": 100,
-    "Rage": 18,
+    "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
@@ -227,6 +227,7 @@
         "TimeLeft": -1,
         "ItemId": 21,
         "Level": 0,
+        "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Glowing",
         "Auras": []
@@ -235,15 +236,21 @@
     {
       "Slot": "Chest",
       "Item": {
+        "$type": "armor",
+        "Bash": 50,
+        "Pierce": 50,
+        "Slash": 50,
+        "Exotic": 50,
         "ItemId": 2114,
         "Level": 10,
+        "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
         "Auras": [
           {
             "AbilityName": "Test",
             "Level": 1,
-            "PulseLeft": 956,
+            "PulseLeft": 824,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -269,19 +276,33 @@
       }
     },
     {
+      "Slot": "Ring",
+      "Item": {
+        "ItemId": 2111,
+        "Level": 10,
+        "Cost": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
       "Slot": "MainHand",
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
+        "DiceCount": 19,
+        "DiceValue": 19,
         "ItemId": 3350,
         "Level": 16,
+        "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Magic",
         "Auras": [
           {
             "AbilityName": "Envenom",
             "Level": 1,
-            "PulseLeft": 836,
+            "PulseLeft": 704,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -299,35 +320,36 @@
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "Vorpal,TwoHands",
+        "DiceCount": 1,
+        "DiceValue": 999,
         "ItemId": 3005,
         "Level": 42,
+        "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Humming,Bless",
         "Auras": []
       }
-    }
-  ],
-  "Inventory": [
-    {
-      "ItemId": 2111,
-      "Level": 10,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
     },
     {
-      "ItemId": 2104,
-      "Level": 3,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
+      "Slot": "OffHand",
+      "Item": {
+        "$type": "shield",
+        "Armor": 100,
+        "ItemId": 2104,
+        "Level": 3,
+        "Cost": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
     }
   ],
+  "Inventory": [],
   "Auras": [
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 9348,
+      "PulseLeft": 9216,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -341,7 +363,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 9544,
+      "PulseLeft": 9412,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -354,7 +376,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 9576,
+      "PulseLeft": 9444,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -367,7 +389,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 9592,
+      "PulseLeft": 9460,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -380,7 +402,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 9648,
+      "PulseLeft": 9516,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -393,7 +415,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 9348,
+      "PulseLeft": 9216,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -406,7 +428,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 9148,
+      "PulseLeft": 9016,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -419,7 +441,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 8948,
+      "PulseLeft": 8816,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -432,7 +454,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 4348,
+      "PulseLeft": 4216,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -462,8 +484,8 @@
     },
     {
       "AbilityName": "Protection Evil",
-      "Level": 13,
-      "PulseLeft": 5084,
+      "Level": 6,
+      "PulseLeft": 4952,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -485,8 +507,8 @@
     },
     {
       "AbilityName": "Protection Good",
-      "Level": 21,
-      "PulseLeft": 5128,
+      "Level": 17,
+      "PulseLeft": 4996,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -508,8 +530,8 @@
     },
     {
       "AbilityName": "Sanctuary",
-      "Level": 21,
-      "PulseLeft": 1332,
+      "Level": 18,
+      "PulseLeft": 1200,
       "AuraFlags": "None",
       "Affects": [
         {

@@ -44,7 +44,9 @@ public class PolymorphicTypeResolver : DefaultJsonTypeInfoResolver
                 UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
             };
             foreach (var derivedTypeDefinition in derivedTypeDefinitions)
+            {
                 polymorphismOptions.DerivedTypes.Add(new JsonDerivedType(derivedTypeDefinition.DerivedType, derivedTypeDefinition.Discriminator));
+            }
             jsonTypeInfo.PolymorphismOptions = polymorphismOptions;
         }
 

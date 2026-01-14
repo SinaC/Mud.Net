@@ -10,11 +10,10 @@
   "Alignment": 0,
   "Trains": 18,
   "Practices": 37,
-  "AutoFlags": 126,
+  "AutoFlags": "Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
     "QuestPoints": 0
   },
-  "PulseLeftBeforeNextAutomaticQuest": 0,
   "ActiveQuests": [],
   "LearnedAbilities": [
     {
@@ -296,13 +295,13 @@
       "Race": "human",
       "Class": "",
       "Level": 9,
-      "Sex": 0,
-      "Size": 2,
+      "Sex": "Neutral",
+      "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 122,
-        "MovePoints": 1000,
-        "Mana": 129,
-        "Psy": 13,
+        "HitPoints": 121,
+        "MovePoints": 101,
+        "Mana": 112,
+        "Psy": 1,
         "Energy": 0,
         "Rage": 0,
         "Combo": 0
@@ -322,12 +321,12 @@
         {
           "AbilityName": "Charm Person",
           "Level": 1,
-          "PulseLeft": 1580,
-          "AuraFlags": 0,
+          "PulseLeft": 1540,
+          "AuraFlags": "None",
           "Affects": [
             {
               "$type": "characterFlags",
-              "Operator": 1,
+              "Operator": "Or",
               "Modifier": "Charm"
             }
           ]
@@ -354,12 +353,43 @@
       }
     }
   ],
+  "Statistics": {
+    "NpcKill": 0,
+    "PcKill": 0,
+    "NpcKilled": 0,
+    "PcKilled": 0,
+    "NoSourceKilled": 0,
+    "MoneySpent": 0,
+    "GoldEarned": 0,
+    "GoldStolen": 0,
+    "SilverEarned": 0,
+    "SilverStolen": 0,
+    "RecallUsed": 0,
+    "FoodEaten": 0,
+    "BeveragesConsumed": 0,
+    "PillEaten": 0,
+    "PotionQuaffed": 0,
+    "PortalUsed": 0,
+    "QuestPointsEarned": 0,
+    "QuestPointsSpent": 0,
+    "GeneratedQuestsRequested": 0,
+    "GeneratedQuestsCompleted": 0,
+    "GeneratedQuestsAbandoned": 0,
+    "GeneratedQuestsTimedout": 0,
+    "PredefinedQuestsRequested": 0,
+    "PredefinedQuestsCompleted": 0,
+    "PredefinedQuestsAbandoned": 0,
+    "PredefinedQuestsTimedout": 0
+  },
+  "ImmortalMode": "None",
+  "CompletedQuests": [],
+  "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "joel",
   "Race": "elf",
   "Class": "mage",
   "Level": 41,
-  "Sex": 0,
-  "Size": 2,
+  "Sex": "Neutral",
+  "Size": "Medium",
   "CurrentResources": {
     "HitPoints": 125,
     "MovePoints": 125,
@@ -384,38 +414,38 @@
     {
       "AbilityName": "Fly",
       "Level": 10,
-      "PulseLeft": 10036,
-      "AuraFlags": 0,
+      "PulseLeft": 9996,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "Flying"
         }
       ]
     },
     {
       "AbilityName": "Detect Hidden",
-      "Level": 24,
-      "PulseLeft": 9524,
-      "AuraFlags": 0,
+      "Level": 22,
+      "PulseLeft": 9484,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "DetectHidden"
         }
       ]
     },
     {
       "AbilityName": "Detect Invis",
-      "Level": 35,
-      "PulseLeft": 9720,
-      "AuraFlags": 0,
+      "Level": 34,
+      "PulseLeft": 9680,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "DetectInvis"
         }
       ]

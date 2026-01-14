@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common;
+using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Blueprints.Item;
-using Mud.Server.Interfaces.Ability;
+using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Item.SerializationData;
+using Mud.Server.Random;
 
 namespace Mud.Server.Item;
 
@@ -22,8 +21,8 @@ public class ItemPortal : ItemBase, IItemPortal
     private const int InfiniteChargeCount = -1;
     private const int NoDestinationRoomId = -1;
 
-    public ItemPortal(ILogger<ItemPortal> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemPortal(ILogger<ItemPortal> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
 
@@ -160,12 +159,13 @@ public class ItemPortal : ItemBase, IItemPortal
 
     #region ItemBase
 
-    public override ItemData MapItemData()
+    public override ItemPortalData MapItemData()
     {
         return new ItemPortalData
         {
             ItemId = Blueprint.Id,
             Level = Level,
+            Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),

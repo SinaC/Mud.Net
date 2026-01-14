@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Blueprints.Item;
 using Mud.Server.Domain;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -16,9 +16,8 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
+using Mud.Server.Random;
 using System.Text;
-using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Item.SerializationData;
 
 namespace Mud.Server.Item;
 
@@ -28,8 +27,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
     private ITableValues TableValues { get; }
     private IFlagsManager FlagsManager { get; }
 
-    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
-       : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
+       : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
         TableValues = tableValues;
 
@@ -42,11 +41,20 @@ public class ItemWeapon : ItemBase, IItemWeapon
         base.Initialize(guid, blueprint, containedInto);
 
         Type = blueprint.Type;
-        DiceCount = blueprint.DiceCount;
-        DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
         BaseWeaponFlags = NewAndCopyAndSet(() => new WeaponFlags(), blueprint.Flags, null);
         DamageNoun = blueprint.DamageNoun;
+
+        if (blueprint.ItemFlags != null && blueprint.ItemFlags.IsSet("RandomStats"))
+        {
+            DiceCount = blueprint.DiceCount + RandomManager.Range(-1, 1);
+            DiceValue = blueprint.DiceCount + RandomManager.Range(-1, 1);
+        }
+        else
+        {
+            DiceCount = blueprint.DiceCount;
+            DiceValue = blueprint.DiceValue;
+        }
 
         ResetAttributesAndResourcesAndFlags();
     }
@@ -56,8 +64,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
         base.Initialize(guid, blueprint, itemData, containedInto);
 
         Type = blueprint.Type;
-        DiceCount = blueprint.DiceCount;
-        DiceValue = blueprint.DiceValue;
+        DiceCount = itemData.DiceCount;
+        DiceValue = itemData.DiceValue;
         DamageType = blueprint.DamageType;
         BaseWeaponFlags = NewAndCopyAndSet(() => new WeaponFlags(), new WeaponFlags(itemData.WeaponFlags), null);
         DamageNoun = blueprint.DamageNoun;
@@ -144,16 +152,19 @@ public class ItemWeapon : ItemBase, IItemWeapon
         return base.Append(sb, viewer, shortDisplay);
     }
 
-    public override ItemData MapItemData()
+    public override ItemWeaponData MapItemData()
     {
         return new ItemWeaponData
         {
             ItemId = Blueprint.Id,
             Level = Level,
+            Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
-            WeaponFlags = BaseWeaponFlags.Serialize(),
             Auras = MapAuraData(),
+            WeaponFlags = BaseWeaponFlags.Serialize(),
+            DiceCount = DiceCount,
+            DiceValue = DiceValue,
         };
     }
 

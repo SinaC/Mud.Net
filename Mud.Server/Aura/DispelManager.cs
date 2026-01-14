@@ -1,7 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -12,12 +11,10 @@ namespace Mud.Server.Aura;
 public class DispelManager : IDispelManager
 {
     private IRandomManager RandomManager { get; }
-    private IAbilityManager AbilityManager { get; }
 
-    public DispelManager(IRandomManager randomManager, IAbilityManager abilityManager)
+    public DispelManager(IRandomManager randomManager)
     {
         RandomManager = randomManager;
-        AbilityManager = abilityManager;
     }
 
     public bool TryDispels(int dispelLevel, ICharacter victim) // dispels every spells
@@ -30,11 +27,10 @@ public class DispelManager : IDispelManager
             {
                 bool isDispellable = true; // dispellable by default
                 string? dispelRoomMessage = null;
-                if (aura.AbilityName != null)
+                if (aura.AbilityDefinition != null)
                 {
-                    var abilityDefinition = AbilityManager[aura.AbilityName];
-                    isDispellable = abilityDefinition?.IsDispellable == true;
-                    dispelRoomMessage = abilityDefinition?.DispelRoomMessage;
+                    isDispellable = aura.AbilityDefinition.IsDispellable == true;
+                    dispelRoomMessage = aura.AbilityDefinition.DispelRoomMessage;
                 }
 
                 if (isDispellable)
@@ -62,8 +58,7 @@ public class DispelManager : IDispelManager
             if (!SavesDispel(dispelLevel, aura))
             {
                 victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
-                var abilityDefinition = AbilityManager[aura.AbilityName];
-                var dispelRoomMessage = abilityDefinition?.DispelRoomMessage;
+                var dispelRoomMessage = aura.AbilityDefinition?.DispelRoomMessage;
                 if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                     victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
                 return TryDispelReturnValues.Dispelled; // stop at first aura dispelled
