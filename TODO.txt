@@ -6,6 +6,9 @@ DONE
 ==========
 == TODO ==
 ==========
+generated items
+    https://wowpedia.fandom.com/wiki/Item_suffix
+generated item will be based on blueprint found in specific range ?
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)

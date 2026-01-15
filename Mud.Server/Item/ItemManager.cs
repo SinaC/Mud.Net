@@ -100,24 +100,6 @@ public class ItemManager : IItemManager
         if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
             Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(corpse);
-        corpse.Recompute();
-        return corpse;
-    }
-
-    public IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, IEnumerable<IPlayableCharacter> playableCharactersImpactedByKill)
-    {
-        var blueprint = GetItemBlueprint<ItemCorpseBlueprint>(CorpseBlueprintId);
-        if (blueprint == null)
-        {
-            Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
-            return null;
-        }
-        var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
-        corpse.Initialize(guid, blueprint, room, victim, playableCharactersImpactedByKill);
-        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
-        _items.Add(corpse);
-        corpse.Recompute();
         return corpse;
     }
 

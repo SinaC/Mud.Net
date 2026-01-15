@@ -48,8 +48,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IClassManager ClassManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
@@ -798,38 +798,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected override WiznetFlags DeathWiznetFlags => WiznetFlags.MobDeaths;
 
     protected override bool CreateCorpseOnDeath => !ActFlags.IsSet("NoCorpse");
-
-    protected override void HandleMoneyOnDeath(IItemCorpse? corpse)
-    {
-        if (NoLootOnDeath)
-            return;
-
-        var silver = SilverCoins;
-        var gold = GoldCoins;
-        
-        if (corpse == null)
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
-        else
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
-    }
-
-    protected override void GenerateLootsOnDeath(IItemCorpse? corpse)
-    {
-        if (NoLootOnDeath)
-            return;
-
-        var loots = Blueprint?.LootTable?.GenerateLoots();
-        if (loots != null && loots.Count != 0)
-        {
-            foreach (var loot in loots)
-            {
-                if (corpse == null)
-                    ItemManager.AddItem(Guid.NewGuid(), loot, Room); // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
-                else
-                    ItemManager.AddItem(Guid.NewGuid(), loot, corpse);
-            }
-        }
-    }
 
     protected override int CharacterTypeSpecificDamageModifier(int damage)
         => damage; // nop
