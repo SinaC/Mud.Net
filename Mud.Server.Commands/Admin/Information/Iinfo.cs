@@ -1,6 +1,12 @@
 ﻿using Mud.Blueprints.Item;
+using Mud.Blueprints.Item.Affects;
 using Mud.Common;
+using Mud.Server.Affects.Character;
+using Mud.Server.Common.Extensions;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using System.Text;
@@ -116,6 +122,27 @@ public class Iinfo : AdminGameAction
                 sb.AppendFormatLine("WeaponType: {0} damage: {1}d{2} DamageType: {3} Flags: {4} DamageNoun: {5}", weaponBlueprint.Type, weaponBlueprint.DiceCount, weaponBlueprint.DiceValue, weaponBlueprint.DamageType, weaponBlueprint.Flags, weaponBlueprint.DamageNoun);
                 break;
         }
+        if (Blueprint.ItemAffects != null && Blueprint.ItemAffects.Length > 0)
+        {
+            sb.AppendLine("Affects:");
+            foreach (var affect in Blueprint.ItemAffects)
+                AppendAffectFromItemAffectData(sb, affect);
+        }
         Actor.Send(sb);
+    }
+
+    private void AppendAffectFromItemAffectData(StringBuilder sb, ItemAffectBase itemAffect)
+    { 
+        switch(itemAffect)
+        {
+            case ItemAffectImmFlags imm: sb.AppendFormatLine("Imm: {0}", imm.IRVFlags); break;
+            case ItemAffectResFlags res: sb.AppendFormatLine("Res: {0}", res.IRVFlags); break;
+            case ItemAffectVulnFlags vuln: sb.AppendFormatLine("Vuln: {0}", vuln.IRVFlags); break;
+            case ItemAffectCharacterAttribute attr: sb.AppendFormatLine("Attr: {0} {1}", attr.Attribute, attr.Modifier); break;
+            case ItemAffectSex sex: sb.AppendFormatLine("Sex: {0}", sex.Sex); break;
+            case ItemAffectResource resource: sb.AppendFormatLine("Resource: {0} {1}", resource.Location.DisplayName(), resource.Modifier); break;
+            case ItemAffectCharacterFlags ch: sb.AppendFormatLine("Flags: {0}", ch.CharacterFlags); break;
+            case ItemAffectShieldFlags sh: sb.AppendFormatLine("Shield: {0}", sh.ShieldFlags); break;
+        }
     }
 }

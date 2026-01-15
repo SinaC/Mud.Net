@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Mystery;
+﻿namespace Mud.Importer.Mystery.Domain;
 
-public class MobileData
+internal class MobileData
 {
     public int VNum { get; set; }
     public string Name { get; set; } = default!;

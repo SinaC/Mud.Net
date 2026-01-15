@@ -10,6 +10,7 @@ using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
+using Mud.Importer.Mystery.Domain;
 
 namespace Mud.Importer.Mystery;
 

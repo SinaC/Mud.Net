@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Rot;
+﻿namespace Mud.Importer.Rot.Domain;
 
-public class ObjectData
+internal class ObjectData
 {
     public int VNum { get; set; }
     public string Name { get; set; } = default!;
@@ -16,12 +16,12 @@ public class ObjectData
     public long Cost { get; set; }
     public char Condition { get; set; }
     public List<ObjectAffect> Affects { get; set; } = [];
-    public Dictionary<string,string> ExtraDescr { get; set; } = [];
+    public Dictionary<string, string> ExtraDescr { get; set; } = [];
     public string Clan { get; set; } = default!;
     public string Guild { get; set; } = default!;
 }
 
-public class ObjectAffect
+internal class ObjectAffect
 {
     public const int WhereToObject = 1;
     public const int WhereToAffects = 2;
@@ -31,9 +31,7 @@ public class ObjectAffect
     public const int WhereToShields = 6;
 
     public int Where { get; set; }
-    public int Type { get; set; }
     public int Level { get; set; }
-    public int Duration { get; set; }
     public int Location { get; set; }
     public int Modifier { get; set; }
     public long BitVector { get; set; }

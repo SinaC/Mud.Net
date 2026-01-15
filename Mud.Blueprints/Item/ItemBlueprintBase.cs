@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Mud.Blueprints.Item.Affects;
+using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
 using System.Runtime.Serialization;
 
@@ -52,6 +53,9 @@ public abstract class ItemBlueprintBase
 
     [DataMember]
     public IItemFlags ItemFlags { get; set; } = default!;
+
+    [DataMember]
+    public ItemAffectBase[] ItemAffects { get; set; } = [];
 
     public static ExtraDescription[] BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
     {

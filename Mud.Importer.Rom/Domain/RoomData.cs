@@ -1,8 +1,8 @@
-﻿namespace Mud.Importer.Mystery;
+﻿namespace Mud.Importer.Rom.Domain;
 
-public class RoomData
+internal class RoomData
 {
-    public const int MaxExits = 11;
+    public const int MaxExits = 6;
 
     public int AreaVnum { get; set; }
 
@@ -11,10 +11,8 @@ public class RoomData
     public string Description { get; set; } = default!;
     public long Flags { get; set; } // flags bstat(flags)
     public int Sector { get; set; } // bstat(sector)
-    public int MaxSize { get; set; } // bstat(maxsize)
     public int HealRate { get; set; } = 100; // bstat(healrate)
     public int ManaRate { get; set; } = 100; // bstat(manarate)
-    public int PspRate { get; set; } = 100; // bstat(psprate)
     public string Clan { get; set; } = default!;
     public ExitData[] Exits { get; set; } = new ExitData[MaxExits];
     public Dictionary<string, string> ExtraDescr { get; set; } = []; // keyword -> description
@@ -38,7 +36,7 @@ public class RoomData
 // 9: SOUTHWEST
 // 10: SPECIAL
 
-public class ExitData
+internal class ExitData
 {
     public string Description { get; set; } = default!;
     public string Keyword { get; set; } = default!;
@@ -47,7 +45,7 @@ public class ExitData
     public int DestinationVNum { get; set; } // destination room vnum  (u1.vnum in original code)
 }
 
-public class ResetData
+internal class ResetData
 {
     public char Command { get; set; }
     public int Arg1 { get; set; }

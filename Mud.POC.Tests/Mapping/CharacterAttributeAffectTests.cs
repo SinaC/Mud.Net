@@ -1,4 +1,5 @@
-﻿using Mud.Server.Affects.Character;
+﻿using Mud.Domain;
+using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Riok.Mapperly.Abstractions;
 

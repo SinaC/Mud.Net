@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Rom;
+﻿namespace Mud.Importer.Mystery.Domain;
 
-public class ObjectData
+internal class ObjectData
 {
     public int VNum { get; set; }
     public string Name { get; set; } = default!;
@@ -10,15 +10,35 @@ public class ObjectData
     public string ItemType { get; set; } = default!; // lookup table
     public long ExtraFlags { get; set; } // flags
     public long WearFlags { get; set; } // flags
-    public object[] Values { get; set; } = new object[5]; // should be long
+    public object[] Values { get; set; } = new object[5]; // length: 5
     public int Level { get; set; }
     public int Weight { get; set; }
     public long Cost { get; set; }
     public char Condition { get; set; } // lookup table
     public string Size { get; set; } = default!; // lookup table
+    public List<ObjectAffect> Affects { get; set; } = [];
     public Dictionary<string, string> ExtraDescr { get; set; } = []; // keyword -> description
     public string Program { get; set; } = default!; // Obj program name
 }
+
+
+internal class ObjectAffect
+{
+    public const int WhereToObject = 1;
+    public const int WhereToAffects = 2;
+    public const int WhereToAffects2 = 3;
+    public const int WhereToImmune = 4;
+    public const int WhereToResist = 5;
+    public const int WhereToVuln = 6;
+    public const int WhereToShields = 7;
+
+    public int Where { get; set; }
+    public int Level { get; set; }
+    public int Location { get; set; }
+    public int Modifier { get; set; }
+    public long BitVector { get; set; }
+}
+
 
 // Condition table
 //case ('P') :		pObjIndex->condition = 100; break;

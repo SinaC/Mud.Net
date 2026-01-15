@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Rom;
+﻿namespace Mud.Importer.Rom.Domain;
 
-public class MobileData
+internal class MobileData
 {
     public int VNum { get; set; }
     public string Name { get; set; } = default!;
@@ -36,7 +36,7 @@ public class MobileData
     public ShopData Shop { get; set; } = default!;
 }
 
-public class ShopData
+internal class ShopData
 {
     public const int MaxTrades = 5;
 
