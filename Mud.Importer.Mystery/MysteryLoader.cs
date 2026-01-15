@@ -386,11 +386,11 @@ public class MysteryLoader : TextBasedLoader
                     string skill = ReadWord();
                     long value = ReadNumber();
                 }
-                if (letter == 'A')
+                else if (letter == 'A')
                 {
                     ObjectAffect aff = new()
                     {
-                        Where = ObjectAffect.WhereToObject,
+                        Where = ObjectAffect.WhereToAttributeOrResource,
                         Level = objectData.Level,
                         Location = (int)ReadNumber(),
                         Modifier = (int)ReadNumber(),
@@ -415,7 +415,6 @@ public class MysteryLoader : TextBasedLoader
                         case 'I': aff.Where = ObjectAffect.WhereToImmune; break;
                         case 'R': aff.Where = ObjectAffect.WhereToResist; break;
                         case 'V': aff.Where = ObjectAffect.WhereToVuln; break;
-                        case 'S': aff.Where = ObjectAffect.WhereToShields; break;
                         default:
                             Logger.LogError("ParseObjects: item [vnum:{vnum}] Invalid affect where '{where}'", vnum, where);
                             break;

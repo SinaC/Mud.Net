@@ -360,11 +360,11 @@ public class RotLoader : TextBasedLoader
             while (true)
             {
                 letter = ReadLetter();
-                if (letter == 'A')
+                if (letter == 'A') // attribute or resource
                 {
                     ObjectAffect aff = new()
                     {
-                        Where = ObjectAffect.WhereToObject,
+                        Where = ObjectAffect.WhereToAttributeOrResource,
                         Level = objectData.Level,
                         Location = (int)ReadNumber(),
                         Modifier = (int)ReadNumber(),
@@ -372,7 +372,7 @@ public class RotLoader : TextBasedLoader
                     };
                     objectData.Affects.Add(aff);
                 }
-                else if (letter == 'F')
+                else if (letter == 'F') // character flags, IRV, shields
                 {
                     char where = ReadLetter();
                     ObjectAffect aff = new()
@@ -395,14 +395,14 @@ public class RotLoader : TextBasedLoader
                     }
                     objectData.Affects.Add(aff);
                 }
-                else if (letter == 'E')
+                else if (letter == 'E') // extra desc
                 {
                     string keywords = ReadString();
                     string description = ReadString();
                     if (!objectData.ExtraDescr.TryAdd(keywords, description))
                         Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc '{keywords}' already exists", vnum, keywords);
                 }
-                else if (letter == 'C')
+                else if (letter == 'C') // clan
                 {
                     objectData.Clan = ReadString();
                     if (objectData.ItemType == "armor")
@@ -422,7 +422,7 @@ public class RotLoader : TextBasedLoader
                         objectData.Cost = 0;
                     }
                 }
-                else if (letter == 'G')
+                else if (letter == 'G') // guild
                 {
                     objectData.Guild = ReadString();
                 }

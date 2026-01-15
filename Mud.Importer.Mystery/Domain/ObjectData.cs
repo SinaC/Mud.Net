@@ -24,13 +24,12 @@ internal class ObjectData
 
 internal class ObjectAffect
 {
-    public const int WhereToObject = 1;
+    public const int WhereToAttributeOrResource = 1;
     public const int WhereToAffects = 2;
     public const int WhereToAffects2 = 3;
     public const int WhereToImmune = 4;
     public const int WhereToResist = 5;
     public const int WhereToVuln = 6;
-    public const int WhereToShields = 7;
 
     public int Where { get; set; }
     public int Level { get; set; }

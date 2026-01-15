@@ -1,7 +1,8 @@
 INGOING
-    Rot/Mystery importer
 DONE
     load item affect from area files
+    Rom/Rot/Mystery importer
+    fix resource current/max setter to avoid going below 0
 
 ==========
 == TODO ==
