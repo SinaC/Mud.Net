@@ -1,26 +1,13 @@
 INGOING
 DONE
-    add ItemFlags RandomStats: will randomize a little bit stats
-    ItemData and derived ItemXXXData have to store additional informations
-    Item.Initialize must randomize if RandomStats is set
-        cost: 80% -> 120%
-        level: -5 -> +5 (keep in range 1 -> maxLevel)
-        weapon:
-            dice count: increase by -1 -> +1
-            dice value: increase by -1 -> +1
-        armor:
-            ac: 95% -> 105%
-        scroll/potion/pill:
-            spell level: 95% -> 105%
-        wand/staff:
-            spell level: 95% -> 105%
-            current charge count: 90% -> 110%
-    remove AbilityManager from EntityBase
-    AbilityDefinition added in Aura -> no more AbilityManager needed in ItemBase/EntityBase/RoomBase/DispelManager
+    LootManager handling loot
 
 ==========
 == TODO ==
 ==========
+generated items
+    https://wowpedia.fandom.com/wiki/Item_suffix
+generated item will be based on blueprint found in specific range ?
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)

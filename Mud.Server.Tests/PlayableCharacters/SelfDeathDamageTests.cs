@@ -36,6 +36,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             var raceManagerMock = new Mock<IRaceManager>();
             var resistanceCalculatorMock = new Mock<IResistanceCalculator>();
             var wiznetMock = new Mock<IWiznet>();
+            var lootManagerMock = new Mock<ILootManager>();
 
             var playerMock = new Mock<IPlayer>();
             var roomMock = new Mock<IRoom>();
@@ -91,12 +92,13 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Attributes = [],
             };
 
-            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
             pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 
             playerMock.Verify(x => x.Send("You have been KILLED!!", It.IsAny<bool>()), Times.Once);
-            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), pc, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Contains(pc))), Times.Once);
+            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), pc), Times.Once);
+            lootManagerMock.Verify(x => x.GenerateLoots(It.IsAny<IItemCorpse?>(), pc, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Contains(pc))), Times.Once);
         }
 
         [TestMethod]
@@ -113,13 +115,14 @@ namespace Mud.Server.Tests.PlayableCharacters
             var itemManagerMock = new Mock<IItemManager>();
             var wiznetMock = new Mock<IWiznet>();
             var roomMock = new Mock<IRoom>();
+            var lootManagerMock = new Mock<ILootManager>();
 
             var blueprint = GenerateBluePrint();
 
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
             raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
             npc.Initialize(Guid.NewGuid(), blueprint, roomMock.Object);
             npc.AbilityDamage(npc, 100000, SchoolTypes.Poison, "poison", false);
 
@@ -131,6 +134,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
             itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), npc), Times.Once);
+            lootManagerMock.Verify(x => x.GenerateLoots(It.IsAny<IItemCorpse?>(), npc, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Count() == 0)), Times.Once);
         }
 
         private static CharacterNormalBlueprint GenerateBluePrint()

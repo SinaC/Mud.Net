@@ -67,8 +67,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
     private ImmortalModeFlags _immortalMode;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
@@ -619,7 +619,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             SacrificeItem(corpse);
     }
 
-    public void KillingPayoff(ICharacter victim, int groupLevelSum) // Gain xp/gold/reputation/...
+    public void KillingPayoff(ICharacter victim, int groupLevelSum) // Gain xp/gold/reputation/quests/...
     {
         var killStatistics = victim is IPlayableCharacter
             ? AvatarStatisticTypes.PcKill
@@ -639,6 +639,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             UpdateAlignment(alignment);
         }
         // TODO: reputation
+        // quests
+        if (victim is INonPlayableCharacter npcVictim)
+        {
+            // Check killer quest table (only if killer is PC and victim is NPC)
+            foreach (var quest in ActiveQuests)
+            {
+                // Update kill objectives
+                quest.Update(npcVictim);
+            }
+        }
     }
 
     // Abilities
@@ -1358,28 +1368,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override WiznetFlags DeathWiznetFlags => WiznetFlags.Deaths;
 
     protected override bool CreateCorpseOnDeath => true;
-
-    protected override void HandleMoneyOnDeath(IItemCorpse? corpse)
-    {
-        var silver = SilverCoins;
-        var gold = GoldCoins;
-        if (silver > 1 || gold > 1) // player keep half their money and leave the rest in the body
-        {
-            silver /= 2;
-            gold /= 2;
-            UpdateMoney(-silver, -gold);
-        }
-
-        if (corpse == null)
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
-        else
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
-    }
-
-    protected override void GenerateLootsOnDeath(IItemCorpse? corpse)
-    {
-        // NOP
-    }
 
     protected override int CharacterTypeSpecificDamageModifier(int damage)
     {

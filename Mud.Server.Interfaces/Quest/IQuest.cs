@@ -1,6 +1,5 @@
 ﻿using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
@@ -26,7 +25,6 @@ public interface IQuest
     IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable { get; } // key: mob blueprint id
     IEnumerable<IQuestObjective> Objectives { get; }
 
-    void GenerateKillLoot(INonPlayableCharacter victim, IContainer container);
     void Update(INonPlayableCharacter victim);
     void Update(IItemQuest item, bool force);
     void Update(IRoom room);
