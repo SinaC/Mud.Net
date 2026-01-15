@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Rom;
+﻿namespace Mud.Importer.Rom.Domain;
 
-public class ObjectData
+internal class ObjectData
 {
     public int VNum { get; set; }
     public string Name { get; set; } = default!;
@@ -16,8 +16,24 @@ public class ObjectData
     public long Cost { get; set; }
     public char Condition { get; set; } // lookup table
     public string Size { get; set; } = default!; // lookup table
+    public List<ObjectAffect> Affects { get; set; } = [];
     public Dictionary<string, string> ExtraDescr { get; set; } = []; // keyword -> description
     public string Program { get; set; } = default!; // Obj program name
+}
+
+internal class ObjectAffect
+{
+    public const int WhereToAttributeOrResource = 1;
+    public const int WhereToAffects = 2;
+    public const int WhereToImmune = 3;
+    public const int WhereToResist = 4;
+    public const int WhereToVuln = 5;
+
+    public int Where { get; set; }
+    public int Level { get; set; }
+    public int Location { get; set; }
+    public int Modifier { get; set; }
+    public long BitVector { get; set; }
 }
 
 // Condition table

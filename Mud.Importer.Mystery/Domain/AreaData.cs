@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Mystery;
+﻿namespace Mud.Importer.Mystery.Domain;
 
-public class AreaData
+internal class AreaData
 {
     public int VNum { get; set; } // Virtual number (unique number)
     public string FileName { get; set; } = default!; // Filename

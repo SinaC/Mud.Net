@@ -2,15 +2,19 @@
 using Microsoft.Extensions.Options;
 using Mud.Blueprints;
 using Mud.Blueprints.Item;
+using Mud.Blueprints.Item.Affects;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Affects.Character;
+using Mud.Server.Affects.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -64,6 +68,14 @@ public abstract class ItemBase: EntityBase, IItem
             Cost = RandomManager.Range(blueprint.Cost * 80 / 100, blueprint.Cost * 120 / 100);
             if (Level < MaxLevel)
                 Level = Math.Clamp(RandomManager.Range(blueprint.Level - 5, blueprint.Level + 5), 1, MaxLevel);
+        }
+
+        // Affects
+        if (blueprint.ItemAffects != null && blueprint.ItemAffects.Length > 0)
+        {
+            var affects = blueprint.ItemAffects.Select(GenerateAffectFromItemAffect).Where(x => x != null).ToArray();
+            if (affects.Length > 0)
+                AuraManager.AddAura(this, this, blueprint.Level, AuraFlags.Permanent | AuraFlags.NoDispel | AuraFlags.Inherent, false, affects);
         }
 
         BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), blueprint.ItemFlags, null);
@@ -365,6 +377,21 @@ public abstract class ItemBase: EntityBase, IItem
             }
         }
     }
+
+
+    private IAffect? GenerateAffectFromItemAffect(ItemAffectBase itemAffect)
+        => itemAffect switch
+        {
+            ItemAffectImmFlags imm => new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Operator = AffectOperators.Add, Modifier = imm.IRVFlags },
+            ItemAffectResFlags res => new CharacterIRVAffect { Location = IRVAffectLocations.Resistances, Operator = AffectOperators.Add, Modifier = res.IRVFlags },
+            ItemAffectVulnFlags vuln => new CharacterIRVAffect { Location = IRVAffectLocations.Vulnerabilities, Operator = AffectOperators.Add, Modifier = vuln.IRVFlags },
+            ItemAffectCharacterAttribute attr => new CharacterAttributeAffect { Location = attr.Attribute, Operator = AffectOperators.Add, Modifier = attr.Modifier },
+            ItemAffectSex sex => new CharacterSexAffect{ Value = sex.Sex },
+            ItemAffectResource resource => new CharacterResourceAffect { Location = resource.Location, Operator = AffectOperators.Add, Modifier = resource.Modifier },
+            ItemAffectCharacterFlags ch => new CharacterFlagsAffect { Operator = AffectOperators.Add, Modifier = ch.CharacterFlags },
+            ItemAffectShieldFlags sh => new CharacterShieldFlagsAffect { Operator = AffectOperators.Add, Modifier = sh.ShieldFlags },
+            _ => null,
+        };
 
     //
     private string DebuggerDisplay => $"I {Name} INC:{IncarnatedBy?.Name} BId:{Blueprint?.Id}";

@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Mud.Common.Attributes;
-using Mud.Domain;
 using Mud.Blueprints.Area;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
+using Mud.Blueprints.Item.Affects;
 using Mud.Blueprints.Reset;
 using Mud.Blueprints.Room;
+using Mud.Common.Attributes;
+using Mud.Domain;
+using Mud.Importer.Rot.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
@@ -441,6 +443,7 @@ public class RotImporter : IImporter
     {
         if (_itemBlueprints.Any(x => x.Id == objectData.VNum))
             RaiseConvertException("Duplicate object Id {0}", objectData.VNum);
+        var itemAffects = ConvertItemAffects(objectData).ToArray();
         switch (objectData.ItemType)
         {
             case "light":
@@ -451,6 +454,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -467,6 +471,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -487,6 +492,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -507,6 +513,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -528,6 +535,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -549,6 +557,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -566,6 +575,7 @@ public class RotImporter : IImporter
                         ShortDescription = objectData.ShortDescr,
                         Description = objectData.Description,
                         ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        ItemAffects = itemAffects,
                         Cost = System.Convert.ToInt32(objectData.Cost),
                         Level = objectData.Level,
                         Weight = objectData.Weight,
@@ -582,6 +592,7 @@ public class RotImporter : IImporter
                         ShortDescription = objectData.ShortDescr,
                         Description = objectData.Description,
                         ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        ItemAffects = itemAffects,
                         Cost = System.Convert.ToInt32(objectData.Cost),
                         Level = objectData.Level,
                         Weight = objectData.Weight,
@@ -601,6 +612,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -621,6 +633,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -636,6 +649,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -657,6 +671,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -672,6 +687,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -693,6 +709,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -712,6 +729,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -727,6 +745,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -745,6 +764,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -762,6 +782,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -778,6 +799,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -793,6 +815,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -809,6 +832,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -830,6 +854,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -845,6 +870,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -862,6 +888,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -878,6 +905,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -893,6 +921,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -908,6 +937,7 @@ public class RotImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -927,6 +957,135 @@ public class RotImporter : IImporter
         // Material, Condition, Affects, Clan, Guild not used
 
         return null!;
+    }
+
+
+
+    private IEnumerable<ItemAffectBase> ConvertItemAffects(ObjectData objectData)
+    {
+        foreach (var objectAffect in objectData.Affects)
+        {
+            switch (objectAffect.Where)
+            {
+                case ObjectAffect.WhereToAttributeOrResource:
+                    if (objectAffect.Location == 6)
+                        yield return new ItemAffectSex
+                        {
+                            Level = objectAffect.Level,
+                            Sex = (Sex)objectAffect.Modifier
+                        };
+                    else if (objectAffect.Location >= 12 && objectAffect.Location <= 14)
+                    {
+                        var resourceKind = ConvertResourceKind(objectAffect.Location);
+                        if (resourceKind is not null)
+                        {
+                            yield return new ItemAffectResource
+                            {
+                                Level = objectAffect.Level,
+                                Location = resourceKind.Value,
+                                Modifier = objectAffect.Modifier,
+                            };
+                        }
+                        else
+                            Logger.LogError("Item [{vnum}]: invalid ResourceKind affect {location}", objectData.VNum, objectAffect.Location);
+                    }
+                    else
+                    {
+                        var attribute = ConvertAffectCharacterAttribute(objectAffect.Location);
+                        if (attribute != CharacterAttributeAffectLocations.None)
+                        {
+                            yield return new ItemAffectCharacterAttribute
+                            {
+                                Level = objectAffect.Level,
+                                Attribute = attribute,
+                                Modifier = objectAffect.Modifier,
+                            };
+                        }
+                        else
+                            Logger.LogError("Item [{vnum}]: invalid attribute affect {location}", objectData.VNum, objectAffect.Location);
+                    }
+                    break;
+                case ObjectAffect.WhereToAffects:
+                    var (characterFlags, _) = ConvertCharacterFlagsAndShieldFlags(objectAffect.BitVector, 0);
+                    if (!characterFlags.IsNone)
+                        yield return new ItemAffectCharacterFlags
+                        {
+                            Level = objectAffect.Level,
+                            CharacterFlags = characterFlags,
+                        };
+                    else
+                        Logger.LogError("Item [{vnum}]: invalid affect flags {flags}", objectData.VNum, objectAffect.BitVector);
+                    break;
+                case ObjectAffect.WhereToShields:
+                    var (_, shieldFlags) = ConvertCharacterFlagsAndShieldFlags(0, objectAffect.BitVector);
+                    if (!shieldFlags.IsNone)
+                        yield return new ItemAffectShieldFlags
+                        {
+                            Level = objectAffect.Level,
+                            ShieldFlags = shieldFlags,
+                        };
+                    else
+                        Logger.LogError("Item [{vnum}]: invalid shield flags {flags}", objectData.VNum, objectAffect.BitVector);
+                    break;
+                case ObjectAffect.WhereToImmune:
+                    yield return new ItemAffectImmFlags
+                    {
+                        Level = objectAffect.Level,
+                        IRVFlags = ConvertIRV(objectAffect.BitVector)
+                    };
+                    break;
+                case ObjectAffect.WhereToResist:
+                    yield return new ItemAffectResFlags
+                    {
+                        Level = objectAffect.Level,
+                        IRVFlags = ConvertIRV(objectAffect.BitVector)
+                    };
+                    break;
+                case ObjectAffect.WhereToVuln:
+                    yield return new ItemAffectVulnFlags
+                    {
+                        Level = objectAffect.Level,
+                        IRVFlags = ConvertIRV(objectAffect.BitVector)
+                    };
+                    break;
+            }
+        }
+    }
+
+    private ResourceKinds? ConvertResourceKind(int location)
+    {
+        ResourceKinds? resourceKind = location switch
+        {
+            12 => ResourceKinds.Mana,
+            13 => ResourceKinds.HitPoints,
+            14 => ResourceKinds.MovePoints,
+            _ => null!
+        };
+        return resourceKind;
+    }
+
+    private CharacterAttributeAffectLocations ConvertAffectCharacterAttribute(int location)
+    {
+        var attribute = location switch
+        {
+            1 => CharacterAttributeAffectLocations.Strength,
+            2 => CharacterAttributeAffectLocations.Dexterity,
+            3 => CharacterAttributeAffectLocations.Intelligence,
+            4 => CharacterAttributeAffectLocations.Wisdom,
+            5 => CharacterAttributeAffectLocations.Constitution,
+            //7 => CharacterAttributeAffectLocations.Charisma, TODO
+            17 => CharacterAttributeAffectLocations.AllArmor,
+            18 => CharacterAttributeAffectLocations.HitRoll,
+            19 => CharacterAttributeAffectLocations.DamRoll,
+            20 => CharacterAttributeAffectLocations.SavingThrow, // all saves
+            21 => CharacterAttributeAffectLocations.SavingThrow, // save rod
+            22 => CharacterAttributeAffectLocations.SavingThrow, // save petrification
+            23 => CharacterAttributeAffectLocations.SavingThrow, // save breath
+            24 => CharacterAttributeAffectLocations.SavingThrow, // save spell
+            25 => CharacterAttributeAffectLocations.SavingThrow, // save spell effect
+            _ => CharacterAttributeAffectLocations.None
+        };
+        return attribute;
     }
 
     private bool IsNoTake(ObjectData objectData) => (objectData.WearFlags & ITEM_TAKE) != ITEM_TAKE;

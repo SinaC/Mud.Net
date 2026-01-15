@@ -24,6 +24,8 @@ public class Aura : IAura
         AuraFlags = flags;
         Level = level;
         PulseLeft = pulseLeft;
+        if (AbilityDefinition is null)
+            AuraFlags |= AuraFlags.Inherent;
         _affects = (affects ?? Enumerable.Empty<IAffect?>()).Where(x => x != null!).Select(x => x!).ToList();
     }
 
@@ -48,6 +50,8 @@ public class Aura : IAura
         AuraFlags = auraData.AuraFlags;
         Level = auraData.Level;
         PulseLeft = auraData.PulseLeft;
+        if (AbilityDefinition is null)
+            AuraFlags |= AuraFlags.Inherent;
         _affects = [];
         if (auraData.Affects != null)
         {
@@ -137,7 +141,7 @@ public class Aura : IAura
 
         // TODO: better formatting with spacing like in score
         sb.AppendFormatLine("%B%{0,-15}%x% (lvl {1}) {2} {3}",
-                AbilityName.MaxLength(15).ToPascalCase() ?? "Inherent",
+                AbilityNameOrInherent(),
                 Level,
                 AuraFlags.HasFlag(AuraFlags.Permanent)
                     ? ""
@@ -155,6 +159,13 @@ public class Aura : IAura
             }
 
         return sb;
+    }
+
+    private string AbilityNameOrInherent()
+    {
+        if (AuraFlags.HasFlag(AuraFlags.Inherent) || AbilityName is null)
+            return "Inherent";
+        return AbilityName;
     }
 
     public virtual AuraData MapAuraData()

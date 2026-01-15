@@ -10,6 +10,9 @@ using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
+using Mud.Importer.Rom.Domain;
+using Mud.Blueprints.Item.Affects;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Mud.Importer.Rom;
 
@@ -37,8 +40,8 @@ public class RomImporter : IImporter
     public void ImportByList(string path, string areaLst)
     {
         var loader = ServiceProvider.GetRequiredService<RomLoader>();
-        string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
-        foreach (string areaFilename in areaFilenames)
+        var areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
+        foreach (var areaFilename in areaFilenames)
         {
             if (areaFilename.Contains("$"))
                 break;
@@ -58,9 +61,9 @@ public class RomImporter : IImporter
     public void Import(string path, params string[] filenames)
     {
         var loader = ServiceProvider.GetRequiredService<RomLoader>();
-        foreach (string filename in filenames)
+        foreach (var filename in filenames)
         {
-            string fullName = Path.Combine(path, filename);
+            var fullName = Path.Combine(path, filename);
             loader.Load(fullName);
             loader.Parse();
         }
@@ -71,9 +74,9 @@ public class RomImporter : IImporter
     public void Import(string path, IEnumerable<string> filenames)
     {
         var loader = ServiceProvider.GetRequiredService<RomLoader>();
-        foreach (string filename in filenames)
+        foreach (var filename in filenames)
         {
-            string fullName = Path.Combine(path, filename);
+            var fullName = Path.Combine(path, filename);
             loader.Load(fullName);
             loader.Parse();
         }
@@ -85,28 +88,28 @@ public class RomImporter : IImporter
     {
         foreach (var areaData in loader.Areas)
         {
-            AreaBlueprint areaBlueprint = ConvertArea(areaData);
+            var areaBlueprint = ConvertArea(areaData);
             if (areaBlueprint != null)
                 _areaBlueprints.Add(areaBlueprint);
         }
 
         foreach (var roomData in loader.Rooms)
         {
-            RoomBlueprint roomBlueprint = ConvertRoom(roomData);
+            var roomBlueprint = ConvertRoom(roomData);
             if (roomBlueprint != null)
                 _roomBlueprints.Add(roomBlueprint);
         }
 
         foreach (var objectData in loader.Objects)
         {
-            ItemBlueprintBase itemBlueprint = ConvertObject(objectData);
+            var itemBlueprint = ConvertObject(objectData);
             if (itemBlueprint != null)
                 _itemBlueprints.Add(itemBlueprint);
         }
 
         foreach (var mobileData in loader.Mobiles)
         {
-            CharacterBlueprintBase characterBlueprint = ConvertMobile(mobileData, _roomBlueprints);
+            var characterBlueprint = ConvertMobile(mobileData, _roomBlueprints);
             if (characterBlueprint != null)
                 _characterBlueprints.Add(characterBlueprint);
         }
@@ -174,10 +177,10 @@ public class RomImporter : IImporter
 
     private ExitBlueprint[] ConvertExits(RoomData roomData)
     {
-        ExitBlueprint[] blueprints = new ExitBlueprint[RoomData.MaxExits];
-        for (int i = 0; i < RoomData.MaxExits; i++)
+        var blueprints = new ExitBlueprint[RoomData.MaxExits];
+        for (var i = 0; i < RoomData.MaxExits; i++)
         {
-            ExitData exit = roomData.Exits[i];
+            var exit = roomData.Exits[i];
             if (exit != null)
             {
                 blueprints[i] = new ExitBlueprint
@@ -238,7 +241,7 @@ public class RomImporter : IImporter
 
     private ExitFlags ConvertExitFlags(long input)
     {
-        ExitFlags flags = 0;
+        var flags = ExitFlags.None;
         if (IsSet(input, EX_ISDOOR)) flags |= ExitFlags.Door;
         if (IsSet(input, EX_CLOSED)) flags |= ExitFlags.Closed;
         if (IsSet(input, EX_LOCKED)) flags |= ExitFlags.Locked;
@@ -448,6 +451,7 @@ public class RomImporter : IImporter
     {
         if (_itemBlueprints.Any(x => x.Id == objectData.VNum))
             RaiseConvertException("Duplicate object Id {0}", objectData.VNum);
+        var itemAffects = ConvertItemAffects(objectData).ToArray();
         switch (objectData.ItemType)
         {
             case "light":
@@ -458,6 +462,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -474,6 +479,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -494,6 +500,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -514,6 +521,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -535,6 +543,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -556,6 +565,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -573,6 +583,7 @@ public class RomImporter : IImporter
                         ShortDescription = objectData.ShortDescr,
                         Description = objectData.Description,
                         ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        ItemAffects = itemAffects,
                         Cost = System.Convert.ToInt32(objectData.Cost),
                         Level = objectData.Level,
                         Weight = objectData.Weight,
@@ -589,6 +600,7 @@ public class RomImporter : IImporter
                         ShortDescription = objectData.ShortDescr,
                         Description = objectData.Description,
                         ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                        ItemAffects = itemAffects,
                         Cost = System.Convert.ToInt32(objectData.Cost),
                         Level = objectData.Level,
                         Weight = objectData.Weight,
@@ -608,6 +620,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -628,6 +641,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -643,6 +657,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -664,6 +679,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -679,6 +695,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -700,6 +717,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -719,6 +737,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -734,6 +753,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -752,6 +772,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -769,6 +790,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -785,6 +807,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -800,6 +823,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -816,6 +840,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -837,6 +862,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -852,6 +878,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -869,6 +896,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -885,6 +913,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -900,6 +929,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -915,6 +945,7 @@ public class RomImporter : IImporter
                     ShortDescription = objectData.ShortDescr,
                     Description = objectData.Description,
                     ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(objectData.ExtraDescr),
+                    ItemAffects = itemAffects,
                     Cost = System.Convert.ToInt32(objectData.Cost),
                     Level = objectData.Level,
                     Weight = objectData.Weight,
@@ -928,6 +959,128 @@ public class RomImporter : IImporter
         }
 
         return null!;
+    }
+
+    private IEnumerable<ItemAffectBase> ConvertItemAffects(ObjectData objectData)
+    {
+        foreach (var objectAffect in objectData.Affects)
+        {
+            switch (objectAffect.Where)
+            {
+                case ObjectAffect.WhereToAttributeOrResource:
+                    if (objectAffect.Location == 6)
+                        yield return new ItemAffectSex
+                        {
+                            Level = objectAffect.Level,
+                            Sex = (Sex)objectAffect.Modifier
+                        };
+                    else if (objectAffect.Location >= 12 && objectAffect.Location <= 14)
+                    {
+                        var resourceKind = ConvertResourceKind(objectAffect.Location);
+                        if (resourceKind is not null)
+                        {
+                            yield return new ItemAffectResource
+                            {
+                                Level = objectAffect.Level,
+                                Location = resourceKind.Value,
+                                Modifier = objectAffect.Modifier,
+                            };
+                        }
+                        else
+                            Logger.LogError("Item [{vnum}]: invalid ResourceKind affect {location}", objectData.VNum, objectAffect.Location);
+                    }
+                    else
+                    {
+                        var attribute = ConvertAffectCharacterAttribute(objectAffect.Location);
+                        if (attribute != CharacterAttributeAffectLocations.None)
+                        {
+                            yield return new ItemAffectCharacterAttribute
+                            {
+                                Level = objectAffect.Level,
+                                Attribute = attribute,
+                                Modifier = objectAffect.Modifier,
+                            };
+                        }
+                        else
+                            Logger.LogError("Item [{vnum}]: invalid attribute affect {location}", objectData.VNum, objectAffect.Location);
+                    }
+                    break;
+                case ObjectAffect.WhereToAffects:
+                    var (characterFlags, shieldFlags) = ConvertCharacterFlags(objectAffect.BitVector);
+                    if (!characterFlags.IsNone)
+                        yield return new ItemAffectCharacterFlags
+                        {
+                            Level = objectAffect.Level,
+                            CharacterFlags = characterFlags,
+                        };
+                    if (!shieldFlags.IsNone)
+                        yield return new ItemAffectShieldFlags
+                        {
+                            Level = objectAffect.Level,
+                            ShieldFlags = shieldFlags,
+                        };
+                    if (characterFlags.IsNone && shieldFlags.IsNone)
+                        Logger.LogError("Item [{vnum}]: invalid affect/shield flags {flags}", objectData.VNum, objectAffect.BitVector);
+                    break;
+                    break;
+                case ObjectAffect.WhereToImmune:
+                    yield return new ItemAffectImmFlags
+                    {
+                        Level = objectAffect.Level,
+                        IRVFlags = ConvertIRV(objectAffect.BitVector)
+                    };
+                    break;
+                case ObjectAffect.WhereToResist:
+                    yield return new ItemAffectResFlags
+                    {
+                        Level = objectAffect.Level,
+                        IRVFlags = ConvertIRV(objectAffect.BitVector)
+                    };
+                    break;
+                case ObjectAffect.WhereToVuln:
+                    yield return new ItemAffectVulnFlags
+                    {
+                        Level = objectAffect.Level,
+                        IRVFlags = ConvertIRV(objectAffect.BitVector)
+                    };
+                    break;
+            }
+        }
+    }
+
+    private ResourceKinds? ConvertResourceKind(int location)
+    {
+        ResourceKinds? resourceKind = location switch
+        {
+            12 => ResourceKinds.Mana,
+            13 => ResourceKinds.HitPoints,
+            14 => ResourceKinds.MovePoints,
+            _ => null!
+        };
+        return resourceKind;
+    }
+
+    private CharacterAttributeAffectLocations ConvertAffectCharacterAttribute(int location)
+    {
+        var attribute = location switch
+        {
+            1 => CharacterAttributeAffectLocations.Strength,
+            2 => CharacterAttributeAffectLocations.Dexterity,
+            3 => CharacterAttributeAffectLocations.Intelligence,
+            4 => CharacterAttributeAffectLocations.Wisdom,
+            5 => CharacterAttributeAffectLocations.Constitution,
+            17 => CharacterAttributeAffectLocations.AllArmor,
+            18 => CharacterAttributeAffectLocations.HitRoll,
+            19 => CharacterAttributeAffectLocations.DamRoll,
+            20 => CharacterAttributeAffectLocations.SavingThrow, // all saves
+            21 => CharacterAttributeAffectLocations.SavingThrow, // save rod
+            22 => CharacterAttributeAffectLocations.SavingThrow, // save petrification
+            23 => CharacterAttributeAffectLocations.SavingThrow, // save breath
+            24 => CharacterAttributeAffectLocations.SavingThrow, // save spell
+            25 => CharacterAttributeAffectLocations.SavingThrow, // save spell effect
+            _ => CharacterAttributeAffectLocations.None
+        };
+        return attribute;
     }
 
     private bool IsNoTake(ObjectData objectData) => (objectData.WearFlags & ITEM_TAKE) != ITEM_TAKE;
@@ -966,40 +1119,46 @@ public class RomImporter : IImporter
 
     private IItemFlags ConvertExtraFlags(ObjectData objectData)
     {
-        var itemFlags = new ItemFlags();
-        if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
-        if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags.Set("Humming");
-        if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags.Set("Dark");
-        if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) itemFlags.Set("Lock");
-        if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) itemFlags.Set("Evil");
-        if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) itemFlags.Set("Invis");
-        if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) itemFlags.Set("Magic");
-        if (IsSet(objectData.ExtraFlags, ITEM_NODROP)) itemFlags.Set("NoDrop");
-        if (IsSet(objectData.ExtraFlags, ITEM_BLESS)) itemFlags.Set("Bless");
-        if (IsSet(objectData.ExtraFlags, ITEM_ANTI_GOOD)) itemFlags.Set("AntiGood");
-        if (IsSet(objectData.ExtraFlags, ITEM_ANTI_EVIL)) itemFlags.Set("AntiEvil");
-        if (IsSet(objectData.ExtraFlags, ITEM_ANTI_NEUTRAL)) itemFlags.Set("AntiNeutral");
-        if (IsSet(objectData.ExtraFlags, ITEM_NOREMOVE)) itemFlags.Set("NoRemove");
-        if (IsSet(objectData.ExtraFlags, ITEM_INVENTORY)) itemFlags.Set("Inventory");
-        if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) itemFlags.Set("NoPurge");
-        if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) itemFlags.Set("RotDeath");
-        if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) itemFlags.Set("VisibleDeath");
-        if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) itemFlags.Set("NonMetal");
-        if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) itemFlags.Set("NoLocate");
-        if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) itemFlags.Set("MeltOnDrop");
-        if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) itemFlags.Set("HadTimer");
-        if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) itemFlags.Set("SellExtract");
-        if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) itemFlags.Set("BurnProof");
-        if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) itemFlags.Set("NoUncurse");
+        var itemFlags = ConvertExtraFlags(objectData.ExtraFlags);
 
         if (IsSet(objectData.WearFlags, ITEM_NO_SAC)) itemFlags.Set("NoSacrifice");
 
         return itemFlags;
     }
 
+    private IItemFlags ConvertExtraFlags(long extraFlags)
+    {
+        var itemFlags = new ItemFlags();
+        if (IsSet(extraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
+        if (IsSet(extraFlags, ITEM_HUM)) itemFlags.Set("Humming");
+        if (IsSet(extraFlags, ITEM_DARK)) itemFlags.Set("Dark");
+        if (IsSet(extraFlags, ITEM_LOCK)) itemFlags.Set("Lock");
+        if (IsSet(extraFlags, ITEM_EVIL)) itemFlags.Set("Evil");
+        if (IsSet(extraFlags, ITEM_INVIS)) itemFlags.Set("Invis");
+        if (IsSet(extraFlags, ITEM_MAGIC)) itemFlags.Set("Magic");
+        if (IsSet(extraFlags, ITEM_NODROP)) itemFlags.Set("NoDrop");
+        if (IsSet(extraFlags, ITEM_BLESS)) itemFlags.Set("Bless");
+        if (IsSet(extraFlags, ITEM_ANTI_GOOD)) itemFlags.Set("AntiGood");
+        if (IsSet(extraFlags, ITEM_ANTI_EVIL)) itemFlags.Set("AntiEvil");
+        if (IsSet(extraFlags, ITEM_ANTI_NEUTRAL)) itemFlags.Set("AntiNeutral");
+        if (IsSet(extraFlags, ITEM_NOREMOVE)) itemFlags.Set("NoRemove");
+        if (IsSet(extraFlags, ITEM_INVENTORY)) itemFlags.Set("Inventory");
+        if (IsSet(extraFlags, ITEM_NOPURGE)) itemFlags.Set("NoPurge");
+        if (IsSet(extraFlags, ITEM_ROT_DEATH)) itemFlags.Set("RotDeath");
+        if (IsSet(extraFlags, ITEM_VIS_DEATH)) itemFlags.Set("VisibleDeath");
+        if (IsSet(extraFlags, ITEM_NONMETAL)) itemFlags.Set("NonMetal");
+        if (IsSet(extraFlags, ITEM_NOLOCATE)) itemFlags.Set("NoLocate");
+        if (IsSet(extraFlags, ITEM_MELT_DROP)) itemFlags.Set("MeltOnDrop");
+        if (IsSet(extraFlags, ITEM_HAD_TIMER)) itemFlags.Set("HadTimer");
+        if (IsSet(extraFlags, ITEM_SELL_EXTRACT)) itemFlags.Set("SellExtract");
+        if (IsSet(extraFlags, ITEM_BURN_PROOF)) itemFlags.Set("BurnProof");
+        if (IsSet(extraFlags, ITEM_NOUNCURSE)) itemFlags.Set("NoUncurse");
+        return itemFlags;
+    }
+
     private WeaponTypes ConvertWeaponType(ObjectData objectData)
     {
-        string weaponType = (string)objectData.Values[0];
+        var weaponType = (string)objectData.Values[0];
         switch (weaponType)
         {
             case "exotic": return WeaponTypes.Exotic;
@@ -1020,9 +1179,9 @@ public class RomImporter : IImporter
 
     private (SchoolTypes schoolType, IWeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
     {
-        string attackTable = (string)objectData.Values[3];
-        SchoolTypes schoolType = SchoolTypes.None;
-        string damageNoun = attackTable;
+        var attackTable = (string)objectData.Values[3];
+        var schoolType = SchoolTypes.None;
+        var damageNoun = attackTable;
         (string name, string noun, int damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == attackTable);
         if (!attackTableEntry.Equals(default))
         {
@@ -1030,7 +1189,7 @@ public class RomImporter : IImporter
             damageNoun = attackTableEntry.noun;
         }
 
-        long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
+        var weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
         var weaponFlags = new WeaponFlags();
         if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags.Set("Flaming");
         if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags.Set("Frost");
@@ -1049,8 +1208,8 @@ public class RomImporter : IImporter
     {
         // v1: exit flags
         // v2: gate flags
-        PortalFlags flags = PortalFlags.None;
-        long v1 = System.Convert.ToInt64(objectData.Values[1]);
+        var flags = PortalFlags.None;
+        var v1 = System.Convert.ToInt64(objectData.Values[1]);
         if (IsSet(v1, EX_CLOSED)) flags |= PortalFlags.Closed;
         if (IsSet(v1, EX_LOCKED)) flags |= PortalFlags.Locked;
         if (IsSet(v1, EX_PICKPROOF)) flags |= PortalFlags.PickProof;
@@ -1058,7 +1217,7 @@ public class RomImporter : IImporter
         if (IsSet(v1, EX_HARD)) flags |= PortalFlags.Hard;
         if (IsSet(v1, EX_NOCLOSE)) flags |= PortalFlags.NoClose;
         if (IsSet(v1, EX_NOLOCK)) flags |= PortalFlags.NoLock;
-        long v2 = System.Convert.ToInt32(objectData.Values[2]);
+        var v2 = System.Convert.ToInt32(objectData.Values[2]);
         if (IsSet(v2, GATE_NOCURSE)) flags |= PortalFlags.NoCurse;
         if (IsSet(v2, GATE_GOWITH)) flags |= PortalFlags.GoWith;
         if (IsSet(v2, GATE_BUGGY)) flags |= PortalFlags.Buggy;
@@ -1068,21 +1227,21 @@ public class RomImporter : IImporter
 
     private ContainerFlags ConvertContainerFlags(ObjectData objectData)
     {
-        ContainerFlags flags = ContainerFlags.None;
-        long v1 = System.Convert.ToInt64(objectData.Values[1]);
+        var flags = ContainerFlags.None;
+        var v1 = System.Convert.ToInt64(objectData.Values[1]);
         if (!IsSet(v1, CONT_CLOSEABLE)) flags |= ContainerFlags.NoClose;
         if (IsSet(v1, CONT_PICKPROOF)) flags |= ContainerFlags.PickProof;
         if (IsSet(v1, CONT_CLOSED)) flags |= ContainerFlags.Closed;
         if (IsSet(v1, CONT_LOCKED)) flags |= ContainerFlags.Locked;
-        long v2 = System.Convert.ToInt64(objectData.Values[2]);
+        var v2 = System.Convert.ToInt64(objectData.Values[2]);
         if (v2 <= 0) flags |= ContainerFlags.NoLock;
         return flags;
     }
 
     private FurnitureActions ConvertFurnitureActions(ObjectData objectData)
     {
-        FurnitureActions actions = FurnitureActions.None;
-        int flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
+        var actions = FurnitureActions.None;
+        var flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
         if (IsSet(flag, STAND_AT) || IsSet(flag, STAND_ON) || IsSet(flag, STAND_IN)) actions |= FurnitureActions.Stand;
         if (IsSet(flag, SIT_AT) || IsSet(flag, SIT_ON) || IsSet(flag, SIT_IN)) actions |= FurnitureActions.Sit;
         if (IsSet(flag, REST_AT) || IsSet(flag, REST_ON) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_ON)) actions |= FurnitureActions.Rest;
@@ -1092,7 +1251,7 @@ public class RomImporter : IImporter
 
     private FurniturePlacePrepositions ConvertFurniturePreposition(ObjectData objectData)
     {
-        int flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
+        var flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
         if (flag == 0)
             return FurniturePlacePrepositions.None;
         if (IsSet(flag, STAND_AT) || IsSet(flag, SIT_AT) || IsSet(flag, REST_AT) || IsSet(flag, SLEEP_AT)) return FurniturePlacePrepositions.At;
@@ -1209,8 +1368,8 @@ public class RomImporter : IImporter
         if (_characterBlueprints.Any(x => x.Id == mobileData.VNum))
             RaiseConvertException("Duplicate mobile Id {0}", mobileData.VNum);
 
-        SchoolTypes schoolType = SchoolTypes.None;
-        string damageNoun = mobileData.DamageType;
+        var schoolType = SchoolTypes.None;
+        var damageNoun = mobileData.DamageType;
         (string name, string noun, int damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == mobileData.DamageType);
         if (!attackTableEntry.Equals(default))
         {
@@ -1218,8 +1377,8 @@ public class RomImporter : IImporter
             damageNoun = attackTableEntry.noun;
         }
 
-        (IOffensiveFlags offensiveFlags, IAssistFlags assistFlags) = ConvertOffensiveFlags(mobileData.OffFlags);
-        (ICharacterFlags characterFlags, IShieldFlags shieldFlags) = ConvertCharacterFlags(mobileData.AffectedBy);
+        var (offensiveFlags, assistFlags) = ConvertOffensiveFlags(mobileData.OffFlags);
+        var (characterFlags, shieldFlags) = ConvertCharacterFlags(mobileData.AffectedBy);
 
         // search a room flagged as pet_shop with mobile vnum in resets
         // sold pets are found in room vnum+1 (except for room 9621 which is linked to 9706!!)
@@ -1552,7 +1711,7 @@ public class RomImporter : IImporter
 
     private IEnumerable<Type> ConvertBuyTypes(ShopData shopData)
     {
-        foreach (int buyType in shopData.BuyType)
+        foreach (var buyType in shopData.BuyType)
         {
             switch (buyType)
             {
@@ -1954,7 +2113,7 @@ public class RomImporter : IImporter
     //
     private void RaiseConvertException(string format, params object[] parameters)
     {
-        string message = string.Format(format, parameters);
+        var message = string.Format(format, parameters);
         Logger.LogError(message);
         throw new RomConvertException(message);
     }
@@ -1962,7 +2121,7 @@ public class RomImporter : IImporter
     //
     private string RemoveCommentIfAny(string filename)
     {
-        int index = filename.IndexOf("/", StringComparison.InvariantCultureIgnoreCase);
+        var index = filename.IndexOf("/", StringComparison.InvariantCultureIgnoreCase);
         if (index >= 0)
             return filename.Remove(index).Trim();
         return filename;

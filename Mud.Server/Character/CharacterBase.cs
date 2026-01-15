@@ -1995,10 +1995,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         switch (affect.Operator)
         {
             case AffectOperators.Add:
-                _currentMaxResources[affect.Location] += affect.Modifier;
+                _currentMaxResources[affect.Location] = Math.Max(0, _currentMaxResources[affect.Location] + affect.Modifier);
                 break;
             case AffectOperators.Assign:
-                _currentMaxResources[affect.Location] = affect.Modifier;
+                _currentMaxResources[affect.Location] = Math.Max(0, affect.Modifier);
                 break;
             case AffectOperators.Or:
             case AffectOperators.Nor:

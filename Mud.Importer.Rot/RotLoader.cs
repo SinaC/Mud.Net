@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
+using Mud.Importer.Rot.Domain;
 
 namespace Mud.Importer.Rot;
 
@@ -54,13 +55,13 @@ public class RotLoader : TextBasedLoader
 
     private int _lastAreaVnum;
 
-    public IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
+    internal IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
 
-    public IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
+    internal IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
 
-    public IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
+    internal IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
 
-    public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
+    internal IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
     public RotLoader(ILogger<RotLoader> logger)
         :base(logger)
@@ -75,7 +76,7 @@ public class RotLoader : TextBasedLoader
     {
         while (true)
         {
-            char letter = ReadLetter();
+            var letter = ReadLetter();
             if (letter != '#')
                 RaiseParseException("Parse: # not found");
 
@@ -359,24 +360,24 @@ public class RotLoader : TextBasedLoader
             while (true)
             {
                 letter = ReadLetter();
-                if (letter == 'A')
+                if (letter == 'A') // attribute or resource
                 {
                     ObjectAffect aff = new()
                     {
-                        Where = ObjectAffect.WhereToObject,
-                        Type = -1,
+                        Where = ObjectAffect.WhereToAttributeOrResource,
                         Level = objectData.Level,
-                        Duration = -1,
                         Location = (int)ReadNumber(),
                         Modifier = (int)ReadNumber(),
                         BitVector = 0,
                     };
+                    objectData.Affects.Add(aff);
                 }
-                else if (letter == 'F')
+                else if (letter == 'F') // character flags, IRV, shields
                 {
                     char where = ReadLetter();
                     ObjectAffect aff = new()
                     {
+                        Level = objectData.Level,
                         Location = (int)ReadNumber(),
                         Modifier = (int)ReadNumber(),
                         BitVector = ReadFlags(),
@@ -392,17 +393,16 @@ public class RotLoader : TextBasedLoader
                             Logger.LogError("ParseObjects: item [vnum:{vnum}] Invalid affect where '{where}'", vnum, where);
                             break;
                     }
+                    objectData.Affects.Add(aff);
                 }
-                else if (letter == 'E')
+                else if (letter == 'E') // extra desc
                 {
                     string keywords = ReadString();
                     string description = ReadString();
-                    if (objectData.ExtraDescr.ContainsKey(keywords))
+                    if (!objectData.ExtraDescr.TryAdd(keywords, description))
                         Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc '{keywords}' already exists", vnum, keywords);
-                    else
-                        objectData.ExtraDescr.Add(keywords, description);
                 }
-                else if (letter == 'C')
+                else if (letter == 'C') // clan
                 {
                     objectData.Clan = ReadString();
                     if (objectData.ItemType == "armor")
@@ -422,7 +422,7 @@ public class RotLoader : TextBasedLoader
                         objectData.Cost = 0;
                     }
                 }
-                else if (letter == 'G')
+                else if (letter == 'G') // guild
                 {
                     objectData.Guild = ReadString();
                 }

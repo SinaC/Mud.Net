@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
@@ -96,6 +97,14 @@ public class AuraManager : IAuraManager
     {
         var abilityDefinition = AbilityManager[abilityName];
         var aura = new Aura(abilityDefinition, source, auraFlags, level, affects);
+        CheckAffects(affects);
+        target.AddAura(aura, recompute);
+        return aura;
+    }
+
+    public IAura AddAura(IEntity target, IEntity source, int level, AuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
+    {
+        var aura = new Aura(null, source, auraFlags | AuraFlags.Inherent, level, affects);
         CheckAffects(affects);
         target.AddAura(aura, recompute);
         return aura;

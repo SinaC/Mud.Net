@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
+using Mud.Importer.Rom.Domain;
 
 namespace Mud.Importer.Rom;
 
@@ -57,13 +58,13 @@ public class RomLoader : TextBasedLoader
 
     private int _lastAreaVnum;
 
-    public IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
+    internal IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
 
-    public IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
+    internal IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
 
-    public IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
+    internal IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
 
-    public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
+    internal IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
     public RomLoader(ILogger<RomLoader> logger)
         :base(logger)
@@ -78,11 +79,11 @@ public class RomLoader : TextBasedLoader
     {
         while (true)
         {
-            char letter = ReadLetter();
+            var letter = ReadLetter();
             if (letter != '#')
                 RaiseParseException("Parse: # not found");
 
-            string word = ReadWord();
+            var word = ReadWord();
 
             if (word[0] == '$')
                 break; // done
@@ -131,12 +132,12 @@ public class RomLoader : TextBasedLoader
     {
         Logger.LogTrace("Area section");
 
-        AreaData area = new AreaData();
+        var area = new AreaData();
         while (true)
         {
             if (IsEof())
                 break;
-            string word = ReadWord();
+            var word = ReadWord();
             if (word == "Builders")
                 area.Builders = ReadString();
             else if (word == "Credits")
@@ -169,7 +170,7 @@ public class RomLoader : TextBasedLoader
     private void ParseOldArea()
     {
         Logger.LogTrace("Old area section");
-        AreaData area = new AreaData
+        var area = new AreaData
         {
             FileName = ReadString(),
             Name = ReadString(),
@@ -192,18 +193,18 @@ public class RomLoader : TextBasedLoader
 
         while (true)
         {
-            char letter = ReadLetter();
+            var letter = ReadLetter();
             if (letter != '#')
                 RaiseParseException("ParseMobiles: # not found");
 
-            int vnum = (int)ReadNumber();
+            var vnum = (int)ReadNumber();
             if (vnum == 0)
                 break; // parsed
 
             if (_mobiles.Any(x => x.VNum == vnum))
                 RaiseParseException("ParseMobiles: vnum {0} duplicated", vnum);
 
-            MobileData mobileData = new()
+            var mobileData = new MobileData()
             {
                 VNum = vnum,
                 Name = ReadString(),
@@ -245,8 +246,8 @@ public class RomLoader : TextBasedLoader
 
                 if (letter == 'F')
                 {
-                    string category = ReadWord();
-                    long vector = ReadFlags();
+                    var category = ReadWord();
+                    var vector = ReadFlags();
                     if (category.StartsWith("act"))
                         mobileData.Act &= ~vector;
                     else if (category.StartsWith("aff"))
@@ -266,7 +267,7 @@ public class RomLoader : TextBasedLoader
                 }
                 else if (letter == 'D')
                 {
-                    long dummy = ReadFlags(); // not used
+                    var dummy = ReadFlags(); // not used
                 }
                 else if (letter == 'M')
                 {
@@ -275,10 +276,10 @@ public class RomLoader : TextBasedLoader
                 else if (letter == 'Y')
                 {
                     // TODO: affects (see db2.C:419)
-                    string where = ReadWord();
-                    string location = ReadWord();
-                    long value1 = ReadNumber();
-                    long value2 = ReadNumber();
+                    var where = ReadWord();
+                    var location = ReadWord();
+                    var value1 = ReadNumber();
+                    var value2 = ReadNumber();
                 }
                 else
                 {
@@ -386,43 +387,39 @@ public class RomLoader : TextBasedLoader
             while (true)
             {
                 letter = ReadLetter();
-                if (letter == 'S') // code moved into while loop
+                if (letter == 'A')
                 {
-                    objectData.Size = ReadWord();
-                }
-                else if (letter == 'R')
-                {
-                    // TODO: restriction (see db2.C:746)
-                    string type = ReadWord();
-                    long value = ReadNumber();
-                    long notR = ReadNumber();
-                }
-                else if (letter == 'W')
-                {
-                    // TODO: restriction (see db2.C:771)
-                    string skill = ReadWord();
-                    long value = ReadNumber();
-                    long notR = ReadNumber();
-                }
-                else if (letter == 'Z')
-                {
-                    // TODO: ability upgrade (see db2.C:811)
-                    string skill = ReadWord();
-                    long value = ReadNumber();
-                }
-                else if (letter == 'A')
-                {
-                    // TODO: oldstyle affects (see db2.C:841)
-                    int location = (int)ReadNumber();
-                    int modifier = (int)ReadNumber();
+                    ObjectAffect aff = new()
+                    {
+                        Where = ObjectAffect.WhereToAttributeOrResource,
+                        Level = objectData.Level,
+                        Location = (int)ReadNumber(),
+                        Modifier = (int)ReadNumber(),
+                        BitVector = 0,
+                    };
+                    objectData.Affects.Add(aff);
                 }
                 else if (letter == 'F')
                 {
-                    // TODO: affects (see db2.C:863)
-                    letter = ReadLetter();
-                    int location = (int)ReadNumber();
-                    int modifier = (int)ReadNumber();
-                    long vector = ReadFlags();
+                    char where = ReadLetter();
+                    ObjectAffect aff = new()
+                    {
+                        Level = objectData.Level,
+                        Location = (int)ReadNumber(),
+                        Modifier = (int)ReadNumber(),
+                        BitVector = ReadFlags(),
+                    };
+                    switch (where)
+                    {
+                        case 'A': aff.Where = ObjectAffect.WhereToAffects; break;
+                        case 'I': aff.Where = ObjectAffect.WhereToImmune; break;
+                        case 'R': aff.Where = ObjectAffect.WhereToResist; break;
+                        case 'V': aff.Where = ObjectAffect.WhereToVuln; break;
+                        default:
+                            Logger.LogError("ParseObjects: item [vnum:{vnum}] Invalid affect where '{where}'", vnum, where);
+                            break;
+                    }
+                    objectData.Affects.Add(aff);
                 }
                 else if (letter == 'E')
                 {
@@ -432,14 +429,6 @@ public class RomLoader : TextBasedLoader
                         Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc '{keywords}' already exists", vnum, keywords);
                     else
                         objectData.ExtraDescr.Add(keywords, description);
-                }
-                else if (letter == 'Y')
-                {
-                    // TODO: affects (see db2.C:948)
-                    string where = ReadWord();
-                    string location = ReadWord();
-                    long value1 = ReadNumber();
-                    long value2 = ReadNumber();
                 }
                 else if (letter == 'M')
                 {

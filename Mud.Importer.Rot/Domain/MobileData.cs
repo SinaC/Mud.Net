@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Rot;
+﻿namespace Mud.Importer.Rot.Domain;
 
-public class MobileData
+internal class MobileData
 {
     public int VNum { get; set; }
     public string PlayerName { get; set; } = default!;

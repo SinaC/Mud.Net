@@ -1,6 +1,6 @@
-﻿namespace Mud.Importer.Rot;
+﻿namespace Mud.Importer.Rot.Domain;
 
-public class RoomData
+internal class RoomData
 {
     public const int MaxDir = 10;
 
@@ -17,7 +17,7 @@ public class RoomData
     public string Guild { get; set; } = default!;
     public string Race { get; set; } = default!;
     public ExitData[] Exits { get; set; } = new ExitData[MaxDir];
-    public Dictionary<string,string> ExtraDescr { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, string> ExtraDescr { get; set; } = new Dictionary<string, string>();
     public ExitData Transfer { get; set; } = default!;
     public string Owner { get; set; } = default!;
     public bool HealNeg { get; set; }
@@ -25,7 +25,7 @@ public class RoomData
     public List<ResetData> Resets { get; set; } = new List<ResetData>();
 }
 
-public class ExitData
+internal class ExitData
 {
     public const long ExDoor = 0x01;
     public const long ExClosed = 0x02;
@@ -41,7 +41,7 @@ public class ExitData
     public int DestinationVNum { get; set; } // destination room vnum  (u1.vnum in original code)
 }
 
-public class ResetData
+internal class ResetData
 {
     public char Command { get; set; }
     public int Arg1 { get; set; }

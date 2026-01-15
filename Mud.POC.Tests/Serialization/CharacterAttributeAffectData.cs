@@ -1,4 +1,5 @@
-﻿using Mud.Server.Domain;
+﻿using Mud.Domain;
+using Mud.Server.Domain;
 
 namespace Mud.POC.Tests.Serialization;
 

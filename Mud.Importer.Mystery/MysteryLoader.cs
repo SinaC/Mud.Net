@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
+using Mud.Importer.Mystery.Domain;
 
 #pragma warning disable 642
 
@@ -56,13 +57,13 @@ public class MysteryLoader : TextBasedLoader
 
     private int _lastAreaVnum;
 
-    public IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
+    internal IReadOnlyCollection<AreaData> Areas => _areas.AsReadOnly();
 
-    public IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
+    internal IReadOnlyCollection<MobileData> Mobiles => _mobiles.AsReadOnly();
 
-    public IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
+    internal IReadOnlyCollection<ObjectData> Objects => _objects.AsReadOnly();
 
-    public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
+    internal IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
     public MysteryLoader(ILogger<MysteryLoader> logger)
         : base(logger)
@@ -387,17 +388,38 @@ public class MysteryLoader : TextBasedLoader
                 }
                 else if (letter == 'A')
                 {
-                    // TODO: oldstyle affects (see db2.C:841)
-                    int location = (int) ReadNumber();
-                    int modifier = (int) ReadNumber();
+                    ObjectAffect aff = new()
+                    {
+                        Where = ObjectAffect.WhereToAttributeOrResource,
+                        Level = objectData.Level,
+                        Location = (int)ReadNumber(),
+                        Modifier = (int)ReadNumber(),
+                        BitVector = 0,
+                    };
+                    objectData.Affects.Add(aff);
                 }
                 else if (letter == 'F')
                 {
-                    // TODO: affects (see db2.C:863)
-                    letter = ReadLetter();
-                    int location = (int) ReadNumber();
-                    int modifier = (int) ReadNumber();
-                    long vector = ReadFlags();
+                    char where = ReadLetter();
+                    ObjectAffect aff = new()
+                    {
+                        Level = objectData.Level,
+                        Location = (int)ReadNumber(),
+                        Modifier = (int)ReadNumber(),
+                        BitVector = ReadFlags(),
+                    };
+                    switch (where)
+                    {
+                        case 'A': aff.Where = ObjectAffect.WhereToAffects; break;
+                        case 'B': aff.Where = ObjectAffect.WhereToAffects2; break;
+                        case 'I': aff.Where = ObjectAffect.WhereToImmune; break;
+                        case 'R': aff.Where = ObjectAffect.WhereToResist; break;
+                        case 'V': aff.Where = ObjectAffect.WhereToVuln; break;
+                        default:
+                            Logger.LogError("ParseObjects: item [vnum:{vnum}] Invalid affect where '{where}'", vnum, where);
+                            break;
+                    }
+                    objectData.Affects.Add(aff);
                 }
                 else if (letter == 'E')
                 {

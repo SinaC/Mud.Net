@@ -9,4 +9,5 @@ public enum AuraFlags
     Permanent   = 0x00000004, // No duration
     Hidden      = 0x00000008, // Not displayed
     Shapeshift  = 0x00000010, // must be unique
+    Inherent    = 0x00000020, // no related to an ability
 }
