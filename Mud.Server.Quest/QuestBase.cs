@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Blueprints.Item;
 using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
@@ -55,37 +53,6 @@ public abstract class QuestBase : IQuest
     public IEnumerable<IQuestObjective> Objectives => _objectives;
 
     public abstract IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable { get; }
-
-    public void GenerateKillLoot(INonPlayableCharacter victim, IContainer container)
-    {
-        if (victim.Blueprint == null)
-            return;
-        if (!KillLootTable.TryGetValue(victim.Blueprint.Id, out var table))
-            return;
-        // generate only items which are not quest objective or not completed quest objective
-        var forbiddenIds = new HashSet<int>();
-        foreach(var itemQuestObjective in _objectives.OfType<LootItemQuestObjective>().Where(x => x.IsCompleted))
-            forbiddenIds.Add(itemQuestObjective.ItemBlueprint.Id);
-        var killLoots = table.GenerateLoots(forbiddenIds);
-        if (killLoots != null)
-        {
-            foreach (var lootBlueprintId in killLoots)
-            {
-                var questItemBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(lootBlueprintId);
-                if (questItemBlueprint != null)
-                {
-                    var item = ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
-                    if (item != null)
-                        item.AddBaseItemFlags(false, "StayDeath");
-                    Logger.LogDebug("Loot objective {lootBlueprintId} generated for {name}", lootBlueprintId, Character.DisplayName);
-                }
-                else
-                {
-                    Logger.LogError("Loot objective {lootBlueprintId} doesn't exist (or is not quest item) for quest {title}", lootBlueprintId, Title);
-                }
-            }
-        }
-    }
 
     public void Update(INonPlayableCharacter victim)
     {

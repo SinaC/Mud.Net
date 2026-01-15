@@ -67,8 +67,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IAffectManager AffectManager { get; }
     protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
+    protected ILootManager LootManager { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager)
         : base(logger, gameActionManager, commandParser, messageForwardOptions)
     {
         AbilityManager = abilityManager;
@@ -84,7 +85,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         AffectManager = affectManager;
         FlagsManager = flagsManager;
         Wiznet = wiznet;
-
+        LootManager = lootManager;
         _inventory = [];
         _equipments = [];
         _baseAttributes = new ();
@@ -1304,24 +1305,19 @@ public abstract class CharacterBase : EntityBase, ICharacter
         var playableCharactersImpactedByKill = killer?.GetPlayableCharactersImpactedByKill().ToArray();
 
         // Create corpse if needed
-        IItemCorpse? corpse = null;
-        if (CreateCorpseOnDeath)
-        {
-            if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
-                corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, playableCharactersImpactedByKill);
-            else
-                corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this);
-        }
-        // Handle inventory/equipments/...
-        HandleItemsOnDeath(corpse);
+        var corpse = CreateCorpseOnDeath
+            ? ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this)
+           : null;
 
-        // Gain/lose xp/reputation for each member of groups + auto loot/gold/sac for killer
-        // TODO: what about quest items found in corpse ? killer will get them all if he/she's on the same quest as other group members
+        // Generate Loot
+        LootManager.GenerateLoots(corpse, this, playableCharactersImpactedByKill);
+
+        // xp/reputation/quests for each member of groups + auto loot/gold/sac for killer
         if (payoff)
         {
             if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
             {
-                // xp/reputation
+                // xp/reputation/quests/...
                 var groupLevelSum = playableCharactersImpactedByKill.Sum(x => x.Level);
                 foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill)
                     playableCharacterImpactedByKill?.KillingPayoff(this, groupLevelSum);
@@ -1329,13 +1325,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 // autogold by killer
                 if (corpse != null && killer != null)
                     killer.HandleAutoGold(corpse);
+
                 // autoloot by each PC impacted by kill (this will enable quest item to be retrieved by master and group members) starting by killer
                 if (corpse != null)
                 {
                     foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill.OrderBy(x => x == killer ? 0 : 1))
                         playableCharacterImpactedByKill.HandleAutoLoot(corpse);
                 }
-                // autosac
+
+                // autosac by killer
                 if (corpse != null && killer != null)
                     killer.HandleAutoSacrifice(corpse);
             }
@@ -2014,10 +2012,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected abstract WiznetFlags DeathWiznetFlags { get; }
 
     protected abstract bool CreateCorpseOnDeath { get; }
-
-    protected abstract void HandleMoneyOnDeath(IItemCorpse? corpse);
-
-    protected abstract void GenerateLootsOnDeath(IItemCorpse? corpse);
 
     protected abstract int CharacterTypeSpecificDamageModifier(int damage);
 
@@ -2783,114 +2777,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
     private void OnDamageReceived(int damage, DamageSources damageSource)
     {
         RageGenerator.GenerateRageFromIncomingDamage(this, damage, damageSource);
-    }
-
-    private void HandleItemsOnDeath(IItemCorpse? corpse)
-    {
-        // Money
-        HandleMoneyOnDeath(corpse);
-
-        // Fill corpse with inventory
-        var inventory = Inventory.ToArray();
-        foreach (var item in inventory)
-        {
-            var result = HandleItemOnDeath(item, corpse);
-            switch (result)
-            {
-                case HandleItemOnDeathResults.MoveToCorpse:
-                    item.ChangeContainer(corpse);
-                    break;
-                case HandleItemOnDeathResults.MoveToRoom:
-                    item.ChangeContainer(Room);
-                    break;
-                case HandleItemOnDeathResults.Destroy:
-                    ItemManager.RemoveItem(item);
-                    break;
-            }
-        }
-
-        // Fill corpse with equipment
-        var equipment = Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToArray();
-        foreach (var item in equipment)
-        {
-            var result = HandleItemOnDeath(item, corpse);
-            switch (result)
-            {
-                case HandleItemOnDeathResults.MoveToCorpse:
-                    item.ChangeEquippedBy(null, false);
-                    item.ChangeContainer(corpse);
-                    break;
-                case HandleItemOnDeathResults.MoveToRoom:
-                    item.ChangeEquippedBy(null, false);
-                    item.ChangeContainer(Room);
-                    break;
-                case HandleItemOnDeathResults.Destroy:
-                    ItemManager.RemoveItem(item);
-                    break;
-            }
-        }
-
-        // Check victim loot table
-        GenerateLootsOnDeath(corpse);
-    }
-
-    // Perform actions on item before putting it in corpse
-    private enum HandleItemOnDeathResults
-    {
-        Nop, // stays on character
-        MoveToCorpse, // move item to corpse
-        MoveToRoom, // move item to room
-        Destroy, // destroy item
-    }
-
-    private HandleItemOnDeathResults HandleItemOnDeath(IItem item, IItemCorpse? corpse)
-    {
-        if (NoLootOnDeath)
-            return HandleItemOnDeathResults.Destroy;
-
-        if (item.ItemFlags.IsSet("Inventory"))
-            return HandleItemOnDeathResults.Destroy;
-        if (item.ItemFlags.IsSet("StayDeath"))
-            return HandleItemOnDeathResults.Nop;
-        if (item is IItemPotion)
-            item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(500, 1000)));
-        else if (item is IItemScroll)
-            item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
-        if (item.ItemFlags.IsSet("VisibleDeath"))
-            item.RemoveBaseItemFlags(false, "VisibleDeath");
-        var isFloating = item.WearLocation == WearLocations.Float;
-        if (isFloating)
-        {
-            if (item.ItemFlags.IsSet("RotDeath"))
-            {
-                if (item is IItemContainer container && container.Content.Any())
-                {
-                    Act(ActOptions.ToRoom, "{0} evaporates, scattering its contents.", item);
-                    var content = container.Content.ToArray();
-                    foreach (var contentItem in content)
-                        contentItem.ChangeContainer(Room);
-                }
-                else
-                    Act(ActOptions.ToRoom, "{0} evaporates.", item);
-                return HandleItemOnDeathResults.Destroy;
-            }
-            Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
-            item.Recompute();
-            return HandleItemOnDeathResults.MoveToRoom;
-        }
-        if (item.ItemFlags.IsSet("RotDeath"))
-        {
-            var duration = RandomManager.Range(5, 10);
-            item.SetTimer(TimeSpan.FromMinutes(duration));
-            item.RemoveBaseItemFlags(false, "RotDeath");
-        }
-        item.Recompute();
-        if (corpse == null)
-        {
-            Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
-            return HandleItemOnDeathResults.MoveToRoom;
-        }
-        return HandleItemOnDeathResults.MoveToCorpse;
     }
 
     //

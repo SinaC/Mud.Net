@@ -79,26 +79,6 @@ public class ItemCorpse : ItemBase, IItemCorpse
         }
     }
 
-    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, IEnumerable<IPlayableCharacter> playableCharactersImpactedByKill)
-    {
-        Initialize(guid, blueprint, room, victim);
-
-        if (victim is INonPlayableCharacter npcVictim)
-        {
-            // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
-            foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill)
-            {
-                foreach (var quest in playableCharacterImpactedByKill.ActiveQuests)
-                {
-                    // Update kill objectives
-                    quest.Update(npcVictim);
-                    // Generate loot on corpse
-                    quest.GenerateKillLoot(npcVictim, this);
-                }
-            }
-        }
-    }
-
     #region IItemCorpse
 
     #region IContainer
