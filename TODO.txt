@@ -1,15 +1,16 @@
 INGOING
 DONE
-    load item affect from area files
-    Rom/Rot/Mystery importer
-    fix resource current/max setter to avoid going below 0
+    change folder structures
+    move Server/Mud.Server.Random to shared/Mud.Random
+    move Server/Flags to Shared
 
 ==========
 == TODO ==
 ==========
-generated items
-    https://wowpedia.fandom.com/wiki/Item_suffix
-generated item will be based on blueprint found in specific range ?
+    generate item blueprint for each type of item/weapon within specific range
+        -> use these blueprint for generated items
+    generated items
+        https://wowpedia.fandom.com/wiki/Item_suffix
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)

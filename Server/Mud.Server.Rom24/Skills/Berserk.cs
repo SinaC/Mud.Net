@@ -1,0 +1,95 @@
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
+using Mud.Server.Ability;
+using Mud.Server.Ability.Skill;
+using Mud.Server.Affects.Character;
+using Mud.Server.Common.Attributes;
+using Mud.Server.Domain;
+using Mud.Flags;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Random;
+
+namespace Mud.Server.Rom24.Skills;
+
+[CharacterCommand("berserk", "Ability", "Skill", "Combat")]
+[Skill(SkillName, AbilityEffects.Buff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+[AbilityCharacterWearOffMessage("You feel your pulse slow down.")]
+[Help(
+@"Only powerful warriors can master berserking, the ability to enter insane rage
+in combat.  Its effects are not altogether unlike the frenzy spell -- a huge
+surge of combat prowess, coupled with a disregard for personal safety.  
+Berserking warriors are more resistant to the effects of magic.")]
+public class Berserk : NoTargetSkillBase
+{
+    private const string SkillName = "Berserk";
+
+    private IAuraManager AuraManager { get; }
+
+    public Berserk(ILogger<Berserk> logger, IRandomManager randomManager, IAuraManager auraManager) 
+        : base(logger, randomManager)
+    {
+        AuraManager = auraManager;
+    }
+
+    public override string? Setup(ISkillActionInput skillActionInput)
+    {
+        var baseSetup = base.Setup(skillActionInput);
+        if (baseSetup != null)
+            return baseSetup;
+
+        if (Learned == 0
+            || (User is INonPlayableCharacter npcUser && !npcUser.OffensiveFlags.IsSet("Berserk")))
+            return "You turn red in the face, but nothing happens.";
+
+        if (User.CharacterFlags.IsSet("Berserk")
+            || User.GetAura(SkillName) != null
+            || User.GetAura("Frenzy") != null)
+            return "You get a little madder.";
+
+        if (User.CharacterFlags.IsSet("Calm"))
+            return "You're feeling to mellow to berserk.";
+
+        return null;
+    }
+
+    protected override bool Invoke()
+    {
+        int chance = Learned;
+
+        // modifiers
+        if (User.Fighting != null)
+            chance += 10;
+
+        // Below 50%, hp helps, above hurts
+        int hpPercent = (100 * User[ResourceKinds.HitPoints]) / User.MaxResource(ResourceKinds.HitPoints);
+        chance += 25 - hpPercent / 2;
+
+        //
+        if (RandomManager.Chance(chance))
+        {
+            User.UpdateResource(ResourceKinds.HitPoints, User.Level * 2);
+
+            User.Send("Your pulse races as you are consumed by rage!");
+            User.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", User);
+
+            int duration = RandomManager.Fuzzy(User.Level / 8);
+            int modifier = Math.Max(1, User.Level / 5);
+            int acModifier = Math.Max(10, 10 * (User.Level / 5));
+            AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Berserk"), Operator = AffectOperators.Or },
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });
+            return true;
+        }
+        else
+        {
+            User.Send("Your pulse speeds up, but nothing happens.");
+
+            return false;
+        }
+    }
+}
