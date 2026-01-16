@@ -33,12 +33,14 @@ public class ItemPill : ItemCastSpellsNoChargeBase, IItemPill
         return new ItemPillData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
-            Source = Source,
             SpellLevel = SpellLevel,
         };
     }

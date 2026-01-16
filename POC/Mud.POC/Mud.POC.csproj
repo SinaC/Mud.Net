@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\Mud.Server.Affects\Mud.Server.Affects.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server\Mud.Server.csproj" />

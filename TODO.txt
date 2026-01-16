@@ -1,16 +1,21 @@
 INGOING
 DONE
-    add item source (reset, loot table, quest, creation spell, ...)
-    when checking ability resource cost, remove error/warning about move not found in allowed resources
-    perserve item order after load/save
+    item generator POC
+    aura from pfile are not duplicated anymore
+    description is displayed correctly in iinfo and istat
+    short description and description are now saved in pfile
 
 ==========
 == TODO ==
 ==========
+
     generate item blueprint for each type of item/weapon within specific range
         -> use these blueprint for generated items
     generated items
         https://wowpedia.fandom.com/wiki/Item_suffix
+
+
+aura on items blueprint's affects are duplicated when saved then reloaded
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)

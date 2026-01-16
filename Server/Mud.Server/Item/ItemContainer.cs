@@ -160,6 +160,9 @@ public class ItemContainer : ItemBase, IItemContainer
         return new ItemContainerData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
