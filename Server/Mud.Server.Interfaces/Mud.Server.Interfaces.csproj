@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Mud.Blueprints\Mud.Blueprints.csproj" />
+    <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Domain\Mud.Domain.csproj" />
+    <ProjectReference Include="..\..\Network\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
+  </ItemGroup>
+</Project>

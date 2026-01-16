@@ -537,9 +537,11 @@
     {
       "Slot": "OffHand",
       "Item": {
+		"$type": "shield",
         "ItemId": 3704,
         "Level": 0,
         "Cost": 0,
+		"Armor": 10,
         "DecayPulseLeft": 0,
         "ItemFlags": "MeltOnDrop",
         "Auras": []

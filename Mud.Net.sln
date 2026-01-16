@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Interfaces", "Mud.Network.Interfaces\Mud.Network.Interfaces.csproj", "{C911CF12-D355-4814-91BB-A68D05ADE97C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5337A639-8D6A-4F63-83CC-E2CED6D36DD5}"
 	ProjectSection(SolutionItems) = preProject
 		ISSUES.txt = ISSUES.txt
@@ -15,83 +13,85 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Mystery", "Mud.Importer.Mystery\Mud.Importer.Mystery.csproj", "{B461B0BD-82F7-41E5-B3BA-E364A3F1F61D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Interfaces", "Network\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj", "{C911CF12-D355-4814-91BB-A68D05ADE97C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer", "Mud.Importer\Mud.Importer.csproj", "{3A7F2847-D754-4EB1-AD57-805DF4F9241F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Mystery", "Importers\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj", "{B461B0BD-82F7-41E5-B3BA-E364A3F1F61D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Telnet", "Mud.Network.Telnet\Mud.Network.Telnet.csproj", "{724EAACF-1475-4F47-8109-4C9EBE6A72DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer", "Importers\Mud.Importer\Mud.Importer.csproj", "{3A7F2847-D754-4EB1-AD57-805DF4F9241F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server", "Mud.Server\Mud.Server.csproj", "{500B0C50-09F7-4A68-91C3-619E12157AAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Telnet", "Network\Mud.Network.Telnet\Mud.Network.Telnet.csproj", "{724EAACF-1475-4F47-8109-4C9EBE6A72DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Tests", "Mud.Server.Tests\Mud.Server.Tests.csproj", "{789A37E6-D166-47E3-80AE-90C9159271F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server", "Server\Mud.Server\Mud.Server.csproj", "{500B0C50-09F7-4A68-91C3-619E12157AAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.POC", "Mud.POC\Mud.POC.csproj", "{628AEB23-CBE8-4B89-A1B6-AB6B1C22D0FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Tests", "Server\Mud.Server.Tests\Mud.Server.Tests.csproj", "{789A37E6-D166-47E3-80AE-90C9159271F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.DataStructures", "Mud.DataStructures\Mud.DataStructures.csproj", "{00B458AF-C87B-4558-8BA7-B21D9626621E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.POC", "POC\Mud.POC\Mud.POC.csproj", "{628AEB23-CBE8-4B89-A1B6-AB6B1C22D0FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Blueprints", "Mud.Blueprints\Mud.Blueprints.csproj", "{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.DataStructures", "DataStructures\Mud.DataStructures\Mud.DataStructures.csproj", "{00B458AF-C87B-4558-8BA7-B21D9626621E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.WPFTestApplication", "Mud.Server.WPFTestApplication\Mud.Server.WPFTestApplication.csproj", "{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Blueprints", "Shared\Mud.Blueprints\Mud.Blueprints.csproj", "{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Interfaces", "Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj", "{2C853490-7908-4E36-B906-72EBA82B4236}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.WPFTestApplication", "Apps\Mud.WPFTestApplication\Mud.WPFTestApplication.csproj", "{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Common", "Mud.Server.Common\Mud.Server.Common.csproj", "{D1A7D787-0FE7-4281-9458-D2C8F728E404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Interfaces", "Repository\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj", "{2C853490-7908-4E36-B906-72EBA82B4236}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rom", "Mud.Importer.Rom\Mud.Importer.Rom.csproj", "{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Common", "Server\Mud.Server.Common\Mud.Server.Common.csproj", "{D1A7D787-0FE7-4281-9458-D2C8F728E404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Domain", "Mud.Domain\Mud.Domain.csproj", "{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rom", "Importers\Mud.Importer.Rom\Mud.Importer.Rom.csproj", "{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Tests", "Mud.Repository.Tests\Mud.Repository.Tests.csproj", "{C41805E5-1006-44B7-9B6F-7E25DDE637C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Domain", "Shared\Mud.Domain\Mud.Domain.csproj", "{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.DataStructures.Tests", "Mud.DataStructures.Tests\Mud.DataStructures.Tests.csproj", "{25081629-0DCF-4C8A-B29C-97FF14355A0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Tests", "Repository\Mud.Repository.Tests\Mud.Repository.Tests.csproj", "{C41805E5-1006-44B7-9B6F-7E25DDE637C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.POC.Tests", "Mud.POC.Tests\Mud.POC.Tests.csproj", "{50F49BEF-1865-48B2-8CB1-C9A5E35A189E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.DataStructures.Tests", "DataStructures\Mud.DataStructures.Tests\Mud.DataStructures.Tests.csproj", "{25081629-0DCF-4C8A-B29C-97FF14355A0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rot", "Mud.Importer.Rot\Mud.Importer.Rot.csproj", "{4C7BC035-7C0C-4D18-B225-EFC3556E51FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.POC.Tests", "POC\Mud.POC.Tests\Mud.POC.Tests.csproj", "{50F49BEF-1865-48B2-8CB1-C9A5E35A189E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Interfaces", "Mud.Server.Interfaces\Mud.Server.Interfaces.csproj", "{01D3F406-AEDA-4C60-951A-6B1133AEC859}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rot", "Importers\Mud.Importer.Rot\Mud.Importer.Rot.csproj", "{4C7BC035-7C0C-4D18-B225-EFC3556E51FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Rom24", "Mud.Server.Rom24\Mud.Server.Rom24.csproj", "{8A3A8267-B6A3-441B-BCF1-925B09FF920E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Interfaces", "Server\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj", "{01D3F406-AEDA-4C60-951A-6B1133AEC859}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Affects", "Mud.Server.Affects\Mud.Server.Affects.csproj", "{80EA18BC-ABA5-40F7-8483-6B94750CD704}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Rom24", "Server\Mud.Server.Rom24\Mud.Server.Rom24.csproj", "{8A3A8267-B6A3-441B-BCF1-925B09FF920E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Common", "Mud.Common\Mud.Common.csproj", "{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Affects", "Server\Mud.Server.Affects\Mud.Server.Affects.csproj", "{80EA18BC-ABA5-40F7-8483-6B94750CD704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Ability", "Mud.Server.Ability\Mud.Server.Ability.csproj", "{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Common", "Shared\Mud.Common\Mud.Common.csproj", "{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Random", "Mud.Server.Random\Mud.Server.Random.csproj", "{0221CF37-EEC1-4144-91C4-00176A735D34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Ability", "Server\Mud.Server.Ability\Mud.Server.Ability.csproj", "{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Class", "Mud.Server.Class\Mud.Server.Class.csproj", "{E4077E94-96EA-4999-AE8F-F93B519E4411}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Random", "Server\Mud.Server.Random\Mud.Server.Random.csproj", "{0221CF37-EEC1-4144-91C4-00176A735D34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Race", "Mud.Server.Race\Mud.Server.Race.csproj", "{9760A8E7-084E-4574-93E5-3473745E502D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Class", "Server\Mud.Server.Class\Mud.Server.Class.csproj", "{E4077E94-96EA-4999-AE8F-F93B519E4411}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.GameAction", "Mud.Server.GameAction\Mud.Server.GameAction.csproj", "{FCD8AD1B-893C-475C-82E3-77F957772FE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Race", "Server\Mud.Server.Race\Mud.Server.Race.csproj", "{9760A8E7-084E-4574-93E5-3473745E502D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Effects", "Mud.Server.Effects\Mud.Server.Effects.csproj", "{AF96073C-D599-4604-8E8F-60B8BE186745}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.GameAction", "Server\Mud.Server.GameAction\Mud.Server.GameAction.csproj", "{FCD8AD1B-893C-475C-82E3-77F957772FE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Flags", "Mud.Server.Flags\Mud.Server.Flags.csproj", "{17B2B5F8-66C4-4E77-B910-C41C0539F436}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Effects", "Server\Mud.Server.Effects\Mud.Server.Effects.csproj", "{AF96073C-D599-4604-8E8F-60B8BE186745}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Flags.Interfaces", "Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj", "{5B52488B-2CBE-4FC7-9004-E0C23E97907F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Flags", "Server\Mud.Server.Flags\Mud.Server.Flags.csproj", "{17B2B5F8-66C4-4E77-B910-C41C0539F436}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.POC", "Mud.Server.POC\Mud.Server.POC.csproj", "{080E826A-D582-47F3-9865-457B79E4BCC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Flags.Interfaces", "Server\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj", "{5B52488B-2CBE-4FC7-9004-E0C23E97907F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Rom24.Tests", "Mud.Server.Rom24.Tests\Mud.Server.Rom24.Tests.csproj", "{707552CB-AB59-44E6-8118-27BDED057105}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.POC", "Server\Mud.Server.POC\Mud.Server.POC.csproj", "{080E826A-D582-47F3-9865-457B79E4BCC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Commands", "Mud.Server.Commands\Mud.Server.Commands.csproj", "{E88F9679-4337-4B7A-A501-F9EE90823646}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Rom24.Tests", "Server\Mud.Server.Rom24.Tests\Mud.Server.Rom24.Tests.csproj", "{707552CB-AB59-44E6-8118-27BDED057105}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.TableGenerator", "Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj", "{A172453C-4D5A-43F3-9394-87AEE96C010C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Commands", "Server\Mud.Server.Commands\Mud.Server.Commands.csproj", "{E88F9679-4337-4B7A-A501-F9EE90823646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Quest", "Mud.Server.Quest\Mud.Server.Quest.csproj", "{8E39B1FE-77E5-4D34-A913-F2CDD11F366F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.TableGenerator", "Server\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj", "{A172453C-4D5A-43F3-9394-87AEE96C010C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Options", "Mud.Server.Options\Mud.Server.Options.csproj", "{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Quest", "Server\Mud.Server.Quest\Mud.Server.Quest.csproj", "{8E39B1FE-77E5-4D34-A913-F2CDD11F366F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem.Json", "Mud.Repository.Filesystem.Json\Mud.Repository.Filesystem.Json.csproj", "{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Options", "Server\Mud.Server.Options\Mud.Server.Options.csproj", "{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Specials", "Mud.Server.Specials\Mud.Server.Specials.csproj", "{C6EABB72-135C-4D65-B842-3C9BBCCF7266}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem.Json", "Repository\Mud.Repository.Filesystem.Json\Mud.Repository.Filesystem.Json.csproj", "{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Group", "Mud.Server.Group\Mud.Server.Group.csproj", "{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Specials", "Server\Mud.Server.Specials\Mud.Server.Specials.csproj", "{C6EABB72-135C-4D65-B842-3C9BBCCF7266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.ConsoleApp", "Mud.Server.ConsoleApp\Mud.Server.ConsoleApp.csproj", "{467412FE-62FF-4876-AABC-4C663445579A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Group", "Server\Mud.Server.Group\Mud.Server.Group.csproj", "{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.ConsoleApp", "Apps\Mud.ConsoleApp\Mud.ConsoleApp.csproj", "{467412FE-62FF-4876-AABC-4C663445579A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -115,11 +115,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FD3B9E3B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EA442811-F88D-451D-98C5-B17C6F85731F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Domain", "Mud.Server.Domain\Mud.Server.Domain.csproj", "{F9D618D9-B301-40D4-A642-0D19A8AEBE99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Domain", "Server\Mud.Server.Domain\Mud.Server.Domain.csproj", "{F9D618D9-B301-40D4-A642-0D19A8AEBE99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F3636787-714B-4854-9B72-3AD8C73364C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Guards", "Mud.Server.Guards\Mud.Server.Guards.csproj", "{E1DB2423-AFF8-4DA2-A41C-92669EA226E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Guards", "Server\Mud.Server.Guards\Mud.Server.Guards.csproj", "{E1DB2423-AFF8-4DA2-A41C-92669EA226E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55E31C0E-DAB1-4984-8D12-8D57A2D20123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Shared.Tests", "Shared\Mud.Shared.Tests\Mud.Shared.Tests.csproj", "{28663C3E-880E-C6D5-CBBC-1713E5D458C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -635,6 +639,18 @@ Global
 		{E1DB2423-AFF8-4DA2-A41C-92669EA226E7}.Release|x64.Build.0 = Release|Any CPU
 		{E1DB2423-AFF8-4DA2-A41C-92669EA226E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{E1DB2423-AFF8-4DA2-A41C-92669EA226E7}.Release|x86.Build.0 = Release|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Debug|x64.Build.0 = Debug|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Release|x64.ActiveCfg = Release|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Release|x64.Build.0 = Release|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -686,6 +702,8 @@ Global
 		{EA442811-F88D-451D-98C5-B17C6F85731F} = {48B6ECDF-2C62-4682-92AB-91294AF0E6BF}
 		{F9D618D9-B301-40D4-A642-0D19A8AEBE99} = {4FA2EDC2-D805-4C6B-92D7-4B070A19C416}
 		{E1DB2423-AFF8-4DA2-A41C-92669EA226E7} = {4FA2EDC2-D805-4C6B-92D7-4B070A19C416}
+		{55E31C0E-DAB1-4984-8D12-8D57A2D20123} = {F3636787-714B-4854-9B72-3AD8C73364C3}
+		{28663C3E-880E-C6D5-CBBC-1713E5D458C2} = {55E31C0E-DAB1-4984-8D12-8D57A2D20123}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52511B7C-61D3-428F-BE8C-65D4DEAC01A0}
