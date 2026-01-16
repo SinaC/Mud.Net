@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Character;
 

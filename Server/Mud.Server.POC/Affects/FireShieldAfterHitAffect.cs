@@ -2,7 +2,7 @@
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.POC.Affects;

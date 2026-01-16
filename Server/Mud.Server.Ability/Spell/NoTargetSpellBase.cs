@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Ability.Spell;
 

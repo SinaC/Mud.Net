@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 
 namespace Mud.Server.Tests.Affects;
 

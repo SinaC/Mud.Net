@@ -12,7 +12,7 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Item;
 

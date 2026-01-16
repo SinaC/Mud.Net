@@ -2,10 +2,10 @@
 using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Ability.Spell;
 

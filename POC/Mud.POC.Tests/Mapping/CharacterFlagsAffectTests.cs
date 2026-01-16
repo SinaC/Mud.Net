@@ -2,8 +2,8 @@
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Affects.Character;
-using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Riok.Mapperly.Abstractions;
 
 namespace Mud.POC.Tests.Mapping

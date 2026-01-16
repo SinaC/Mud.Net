@@ -4,7 +4,7 @@ using Mud.Server.Ability.Passive;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.Passives;
 

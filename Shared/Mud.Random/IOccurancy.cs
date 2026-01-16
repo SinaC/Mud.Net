@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Random;
+﻿namespace Mud.Random;
 
 public interface IOccurancy<out T>
 {

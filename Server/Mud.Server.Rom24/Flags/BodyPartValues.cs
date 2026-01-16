@@ -1,6 +1,6 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
 

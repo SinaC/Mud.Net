@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.POC.Serialization;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using System.Text.Json;
 
 namespace Mud.POC.Tests.Serialization

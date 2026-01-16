@@ -1,7 +1,7 @@
 ﻿using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 

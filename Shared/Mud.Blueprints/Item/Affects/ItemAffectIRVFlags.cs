@@ -1,4 +1,4 @@
-﻿using Mud.Server.Flags.Interfaces;
+﻿using Mud.Flags.Interfaces;
 
 namespace Mud.Blueprints.Item.Affects;
 

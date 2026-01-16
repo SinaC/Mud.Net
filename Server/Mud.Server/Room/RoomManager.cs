@@ -4,12 +4,12 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Room;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Room;
 

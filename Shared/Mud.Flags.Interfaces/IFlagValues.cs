@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Flags.Interfaces;
+﻿namespace Mud.Flags.Interfaces;
 
 public interface IFlagValues
 {

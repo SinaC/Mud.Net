@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Domain\Mud.Domain.csproj" />
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
-    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Guards\Mud.Server.Guards.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />

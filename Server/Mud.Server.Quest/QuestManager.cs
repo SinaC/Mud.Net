@@ -7,7 +7,7 @@ using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Options;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Quest;
 

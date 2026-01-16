@@ -3,7 +3,7 @@ using Moq;
 using Mud.Domain;
 using Mud.Server.Combat;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Tests;

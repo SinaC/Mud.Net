@@ -2,7 +2,7 @@
 using Mud.Blueprints.Character;
 using Mud.Domain;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Tests.NonPlayableCharacters;

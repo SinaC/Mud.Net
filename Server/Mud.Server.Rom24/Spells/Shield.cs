@@ -10,7 +10,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
-using Mud.Server.Random;
+using Mud.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]

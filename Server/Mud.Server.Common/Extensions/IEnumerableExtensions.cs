@@ -1,6 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Server.Common.Extensions;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Common.Extensions;
 

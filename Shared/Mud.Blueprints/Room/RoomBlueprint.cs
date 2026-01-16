@@ -1,6 +1,6 @@
 ﻿using Mud.Blueprints.Reset;
 using Mud.Domain;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using System.Runtime.Serialization;
 
 namespace Mud.Blueprints.Room;

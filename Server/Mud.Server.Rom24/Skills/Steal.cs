@@ -17,7 +17,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Options;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 

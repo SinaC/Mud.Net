@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 using System.ComponentModel.Design.Serialization;
 
 namespace Mud.Server.Server;

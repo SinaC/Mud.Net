@@ -2,7 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.POC.Passives;
 

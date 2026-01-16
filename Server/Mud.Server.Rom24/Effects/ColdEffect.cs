@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.Effects;
 

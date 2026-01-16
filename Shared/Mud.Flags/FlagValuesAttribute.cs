@@ -1,6 +1,6 @@
 ﻿using Mud.Common.Attributes;
 
-namespace Mud.Server.Flags;
+namespace Mud.Flags;
 
 
 [AttributeUsage(AttributeTargets.Class,  AllowMultiple = false)]

@@ -7,7 +7,7 @@ using Mud.Importer.Rom;
 using Mud.Network.Interfaces;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Room;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;

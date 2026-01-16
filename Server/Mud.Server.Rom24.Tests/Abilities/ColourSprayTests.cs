@@ -5,14 +5,14 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Rom24.Effects;
 using Mud.Server.Rom24.Spells;
 

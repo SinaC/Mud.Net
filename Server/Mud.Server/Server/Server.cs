@@ -37,7 +37,7 @@ using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
 using System.Diagnostics;

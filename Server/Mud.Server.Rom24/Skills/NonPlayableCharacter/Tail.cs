@@ -6,7 +6,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 

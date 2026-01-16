@@ -3,12 +3,12 @@ using Moq;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Commands.Character.Ability;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.Rom24.Tests.Abilities;

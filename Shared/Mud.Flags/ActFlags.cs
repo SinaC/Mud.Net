@@ -1,6 +1,6 @@
-﻿using Mud.Server.Flags.Interfaces;
+﻿using Mud.Flags.Interfaces;
 
-namespace Mud.Server.Flags;
+namespace Mud.Flags;
 
 public class ActFlags : DataStructures.Flags.Flags, IActFlags
 {

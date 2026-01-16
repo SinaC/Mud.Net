@@ -3,7 +3,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.MegaSpells;
 

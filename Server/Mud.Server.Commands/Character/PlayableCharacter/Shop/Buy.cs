@@ -12,7 +12,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 

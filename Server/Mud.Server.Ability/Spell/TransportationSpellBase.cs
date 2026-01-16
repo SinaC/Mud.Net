@@ -3,7 +3,7 @@ using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Ability.Spell;

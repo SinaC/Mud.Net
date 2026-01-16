@@ -8,7 +8,7 @@ using Mud.Server.Domain;
 using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Tests.Abilities;
 

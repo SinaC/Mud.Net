@@ -6,7 +6,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Commands.PlayableCharacter;

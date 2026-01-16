@@ -2,7 +2,7 @@
 using Mud.Common.Attributes;
 using System.Diagnostics;
 
-namespace Mud.Server.Random;
+namespace Mud.Random;
 
 [Export(typeof(IRandomManager)), Shared]
 public class RandomManager : IRandomManager

@@ -2,7 +2,7 @@
 using Mud.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Server;

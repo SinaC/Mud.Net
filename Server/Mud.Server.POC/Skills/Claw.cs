@@ -6,7 +6,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.POC.Skills;
 

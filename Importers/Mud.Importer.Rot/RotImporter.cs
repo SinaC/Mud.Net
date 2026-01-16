@@ -9,8 +9,8 @@ using Mud.Blueprints.Room;
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Importer.Rot.Domain;
-using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using System.Diagnostics;
 
 namespace Mud.Importer.Rot;

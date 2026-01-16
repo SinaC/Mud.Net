@@ -6,7 +6,7 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.POC.Spells;
 

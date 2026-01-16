@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;

@@ -6,7 +6,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.WeaponEffects;
 

@@ -5,7 +5,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Character.PlayableCharacter;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -16,7 +16,7 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Tests.Damage;
 

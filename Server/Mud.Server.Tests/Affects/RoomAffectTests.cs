@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Room;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 
 namespace Mud.Server.Tests.Affects;

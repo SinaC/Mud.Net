@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests.Abilities;

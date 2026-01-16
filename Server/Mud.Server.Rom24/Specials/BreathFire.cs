@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Specials;
 
 namespace Mud.Server.Rom24.Specials

@@ -8,7 +8,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.POC.Affects;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.POC.Skills;
 

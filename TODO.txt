@@ -1,9 +1,8 @@
 INGOING
+DONE
     change folder structures
     move Server/Mud.Server.Random to shared/Mud.Random
-    move Blueprints to Server\
-
-DONE
+    move Server/Flags to Shared
 
 ==========
 == TODO ==

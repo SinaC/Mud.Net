@@ -9,7 +9,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 

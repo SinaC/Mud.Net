@@ -6,7 +6,7 @@ using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 

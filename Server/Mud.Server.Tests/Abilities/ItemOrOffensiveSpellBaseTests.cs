@@ -6,11 +6,11 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Character;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Tests.Abilities;
 

@@ -1,5 +1,5 @@
 ﻿using Mud.Common;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Tests.Random;
 

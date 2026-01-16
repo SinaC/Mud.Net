@@ -5,7 +5,7 @@ using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;

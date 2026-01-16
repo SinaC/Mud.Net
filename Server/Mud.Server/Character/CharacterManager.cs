@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Mud.Blueprints.Character;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;

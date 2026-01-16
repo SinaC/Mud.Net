@@ -12,7 +12,7 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Spells;

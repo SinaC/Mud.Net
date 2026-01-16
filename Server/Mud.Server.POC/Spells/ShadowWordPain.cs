@@ -5,7 +5,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.POC.Affects;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.POC.Spells
 {

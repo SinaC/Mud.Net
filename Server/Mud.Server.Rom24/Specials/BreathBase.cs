@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Special;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Rom24.Specials
 {

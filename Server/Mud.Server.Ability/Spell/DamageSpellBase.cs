@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Domain;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Ability.Spell;
 

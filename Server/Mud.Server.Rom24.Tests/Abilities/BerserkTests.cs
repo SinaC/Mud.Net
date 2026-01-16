@@ -4,11 +4,11 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Rom24.Skills;
 
 namespace Mud.Server.Rom24.Tests.Abilities;

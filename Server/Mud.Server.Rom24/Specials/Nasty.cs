@@ -3,7 +3,7 @@ using Mud.Server.Commands.Character.Combat;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Special;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Specials;
 
 namespace Mud.Server.Rom24.Specials

@@ -1,6 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Domain;
-using Mud.Server.Flags.Interfaces;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Class;

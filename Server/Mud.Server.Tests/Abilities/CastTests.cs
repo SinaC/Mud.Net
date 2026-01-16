@@ -5,12 +5,12 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Commands.Character.Ability;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Guards;
-using Mud.Server.Random;
+using Mud.Random;
 using Mud.Server.Tests.Mocking;
 using System.Reflection;
 

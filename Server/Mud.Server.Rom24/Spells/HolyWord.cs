@@ -7,7 +7,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
-using Mud.Server.Random;
+using Mud.Random;
 using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Spells;

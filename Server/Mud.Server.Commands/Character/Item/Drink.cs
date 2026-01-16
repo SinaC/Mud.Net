@@ -3,7 +3,7 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Server.Flags;
+using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
-using Mud.Server.Random;
+using Mud.Random;
 
 namespace Mud.Server.Commands.Character.Item;
 
