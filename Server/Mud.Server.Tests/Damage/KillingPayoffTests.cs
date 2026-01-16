@@ -155,7 +155,7 @@ public class KillingPayoffTests
         Assert.AreEqual(2120, pc.Experience);
         Assert.AreEqual(3, pc.Level);
         Assert.AreEqual(0, pc.Alignment);
-        itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), roomMock.Object, victim), Times.Once);
+        itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), victim, It.IsAny<string>(), roomMock.Object), Times.Once);
         lootManagerMock.Verify(x => x.GenerateLoots(It.IsAny<IItemCorpse?>(), victim, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Contains(pc))), Times.Once);
     }
 
@@ -324,7 +324,7 @@ public class KillingPayoffTests
         Assert.AreEqual(13, pc2.Level);
         Assert.AreEqual(0, pc2.Alignment);
         //
-        itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), roomMock.Object, victim), Times.Once);
+        itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), victim, It.IsAny<string>(), roomMock.Object), Times.Once);
         lootManagerMock.Verify(x => x.GenerateLoots(It.IsAny<IItemCorpse?>(), victim, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Contains(pc2))), Times.Once); // pc2 performed the kill
     }
 }

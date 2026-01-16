@@ -87,7 +87,7 @@ public class ResetManager : IResetManager
                                 int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : room.Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
                                 if (localCount < itemInRoomReset.LocalLimit)
                                 {
-                                    var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, room);
+                                    var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, $"Reset-O[{room.Blueprint.Id}]", room);
                                     Logger.LogDebug("Room {blueprintId}: O: Obj {itemId} added room", room.Blueprint.Id, itemInRoomReset.ItemId);
                                     wasPreviousResetLoaded = true;
                                 }
@@ -125,7 +125,7 @@ public class ResetManager : IResetManager
                                             int localLimit = itemInItemReset.LocalLimit == -1 ? int.MinValue : container.Content.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
                                             if (localLimit < itemInItemReset.LocalLimit)
                                             {
-                                                ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, container);
+                                                ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, $"Reset-P[{room.Blueprint.Id}]", container);
                                                 Logger.LogDebug("Room {blueprintId}: P: Obj {itemId} added in {containerId}", room.Blueprint.Id, itemInItemReset.ItemId, container.Blueprint.Id);
                                                 wasPreviousResetLoaded = true;
                                             }
@@ -169,7 +169,7 @@ public class ResetManager : IResetManager
                                 {
                                     if (lastCharacter != null)
                                     {
-                                        var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, $"Reset-G[{room.Blueprint.Id}]", lastCharacter);
                                         if (item != null)
                                         {
                                             if (lastCharacter.Blueprint is CharacterShopBlueprint)
@@ -216,7 +216,7 @@ public class ResetManager : IResetManager
                                 {
                                     if (lastCharacter != null)
                                     {
-                                        var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter); // will be added in inventory
+                                        var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, $"Reset-E[{room.Blueprint.Id}]", lastCharacter); // will be added in inventory
                                         if (item != null)
                                         {
                                             Logger.LogDebug("Room {blueprintId}: E: Obj {itemId} added on {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, lastCharacter.Blueprint.Id);

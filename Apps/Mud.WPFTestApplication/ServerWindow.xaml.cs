@@ -8,9 +8,10 @@ using Mud.Blueprints.Quest;
 using Mud.Blueprints.Room;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.Importer;
 using Mud.Network.Interfaces;
-using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
@@ -20,8 +21,7 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
-using Serilog.Core;
+using Mud.WPFTestApplication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -686,7 +686,7 @@ public partial class ServerWindow : Window, INetworkServer
             ShieldFlags = new ShieldFlags(),
         };
         var ghost = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), ghostBlueprint, onTheBridge);
-        ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, ghost!);
+        ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, "generated from test app", ghost!);
 
         // add one NoCorpse mob
         var spiritBlueprint = new CharacterNormalBlueprint
@@ -725,27 +725,27 @@ public partial class ServerWindow : Window, INetworkServer
             ShieldFlags = new ShieldFlags(),
         };
         var spirit = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), spiritBlueprint, inn);
-        ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, spirit!);
+        ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, "generated from test app", spirit!);
 
-        //
-        var tableSpider = ServiceProvider.GetRequiredService<TreasureTable<int>>();
-        tableSpider.Name = "TreasureList_Fido";
-        tableSpider.Entries =
+        // generate loot table for fido (id 3062) in midgaard
+        var tableNormalLoot = ServiceProvider.GetRequiredService<TreasureTable<int>>();
+        tableNormalLoot.Name = "TreasureList_NormalLoot";
+        tableNormalLoot.Entries =
         [
             new() {
                 Value = 3360, // standard sleeves
-                Occurancy = 25,
-                MaxOccurancy = 1
+                Occurancy = 25, // 25/(25+65+10) -> 25%
+                MaxInstance = 1
             },
             new() {
                 Value = 3011, // bread
-                Occurancy = 65,
-                MaxOccurancy = 1
+                Occurancy = 65, // 65/(25+65+10) -> 65%
+                MaxInstance = 1
             },
             new() {
                 Value = 3365, // war banner
-                Occurancy = 10,
-                MaxOccurancy = 1
+                Occurancy = 10, // 10/(25+65+10) -> 10%
+                MaxInstance = 1
             }
         ];
         var tableRareLoot = ServiceProvider.GetRequiredService<TreasureTable<int>>();
@@ -754,32 +754,34 @@ public partial class ServerWindow : Window, INetworkServer
         [
             new() {
                 Value = 3133, // city key
-                Occurancy = 1,
-                MaxOccurancy = 1,
+                Occurancy = 1, // 1/1 -> 100% because no other entries
+                MaxInstance = 1,
             }
         ];
-        //var tableEmpty = ServiceProvider.GetRequiredService<TreasureTable<int>>();
-        //tableEmpty.Name = "TreasureList_Empty";
+        var tableEmpty = ServiceProvider.GetRequiredService<TreasureTable<int>>();
+        tableEmpty.Name = "TreasureList_Empty";
         var fidoTable = ServiceProvider.GetRequiredService<CharacterLootTable<int>>();
         fidoTable.MinLoot = 1;
         fidoTable.MaxLoot = 3;
         fidoTable.Entries =
         [
             new() {
-                Value = tableSpider,
-                Occurancy = 45,
-                Max = 2
+                Value = tableNormalLoot,
+                Occurancy = 45, // 45/(45+5+50) -> 45%
+                MaxLootCount = 2
             },
             new() {
                 Value = tableRareLoot,
-                Occurancy = 5,
-                Max = 1
+                Occurancy = 5, // 5/(45+5+50) -> 5%
+                MaxLootCount = 1
             },
-            //new() {
-            //    Value = tableEmpty,
-            //    Occurancy = 50,
-            //    Max = 1
-            //}
+            new() {
+                Value = tableEmpty,
+                Occurancy = 50, // 50/(45+5+50) -> 50%
+                MaxLootCount = 1
+            }
         ];
+        var fidoBlueprint = CharacterManager.GetCharacterBlueprint<CharacterBlueprintBase>(3062);
+        fidoBlueprint.LootTable = fidoTable;
     }
 }

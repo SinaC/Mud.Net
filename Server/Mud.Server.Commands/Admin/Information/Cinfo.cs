@@ -45,7 +45,7 @@ public class Cinfo : AdminGameAction
     public override void Execute(IActionInput actionInput)
     {
         StringBuilder sb = new();
-        sb.AppendFormatLine("Id: {0} Type: {1}", Blueprint.Id, Blueprint.GetType());
+        sb.AppendFormatLine("Id: {0} Type: {1}", Blueprint.Id, Blueprint.GetType().Name.AfterLast('.'));
         sb.AppendFormatLine("Name: {0}", Blueprint.Name);
         sb.AppendFormatLine("ShortDescription: {0}", Blueprint.ShortDescription);
         sb.AppendFormat("LongDescription: {0}", Blueprint.LongDescription);

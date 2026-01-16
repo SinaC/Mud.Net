@@ -104,7 +104,7 @@ public class FoodTests : TestBase
         var roomMock = new Mock<IRoom>();
 
         var food = new ItemFood(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
-        food.Initialize(Guid.NewGuid(), foodBlueprint, roomMock.Object);
+        food.Initialize(Guid.NewGuid(), foodBlueprint, string.Empty, roomMock.Object);
 
         return food;
     }

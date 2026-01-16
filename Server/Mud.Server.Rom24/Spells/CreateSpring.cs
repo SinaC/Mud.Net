@@ -35,7 +35,7 @@ public class CreateSpring : ItemCreationSpellBase
 
     protected override void Invoke()
     {
-        var fountain = ItemManager.AddItem<IItemFountain>(Guid.NewGuid(), SpringBlueprintId, Caster.Room);
+        var fountain = ItemManager.AddItem<IItemFountain>(Guid.NewGuid(), SpringBlueprintId, $"SpellCreateSpring[{Caster.DebugName}]", Caster.Room);
         if (fountain == null)
         {
             Caster.Send("The spell fizzles and dies.");

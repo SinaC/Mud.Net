@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
@@ -17,12 +18,6 @@ Str: 23/15 means you have a 15 strength from training, but a 23 strength
 from other factors (skills, spells or items).")]
 public class Score : CharacterGameAction
 {
-    private static ResourceKinds[] SpecialResourceKinds { get; } =
-    [
-        ResourceKinds.HitPoints,
-        ResourceKinds.MovePoints,
-    ];
-
     public override void Execute(IActionInput actionInput)
     {
         var pc = Actor as IPlayableCharacter;
@@ -44,7 +39,7 @@ public class Score : CharacterGameAction
         sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", Actor[ResourceKinds.HitPoints], Actor.MaxResource(ResourceKinds.HitPoints), Actor[Armors.Bash]);
         sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", Actor[ResourceKinds.MovePoints], Actor.MaxResource(ResourceKinds.MovePoints), Actor[Armors.Pierce]);
         List<string> resources = [];
-        foreach (ResourceKinds resourceKind in Actor.CurrentResourceKinds.Except(SpecialResourceKinds))
+        foreach (var resourceKind in Actor.CurrentResourceKinds.Where(x => !x.IsMandatoryResource()))
             resources.Add($"%g%{resourceKind,-7}: %W%[{Actor[resourceKind],8}/{Actor.MaxResource(resourceKind),8}]%x%");
         if (resources.Count < 3)
             resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));

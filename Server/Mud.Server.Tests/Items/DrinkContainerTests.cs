@@ -177,7 +177,7 @@ public class DrinkContainerTests : TestBase
         var roomMock = new Mock<IRoom>();
 
         var drinkContainer = new ItemDrinkContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
-        drinkContainer.Initialize(Guid.NewGuid(), drinkContainerBlueprint, roomMock.Object);
+        drinkContainer.Initialize(Guid.NewGuid(), drinkContainerBlueprint, string.Empty, roomMock.Object);
 
         return drinkContainer;
     }

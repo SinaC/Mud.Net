@@ -58,7 +58,7 @@ public class Nexus : TransportationSpellBase
         int duration = 1 + Level / 10;
 
         // create portal one (Caster -> victim)
-        var portal1 = ItemManager.AddItem<IItemPortal>(Guid.NewGuid(), PortalBlueprintId, Caster.Room);
+        var portal1 = ItemManager.AddItem<IItemPortal>(Guid.NewGuid(), PortalBlueprintId, $"SpellNexus[{Caster.DebugName}]", Caster.Room);
         if (portal1 == null)
         {
             Caster.Send("The spell fails to create a portal.");
@@ -75,7 +75,7 @@ public class Nexus : TransportationSpellBase
             return; // no second portal if rooms are the same
 
         // create portal two (victim -> Caster)
-        var portal2 = ItemManager.AddItem<IItemPortal>(Guid.NewGuid(), PortalBlueprintId, Victim.Room);
+        var portal2 = ItemManager.AddItem<IItemPortal>(Guid.NewGuid(), PortalBlueprintId, $"SpellNexus[{Caster.DebugName}]", Victim.Room);
         if (portal2 == null)
         {
             Caster.Send("The spell fails to create a portal.");

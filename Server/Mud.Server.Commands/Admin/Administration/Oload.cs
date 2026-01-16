@@ -60,7 +60,7 @@ public class Oload : AdminGameAction
         var container = ItemBlueprint.NoTake
             ? Impersonating.Room
             : Actor.Impersonating as IContainer;
-        var item = ItemManager.AddItem(Guid.NewGuid(), ItemBlueprint, container!);
+        var item = ItemManager.AddItem(Guid.NewGuid(), ItemBlueprint, $"Oload[{Actor.Name}]", container!);
         if (item == null)
         {
             Wiznet.Log($"DoIload: item with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);

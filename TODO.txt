@@ -1,8 +1,8 @@
 INGOING
 DONE
-    change folder structures
-    move Server/Mud.Server.Random to shared/Mud.Random
-    move Server/Flags to Shared
+    add item source (reset, loot table, quest, creation spell, ...)
+    when checking ability resource cost, remove error/warning about move not found in allowed resources
+    perserve item order after load/save
 
 ==========
 == TODO ==
@@ -77,6 +77,13 @@ EntityBase.GetAura should use flags, effect name, ...
 aura/ability flags
     ChangeVisibility: for invis like skills/spells, could be used in Damage function to make source visible if needed
     Cancellation/DispelMagic could use this information
+
+try to remove every check on ability/affects/... with a check on a collection of behaviors
+for example we could have a list of RegenBehavior used in Regen
+when affected by haste, we add a RegenBehavior([hp,mana,psy,move], *0.5)
+when in a room, we add RegenBehavior(hit, room.healrate/100), RegenBehavior([mana,psy], room.resourcerate/100)
+...
+and this could be extended to everything that can modify a character (same for item and room)
 
 add colors everywhere :)
 

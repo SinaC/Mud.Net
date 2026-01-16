@@ -6,14 +6,14 @@ using Mud.Blueprints.Item.Affects;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
+using Mud.Random;
 using Mud.Server.Affects.Character;
-using Mud.Server.Affects.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Entity;
-using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
@@ -23,7 +23,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 using System.Diagnostics;
 using System.Text;
 
@@ -48,12 +47,13 @@ public abstract class ItemBase: EntityBase, IItem
         ItemFlags = new ItemFlags();
     }
 
-    protected void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
+    protected void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, string source, IContainer containedInto)
         where TBlueprint : ItemBlueprintBase
     {
         Initialize(guid, name, description);
 
         Blueprint = blueprint;
+        Source = source;
         ShortDescription = shortDescription;
         containedInto.PutInContainer(this); // put in container
         ContainedInto = containedInto; // set above container as our container
@@ -81,10 +81,10 @@ public abstract class ItemBase: EntityBase, IItem
         BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), blueprint.ItemFlags, null);
     }
 
-    public void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
+    public void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string source, IContainer containedInto)
         where TBlueprint : ItemBlueprintBase
     {
-        Initialize(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto);
+        Initialize(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, source, containedInto);
         ResetAttributesAndResourcesAndFlags();
     }
 
@@ -92,7 +92,7 @@ public abstract class ItemBase: EntityBase, IItem
         where TBlueprint : ItemBlueprintBase
         where TData : ItemData
     {
-        Initialize(guid, blueprint, name, shortDescription, description, containedInto);
+        Initialize(guid, blueprint, name, shortDescription, description, data.Source, containedInto);
 
         Level = data.Level;
         Cost = data.Cost;
@@ -205,6 +205,8 @@ public abstract class ItemBase: EntityBase, IItem
     public IContainer ContainedInto { get; private set; } = null!;
 
     public ItemBlueprintBase Blueprint { get; private set; } = null!;
+
+    public string Source { get; private set; } = null!;
 
     public string ShortDescription { get; private set; } = null!;
 
@@ -350,10 +352,11 @@ public abstract class ItemBase: EntityBase, IItem
         {
             ItemId = Blueprint.Id,
             Level = Level,
+            Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),
-            Cost = Cost,
+            Source = Source,
         };
     }
 

@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.WPFTestApplication
+﻿namespace Mud.WPFTestApplication
 {
     public class ImportOptions
     {

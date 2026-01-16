@@ -87,7 +87,7 @@ public class StaffTests : TestBase
         var roomMock = new Mock<IRoom>();
 
         var staff = new ItemStaff(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
-        staff.Initialize(Guid.NewGuid(), staffBlueprint, roomMock.Object);
+        staff.Initialize(Guid.NewGuid(), staffBlueprint, string.Empty, roomMock.Object);
 
         return staff;
     }

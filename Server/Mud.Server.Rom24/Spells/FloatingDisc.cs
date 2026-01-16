@@ -41,7 +41,7 @@ public class FloatingDisc : ItemCreationSpellBase
     protected override void Invoke()
     {
         // TODO: using data is kindy hacky to perform a custom level item
-        var floatingDisc = ItemManager.AddItem<IItemContainer>(Guid.NewGuid(), FloatingDiscBlueprintId, Caster);
+        var floatingDisc = ItemManager.AddItem<IItemContainer>(Guid.NewGuid(), FloatingDiscBlueprintId, $"SpellFloatingDisc[{Caster.DebugName}]", Caster);
         if (floatingDisc == null)
         {
             Caster.Send("The spell fizzles and dies.");

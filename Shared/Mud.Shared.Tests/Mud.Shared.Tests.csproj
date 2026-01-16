@@ -31,7 +31,4 @@
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TreasureTable\" />
-  </ItemGroup>
 </Project>

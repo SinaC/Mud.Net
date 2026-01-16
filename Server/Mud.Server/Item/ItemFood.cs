@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
-using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
@@ -10,7 +10,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -22,9 +21,9 @@ public class ItemFood : ItemBase, IItemFood
     {
     }
 
-    public void Initialize(Guid guid, ItemFoodBlueprint blueprint, IContainer containedInto)
+    public void Initialize(Guid guid, ItemFoodBlueprint blueprint, string source, IContainer containedInto)
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         FullHours = blueprint.FullHours;
         HungerHours = blueprint.HungerHours;
@@ -88,6 +87,7 @@ public class ItemFood : ItemBase, IItemFood
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),
+            Source = Source,
             FullHours = FullHours,
             HungerHours = HungerHours,
             IsPoisoned = IsPoisoned

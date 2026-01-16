@@ -2,13 +2,13 @@
 using Mud.Blueprints.Item;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest.Objectives;
-using Mud.Random;
 
 namespace Mud.Server.Server;
 
@@ -68,10 +68,9 @@ public class LootManager : ILootManager
         var silver = victim.SilverCoins;
         var gold = victim.GoldCoins;
 
-        if (corpse == null)
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, room); // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
-        else
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
+        var item = corpse == null
+            ? ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, $"Loot[{victim.DebugName}]", room) // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
+            : ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, $"Loot[{victim.DebugName}]", corpse);
     }
 
     private void HandleMoneyOnDeath(IPlayableCharacter victim, IItemCorpse? corpse, IRoom room)
@@ -88,10 +87,9 @@ public class LootManager : ILootManager
             victim.UpdateMoney(-silver, -gold);
         }
 
-        if (corpse == null)
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, room); // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
-        else
-            ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, corpse);
+        var item = corpse == null
+            ? ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, $"Loot[{victim.DebugName}]", room) // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
+            : ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, $"Loot[{victim.DebugName}]", corpse);
     }
 
     private void HandleItemsOnDeath(ICharacter victim, IItemCorpse? corpse, IRoom room)
@@ -204,14 +202,13 @@ public class LootManager : ILootManager
             return;
 
         var loots = victim.Blueprint.LootTable.GenerateLoots();
-        if (loots != null && loots.Count != 0)
+        if (loots != null && loots.Count > 0)
         {
             foreach (var lootBlueprintId in loots)
             {
-                if (corpse == null)
-                    ItemManager.AddItem(Guid.NewGuid(), lootBlueprintId, room); // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
-                else
-                    ItemManager.AddItem(Guid.NewGuid(), lootBlueprintId, corpse);
+                var item = corpse == null
+                    ? ItemManager.AddItem(Guid.NewGuid(), lootBlueprintId, $"LootTable[{victim.DebugName}]", room) // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
+                    : ItemManager.AddItem(Guid.NewGuid(), lootBlueprintId, $"LootTable[{victim.DebugName}]", corpse);
             }
         }
     }
@@ -222,12 +219,14 @@ public class LootManager : ILootManager
             return;
         if (!quest.KillLootTable.TryGetValue(victim.Blueprint.Id, out var table))
             return;
+
         // generate only items which are not quest objective or not completed quest objective
         var forbiddenIds = new HashSet<int>();
         foreach (var itemQuestObjective in quest.Objectives.OfType<LootItemQuestObjective>().Where(x => x.IsCompleted))
             forbiddenIds.Add(itemQuestObjective.ItemBlueprint.Id);
+
         var loots = table.GenerateLoots(forbiddenIds);
-        if (loots != null)
+        if (loots != null && loots.Count > 0)
         {
             foreach (var lootBlueprintId in loots)
             {
@@ -235,8 +234,8 @@ public class LootManager : ILootManager
                 if (questItemBlueprint != null)
                 {
                     var item = corpse == null
-                        ? ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, room) // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
-                        : ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, corpse);
+                        ? ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, $"QuestLoot[{quest.DebugName}][{victim.DebugName}]", room) // TODO: Act(ActOptions.ToRoom, "{0} falls to the floor.", item); ?
+                        : ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, $"QuestLoot[{quest.DebugName}][{victim.DebugName}]", corpse);
                     item?.AddBaseItemFlags(false, "StayDeath");
                 }
                 else

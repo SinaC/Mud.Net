@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Common;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
@@ -12,7 +13,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -33,9 +33,9 @@ public class ItemCorpse : ItemBase, IItemCorpse
         _content = [];
     }
 
-    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IContainer container)
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, string source, IContainer container)
     {
-        base.Initialize(guid, blueprint, container);
+        base.Initialize(guid, blueprint, source, container);
 
         _corpseName = null!;
         _hasBeenGeneratedByKillingCharacter = false;
@@ -57,9 +57,9 @@ public class ItemCorpse : ItemBase, IItemCorpse
         }
     }
 
-    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, ICharacter victim, string source, IRoom room)
     {
-        Initialize(guid, blueprint, BuildName(victim.DisplayName, true, blueprint), BuildShortDescription(victim.DisplayName, true, blueprint), BuildDescription(victim.DisplayName, true, blueprint), room);
+        Initialize(guid, blueprint, BuildName(victim.DisplayName, true, blueprint), BuildShortDescription(victim.DisplayName, true, blueprint), BuildDescription(victim.DisplayName, true, blueprint), source, room);
 
         _corpseName = victim.DisplayName;
         _hasBeenGeneratedByKillingCharacter = true;
@@ -122,6 +122,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
+            Source = Source,
             Contains = MapContent(),
             IsPlayableCharacterCorpse = IsPlayableCharacterCorpse,
             HasBeenGeneratedByKillingCharacter = _hasBeenGeneratedByKillingCharacter,

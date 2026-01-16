@@ -2,6 +2,7 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
@@ -22,12 +23,6 @@ SPLIT commands.  If anyone in your group is attacked, you will automatically
 join the fight.")]
 public class Group : PlayableCharacterGameAction
 {
-    private static ResourceKinds[] SpecialResourceKinds { get; } =
-    [
-        ResourceKinds.HitPoints,
-        ResourceKinds.MovePoints,
-    ];
-
     private int MaxLevel { get; }
 
     public Group(IOptions<WorldOptions> worldOptions)
@@ -177,7 +172,7 @@ public class Group : PlayableCharacterGameAction
     private static StringBuilder BuildResources(ICharacter character)
     {
         StringBuilder sb = new ();
-        foreach (var resource in character.CurrentResourceKinds.Except(SpecialResourceKinds))
+        foreach (var resource in character.CurrentResourceKinds.Where(x => !x.IsMandatoryResource()))
             sb.AppendFormat("{0,5}/{1,5} {2}", character[resource], character.MaxResource(resource), resource.ToString().ToLowerInvariant());
         return sb;
     }

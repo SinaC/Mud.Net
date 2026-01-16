@@ -403,7 +403,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
             return;
 
         // create item on the floor
-        var itemQuest = ItemManager.AddItem(Guid.NewGuid(), itemQuestBlueprint, room);
+        var itemQuest = ItemManager.AddItem(Guid.NewGuid(), itemQuestBlueprint, $"PredefinedQuest[{Blueprint.Id}]", room);
         if (itemQuest == null)
         {
             Logger.LogError("Cannot create quest item {itemBlueprintId} for quest {blueprintId}", itemQuestBlueprint.Id, Blueprint.Id);

@@ -110,7 +110,7 @@ public class Drop : CharacterGameAction
                 ItemManager.RemoveItem(moneyInRoom);
             }
             // recreate new money item
-            ItemManager.AddItemMoney(Guid.NewGuid(), Silver, Gold, Actor.Room);
+            ItemManager.AddItemMoney(Guid.NewGuid(), Silver, Gold, $"Drop[{Actor.DebugName}]", Actor.Room);
             Actor.Act(ActOptions.ToRoom, "{0:N} drops some coins", Actor);
             Actor.Send("Ok.");
             return;

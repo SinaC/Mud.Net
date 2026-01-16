@@ -5,11 +5,11 @@ using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using System.Reflection.Emit;
 
 namespace Mud.Server.Aura;

@@ -3,12 +3,12 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -25,6 +25,4 @@ public class ItemKey : ItemBase, IItemKey
     public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemKey>();
 
     #endregion
-
-    // No additional datas
 }

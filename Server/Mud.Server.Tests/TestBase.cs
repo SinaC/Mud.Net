@@ -83,7 +83,7 @@ public abstract class TestBase
         };
 
         var weapon = new ItemWeapon(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, null!, null!);
-        weapon.Initialize(Guid.NewGuid(), weaponBlueprint, room);
+        weapon.Initialize(Guid.NewGuid(), weaponBlueprint, string.Empty, room);
 
         return weapon;
     }
@@ -103,7 +103,7 @@ public abstract class TestBase
         };
 
         var armor = new ItemArmor(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
-        armor.Initialize(Guid.NewGuid(), armorBlueprint, room);
+        armor.Initialize(Guid.NewGuid(), armorBlueprint, string.Empty, room);
 
         return armor;
     }

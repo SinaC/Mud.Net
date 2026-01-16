@@ -3,20 +3,21 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Server.Domain;
-using Mud.Server.Domain.SerializationData;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Random;
+using Mud.Server.Domain;
+using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Item;
@@ -36,9 +37,9 @@ public class ItemWeapon : ItemBase, IItemWeapon
         FlagsManager = flagsManager;
     }
 
-    public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
+    public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, string source, IContainer containedInto) 
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         Type = blueprint.Type;
         DamageType = blueprint.DamageType;
@@ -162,6 +163,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
+            Source = Source,
             WeaponFlags = BaseWeaponFlags.Serialize(),
             DiceCount = DiceCount,
             DiceValue = DiceValue,

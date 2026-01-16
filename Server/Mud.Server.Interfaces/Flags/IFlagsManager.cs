@@ -1,7 +1,7 @@
 ﻿using Mud.DataStructures.Flags;
 using System.Text;
 
-namespace Mud.Flags.Interfaces;
+namespace Mud.Server.Interfaces.Flags;
 
 public interface IFlagsManager
 {

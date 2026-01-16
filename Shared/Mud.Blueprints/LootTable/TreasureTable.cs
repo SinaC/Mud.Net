@@ -28,7 +28,7 @@ public class TreasureTable<T>
         {
             Value = item,
             Occurancy = occurancy,
-            MaxOccurancy = maxOccurancy
+            MaxInstance = maxOccurancy
         });
         return true;
     }
@@ -46,7 +46,7 @@ public class TreasureTable<T>
         if (Entries == null)
         {
             Logger.LogWarning("TreasureTable.GenerateLoot: No entries");
-            return default; // max occurancy reached, no loot
+            return default; // no entries
         }
         var randomEntry = RandomManager.RandomOccurancy<TreasureTableEntry<T>, T>(Entries);
         if (randomEntry == default)
@@ -55,7 +55,7 @@ public class TreasureTable<T>
             return default;
         }
         //Logger.LogDebug("Loot: {0}", randomEntry.Value);
-        if (history.Count(x => x.Equals(randomEntry.Value)) >= randomEntry.MaxOccurancy)
+        if (history.Count(x => x.Equals(randomEntry.Value)) >= randomEntry.MaxInstance)
         {
             //Logger.LogDebug("Loot rejected #>Max");
             return default; // max occurancy reached, no loot

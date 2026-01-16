@@ -24,9 +24,9 @@ public class ItemLight : ItemBase, IItemLight
     {
     }
 
-    public void Initialize(Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
+    public void Initialize(Guid guid, ItemLightBlueprint blueprint, string source, IContainer containedInto) 
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         TimeLeft = blueprint.DurationHours == Infinite
             ? Infinite
@@ -75,6 +75,7 @@ public class ItemLight : ItemBase, IItemLight
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
+            Source = Source,
             TimeLeft = TimeLeft,
         };
     }

@@ -3,13 +3,13 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -21,9 +21,9 @@ public class ItemMoney : ItemBase, IItemMoney
     {
     }
 
-    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, IContainer containedInto)
+    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, string source, IContainer containedInto)
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         SilverCoins = blueprint.SilverCoins;
         GoldCoins = blueprint.GoldCoins;
@@ -37,9 +37,9 @@ public class ItemMoney : ItemBase, IItemMoney
         GoldCoins = blueprint.GoldCoins;
     }
 
-    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, long silverCoins, long goldCoins, IContainer containedInto)
+    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, long silverCoins, long goldCoins, string source, IContainer containedInto)
     {
-        Initialize(guid, blueprint, BuildName(silverCoins, goldCoins), BuildShortDescription(silverCoins, goldCoins), BuildDescription(silverCoins, goldCoins), containedInto);
+        Initialize(guid, blueprint, BuildName(silverCoins, goldCoins), BuildShortDescription(silverCoins, goldCoins), BuildDescription(silverCoins, goldCoins), source, containedInto);
 
         SilverCoins = silverCoins;
         GoldCoins = goldCoins;

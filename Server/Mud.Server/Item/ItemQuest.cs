@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -12,7 +13,6 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -26,7 +26,7 @@ public class ItemQuest : ItemBase, IItemQuest
 
     public void Initialize(Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, $"Quest[{blueprint.Id}]", containedInto);
 
         UpdateQuestObjective(containedInto, false);
     }

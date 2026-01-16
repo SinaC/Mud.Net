@@ -23,9 +23,9 @@ public class ItemShield : ItemBase, IItemShield
     {
     }
 
-    public void Initialize(Guid guid, ItemShieldBlueprint blueprint, IContainer containedInto) 
+    public void Initialize(Guid guid, ItemShieldBlueprint blueprint, string source, IContainer containedInto) 
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         if (blueprint.ItemFlags != null && blueprint.ItemFlags.IsSet("RandomStats"))
             Armor = RandomManager.Range(blueprint.Armor * 95 / 100, blueprint.Armor * 105 / 100);
@@ -62,6 +62,7 @@ public class ItemShield : ItemBase, IItemShield
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
+            Source = Source,
             Armor = Armor
         };
     }

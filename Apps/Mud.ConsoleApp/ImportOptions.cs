@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.ConsoleApp;
+﻿namespace Mud.ConsoleApp;
 
 public class ImportOptions
 {

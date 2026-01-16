@@ -97,7 +97,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 
             playerMock.Verify(x => x.Send("You have been KILLED!!", It.IsAny<bool>()), Times.Once);
-            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), pc), Times.Once);
+            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), pc, It.IsAny<string>(), It.IsAny<IRoom>()), Times.Once);
             lootManagerMock.Verify(x => x.GenerateLoots(It.IsAny<IItemCorpse?>(), pc, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Contains(pc))), Times.Once);
         }
 
@@ -133,7 +133,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 It.IsAny<Exception>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
-            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), It.IsAny<IRoom>(), npc), Times.Once);
+            itemManagerMock.Verify(x => x.AddItemCorpse(It.IsAny<Guid>(), npc, It.IsAny<string>(), It.IsAny<IRoom>()), Times.Once);
             lootManagerMock.Verify(x => x.GenerateLoots(It.IsAny<IItemCorpse?>(), npc, It.Is<IEnumerable<IPlayableCharacter>>(x => x.Count() == 0)), Times.Once);
         }
 

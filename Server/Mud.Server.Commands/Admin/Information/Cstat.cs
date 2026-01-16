@@ -20,12 +20,6 @@ namespace Mud.Server.Commands.Admin.Information;
 [Syntax("[cmd] <character>")]
 public class Cstat : AdminGameAction
 {
-    private static ResourceKinds[] SpecialResourceKinds { get; } =
-    [
-        ResourceKinds.HitPoints,
-        ResourceKinds.MovePoints,
-    ];
-
     private ICharacterManager CharacterManager { get; }
 
     public Cstat(ICharacterManager characterManager)
@@ -142,14 +136,14 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Parts: {0} (base: {1})", Whom.BodyParts, Whom.BaseBodyParts);
         sb.AppendFormatLine("Alignment: {0}", Whom.Alignment);
         sb.AppendFormatLine("Attributes: {0}", string.Join(",", Enum.GetValues<CharacterAttributes>().Select(x => $"{x.ShortName()}: {Whom[x]} ({Whom.BaseAttribute(x)})")));
-        sb.AppendFormatLine("Resources: {0}", string.Join(",", Enum.GetValues<ResourceKinds>().Except(SpecialResourceKinds).Select(x => $"{x.DisplayName()}: {Whom[x]} Max: {Whom.MaxResource(x)} [{(Whom.CurrentResourceKinds.Contains(x) ? "Y" : "N")}]")));
+        sb.AppendFormatLine("Resources: {0}", string.Join(",", Enum.GetValues<ResourceKinds>().Where(x => !x.IsMandatoryResource()).Select(x => $"{x.DisplayName()}: {Whom[x]} Max: {Whom.MaxResource(x)} [{(Whom.CurrentResourceKinds.Contains(x) ? "Y" : "N")}]")));
         if (npcWhom != null)
         {
             sb.AppendFormatLine("Act: {0}", npcWhom.ActFlags);
             sb.AppendFormatLine("Offensive: {0}", npcWhom.OffensiveFlags);
             sb.AppendFormatLine("Assist: {0}", npcWhom.AssistFlags);
             if (npcWhom.SpecialBehavior != null)
-                sb.AppendFormatLine("Special: {0}", npcWhom.SpecialBehavior.GetType().FullName ?? "???"); // TODO: name ?
+                sb.AppendFormatLine("Special: {0}", npcWhom.SpecialBehavior.GetType().Name.AfterLast('.') ?? "???"); // TODO: name ?
         }
         if (npcWhom?.Blueprint != null)
         {

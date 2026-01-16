@@ -37,6 +37,7 @@ using Mud.Server.Quest.Objectives;
 using Mud.Random;
 using System.Diagnostics;
 using System.Text;
+using Mud.Server.Interfaces.Flags;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
@@ -287,7 +288,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override string DisplayName => Blueprint?.ShortDescription?.UpperFirstLetter() ?? "???";
 
-    public override string DebugName => $"{DisplayName}[{Blueprint?.Id ?? -1}]";
+    public override string DebugName => $"{DisplayName}[Id:{Blueprint?.Id ?? -1}]";
 
     public override void OnAuraRemoved(IAura aura)
     {

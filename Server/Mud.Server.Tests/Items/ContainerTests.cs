@@ -172,7 +172,7 @@ public class ContainerTests : TestBase
         var roomMock = new Mock<IRoom>();
 
         var container = new ItemContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, null!);
-        container.Initialize(Guid.NewGuid(), containerBlueprint, roomMock.Object);
+        container.Initialize(Guid.NewGuid(), containerBlueprint, string.Empty, roomMock.Object);
 
         return container;
     }

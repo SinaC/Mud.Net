@@ -57,7 +57,7 @@ public class Portal : TransportationSpellBase
         }
 
         // create portal
-        var portal = ItemManager.AddItem<IItemPortal>(Guid.NewGuid(), PortalBlueprintId, Caster.Room);
+        var portal = ItemManager.AddItem<IItemPortal>(Guid.NewGuid(), PortalBlueprintId, $"SpellPortal[{Caster.DebugName}]", Caster.Room);
         if (portal == null)
         {
             Caster.Send("The spell fails to create a portal.");
