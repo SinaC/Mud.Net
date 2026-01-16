@@ -82,12 +82,14 @@ public class ItemFood : ItemBase, IItemFood
         return new ItemFoodData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),
-            Source = Source,
             FullHours = FullHours,
             HungerHours = HungerHours,
             IsPoisoned = IsPoisoned

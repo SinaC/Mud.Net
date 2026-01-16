@@ -56,7 +56,7 @@ public class Iinfo : AdminGameAction
         sb.AppendFormatLine("Level: {0} Weight: {1}", Blueprint.Level, Blueprint.Weight);
         sb.AppendFormatLine("Cost: {0} NoTake: {1}", Blueprint.Cost, Blueprint.NoTake);
         sb.AppendFormatLine("Flags: {0} WearLocation: {1}", Blueprint.ItemFlags, Blueprint.WearLocation);
-        sb.AppendFormat("Description: {0}", Blueprint.Description);
+        sb.AppendFormatLine("Description: {0}", Blueprint.Description);
         if (Blueprint.ExtraDescriptions != null)
         {
             foreach (var extraDescription in Blueprint.ExtraDescriptions)

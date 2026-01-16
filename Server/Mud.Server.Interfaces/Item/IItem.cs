@@ -57,7 +57,14 @@ public interface IItem : IEntity
     void RemoveBaseItemFlags(bool recompute, params string[] flags);
     void Disenchant();
 
+    //
+    void SetShortDescription(string shortDescription);
+
+    //
     void IncreaseLevel();
+    void SetLevel(int level);
+    //
+    void SetCost(int cost);
 
     StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay);
 

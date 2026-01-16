@@ -33,12 +33,14 @@ public class ItemWand : ItemCastSpellsChargeBase, IItemWand
         return new ItemWandData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
-            Source = Source,
             SpellLevel = SpellLevel,
             MaxChargeCount = MaxChargeCount,
             CurrentChargeCount = CurrentChargeCount,

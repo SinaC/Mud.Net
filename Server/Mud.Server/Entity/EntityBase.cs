@@ -95,7 +95,7 @@ public abstract class EntityBase : ActorBase, IEntity
     public string Name { get; private set; } = null!;
     public abstract string DisplayName { get; }
     public IEnumerable<string> Keywords { get; private set; } = Array.Empty<string>();
-    public string Description { get; private set; } = null!;
+    public string Description { get; protected set; } = null!;
     public abstract string DebugName { get; }
 
     public bool Incarnatable { get; protected set; } // TODO: assign

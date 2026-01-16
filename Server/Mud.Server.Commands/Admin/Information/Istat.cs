@@ -52,7 +52,7 @@ public class Istat : AdminGameAction
         sb.AppendFormatLine("Name: {0} Keywords: {1}", What.Name, string.Join(",", What.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", What.DisplayName);
         sb.AppendFormatLine("ShortDescription: {0}", What.Blueprint.ShortDescription);
-        sb.AppendFormat("Description: {0}", What.Description);
+        sb.AppendFormatLine("Description: {0}", What.Description);
         if (What.ExtraDescriptions != null)
         {
             foreach (var extraDescription in What.ExtraDescriptions)

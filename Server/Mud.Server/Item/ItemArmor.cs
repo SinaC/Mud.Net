@@ -58,6 +58,14 @@ public class ItemArmor : ItemBase, IItemArmor
     public int Slash { get; private set; }
     public int Exotic { get; private set; }
 
+    public void SetArmor(int bash, int pierce, int slash, int exotic)
+    {
+        Bash = bash;
+        Pierce = pierce;
+        Slash = slash;
+        Exotic = exotic;
+    }
+
     #region IActor
 
     public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemArmor>();
@@ -71,12 +79,14 @@ public class ItemArmor : ItemBase, IItemArmor
         return new ItemArmorData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
-            Source = Source,
             Bash = Bash,
             Pierce = Pierce,
             Slash = Slash,

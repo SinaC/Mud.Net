@@ -186,9 +186,9 @@
   ],
   "Conditions": {
     "Drunk": 0,
-    "Full": 4,
-    "Thirst": 32,
-    "Hunger": 23
+    "Full": 0,
+    "Thirst": 31,
+    "Hunger": 21
   },
   "Aliases": {},
   "Cooldowns": {},
@@ -328,13 +328,37 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11936,
+        "TimeLeft": 11935,
         "ItemId": 3716,
+        "Source": null,
+        "ShortDescription": "a war banner",
+        "Description": "a war banner",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Glowing,Magic",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 0,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -346,6 +370,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 102,
+        "Source": null,
+        "ShortDescription": "a smurf hat",
+        "Description": "a smurf hat",
         "Level": 3,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -357,22 +384,58 @@
       "Slot": "Amulet",
       "Item": {
         "ItemId": 104,
+        "Source": null,
+        "ShortDescription": "a small necklace",
+        "Description": "a small necklace",
         "Level": 5,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Glowing",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 5,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Intelligence",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
       "Slot": "Amulet",
       "Item": {
         "ItemId": 104,
+        "Source": null,
+        "ShortDescription": "a small necklace",
+        "Description": "a small necklace",
         "Level": 5,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Glowing",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 5,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Intelligence",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -384,6 +447,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3703,
+        "Source": null,
+        "ShortDescription": "a sub issue vest",
+        "Description": "a sub issue vest",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -400,6 +466,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3711,
+        "Source": null,
+        "ShortDescription": "a sub issue cape",
+        "Description": "a sub issue cape",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -416,6 +485,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3712,
+        "Source": null,
+        "ShortDescription": "a sub issue belt",
+        "Description": "a sub issue belt",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -432,6 +504,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3713,
+        "Source": null,
+        "ShortDescription": "a sub issue bracer",
+        "Description": "a sub issue bracer",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -448,6 +523,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3713,
+        "Source": null,
+        "ShortDescription": "a sub issue bracer",
+        "Description": "a sub issue bracer",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -464,6 +542,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3710,
+        "Source": null,
+        "ShortDescription": "a pair of sub issue sleeves",
+        "Description": "a pair of sub issue sleeves",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -480,6 +561,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3709,
+        "Source": null,
+        "ShortDescription": "a pair of sub issue gloves",
+        "Description": "a pair of sub issue gloves",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -496,6 +580,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3707,
+        "Source": null,
+        "ShortDescription": "a pair of sub issue leggings",
+        "Description": "a pair of sub issue leggings",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -512,6 +599,9 @@
         "Slash": 5,
         "Exotic": 5,
         "ItemId": 3708,
+        "Source": null,
+        "ShortDescription": "a pair of sub issue boots",
+        "Description": "a pair of sub issue boots",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -527,6 +617,9 @@
         "DiceCount": 5,
         "DiceValue": 3,
         "ItemId": 103,
+        "Source": null,
+        "ShortDescription": "a small axe",
+        "Description": "a small axe",
         "Level": 3,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -537,11 +630,14 @@
     {
       "Slot": "OffHand",
       "Item": {
-		"$type": "shield",
+        "$type": "shield",
+        "Armor": 10,
         "ItemId": 3704,
+        "Source": null,
+        "ShortDescription": "a sub issue shield",
+        "Description": "a sub issue shield",
         "Level": 0,
         "Cost": 0,
-		"Armor": 10,
         "DecayPulseLeft": 0,
         "ItemFlags": "MeltOnDrop",
         "Auras": []
@@ -551,6 +647,9 @@
   "Inventory": [
     {
       "ItemId": 80000,
+      "Source": null,
+      "ShortDescription": "Quest item 1",
+      "Description": "Quest item 1",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -559,6 +658,9 @@
     },
     {
       "ItemId": 107,
+      "Source": null,
+      "ShortDescription": "a tiny key",
+      "Description": "a tiny key",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -567,14 +669,41 @@
     },
     {
       "ItemId": 3715,
+      "Source": null,
+      "ShortDescription": "a mud school diploma",
+      "Description": "a mud school diploma",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
       "ItemFlags": "Magic,MeltOnDrop",
-      "Auras": []
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 0,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Wisdom",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Constitution",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
     },
     {
       "ItemId": 3162,
+      "Source": null,
+      "ShortDescription": "a map of the city of Midgaard",
+      "Description": "a map of the city of Midgaard",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -587,6 +716,9 @@
       "DiceCount": 5,
       "DiceValue": 5,
       "ItemId": 103,
+      "Source": null,
+      "ShortDescription": "a small axe",
+      "Description": "a small axe",
       "Level": 3,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -595,6 +727,9 @@
     },
     {
       "ItemId": 107,
+      "Source": null,
+      "ShortDescription": "a tiny key",
+      "Description": "a tiny key",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -603,6 +738,9 @@
     },
     {
       "ItemId": 109,
+      "Source": null,
+      "ShortDescription": "a small key",
+      "Description": "a small key",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -615,6 +753,9 @@
       "DiceCount": 5,
       "DiceValue": 5,
       "ItemId": 103,
+      "Source": null,
+      "ShortDescription": "a small axe",
+      "Description": "a small axe",
       "Level": 3,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -623,6 +764,9 @@
     },
     {
       "ItemId": 109,
+      "Source": null,
+      "ShortDescription": "a small key",
+      "Description": "a small key",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -636,6 +780,9 @@
       "CurrentChargeCount": 1,
       "AlreadyRecharged": false,
       "ItemId": 106,
+      "Source": null,
+      "ShortDescription": "a small wand",
+      "Description": "a small wand",
       "Level": 3,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -649,11 +796,35 @@
       "Slash": 5,
       "Exotic": 5,
       "ItemId": 2107,
+      "Source": null,
+      "ShortDescription": "spiked heeled boots",
+      "Description": "spiked heeled boots",
       "Level": 5,
       "Cost": 0,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
-      "Auras": []
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 5,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Dexterity",
+              "Modifier": -1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
     },
     {
       "$type": "wand",
@@ -662,6 +833,9 @@
       "CurrentChargeCount": 10,
       "AlreadyRecharged": false,
       "ItemId": 2108,
+      "Source": null,
+      "ShortDescription": "a mirror",
+      "Description": "a mirror",
       "Level": 8,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -675,6 +849,9 @@
       "CurrentChargeCount": 10,
       "AlreadyRecharged": false,
       "ItemId": 2108,
+      "Source": null,
+      "ShortDescription": "a mirror",
+      "Description": "a mirror",
       "Level": 8,
       "Cost": 0,
       "DecayPulseLeft": 0,

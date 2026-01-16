@@ -116,13 +116,15 @@ public class ItemCorpse : ItemBase, IItemCorpse
         return new ItemCorpseData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             CorpseName = _corpseName,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
-            Source = Source,
             Contains = MapContent(),
             IsPlayableCharacterCorpse = IsPlayableCharacterCorpse,
             HasBeenGeneratedByKillingCharacter = _hasBeenGeneratedByKillingCharacter,

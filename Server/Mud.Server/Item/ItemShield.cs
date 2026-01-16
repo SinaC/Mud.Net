@@ -57,12 +57,14 @@ public class ItemShield : ItemBase, IItemShield
         return new ItemShieldData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
-            Source = Source,
             Armor = Armor
         };
     }

@@ -111,12 +111,14 @@ public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
         return new ItemDrinkContainerData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
-            Source = Source,
             MaxLiquidAmount = MaxLiquid,
             CurrentLiquidAmount = LiquidLeft,
             LiquidName = LiquidName,

@@ -20,4 +20,6 @@ public interface IItemWeapon : IItem
     bool CanWield(ICharacter character);
 
     void ApplyAffect(IItemWeaponFlagsAffect affect);
+
+    void SetDices(int diceCount, int diceValue);
 }

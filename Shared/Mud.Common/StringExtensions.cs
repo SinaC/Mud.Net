@@ -30,5 +30,7 @@ public static class StringExtensions
         => input?[..Math.Min(length, input.Length)] ?? string.Empty;
 
     public static string ToPascalCase(this string s)
-        => string.Join(" ", s.Split(' ').Select(token => (token == "of" || token == "in" || token == "on" || token == "to") ? token : char.ToUpperInvariant(token[0]) + token[1..]));
+        => string.Join(" ", s.Split(' ').Select(token => TokenToSkipForPascalCase.Contains(token) ? token : char.ToUpperInvariant(token[0]) + token[1..]));
+
+    private static string[] TokenToSkipForPascalCase { get; } = ["of", "in", "on", "to", "the"];
 }

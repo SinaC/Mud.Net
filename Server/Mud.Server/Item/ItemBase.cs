@@ -99,8 +99,9 @@ public abstract class ItemBase: EntityBase, IItem
         DecayPulseLeft = data.DecayPulseLeft;
         BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), new ItemFlags(data.ItemFlags), null);
         // Auras
-        if (data.Auras != null)
+        if (data.Auras != null && data.Auras.Length > 0)
         {
+            RemoveAuras(x => true, false); // remove auras added from blueprint
             foreach (var auraData in data.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
@@ -111,7 +112,7 @@ public abstract class ItemBase: EntityBase, IItem
         where TBlueprint : ItemBlueprintBase
         where TData : ItemData
     {
-        Initialize(guid, blueprint, data, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto);
+        Initialize(guid, blueprint, data, blueprint.Name, data.ShortDescription ?? blueprint.ShortDescription, data.Description ?? blueprint.ShortDescription, containedInto);
     }
 
     #region IItem
@@ -305,9 +306,24 @@ public abstract class ItemBase: EntityBase, IItem
         Recompute();
     }
 
+    public void SetShortDescription(string shortDescription)
+    {
+        ShortDescription = shortDescription;
+    }
+
     public void IncreaseLevel()
     {
         Level++;
+    }
+
+    public void SetLevel(int level)
+    {
+        Level = level;
+    }
+
+    public void SetCost(int cost)
+    {
+        Cost = cost;
     }
 
     public virtual StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
@@ -351,12 +367,14 @@ public abstract class ItemBase: EntityBase, IItem
         return new ItemData
         {
             ItemId = Blueprint.Id,
+            Source = Source,
+            ShortDescription = ShortDescription,
+            Description = Description,
             Level = Level,
             Cost = Cost,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),
-            Source = Source,
         };
     }
 

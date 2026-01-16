@@ -783,5 +783,24 @@ public partial class ServerWindow : Window, INetworkServer
         ];
         var fidoBlueprint = CharacterManager.GetCharacterBlueprint<CharacterBlueprintBase>(3062);
         fidoBlueprint.LootTable = fidoTable;
+
+        // generic breastplate item to be used with random item generation
+        var genericBreastplate = new ItemArmorBlueprint
+        {
+            Id = 98,
+            Name = "breastplate",
+            ShortDescription = "a breastplate",
+            Description = "a breastplate is here",
+            WearLocation = WearLocations.Chest,
+            Level = 0,
+            Cost = 0,
+            NoTake = false,
+            ItemFlags = new ItemFlags(),
+            Bash = 0,
+            Pierce = 0,
+            Slash = 0,
+            Exotic = 0,
+            Weight = 0,
+        };
     }
 }
