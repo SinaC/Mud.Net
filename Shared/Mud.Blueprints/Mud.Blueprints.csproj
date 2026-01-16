@@ -9,7 +9,7 @@
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
-    <ProjectReference Include="..\..\Server\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>

@@ -1309,8 +1309,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
             ? ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this)
            : null;
 
-        // Generate Loot
-        LootManager.GenerateLoots(corpse, this, playableCharactersImpactedByKill);
+        // Generate loots
+        if (playableCharactersImpactedByKill != null)
+            LootManager.GenerateLoots(corpse, this, playableCharactersImpactedByKill);
 
         // xp/reputation/quests for each member of groups + auto loot/gold/sac for killer
         if (payoff)

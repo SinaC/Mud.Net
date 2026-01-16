@@ -58,7 +58,7 @@
     <ProjectReference Include="..\..\Server\Mud.Server.POC\Mud.Server.POC.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Quest\Mud.Server.Quest.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Race\Mud.Server.Race.csproj" />
-    <ProjectReference Include="..\..\Server\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Rom24\Mud.Server.Rom24.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Specials\Mud.Server.Specials.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server\Mud.Server.csproj" />

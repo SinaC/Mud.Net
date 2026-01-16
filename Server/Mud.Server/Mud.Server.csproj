@@ -24,7 +24,7 @@
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />

@@ -38,7 +38,7 @@
     <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
   </ItemGroup>
   <ItemGroup>

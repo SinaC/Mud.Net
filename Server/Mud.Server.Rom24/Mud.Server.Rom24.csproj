@@ -25,7 +25,7 @@
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj" />
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <ProjectReference Include="..\Mud.Server.Specials\Mud.Server.Specials.csproj" />
   </ItemGroup>
 </Project>
