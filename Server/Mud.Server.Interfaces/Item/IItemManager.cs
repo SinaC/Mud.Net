@@ -18,14 +18,14 @@ public interface IItemManager
 
     IEnumerable<IItem> Items { get; }
 
-    IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);
+    IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, string source, IContainer container);
     IItem? AddItem(Guid guid, ItemData itemData, IContainer container);
-    IItem? AddItem(Guid guid, int blueprintId, IContainer container);
-    TItem? AddItem<TItem>(Guid guid, int blueprintId, IContainer container)
+    IItem? AddItem(Guid guid, int blueprintId, string source, IContainer container);
+    TItem? AddItem<TItem>(Guid guid, int blueprintId, string source, IContainer container)
         where TItem : class, IItem;
 
-    IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
-    IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container);
+    IItemCorpse? AddItemCorpse(Guid guid, ICharacter victim, string source, IRoom room);
+    IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, string source, IContainer container);
 
     void RemoveItem(IItem item);
 

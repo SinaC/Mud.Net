@@ -1022,7 +1022,6 @@ public class RomImporter : IImporter
                     if (characterFlags.IsNone && shieldFlags.IsNone)
                         Logger.LogError("Item [{vnum}]: invalid affect/shield flags {flags}", objectData.VNum, objectAffect.BitVector);
                     break;
-                    break;
                 case ObjectAffect.WhereToImmune:
                     yield return new ItemAffectImmFlags
                     {

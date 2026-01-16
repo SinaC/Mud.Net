@@ -59,7 +59,7 @@ public class FountainTests : TestBase
         var roomMock = new Mock<IRoom>();
 
         var fountain = new ItemFountain(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
-        fountain.Initialize(Guid.NewGuid(), fountainBlueprint, roomMock.Object);
+        fountain.Initialize(Guid.NewGuid(), fountainBlueprint, string.Empty, roomMock.Object);
 
         return fountain;
     }

@@ -14,7 +14,6 @@ using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
@@ -38,6 +37,7 @@ using Mud.Server.Options;
 using Mud.Random;
 using System.Diagnostics;
 using System.Text;
+using Mud.Server.Interfaces.Flags;
 
 namespace Mud.Server.Character.PlayableCharacter;
 
@@ -235,7 +235,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Inventory
         if (data.Inventory != null)
         {
-            foreach (var itemData in data.Inventory)
+            foreach (var itemData in data.Inventory.Reverse()) // PutInContainer used Insert(0,x) to put new item but when loading pfile we want to preserve order so we reverse
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
         }
         // Active quests

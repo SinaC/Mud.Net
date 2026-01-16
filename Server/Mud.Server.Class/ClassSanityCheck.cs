@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Class;
 
@@ -27,9 +28,9 @@ public class ClassSanityCheck : ISanityCheck
                 Logger.LogWarning("Class {name} doesn't have any allowed resources", @class.Name);
             else
             {
-                foreach (var abilityUsage in @class.AvailableAbilities)
+                foreach (var abilityUsage in @class.AvailableAbilities.Where(x => x.HasCost))
                 {
-                    foreach(var abilityResourceCost in abilityUsage.ResourceCosts)
+                    foreach(var abilityResourceCost in abilityUsage.ResourceCosts.Where(x => !x.ResourceKind.IsMandatoryResource()))
                     {
                         if (!@class.ResourceKinds.Contains(abilityResourceCost.ResourceKind))
                             Logger.LogWarning("Class {name} is allowed to use ability {abilityName} [resource:{resource}] but doesn't have access to that resource", @class.DisplayName, abilityUsage.Name, abilityResourceCost.ResourceKind);

@@ -5,9 +5,9 @@ using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData.Avatar;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
@@ -48,8 +48,8 @@ public class ItemManager : IItemManager
             if (!isItemDataTypeValid)
                 throw new Exception($"ItemManager: ItemData type {itemAttribute.ItemDataType} doesn't inherit from {itemDataType.FullName} on Item {itemType.FullName}");
             var initializeWithoutItemDataMethod =
-                itemType.SearchMethod("Initialize", [typeof(Guid), itemAttribute.BlueprintType, typeof(IContainer)])
-                ?? itemType.SearchMethod("Initialize", [typeof(ItemBlueprintBase)], [typeof(Guid), itemAttribute.BlueprintType, typeof(IContainer)])
+                itemType.SearchMethod("Initialize", [typeof(Guid), itemAttribute.BlueprintType, typeof(string), typeof(IContainer)])
+                ?? itemType.SearchMethod("Initialize", [typeof(ItemBlueprintBase)], [typeof(Guid), itemAttribute.BlueprintType, typeof(string), typeof(IContainer)])
                 ?? throw new Exception($"ItemManager: no valid Initialize with blueprint method found on Item {itemType.FullName}");
             var initializeWithItemDataMethod =
                 itemType.SearchMethod("Initialize", [typeof(Guid), itemAttribute.BlueprintType, itemAttribute.ItemDataType, typeof(IContainer)])
@@ -87,48 +87,7 @@ public class ItemManager : IItemManager
 
     public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
-    public IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim)
-    {
-        var blueprint = GetItemBlueprint<ItemCorpseBlueprint>(CorpseBlueprintId);
-        if (blueprint == null)
-        {
-            Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
-            return null;
-        }
-        var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
-        corpse.Initialize(guid, blueprint, room, victim);
-        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
-        _items.Add(corpse);
-        return corpse;
-    }
-
-    public IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container)
-    {
-        silverCoins = Math.Max(0, silverCoins);
-        goldCoins = Math.Max(0, goldCoins);
-        if (silverCoins == 0 && goldCoins == 0)
-        {
-            Logger.LogError("AddItemMoney: 0 silver and 0 gold.");
-            return null;
-        }
-        var blueprint = GetItemBlueprint<ItemMoneyBlueprint>(CoinsBlueprintId);
-        if (blueprint == null)
-        {
-            Logger.LogError("ItemMoneyBlueprint (id:{coinsBlueprintId}) doesn't exist !!!", CoinsBlueprintId);
-            return null;
-        }
-
-        var money = ServiceProvider.GetRequiredService<ItemMoney>();
-        money.Initialize(guid, blueprint, silverCoins, goldCoins, container);
-        money.Recompute();
-        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Money blueprint {blueprintId} has invalid flags", blueprint.Id);
-        _items.Add(money);
-        return money;
-    }
-
-    public IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
+    public IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, string source, IContainer container)
     {
         // create and initialize item
         var blueprintType = blueprint.GetType();
@@ -143,7 +102,7 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemManager: cannot create instance of Item {itemType}", itemDefinition.ItemType.FullName);
             return null;
         }
-        itemDefinition.InitializeWithoutItemDataMethod.Invoke(item, [guid, blueprint, container]);
+        itemDefinition.InitializeWithoutItemDataMethod.Invoke(item, [guid, blueprint, source, container]);
         // add item to collection
         if (item.Name == null || item.Id == Guid.Empty)
         {
@@ -201,7 +160,7 @@ public class ItemManager : IItemManager
         return item;
     }
 
-    public IItem? AddItem(Guid guid, int blueprintId, IContainer container)
+    public IItem? AddItem(Guid guid, int blueprintId, string source, IContainer container)
     {
         var blueprint = GetItemBlueprint(blueprintId);
         if (blueprint == null)
@@ -209,13 +168,13 @@ public class ItemManager : IItemManager
             Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
             return null;
         }
-        var item = AddItem(guid, blueprint, container);
+        var item = AddItem(guid, blueprint, source, container);
         if (item == null)
             Logger.LogError("World.AddItem: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
         return item;
     }
 
-    public TItem? AddItem<TItem>(Guid guid, int blueprintId, IContainer container)
+    public TItem? AddItem<TItem>(Guid guid, int blueprintId, string source, IContainer container)
         where TItem : class, IItem
     {
         var blueprint = GetItemBlueprint(blueprintId);
@@ -224,7 +183,7 @@ public class ItemManager : IItemManager
             Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
             return null;
         }
-        var instance = AddItem(guid, blueprint, container);
+        var instance = AddItem(guid, blueprint, source, container);
         if (instance == null)
         {
             Logger.LogError("World.AddItem: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
@@ -234,6 +193,47 @@ public class ItemManager : IItemManager
         if (item == null)
             Logger.LogError("World.AddItem: trying to cast item blueprint id {blueprintId} type {blueprintType} to item type {itemType}.", blueprintId, blueprint.GetType().FullName ?? "???", typeof(TItem).FullName);
         return item;
+    }
+
+    public IItemCorpse? AddItemCorpse(Guid guid, ICharacter victim, string source, IRoom room)
+    {
+        var blueprint = GetItemBlueprint<ItemCorpseBlueprint>(CorpseBlueprintId);
+        if (blueprint == null)
+        {
+            Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
+            return null;
+        }
+        var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
+        corpse.Initialize(guid, blueprint, victim, source, room);
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
+        _items.Add(corpse);
+        return corpse;
+    }
+
+    public IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, string source, IContainer container)
+    {
+        silverCoins = Math.Max(0, silverCoins);
+        goldCoins = Math.Max(0, goldCoins);
+        if (silverCoins == 0 && goldCoins == 0)
+        {
+            Logger.LogError("AddItemMoney: 0 silver and 0 gold.");
+            return null;
+        }
+        var blueprint = GetItemBlueprint<ItemMoneyBlueprint>(CoinsBlueprintId);
+        if (blueprint == null)
+        {
+            Logger.LogError("ItemMoneyBlueprint (id:{coinsBlueprintId}) doesn't exist !!!", CoinsBlueprintId);
+            return null;
+        }
+
+        var money = ServiceProvider.GetRequiredService<ItemMoney>();
+        money.Initialize(guid, blueprint, silverCoins, goldCoins, source, container);
+        money.Recompute();
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Money blueprint {blueprintId} has invalid flags", blueprint.Id);
+        _items.Add(money);
+        return money;
     }
 
     public void RemoveItem(IItem item)

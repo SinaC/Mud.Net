@@ -3,13 +3,13 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -21,9 +21,9 @@ public class ItemFountain : ItemBase, IItemFountain
     {
     }
 
-    public void Initialize(Guid guid, ItemFountainBlueprint blueprint, IContainer containedInto)
+    public void Initialize(Guid guid, ItemFountainBlueprint blueprint, string source, IContainer containedInto)
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         LiquidName = blueprint.LiquidType;
     }

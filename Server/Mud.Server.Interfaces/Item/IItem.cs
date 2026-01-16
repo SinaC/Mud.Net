@@ -12,7 +12,7 @@ namespace Mud.Server.Interfaces.Item;
 
 public interface IItem : IEntity
 {
-    void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
+    void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string source, IContainer containedInto)
        where TBlueprint : ItemBlueprintBase;
     void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
         where TBlueprint : ItemBlueprintBase
@@ -24,6 +24,8 @@ public interface IItem : IEntity
     IContainer ContainedInto { get; }
 
     ItemBlueprintBase Blueprint { get; }
+
+    string Source { get; }
 
     IEnumerable<ExtraDescription> ExtraDescriptions { get; }
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.DataStructures.Trie;
+using Mud.Random;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
@@ -9,7 +10,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -21,9 +21,9 @@ public class ItemArmor : ItemBase, IItemArmor
     {
     }
 
-    public void Initialize(Guid guid, ItemArmorBlueprint blueprint, IContainer containedInto)
+    public void Initialize(Guid guid, ItemArmorBlueprint blueprint, string source, IContainer containedInto)
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         if (blueprint.ItemFlags != null && blueprint.ItemFlags.IsSet("RandomStats"))
         {
@@ -76,6 +76,7 @@ public class ItemArmor : ItemBase, IItemArmor
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
+            Source = Source,
             Bash = Bash,
             Pierce = Pierce,
             Slash = Slash,

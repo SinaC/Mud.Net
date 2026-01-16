@@ -7,10 +7,10 @@ public class TreasureTableEntry<T> : IOccurancy<T>
 {
     public T Value { get; set; } = default!;
     public int Occurancy { get; set; }
-    public int MaxOccurancy { get; set; } // maximum occurancy of this item in whole loot table
+    public int MaxInstance { get; set; } // maximum instance count of this item in whole loot table
 
     public TreasureTableEntry()
     {
-        MaxOccurancy = 1;
+        MaxInstance = 1;
     }
 }

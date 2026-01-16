@@ -33,6 +33,10 @@
     <PackageReference Include="System.Text.Json" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Importers\Mud.Importer\Mud.Importer.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Domain\Mud.Server.Domain.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Group\Mud.Server.Group.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Blueprints\Mud.Blueprints.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />

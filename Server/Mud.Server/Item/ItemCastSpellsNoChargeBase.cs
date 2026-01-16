@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.Domain.SerializationData.Avatar;
+using Mud.Random;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
@@ -9,7 +9,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Item;
 
@@ -20,9 +19,9 @@ public abstract class ItemCastSpellsNoChargeBase : ItemBase, IItemCastSpellsNoCh
     {
     }
 
-    public void Initialize(Guid guid, ItemCastSpellsNoChargeBlueprintBase blueprint, IContainer containedInto)
+    public void Initialize(Guid guid, ItemCastSpellsNoChargeBlueprintBase blueprint, string source, IContainer containedInto)
     {
-        base.Initialize(guid, blueprint, containedInto);
+        base.Initialize(guid, blueprint, source, containedInto);
 
         FirstSpellName = blueprint.Spell1;
         SecondSpellName = blueprint.Spell2;
@@ -39,7 +38,7 @@ public abstract class ItemCastSpellsNoChargeBase : ItemBase, IItemCastSpellsNoCh
     {
         base.Initialize(guid, blueprint, data, containedInto); 
 
-        SpellLevel = blueprint.SpellLevel;
+        SpellLevel = data.SpellLevel;
         FirstSpellName = blueprint.Spell1;
         SecondSpellName = blueprint.Spell2;
         ThirdSpellName = blueprint.Spell3;

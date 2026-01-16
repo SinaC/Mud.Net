@@ -47,14 +47,14 @@ public class Outfit : WearCharacterGameActionBase
         // light
         if (Actor.GetEquipment(EquipmentSlots.Light) == null)
         {
-            var banner = ItemManager.AddItem<IItemLight>(Guid.NewGuid(), Options.MudSchool.Banner, Actor);
+            var banner = ItemManager.AddItem<IItemLight>(Guid.NewGuid(), Options.MudSchool.Banner, $"Outfit[{Actor.DebugName}]", Actor);
             if (banner != null)
                 WearItem(banner, false);
         }
         // chest
         if (Actor.GetEquipment(EquipmentSlots.Chest) == null)
         {
-            var vest = ItemManager.AddItem<IItemArmor>(Guid.NewGuid(), Options.MudSchool.Vest, Actor);
+            var vest = ItemManager.AddItem<IItemArmor>(Guid.NewGuid(), Options.MudSchool.Vest, $"Outfit[{Actor.DebugName}]", Actor);
             if (vest != null)
                 WearItem(vest, false);
         }
@@ -92,14 +92,14 @@ public class Outfit : WearCharacterGameActionBase
                 _ => Options.MudSchool.Sword
             };
             //
-            var weapon = ItemManager.AddItem<IItemWeapon>(Guid.NewGuid(), blueprintId, Actor);
+            var weapon = ItemManager.AddItem<IItemWeapon>(Guid.NewGuid(), blueprintId, $"Outfit[{Actor.DebugName}]", Actor);
             if (weapon != null)
                 WearItem(weapon, false);
         }
         // shield
         if (Actor.GetEquipment(EquipmentSlots.OffHand) == null && Actor.GetEquipment(EquipmentSlots.MainHand) != null)
         {
-            var shield = ItemManager.AddItem<IItemShield>(Guid.NewGuid(), Options.MudSchool.Shield, Actor);
+            var shield = ItemManager.AddItem<IItemShield>(Guid.NewGuid(), Options.MudSchool.Shield, $"Outfit[{Actor.DebugName}]", Actor);
             if (shield != null)
                 WearItem(shield, false);
         }

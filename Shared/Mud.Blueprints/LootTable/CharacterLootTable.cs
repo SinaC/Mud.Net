@@ -34,7 +34,7 @@ public class CharacterLootTable<T>
         {
             Value = table,
             Occurancy = occurancy,
-            Max = maxLoot
+            MaxLootCount = maxLoot
         });
         return true;
     }
@@ -43,11 +43,11 @@ public class CharacterLootTable<T>
     {
         List<CharacterLootTableEntry<T>> history = [];
         List<T> lootList = [];
-        int lootCount = RandomManager.Next(MinLoot, MaxLoot + 1);
+        var lootCount = RandomManager.Next(MinLoot, MaxLoot + 1); // how many times loot will be generated from tables
         //Logger.LogDebug("#Loot: {0}", lootCount);
         if (Entries != null)
         {
-            for (int loop = 1; loop <= lootCount; loop++)
+            for (var loop = 1; loop <= lootCount; loop++)
             {
                 var randomEntry = RandomManager.RandomOccurancy<CharacterLootTableEntry<T>, TreasureTable<T>>(Entries);
                 if (randomEntry != null)
@@ -55,7 +55,7 @@ public class CharacterLootTable<T>
                     //Logger.LogDebug("Table: {0}", randomEntry.Value.Name);
                     if (randomEntry.Value.Entries != null) // shortcut for empty table
                     {
-                        if (history.Count(x => x.Value == randomEntry.Value) < randomEntry.Max) // check if max loot in this entry reached
+                        if (history.Count(x => x.Value == randomEntry.Value) < randomEntry.MaxLootCount) // check if max loot in this entry reached
                         {
                             history.Add(randomEntry);
                             var loot = randomEntry.Value.GenerateLoot(lootList);

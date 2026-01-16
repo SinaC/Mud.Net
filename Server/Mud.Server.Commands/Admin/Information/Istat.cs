@@ -48,7 +48,7 @@ public class Istat : AdminGameAction
     {
         StringBuilder sb = new();
         sb.AppendFormatLine("Blueprint: {0}", What.Blueprint.Id);
-        sb.AppendFormatLine("Type: {0}", What.GetType().ToString().AfterLast('.'));
+        sb.AppendFormatLine("Type: {0} Source: {1}", What.GetType().Name.AfterLast('.'), What.Source);
         sb.AppendFormatLine("Name: {0} Keywords: {1}", What.Name, string.Join(",", What.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", What.DisplayName);
         sb.AppendFormatLine("ShortDescription: {0}", What.Blueprint.ShortDescription);
@@ -61,7 +61,6 @@ public class Istat : AdminGameAction
                 sb.Append(extraDescription.Description);
             }
         }
-        sb.AppendFormatLine("Type: {0}", What.GetType().Name);
         if (What.IncarnatedBy != null)
             sb.AppendFormatLine("Incarnated by {0}", What.IncarnatedBy.DisplayName);
         else

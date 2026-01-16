@@ -3,15 +3,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Repository.Filesystem.Json;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
 using Mud.Server.Rom24;
 using Serilog;
 using System.Reflection;
 
-namespace Mud.Server.ConsoleApp;
+namespace Mud.ConsoleApp;
 
 internal class Program
 {

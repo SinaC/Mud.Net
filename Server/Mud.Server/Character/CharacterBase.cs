@@ -4,6 +4,9 @@ using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.DataStructures;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
@@ -11,8 +14,6 @@ using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Entity;
-using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
@@ -24,22 +25,19 @@ using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Character;
 
 public abstract class CharacterBase : EntityBase, ICharacter
 {
-    private static ResourceKinds[] MandatoryAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints];
-    private static ResourceKinds[] DefaultAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints, ResourceKinds.Mana];
-
     private const int MaxRecompute = 5;
     private const int MinAlignment = -1000;
     private const int MaxAlignment = 1000;
@@ -1250,7 +1248,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         ChangePosition(DefaultPosition);
         if (both)
         {
-            foreach (ICharacter victim in CharacterManager.Characters.Where(x => x.Fighting == this))
+            var fighters = CharacterManager.Characters.Where(x => x.Fighting == this).ToArray();
+            foreach (var victim in fighters)
                 victim.StopFighting(false);
         }
         return true;
@@ -1306,7 +1305,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // Create corpse if needed
         var corpse = CreateCorpseOnDeath
-            ? ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this)
+            ? ItemManager.AddItemCorpse(Guid.NewGuid(), this, $"RawKilled[{killer?.DebugName ?? "/"}]", Room!)
            : null;
 
         // Generate loots
@@ -2419,7 +2418,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected virtual void RecomputeCurrentResourceKinds()
     {
         // Get current resource kind from class if any, default resources otherwisse
-        CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? DefaultAvailableResources).Union(MandatoryAvailableResources).ToList();
+        CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? ResourceKindsExtensions.DefaultAvailableResources).Union(ResourceKindsExtensions.MandatoryAvailableResources).ToList();
     }
 
     protected void SetBaseMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

@@ -155,7 +155,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
             if (Item.ItemFlags.IsSet("Inventory"))
             {
                 for (int i = 0; i < Count; i++)
-                    ItemManager.AddItem(Guid.NewGuid(), Item.Blueprint, Actor);
+                    ItemManager.AddItem(Guid.NewGuid(), Item.Blueprint, $"Buy[{Keeper.shopKeeper.DebugName}]", Actor);
             }
             // Items previously sold to keeper are 'given' to buyer
             else

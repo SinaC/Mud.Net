@@ -59,7 +59,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
             Logger.LogError("GeneratedQuest: quest item {blueprintId} doesn't exist", itemQuestBlueprintId);
             return false;
         }
-        var itemQuest = ItemManager.AddItem<IItemQuest>(Guid.NewGuid(), itemQuestBlueprintId, room);
+        var itemQuest = ItemManager.AddItem<IItemQuest>(Guid.NewGuid(), itemQuestBlueprintId, "GeneratedQuest", room);
         if (itemQuest == null)
         {
             Logger.LogError("GeneratedQuest: cannot create quest item {blueprintId}", itemQuestBlueprintId);

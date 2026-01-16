@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
+using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Server.Interfaces.Flags;
 using System.Reflection;
 using System.Text;
 
-namespace Mud.Flags;
+namespace Mud.Server.Flags;
 
 [Export(typeof(IFlagsManager)), Shared]
 public class FlagsManager : IFlagsManager

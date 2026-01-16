@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
-using Mud.Importer;
-using Mud.Importer.Rom;
-using Mud.Network.Interfaces;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Room;
+using Mud.Common.Attributes;
 using Mud.Flags;
+using Mud.Importer;
+using Mud.Network.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
@@ -17,7 +16,7 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 
-namespace Mud.Server.ConsoleApp;
+namespace Mud.ConsoleApp;
 
 [Export, Shared]
 public class ConsoleServer

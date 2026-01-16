@@ -1,10 +1,11 @@
-﻿using Serilog;
+﻿using Mud.Server.WPFTestApplication;
+using Serilog;
 using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
 using System;
 
-namespace Mud.Server.WPFTestApplication
+namespace Mud.WPFTestApplication
 {
     public class RichTextBoxSink : ILogEventSink
     {

@@ -101,7 +101,7 @@ public class LightTests : TestBase
         var roomMock = new Mock<IRoom>();
 
         var light = new ItemLight(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
-        light.Initialize(Guid.NewGuid(), lightBlueprint, roomMock.Object);
+        light.Initialize(Guid.NewGuid(), lightBlueprint, string.Empty, roomMock.Object);
 
         return light;
     }

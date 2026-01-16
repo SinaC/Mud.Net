@@ -4,6 +4,12 @@ namespace Mud.Server.Common.Extensions;
 
 public static class ResourceKindsExtensions
 {
+    public static ResourceKinds[] MandatoryAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints];
+    public static ResourceKinds[] DefaultAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints, ResourceKinds.Mana];
+
+    public static bool IsMandatoryResource(this ResourceKinds resourceKinds)
+        => MandatoryAvailableResources.Contains(resourceKinds);
+
     public static string DisplayName(this ResourceKinds resource)
         => resource switch
         {

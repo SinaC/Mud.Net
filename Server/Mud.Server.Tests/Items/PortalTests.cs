@@ -271,7 +271,7 @@ public class PortalTests : TestBase
         roomManagerMock.SetupGet(x => x.Rooms).Returns([roomMock.Object]);
 
         var portal = new ItemPortal(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, roomManagerMock.Object, null!);
-        portal.Initialize(Guid.NewGuid(), portalBlueprint, roomMock.Object);
+        portal.Initialize(Guid.NewGuid(), portalBlueprint, string.Empty, roomMock.Object);
 
         return portal;
     }

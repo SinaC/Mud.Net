@@ -14,4 +14,5 @@ public class ItemData
 
     public required AuraData[] Auras { get; set; }
 
+    public string Source { get; set; } = default!;
 }

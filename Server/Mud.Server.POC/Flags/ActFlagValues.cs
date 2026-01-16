@@ -4,7 +4,7 @@ using Mud.Flags.Interfaces;
 
 namespace Mud.Server.POC.Flags;
 
-[FlagValues(typeof(IFlagValues), typeof(IItemFlags)), Shared]
+[FlagValues(typeof(IFlagValues), typeof(IActFlags)), Shared]
 public class ActFlagValues : IFlagValues
 {
     private static readonly string[] Flags = 
