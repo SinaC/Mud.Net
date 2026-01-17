@@ -1743,13 +1743,13 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
 
         // handle quest items respawn (only for predefined quests)
-        var questsWithFloorItemQuestObjective = Players
+        var predefinedQuestsWithFloorItemQuestObjective = Players
             .Where(x => x.Impersonating != null)
             .Select(x => x.Impersonating!)
             .SelectMany(x => x.ActiveQuests.OfType<IPredefinedQuest>().Where(x => x.Objectives.OfType<FloorItemQuestObjective>().Any(y => !y.IsCompleted)))
             .DistinctBy(x => x.Blueprint.Id)
             .ToArray();
-        foreach (var quest in questsWithFloorItemQuestObjective)
+        foreach (var quest in predefinedQuestsWithFloorItemQuestObjective)
         {
             try
             {
@@ -1761,8 +1761,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
         }
 
-        // handle quest items despawn (only for predefined quests)
-        var questItemBlueprintIdsFoundInQuestObjectives = questsWithFloorItemQuestObjective.SelectMany(x => x.Objectives).OfType<FloorItemQuestObjective>().Select(x => x.ItemBlueprint.Id).Distinct().ToArray();
+        // handle quest items despawn
+        var questItemBlueprintIdsFoundInQuestObjectives = Players
+            .Where(x => x.Impersonating != null)
+            .Select(x => x.Impersonating!)
+            .SelectMany(x => x.ActiveQuests.Where(x => x.Objectives.OfType<FloorItemQuestObjective>().Any(y => !y.IsCompleted)))
+            .SelectMany(x => x.Objectives)
+            .OfType<FloorItemQuestObjective>()
+            .Select(x => x.ItemBlueprint.Id).Distinct().ToArray();
         var questItemsFoundOnFloor = RoomManager.Rooms.SelectMany(x => x.Content).OfType<IItemQuest>().ToArray(); // TODO: check everywhere ? ItemManager.Items.OfType<IItemQuest> instead ?
         var questItemsToRemove = questItemsFoundOnFloor.Where(x => !questItemBlueprintIdsFoundInQuestObjectives.Contains(x.Blueprint.Id)).ToArray();
         foreach (var questItemToRemove in questItemsToRemove)

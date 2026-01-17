@@ -5,14 +5,13 @@ using Mud.Blueprints.Character;
 using Mud.Blueprints.Room;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Entity;
-using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Area;
@@ -68,12 +67,6 @@ public class Room : EntityBase, IRoom
     #region IRoom
 
     #region IEntity
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Room>();
-
-    #endregion
 
     public override string DisplayName => Name.UpperFirstLetter();
 

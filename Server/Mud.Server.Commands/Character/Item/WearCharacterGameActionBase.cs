@@ -2,11 +2,14 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-public abstract class WearCharacterGameActionBase : CharacterGameAction
+public abstract class WearCharacterGameActionBase<TCharacter, TCharacterGameActionInfo> : CharacterGameActionBase<TCharacter, TCharacterGameActionInfo>
+    where TCharacter: class, ICharacter
+    where TCharacterGameActionInfo : class, ICharacterGameActionInfo
 {
     private IWiznet Wiznet { get; }
 
@@ -73,7 +76,7 @@ public abstract class WearCharacterGameActionBase : CharacterGameAction
             string weaponConfidence = GetWeaponConfidence(weapon);
             Actor.Act(ActOptions.ToCharacter, weaponConfidence, weapon);
         }
-        // no need to recompute, because it's being done by caller
+        // no need to recompute, because it will be done by caller
 
         return true;
     }

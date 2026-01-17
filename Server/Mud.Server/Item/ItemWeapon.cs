@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
@@ -77,12 +76,6 @@ public class ItemWeapon : ItemBase, IItemWeapon
     #region IItemWeapon
 
     #region IItem
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemWeapon>();
-
-    #endregion
 
     public override void Recompute()
     {

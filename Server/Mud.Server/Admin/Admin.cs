@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
@@ -43,12 +42,6 @@ public class Admin : Player.Player, IAdmin
     #region IAdmin
 
     #region IPlayer
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Admin>();
-
-    #endregion
 
     public override string Prompt => Incarnating != null
         ? BuildIncarnatePrompt()

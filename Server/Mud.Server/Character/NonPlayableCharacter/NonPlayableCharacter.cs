@@ -3,9 +3,11 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
+using Mud.Random;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
@@ -13,8 +15,6 @@ using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -26,19 +26,18 @@ using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
-using Mud.Random;
 using System.Diagnostics;
 using System.Text;
-using Mud.Server.Interfaces.Flags;
-using Mud.Server.Interfaces.Loot;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
@@ -264,8 +263,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     #region IEntity
 
     #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<NonPlayableCharacter>();
 
     public override void Send(string message, bool addTrailingNewLine)
     {
@@ -815,8 +812,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override bool CanGoTo(IRoom destination)
     {
-        return !destination.RoomFlags.IsSet("NoMob")
-            && !(ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"));
+        //return !destination.RoomFlags.IsSet("NoMob")
+        //    && !(ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"));
+        return !(ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"));
     }
 
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)

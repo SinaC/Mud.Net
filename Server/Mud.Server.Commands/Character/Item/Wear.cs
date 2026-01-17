@@ -4,6 +4,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
@@ -20,7 +21,7 @@ as equipment.
 inventory.
 [cmd] ALL.object will attempt to HOLD, WEAR or WIELD each suitable item
 in your inventory with the same name")]
-public class Wear : WearCharacterGameActionBase
+public class Wear : WearCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
     public Wear(IWiznet wiznet)
         : base(wiznet)

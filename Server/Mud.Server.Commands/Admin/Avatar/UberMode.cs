@@ -12,9 +12,14 @@ public class UberMode : AdminGameAction
     public override void Execute(IActionInput actionInput)
     {
         if (Impersonating.ImmortalMode == ImmortalModeFlags.UberMode)
+        {
             Actor.Send("%W%Immortal mode %y%UberMode%x% turned %R%OFF%x%");
+            Impersonating.ChangeImmortalMode(ImmortalModeFlags.None);
+        }
         else
+        {
             Actor.Send("%W%Immortal mode %y%UberMode%x% turned %G%ON%x%");
-        Impersonating.ChangeImmortalMode(ImmortalModeFlags.UberMode);
+            Impersonating.ChangeImmortalMode(ImmortalModeFlags.UberMode);
+        }
     }
 }

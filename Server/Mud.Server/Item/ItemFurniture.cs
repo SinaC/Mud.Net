@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
@@ -49,12 +48,6 @@ public class ItemFurniture : ItemBase, IItemFurniture
     }
 
     #region IItemFurniture
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemFurniture>();
-
-    #endregion
 
     // Count number of people in room using 'this' as furniture
     public IEnumerable<ICharacter>? People

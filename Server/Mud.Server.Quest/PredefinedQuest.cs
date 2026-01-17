@@ -319,7 +319,8 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
                         Id = questFloorItemObjectiveBlueprint.Id,
                         ItemBlueprint = itemQuestBlueprint,
                         Count = alreadyFoundItemCountOnCharacter,
-                        Total = questFloorItemObjectiveBlueprint.Count
+                        Total = questFloorItemObjectiveBlueprint.Count,
+                        RoomBlueprintIds = questFloorItemObjectiveBlueprint.RoomBlueprintIds,
                     });
 
                     // spawn quest item(s) if needed

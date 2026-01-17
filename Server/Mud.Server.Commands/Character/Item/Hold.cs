@@ -4,6 +4,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
@@ -14,7 +15,7 @@ namespace Mud.Server.Commands.Character.Item;
 [Help(
 @"[CMD] will take a light source, a wand, or a staff from inventory
 and start using it as equipment.")]
-public class Hold : WearCharacterGameActionBase
+public class Hold : WearCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
     public Hold(IWiznet wiznet)
         : base(wiznet)

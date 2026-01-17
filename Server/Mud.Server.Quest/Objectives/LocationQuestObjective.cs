@@ -5,7 +5,6 @@ namespace Mud.Server.Quest.Objectives;
 
 public class LocationQuestObjective : IQuestObjective
 {
-
     public required RoomBlueprint RoomBlueprint { get; set; }
 
     public bool Explored { get; set; }
