@@ -336,8 +336,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 }
                 else
                 {
-                    INonPlayableCharacter pet = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
-                    AddPet(pet);
+                    var pet = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
+                    if (pet == null)
+                    {
+                        Wiznet.Log($"Pet blueprint id {petData.BlueprintId} cannot be created for {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    }
+                    else
+                        AddPet(pet);
                 }
             }
         }

@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Common.Attributes;
-using Mud.Domain;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Reset;
+using Mud.Common.Attributes;
+using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
-using System.ComponentModel.Design.Serialization;
 
 namespace Mud.Server.Server;
 
@@ -53,14 +52,17 @@ public class ResetManager : IResetManager
                         var blueprint = CharacterManager.GetCharacterBlueprint(characterReset.CharacterId);
                         if (blueprint != null)
                         {
-                            int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : CharacterManager.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                            int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : CharacterManager.Count(characterReset.CharacterId);
                             if (globalCount < characterReset.GlobalLimit)
                             {
                                 int localCount = characterReset.LocalLimit == -1 ? int.MinValue : room.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                 if (localCount < characterReset.LocalLimit)
                                 {
                                     lastCharacter = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, room);
-                                    Logger.LogDebug("Room {blueprintId}: M: Mob {characterId} added", room.Blueprint.Id, characterReset.CharacterId);
+                                    if (lastCharacter == null)
+                                        Logger.LogError("Room {blueprintId}: mob {characterId} NOT added", room.Blueprint.Id, characterReset.CharacterId);
+                                    else
+                                        Logger.LogDebug("Room {blueprintId}: M: Mob {characterId} added", room.Blueprint.Id, characterReset.CharacterId);
                                     wasPreviousResetLoaded = true;
                                 }
                                 else
@@ -81,7 +83,7 @@ public class ResetManager : IResetManager
                         if (blueprint != null)
                         {
                             // Global limit is not used in stock rom2.4 but used once OLC is added
-                            int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
+                            int globalCount = itemInRoomReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Count(itemInRoomReset.ItemId);
                             if (globalCount < itemInRoomReset.GlobalLimit)
                             {
                                 int localCount = itemInRoomReset.LocalLimit == -1 ? int.MinValue : room.Content.Count(x => x.Blueprint.Id == itemInRoomReset.ItemId);
@@ -107,7 +109,7 @@ public class ResetManager : IResetManager
                         if (blueprint != null)
                         {
                             // Global limit is not used in stock rom2.4 but used once OLC is added
-                            int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInItemReset.ItemId);
+                            int globalCount = itemInItemReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Count(itemInItemReset.ItemId);
                             if (globalCount < itemInItemReset.GlobalLimit)
                             {
                                 var containerBlueprint = ItemManager.GetItemBlueprint(itemInItemReset.ContainerId);
@@ -164,7 +166,7 @@ public class ResetManager : IResetManager
                         {
                             if (wasPreviousResetLoaded)
                             {
-                                int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
+                                int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Count(itemInCharacterReset.ItemId);
                                 if (globalCount < itemInCharacterReset.GlobalLimit)
                                 {
                                     if (lastCharacter != null)
@@ -211,7 +213,7 @@ public class ResetManager : IResetManager
                         {
                             if (wasPreviousResetLoaded)
                             {
-                                int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
+                                int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Count(itemInEquipmentReset.ItemId);
                                 if (globalCount < itemInEquipmentReset.GlobalLimit)
                                 {
                                     if (lastCharacter != null)

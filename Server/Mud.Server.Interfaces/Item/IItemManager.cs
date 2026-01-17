@@ -17,6 +17,7 @@ public interface IItemManager
     void AddItemBlueprint(ItemBlueprintBase blueprint);
 
     IEnumerable<IItem> Items { get; }
+    int Count(int blueprintId);
 
     IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, string source, IContainer container);
     IItem? AddItem(Guid guid, ItemData itemData, IContainer container);

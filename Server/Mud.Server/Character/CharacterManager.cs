@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mud.Blueprints.Character;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Interfaces.Character;
@@ -8,6 +9,7 @@ using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Options;
 
 namespace Mud.Server.Character;
 
@@ -20,8 +22,9 @@ public class CharacterManager : ICharacterManager
     private IItemManager ItemManager { get; }
     private IFlagsManager FlagsManager { get; }
 
-    private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
+    private readonly Dictionary<int, CharacterBlueprintBase> _nonPlayableCharacterBlueprints;
     private readonly List<ICharacter> _characters;
+    private readonly Dictionary<int, int> _nonPlayableCharacterInstanceCountByBlueprintId;
 
     public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IRoomManager roomManager, IItemManager itemManager, IFlagsManager flagsManager)
     {
@@ -30,16 +33,17 @@ public class CharacterManager : ICharacterManager
         RoomManager = roomManager;
         ItemManager = itemManager;
 
-        _characterBlueprints = [];
+        _nonPlayableCharacterBlueprints = [];
         _characters = [];
+        _nonPlayableCharacterInstanceCountByBlueprintId = [];
         FlagsManager = flagsManager;
     }
 
     public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints
-        => _characterBlueprints.Values.ToList().AsReadOnly();
+        => _nonPlayableCharacterBlueprints.Values.ToList().AsReadOnly();
 
     public CharacterBlueprintBase? GetCharacterBlueprint(int id)
-        => _characterBlueprints.GetValueOrDefault(id);
+        => _nonPlayableCharacterBlueprints.GetValueOrDefault(id);
 
     public TBlueprint? GetCharacterBlueprint<TBlueprint>(int id)
         where TBlueprint : CharacterBlueprintBase
@@ -47,8 +51,8 @@ public class CharacterManager : ICharacterManager
 
     public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
     {
-        if (!_characterBlueprints.TryAdd(blueprint.Id, blueprint))
-            Logger.LogError("Character blueprint duplicate {blueprintId}!!!", blueprint.Id);
+        if (!_nonPlayableCharacterBlueprints.TryAdd(blueprint.Id, blueprint))
+            Logger.LogError("CharacterManager: Character blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
         {
             var checkSuccess = true;
@@ -63,7 +67,7 @@ public class CharacterManager : ICharacterManager
             checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyForms);
             checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyParts);
             if (!checkSuccess)
-                Logger.LogError("NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
+                Logger.LogError("CharacterManager:NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
         }
     }
 
@@ -72,6 +76,8 @@ public class CharacterManager : ICharacterManager
     public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => Characters.OfType<INonPlayableCharacter>();
 
     public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
+
+    public int Count(int blueprintId) => _nonPlayableCharacterInstanceCountByBlueprintId.GetValueOrDefault(blueprintId);
 
     public IPlayableCharacter AddPlayableCharacter(Guid guid, AvatarData playableCharacterData, IPlayer player, IRoom room) // PC
     {
@@ -89,16 +95,23 @@ public class CharacterManager : ICharacterManager
         checkSuccess &= FlagsManager.CheckFlags(pc.BodyForms);
         checkSuccess &= FlagsManager.CheckFlags(pc.BodyParts);
         if (!checkSuccess)
-            Logger.LogError("PC {name} has invalid flags", playableCharacterData.Name);
+            Logger.LogError("CharacterManager:PC {name} has invalid flags", playableCharacterData.Name);
         return pc;
     }
 
-    public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
+    public INonPlayableCharacter? AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
     {
         ArgumentNullException.ThrowIfNull(blueprint);
+        if (!_nonPlayableCharacterBlueprints.ContainsKey(blueprint.Id))
+        {
+            Logger.LogError("CharacterManager:NPC blueprint {blueprintId} doesn't exist", blueprint.Id);
+            return null;
+        }
+
         var npc = ServiceProvider.GetRequiredService<INonPlayableCharacter>();
         npc.Initialize(guid, blueprint, room);
         _characters.Add(npc);
+        _nonPlayableCharacterInstanceCountByBlueprintId.Increment(blueprint.Id);
         npc.Recompute();
         room.Recompute();
         var checkSuccess = true;
@@ -113,16 +126,23 @@ public class CharacterManager : ICharacterManager
         checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyForms);
         checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyParts);
         if (!checkSuccess)
-            Logger.LogError("NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
+            Logger.LogError("CharacterManager:NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
         return npc;
     }
 
-    public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // pet
+    public INonPlayableCharacter? AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // pet
     {
         ArgumentNullException.ThrowIfNull(blueprint);
+        if (!_nonPlayableCharacterBlueprints.ContainsKey(blueprint.Id))
+        {
+            Logger.LogError("CharacterManager:NPC blueprint {blueprintId} doesn't exist", blueprint.Id);
+            return null;
+        }
+
         var npc = ServiceProvider.GetRequiredService<INonPlayableCharacter>();
         npc.Initialize(guid, blueprint, petData, room);
         _characters.Add(npc);
+        _nonPlayableCharacterInstanceCountByBlueprintId.Increment(blueprint.Id);
         npc.Recompute();
         room.Recompute();
         var checkSuccess = true;
@@ -137,7 +157,7 @@ public class CharacterManager : ICharacterManager
         checkSuccess &= FlagsManager.CheckFlags(npc.BodyForms);
         checkSuccess &= FlagsManager.CheckFlags(npc.BodyParts);
         if (!checkSuccess)
-            Logger.LogError("Pet blueprint {blueprintId} pet {name} has invalid flags", blueprint.Id, petData.Name);
+            Logger.LogError("CharacterManager:Pet blueprint {blueprintId} pet {name} has invalid flags", blueprint.Id, petData.Name);
         return npc;
     }
 
@@ -167,6 +187,8 @@ public class CharacterManager : ICharacterManager
         //
         character.OnRemoved();
         //_characters.Remove(character); will be removed in cleanup step
+        if (character is INonPlayableCharacter npc)
+            _nonPlayableCharacterInstanceCountByBlueprintId.Decrement(npc.Blueprint.Id);
     }
 
     public void Cleanup()

@@ -10,6 +10,14 @@ public static class DictionaryExtensions
             dictionary.Add(key, 1);
     }
 
+    public static void Decrement(this Dictionary<int, int> dictionary, int key)
+    {
+        if (dictionary.TryGetValue(key, out int value))
+            dictionary[key] = --value;
+        else
+            dictionary.Add(key, 0);
+    }
+
     public static TValue? GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         where TKey: notnull
         where TValue: class
