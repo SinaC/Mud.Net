@@ -28,6 +28,7 @@ public class ItemManager : IItemManager
     private readonly Dictionary<Type, ItemDefinition> _itemDefinitionByBlueprintType;
     private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
     private readonly List<IItem> _items;
+    private readonly Dictionary<int, int> _instanceCountByBlueprintId;
 
     public ItemManager(ILogger<ItemManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, IOptions<WorldOptions> worldOptions, IRoomManager roomManager, IFlagsManager flagsManager)
     {
@@ -70,6 +71,7 @@ public class ItemManager : IItemManager
 
         _itemBlueprints = [];
         _items = [];
+        _instanceCountByBlueprintId = [];
     }
 
     public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints
@@ -85,18 +87,26 @@ public class ItemManager : IItemManager
     public void AddItemBlueprint(ItemBlueprintBase blueprint)
     {
         if (!_itemBlueprints.TryAdd(blueprint.Id, blueprint))
-            Logger.LogError("Item blueprint duplicate {blueprintId}!!!", blueprint.Id);
+            Logger.LogError("ItemManager: item blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
         {
             if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-                Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
+                Logger.LogError("ItemManager: item blueprint {blueprintId} has invalid flags", blueprint.Id);
         }
     }
 
     public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
+    public int Count(int blueprintId) => _instanceCountByBlueprintId.GetValueOrDefault(blueprintId);
+
     public IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, string source, IContainer container)
     {
+        if (!_itemBlueprints.ContainsKey(blueprint.Id))
+        {
+            Logger.LogError("ItemManager: item blueprint {blueprintId} doesn't exist", blueprint.Id);
+            return null;
+        }
+
         // create and initialize item
         var blueprintType = blueprint.GetType();
         if (!_itemDefinitionByBlueprintType.TryGetValue(blueprintType, out var itemDefinition))
@@ -127,8 +137,9 @@ public class ItemManager : IItemManager
         }
         item.Recompute();
         if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
+            Logger.LogError("ItemManager: item blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(item);
+        _instanceCountByBlueprintId.Increment(blueprint.Id);
         return item;
     }
 
@@ -138,7 +149,7 @@ public class ItemManager : IItemManager
         var blueprint = GetItemBlueprint(itemData.ItemId);
         if (blueprint == null)
         {
-            Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", itemData.ItemId);
+            Logger.LogError("ItemManager: Item blueprint Id {blueprintId} doesn't exist anymore.", itemData.ItemId);
             return null;
         }
         // create and initialize item
@@ -171,8 +182,9 @@ public class ItemManager : IItemManager
         }
         item.Recompute();
         if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
+            Logger.LogError("ItemManager: item blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(item);
+        _instanceCountByBlueprintId.Increment(blueprint.Id);
         return item;
     }
 
@@ -181,12 +193,12 @@ public class ItemManager : IItemManager
         var blueprint = GetItemBlueprint(blueprintId);
         if (blueprint == null)
         {
-            Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
+            Logger.LogError("ItemManager: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
             return null;
         }
         var item = AddItem(guid, blueprint, source, container);
         if (item == null)
-            Logger.LogError("World.AddItem: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
+            Logger.LogError("ItemManager: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
         return item;
     }
 
@@ -196,18 +208,18 @@ public class ItemManager : IItemManager
         var blueprint = GetItemBlueprint(blueprintId);
         if (blueprint == null)
         {
-            Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
+            Logger.LogError("ItemManager: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
             return null;
         }
         var instance = AddItem(guid, blueprint, source, container);
         if (instance == null)
         {
-            Logger.LogError("World.AddItem: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
+            Logger.LogError("ItemManager: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
             return null;
         }
         var item = instance as TItem;
         if (item == null)
-            Logger.LogError("World.AddItem: trying to cast item blueprint id {blueprintId} type {blueprintType} to item type {itemType}.", blueprintId, blueprint.GetType().FullName ?? "???", typeof(TItem).FullName);
+            Logger.LogError("ItemManager: trying to cast item blueprint id {blueprintId} type {blueprintType} to item type {itemType}.", blueprintId, blueprint.GetType().FullName ?? "???", typeof(TItem).FullName);
         return item;
     }
 
@@ -222,8 +234,9 @@ public class ItemManager : IItemManager
         var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
         corpse.Initialize(guid, blueprint, victim, source, room);
         if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
+            Logger.LogError("ItemManager: corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(corpse);
+        _instanceCountByBlueprintId.Increment(blueprint.Id);
         return corpse;
     }
 
@@ -239,7 +252,7 @@ public class ItemManager : IItemManager
         var blueprint = GetItemBlueprint<ItemMoneyBlueprint>(CoinsBlueprintId);
         if (blueprint == null)
         {
-            Logger.LogError("ItemMoneyBlueprint (id:{coinsBlueprintId}) doesn't exist !!!", CoinsBlueprintId);
+            Logger.LogError("ItemManager: itemMoneyBlueprint (id:{coinsBlueprintId}) doesn't exist !!!", CoinsBlueprintId);
             return null;
         }
 
@@ -247,8 +260,9 @@ public class ItemManager : IItemManager
         money.Initialize(guid, blueprint, silverCoins, goldCoins, source, container);
         money.Recompute();
         if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
-            Logger.LogError("Money blueprint {blueprintId} has invalid flags", blueprint.Id);
+            Logger.LogError("ItemManager: money blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(money);
+        _instanceCountByBlueprintId.Increment(blueprint.Id);
         return money;
     }
 
@@ -273,6 +287,7 @@ public class ItemManager : IItemManager
         //
         item.OnRemoved();
         //_items.Remove(item); will be removed in cleanup step
+        _instanceCountByBlueprintId.Decrement(item.Blueprint.Id);
     }
 
     public void Cleanup()

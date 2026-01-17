@@ -9,6 +9,7 @@ using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Random;
+using Mud.Server.Common.Helpers;
 
 namespace Mud.Server.POC.Spells;
 
@@ -33,6 +34,12 @@ public class SpellConstruct : NoTargetSpellBase
         {
             var blueprint = CharacterManager.GetCharacterBlueprint(80000)!;
             var construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
+            if (construct == null)
+            {
+                Logger.LogError("SpellConstruct: cannot create mob {blueprintId} for {caster}", blueprint.Id, Caster.DebugName);
+                Caster.Send(StringHelpers.SomethingGoesWrong);
+                return;
+            }
             pcCaster.AddPet(construct);
             AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });

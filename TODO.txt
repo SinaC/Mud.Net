@@ -1,18 +1,10 @@
 INGOING
 DONE
-    issue with auto quest item on floor, item despawned in HandleItems
-    NoMob removed from CanGoTo NPC check -> this will allow pet to go anywhere
-    UberMove deactivation fixed
-    floor quest objective/location quest objective room blueprint ids are now displayed when Holylight is turned on in Quest/QuestInfo/QuestDisplay
-    kill quest objective target blueprint is now displayed when Holylight is turned on in Quest/QuestInfo/QuestDisplay
-    abstract removed from GameActions in ActorBase and GameActions override removed from derived types
-    bug in incarnate: incarnate fountain, incarnate hassan, impossible to re-incarnate fountain because IncarnatedBy has not been reset
-    outfit command was accessible to npc
+    optimize resets by storing mob/item world instance count in CharacterManager/ItemManager
 
 ==========
 == TODO ==
 ==========
-optimize resets by storing mob/item world instance count in CharacterManager/ItemManager
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)

@@ -653,7 +653,7 @@ public partial class ServerWindow : Window, INetworkServer
         // add one NoLootOnDeath mob
         var ghostBlueprint = new CharacterNormalBlueprint
         {
-            Id = 10,
+            Id = 11,
             Name = "ghost",
             ShortDescription = "A ghost",
             Description = "A ghost is here",
@@ -686,13 +686,14 @@ public partial class ServerWindow : Window, INetworkServer
             Vulnerabilities = new IRVFlags(),
             ShieldFlags = new ShieldFlags(),
         };
+        CharacterManager.AddCharacterBlueprint(ghostBlueprint);
         var ghost = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), ghostBlueprint, onTheBridge);
         ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, "generated from test app", ghost!);
 
         // add one NoCorpse mob
         var spiritBlueprint = new CharacterNormalBlueprint
         {
-            Id = 10,
+            Id = 12,
             Name = "spirit",
             ShortDescription = "A spirit",
             Description = "A spirit is here",
@@ -725,6 +726,7 @@ public partial class ServerWindow : Window, INetworkServer
             Vulnerabilities = new IRVFlags(),
             ShieldFlags = new ShieldFlags(),
         };
+        CharacterManager.AddCharacterBlueprint(spiritBlueprint);
         var spirit = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), spiritBlueprint, inn);
         ItemManager.AddItem(Guid.NewGuid(), lightBlueprint, "generated from test app", spirit!);
 

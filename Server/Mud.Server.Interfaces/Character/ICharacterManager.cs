@@ -18,10 +18,11 @@ public interface ICharacterManager
     IEnumerable<ICharacter> Characters { get; }
     IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
     IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
+    int Count(int blueprintId);
 
     IPlayableCharacter AddPlayableCharacter(Guid guid, AvatarData playableCharacterData, IPlayer player, IRoom room);
-    INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
-    INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room);
+    INonPlayableCharacter? AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
+    INonPlayableCharacter? AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room);
 
     void RemoveCharacter(ICharacter character);
 
