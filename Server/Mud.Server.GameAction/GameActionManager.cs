@@ -108,9 +108,14 @@ public class GameActionManager : IGameActionManager
     {
         var actorType = typeof(TActor);
 
+        return GetGameActions(actorType);
+    }
+
+    public IReadOnlyTrie<IGameActionInfo> GetGameActions(Type actorType)
+    {
         if (_gameActionInfosTrieByActorType.TryGetValue(actorType, out var readonlyTrie))
             return readonlyTrie;
-        var gameActions = GetGameActionsByActorType<TActor>();
+        var gameActions = GetGameActionsByActorType(actorType);
         var trie = new Trie<IGameActionInfo>(gameActions);
         _gameActionInfosTrieByActorType.Add(actorType, trie);
         return trie;
@@ -118,11 +123,9 @@ public class GameActionManager : IGameActionManager
 
     #endregion
 
-    private IEnumerable<TrieEntry<IGameActionInfo>> GetGameActionsByActorType<TActor>()
-        where TActor : IActor
+    private IEnumerable<TrieEntry<IGameActionInfo>> GetGameActionsByActorType(Type actorType)
     {
         var iActorType = typeof(IActor);
-        var actorType = typeof(TActor);
         var actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 
         // static game action infos

@@ -4,16 +4,16 @@ using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
@@ -26,19 +26,18 @@ using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Random;
 using System.Diagnostics;
 using System.Text;
-using Mud.Server.Interfaces.Flags;
-using Mud.Server.Interfaces.Loot;
 
 namespace Mud.Server.Character.PlayableCharacter;
 
@@ -360,8 +359,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     #region IEntity
 
     #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<PlayableCharacter>();
 
     public override void Send(string message, bool addTrailingNewLine)
     {

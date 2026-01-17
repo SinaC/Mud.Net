@@ -6,6 +6,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
@@ -16,7 +17,7 @@ namespace Mud.Server.Rom24.Commands.PlayableCharacter;
 @"The [cmd] command, usable by levels 5 and below, equips your character with
 a new set of sub issue gear (banner, weapon, helmet, shield, and vest), 
 courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.")]
-public class Outfit : WearCharacterGameActionBase
+public class Outfit : WearCharacterGameActionBase<IPlayableCharacter, IPlayableCharacterGameActionInfo>
 {
     private IItemManager ItemManager { get; }
     private IAbilityManager AbilityManager { get; }

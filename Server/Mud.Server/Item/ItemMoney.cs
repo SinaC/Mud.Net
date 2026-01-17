@@ -47,12 +47,6 @@ public class ItemMoney : ItemBase, IItemMoney
 
     #region IItemMoney
 
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemMoney>();
-
-    #endregion
-
     public long SilverCoins { get; protected set; }
 
     public long GoldCoins { get; protected set; }

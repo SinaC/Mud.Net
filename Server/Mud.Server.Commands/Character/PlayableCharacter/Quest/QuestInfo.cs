@@ -6,6 +6,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
+using Mud.Server.Quest.Objectives;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
@@ -59,9 +60,25 @@ public class QuestInfo : PlayableCharacterGameAction
         {
             // TODO: 2 columns ?
             if (objective.IsCompleted)
-                sb.AppendLine($"     %g%{objective.CompletionState}%x%");
+                sb.Append($"     %g%{objective.CompletionState}%x%");
             else
-                sb.AppendLine($"     {objective.CompletionState}");
+                sb.Append($"     {objective.CompletionState}");
+            if (Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+            {
+                switch (objective)
+                {
+                    case LocationQuestObjective locationQuestObjective:
+                        sb.Append($" {locationQuestObjective.RoomBlueprint.Name}[{locationQuestObjective.RoomBlueprint.Id}]");
+                        break;
+                    case FloorItemQuestObjective floorItemQuestObjective:
+                        sb.Append($" [{string.Join(',', floorItemQuestObjective.RoomBlueprintIds)}]");
+                        break;
+                    case KillQuestObjective killQuestObjective:
+                        sb.Append($" {killQuestObjective.TargetBlueprint.Name}[{killQuestObjective.TargetBlueprint.Id}]");
+                        break;
+                }
+            }
+            sb.AppendLine();
         }
     }
 }

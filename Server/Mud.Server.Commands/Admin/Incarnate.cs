@@ -84,7 +84,13 @@ public class Incarnate : AdminGameAction
             return;
         }
 
-        bool incarnated = Actor.StartIncarnating(Target);
+        if (Actor.Incarnating != null)
+        {
+            Actor.Send("%M%You stop incarnating %C%{0}%x%.", Actor.Incarnating?.DisplayName ?? "???");
+            Actor.StopIncarnating();
+        }
+
+        var incarnated = Actor.StartIncarnating(Target);
         if (incarnated)
         {
             string msg = $"{Actor.DisplayName} starts incarnating {Target.DebugName}.";

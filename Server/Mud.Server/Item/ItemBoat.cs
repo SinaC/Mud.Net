@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
 using Mud.Server.Interfaces.Aura;
@@ -19,10 +18,4 @@ public class ItemBoat : ItemBase, IItemBoat
         : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemBoat>();
-
-    #endregion
 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
 using Mud.Server.Interfaces.Aura;
@@ -21,12 +20,6 @@ public class ItemJewelry : ItemBase, IItemJewelry
     }
 
     #region IItem
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemJewelry>();
-
-    #endregion
 
     public override int CarryCount => 0;
 

@@ -19,7 +19,8 @@ public abstract class ActorBase : IActor
 
     #region IActor
 
-    public abstract IReadOnlyTrie<IGameActionInfo> GameActions { get; }
+    public IReadOnlyTrie<IGameActionInfo> GameActions
+        => GameActionManager.GetGameActions(GetType());
 
     public abstract bool ProcessInput(string input);
     public abstract void Send(string message, bool addTrailingNewLine);
@@ -27,11 +28,13 @@ public abstract class ActorBase : IActor
 
     public bool ExecuteCommand(string commandLine, string command, ICommandParameter[] parameters)
     {
+        var actorType = GetType();
+        var gameActions = GameActionManager.GetGameActions(actorType);
         // Search for game action and invoke it
-        if (GameActions != null)
+        if (gameActions != null)
         {
             command = command.ToLowerInvariant(); // lower command
-            var entries = GameActions.GetByPrefix(command).ToList();
+            var entries = gameActions.GetByPrefix(command).ToList();
             var entry = entries.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting gameactions
             var gameActionInfo = entry.Value;
             if (gameActionInfo != null)

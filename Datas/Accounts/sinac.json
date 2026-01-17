@@ -31,10 +31,10 @@
     {
       "Name": "fnar",
       "Version": 1,
-      "Level": 7,
+      "Level": 9,
       "Class": "Warrior",
       "Race": "Giant",
-      "RoomId": 3025
+      "RoomId": 6502
     }
   ]
 }

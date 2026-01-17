@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
 using Mud.Server.Common;
@@ -100,12 +99,6 @@ public class ItemCorpse : ItemBase, IItemCorpse
     #endregion
 
     public bool IsPlayableCharacterCorpse { get; protected set; }
-
-    #endregion
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemCorpse>();
 
     #endregion
 

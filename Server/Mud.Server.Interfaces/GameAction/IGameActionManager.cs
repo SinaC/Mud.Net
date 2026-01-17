@@ -18,4 +18,5 @@ public interface IGameActionManager
 
     IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
         where TActor : IActor;
+    IReadOnlyTrie<IGameActionInfo> GetGameActions(Type actorType);
 }

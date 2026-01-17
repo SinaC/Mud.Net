@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Random;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
@@ -19,12 +18,6 @@ public class ItemPotion : ItemCastSpellsNoChargeBase, IItemPotion
         : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
     {
     }
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemPotion>();
-
-    #endregion
 
     #region IItem
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
@@ -94,9 +93,6 @@ public class Player : ActorBase, IPlayer
     #region IPlayer
 
     #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions
-        => GameActionManager.GetGameActions<Player>();
 
     public override bool ProcessInput(string input)
     {

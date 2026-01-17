@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
@@ -100,12 +99,6 @@ public class ItemContainer : ItemBase, IItemContainer
     public override int TotalWeight => Weight + _content.Sum(x => x.TotalWeight) * WeightMultiplier;
 
     public override int CarryCount => _content.Sum(x => x.CarryCount);
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemContainer>();
-
-    #endregion
 
     #endregion
 

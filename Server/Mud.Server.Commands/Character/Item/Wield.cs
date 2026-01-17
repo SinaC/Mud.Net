@@ -4,6 +4,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
@@ -14,7 +15,7 @@ namespace Mud.Server.Commands.Character.Item;
 [Help(
 @"[cmd] will take an weapon from inventory and start using it
 as equipment.")]
-public class Wield : WearCharacterGameActionBase
+public class Wield : WearCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
     public Wield(IWiznet wiznet)
         : base(wiznet)

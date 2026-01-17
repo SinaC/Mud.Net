@@ -5,6 +5,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
+using Mud.Server.Quest.Objectives;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Quest;
@@ -58,11 +59,26 @@ public class QuestDisplay : AdminGameAction
     //
     private static void BuildQuestInfo(StringBuilder sb, IQuest quest, int id)
     {
-        sb.AppendFormat($"{id + 1,2}) {quest.Title}: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
+        sb.Append($"{id + 1,2}) {quest.Title}: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
         if (quest.TimeLimit > 0)
             sb.Append($" Time left : {Pulse.ToTimeSpan(quest.PulseLeft).FormatDelay()}");
         sb.AppendLine();
-        foreach (IQuestObjective objective in quest.Objectives)
-            sb.AppendFormatLine($"     {objective.CompletionState}");
+        foreach (var objective in quest.Objectives)
+        {
+            sb.Append($"     {objective.CompletionState}");
+            switch (objective)
+            {
+                case LocationQuestObjective locationQuestObjective:
+                    sb.Append($" {locationQuestObjective.RoomBlueprint.Name}[{locationQuestObjective.RoomBlueprint.Id}]");
+                    break;
+                case FloorItemQuestObjective floorItemQuestObjective:
+                    sb.Append($" [{string.Join(',', floorItemQuestObjective.RoomBlueprintIds)}]");
+                    break;
+                case KillQuestObjective killQuestObjective:
+                    sb.Append($" {killQuestObjective.TargetBlueprint.Name}[{killQuestObjective.TargetBlueprint.Id}]");
+                    break;
+            }
+            sb.AppendLine();
+        }
     }
 }

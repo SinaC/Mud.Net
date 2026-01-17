@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Random;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
@@ -40,12 +39,6 @@ public class ItemLight : ItemBase, IItemLight
     }
 
     #region IItemLight
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemLight>();
-
-    #endregion
 
     public bool IsLighten => TimeLeft == Infinite || TimeLeft > 0;
 

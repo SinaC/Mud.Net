@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Domain.SerializationData;
@@ -78,12 +77,6 @@ public class ItemPortal : ItemBase, IItemPortal
     }
 
     #region IItemPortal
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemPortal>();
-
-    #endregion
 
     #region IItemCloseable
 

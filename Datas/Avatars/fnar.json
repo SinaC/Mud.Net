@@ -2,46 +2,19 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3025,
-  "SilverCoins": 93,
-  "GoldCoins": 5111,
+  "RoomId": 6502,
+  "SilverCoins": 585,
+  "GoldCoins": 5270,
   "Wimpy": 0,
-  "Experience": 6580,
-  "Alignment": -46,
-  "Trains": 35,
-  "Practices": 61,
+  "Experience": 8505,
+  "Alignment": -340,
+  "Trains": 37,
+  "Practices": 67,
   "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
-    "QuestPoints": 17
+    "QuestPoints": 35
   },
-  "ActiveQuests": [
-    {
-      "QuestId": 1,
-      "StartTime": "2026-01-10T14:26:26.0474247+01:00",
-      "PulseLeft": 0,
-      "CompletionTime": null,
-      "GiverId": 10,
-      "GiverRoomId": 3025,
-      "Objectives": [
-        {
-          "ObjectiveId": 2,
-          "Count": 1
-        },
-        {
-          "ObjectiveId": 1,
-          "Count": 0
-        },
-        {
-          "ObjectiveId": 0,
-          "Count": 1
-        },
-        {
-          "ObjectiveId": 3,
-          "Count": 1
-        }
-      ]
-    }
-  ],
+  "ActiveQuests": [],
   "LearnedAbilities": [
     {
       "Name": "sword",
@@ -186,9 +159,9 @@
   ],
   "Conditions": {
     "Drunk": 0,
-    "Full": 0,
-    "Thirst": 31,
-    "Hunger": 21
+    "Full": 10,
+    "Thirst": 18,
+    "Hunger": 8
   },
   "Aliases": {},
   "Cooldowns": {},
@@ -203,7 +176,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 83,
+        "HitPoints": 75,
         "MovePoints": 100,
         "Mana": 150,
         "Psy": 0,
@@ -269,55 +242,66 @@
     }
   ],
   "Statistics": {
-    "NpcKill": 2,
+    "NpcKill": 17,
     "PcKill": 0,
     "NpcKilled": 0,
     "PcKilled": 0,
     "NoSourceKilled": 0,
     "MoneySpent": 15,
-    "GoldEarned": 0,
+    "GoldEarned": 159,
     "GoldStolen": 0,
-    "SilverEarned": 2,
+    "SilverEarned": 494,
     "SilverStolen": 0,
-    "RecallUsed": 0,
-    "FoodEaten": 0,
+    "RecallUsed": 1,
+    "FoodEaten": 1,
     "BeveragesConsumed": 0,
     "PillEaten": 0,
     "PotionQuaffed": 0,
     "PortalUsed": 0,
-    "QuestPointsEarned": 0,
+    "QuestPointsEarned": 18,
     "QuestPointsSpent": 0,
-    "GeneratedQuestsRequested": 0,
-    "GeneratedQuestsCompleted": 0,
+    "GeneratedQuestsRequested": 1,
+    "GeneratedQuestsCompleted": 1,
     "GeneratedQuestsAbandoned": 0,
     "GeneratedQuestsTimedout": 0,
-    "PredefinedQuestsRequested": 1,
-    "PredefinedQuestsCompleted": 0,
+    "PredefinedQuestsRequested": 2,
+    "PredefinedQuestsCompleted": 2,
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
   "ImmortalMode": "None",
-  "CompletedQuests": [],
+  "CompletedQuests": [
+    {
+      "QuestId": 1,
+      "StartTime": "2026-01-10T14:26:26.0474247+01:00",
+      "CompletionTime": "2026-01-17T15:48:10.823944+01:00"
+    },
+    {
+      "QuestId": 2,
+      "StartTime": "2026-01-17T15:57:24.5184417+01:00",
+      "CompletionTime": "2026-01-17T15:57:31.2756904+01:00"
+    }
+  ],
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
-  "Level": 7,
+  "Level": 9,
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 188,
-    "MovePoints": 188,
-    "Mana": 203,
+    "HitPoints": 216,
+    "MovePoints": 216,
+    "Mana": 263,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 188,
-    "MovePoints": 188,
-    "Mana": 203,
+    "HitPoints": 216,
+    "MovePoints": 216,
+    "Mana": 263,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
@@ -328,7 +312,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11935,
+        "TimeLeft": 11922,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -646,14 +630,30 @@
   ],
   "Inventory": [
     {
-      "ItemId": 80000,
-      "Source": null,
-      "ShortDescription": "Quest item 1",
-      "Description": "Quest item 1",
+      "$type": "armor",
+      "Bash": 4,
+      "Pierce": 4,
+      "Slash": 3,
+      "Exotic": 1,
+      "ItemId": 3360,
+      "Source": "LootTable[The beastly fido[Id:3062]]",
+      "ShortDescription": "a pair of standard issue sleeves",
+      "Description": "You see a pair of standard issue sleeves here.",
+      "Level": 5,
+      "Cost": 450,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 9593,
+      "Source": "Reset-G[9691]",
+      "ShortDescription": "the jail key",
+      "Description": "The key to the jail lies here.",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
-      "ItemFlags": "StayDeath",
+      "ItemFlags": "",
       "Auras": []
     },
     {
