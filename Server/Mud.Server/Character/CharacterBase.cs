@@ -28,6 +28,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
@@ -1278,7 +1279,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return damageResults;
     }
 
-    public abstract bool NoLootOnDeath { get; }
     public abstract void HandleAutoGold(IItemCorpse corpse);
     public abstract void HandleAutoLoot(IItemCorpse corpse);
     public abstract void HandleAutoSacrifice(IItemCorpse corpse);

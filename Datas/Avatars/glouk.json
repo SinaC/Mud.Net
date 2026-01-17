@@ -3,11 +3,11 @@
   "AccountName": "sinac",
   "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
   "RoomId": 3001,
-  "SilverCoins": 109,
+  "SilverCoins": 111,
   "GoldCoins": 5000,
   "Wimpy": 0,
-  "Experience": 120000,
-  "Alignment": 0,
+  "Experience": 120038,
+  "Alignment": -44,
   "Trains": 22,
   "Practices": 89,
   "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
@@ -165,7 +165,7 @@
   "Cooldowns": {},
   "Pets": [],
   "Statistics": {
-    "NpcKill": 0,
+    "NpcKill": 2,
     "PcKill": 0,
     "NpcKilled": 0,
     "PcKilled": 0,
@@ -173,7 +173,7 @@
     "MoneySpent": 15,
     "GoldEarned": 0,
     "GoldStolen": 0,
-    "SilverEarned": 2,
+    "SilverEarned": 4,
     "SilverStolen": 0,
     "RecallUsed": 0,
     "FoodEaten": 0,
@@ -202,9 +202,9 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15809,
-    "MovePoints": 1143,
-    "Mana": 5307,
+    "HitPoints": 15830,
+    "MovePoints": 1189,
+    "Mana": 5329,
     "Psy": 100,
     "Energy": 100,
     "Rage": 0,
@@ -226,6 +226,9 @@
         "$type": "light",
         "TimeLeft": -1,
         "ItemId": 21,
+        "Source": null,
+        "ShortDescription": "a bright ball of light",
+        "Description": "a bright ball of light",
         "Level": 0,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -242,6 +245,9 @@
         "Slash": 50,
         "Exotic": 50,
         "ItemId": 2114,
+        "Source": null,
+        "ShortDescription": "a studded Troll gang jacket",
+        "Description": "a studded Troll gang jacket",
         "Level": 10,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -250,7 +256,7 @@
           {
             "AbilityName": "Test",
             "Level": 1,
-            "PulseLeft": 824,
+            "PulseLeft": 364,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -279,36 +285,31 @@
       "Slot": "Ring",
       "Item": {
         "ItemId": 2111,
+        "Source": null,
+        "ShortDescription": "a troll signet ring",
+        "Description": "a troll signet ring",
         "Level": 10,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
-        "Auras": []
-      }
-    },
-    {
-      "Slot": "MainHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "",
-        "DiceCount": 19,
-        "DiceValue": 19,
-        "ItemId": 3350,
-        "Level": 16,
-        "Cost": 0,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Magic",
         "Auras": [
           {
-            "AbilityName": "Envenom",
-            "Level": 1,
-            "PulseLeft": 704,
-            "AuraFlags": "NoDispel",
+            "AbilityName": "",
+            "Level": 10,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
             "Affects": [
               {
-                "$type": "weaponFlags",
-                "Operator": "Or",
-                "Modifier": "Poison"
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -2
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Strength",
+                "Modifier": 1
               }
             ]
           }
@@ -319,15 +320,39 @@
       "Slot": "MainHand",
       "Item": {
         "$type": "weapon",
-        "WeaponFlags": "Vorpal,TwoHands",
-        "DiceCount": 1,
-        "DiceValue": 999,
-        "ItemId": 3005,
-        "Level": 42,
-        "Cost": 0,
+        "WeaponFlags": "",
+        "DiceCount": 45,
+        "DiceValue": 45,
+        "ItemId": 96,
+        "Source": "ItemGenerator",
+        "ShortDescription": "an axe of the owl",
+        "Description": "An Axe of the Owl is here.",
+        "Level": 45,
+        "Cost": 900,
         "DecayPulseLeft": 0,
-        "ItemFlags": "Humming,Bless",
-        "Auras": []
+        "ItemFlags": "",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 45,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Intelligence",
+                "Modifier": 11
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Wisdom",
+                "Modifier": 11
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -336,20 +361,123 @@
         "$type": "shield",
         "Armor": 100,
         "ItemId": 2104,
+        "Source": null,
+        "ShortDescription": "a metal shield",
+        "Description": "a metal shield",
         "Level": 3,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
         "Auras": []
       }
+    },
+    {
+      "Slot": "MainHand",
+      "Item": {
+        "$type": "weapon",
+        "WeaponFlags": "Vorpal,TwoHands",
+        "DiceCount": 1,
+        "DiceValue": 999,
+        "ItemId": 3005,
+        "Source": null,
+        "ShortDescription": "Hassan\u0027s scimitar",
+        "Description": "Hassan\u0027s scimitar",
+        "Level": 42,
+        "Cost": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Humming,Bless",
+        "Auras": []
+      }
     }
   ],
-  "Inventory": [],
+  "Inventory": [
+    {
+      "$type": "armor",
+      "Bash": -225,
+      "Pierce": -225,
+      "Slash": -225,
+      "Exotic": -225,
+      "ItemId": 97,
+      "Source": "ItemGenerator",
+      "ShortDescription": "a breastplate of the gorilla",
+      "Description": "A Breastplate of the Gorilla is here.",
+      "Level": 45,
+      "Cost": 450,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 45,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Strength",
+              "Modifier": 5
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Intelligence",
+              "Modifier": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 19,
+      "DiceValue": 19,
+      "ItemId": 3350,
+      "Source": null,
+      "ShortDescription": "a standard issue sword",
+      "Description": "a standard issue sword",
+      "Level": 16,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic",
+      "Auras": [
+        {
+          "AbilityName": "Envenom",
+          "Level": 1,
+          "PulseLeft": 244,
+          "AuraFlags": "NoDispel",
+          "Affects": [
+            {
+              "$type": "weaponFlags",
+              "Operator": "Or",
+              "Modifier": "Poison"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "Vorpal,TwoHands",
+      "DiceCount": 4,
+      "DiceValue": 10,
+      "ItemId": 3005,
+      "Source": "Reset-E[3001]",
+      "ShortDescription": "Hassan\u0027s scimitar",
+      "Description": "Hassan\u0027s scimitar lies upon the ground, waiting for its owner.",
+      "Level": 42,
+      "Cost": 5600,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming,Bless",
+      "Auras": []
+    }
+  ],
   "Auras": [
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 9216,
+      "PulseLeft": 8756,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -363,7 +491,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 9412,
+      "PulseLeft": 8952,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -376,7 +504,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 9444,
+      "PulseLeft": 8984,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -389,7 +517,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 9460,
+      "PulseLeft": 9000,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -402,7 +530,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 9516,
+      "PulseLeft": 9056,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -415,7 +543,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 9216,
+      "PulseLeft": 8756,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -428,7 +556,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 9016,
+      "PulseLeft": 8556,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -441,7 +569,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 8816,
+      "PulseLeft": 8356,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -454,7 +582,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 4216,
+      "PulseLeft": 3756,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -484,8 +612,8 @@
     },
     {
       "AbilityName": "Protection Evil",
-      "Level": 6,
-      "PulseLeft": 4952,
+      "Level": 1,
+      "PulseLeft": 4492,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -507,8 +635,8 @@
     },
     {
       "AbilityName": "Protection Good",
-      "Level": 17,
-      "PulseLeft": 4996,
+      "Level": 1,
+      "PulseLeft": 4536,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -530,8 +658,8 @@
     },
     {
       "AbilityName": "Sanctuary",
-      "Level": 18,
-      "PulseLeft": 1200,
+      "Level": 1,
+      "PulseLeft": 740,
       "AuraFlags": "None",
       "Affects": [
         {

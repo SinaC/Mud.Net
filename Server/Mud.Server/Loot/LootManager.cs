@@ -2,15 +2,16 @@
 using Mud.Blueprints.Item;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.Random;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest.Objectives;
 
-namespace Mud.Server.Server;
+namespace Mud.Server.Loot;
 
 [Export(typeof(ILootManager)), Shared]
 public class LootManager : ILootManager
@@ -18,12 +19,14 @@ public class LootManager : ILootManager
     private ILogger<LootManager> Logger { get; }
     private IItemManager ItemManager { get; }
     private IRandomManager RandomManager { get; }
+    private IItemGenerator ItemGenerator { get; }
 
-    public LootManager(ILogger<LootManager> logger, IItemManager itemManager, IRandomManager randomManager)
+    public LootManager(ILogger<LootManager> logger, IItemManager itemManager, IRandomManager randomManager, IItemGenerator itemGenerator)
     {
         Logger = logger;
         ItemManager = itemManager;
         RandomManager = randomManager;
+        ItemGenerator = itemGenerator;
     }
 
     public void GenerateLoots(IItemCorpse? corpse, ICharacter victim, IEnumerable<IPlayableCharacter> playableCharactersImpactedByKill)
@@ -58,11 +61,15 @@ public class LootManager : ILootManager
         // Loot tables
         if (npcVictim is not null)
             GenerateLootsFromTables(npcVictim, corpse, room);
+
+        // Random generated items
+        if (npcVictim is not null)
+            GenerateRandomLoots(npcVictim, corpse, room);
     }
 
     private void HandleMoneyOnDeath(INonPlayableCharacter victim, IItemCorpse? corpse, IRoom room)
     {
-        if (victim.NoLootOnDeath)
+        if (victim.ActFlags.IsSet("NoLootOnDeath"))
             return;
 
         var silver = victim.SilverCoins;
@@ -75,9 +82,6 @@ public class LootManager : ILootManager
 
     private void HandleMoneyOnDeath(IPlayableCharacter victim, IItemCorpse? corpse, IRoom room)
     {
-        if (victim.NoLootOnDeath)
-            return;
-
         var silver = victim.SilverCoins;
         var gold = victim.GoldCoins;
         if (silver > 1 || gold > 1) // player keep half their money and leave the rest in the body
@@ -145,7 +149,7 @@ public class LootManager : ILootManager
 
     private HandleItemOnDeathResults HandleItemOnDeath(ICharacter victim, IItem item, IItemCorpse? corpse, IRoom room)
     {
-        if (victim.NoLootOnDeath)
+        if (victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.IsSet("NoLootOnDeath"))
             return HandleItemOnDeathResults.Destroy;
         if (item.ItemFlags.IsSet("Inventory"))
             return HandleItemOnDeathResults.Destroy;
@@ -192,9 +196,18 @@ public class LootManager : ILootManager
         return HandleItemOnDeathResults.MoveToCorpse;
     }
 
+    private void GenerateRandomLoots(INonPlayableCharacter victim, IItemCorpse? corpse, IRoom room)
+    {
+        if (!victim.ActFlags.IsSet("RandomLoot"))
+            return;
+
+        // TODO: add some randomization
+        var randomLoot = ItemGenerator.Generate(victim, corpse, room);
+    }
+
     private void GenerateLootsFromTables(INonPlayableCharacter victim, IItemCorpse? corpse, IRoom room)
     {
-        if (victim.NoLootOnDeath)
+        if (victim.ActFlags.IsSet("NoLootOnDeath"))
             return;
         if (victim.Blueprint == null)
             return;

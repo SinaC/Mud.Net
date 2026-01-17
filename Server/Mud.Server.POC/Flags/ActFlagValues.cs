@@ -7,10 +7,11 @@ namespace Mud.Server.POC.Flags;
 [FlagValues(typeof(IFlagValues), typeof(IActFlags)), Shared]
 public class ActFlagValues : IFlagValues
 {
-    private static readonly string[] Flags = 
+    private static readonly string[] Flags =
     [
         "NoCorpse", // when killed, will not create a corpse -> inventory/equipments will be dropped on the floor
-        "NoLootOnDeath" // when killed, destroy its inventory/equipments
+        "NoLootOnDeath", // when killed, destroy its inventory/equipments
+        "RandomLoot", // when killed, will generate a random item with random affects
     ];
 
     public IEnumerable<string> AvailableFlags => Flags;

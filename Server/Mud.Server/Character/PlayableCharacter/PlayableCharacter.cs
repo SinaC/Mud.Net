@@ -38,6 +38,7 @@ using Mud.Random;
 using System.Diagnostics;
 using System.Text;
 using Mud.Server.Interfaces.Flags;
+using Mud.Server.Interfaces.Loot;
 
 namespace Mud.Server.Character.PlayableCharacter;
 
@@ -590,8 +591,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         //if (multiHitModifier?.MaxAttackCount <= 6)
         //    return;
     }
-
-    public override bool NoLootOnDeath => false;
 
     public override void HandleAutoGold(IItemCorpse corpse)
     {

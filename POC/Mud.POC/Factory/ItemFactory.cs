@@ -21,7 +21,7 @@ public class ItemFactory
     {
         var blueprint = ItemBlueprintManager.GetItemBlueprint(itemData.BlueprintId);
         var armor = new ItemArmor(); // TODO: use DI
-        armor.Initialize(blueprint, itemData);
+        armor.Initialize(blueprint!, itemData);
 
         return armor;
     }

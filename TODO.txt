@@ -1,14 +1,10 @@
 INGOING
 DONE
+    ItemGenerator
 
 ==========
 == TODO ==
 ==========
-
-    generate item blueprint for each type of item/weapon within specific range
-        -> use these blueprint for generated items
-    generated items
-        https://wowpedia.fandom.com/wiki/Item_suffix
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
@@ -283,6 +279,7 @@ http://www.mudmagic.com/codes/download/diku/merc/rom/areas/romstuff.txt
 
 loot table: 
 http://www.gammon.com.au/forum/bbshowpost.php?bbsubject_id=9715
+https://wowpedia.fandom.com/wiki/Item_suffix
 
 rom snippets:
 http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/
