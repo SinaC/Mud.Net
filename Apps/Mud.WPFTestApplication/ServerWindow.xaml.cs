@@ -17,6 +17,7 @@ using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
@@ -784,10 +785,10 @@ public partial class ServerWindow : Window, INetworkServer
         var fidoBlueprint = CharacterManager.GetCharacterBlueprint<CharacterBlueprintBase>(3062);
         fidoBlueprint.LootTable = fidoTable;
 
-        // generic breastplate item to be used with random item generation
+        // generic breastplate and axe to be used with random item generation
         var genericBreastplate = new ItemArmorBlueprint
         {
-            Id = 98,
+            Id = 97,
             Name = "breastplate",
             ShortDescription = "a breastplate",
             Description = "a breastplate is here",
@@ -800,7 +801,35 @@ public partial class ServerWindow : Window, INetworkServer
             Pierce = 0,
             Slash = 0,
             Exotic = 0,
-            Weight = 0,
+            Weight = 10,
         };
+        var genericAxe = new ItemWeaponBlueprint
+        {
+            Id = 96,
+            Name = "axe",
+            ShortDescription = "an axe",
+            Description = "an axe is here",
+            WearLocation = WearLocations.Chest,
+            Level = 0,
+            Cost = 0,
+            NoTake = false,
+            ItemFlags = new ItemFlags(),
+            DiceCount = 0,
+            DiceValue = 0,
+            DamageType = SchoolTypes.Slash,
+            DamageNoun = "thwack",
+            Type = WeaponTypes.Axe,
+            Flags = new WeaponFlags(),
+            Weight = 10,
+        };
+        ItemManager.AddItemBlueprint(genericBreastplate);
+        ItemManager.AddItemBlueprint(genericAxe);
+        var itemGenerator = ServiceProvider.GetRequiredService<IItemGenerator>();
+        itemGenerator.AddBlueprintId(97);
+        itemGenerator.AddBlueprintId(96);
+
+        // hassan will generate random loot
+        var hassanBlueprint = CharacterManager.GetCharacterBlueprint<CharacterBlueprintBase>(3011);
+        hassanBlueprint.ActFlags.Set("RandomLoot");
     }
 }

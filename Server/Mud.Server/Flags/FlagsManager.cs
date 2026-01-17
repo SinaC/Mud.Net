@@ -22,6 +22,10 @@ public class FlagsManager : IFlagsManager
 
         FlagDefinitionsByFlagType = [];
         var iFlagsStringType = typeof(IFlags<string>);
+        // Use Flag attribute to generate FlagDefinitions
+        //      FlagType: flag type
+        //      Flag: flag value
+        //      FlagValues: class container this specific flag
         foreach (var flagValuesInstance in flagValuesInstances)
         {
             var flagValuesType = flagValuesInstance.GetType();
@@ -30,20 +34,21 @@ public class FlagsManager : IFlagsManager
             if (!flagInterfaceType.IsAssignableTo(iFlagsStringType))
                 throw new Exception($"FlagManager: FlagInterfaceType {flagInterfaceType.FullName} in FlagValues {flagValuesType.FullName} doesn't inherit from {iFlagsStringType.FullName}");
 
+            // get or create a collection of FlagDefinition for that FlagType
             var isFlagTypeDefined = FlagDefinitionsByFlagType.TryGetValue(flagInterfaceType, out var flagDefinitions);
             if (!isFlagTypeDefined || flagDefinitions == null)
             {
                 flagDefinitions = new Dictionary<string, FlagDefinition>(StringComparer.InvariantCultureIgnoreCase);
                 FlagDefinitionsByFlagType.Add(flagInterfaceType, flagDefinitions);
             }
-
+            // generate FlagDefinitions and add them collection of FlagDefinition for that FlagType
             foreach (var availableFlag in flagValuesInstance.AvailableFlags)
             {
                 if (flagDefinitions.ContainsKey(availableFlag))
                     Logger.LogError("FlagManager: Flag {availableFlag} found in FlagValues {flagValuesType} is already defined", availableFlag, flagValuesType.FullName);
                 else
                 {
-                    var flagDefinition = new FlagDefinition(availableFlag, flagValuesInstance);
+                    var flagDefinition = new FlagDefinition(flagInterfaceType, availableFlag, flagValuesInstance);
                     flagDefinitions.Add(availableFlag, flagDefinition);
                 }
             }
@@ -99,11 +104,13 @@ public class FlagsManager : IFlagsManager
     }
     private class FlagDefinition
     {
+        public Type FlagType { get; }
         public string Flag { get; }
         public IFlagValues FlagValues { get; }
 
-        public FlagDefinition(string flag, IFlagValues flagValues)
+        public FlagDefinition(Type flagType, string flag, IFlagValues flagValues)
         {
+            FlagType = flagType;
             Flag = flag;
             FlagValues = flagValues;
         }

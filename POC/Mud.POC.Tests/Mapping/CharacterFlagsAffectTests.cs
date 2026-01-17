@@ -1,158 +1,53 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Mud.DataStructures.Flags;
-using Mud.Domain;
-using Mud.Server.Affects.Character;
+﻿using Mud.DataStructures.Flags;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Server.Affects.Character;
+using Mud.Server.Domain;
 using Riok.Mapperly.Abstractions;
 
-namespace Mud.POC.Tests.Mapping
+namespace Mud.POC.Tests.Mapping;
+
+[TestClass]
+public class CharacterFlagsAffectTests
 {
-    //[TestClass]
-    //public class CharacterFlagsAffectTests
-    //{
-    //    [TestMethod]
-    //    public void CharacterFlagsAffect_CharacterFlagsAffectData()
-    //    {
-    //        var characterFlags = new CharacterFlags(new Rom24CharacterFlags());
-    //        characterFlags.Set("Calm", "Invisible");
-    //        var characterFlagsAffect = new CharacterFlagsAffect { Modifier = characterFlags, Operator = AffectOperators.Or };
+    [TestMethod]
+    public void CharacterFlagsAffect_CharacterFlagsAffectData()
+    {
+        var characterFlagsAffect = new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm,Invisible"), Operator = AffectOperators.Add };
 
-    //        var mapper = CreateMapper();
-    //        var characterFlagsAffectData = mapper.ToData(characterFlagsAffect);
+        var mapper = new CharacterFlagsAffectMapper();
+        var characterFlagsAffectData = mapper.CharacterFlagsAffectToCharacterFlagsAffectData(characterFlagsAffect);
 
-    //        Assert.AreEqual("Calm,Invisible", characterFlagsAffectData.Modifier);
-    //        Assert.AreEqual(AffectOperators.Or, characterFlagsAffectData.Operator);
-    //    }
+        Assert.IsNotNull(characterFlagsAffectData);
+        Assert.AreEqual("Calm,Invisible", characterFlagsAffectData.Modifier);
+        Assert.AreEqual(AffectOperators.Add, characterFlagsAffectData.Operator);
+    }
 
-    //    [TestMethod]
-    //    public void CharacterFlagsAffectData_CharacterFlagsAffect()
-    //    {
-    //        var characterFlagsAffectData = new CharacterFlagsAffectDataNew { Modifier = "DetectEvil,Curse", Operator = AffectOperators.Assign };
+    [TestMethod]
+    public void CharacterFlagsAffectData_CharacterFlagsAffect()
+    {
+        var characterFlagsAffectData = new CharacterFlagsAffectData { Modifier = "Calm,Invisible", Operator = AffectOperators.Add };
 
-    //        var mapper = CreateMapper();
-    //        var characterFlagsAffect = mapper.FromData(characterFlagsAffectData);
+        var mapper = new CharacterFlagsAffectMapper();
+        var characterFlagsAffect = mapper.CharacterFlagsAffectDataToCharacterFlagsAffect(characterFlagsAffectData);
 
-    //        Assert.HasCount(2, characterFlagsAffect.Modifier.Values);
-    //        Assert.Contains("DetectEvil", characterFlagsAffect.Modifier.Values);
-    //        Assert.Contains("Curse", characterFlagsAffect.Modifier.Values);
-    //        Assert.AreEqual(AffectOperators.Assign, characterFlagsAffect.Operator);
-    //    }
+        Assert.IsNotNull(characterFlagsAffect);
+        CollectionAssert.AreEquivalent(new[] { "Calm", "Invisible" }, characterFlagsAffect.Modifier.Values.ToArray());
+        Assert.AreEqual(AffectOperators.Add, characterFlagsAffect.Operator);
+    }
+}
 
-    //    private ICharacterFlagsAffectMapper CreateMapper()
-    //    {
-    //        var services = new ServiceCollection();
 
-    //        services.AddSingleton<IFlagFactory<ICharacterFlags, ICharacterFlagValues>, FlagFactory>();
-    //        services.AddSingleton<ICharacterFlagsAffectMapper, CharacterFlagsAffectMapper>();
+[Mapper]
+public partial class CharacterFlagsAffectMapper
+{
+    [MapProperty(nameof(CharacterFlagsAffect.Modifier), nameof(CharacterFlagsAffectData.Modifier), Use = nameof(MapModifierToString))]
+    public partial CharacterFlagsAffectData CharacterFlagsAffectToCharacterFlagsAffectData(CharacterFlagsAffect CharacterFlagsAffect);
+    private string MapModifierToString(ICharacterFlags modifier) => GenericMapModifierToString(modifier);
 
-    //        var provider = services.BuildServiceProvider();
+    [MapProperty(nameof(CharacterFlagsAffectData.Modifier), nameof(CharacterFlagsAffect.Modifier), Use = nameof(MapModifierFromString))]
+    public partial CharacterFlagsAffect CharacterFlagsAffectDataToCharacterFlagsAffect(CharacterFlagsAffectData CharacterFlagsAffectData);
+    private ICharacterFlags MapModifierFromString(string modifier) => new CharacterFlags(modifier);
 
-    //        return provider.GetRequiredService<ICharacterFlagsAffectMapper>();
-    //    }
-    //}
-
-    //public class CharacterFlagsAffectDataNew
-    //{
-    //    public required AffectOperators Operator { get; set; } // Add and Or are identical
-
-    //    public required string Modifier { get; set; }
-    //}
-
-    //public interface ICharacterFlagsAffectMapper
-    //{
-    //    CharacterFlagsAffectDataNew ToData(CharacterFlagsAffect characterFlagsAffect);
-
-    //    CharacterFlagsAffect FromData(CharacterFlagsAffectDataNew characterFlagsAffect);
-    //}
-
-    //[Mapper(PreferParameterlessConstructors=false)]
-    //public partial class CharacterFlagsAffectMapper : ICharacterFlagsAffectMapper
-    //{
-    //    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> FlagFactory { get; }
-
-    //    public CharacterFlagsAffectMapper(IFlagFactory<ICharacterFlags, ICharacterFlagValues> flagFactory)
-    //    {
-    //        FlagFactory = flagFactory;
-    //    }
-
-    //    [MapProperty(nameof(CharacterFlagsAffect.Modifier), nameof(CharacterFlagsAffectDataNew.Modifier), Use = nameof(MapModifierToData))]
-    //    public partial CharacterFlagsAffectDataNew ToData(CharacterFlagsAffect characterFlagsAffect);
-
-    //    [MapProperty(nameof(CharacterFlagsAffectDataNew.Modifier), nameof(CharacterFlagsAffect.Modifier), Use = nameof(MapModifierFromData))]
-    //    public partial CharacterFlagsAffect FromData(CharacterFlagsAffectDataNew characterFlagsAffect);
-
-    //    [UserMapping]
-    //    private string MapModifierToData(ICharacterFlags flags)
-    //        => string.Join(",", flags.Values);
-
-    //    [UserMapping]
-    //    private ICharacterFlags MapModifierFromData(string flags)
-    //        => FlagFactory.CreateInstance(flags);
-    //}
-
-    //public class FlagFactory : IFlagFactory<ICharacterFlags, ICharacterFlagValues>
-    //{
-    //    public ICharacterFlags CreateInstance(string? flags)
-    //    {
-    //        var instance = new CharacterFlags(new Rom24CharacterFlags());
-    //        instance.Set(flags);
-    //        return instance;
-    //    }
-
-    //    public ICharacterFlags CreateInstance(params string[] flags)
-    //    {
-    //        var instance = new CharacterFlags(new Rom24CharacterFlags());
-    //        instance.Set(flags);
-    //        return instance;
-    //    }
-    //}
-
-    //public class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
-    //{
-    //    public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
-    //    {
-    //        "Blind",
-    //        "Invisible",
-    //        "DetectEvil",
-    //        "DetectInvis",
-    //        "DetectMagic",
-    //        "DetectHidden",
-    //        "DetectGood",
-    //        "FaerieFire",
-    //        "Infrared",
-    //        "Curse",
-    //        "Poison",
-    //        "Sneak",
-    //        "Hide",
-    //        "Sleep",
-    //        "Charm",
-    //        "Flying",
-    //        "PassDoor",
-    //        "Haste",
-    //        "Calm",
-    //        "Plague",
-    //        "Weaken",
-    //        "DarkVision",
-    //        "Berserk",
-    //        "Swim",
-    //        "Regeneration",
-    //        "Slow",
-    //        "Test", // TEST PURPOSE
-    //    };
-
-    //    protected override HashSet<string> HashSet => Flags;
-
-    //    public Rom24CharacterFlags()
-    //    {
-    //    }
-
-    //    public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
-    //    {
-    //        // NOP
-    //    }
-
-    //    public string PrettyPrint(string flag, bool shortDisplay)
-    //        => flag.ToString();
-    //}
+    private string GenericMapModifierToString(IFlags<string> modifier) => string.Join(',', modifier.Values);
 }

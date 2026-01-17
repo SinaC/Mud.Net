@@ -41,6 +41,14 @@ public class ItemManager : IItemManager
         var iItemType = typeof(IItem);
         var itemDataType = typeof(ItemData);
         var itemDefinitions = new List<ItemDefinition>();
+        // use Item attribute to generate ItemDefinitions
+        //      ItemType, ItemBlueprintType, ItemDataType
+        //      InitializeWithoutItemDataMethod: search for one of the following methods
+        //          Initialize(Guid, SpecificItemBlueprint, string, IContainer)
+        //       or Initialize<SpecificBlueprint>(Guid, SpecificItemBlueprint, string, IContainer)
+        //      InitializeWithItemDataMethod: search for one of the following methods
+        //          Initialize(Guid, SpecificItemBlueprint, SpecificItemData, IContainer)
+        //          Initialize<SpecificBlueprint,SpecificItemData>(Guid, SpecificItemBlueprint, SpecificItemData, IContainer)
         foreach (var itemType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsAssignableTo(iItemType))))
         {
             var itemAttribute = itemType.GetCustomAttribute<ItemAttribute>() ?? throw new Exception($"ItemManager: no ItemAttribute found for Item {itemType.FullName}");
@@ -102,7 +110,15 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemManager: cannot create instance of Item {itemType}", itemDefinition.ItemType.FullName);
             return null;
         }
-        itemDefinition.InitializeWithoutItemDataMethod.Invoke(item, [guid, blueprint, source, container]);
+        try
+        {
+            itemDefinition.InitializeWithoutItemDataMethod.Invoke(item, [guid, blueprint, source, container]);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("ItemManager: cannot initialize item {itemType} blueprint Id {blueprintId} Exception: {ex}.", itemDefinition.ItemType.FullName, blueprint.Id, ex);
+            return null;
+        }
         // add item to collection
         if (item.Name == null || item.Id == Guid.Empty)
         {
@@ -144,7 +160,7 @@ public class ItemManager : IItemManager
         }
         catch (Exception ex)
         {
-            Logger.LogError("ItemManager: cannot initialize item {itemType} blueprint Id {blueprintId} item data type {itemDataType} Exception: {ex}.", itemDefinition.ItemType.FullName, blueprint.Id, itemDefinition.GetType().FullName, ex);
+            Logger.LogError("ItemManager: cannot initialize item {itemType} blueprint Id {blueprintId} item data type {itemDataType} Exception: {ex}.", itemDefinition.ItemType.FullName, blueprint.Id, itemDefinition.ItemDataType.GetType().FullName, ex);
             return null;
         }
         // add item to collection

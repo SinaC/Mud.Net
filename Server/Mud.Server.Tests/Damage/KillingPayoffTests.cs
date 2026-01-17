@@ -17,6 +17,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Random;
+using Mud.Server.Interfaces.Loot;
 
 namespace Mud.Server.Tests.Damage;
 

@@ -38,6 +38,7 @@ using Mud.Random;
 using System.Diagnostics;
 using System.Text;
 using Mud.Server.Interfaces.Flags;
+using Mud.Server.Interfaces.Loot;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
@@ -514,8 +515,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 break;
         }
     }
-
-    public override bool NoLootOnDeath => ActFlags.IsSet("NoLootOnDeath");
 
     public override void HandleAutoGold(IItemCorpse corpse)
     {
