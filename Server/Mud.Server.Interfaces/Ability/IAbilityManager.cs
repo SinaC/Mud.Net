@@ -14,8 +14,9 @@ namespace Mud.Server.Interfaces.Ability
         IEnumerable<IAbilityDefinition> SearchAbilitiesByExecutionType<TAbility>()
             where TAbility : class, IAbility;
 
-        IAbilityDefinition? Search(string pattern, AbilityTypes type);
-        IAbilityDefinition? Search(ICommandParameter parameter);
+        IAbilityDefinition? Get(string abilityName, AbilityTypes type);
+
+        IEnumerable<IAbilityDefinition> Search(ICommandParameter parameter, AbilityTypes type);
 
         TAbility? CreateInstance<TAbility>(string abilityName)
             where TAbility : class, IAbility;

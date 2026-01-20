@@ -2,14 +2,14 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 6502,
-  "SilverCoins": 585,
-  "GoldCoins": 5270,
+  "RoomId": 7900,
+  "SilverCoins": 10773464,
+  "GoldCoins": 5763,
   "Wimpy": 0,
-  "Experience": 8505,
-  "Alignment": -340,
-  "Trains": 37,
-  "Practices": 67,
+  "Experience": 20135,
+  "Alignment": 1000,
+  "Trains": 66,
+  "Practices": 72,
   "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
     "QuestPoints": 35
@@ -19,7 +19,7 @@
     {
       "Name": "sword",
       "Level": 1,
-      "Learned": 95,
+      "Learned": 96,
       "Rating": 2
     },
     {
@@ -49,13 +49,13 @@
     {
       "Name": "second attack",
       "Level": 5,
-      "Learned": 35,
+      "Learned": 83,
       "Rating": 3
     },
     {
       "Name": "shield block",
       "Level": 1,
-      "Learned": 35,
+      "Learned": 88,
       "Rating": 2
     },
     {
@@ -67,19 +67,19 @@
     {
       "Name": "disarm",
       "Level": 11,
-      "Learned": 0,
+      "Learned": 1,
       "Rating": 4
     },
     {
       "Name": "enhanced damage",
       "Level": 1,
-      "Learned": 58,
+      "Learned": 62,
       "Rating": 3
     },
     {
       "Name": "parry",
       "Level": 1,
-      "Learned": 45,
+      "Learned": 99,
       "Rating": 4
     },
     {
@@ -91,13 +91,13 @@
     {
       "Name": "third attack",
       "Level": 12,
-      "Learned": 0,
+      "Learned": 75,
       "Rating": 4
     },
     {
       "Name": "axe",
       "Level": 1,
-      "Learned": 57,
+      "Learned": 100,
       "Rating": 4
     },
     {
@@ -141,6 +141,264 @@
       "Level": 1,
       "Learned": 100,
       "Rating": 1
+    },
+    {
+      "Name": "acid blast",
+      "Level": 32,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "burning hands",
+      "Level": 9,
+      "Learned": 59,
+      "Rating": 2
+    },
+    {
+      "Name": "chain lightning",
+      "Level": 36,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "chill touch",
+      "Level": 6,
+      "Learned": 37,
+      "Rating": 2
+    },
+    {
+      "Name": "colour spray",
+      "Level": 20,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "fireball",
+      "Level": 26,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "lightning bolt",
+      "Level": 16,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "magic missile",
+      "Level": 2,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "shocking grasp",
+      "Level": 13,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "armor",
+      "Level": 5,
+      "Learned": 70,
+      "Rating": 2
+    },
+    {
+      "Name": "cancellation",
+      "Level": 34,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "dispel magic",
+      "Level": 30,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "fireproof",
+      "Level": 18,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "protection evil",
+      "Level": 11,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "protection good",
+      "Level": 11,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "sanctuary",
+      "Level": 30,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "shield",
+      "Level": 40,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "stone skin",
+      "Level": 45,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "giant strength",
+      "Level": 20,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "haste",
+      "Level": 29,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "infravision",
+      "Level": 16,
+      "Learned": 61,
+      "Rating": 2
+    },
+    {
+      "Name": "refresh",
+      "Level": 9,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "continual light",
+      "Level": 9,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "create food",
+      "Level": 12,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "create spring",
+      "Level": 20,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "create water",
+      "Level": 11,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "create rose",
+      "Level": 24,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "floating disc",
+      "Level": 16,
+      "Learned": 61,
+      "Rating": 2
+    },
+    {
+      "Name": "cure critical",
+      "Level": 19,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "cure light",
+      "Level": 3,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "cure serious",
+      "Level": 10,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "heal",
+      "Level": 30,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "mass healing",
+      "Level": 46,
+      "Learned": 0,
+      "Rating": 4
+    },
+    {
+      "Name": "fly",
+      "Level": 22,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "gate",
+      "Level": 28,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "nexus",
+      "Level": 45,
+      "Learned": 0,
+      "Rating": 4
+    },
+    {
+      "Name": "pass door",
+      "Level": 37,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "portal",
+      "Level": 40,
+      "Learned": 0,
+      "Rating": 4
+    },
+    {
+      "Name": "summon",
+      "Level": 22,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "teleport",
+      "Level": 36,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "word of recall",
+      "Level": 30,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "kick",
+      "Level": 8,
+      "Learned": 78,
+      "Rating": 3
+    },
+    {
+      "Name": "dodge",
+      "Level": 13,
+      "Learned": 46,
+      "Rating": 6
     }
   ],
   "LearnedAbilityGroups": [
@@ -155,39 +413,66 @@
     {
       "Name": "warrior default",
       "Cost": 40
+    },
+    {
+      "Name": "combat",
+      "Cost": 9
+    },
+    {
+      "Name": "protective",
+      "Cost": 8
+    },
+    {
+      "Name": "enhancement",
+      "Cost": 9
+    },
+    {
+      "Name": "creation",
+      "Cost": 8
+    },
+    {
+      "Name": "healing",
+      "Cost": 6
+    },
+    {
+      "Name": "transportation",
+      "Cost": 9
     }
   ],
   "Conditions": {
     "Drunk": 0,
-    "Full": 10,
-    "Thirst": 18,
-    "Hunger": 8
+    "Full": 0,
+    "Thirst": 39,
+    "Hunger": 22
   },
-  "Aliases": {},
+  "Aliases": {
+    "a": "cast \u0027colour spray\u0027",
+    "z": "cast \u0027cure critical\u0027"
+  },
   "Cooldowns": {},
   "Pets": [
     {
-      "BlueprintId": 3093,
-      "Description": "The rottweiler looks like a strong, fierce fighter.\r\nA neck tag says \u0027I belong to Fnar\u0027.\r\n",
-      "Name": "toto",
-      "Race": "dog",
+      "BlueprintId": 3097,
+      "Description": "The large, striped tiger looks like a savage fighter.\r\nA neck tag says \u0027I belong to Fnar\u0027.\r\n",
+      "Name": "tiger pet",
+      "Race": "cat",
       "Class": "",
-      "Level": 7,
+      "Level": 20,
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 75,
+        "HitPoints": 333,
         "MovePoints": 100,
-        "Mana": 150,
+        "Mana": 100,
         "Psy": 0,
         "Energy": 0,
         "Rage": 0,
         "Combo": 0
       },
       "MaxResources": {
-        "HitPoints": 83,
+        "HitPoints": 333,
         "MovePoints": 100,
-        "Mana": 150,
+        "Mana": 100,
         "Psy": 0,
         "Energy": 0,
         "Rage": 0,
@@ -198,7 +483,7 @@
       "Auras": [
         {
           "AbilityName": "Haste",
-          "Level": 7,
+          "Level": 20,
           "PulseLeft": -1,
           "AuraFlags": "Permanent",
           "Affects": [
@@ -206,7 +491,7 @@
               "$type": "characterAttribute",
               "Operator": "Add",
               "Location": "Dexterity",
-              "Modifier": 1
+              "Modifier": 2
             },
             {
               "$type": "characterFlags",
@@ -220,41 +505,41 @@
           ]
         }
       ],
-      "CharacterFlags": "DetectHidden,charm",
+      "CharacterFlags": "DetectHidden,DarkVision,Charm",
       "Immunities": "",
       "Resistances": "Magic",
       "Vulnerabilities": "",
       "ShieldFlags": "",
       "Attributes": {
-        "Strength": 12,
-        "Intelligence": 12,
-        "Wisdom": 12,
-        "Dexterity": 12,
-        "Constitution": 12,
+        "Strength": 16,
+        "Intelligence": 16,
+        "Wisdom": 16,
+        "Dexterity": 16,
+        "Constitution": 16,
         "SavingThrow": 0,
         "HitRoll": 3,
-        "DamRoll": 7,
-        "ArmorBash": 40,
-        "ArmorPierce": 40,
-        "ArmorSlash": 40,
-        "ArmorExotic": 80
+        "DamRoll": 20,
+        "ArmorBash": -40,
+        "ArmorPierce": -40,
+        "ArmorSlash": -40,
+        "ArmorExotic": 60
       }
     }
   ],
   "Statistics": {
-    "NpcKill": 17,
+    "NpcKill": 149,
     "PcKill": 0,
     "NpcKilled": 0,
     "PcKilled": 0,
     "NoSourceKilled": 0,
-    "MoneySpent": 15,
-    "GoldEarned": 159,
+    "MoneySpent": 10713,
+    "GoldEarned": 662,
     "GoldStolen": 0,
-    "SilverEarned": 494,
+    "SilverEarned": 25839,
     "SilverStolen": 0,
-    "RecallUsed": 1,
-    "FoodEaten": 1,
-    "BeveragesConsumed": 0,
+    "RecallUsed": 5,
+    "FoodEaten": 16,
+    "BeveragesConsumed": 8,
     "PillEaten": 0,
     "PotionQuaffed": 0,
     "PortalUsed": 0,
@@ -286,22 +571,22 @@
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
-  "Level": 9,
+  "Level": 20,
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 216,
-    "MovePoints": 216,
-    "Mana": 263,
+    "HitPoints": 375,
+    "MovePoints": 135,
+    "Mana": 437,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 216,
-    "MovePoints": 216,
-    "Mana": 263,
+    "HitPoints": 437,
+    "MovePoints": 393,
+    "Mana": 521,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
@@ -312,7 +597,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11922,
+        "TimeLeft": 11762,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -367,14 +652,14 @@
     {
       "Slot": "Amulet",
       "Item": {
-        "ItemId": 104,
-        "Source": null,
-        "ShortDescription": "a small necklace",
-        "Description": "a small necklace",
+        "ItemId": 5003,
+        "Source": "Reset-E[5021]",
+        "ShortDescription": "the amulet",
+        "Description": "A mushroom shaped amulet lies on the ground.",
         "Level": 5,
-        "Cost": 0,
+        "Cost": 550,
         "DecayPulseLeft": 0,
-        "ItemFlags": "Glowing",
+        "ItemFlags": "Magic",
         "Auras": [
           {
             "AbilityName": "",
@@ -385,7 +670,7 @@
               {
                 "$type": "characterAttribute",
                 "Operator": "Add",
-                "Location": "Intelligence",
+                "Location": "Constitution",
                 "Modifier": 1
               }
             ]
@@ -396,14 +681,14 @@
     {
       "Slot": "Amulet",
       "Item": {
-        "ItemId": 104,
-        "Source": null,
-        "ShortDescription": "a small necklace",
-        "Description": "a small necklace",
+        "ItemId": 5003,
+        "Source": "Reset-E[5021]",
+        "ShortDescription": "the amulet",
+        "Description": "A mushroom shaped amulet lies on the ground.",
         "Level": 5,
-        "Cost": 0,
+        "Cost": 550,
         "DecayPulseLeft": 0,
-        "ItemFlags": "Glowing",
+        "ItemFlags": "Magic",
         "Auras": [
           {
             "AbilityName": "",
@@ -414,7 +699,7 @@
               {
                 "$type": "characterAttribute",
                 "Operator": "Add",
-                "Location": "Intelligence",
+                "Location": "Constitution",
                 "Modifier": 1
               }
             ]
@@ -448,16 +733,31 @@
         "Bash": 5,
         "Pierce": 5,
         "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 3711,
-        "Source": null,
-        "ShortDescription": "a sub issue cape",
-        "Description": "a sub issue cape",
-        "Level": 0,
-        "Cost": 0,
+        "Exotic": 0,
+        "ItemId": 2802,
+        "Source": "Reset-E[2805]",
+        "ShortDescription": "the troll skin",
+        "Description": "The filthy hide of a beast is laying here.",
+        "Level": 12,
+        "Cost": 1380,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
-        "Auras": []
+        "ItemFlags": "",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 12,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Strength",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -483,38 +783,68 @@
       "Slot": "Wrists",
       "Item": {
         "$type": "armor",
-        "Bash": 5,
-        "Pierce": 5,
-        "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 3713,
-        "Source": null,
-        "ShortDescription": "a sub issue bracer",
-        "Description": "a sub issue bracer",
-        "Level": 0,
-        "Cost": 0,
+        "Bash": 6,
+        "Pierce": 4,
+        "Slash": 6,
+        "Exotic": 2,
+        "ItemId": 1615,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "a mithril bracer",
+        "Description": "A magical bracer made from mithril lies on the ground!",
+        "Level": 12,
+        "Cost": 1540,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
-        "Auras": []
+        "ItemFlags": "Humming,Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 12,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Strength",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
       "Slot": "Wrists",
       "Item": {
         "$type": "armor",
-        "Bash": 5,
-        "Pierce": 5,
-        "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 3713,
-        "Source": null,
-        "ShortDescription": "a sub issue bracer",
-        "Description": "a sub issue bracer",
-        "Level": 0,
-        "Cost": 0,
+        "Bash": 6,
+        "Pierce": 4,
+        "Slash": 6,
+        "Exotic": 2,
+        "ItemId": 1615,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "a mithril bracer",
+        "Description": "A magical bracer made from mithril lies on the ground!",
+        "Level": 12,
+        "Cost": 1540,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
-        "Auras": []
+        "ItemFlags": "Humming,Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 12,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Strength",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -553,6 +883,76 @@
         "DecayPulseLeft": 0,
         "ItemFlags": "MeltOnDrop",
         "Auras": []
+      }
+    },
+    {
+      "Slot": "Ring",
+      "Item": {
+        "ItemId": 6601,
+        "Source": "Reset-E[6605]",
+        "ShortDescription": "a pink ice ring",
+        "Description": "A pink ice ring draws your eye.",
+        "Level": 3,
+        "Cost": 620,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 3,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterResource",
+                "Operator": "Add",
+                "Location": "HitPoints",
+                "Modifier": 4
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Strength",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Slot": "Ring",
+      "Item": {
+        "ItemId": 3364,
+        "Source": "Reset-E[3040]",
+        "ShortDescription": "a city guard signet ring",
+        "Description": "You see a ring with a strange symbol on the floor.",
+        "Level": 16,
+        "Cost": 1280,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -598,17 +998,38 @@
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
-        "DiceCount": 5,
-        "DiceValue": 3,
-        "ItemId": 103,
-        "Source": null,
-        "ShortDescription": "a small axe",
-        "Description": "a small axe",
-        "Level": 3,
-        "Cost": 0,
+        "DiceCount": 3,
+        "DiceValue": 5,
+        "ItemId": 3350,
+        "Source": "Reset-E[3040]",
+        "ShortDescription": "a standard issue sword",
+        "Description": "You see a standard issue sword here.",
+        "Level": 16,
+        "Cost": 1280,
         "DecayPulseLeft": 0,
-        "ItemFlags": "",
-        "Auras": []
+        "ItemFlags": "Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "DamRoll",
+                "Modifier": 1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "HitRoll",
+                "Modifier": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -630,74 +1051,514 @@
   ],
   "Inventory": [
     {
-      "$type": "armor",
-      "Bash": 4,
-      "Pierce": 4,
-      "Slash": 3,
-      "Exotic": 1,
-      "ItemId": 3360,
-      "Source": "LootTable[The beastly fido[Id:3062]]",
-      "ShortDescription": "a pair of standard issue sleeves",
-      "Description": "You see a pair of standard issue sleeves here.",
-      "Level": 5,
-      "Cost": 450,
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 4,
+      "DiceValue": 2,
+      "ItemId": 3414,
+      "Source": "Reset-E[3434]",
+      "ShortDescription": "a whisper thin rapier",
+      "Description": "A rapier is lying here.",
+      "Level": 16,
+      "Cost": 3500,
       "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 9593,
-      "Source": "Reset-G[9691]",
-      "ShortDescription": "the jail key",
-      "Description": "The key to the jail lies here.",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 107,
-      "Source": null,
-      "ShortDescription": "a tiny key",
-      "Description": "a tiny key",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 3715,
-      "Source": null,
-      "ShortDescription": "a mud school diploma",
-      "Description": "a mud school diploma",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Magic,MeltOnDrop",
+      "ItemFlags": "Humming",
       "Auras": [
         {
           "AbilityName": "",
-          "Level": 0,
+          "Level": 16,
           "PulseLeft": -1,
           "AuraFlags": "NoDispel, Permanent, Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
               "Operator": "Add",
-              "Location": "Wisdom",
+              "Location": "HitRoll",
               "Modifier": 1
             },
             {
               "$type": "characterAttribute",
               "Operator": "Add",
-              "Location": "Constitution",
-              "Modifier": 1
+              "Location": "Dexterity",
+              "Modifier": 2
             }
           ]
         }
       ]
+    },
+    {
+      "$type": "container",
+      "MaxWeight": 3,
+      "ContainerFlags": "Closed, NoLock",
+      "MaxWeightPerItem": 3,
+      "Contains": [
+        {
+          "ItemId": 3413,
+          "Source": "Reset-P[3434]",
+          "ShortDescription": "a black marble ring",
+          "Description": "A black marble ring is lying here on the ground.",
+          "Level": 3,
+          "Cost": 26,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "Magic,AntiEvil",
+          "Auras": [
+            {
+              "AbilityName": "",
+              "Level": 3,
+              "PulseLeft": -1,
+              "AuraFlags": "NoDispel, Permanent, Inherent",
+              "Affects": [
+                {
+                  "$type": "characterAttribute",
+                  "Operator": "Add",
+                  "Location": "SavingThrow",
+                  "Modifier": 1
+                },
+                {
+                  "$type": "characterResource",
+                  "Operator": "Add",
+                  "Location": "MovePoints",
+                  "Modifier": 10
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ItemId": 3412,
+      "Source": "Reset-G[3434]",
+      "ShortDescription": "the mummified head of Jubal the Benevolent",
+      "Description": "The mummified head of Jubal the Benevolent is lolling back and forth.",
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "AntiEvil",
+      "Auras": []
+    },
+    {
+      "$type": "drinkContainer",
+      "MaxLiquidAmount": 30,
+      "CurrentLiquidAmount": 30,
+      "LiquidName": "red wine",
+      "IsPoisoned": false,
+      "ItemId": 3417,
+      "Source": "Reset-P[3424]",
+      "ShortDescription": "a wineflask",
+      "Description": "A wineflask has been been left here.",
+      "Level": 0,
+      "Cost": 400,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 3416,
+      "Source": "Reset-E[3424]",
+      "ShortDescription": "a heavy iron key",
+      "Description": "A heavy iron key is lying here.",
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 3430,
+      "Source": "Reset-G[3405]",
+      "ShortDescription": "a silver key",
+      "Description": "You see a silver key here.",
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "light",
+      "TimeLeft": 30000,
+      "ItemId": 3365,
+      "Source": "Reset-E[3014]",
+      "ShortDescription": "a war banner",
+      "Description": "A war banner is on the floor here.",
+      "Level": 8,
+      "Cost": 640,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Magic",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 8,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "AllArmor",
+              "Modifier": -2
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "light",
+      "TimeLeft": 30000,
+      "ItemId": 3365,
+      "Source": "Reset-E[3040]",
+      "ShortDescription": "a war banner",
+      "Description": "A war banner is on the floor here.",
+      "Level": 8,
+      "Cost": 640,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Magic",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 8,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "AllArmor",
+              "Modifier": -2
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "light",
+      "TimeLeft": 30000,
+      "ItemId": 3365,
+      "Source": "Reset-E[3040]",
+      "ShortDescription": "a war banner",
+      "Description": "A war banner is on the floor here.",
+      "Level": 8,
+      "Cost": 640,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Magic",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 8,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "AllArmor",
+              "Modifier": -2
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 159600,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 196320,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 115680,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 158880,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 124080,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 107760,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "ItemId": 2803,
+      "Source": "Reset-P[2805]",
+      "ShortDescription": "an opal ring",
+      "Description": "A ring of black opal lies here gathering dust.",
+      "Level": 20,
+      "Cost": 1150,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 20,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ItemId": 3050,
+      "Source": "Buy[The captain[Id:3006]]",
+      "ShortDescription": "a raft",
+      "Description": "A raft has been left here.",
+      "Level": 0,
+      "Cost": 400,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
     },
     {
       "ItemId": 3162,
@@ -709,157 +1570,60 @@
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
-    },
+    }
+  ],
+  "Auras": [
     {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 5,
-      "DiceValue": 5,
-      "ItemId": 103,
-      "Source": null,
-      "ShortDescription": "a small axe",
-      "Description": "a small axe",
-      "Level": 3,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 107,
-      "Source": null,
-      "ShortDescription": "a tiny key",
-      "Description": "a tiny key",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 109,
-      "Source": null,
-      "ShortDescription": "a small key",
-      "Description": "a small key",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 5,
-      "DiceValue": 5,
-      "ItemId": 103,
-      "Source": null,
-      "ShortDescription": "a small axe",
-      "Description": "a small axe",
-      "Level": 3,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "ItemId": 109,
-      "Source": null,
-      "ShortDescription": "a small key",
-      "Description": "a small key",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 5,
-      "MaxChargeCount": 1,
-      "CurrentChargeCount": 1,
-      "AlreadyRecharged": false,
-      "ItemId": 106,
-      "Source": null,
-      "ShortDescription": "a small wand",
-      "Description": "a small wand",
-      "Level": 3,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "armor",
-      "Bash": 5,
-      "Pierce": 5,
-      "Slash": 5,
-      "Exotic": 5,
-      "ItemId": 2107,
-      "Source": null,
-      "ShortDescription": "spiked heeled boots",
-      "Description": "spiked heeled boots",
-      "Level": 5,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": [
+      "AbilityName": "Armor",
+      "Level": 1,
+      "PulseLeft": 3720,
+      "AuraFlags": "None",
+      "Affects": [
         {
-          "AbilityName": "",
-          "Level": 5,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "Dexterity",
-              "Modifier": -1
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 1
-            }
-          ]
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "AllArmor",
+          "Modifier": -20
         }
       ]
     },
     {
-      "$type": "wand",
-      "SpellLevel": 5,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 2108,
-      "Source": null,
-      "ShortDescription": "a mirror",
-      "Description": "a mirror",
-      "Level": 8,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": []
+      "AbilityName": "Protection Evil",
+      "Level": 1,
+      "PulseLeft": 3740,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "SavingThrow",
+          "Modifier": -1
+        },
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "ProtectEvil"
+        }
+      ]
     },
     {
-      "$type": "wand",
-      "SpellLevel": 5,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 2108,
-      "Source": null,
-      "ShortDescription": "a mirror",
-      "Description": "a mirror",
-      "Level": 8,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": []
+      "AbilityName": "Infravision",
+      "Level": 1,
+      "PulseLeft": 7604,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Infrared"
+        }
+      ]
     }
   ],
-  "Auras": [],
   "CharacterFlags": "",
   "Immunities": "",
   "Resistances": "Fire,Cold",

@@ -29,7 +29,7 @@ public class ItemCastSpellSkillBaseTests : AbilityTestBase
         Mock<IItemManager> itemManagerMock = new();
         ItemCastSpellSkillBaseTestsSkill skill = new(new Mock<ILogger<ItemCastSpellSkillBaseTestsSkill>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object, "Acid Blast", 50);
 
-        abilityManagerMock.Setup(x => x.Search("Acid Blast", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Rom24AcidBlast), []));
+        abilityManagerMock.Setup(x => x.Get("Acid Blast", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Rom24AcidBlast), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Rom24AcidBlast(new Mock<ILogger<Rom24AcidBlast>>().Object, randomManagerMock.Object));
 
         Mock<IRoom> roomMock = new();

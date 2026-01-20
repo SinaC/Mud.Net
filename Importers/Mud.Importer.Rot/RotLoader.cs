@@ -173,10 +173,10 @@ public class RotLoader : TextBasedLoader
             if (_mobiles.Any(x => x.VNum == vnum))
                 RaiseParseException("ParseMobiles: vnum {0} duplicated", vnum);
 
-            MobileData mobileData = new MobileData
+            var mobileData = new MobileData
             {
                 VNum = vnum,
-                PlayerName = ReadString(),
+                PlayerName = TrimOldstylePrefix(ReadString()),
                 ShortDescr = ReadString(),
                 LongDescr = UpperCaseFirst(ReadString()),
                 Description = UpperCaseFirst(ReadString()),
@@ -223,6 +223,8 @@ public class RotLoader : TextBasedLoader
                         mobileData.Act &= ~vector;
                     else if (category.StartsWith("aff"))
                         mobileData.AffectedBy &= ~vector;
+                    else if (category.StartsWith("shd"))
+                        mobileData.ShieldedBy &= ~vector;
                     else if (category.StartsWith("off"))
                         mobileData.OffFlags &= ~vector;
                     else if (category.StartsWith("imm"))
@@ -792,5 +794,12 @@ public class RotLoader : TextBasedLoader
             //if (!found)
             //    RaiseParseException("ParseMobProgs: vnum {0} was not found in mobile triggers", vnum);
         }
+    }
+
+    private static string TrimOldstylePrefix(string s)
+    {
+        if (s.StartsWith("oldstyle"))
+            return s["oldstyle".Length..].TrimStart();
+        return s;
     }
 }

@@ -74,7 +74,7 @@ public class Alias : PlayableCharacterGameAction
             return "That shall not be done.";
 
         Action = Actions.Assign;
-        TargetCommand = CommandParser.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
+        TargetCommand = actionInput.CommandLine.Substring(actionInput.Command.Length + TargetAlias.Length + 2);
         return null;
     }
 

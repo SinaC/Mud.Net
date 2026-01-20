@@ -46,6 +46,5 @@ public interface IEntity : IActor
     void Act(IEnumerable<ICharacter> characters, string format, params object[] arguments); // to every entities in provided list
 
     //
-    void OnRemoved(); // called before removing an entity from the game
     void OnCleaned(); // called when removing definitively an entity from the game
 }

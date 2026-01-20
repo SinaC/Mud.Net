@@ -103,8 +103,10 @@ public abstract class AbilityTestBase
 
     protected static IAbilityLearned BuildAbilityLearned(string name)
     {
+        var abilityDefinitionMock = new Mock<IAbilityDefinition>();
+        abilityDefinitionMock.SetupGet(x => x.Name).Returns(name);
         var mock = new Mock<IAbilityLearned>();
-        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, null!));
+        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, abilityDefinitionMock.Object));
         mock.SetupGet(x => x.Name).Returns(name);
         mock.Setup(x => x.HasCost).Returns(true);
         return mock.Object;

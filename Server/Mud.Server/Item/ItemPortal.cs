@@ -19,9 +19,12 @@ public class ItemPortal : ItemBase, IItemPortal
     private const int InfiniteChargeCount = -1;
     private const int NoDestinationRoomId = -1;
 
+    private IRoomManager RoomManager { get; }
+
     public ItemPortal(ILogger<ItemPortal> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
+        RoomManager = roomManager;
     }
 
     public void Initialize(Guid guid, ItemPortalBlueprint blueprint, string source, IContainer containedInto) 

@@ -121,7 +121,6 @@ public interface ICharacter : IEntity, IContainer
 
     // Abilities
     IEnumerable<IAbilityLearned> LearnedAbilities { get; }
-    void AddLearnedAbility(IAbilityUsage abilityUsage);
 
     // Followers
     ICharacter? Leader { get; } // character we are following, different from group leader
@@ -179,6 +178,7 @@ public interface ICharacter : IEntity, IContainer
 
     // Alignment
     void UpdateAlignment(int amount);
+    bool ZapWornItemIfNeeded(IItem item);
 
     // Character flags
     void AddBaseCharacterFlags(bool recompute, params string[] characterFlags);
@@ -240,4 +240,7 @@ public interface ICharacter : IEntity, IContainer
     void ApplyAffect(ICharacterSexAffect affect);
     void ApplyAffect(ICharacterSizeAffect affect);
     void ApplyAffect(ICharacterResourceAffect affect);
+
+    //
+    void OnRemoved(IRoom nullRoom);
 }

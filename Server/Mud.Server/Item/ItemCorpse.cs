@@ -24,8 +24,8 @@ public class ItemCorpse : ItemBase, IItemCorpse
 
     private IItemManager ItemManager { get; }
 
-    public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager, IItemManager itemManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
+    public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         ItemManager = itemManager;
 

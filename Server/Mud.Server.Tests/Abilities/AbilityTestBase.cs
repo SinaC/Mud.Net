@@ -5,7 +5,10 @@ using Mud.Server.Ability;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Tests.Mocking;
 using System.Reflection;
 
 namespace Mud.Server.Tests.Abilities;
@@ -64,7 +67,7 @@ public abstract class AbilityTestBase : TestBase
     {
         var mock = new Mock<IAbilityLearned>();
         mock.SetupGet(x => x.Name).Returns(name);
-        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, null!));
+        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, new AbilityDefinition(typeof(Rom24AcidBlast), Array.Empty<ICharacterGuard>())));
         mock.Setup(x => x.HasCost).Returns(true);
         return mock.Object;
     }

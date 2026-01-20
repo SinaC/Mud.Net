@@ -207,7 +207,7 @@ public class RomLoader : TextBasedLoader
             var mobileData = new MobileData()
             {
                 VNum = vnum,
-                Name = ReadString(),
+                Name = TrimOldstylePrefix(ReadString()),
                 ShortDescr = ReadString(),
                 LongDescr = UpperCaseFirst(ReadString()),
                 Description = UpperCaseFirst(ReadString()),
@@ -753,5 +753,12 @@ public class RomLoader : TextBasedLoader
                 RaiseParseException("ParseSpecials: letter {0} not *MS", letter);
             ReadToEol();
         }
+    }
+
+    private static string TrimOldstylePrefix(string s)
+    {
+        if (s.StartsWith("oldstyle"))
+            return s["oldstyle".Length..].TrimStart();
+        return s;
     }
 }

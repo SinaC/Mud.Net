@@ -1,12 +1,27 @@
 INGOING
 DONE
-    optimize resets by storing mob/item world instance count in CharacterManager/ItemManager
+    RotLoader mob F shd added
+    RoomManager removed from ItemBase
+    issue with Gain group: ability learned is not set to 1 -> set min learned to 1 if ability level is lower or equal to character level
+    issue with Practice -> use SetLearned instead if IncrementLearned
+    gain on already existing group/ability displays wrong message
+    cast colour spray -> lost your concentration but we don't know that spell
+    add some GCD when losing concentration on spell casting
+    wear doesn't check anti-XXX flags
+    room law/nomob were not implemented correctly
+    cast sho will try to cast 'shocking shield' even if caster will never know that spell but knows 'shocking grasp' -> when search a spell with cast, search among known spells
+    alias was not keeping quote in aliased command
+    level range added in abilities/skills/spells/passives/weapons command
+    score finished
 
 ==========
 == TODO ==
 ==========
 
-due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
+issue? when entering in a room with a sneaking mob, we see it then if we look/scan we don't see it anymore
+kill can be used on sneaking mob... (room 5027)
+
+due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race and learned ability group
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
     -> must artificially create an AbilityUsage for that purpose
     in fact, it's recompute known abilities which mess up learned abilities in pfile because it only considers racial abilities and abilities in learned groups
@@ -23,8 +38,6 @@ cross-area items/mobs (resets from an area pointing to another area)
 rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
 
-handle inviso attacks differently
-
 quests:
     quest tree (prereq)
     repeteable or not quests
@@ -38,7 +51,8 @@ check if each room is accessible thru normal move or with portal
 
 stunned doesn't seem to be used
 
-use SafeList where List is used (everywhere except in XXXManager)
+use SafeLinkedList where List is used (everywhere except in XXXManager)
+    check thread safety before
 
 use resource cost for 'holy word': cost of 100% move and half hp
 
@@ -62,6 +76,7 @@ would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which i
 handle shapeshift using new type of affect
 cat form/bear form with new affects
 
+handle inviso attacks differently
 try to change every checks on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
 instead of check on ability name 'Charm Person', 'Curse', ... we should check any aura with an affect with flag CharmPerson/Curse/...
@@ -81,21 +96,16 @@ and this could be extended to everything that can modify a character (same for i
 
 add colors everywhere :)
 
-finish score
 finish who admin/player command
 
 critical hit
 
-item owner -> to be used in CanLoot
+item ownership -> to be used in CanLoot
 
 Poison/Plague/... should not specify character for damage source
     new Damage function without a source with additional message when dying (see update_affect.C:103)
 
 passives/weapons could be shared instead of transient
-
-RomImporter should be related to Mud.Server.Rom24
-RotImporter should be related to Mud.Server.Rot
-MysteryImporter should be related to Mud.Server.Mystery
 
 should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
@@ -166,7 +176,7 @@ better command parser: should be able to specify something like (should be possi
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
-search commands/skills/spells for additional guards
+search commands/skills/spells for additional guards already implemented that could be transformed in GuardAttribute
     what at least one parameter (item) is required
     whom at least one parameter (character) is required
 prompt modifiable by user

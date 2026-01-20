@@ -104,18 +104,25 @@ public class AbilityManager : IAbilityManager
         return abilities;
     }
 
-    public IAbilityDefinition? Search(string pattern, AbilityTypes type)
+    public IAbilityDefinition? Get(string abilityName, AbilityTypes type)
     {
         if (!AbilityDefinitionTrieByAbilityTypes.TryGetValue(type, out var trie))
         {
             Logger.LogError("AbilityType {type} doesn't exist", type);
             return null;
         }
-        return trie.GetByPrefix(pattern.ToLowerInvariant()).FirstOrDefault().Value;
+        return trie.GetValueOrDefault(abilityName);
     }
 
-    public IAbilityDefinition? Search(ICommandParameter parameter)
-        => Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
+    public IEnumerable<IAbilityDefinition> Search(ICommandParameter parameter, AbilityTypes type)
+    {
+        if (!AbilityDefinitionTrieByAbilityTypes.TryGetValue(type, out var trie))
+        {
+            Logger.LogError("AbilityType {type} doesn't exist", type);
+            return [];
+        }
+        return trie.GetByPrefix(parameter.Value.ToLowerInvariant()).Select(x => x.Value).ToArray();
+    }
 
     public TAbility? CreateInstance<TAbility>(string abilityName)
         where TAbility : class, IAbility

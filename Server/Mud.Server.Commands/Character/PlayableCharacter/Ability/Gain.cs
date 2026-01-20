@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
@@ -38,10 +39,12 @@ number of creation points.")]
 public class Gain : PlayableCharacterGameAction
 {
     private IAbilityManager AbilityManager { get; }
+    private IAbilityGroupManager AbilityGroupManager { get; }
 
-    public Gain(IAbilityManager abilityManager)
+    public Gain(IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
     {
         AbilityManager = abilityManager;
+        AbilityGroupManager = abilityGroupManager;
     }
 
     protected enum Actions
@@ -125,19 +128,30 @@ public class Gain : PlayableCharacterGameAction
             return null;
         }
         // gain ability
-        // TODO: search among all abilities even if can't be learned, not yet be learned, already learned ?
-        var abilityDefinition = AbilityManager.Search(actionInput.Parameters[0]);
-        if (abilityDefinition == null)
-            return Actor.ActPhrase("{0:N} tells you 'I do not understand...'", Trainer);
         var availableAbilitiesNotYetLearned = GetAvailableAbilitiesNotYetLearned(null);
-        var abilityUsage = availableAbilitiesNotYetLearned.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
-        if (abilityUsage == null)
+        var abilityUsage = availableAbilitiesNotYetLearned.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, actionInput.Parameters[0].Value))!;
+        if (abilityUsage != null)
+        {
+            if (Actor.Trains < abilityUsage.Rating)
+                return Actor.ActPhrase("{0:N} tells you 'You are not yet ready for that ability.'", Trainer);
+            AbilityUsage = abilityUsage;
+            Action = Actions.GainAbility;
+            return null;
+        }
+        // search in already learned ability group and abilities
+        var foundInLearnedAbilityGroupOrAbility =
+            Actor.LearnedAbilityGroups.Any(y => !StringCompareHelpers.StringEquals(y.Name, actionInput.Parameters[0].Value))
+            || Actor.LearnedAbilities.All(y => !StringCompareHelpers.StringEquals(y.Name, actionInput.Parameters[0].Value));
+        if (foundInLearnedAbilityGroupOrAbility)
+            return Actor.ActPhrase("{0:N} tells you 'You already know that.'", Trainer);
+        // search in existing ability groups and abilities that cannot be learned
+        var foundInExistingAbilityGroupOrAbility =
+            AbilityGroupManager.AbilityGroups.Any(x => StringCompareHelpers.StringEquals(x.Name, actionInput.Parameters[0].Value))
+            || AbilityManager.Abilities.Any(x => StringCompareHelpers.StringEquals(x.Name, actionInput.Parameters[0].Value));
+        if (foundInExistingAbilityGroupOrAbility)
             return Actor.ActPhrase("{0:N} tells you 'This is beyond your powers.'", Trainer);
-        if (Actor.Trains < abilityUsage.Rating)
-            return Actor.ActPhrase("{0:N} tells you 'You are not yet ready for that ability.'", Trainer);
-        AbilityUsage = abilityUsage;
-        Action = Actions.GainAbility;
-        return null;
+        //
+        return Actor.ActPhrase("{0:N} tells you 'I do not understand...'", Trainer);
     }
 
     public override void Execute(IActionInput actionInput)
@@ -191,16 +205,16 @@ public class Gain : PlayableCharacterGameAction
                 }
             case Actions.GainAbilityGroup:
                 {
-                    Actor.AddLearnedAbilityGroup(AbilityGroupUsage);
+                    Actor.GainLearnedAbilityGroup(AbilityGroupUsage);
                     Actor.UpdateTrainsAndPractices(-AbilityGroupUsage.Cost, 0);
-                    Actor.Act(ActOptions.ToCharacter, "{0:N} trains you in the art of {1}", Trainer, AbilityGroupUsage.Name);
+                    Actor.Act(ActOptions.ToCharacter, "{0:N} trains you in the art of {1}", Trainer, AbilityGroupUsage.Name.UpperFirstLetter());
                     return;
                 }
             case Actions.GainAbility:
                 {
-                    Actor.AddLearnedAbility(AbilityUsage);
+                    Actor.GainAbility(AbilityUsage);
                     Actor.UpdateTrainsAndPractices(-AbilityUsage.Rating, 0);
-                    Actor.Act(ActOptions.ToCharacter, "{0:N} trains you in the art of {1}", Trainer, AbilityUsage.Name);
+                    Actor.Act(ActOptions.ToCharacter, "{0:N} trains you in the art of {1}", Trainer, AbilityUsage.Name.UpperFirstLetter());
                     return;
                 }
         }

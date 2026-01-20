@@ -171,7 +171,7 @@ public class ContainerTests : TestBase
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var container = new ItemContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, null!);
+        var container = new ItemContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
         container.Initialize(Guid.NewGuid(), containerBlueprint, string.Empty, roomMock.Object);
 
         return container;

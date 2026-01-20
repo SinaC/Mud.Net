@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
@@ -60,15 +61,13 @@ public class Cast : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        var spellName = actionInput.Parameters.Length > 0 ? actionInput.Parameters[0].Value : null;
-        if (string.IsNullOrWhiteSpace(spellName))
+        if (actionInput.Parameters.Length == 0)
             return "Cast what ?";
-        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        if (abilityDefinition == null)
-            return "This spell doesn't exist.";
-        var (_, abilityLearned) = Actor.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
-        if (abilityLearned == null)
+
+        var (learned, abilityDefinition) = SearchLearnedSpell(actionInput.Parameters[0]);
+        if (abilityDefinition == null || learned <= 0)
             return "You don't know any spells of that name.";
+
         SpellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name)!;
         if (SpellInstance == null)
         {
@@ -85,5 +84,17 @@ public class Cast : CharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         SpellInstance.Execute();
+    }
+
+    private (int learned, IAbilityDefinition?) SearchLearnedSpell(ICommandParameter commandParameter)
+    {
+        var abilityDefinitions = AbilityManager.Search(commandParameter, AbilityTypes.Spell);
+        foreach (var abilityDefinition in abilityDefinitions)
+        {
+            var (learned, abilityLearned) = Actor.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
+            if (abilityLearned != null)
+                return (learned, abilityLearned.AbilityUsage.AbilityDefinition);
+        }
+        return (0, null);
     }
 }

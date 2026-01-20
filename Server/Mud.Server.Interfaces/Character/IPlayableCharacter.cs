@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
@@ -82,7 +83,8 @@ public interface IPlayableCharacter : ICharacter
     // Ability
     IEnumerable<IAbilityGroupLearned> LearnedAbilityGroups { get; }
     bool CheckAbilityImprove(string abilityName, bool abilityUsedSuccessfully, int multiplier);
-    void AddLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage);
+    void GainAbility(IAbilityUsage abilityUsage);
+    void GainLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage);
 
     // Immortality
     void ChangeImmortalMode(ImmortalModeFlags mode);

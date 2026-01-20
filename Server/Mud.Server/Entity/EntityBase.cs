@@ -224,15 +224,6 @@ public abstract class EntityBase : ActorBase, IEntity
         }
     }
 
-    // Overriden in inherited class
-    public virtual void OnRemoved() // called before removing an item from the game
-    {
-        IsValid = false;
-        // TODO: warn IncarnatedBy about removing
-        IncarnatedBy?.StopIncarnating();
-        IncarnatedBy = null;
-    }
-
     public virtual void OnCleaned() // called when removing definitively an entity from the game
     {
     }
@@ -240,6 +231,20 @@ public abstract class EntityBase : ActorBase, IEntity
     #endregion
 
     protected abstract void ResetAttributesAndResourcesAndFlags();
+
+    protected void OnRemoved() // called before removing an item from the game
+    {
+        IsValid = false;
+        // TODO: warn IncarnatedBy about removing
+        IncarnatedBy?.StopIncarnating();
+        IncarnatedBy = null;
+    }
+
+    protected AuraData[] MapAuraData()
+    {
+        // don't save Shapeshift
+        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(AuraFlags.Shapeshift)).Select(x => x.MapAuraData()).ToArray();
+    }
 
     protected static TFlags NewAndCopyAndSet<TFlags>(Func<TFlags> newFunc, TFlags? toCopy, TFlags? toSet)
         where TFlags : IFlags<string>
@@ -250,12 +255,6 @@ public abstract class EntityBase : ActorBase, IEntity
         if (toSet != null)
             newValue.Set(toSet);
         return newValue;
-    }
-
-    protected AuraData[] MapAuraData()
-    {
-        // don't save Shapeshift
-        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(AuraFlags.Shapeshift)).Select(x => x.MapAuraData()).ToArray();
     }
 
     #region Act

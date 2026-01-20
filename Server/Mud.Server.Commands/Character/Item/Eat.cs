@@ -20,7 +20,7 @@ namespace Mud.Server.Commands.Character.Item;
 [CharacterCommand("eat", "Food"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <food|pill>")]
 [Help(@"When you are hungry, [cmd] something.")]
-public class Eat : CastSpellCharacterGameActionBase
+public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }

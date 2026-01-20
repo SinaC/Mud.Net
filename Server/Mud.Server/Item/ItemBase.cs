@@ -33,15 +33,13 @@ public abstract class ItemBase: EntityBase, IItem
 {
     protected int MaxLevel { get; }
     protected IRandomManager RandomManager { get; }
-    protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, gameActionManager, commandParser, messageForwardOptions)
     { 
         MaxLevel = worldOptions.Value.MaxLevel;
         RandomManager = randomManager;
-        RoomManager = roomManager;
         AuraManager = auraManager;
 
         ItemFlags = new ItemFlags();
@@ -188,11 +186,12 @@ public abstract class ItemBase: EntityBase, IItem
         return description.ToString();
     }
 
-    public override void OnRemoved() // called before removing an item from the game
+    public virtual void OnRemoved(IRoom nullRoom) // called before removing an item from the game
     {
         base.OnRemoved();
+
         ContainedInto?.GetFromContainer(this);
-        ContainedInto = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+        ContainedInto = nullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
     }
 
     public override void OnCleaned() // called when removing definitively an entity from the game

@@ -93,17 +93,6 @@ public class Room : EntityBase, IRoom
             ApplyAuras(item);
     }
 
-    //
-    public override void OnRemoved()
-    {
-        base.OnRemoved();
-        Blueprint = null!;
-        _people.Clear();
-        for (int i = 0; i < Exits.Length; i++)
-            Exits[i] = null!;
-        _content.Clear();
-    }
-
     #endregion
 
     #region IContainer

@@ -14,7 +14,7 @@ namespace Mud.Server.Commands.Character.Item;
 [CharacterCommand("quaff", "Drink"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <potion>")]
 [Help(@"[cmd] quaffs a magical potion (as opposed to DRINK, which drinks mundane liquids)")]
-public class Quaff : CastSpellCharacterGameActionBase
+public class Quaff : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
     private IItemManager ItemManager { get; }
 

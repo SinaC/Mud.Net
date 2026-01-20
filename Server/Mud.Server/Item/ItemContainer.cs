@@ -21,8 +21,8 @@ public class ItemContainer : ItemBase, IItemContainer
 
     private IItemManager ItemManager { get; }
 
-    public ItemContainer(ILogger<ItemContainer> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager, IItemManager itemManager)
-            : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
+    public ItemContainer(ILogger<ItemContainer> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+            : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         ItemManager = itemManager;
 
@@ -143,8 +143,10 @@ public class ItemContainer : ItemBase, IItemContainer
 
     #region ItemBase
 
-    void IEntity.OnRemoved()
+    public override void OnRemoved(IRoom nullRoom)
     {
+        base.OnRemoved(nullRoom);
+
         _content.Clear();
     }
 
