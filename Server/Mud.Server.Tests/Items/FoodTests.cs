@@ -103,7 +103,7 @@ public class FoodTests : TestBase
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var food = new ItemFood(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
+        var food = new ItemFood(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!);
         food.Initialize(Guid.NewGuid(), foodBlueprint, string.Empty, roomMock.Object);
 
         return food;

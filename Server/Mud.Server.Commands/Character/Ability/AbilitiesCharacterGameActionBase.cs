@@ -1,26 +1,27 @@
-﻿using Mud.Server.Domain;
+﻿using Microsoft.Extensions.Options;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Options;
 using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Character.Ability;
 
-// TODO: level range
-/*The skills, spells and powers commands are used to display your character's 
-list of available skills (or spells or power, as the case may be).  They are 
-listed in order of level, with mana/psp cost (for spells/powers) or percentage 
-(for skills) listed where applicable.
-Syntax:
- spells        will display spells you have from lvl 1 to your current lvl
- skills all    will display skills you have from lvl 1 to max level
- powers 50     will display powers you have from lvl 1 to lvl 50
- skills 3 60   will display skills you have from lvl 3 to lvl 60
- songs 50      will display songs you have from lvl 1 to lvl 50
-*/
-public abstract class AbilitiesCharacterGameActionBase : CharacterGameAction
+public abstract class AbilitiesCharacterGameActionBase<TCharacter, TCharacterGameActionInfo> : CharacterGameActionBase<TCharacter, TCharacterGameActionInfo>
+    where TCharacter : class, ICharacter
+    where TCharacterGameActionInfo : class, ICharacterGameActionInfo
 {
-    protected bool DisplayAll { get; set; }
+    private int MaxLevel { get; }
+
+    protected AbilitiesCharacterGameActionBase(IOptions<WorldOptions> worldOptions)
+    {
+        MaxLevel = worldOptions.Value.MaxLevel;
+    }
+
+    protected int MinLevelDisplay { get; set; }
+    protected int MaxLevelDisplay { get; set; }
 
     protected abstract Func<AbilityTypes, bool> AbilityTypeFilterFunc { get; }
     protected abstract string Title { get; }
@@ -31,16 +32,44 @@ public abstract class AbilitiesCharacterGameActionBase : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length > 0 && actionInput.Parameters[0].IsAll)
-            DisplayAll = true;
-        return null;
+        if (actionInput.Parameters.Length == 0)
+        {
+            MinLevelDisplay = 1;
+            MaxLevelDisplay = Actor.Level;
+            return null;
+        }
+        else if (actionInput.Parameters[0].IsAll)
+        {
+            MinLevelDisplay = 1;
+            MaxLevelDisplay = MaxLevel;
+            return null;
+        }
+        else if (actionInput.Parameters[0].IsNumber)
+        {
+            if (actionInput.Parameters.Length > 1)
+            {
+                if (actionInput.Parameters[1].IsNumber)
+                {
+                    MinLevelDisplay = actionInput.Parameters[0].AsNumber;
+                    MaxLevelDisplay = actionInput.Parameters[1].AsNumber;
+                    return null;
+                }
+            }
+            else
+            {
+                MinLevelDisplay = 1;
+                MaxLevelDisplay = actionInput.Parameters[0].AsNumber;
+                return null;
+            }
+        }
+
+        return BuildCommandSyntax();
     }
 
     public override void Execute(IActionInput actionInput)
     {
         IEnumerable<IAbilityLearned> abilities = Actor.LearnedAbilities
-            //.Where(x => (displayAll || x.Level <= Level) && (displayAll || x.Learned > 0) && filterOnAbilityKind(x.Ability.Kind))
-            .Where(x => (DisplayAll || (x.Level <= Actor.Level && x.Learned > 0)) && AbilityTypeFilterFunc(x.AbilityUsage.AbilityDefinition.Type))
+            .Where(x => x.Level >= MinLevelDisplay && x.Level <= MaxLevelDisplay && AbilityTypeFilterFunc(x.AbilityUsage.AbilityDefinition.Type))
             .OrderBy(x => x.Level)
             .ThenBy(x => x.Name);
 

@@ -86,7 +86,7 @@ public class StaffTests : TestBase
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var staff = new ItemStaff(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
+        var staff = new ItemStaff(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!);
         staff.Initialize(Guid.NewGuid(), staffBlueprint, string.Empty, roomMock.Object);
 
         return staff;

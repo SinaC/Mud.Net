@@ -313,19 +313,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         return displayName.ToString();
     }
 
-    public override void OnRemoved() // called before removing a character from the game
+    public override void OnRemoved(IRoom nullRoom) // called before removing a character from the game
     {
         // Free from slavery, must be done before base.OnRemoved because CharacterBase.OnRemoved will call Leader.RemoveFollower which will reset Master
         Master?.RemovePet(this);
 
-        base.OnRemoved();
-
-        StopFighting(true);
+        base.OnRemoved(nullRoom);
         // TODO: what if character is incarnated
-        ResetCooldowns();
-        DeleteInventory();
-        DeleteEquipments();
-        Room = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
     }
 
     public override void OnCleaned() // called when removing definitively an entity from the game
@@ -799,23 +793,25 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected override int CharacterTypeSpecificDamageModifier(int damage)
         => damage; // nop
 
-    protected override bool CanMove()
+    protected override bool CanMove
     {
-        if (Master != null && Master.Room == Room)
+        get
         {
-            // Slave cannot leave a room without Master
-            Send("What? And leave your beloved master?");
-            return false;
+            if (Master != null && Master.Room == Room)
+            {
+                // Slave cannot leave a room without Master
+                Send("What? And leave your beloved master?");
+                return false;
+            }
+            return true;
         }
-        return true;
     }
 
-    protected override bool CanGoTo(IRoom destination)
-    {
-        //return !destination.RoomFlags.IsSet("NoMob")
-        //    && !(ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"));
-        return !(ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"));
-    }
+    protected override bool IsAllowedToFleeTo(IRoom destination)
+        => !destination.RoomFlags.IsSet("NoMob");
+
+    protected override bool HasBoat
+        => Inventory.OfType<IItemBoat>().Any() || (Master != null && Master.Inventory.OfType<IItemBoat>().Any());
 
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {
@@ -886,7 +882,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected override void RecomputeKnownAbilities()
     {
         if (Class != null) // NPC gain access to all abilities from their class
-            MergeAbilities(Class.AvailableAbilities, false, false);
+            MergeAbilities(Class.AvailableAbilities, false);
     }
 
     protected override void AddAurasFromBaseFlags()

@@ -76,6 +76,10 @@ public abstract class WearCharacterGameActionBase<TCharacter, TCharacterGameActi
             string weaponConfidence = GetWeaponConfidence(weapon);
             Actor.Act(ActOptions.ToCharacter, weaponConfidence, weapon);
         }
+
+        // Zapped ?
+        Actor.ZapWornItemIfNeeded(item);
+
         // no need to recompute, because it will be done by caller
 
         return true;

@@ -6,6 +6,7 @@ using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Room;
 using System.Text;
 
 namespace Mud.Server.Interfaces.Item;
@@ -70,6 +71,8 @@ public interface IItem : IEntity
 
     // Affects
     void ApplyAffect(IItemFlagsAffect affect);
+
+    void OnRemoved(IRoom nullRoom);
 
     // Mapping
     ItemData MapItemData();

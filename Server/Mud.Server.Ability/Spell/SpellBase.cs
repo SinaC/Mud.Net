@@ -6,6 +6,7 @@ using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Random;
+using Mud.Server.Common.Helpers;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -172,7 +173,7 @@ public abstract class SpellBase : ISpell
         var (percentage, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         if (abilityLearned != null && !RandomManager.Chance(percentage))
         {
-            Caster.Send("You lost your concentration.");
+            Caster.Send(StringHelpers.YouLostYourConcentration);
             pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, false, 1);
             // pay half cost except if 'all'
             foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))

@@ -58,7 +58,7 @@ public class FountainTests : TestBase
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var fountain = new ItemFountain(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
+        var fountain = new ItemFountain(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!);
         fountain.Initialize(Guid.NewGuid(), fountainBlueprint, string.Empty, roomMock.Object);
 
         return fountain;

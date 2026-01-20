@@ -94,7 +94,7 @@ public class CastTests : AbilityTestBase
         var result = cast.Guards(actionInput);
 
         Assert.IsNotNull(result);
-        Assert.AreEqual("This spell doesn't exist.", result);
+        Assert.AreEqual("You don't know any spells of that name.", result);
     }
 
     [TestMethod]
@@ -158,7 +158,7 @@ public class CastTests : AbilityTestBase
 
         var result = cast.Guards(actionInput);
 
-        Assert.AreEqual("This spell doesn't exist.", result);
+        Assert.AreEqual("You don't know any spells of that name.", result);
     }
 
     [TestMethod]
@@ -169,13 +169,13 @@ public class CastTests : AbilityTestBase
         characterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         Mock<IAbilityManager> abilityManagerMock = new();
-        abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string, AbilityTypes>((_1, _2) => new AbilityDefinition(typeof(Rom24AcidBlast), []));
+        abilityManagerMock.Setup(x => x.Get(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string, AbilityTypes>((_1, _2) => new AbilityDefinition(typeof(Rom24AcidBlast), []));
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManagerMock.Object);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast Acid");
 
         var result = cast.Guards(actionInput);
 
-        Assert.AreEqual("Something goes wrong.", result);
+        Assert.AreEqual("You don't know any spells of that name.", result);
     }
 
     protected class AssemblyHelper : IAssemblyHelper

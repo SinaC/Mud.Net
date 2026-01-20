@@ -442,11 +442,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return base.CanSee(room);
     }
 
-    public override void OnRemoved() // called before removing a character from the game
+    public override void OnRemoved(IRoom nullRoom) // called before removing a character from the game
     {
-        base.OnRemoved();
-
-        StopFighting(true);
+        base.OnRemoved(nullRoom);
 
         // Leave group
         if (Group != null)
@@ -472,10 +470,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // TODO: what if character is incarnated
         ImpersonatedBy?.StopImpersonating();
         ImpersonatedBy = null; // TODO: warn ImpersonatedBy ?
-        ResetCooldowns();
-        DeleteInventory();
-        DeleteEquipments();
-        Room = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
     }
 
     #endregion
@@ -1053,8 +1047,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {abilityLearned.Name} Player {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
             difficultyMultiplier = 1;
         }
-        // TODO: percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
-        int chance = 10 * TableValues.LearnBonus(this) / (multiplier * difficultyMultiplier * 4) + Level;
+        // percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
+        var chance = 10 * TableValues.LearnBonus(this) / (multiplier * difficultyMultiplier * 4) + Level;
         if (RandomManager.Range(1, 1000) > chance)
             return false;
         // now that the character has a CHANCE to learn, see if they really have
@@ -1085,7 +1079,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return false;
     }
 
-    public void AddLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage)
+    public void GainAbility(IAbilityUsage abilityUsage)
+        => AddLearnedAbility(abilityUsage, false);
+
+    public void GainLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage)
     {
         var learnedAbilityGroup = new AbilityGroupLearned(abilityGroupUsage);
         if (!_learnedAbilityGroups.ContainsKey(learnedAbilityGroup.Name))
@@ -1377,11 +1374,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return damage;
     }
 
-    protected override bool CanMove()
+    protected override bool CanMove => true;
+
+    protected override bool IsAllowedToFleeTo(IRoom destination)
         => true;
 
-    protected override bool CanGoTo(IRoom destination)
-        => true;
+    protected override bool HasBoat
+        => Inventory.OfType<IItemBoat>().Any();
 
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {
@@ -1586,7 +1585,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override void RecomputeKnownAbilities()
     {
         if (Race is IPlayableRace playableRace)
-            MergeAbilities(playableRace.Abilities, true, false);
+            MergeAbilities(playableRace.Abilities, true);
         // loop among learned ability groups
         foreach (var learnedAbilityGroup in _learnedAbilityGroups)
         {
@@ -1598,7 +1597,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     var abilityUsage = Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage != null)
                     {
-                        MergeAbility(abilityUsage, false, abilityGroupUsage.IsBasics);
+                        MergeAbility(abilityUsage, false);
                     }
                 }
             }

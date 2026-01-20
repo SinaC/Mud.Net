@@ -27,8 +27,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
     private ITableValues TableValues { get; }
     private IFlagsManager FlagsManager { get; }
 
-    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
-       : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, roomManager, auraManager)
+    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
+       : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         TableValues = tableValues;
 

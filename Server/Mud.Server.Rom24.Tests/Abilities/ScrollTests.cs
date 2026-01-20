@@ -35,7 +35,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IItemManager> itemManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Earthquake), []));
+        abilityManagerMock.Setup(x => x.Get("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Earthquake), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -75,7 +75,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IItemManager> itemManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireball), []));
+        abilityManagerMock.Setup(x => x.Get("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireball), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -114,7 +114,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Armor), []));
+        abilityManagerMock.Setup(x => x.Get("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Armor), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -155,7 +155,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireproof), []));
+        abilityManagerMock.Setup(x => x.Get("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireproof), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -196,7 +196,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IDispelManager> dispelManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Curse), []));
+        abilityManagerMock.Setup(x => x.Get("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Curse), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -238,7 +238,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IDispelManager> dispelManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Invisibility), []));
+        abilityManagerMock.Setup(x => x.Get("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Invisibility), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -278,7 +278,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IItemManager> itemManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Earthquake), []));
+        abilityManagerMock.Setup(x => x.Get("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Earthquake), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -323,7 +323,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IItemManager> itemManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireball), []));
+        abilityManagerMock.Setup(x => x.Get("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireball), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -368,7 +368,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Armor), []));
+        abilityManagerMock.Setup(x => x.Get("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Armor), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -413,7 +413,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireproof), []));
+        abilityManagerMock.Setup(x => x.Get("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireproof), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -458,7 +458,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IDispelManager> dispelManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Curse), []));
+        abilityManagerMock.Setup(x => x.Get("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Curse), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -508,7 +508,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IDispelManager> dispelManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Invisibility), []));
+        abilityManagerMock.Setup(x => x.Get("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Invisibility), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -553,7 +553,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Earthquake), []));
+        abilityManagerMock.Setup(x => x.Get("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Earthquake), []));
                     abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -597,7 +597,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireball), []));
+        abilityManagerMock.Setup(x => x.Get("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireball), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -640,7 +640,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Armor), []));
+        abilityManagerMock.Setup(x => x.Get("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Armor), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -682,7 +682,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IAuraManager> auraManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireproof), []));
+        abilityManagerMock.Setup(x => x.Get("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Fireproof), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -730,7 +730,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IDispelManager> dispelManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Curse), []));
+        abilityManagerMock.Setup(x => x.Get("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Curse), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
         Mock<IArea> areaMock = new();
@@ -779,7 +779,7 @@ public class ScrollTests : AbilityTestBase
         Mock<IDispelManager> dispelManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-        abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Invisibility), []));
+        abilityManagerMock.Setup(x => x.Get("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Invisibility), []));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
         Mock<IArea> areaMock = new();

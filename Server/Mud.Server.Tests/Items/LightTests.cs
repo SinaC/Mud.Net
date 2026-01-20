@@ -100,7 +100,7 @@ public class LightTests : TestBase
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
-        var light = new ItemLight(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
+        var light = new ItemLight(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!);
         light.Initialize(Guid.NewGuid(), lightBlueprint, string.Empty, roomMock.Object);
 
         return light;

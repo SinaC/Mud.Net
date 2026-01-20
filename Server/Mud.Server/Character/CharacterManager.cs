@@ -182,10 +182,11 @@ public class CharacterManager : ICharacterManager
                     ItemManager.RemoveItem(item);
             }
         }
-        // Move to NullRoom
-        character.ChangeRoom(RoomManager.NullRoom, true);
         //
-        character.OnRemoved();
+        var room = character.Room;
+        character.OnRemoved(RoomManager.NullRoom);
+        room?.Recompute();
+
         //_characters.Remove(character); will be removed in cleanup step
         if (character is INonPlayableCharacter npc)
             _nonPlayableCharacterInstanceCountByBlueprintId.Decrement(npc.Blueprint.Id);

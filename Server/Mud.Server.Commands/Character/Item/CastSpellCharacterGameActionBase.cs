@@ -4,18 +4,21 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-public abstract class CastSpellCharacterGameActionBase : CharacterGameAction
+public abstract class CastSpellCharacterGameActionBase<TCharacter, TCharacterGameActionInfo> : CharacterGameActionBase<TCharacter, TCharacterGameActionInfo>
+    where TCharacter : class, ICharacter
+    where TCharacterGameActionInfo : class, ICharacterGameActionInfo
 {
-    private ILogger<CastSpellCharacterGameActionBase> Logger { get; }
+    private ILogger<CastSpellCharacterGameActionBase<TCharacter, TCharacterGameActionInfo>> Logger { get; }
     private ICommandParser CommandParser { get; }
     private IAbilityManager AbilityManager { get; }
 
-    protected CastSpellCharacterGameActionBase(ILogger<CastSpellCharacterGameActionBase> logger, ICommandParser commandParser, IAbilityManager abilityManager)
+    protected CastSpellCharacterGameActionBase(ILogger<CastSpellCharacterGameActionBase<TCharacter, TCharacterGameActionInfo>> logger, ICommandParser commandParser, IAbilityManager abilityManager)
     {
         Logger = logger;
         CommandParser = commandParser;
@@ -26,7 +29,7 @@ public abstract class CastSpellCharacterGameActionBase : CharacterGameAction
     {
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        var abilityDefinition = AbilityManager.Get(spellName, AbilityTypes.Spell);
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, item.DebugName);

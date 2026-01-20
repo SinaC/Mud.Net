@@ -169,7 +169,7 @@ public class MysteryLoader : TextBasedLoader
             MobileData mobileData = new()
             {
                 VNum = vnum,
-                Name = ReadString(),
+                Name = TrimOldstylePrefix(ReadString()),
                 ShortDescr = ReadString(),
                 LongDescr = UpperCaseFirst(ReadString()),
                 Description = UpperCaseFirst(ReadString()),
@@ -769,5 +769,12 @@ public class MysteryLoader : TextBasedLoader
             ReadToEol();
         }
 
+    }
+
+    private static string TrimOldstylePrefix(string s)
+    {
+        if (s.StartsWith("oldstyle"))
+            return s["oldstyle".Length..].TrimStart();
+        return s;
     }
 }

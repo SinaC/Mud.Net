@@ -42,7 +42,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     {
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        var abilityDefinition = AbilityManager.Get(spellName, AbilityTypes.Spell);
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
@@ -66,7 +66,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     {
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        var abilityDefinition = AbilityManager.Get(spellName, AbilityTypes.Spell);
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
@@ -106,7 +106,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         target = default!;
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        var abilityDefinition = AbilityManager.Get(spellName, AbilityTypes.Spell);
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);

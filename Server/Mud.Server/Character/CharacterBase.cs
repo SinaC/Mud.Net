@@ -144,18 +144,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return result;
     }
 
-    public override void OnRemoved()
-    {
-        base.OnRemoved();
-
-        // Leave follower
-        Leader?.RemoveFollower(this);
-
-        // Release followers
-        foreach (var follower in CharacterManager.Characters.Where(x => x.Leader == this))
-            RemoveFollower(follower);
-    }
-
     #endregion
 
     #region IContainer
@@ -345,9 +333,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // Abilities
     public virtual IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
-
-    public void AddLearnedAbility(IAbilityUsage abilityUsage)
-        => AddLearnedAbility(abilityUsage, false, false);
 
     // Followers
     public ICharacter? Leader { get; protected set; }
@@ -815,25 +800,31 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         Alignment = Math.Clamp(Alignment + amount, MinAlignment, MaxAlignment);
         // impact on equipment
-        bool recompute = false;
+        var recomputeNeeded = false;
         foreach (var item in Equipments.Where(x => x.Item != null).Select(x => x.Item))
         {
-            if ((IsEvil && item!.ItemFlags.IsSet("AntiEvil"))
-                || (IsGood && item!.ItemFlags.IsSet("AntiGood"))
-                || (IsNeutral && item!.ItemFlags.IsSet("AntiNeutral")))
-            {
-                Act(ActOptions.ToAll, "{0:N} {0:b} zapped by {1}.", this, item);
-                item.ChangeEquippedBy(null, false);
-                item.ChangeContainer(Room);
-                recompute = true;
-            }
+            recomputeNeeded |= ZapWornItemIfNeeded(item!);
         }
 
-        if (recompute)
+        if (recomputeNeeded)
         {
             Recompute();
             Room.Recompute();
         }
+    }
+
+    public bool ZapWornItemIfNeeded(IItem item)
+    {
+        if ((IsEvil && item.ItemFlags.IsSet("AntiEvil"))
+            || (IsGood && item.ItemFlags.IsSet("AntiGood"))
+            || (IsNeutral && item.ItemFlags.IsSet("AntiNeutral")))
+        {
+            Act(ActOptions.ToAll, "%R%{0:N} {0:b} %Y%zapped %R%by {1}.%x%", this, item);
+            item.ChangeEquippedBy(null, false);
+            item.ChangeContainer(Room);
+            return true;
+        }
+        return false;
     }
 
     // Character flags
@@ -949,7 +940,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         //TODO exit flags such as climb, ...
 
-        if (!CanMove())
+        if (!CanMove)
             return false;
 
         if (Daze > 5)
@@ -992,13 +983,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Send("That room is private right now.");
             return false;
         }
-        // Allowed ?
-        if (!CanGoTo(toRoom)
-            && !passThru)
-        {
-            Send("You are not allowed to go that direction.");
-            return false;
-        }
+
         // Size
         if (toRoom.MaxSize.HasValue && toRoom.MaxSize.Value < Size
             && !passThru)
@@ -1015,11 +1000,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
         // Water
+        var hasBoatOrMasterHasBoat = HasBoat;
         if ((fromRoom.SectorType == SectorTypes.WaterSwim || toRoom.SectorType == SectorTypes.WaterSwim)
             && !passThru
             && !CharacterFlags.IsSet("Swim")
             && !CharacterFlags.IsSet("Flying")
-            && !Inventory.OfType<IItemBoat>().Any()) // TODO: WalkOnWater
+            && !hasBoatOrMasterHasBoat) // TODO: WalkOnWater
         {
             Send("You need a boat to go there, or be swimming, flying or walking on water.");
             return false;
@@ -1027,9 +1013,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Water no swim or underwater
         if ((fromRoom.SectorType == SectorTypes.WaterNoSwim || toRoom.SectorType == SectorTypes.WaterNoSwim)
             && !passThru
-            && !CharacterFlags.IsSet("Flying")) // TODO: WalkOnWater
+            && !CharacterFlags.IsSet("Flying")
+            && !hasBoatOrMasterHasBoat)// TODO: WalkOnWater
         {
-            Send("You need to be flying or walking on water.");
+            Send("You need a boat to go there, flying or walking on water.");
             return false;
         }
 
@@ -1106,7 +1093,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
 
-        if (!CanGoTo(destination))
+        if (!IsAllowedToFleeTo(destination))
         {
             Send("Something prevents you from leaving...");
             return false;
@@ -1532,6 +1519,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         var from = Room;
         var pc = this as IPlayableCharacter;
+        var npc = this is INonPlayableCharacter;
 
         // Try 6 times to find an exit
         for (int attempt = 0; attempt < 6; attempt++)
@@ -1541,7 +1529,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
                 && !(RandomManager.Range(0, Daze) != 0) // partially dazed, has some chance to flee
-                && CanGoTo(destination))
+                && IsAllowedToFleeTo(destination))
             {
                 // Try to move without checking if in combat or not
                 Move(randomExit, false, false); // followers will not follow
@@ -2007,6 +1995,25 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
+    public virtual void OnRemoved(IRoom nullRoom) // called before removing a character from the game
+    {
+        base.OnRemoved();
+
+        StopFighting(true);
+
+        // Leave follower
+        Leader?.RemoveFollower(this);
+
+        // Release followers
+        foreach (var follower in CharacterManager.Characters.Where(x => x.Leader == this))
+            RemoveFollower(follower);
+
+        ResetCooldowns();
+        DeleteInventory();
+        DeleteEquipments();
+        Room = nullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+    }
+
     #endregion
 
     protected abstract WiznetFlags DeathWiznetFlags { get; }
@@ -2015,9 +2022,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected abstract int CharacterTypeSpecificDamageModifier(int damage);
 
-    protected abstract bool CanMove();
+    protected abstract bool CanMove { get; }
 
-    protected abstract bool CanGoTo(IRoom destination);
+    protected abstract bool IsAllowedToFleeTo(IRoom destination);
+
+    protected abstract bool HasBoat { get; }
 
     protected abstract ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom);
 
@@ -2441,7 +2450,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             _currentAttributes[attribute] = Math.Min(_currentAttributes[attribute], _baseAttributes[attribute]);
     }
 
-    protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn, bool isBasics)
+    protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn)
     {
         if (!_learnedAbilities.ContainsKey(abilityUsage.Name))
         {
@@ -2451,9 +2460,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 abilityLearned.Update(1, 1, 100);
             else
             {
-                var minLearned = abilityUsage.MinLearned;
-                if (isBasics)
-                    minLearned = Math.Max(1, minLearned); // at least 1%
+                var minLearned = abilityUsage.Level <= Level ? 1 : 0; // force minimum to be 1 if we are higher level than ability required level
                 abilityLearned.SetLearned(minLearned);
             }
         }
@@ -2545,28 +2552,32 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return sb;
     }
 
-    protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn, bool isBasics)
+    protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)
     {
         // If multiple identical abilities, keep only one with lowest level
         foreach (var abilityUsage in abilities)
         {
-            MergeAbility(abilityUsage, naturalBorn, isBasics);
+            MergeAbility(abilityUsage, naturalBorn);
         }
     }
 
-    protected void MergeAbility(IAbilityUsage abilityUsage, bool naturalBorn, bool isBasics)
+    protected void MergeAbility(IAbilityUsage abilityUsage, bool naturalBorn)
     {
         var (_, abilityLearned) = GetAbilityLearnedAndPercentage(abilityUsage.Name);
         if (abilityLearned != null)
         {
+            var abilityLevel = Math.Min(abilityUsage.Level, abilityLearned.Level);
+            var abilityRating = Math.Min(abilityUsage.Rating, abilityLearned.Rating);
+            var minLearned = abilityLevel <= Level ? 1 : 0; // force minimum to be 1 if we are higher level than ability required level
+            var learned = Math.Max(minLearned, Math.Max(abilityUsage.MinLearned, abilityLearned.Learned));
             //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-            abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Max(isBasics ? 0 : 0, Math.Max(abilityUsage.MinLearned, abilityLearned.Learned)));
+            abilityLearned.Update(abilityLevel, abilityRating, learned);
             // TODO: what should be we if multiple resource kind or operator ?
         }
         else
         {
             Logger.LogDebug("Adding AbilityLearned from AbilityUsage for {name} Ability {abilityUsageName}", DebugName, abilityUsage.Name);
-            AddLearnedAbility(abilityUsage, naturalBorn, isBasics);
+            AddLearnedAbility(abilityUsage, naturalBorn);
         }
     }
 

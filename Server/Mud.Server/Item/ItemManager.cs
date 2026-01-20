@@ -285,7 +285,10 @@ public class ItemManager : IItemManager
         }
         // no need to recompute
         //
-        item.OnRemoved();
+        var containedInto = item.ContainedInto;
+        item.OnRemoved(RoomManager.NullRoom);
+        containedInto?.Recompute();
+
         //_items.Remove(item); will be removed in cleanup step
         _instanceCountByBlueprintId.Decrement(item.Blueprint.Id);
     }
