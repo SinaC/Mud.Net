@@ -15,7 +15,7 @@ public abstract class AccountGameActionBase : PlayerGameAction
         {
             if (Impersonating.Fighting != null)
                 return "No way! You are fighting.";
-            if (Impersonating.Stunned > 0)
+            if (Impersonating.IsStunned)
                 return "You can't leave while stunned.";
         }
 

@@ -9,6 +9,7 @@ using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
+using Mud.Server.Commands.Admin.Punish;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -125,12 +126,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // TODO: override RelativeDescription ?
 
-    public override void OnAuraRemoved(IAura aura)
+    public override void OnAuraRemoved(IAura aura, bool displayWearOffMessage)
     {
-        base.OnAuraRemoved(aura);
-
-        if (aura.AbilityDefinition != null && aura.AbilityDefinition.HasCharacterWearOffMessage)
-            Send(aura.AbilityDefinition.CharacterWearOffMessage!);
+        base.OnAuraRemoved(aura, displayWearOffMessage);
+        if (displayWearOffMessage)
+        {
+            if (aura.AbilityDefinition != null && aura.AbilityDefinition.HasCharacterWearOffMessage)
+                Send(aura.AbilityDefinition.CharacterWearOffMessage!);
+        }
     }
 
     public override bool ChangeIncarnation(IAdmin? admin)
@@ -216,6 +219,25 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
+    // Stun
+    public int Stun { get; protected set; }
+    
+    public bool IsStunned => Stun > 0;
+
+    public void DecreaseStun() // decrease one by one
+    {
+        Stun = Math.Max(Stun - 1, 0);
+    }
+
+    public void SetStun(int pulseCount) // set daze delay (in pulse), can only increase
+    {
+        if (pulseCount > Stun)
+        {
+            Logger.LogTrace("SETTING STUN to {pulseCount} for {name}", pulseCount, DebugName);
+            Stun = pulseCount;
+        }
+    }
+
     // Money
     public long SilverCoins { get; protected set; }
     public long GoldCoins { get; protected set; }
@@ -270,7 +292,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // Position
     public Positions Position { get; protected set; }
-    public int Stunned { get; protected set; }
 
     // Class/Race
     public IClass Class { get; protected set; }
@@ -366,7 +387,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (character is INonPlayableCharacter npc)
         {
             npc.RemoveBaseCharacterFlags(true, "Charm");
-            npc.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Charm Person"), true); // TODO: do this differently
+            npc.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Charm Person"), true, false); // TODO: do this differently
             npc.ChangeMaster(null);
         }
     }
@@ -381,7 +402,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         var pcCh1 = this as IPlayableCharacter;
         var pcCh2 = character as IPlayableCharacter;
-        return (pcCh1 != null && pcCh1.IsSameGroupOrPet(character)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(this));
+        var npcCh1 = this as INonPlayableCharacter;
+        var npcCh2 = character as INonPlayableCharacter;
+        return (pcCh1 != null && pcCh1.IsSameGroupOrPet(character)) || (pcCh2 != null && pcCh2.IsSameGroupOrPet(this)) || (npcCh1 != null && npcCh2 != null && npcCh1.Master != null && npcCh2.Master != null && npcCh1.Master == npcCh2.Master);
     }
 
     public abstract IEnumerable<IPlayableCharacter> GetPlayableCharactersImpactedByKill();
@@ -570,11 +593,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    public void ChangeStunned(int stunned)
-    {
-        Stunned = stunned;
-    }
-
     // Visibility
     public virtual bool CanSee(ICharacter? victim)
     {
@@ -597,7 +615,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             && !CharacterFlags.IsSet("DetectHidden")
             && victim.Fighting == null)
         {
-            var (percentage, _) = victim.GetAbilityLearnedAndPercentage("Sneak"); // this can be slow
+            var (percentage, _) = victim.GetAbilityLearnedAndPercentage("Sneak");
             int chance = percentage;
             chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
             chance -= this[BasicAttributes.Intelligence] * 2;
@@ -853,7 +871,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // remove any existing Shape aura
         if (Shape != Shapes.Normal)
-            RemoveAuras(x => x.AuraFlags.HasFlag(AuraFlags.Shapeshift), false);
+            RemoveAuras(x => x.AuraFlags.HasFlag(AuraFlags.Shapeshift), false, true);
 
         Shape = shape;
 
@@ -1232,7 +1250,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Logger.LogDebug("{name} stops fighting {victimName}", Name, Fighting?.Name ?? "<<no victim>>");
 
         Fighting = null;
-        Stunned = 0;
+        Stun = 0;
         ChangePosition(DefaultPosition);
         if (both)
         {
@@ -1278,11 +1296,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return null;
         }
 
+        Send("%R%You have been KILLED!!%x%", true);
+        Act(ActOptions.ToRoom, "{0:N} is dead.", this);
+
         Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", DeathWiznetFlags);
 
         StopFighting(true);
-        // Remove auras
-        RemoveAuras(_ => true, false);
 
         // Death cry
         ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry + body part creation
@@ -1298,6 +1317,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Generate loots
         if (playableCharactersImpactedByKill != null)
             LootManager.GenerateLoots(corpse, this, playableCharactersImpactedByKill);
+
+        // handle death here to avoid showing autoloot/sac/... message to victim
+        HandleDeath();
 
         // xp/reputation/quests for each member of groups + auto loot/gold/sac for killer
         if (payoff)
@@ -1328,9 +1350,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
             //
             DeathPayoff(killer);
         }
-
-        //
-        HandleDeath();
 
         return corpse;
     }
@@ -1754,7 +1773,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         sb.Append(RelativeDisplayName(viewer));
         // TODO: title ?
-        if (Stunned > 0)
+        if (IsStunned)
             sb.Append(" is lying here stunned.");
         else if (Fighting != null)
         {
@@ -2184,7 +2203,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 {
                     bool success = avoidanceAbility.Avoid(victim, this, damageType);
                     if (success)
-                        return; // stops here-> no damage
+                    {
+                        StartFightAndFightBack(victim);
+                        return; // stops here -> no damage
+                    }
                 }
             }
         }
@@ -2427,7 +2449,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected virtual void RecomputeCurrentResourceKinds()
     {
         // Get current resource kind from class if any, default resources otherwisse
-        CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? ResourceKindsExtensions.DefaultAvailableResources).Union(ResourceKindsExtensions.MandatoryAvailableResources).ToList();
+        CurrentResourceKinds = ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)
+            ? Enum.GetValues<ResourceKinds>().ToList()
+            : (Class?.CurrentResourceKinds(Shape) ?? ResourceKindsExtensions.DefaultAvailableResources).Union(ResourceKindsExtensions.MandatoryAvailableResources).ToList();
     }
 
     protected void SetBaseMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
@@ -2599,21 +2623,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
             }
             // TODO: check_killer
 
-            // Make sure we're fighting the victim.
-            if (Position >= Positions.Sleeping) // TODO: > Stunned
-            {
-                if (Fighting == null)
-                    StartFighting(source);
-                StandUpInCombatIfPossible();
-            }
-            // Tell the victim to fight back!
-            if (source.Position >= Positions.Sleeping) // TODO: > Stunned
-            {
-                // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
-                if (source.Fighting == null)
-                    source.StartFighting(this);
-                StandUpInCombatIfPossible();
-            }
+            // start fight between this and source
+            StartFightAndFightBack(source);
+
             // more charm stuff
             if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
                 npcVictim.ChangeMaster(null);
@@ -2623,7 +2635,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (source.CharacterFlags.IsSet("Invisible"))
         {
             source.RemoveBaseCharacterFlags(false, "Invisible");
-            source.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Invisibility"), false); // TODO: do this differently
+            source.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Invisibility"), false, true); // TODO: do this differently
             source.Recompute(); // force a recompute to check if there is something special that gives invis
             // if not anymore invis
             if (!source.CharacterFlags.IsSet("Invisible"))
@@ -2754,9 +2766,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // handle dead people
         if (isDead)
         {
-            Send("You have been KILLED!!");
-            Act(ActOptions.ToRoom, "{0:N} is dead.", this);
-
             StopFighting(true); // StopFighting will set position to standing
             RawKilled(source, true); // group group_gain + dying penalty + raw_kill
 
@@ -2783,6 +2792,25 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // TODO: take care of link-dead people
 
         return DamageResults.Done;
+    }
+
+    protected void StartFightAndFightBack(ICharacter victim)
+    {
+        // Make sure we're fighting the victim.
+        if (Position >= Positions.Sleeping && !IsStunned)
+        {
+            if (Fighting == null)
+                StartFighting(victim);
+            StandUpInCombatIfPossible();
+        }
+        // Tell the victim to fight back!
+        if (victim.Position >= Positions.Sleeping && !victim.IsStunned)
+        {
+            // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
+            if (victim.Fighting == null)
+                victim.StartFighting(this);
+            StandUpInCombatIfPossible();
+        }
     }
 
     private void OnDamageReceived(int damage, DamageSources damageSource)

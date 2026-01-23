@@ -43,7 +43,7 @@ public class Sneak : NoTargetSkillBase
             return baseSetup;
 
         User.Send("You attempt to move silently.");
-        User.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, SkillName), true);
+        User.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, SkillName), true, true);
 
         if (User.CharacterFlags.IsSet("Sneak"))
             return string.Empty;

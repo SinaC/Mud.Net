@@ -366,10 +366,10 @@ public partial class ServerWindow : Window, INetworkServer
         CharacterNormalBlueprint construct = new()
         {
             Id = 80000,
-            Name = "Construct",
+            Name = "construct",
             ShortDescription = "A construct",
-            LongDescription = "A construct waiting orders",
-            Description = "A construct is here, built from various of gears and springs",
+            LongDescription = "A construct waiting orders"+Environment.NewLine,
+            Description = "A construct is here, built from various of gears and springs" + Environment.NewLine,
             Sex = Sex.Neutral,
             Level = 40,
             Wealth = 0,
@@ -390,6 +390,8 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorPierce = 200,
             ArmorSlash = 400,
             ArmorExotic = 0,
+            StartPosition = Positions.Standing,
+            DefaultPosition = Positions.Standing,
             ActFlags = new ActFlags("Pet"),
             OffensiveFlags = new OffensiveFlags("Bash"),
             CharacterFlags = new CharacterFlags("Haste"),

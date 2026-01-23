@@ -15,6 +15,8 @@ public interface INonPlayableCharacter : ICharacter
 
     CharacterBlueprintBase Blueprint { get; }
 
+    IRoom SpawnRoom { get; }
+
     string DamageNoun { get; }
     SchoolTypes DamageType { get; }
     int DamageDiceCount { get; }

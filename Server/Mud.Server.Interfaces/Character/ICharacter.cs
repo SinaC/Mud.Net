@@ -46,13 +46,21 @@ public interface ICharacter : IEntity, IContainer
     int CarryWeight { get; }
     int CarryNumber { get; }
 
+    // GCD
     int GlobalCooldown { get; } // delay (in Pulse) before next manual action
     void DecreaseGlobalCooldown(); // decrease one by one
     void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse), can only increase
 
+    // Daze
     int Daze { get; } // delay (in Pulse) before automatic and manual action
     void DecreaseDaze(); // decrease one by one
     void SetDaze(int pulseCount); // set daze delay (in pulse), can only increase
+
+    // Stun
+    int Stun { get; }
+    bool IsStunned { get; } // if Stunned > 0
+    void DecreaseStun(); // decrease one by one
+    void SetStun(int pulseCount); // set daze delay (in pulse), can only increase
 
     // Money
     long SilverCoins { get; }
@@ -66,7 +74,6 @@ public interface ICharacter : IEntity, IContainer
 
     // Position
     Positions Position { get; }
-    int Stunned { get; }
 
     // Class/Race
     IClass Class { get; }
@@ -150,9 +157,6 @@ public interface ICharacter : IEntity, IContainer
     bool StandUpInCombatIfPossible();
     bool ChangePosition(Positions position);
     void DisplayChangePositionMessage(Positions oldPosition, Positions newPosition, IItemFurniture? furniture);
-
-    // Stunned
-    void ChangeStunned(int stunned);
 
     // Visibility
     bool CanSee(ICharacter? victim);

@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("wear", "Item", "Equipment"), MinPosition(Positions.Resting)]
+[CharacterCommand("wear", "Item", "Equipment", Priority = 50), MinPosition(Positions.Resting)]
 [Syntax(
         "[cmd] <item>",
         "[cmd] all")]

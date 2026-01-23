@@ -42,10 +42,10 @@ public class TimeManager : ITimeManager
         return string.Format("It is {0} o'clock {1}, Day of {2}, {3}{4} the Month of {5}.",
             (Hour % 12 == 0) ? 12 : Hour % 12,
             Hour >= 12 ? "pm" : "am",
-            _dayNames[day % 7],
+            DayNames[day % 7],
             day,
             suffix,
-            _monthNames[Month]);
+            MonthNames[Month]);
     }
 
     // Weather
@@ -56,15 +56,15 @@ public class TimeManager : ITimeManager
 
     // Moons
     public int MoonCount => 2;
-    public int MoonPhase(int moonId) => (_moons[moonId].PhaseStart * MoonPhaseCount) / _moons[moonId].PhasePeriod;
+    public int MoonPhase(int moonId) => (Moons[moonId].PhaseStart * MoonPhaseCount) / Moons[moonId].PhasePeriod;
     public bool IsMoonNight()=> Hour < 5 || Hour >= 20;
-    public bool IsMoonInSky(int moonId) => _moons[moonId].PositionStart >= _moons[moonId].PositionVisibleFrom;
+    public bool IsMoonInSky(int moonId) => Moons[moonId].PositionStart >= Moons[moonId].PositionVisibleFrom;
     public bool IsMoonVisible(int moonId) =>
         IsMoonNight()
         && MoonPhase(moonId) != 0
         && IsMoonInSky(moonId);
     public bool IsMoonFull(int moonId) => MoonPhase(moonId) == FullMoon;
-    public string MoonInfo(int moonId) => string.Format(MoonPhaseMsg[MoonPhase(moonId)], _moons[moonId].Name);
+    public string MoonInfo(int moonId) => string.Format(MoonPhaseMsg[MoonPhase(moonId)], Moons[moonId].Name);
 
     //
     public void Initialize()
@@ -228,13 +228,13 @@ public class TimeManager : ITimeManager
 
     #endregion
 
-    private readonly string[] _dayNames =
+    private static string[] DayNames { get; } =
     [
         "the Moon", "the Bull", "Deception", "Thunder", "Freedom",
         "the Great Gods", "the Sun"
     ];
 
-    private readonly string[] _monthNames =
+    private static string[] MonthNames { get; } =
     [
         "Winter", "the Winter Wolf", "the Frost Giant", "the Old Forces",
         "the Grand Struggle", "the Spring", "Nature", "Futility", "the Dragon",
@@ -263,7 +263,7 @@ public class TimeManager : ITimeManager
     //The moon day is 23 hours, so a little shift per mud day.
     //The moon is visible 12/23th of the time, and will be rising one hour
     //after the mud has started.
-    private readonly MoonData[] _moons =
+    private static MoonData[] Moons { get; } =
     [
         new MoonData(12*29, 24*29, 9, 10, 23, "blue"),
         new MoonData(12*13, 24*13, 0,  7, 14, "red")
@@ -296,7 +296,7 @@ public class TimeManager : ITimeManager
     private const int MoonPhaseCount = 8;
     private const int FullMoon = 4;
 
-    private static readonly string[] MoonPhaseMsg =
+    private static string[] MoonPhaseMsg { get; } =
     [
       "",
       "You see a crescent shaped growing {0} moon.",
@@ -308,31 +308,31 @@ public class TimeManager : ITimeManager
       "The last crescent of the {0} moon appears in the sky."
     ];
 
-    void UpdateMoons(StringBuilder sb)
+    private void UpdateMoons(StringBuilder sb)
     {
         // Moons changes.
         for (int i = 0; i < MoonCount; i++)
         {
             bool wasvis = IsMoonVisible(i);
             // update position and phase
-            if (++_moons[i].PhaseStart >= _moons[i].PhasePeriod)
-                _moons[i].PhaseStart = 0;
-            if (++_moons[i].PositionStart >= _moons[i].PositionPeriod)
-                _moons[i].PositionStart = 0;
+            if (++Moons[i].PhaseStart >= Moons[i].PhasePeriod)
+                Moons[i].PhaseStart = 0;
+            if (++Moons[i].PositionStart >= Moons[i].PositionPeriod)
+                Moons[i].PositionStart = 0;
 
             // if night and moon visibility has changed
             if (IsMoonVisible(i) != wasvis && IsMoonNight())
             {
                 if (Hour == 20)
-                    sb.AppendFormatLine("The {0} moon is fading through the night.", _moons[i].Name);
-                else if (_moons[i].PositionStart == _moons[i].PositionVisibleFrom)
-                    sb.AppendFormatLine("The {0} moon rises.", _moons[i].Name);
-                else if (_moons[i].PositionStart == 0)
-                    sb.AppendFormatLine("The {0} moon sets.", _moons[i].Name);
+                    sb.AppendFormatLine("The {0} moon is fading through the night.", Moons[i].Name);
+                else if (Moons[i].PositionStart == Moons[i].PositionVisibleFrom)
+                    sb.AppendFormatLine("The {0} moon rises.", Moons[i].Name);
+                else if (Moons[i].PositionStart == 0)
+                    sb.AppendFormatLine("The {0} moon sets.", Moons[i].Name);
                 else if (MoonPhase(i) == 1)
-                    sb.AppendFormatLine("The {0} moon shows up a thin crescent.", _moons[i].Name);
+                    sb.AppendFormatLine("The {0} moon shows up a thin crescent.", Moons[i].Name);
                 else if (MoonPhase(i) == 0)
-                    sb.AppendFormatLine("The remaining crescent of the {0} moon has disappeared.", _moons[i].Name);
+                    sb.AppendFormatLine("The remaining crescent of the {0} moon has disappeared.", Moons[i].Name);
             }
         }
     }

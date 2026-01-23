@@ -1195,7 +1195,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         // for each pc
         //   for each aggresive npc in pc room
         //     pick a random valid victim in room
-        var pcs = CharacterManager.PlayableCharacters.Where(x => x.Room != null).ToArray(); // TODO: !immortal
+        var pcs = CharacterManager.PlayableCharacters.Where(x => x.Room != null && !x.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)).ToArray();
         foreach (var pc in pcs)
         {
             var aggressors = pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToArray();
@@ -1210,7 +1210,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         try
                         {
                             Logger.LogDebug("HandleAggressiveNonPlayableCharacters: starting a fight between {aggressor} and {victim}", aggressor.DebugName, victim.DebugName);
-                            aggressor.MultiHit(victim); // TODO: undefined type
+                            aggressor.MultiHit(victim);
                         }
                         catch (Exception ex)
                         {
@@ -1265,8 +1265,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private static bool IsValidVictim(IPlayableCharacter victim, INonPlayableCharacter aggressor)
     {
         return
-            // TODO: immortal
             aggressor.Level >= victim.Level - 5
+            && !victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)
             && (!aggressor.ActFlags.IsSet("Wimpy") || victim.Position < Positions.Sleeping) // wimpy aggressive mobs only attack if player is asleep
             && aggressor.CanSee(victim);
     }
@@ -1295,7 +1295,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     {
                         //TODO: aura.OnVanished();
                         // TODO: Set Validity to false
-                        entity.RemoveAura(aura, false); // recompute once each aura has been processed
+                        entity.RemoveAura(aura, false, true); // recompute once each aura has been processed
                         needsRecompute = true;
                     }
                     else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
@@ -1373,8 +1373,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         var fightingCharacters = CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToArray(); // clone because multi hit could kill character and then modify list
         foreach (var ch in fightingCharacters)
         {
-            var npc = ch as INonPlayableCharacter;
-            var pc = ch as IPlayableCharacter;
+            var npcCh = ch as INonPlayableCharacter;
+            var pcCh = ch as IPlayableCharacter;
 
             var victim = ch.Fighting;
             if (victim != null)
@@ -1386,63 +1386,86 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         Logger.LogDebug("Continue fight between {character} and {victim}", ch.DebugName, victim.DebugName);
                         ch.MultiHit(victim);
                     }
-                    else
+                    else // stops otherwise
                     {
                         Logger.LogDebug("Stop fighting between {character} and {victim}, because not in same room", ch.DebugName, victim.DebugName);
                         ch.StopFighting(false);
-                        if (npc != null)
+                        if (npcCh != null)
                         {
                             Logger.LogDebug("Non-playable character stop fighting, resetting it");
-                            npc.Reset(); // TODO
+                            npcCh.Reset(); // TODO: remove periodic aura
                         }
                     }
-                    // check auto-assist
-                    var cloneInRoom = ch.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToArray();
-                    foreach (var inRoom in cloneInRoom)
+
+                    if (ch.Fighting != null) // check if ch still fighting after MultiHit
                     {
-                        var npcInRoom = inRoom as INonPlayableCharacter;
-                        var pcInRoom = inRoom as IPlayableCharacter;
-                        // quick check for ASSIST_PLAYER
-                        if (pc != null && npcInRoom != null && npcInRoom.AssistFlags.IsSet("Players")
-                            && npcInRoom.Level + 6 > victim.Level)
+                        // check auto-assist
+                        // ch is fighting victim and may need assistance fighting victim
+                        // among not fighting people in the room (candidate helper)
+                        //      if ch is player and candidate is NPC with assist players
+                        //          make candidate fights victim with message
+                        //      if ch is player and candidate is a charmed NPC in the same group
+                        //          make candidate fights victim without message
+                        //      if ch is player and candidate is a PC in the same group with auto assist
+                        //          make candidate fights victim without message
+                        //      if ch is charmed NPC and (candidate charmed NPC or PC with auto assist) and in same group
+                        //          make candidate fights victim without message
+                        //      if ch and candidate are not charmed NPC
+                        //          if candidate is assist all
+                        //          or candidate are ch are in same group number
+                        //          or candidate is assist race and same race as ch
+                        //          or candidate is assist align and same align as ch
+                        //          or candidate is assist vnum and same vnum as ch
+                        //          or candidate is assist guard (TBD)
+                        //          make candidate fights victim with message
+
+                        // check auto-assist among non-fighting people in the room (not victim neither ch)
+                        var candidates = ch.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping && x != ch && x != victim).ToArray();
+                        foreach (var candidate in candidates)
                         {
-                            npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
-                            npcInRoom.MultiHit(victim);
-                            continue;
-                        }
-                        // PCs next
-                        if (pc != null 
-                            || ch.CharacterFlags.IsSet("Charm"))
-                        {
-                            var isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(ch);
-                            var isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.IsSet("Charm") && npcInRoom.Master == pc;
-                            if ((isPlayerAutoassisting || isNpcAutoassisting)
-                                && victim.IsSafe(inRoom) == null)
+                            if (ch.Fighting != null) // check if ch still fighting after previous candidate MultiHit
                             {
-                                inRoom.MultiHit(victim);
-                                continue;
-                            }
-                        }
-                        // now check the NPC cases
-                        if (npc != null && !npc.CharacterFlags.IsSet("Charm")
-                            && npcInRoom != null)
-                        {
-                            var isAssistAll = npcInRoom.AssistFlags.IsSet("All");
-                            var isAssistGroup = npcInRoom.Blueprint.Group != 0 && npcInRoom.Blueprint.Group == npc.Blueprint.Group; // group assist
-                            var isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npc.Race;
-                            var isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npc.IsGood) || (npcInRoom.IsNeutral && npc.IsNeutral) || (npcInRoom.IsEvil && npc.IsEvil));
-                            // TODO: assist guard
-                            var isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npc.Blueprint.Id;
-                            if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
-                            {
-                                if (RandomManager.Chance(50))
+                                var pcCandidate = candidate as IPlayableCharacter;
+                                var npcCandidate = candidate as INonPlayableCharacter;
+                                // NPC (not charmed) assisting PC
+                                if (pcCh is not null && npcCandidate is not null && npcCandidate.AssistFlags.IsSet("Players"))
                                 {
-                                    var target = ch.Room.People.Where(x => npcInRoom.CanSee(x) && x.IsSameGroupOrPet(victim)).Random(RandomManager);
-                                    if (target != null)
+                                    Logger.LogDebug("NPC assisting PC: ch {ch} fighting {victim} is helped by {candidate}", ch.DebugName, victim.DebugName, candidate.DebugName);
+                                    npcCandidate.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcCandidate);
+                                    npcCandidate.MultiHit(victim);
+                                }
+                                // group member assisting
+                                else if (
+                                        // charmie assisting group member
+                                        (npcCandidate is not null && npcCandidate.CharacterFlags.IsSet("Charm") && ch.IsSameGroupOrPet(npcCandidate))
+                                        // PC with autoassist assisting group member
+                                        || (pcCandidate is not null && pcCandidate.AutoFlags.HasFlag(AutoFlags.Assist) && ch.IsSameGroupOrPet(pcCandidate))
+                                        )
+                                {
+                                    Logger.LogDebug("Group member assisting: ch {ch} fighting {victim} is helped by {candidate}", ch.DebugName, victim.DebugName, candidate.DebugName);
+                                    candidate.MultiHit(victim);
+                                }
+                                // ch and candidate are not charmed NPC
+                                else if (npcCh is not null && !npcCh.CharacterFlags.IsSet("Charm") && npcCandidate is not null && !npcCandidate.CharacterFlags.IsSet("Charm"))
+                                {
+                                    var isAssistAll = npcCandidate.AssistFlags.IsSet("All");
+                                    var isAssistGroup = npcCandidate.Blueprint.Group != 0 && npcCandidate.Blueprint.Group == npcCh.Blueprint.Group; // group assist
+                                    var isAssistRace = npcCandidate.AssistFlags.IsSet("Race") && npcCandidate.Race == npcCh.Race;
+                                    var isAssistAlign = npcCandidate.AssistFlags.IsSet("Align") && ((npcCandidate.IsGood && npcCh.IsGood) || (npcCandidate.IsNeutral && npcCh.IsNeutral) || (npcCandidate.IsEvil && npcCh.IsEvil));
+                                    // TODO: assist guard
+                                    var isAssistVnum = npcCandidate.AssistFlags.IsSet("Vnum") && npcCandidate.Blueprint.Id == npcCh.Blueprint.Id;
+                                    if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                                     {
-                                        npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
-                                        npcInRoom.MultiHit(target);
-                                        continue;
+                                        if (RandomManager.Chance(50))
+                                        {
+                                            var target = RandomManager.Random(ch.Room.People.Where(x => npcCandidate.CanSee(x) && x.IsSameGroupOrPet(victim)));
+                                            if (target != null)
+                                            {
+                                                Logger.LogDebug("NPC assisting NPC: ch {ch} fighting {victim} is helped by {candidate}. all: {isAssistAll} group: {isAssistGroup} race: {isAssistRace} align: {isAssistAlign}", ch.DebugName, victim.DebugName, candidate.DebugName, isAssistAll, isAssistGroup, isAssistRace, isAssistAlign);
+                                                npcCandidate.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcCandidate);
+                                                npcCandidate.MultiHit(target);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -1537,21 +1560,21 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         {
             try
             {
-                // TODO: check to see if need to go home
-                /*
-                *  if (IS_NPC(ch) && ch->zone != NULL && ch->zone != ch->in_room->area
-                && ch->desc == NULL &&  ch->fighting == NULL 
-            && !IS_AFFECTED(ch,AFF_CHARM) && number_percent() < 5)
+                // check to see if need to go home
+                if (npc.SpawnRoom?.Area != null && npc.Room.Area != null && npc.SpawnRoom?.Area != npc.Room.Area
+                    && npc.Fighting == null
+                    && !npc.CharacterFlags.IsSet("Charm")
+                    && RandomManager.Chance(5))
                 {
-                    act("$n wanders on home.",ch,NULL,NULL,TO_ROOM);
-                    extract_char(ch,TRUE);
+                    npc.Act(ActOptions.ToRoom, "{0:N} wanders on home.", npc);
+                    CharacterManager.RemoveCharacter(npc);
                     continue;
-                }*/
+                }
 
                 // special behavior ?
                 if (npc.SpecialBehavior != null)
                 {
-                    bool executed = npc.SpecialBehavior.Execute(npc);
+                    var executed = npc.SpecialBehavior.Execute(npc);
                     if (executed)
                         continue;
                 }
@@ -1692,7 +1715,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         case IItemFood _:
                             msg = "{0:N} decomposes.";
                             break;
-                        // TODO: potion  "$p has evaporated from disuse."
+                        case IItemPotion _:
+                            msg = "{0:N} has evaporated from disuse.";
+                            break;
                         case IItemPortal _:
                             msg = "{0:N} fades out of existence.";
                             break;
@@ -1706,7 +1731,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             }
                             break;
                     }
-                    // TODO: give some money to shopkeeer
                     // Display message to character or room
                     if (decayingItem.ContainedInto is ICharacter wasOnCharacter)
                         wasOnCharacter.Act(ActOptions.ToCharacter, msg, decayingItem);

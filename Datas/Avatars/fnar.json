@@ -2,14 +2,14 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 7900,
-  "SilverCoins": 10773464,
-  "GoldCoins": 5763,
+  "RoomId": 3001,
+  "SilverCoins": 10776602,
+  "GoldCoins": 5933,
   "Wimpy": 0,
-  "Experience": 20135,
+  "Experience": 23185,
   "Alignment": 1000,
-  "Trains": 66,
-  "Practices": 72,
+  "Trains": 65,
+  "Practices": 61,
   "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
     "QuestPoints": 35
@@ -73,7 +73,7 @@
     {
       "Name": "enhanced damage",
       "Level": 1,
-      "Learned": 62,
+      "Learned": 63,
       "Rating": 3
     },
     {
@@ -91,7 +91,7 @@
     {
       "Name": "third attack",
       "Level": 12,
-      "Learned": 75,
+      "Learned": 76,
       "Rating": 4
     },
     {
@@ -169,7 +169,7 @@
     {
       "Name": "colour spray",
       "Level": 20,
-      "Learned": 75,
+      "Learned": 76,
       "Rating": 2
     },
     {
@@ -313,7 +313,7 @@
     {
       "Name": "cure critical",
       "Level": 19,
-      "Learned": 75,
+      "Learned": 77,
       "Rating": 2
     },
     {
@@ -343,7 +343,7 @@
     {
       "Name": "fly",
       "Level": 22,
-      "Learned": 0,
+      "Learned": 75,
       "Rating": 2
     },
     {
@@ -373,7 +373,7 @@
     {
       "Name": "summon",
       "Level": 22,
-      "Learned": 0,
+      "Learned": 75,
       "Rating": 2
     },
     {
@@ -399,6 +399,36 @@
       "Level": 13,
       "Learned": 46,
       "Rating": 6
+    },
+    {
+      "Name": "bless",
+      "Level": 8,
+      "Learned": 75,
+      "Rating": 2
+    },
+    {
+      "Name": "calm",
+      "Level": 20,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "frenzy",
+      "Level": 26,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "holy word",
+      "Level": 42,
+      "Learned": 0,
+      "Rating": 4
+    },
+    {
+      "Name": "remove curse",
+      "Level": 22,
+      "Learned": 75,
+      "Rating": 2
     }
   ],
   "LearnedAbilityGroups": [
@@ -437,13 +467,17 @@
     {
       "Name": "transportation",
       "Cost": 9
+    },
+    {
+      "Name": "benedictions",
+      "Cost": 4
     }
   ],
   "Conditions": {
     "Drunk": 0,
     "Full": 0,
-    "Thirst": 39,
-    "Hunger": 22
+    "Thirst": 10,
+    "Hunger": 32
   },
   "Aliases": {
     "a": "cast \u0027colour spray\u0027",
@@ -461,7 +495,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 333,
+        "HitPoints": 115,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -470,7 +504,7 @@
         "Combo": 0
       },
       "MaxResources": {
-        "HitPoints": 333,
+        "HitPoints": 342,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -527,19 +561,19 @@
     }
   ],
   "Statistics": {
-    "NpcKill": 149,
+    "NpcKill": 183,
     "PcKill": 0,
-    "NpcKilled": 0,
+    "NpcKilled": 2,
     "PcKilled": 0,
     "NoSourceKilled": 0,
-    "MoneySpent": 10713,
-    "GoldEarned": 662,
+    "MoneySpent": 14809,
+    "GoldEarned": 5262,
     "GoldStolen": 0,
-    "SilverEarned": 25839,
+    "SilverEarned": 8117125,
     "SilverStolen": 0,
-    "RecallUsed": 5,
-    "FoodEaten": 16,
-    "BeveragesConsumed": 8,
+    "RecallUsed": 6,
+    "FoodEaten": 21,
+    "BeveragesConsumed": 11,
     "PillEaten": 0,
     "PotionQuaffed": 0,
     "PortalUsed": 0,
@@ -571,22 +605,22 @@
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
-  "Level": 20,
+  "Level": 23,
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 375,
-    "MovePoints": 135,
-    "Mana": 437,
+    "HitPoints": 514,
+    "MovePoints": 413,
+    "Mana": 605,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 437,
-    "MovePoints": 393,
-    "Mana": 521,
+    "HitPoints": 516,
+    "MovePoints": 436,
+    "Mana": 605,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
@@ -597,7 +631,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11762,
+        "TimeLeft": 11710,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -634,16 +668,16 @@
       "Slot": "Head",
       "Item": {
         "$type": "armor",
-        "Bash": 5,
-        "Pierce": 5,
-        "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 102,
-        "Source": null,
-        "ShortDescription": "a smurf hat",
-        "Description": "a smurf hat",
-        "Level": 3,
-        "Cost": 0,
+        "Bash": 7,
+        "Pierce": 7,
+        "Slash": 7,
+        "Exotic": 0,
+        "ItemId": 6510,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "a dwarven helmet",
+        "Description": "A dwarven helmet is here.",
+        "Level": 20,
+        "Cost": 1450,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
         "Auras": []
@@ -711,19 +745,34 @@
       "Slot": "Chest",
       "Item": {
         "$type": "armor",
-        "Bash": 5,
-        "Pierce": 5,
-        "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 3703,
-        "Source": null,
-        "ShortDescription": "a sub issue vest",
-        "Description": "a sub issue vest",
-        "Level": 0,
-        "Cost": 0,
+        "Bash": 7,
+        "Pierce": 7,
+        "Slash": 7,
+        "Exotic": 0,
+        "ItemId": 2301,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "a suit of spiked garde armor",
+        "Description": "A pile of spiked chainmail lies here.",
+        "Level": 22,
+        "Cost": 4200,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
-        "Auras": []
+        "ItemFlags": "",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 22,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "DamRoll",
+                "Modifier": 2
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -764,18 +813,18 @@
       "Slot": "Waist",
       "Item": {
         "$type": "armor",
-        "Bash": 5,
-        "Pierce": 5,
-        "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 3712,
-        "Source": null,
-        "ShortDescription": "a sub issue belt",
-        "Description": "a sub issue belt",
-        "Level": 0,
-        "Cost": 0,
+        "Bash": 6,
+        "Pierce": 6,
+        "Slash": 6,
+        "Exotic": 0,
+        "ItemId": 2804,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "a leather belt",
+        "Description": "An old leather belt is left on the floor.",
+        "Level": 15,
+        "Cost": 1050,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
+        "ItemFlags": "Magic",
         "Auras": []
       }
     },
@@ -873,16 +922,60 @@
         "Bash": 5,
         "Pierce": 5,
         "Slash": 5,
-        "Exotic": 5,
-        "ItemId": 3709,
-        "Source": null,
-        "ShortDescription": "a pair of sub issue gloves",
-        "Description": "a pair of sub issue gloves",
-        "Level": 0,
-        "Cost": 0,
+        "Exotic": 0,
+        "ItemId": 5109,
+        "Source": "Reset-E[5150]",
+        "ShortDescription": "a pair of gauntlets",
+        "Description": "A pair of gauntlets has been dropped here.",
+        "Level": 17,
+        "Cost": 3600,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
-        "Auras": []
+        "ItemFlags": "Glowing",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 17,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "Strength",
+                "Modifier": 2
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Slot": "Ring",
+      "Item": {
+        "ItemId": 2803,
+        "Source": "Reset-P[2805]",
+        "ShortDescription": "an opal ring",
+        "Description": "A ring of black opal lies here gathering dust.",
+        "Level": 20,
+        "Cost": 1150,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 20,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "DamRoll",
+                "Modifier": 2
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -914,41 +1007,6 @@
                 "Operator": "Add",
                 "Location": "Strength",
                 "Modifier": 1
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "Slot": "Ring",
-      "Item": {
-        "ItemId": 3364,
-        "Source": "Reset-E[3040]",
-        "ShortDescription": "a city guard signet ring",
-        "Description": "You see a ring with a strange symbol on the floor.",
-        "Level": 16,
-        "Cost": 1280,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Magic",
-        "Auras": [
-          {
-            "AbilityName": "",
-            "Level": 16,
-            "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
-            "Affects": [
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "SavingThrow",
-                "Modifier": -1
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "AllArmor",
-                "Modifier": -4
               }
             ]
           }
@@ -999,19 +1057,19 @@
         "$type": "weapon",
         "WeaponFlags": "",
         "DiceCount": 3,
-        "DiceValue": 5,
-        "ItemId": 3350,
-        "Source": "Reset-E[3040]",
-        "ShortDescription": "a standard issue sword",
-        "Description": "You see a standard issue sword here.",
-        "Level": 16,
-        "Cost": 1280,
+        "DiceValue": 6,
+        "ItemId": 5105,
+        "Source": "Reset-E[5101]",
+        "ShortDescription": "a black longsword",
+        "Description": "A black longsword has been carelessly left here.",
+        "Level": 21,
+        "Cost": 2100,
         "DecayPulseLeft": 0,
-        "ItemFlags": "Magic",
+        "ItemFlags": "Glowing,Magic",
         "Auras": [
           {
             "AbilityName": "",
-            "Level": 16,
+            "Level": 21,
             "PulseLeft": -1,
             "AuraFlags": "NoDispel, Permanent, Inherent",
             "Affects": [
@@ -1019,13 +1077,13 @@
                 "$type": "characterAttribute",
                 "Operator": "Add",
                 "Location": "DamRoll",
-                "Modifier": 1
+                "Modifier": 2
               },
               {
                 "$type": "characterAttribute",
                 "Operator": "Add",
                 "Location": "HitRoll",
-                "Modifier": 1
+                "Modifier": 2
               }
             ]
           }
@@ -1036,15 +1094,15 @@
       "Slot": "OffHand",
       "Item": {
         "$type": "shield",
-        "Armor": 10,
-        "ItemId": 3704,
-        "Source": null,
-        "ShortDescription": "a sub issue shield",
-        "Description": "a sub issue shield",
-        "Level": 0,
-        "Cost": 0,
+        "Armor": 17,
+        "ItemId": 5320,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "an imperial shield",
+        "Description": "You see an imperial shield here.",
+        "Level": 10,
+        "Cost": 1190,
         "DecayPulseLeft": 0,
-        "ItemFlags": "MeltOnDrop",
+        "ItemFlags": "",
         "Auras": []
       }
     }
@@ -1053,16 +1111,299 @@
     {
       "$type": "weapon",
       "WeaponFlags": "",
-      "DiceCount": 4,
-      "DiceValue": 2,
-      "ItemId": 3414,
-      "Source": "Reset-E[3434]",
-      "ShortDescription": "a whisper thin rapier",
-      "Description": "A rapier is lying here.",
-      "Level": 16,
-      "Cost": 3500,
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 5100,
+      "Source": "Reset-E[5133]",
+      "ShortDescription": "a commoner\u0027s longsword",
+      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+      "Level": 11,
+      "Cost": 910,
       "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 11,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "armor",
+      "Bash": 3,
+      "Pierce": 4,
+      "Slash": 4,
+      "Exotic": 0,
+      "ItemId": 2109,
+      "Source": "Oload[sinac]",
+      "ShortDescription": "comfortable leather gloves",
+      "Description": "A pair of soft lined leather gloves lie here.",
+      "Level": 7,
+      "Cost": 1010,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 7,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Strength",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 3,
+      "DiceValue": 6,
+      "ItemId": 5105,
+      "Source": "Reset-E[5150]",
+      "ShortDescription": "a black longsword",
+      "Description": "A black longsword has been carelessly left here.",
+      "Level": 21,
+      "Cost": 2100,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Magic",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 21,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 2
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 5100,
+      "Source": "Reset-E[5133]",
+      "ShortDescription": "a commoner\u0027s longsword",
+      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+      "Level": 11,
+      "Cost": 910,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 11,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 5100,
+      "Source": "Reset-E[5133]",
+      "ShortDescription": "a commoner\u0027s longsword",
+      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+      "Level": 11,
+      "Cost": 910,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 11,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 5100,
+      "Source": "Reset-E[5133]",
+      "ShortDescription": "a commoner\u0027s longsword",
+      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+      "Level": 11,
+      "Cost": 910,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 11,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 5100,
+      "Source": "Reset-E[5133]",
+      "ShortDescription": "a commoner\u0027s longsword",
+      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+      "Level": 11,
+      "Cost": 910,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 11,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 5100,
+      "Source": "Reset-E[5133]",
+      "ShortDescription": "a commoner\u0027s longsword",
+      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+      "Level": 11,
+      "Cost": 910,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 11,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 3,
+      "DiceValue": 5,
+      "ItemId": 3350,
+      "Source": "Reset-E[3040]",
+      "ShortDescription": "a standard issue sword",
+      "Description": "You see a standard issue sword here.",
+      "Level": 16,
+      "Cost": 1280,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic",
       "Auras": [
         {
           "AbilityName": "",
@@ -1073,78 +1414,51 @@
             {
               "$type": "characterAttribute",
               "Operator": "Add",
-              "Location": "HitRoll",
+              "Location": "DamRoll",
               "Modifier": 1
             },
             {
               "$type": "characterAttribute",
               "Operator": "Add",
-              "Location": "Dexterity",
-              "Modifier": 2
+              "Location": "HitRoll",
+              "Modifier": 1
             }
           ]
         }
       ]
     },
     {
-      "$type": "container",
-      "MaxWeight": 3,
-      "ContainerFlags": "Closed, NoLock",
-      "MaxWeightPerItem": 3,
-      "Contains": [
-        {
-          "ItemId": 3413,
-          "Source": "Reset-P[3434]",
-          "ShortDescription": "a black marble ring",
-          "Description": "A black marble ring is lying here on the ground.",
-          "Level": 3,
-          "Cost": 26,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "Magic,AntiEvil",
-          "Auras": [
-            {
-              "AbilityName": "",
-              "Level": 3,
-              "PulseLeft": -1,
-              "AuraFlags": "NoDispel, Permanent, Inherent",
-              "Affects": [
-                {
-                  "$type": "characterAttribute",
-                  "Operator": "Add",
-                  "Location": "SavingThrow",
-                  "Modifier": 1
-                },
-                {
-                  "$type": "characterResource",
-                  "Operator": "Add",
-                  "Location": "MovePoints",
-                  "Modifier": 10
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ItemId": 3412,
-      "Source": "Reset-G[3434]",
-      "ShortDescription": "the mummified head of Jubal the Benevolent",
-      "Description": "The mummified head of Jubal the Benevolent is lolling back and forth.",
-      "Level": 0,
-      "Cost": 0,
+      "$type": "wand",
+      "SpellLevel": 10,
+      "MaxChargeCount": 3,
+      "CurrentChargeCount": 3,
+      "AlreadyRecharged": false,
+      "ItemId": 5110,
+      "Source": "Reset-E[5120]",
+      "ShortDescription": "a silvery blue wand",
+      "Description": "A silvery blue wand has been dropped in the dirt.",
+      "Level": 9,
+      "Cost": 1550,
       "DecayPulseLeft": 0,
-      "ItemFlags": "AntiEvil",
+      "ItemFlags": "Magic",
       "Auras": []
     },
     {
-      "$type": "drinkContainer",
-      "MaxLiquidAmount": 30,
-      "CurrentLiquidAmount": 30,
-      "LiquidName": "red wine",
-      "IsPoisoned": false,
-      "ItemId": 3417,
-      "Source": "Reset-P[3424]",
-      "ShortDescription": "a wineflask",
-      "Description": "A wineflask has been been left here.",
+      "ItemId": 3162,
+      "Source": null,
+      "ShortDescription": "a map of the city of Midgaard",
+      "Description": "a map of the city of Midgaard",
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 3050,
+      "Source": "Buy[The captain[Id:3006]]",
+      "ShortDescription": "a raft",
+      "Description": "A raft has been left here.",
       "Level": 0,
       "Cost": 400,
       "DecayPulseLeft": 0,
@@ -1152,12 +1466,193 @@
       "Auras": []
     },
     {
-      "ItemId": 3416,
-      "Source": "Reset-E[3424]",
-      "ShortDescription": "a heavy iron key",
-      "Description": "A heavy iron key is lying here.",
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 228480,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 148560,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 153840,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 157920,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
       "Level": 0,
-      "Cost": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
@@ -1174,386 +1669,26 @@
       "Auras": []
     },
     {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
+      "ItemId": 3416,
+      "Source": "Reset-E[3424]",
+      "ShortDescription": "a heavy iron key",
+      "Description": "A heavy iron key is lying here.",
       "Level": 0,
-      "Cost": 22,
+      "Cost": 0,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
     },
     {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
+      "$type": "drinkContainer",
+      "MaxLiquidAmount": 30,
+      "CurrentLiquidAmount": 25,
+      "LiquidName": "red wine",
       "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "light",
-      "TimeLeft": 30000,
-      "ItemId": 3365,
-      "Source": "Reset-E[3014]",
-      "ShortDescription": "a war banner",
-      "Description": "A war banner is on the floor here.",
-      "Level": 8,
-      "Cost": 640,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 8,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "AllArmor",
-              "Modifier": -2
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "SavingThrow",
-              "Modifier": -1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "light",
-      "TimeLeft": 30000,
-      "ItemId": 3365,
-      "Source": "Reset-E[3040]",
-      "ShortDescription": "a war banner",
-      "Description": "A war banner is on the floor here.",
-      "Level": 8,
-      "Cost": 640,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 8,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "AllArmor",
-              "Modifier": -2
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "SavingThrow",
-              "Modifier": -1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "light",
-      "TimeLeft": 30000,
-      "ItemId": 3365,
-      "Source": "Reset-E[3040]",
-      "ShortDescription": "a war banner",
-      "Description": "A war banner is on the floor here.",
-      "Level": 8,
-      "Cost": 640,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 8,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "AllArmor",
-              "Modifier": -2
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "SavingThrow",
-              "Modifier": -1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 159600,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 196320,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 115680,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 158880,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 124080,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 107760,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
-      "ItemId": 2803,
-      "Source": "Reset-P[2805]",
-      "ShortDescription": "an opal ring",
-      "Description": "A ring of black opal lies here gathering dust.",
-      "Level": 20,
-      "Cost": 1150,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Magic",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 20,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "ItemId": 3050,
-      "Source": "Buy[The captain[Id:3006]]",
-      "ShortDescription": "a raft",
-      "Description": "A raft has been left here.",
+      "ItemId": 3417,
+      "Source": "Reset-P[3424]",
+      "ShortDescription": "a wineflask",
+      "Description": "A wineflask has been been left here.",
       "Level": 0,
       "Cost": 400,
       "DecayPulseLeft": 0,
@@ -1561,12 +1696,78 @@
       "Auras": []
     },
     {
-      "ItemId": 3162,
-      "Source": null,
-      "ShortDescription": "a map of the city of Midgaard",
-      "Description": "a map of the city of Midgaard",
+      "ItemId": 3413,
+      "Source": "Reset-P[3434]",
+      "ShortDescription": "a black marble ring",
+      "Description": "A black marble ring is lying here on the ground.",
+      "Level": 3,
+      "Cost": 26,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,AntiEvil",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 3,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterResource",
+              "Operator": "Add",
+              "Location": "MovePoints",
+              "Modifier": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
       "Level": 0,
-      "Cost": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 20,
+      "HungerHours": 40,
+      "IsPoisoned": false,
+      "ItemId": 3009,
+      "Source": "Buy[The baker[Id:3001]]",
+      "ShortDescription": "a big pot pie",
+      "Description": "A big pot pie has been left here.",
+      "Level": 0,
+      "Cost": 22,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
@@ -1576,7 +1777,7 @@
     {
       "AbilityName": "Armor",
       "Level": 1,
-      "PulseLeft": 3720,
+      "PulseLeft": 3428,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1588,9 +1789,55 @@
       ]
     },
     {
+      "AbilityName": "Fly",
+      "Level": 1,
+      "PulseLeft": 3692,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Flying"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Bless",
+      "Level": 1,
+      "PulseLeft": 4428,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "HitRoll",
+          "Modifier": 2
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "SavingThrow",
+          "Modifier": -2
+        }
+      ]
+    },
+    {
+      "AbilityName": "Infravision",
+      "Level": 1,
+      "PulseLeft": 8356,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Infrared"
+        }
+      ]
+    },
+    {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 3740,
+      "PulseLeft": 3580,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1611,15 +1858,16 @@
       ]
     },
     {
-      "AbilityName": "Infravision",
+      "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 7604,
+      "PulseLeft": 3144,
       "AuraFlags": "None",
       "Affects": [
         {
-          "$type": "characterFlags",
-          "Operator": "Or",
-          "Modifier": "Infrared"
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "Strength",
+          "Modifier": 2
         }
       ]
     }

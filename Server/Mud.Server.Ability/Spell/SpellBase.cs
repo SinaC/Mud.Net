@@ -89,16 +89,15 @@ public abstract class SpellBase : ISpell
         if (cooldownPulseLeft > 0)
             return $"{AbilityDefinition.Name} is in cooldown for {Pulse.ToTimeSpan(cooldownPulseLeft).FormatDelay()}.";
 
-        // 5) check resource cost
+        // 5) check resource cost (even if in Infinite immortal mode, we calculate resource to pay in case abilities would use that information)
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
-        if (abilityLearned != null && abilityLearned.HasCost && !Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (abilityLearned != null && abilityLearned.HasCost)
         {
             var resourceCostToPays = new List<ResourceCostToPay>();
             foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)
             {
-                // TODO: check each costs
                 var resourceKind = abilityResourceCost.ResourceKind;
-                if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
+                if (!Caster.CurrentResourceKinds.Contains(resourceKind) && !Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)) // TODO: not sure about this test
                     return $"You can't use {resourceKind} as resource for the moment.";
                 int resourceLeft = Caster[resourceKind];
                 int cost;
@@ -129,7 +128,7 @@ public abstract class SpellBase : ISpell
                         break;
                 }
                 bool enoughResource = cost <= resourceLeft;
-                if (!enoughResource)
+                if (!enoughResource && !Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
                     return $"You don't have enough {resourceKind.DisplayName()}.";
                 var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
                 resourceCostToPays.Add(resourceCostToPay);
@@ -176,20 +175,26 @@ public abstract class SpellBase : ISpell
             Caster.Send(StringHelpers.YouLostYourConcentration);
             pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, false, 1);
             // pay half cost except if 'all'
-            foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+            if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
             {
-                if (resourceCostToPay.IsAll)
-                    Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
-                else
-                    Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount/2);
+                foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+                {
+                    if (resourceCostToPay.IsAll)
+                        Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
+                    else
+                        Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount / 2);
+                }
             }
             return;
         }
 
         // 2) pay costs
-        foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+        if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
         {
-            Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
+            foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+            {
+                Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
+            }
         }
 
         // 3) say spell if not ventriloquate

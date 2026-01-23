@@ -139,6 +139,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         Room = room;
         room.Enter(this);
+        SpawnRoom = room;
     }
 
     public void Initialize(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
@@ -288,9 +289,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override string DebugName => $"{DisplayName}[Id:{Blueprint?.Id ?? -1}]";
 
-    public override void OnAuraRemoved(IAura aura)
+    public override void OnAuraRemoved(IAura aura, bool displayWearOffMessage)
     {
-        base.OnAuraRemoved(aura);
+        base.OnAuraRemoved(aura, displayWearOffMessage);
 
         if (StringCompareHelpers.StringEquals(aura.AbilityName, "Charm Person")) // if charm person wears off, remove master
             ChangeMaster(null);
@@ -376,10 +377,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             return;
 
         // no attacks for stunnies
-        if (Stunned > 0)
+        if (IsStunned)
         {
-            Stunned--;
-            if (Stunned == 0)
+            DecreaseStun();
+            if (!IsStunned)
                 Act(ActOptions.ToAll, "%W%{0:N} regain{0:v} {0:s} equilibrium.%x%", this);
             return;
         }
@@ -526,6 +527,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     #endregion
 
     public CharacterBlueprintBase Blueprint { get; private set; } = null!;
+
+    public IRoom SpawnRoom { get; private set; } = null!;
 
     public string DamageNoun { get; protected set; } = null!;
     public SchoolTypes DamageType { get; protected set; }
@@ -835,6 +838,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void HandleDeath()
     {
+        // Free from slavery, must be done before RemoveCharacter because CharacterBase.OnRemoved will call Leader.RemoveFollower which will reset Master
+        Master?.RemovePet(this);
+
         CharacterManager.RemoveCharacter(this);
     }
 

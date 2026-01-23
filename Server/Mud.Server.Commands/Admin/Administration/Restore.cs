@@ -93,7 +93,7 @@ public class Restore : AdminGameAction
 
     private void RestoreOneCharacter(ICharacter victim)
     {
-        victim.RemoveAuras(x => !x.AuraFlags.HasFlag(AuraFlags.NoDispel) && !x.AuraFlags.HasFlag(AuraFlags.Permanent) && !x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Charm")), true); // TODO: harmful auras only ?
+        victim.RemoveAuras(x => !x.AuraFlags.HasFlag(AuraFlags.NoDispel) && !x.AuraFlags.HasFlag(AuraFlags.Permanent) && !x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Charm")), true, true); // TODO: harmful auras only ?
         foreach (var resource in victim.CurrentResourceKinds)
             victim.UpdateResource(resource, victim.MaxResource(resource));
         victim.Send("{0} has restored you.", Actor.Impersonating?.DisplayName ?? Actor.DisplayName);

@@ -50,15 +50,14 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (MustBeLearned && abilityLearned == null)
             return "You don't know any skills of that name.";
 
-        // 5) check costs
-        if (abilityLearned != null && abilityLearned.HasCost && !User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        // 5) check costs (even if in Infinite immortal mode, we calculate resource to pay in case abilities would use that information)
+        if (abilityLearned != null && abilityLearned.HasCost)
         {
             var resourceCostToPays = new List<ResourceCostToPay>();
             foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)
             {
-                // TODO: check each costs
                 var resourceKind = abilityResourceCost.ResourceKind;
-                if (!User.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
+                if (!User.CurrentResourceKinds.Contains(resourceKind) && !User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)) // TODO: not sure about this test
                     return $"You can't use {resourceKind} as resource for the moment.";
                 int resourceLeft = User[resourceKind];
                 int cost;
@@ -88,7 +87,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
                         break;
                 }
                 bool enoughResource = cost <= resourceLeft;
-                if (!enoughResource)
+                if (!enoughResource && !User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
                     return $"You don't have enough {resourceKind}.";
                 var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
                 resourceCostToPays.Add(resourceCostToPay);
@@ -122,12 +121,15 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         var result = Invoke();
 
         // 2) pay costs
-        foreach(var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+        if (!User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
         {
-            if (result || resourceCostToPay.IsAll)
-                User.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
-            else
-                User.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount/2); // half cost if failed and not 'all'
+            foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+            {
+                if (result || resourceCostToPay.IsAll)
+                    User.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
+                else
+                    User.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount / 2); // half cost if failed and not 'all'
+            }
         }
 
         // 3) GCD

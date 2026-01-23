@@ -43,7 +43,7 @@ public class Gate : TransportationSpellBase
         // pets follows
         if (Caster is IPlayableCharacter pcCaster)
         {
-            foreach (INonPlayableCharacter pet in pcCaster.Pets)
+            foreach (var pet in pcCaster.Pets)
             {
                 pet.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", pet);
                 pet.ChangeRoom(Victim.Room, false);

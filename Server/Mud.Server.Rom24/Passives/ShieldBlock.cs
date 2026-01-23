@@ -33,13 +33,13 @@ public class ShieldBlock : HitAvoidancePassiveBase
 
     protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
     {
-        if (user.Position <= Positions.Sleeping || user.Stunned > 0)
+        if (user.Position <= Positions.Sleeping || user.IsStunned)
             return false;
 
         if (user.GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null)
             return false;
 
-        int chance = 3 + learnPercentage / 5;
+        var chance = 3 + learnPercentage / 5;
         chance += user.Level - victim.Level;
 
         return diceRoll < chance;

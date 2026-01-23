@@ -8,7 +8,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Character.Ability;
 
-[CharacterCommand("Weapons", "Ability", Priority = 60)]
+[CharacterCommand("Weapons", "Ability")]
 [Syntax(
     "[cmd]",
     "[cmd] all",

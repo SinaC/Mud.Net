@@ -40,11 +40,10 @@ public class Kill : CharacterGameAction
         if (Whom is IPlayableCharacter)
             return "You must MURDER a player!";
 
-        var playableActor = Actor as IPlayableCharacter;
         if (Whom.Fighting != null)
         {
-            // if not in same group, don't allow kill stealing
-            bool isInSameGroup = playableActor != null && Whom.Fighting is IPlayableCharacter fightingPlayableCharacter && playableActor.IsSameGroup(fightingPlayableCharacter);
+            // if not in same group or not same master, don't allow kill stealing
+            var isInSameGroup = Actor.IsSameGroupOrPet(Whom.Fighting);
             if (!isInSameGroup)
                 return "Kill stealing is not permitted.";
         }

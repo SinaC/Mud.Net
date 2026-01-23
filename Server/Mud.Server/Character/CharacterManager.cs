@@ -166,7 +166,7 @@ public class CharacterManager : ICharacterManager
         character.StopFighting(true);
 
         // Remove auras
-        character.RemoveAuras(_ => true, false);
+        character.RemoveAuras(_ => true, false, false);
 
         // Remove content
         if (character.Inventory.Any())

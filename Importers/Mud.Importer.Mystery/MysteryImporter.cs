@@ -1109,10 +1109,10 @@ public class MysteryImporter : IImporter
             3 => CharacterAttributeAffectLocations.Intelligence,
             4 => CharacterAttributeAffectLocations.Wisdom,
             5 => CharacterAttributeAffectLocations.Constitution,
-            //6 => sex, TODO CharacterSexAffect
-            //12 => mana TODO CharacterResourceAffect
-            //13 => hp TODO CharacterResourceAffect
-            //14 => move TODO CharacterResourceAffect
+            //6 => sex handled directly in ConvertItemAffects
+            //12 => mana handled in ConvertResourceKind
+            //13 => hp handled in ConvertResourceKind
+            //14 => move handled in ConvertResourceKind
             17 => CharacterAttributeAffectLocations.AllArmor,
             18 => CharacterAttributeAffectLocations.HitRoll,
             19 => CharacterAttributeAffectLocations.DamRoll,

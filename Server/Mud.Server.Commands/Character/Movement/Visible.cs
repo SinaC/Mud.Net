@@ -19,7 +19,7 @@ public class Visible : CharacterGameAction
         Actor.RemoveBaseCharacterFlags(true, "Invisible", "Sneak", "Hide");
         Actor.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Invisibility") // TODO find another way
                          || StringCompareHelpers.StringEquals(x.AbilityName, "Sneak")
-                         || StringCompareHelpers.StringEquals(x.AbilityName, "Hide"), true);
+                         || StringCompareHelpers.StringEquals(x.AbilityName, "Hide"), true, true);
         Actor.Send("You are now visible");
     }
 }

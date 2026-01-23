@@ -159,7 +159,7 @@ public class SpellBaseTests : AbilityTestBase
 
         spell.Execute();
 
-        Assert.AreEqual("You lost your concentration!", lastSendReceived);
+        Assert.AreEqual("You lost your concentration.", lastSendReceived);
     }
 
     [TestMethod]
