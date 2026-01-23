@@ -29,7 +29,7 @@ public class EquippedItem : IEquippedItem
         };
     }
 
-    public string EquipmentSlotsToString()
+    public string EquipmentSlotsToString(Sizes size)
     {
         switch (Slot)
         {
@@ -58,7 +58,10 @@ public class EquippedItem : IEquippedItem
             case EquipmentSlots.Feet:
                 return "%C%<worn on feet>           %x%";
             case EquipmentSlots.MainHand:
-                return "%C%<wielded>                %x%";
+                if (Item != null && Item.WearLocation == WearLocations.Wield2H && size < Sizes.Giant)
+                    return "%C%<wielded with 2 hands>   %x%";
+                else
+                    return "%C%<wielded>                %x%";
             case EquipmentSlots.OffHand:
                 if (Item != null)
                 {

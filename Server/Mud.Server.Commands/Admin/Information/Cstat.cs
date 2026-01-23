@@ -163,7 +163,7 @@ public class Cstat : AdminGameAction
             sb.AppendLine("Equipments:");
             foreach (IEquippedItem equippedItem in Whom.Equipments.Where(x => x.Item != null))
             {
-                sb.Append(equippedItem.EquipmentSlotsToString());
+                sb.Append(equippedItem.EquipmentSlotsToString(Whom.Size));
                 sb.AppendLine($"{equippedItem.Item!.DisplayName} [id: {equippedItem.Item!.Blueprint.Id.ToString() ?? " ??? "}]");
             }
         }

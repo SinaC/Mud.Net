@@ -3,11 +3,11 @@
   "AccountName": "sinac",
   "CreationTime": "2020-06-14T19:17:42.1765039+02:00",
   "RoomId": 3001,
-  "SilverCoins": 1049,
+  "SilverCoins": 1051,
   "GoldCoins": 10,
   "Wimpy": 0,
-  "Experience": 113000,
-  "Alignment": -7,
+  "Experience": 113122,
+  "Alignment": -164,
   "Trains": 33,
   "Practices": 74,
   "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
@@ -192,7 +192,7 @@
   "Cooldowns": {},
   "Pets": [],
   "Statistics": {
-    "NpcKill": 0,
+    "NpcKill": 2,
     "PcKill": 0,
     "NpcKilled": 0,
     "PcKilled": 0,
@@ -200,7 +200,7 @@
     "MoneySpent": 0,
     "GoldEarned": 0,
     "GoldStolen": 0,
-    "SilverEarned": 0,
+    "SilverEarned": 2,
     "SilverStolen": 0,
     "RecallUsed": 0,
     "FoodEaten": 0,
@@ -229,7 +229,7 @@
   "Sex": "Male",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 3800,
+    "HitPoints": 3834,
     "MovePoints": 12000,
     "Mana": 3151,
     "Psy": 100,
@@ -238,7 +238,7 @@
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 38000,
+    "HitPoints": 38736,
     "MovePoints": 13800,
     "Mana": 10000,
     "Psy": 100,
@@ -253,6 +253,9 @@
         "$type": "light",
         "TimeLeft": 29986,
         "ItemId": 3365,
+        "Source": null,
+        "ShortDescription": "a war banner",
+        "Description": "a war banner",
         "Level": 8,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -260,8 +263,8 @@
         "Auras": [
           {
             "AbilityName": "Test",
-            "Level": 12,
-            "PulseLeft": 1808,
+            "Level": 1,
+            "PulseLeft": 16480,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -290,44 +293,140 @@
       "Slot": "Ring",
       "Item": {
         "ItemId": 3364,
+        "Source": null,
+        "ShortDescription": "a city guard signet ring",
+        "Description": "a city guard signet ring",
         "Level": 16,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Magic",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
       }
     },
     {
       "Slot": "Ring",
       "Item": {
         "ItemId": 3364,
+        "Source": null,
+        "ShortDescription": "a city guard signet ring",
+        "Description": "a city guard signet ring",
         "Level": 16,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Magic",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
       }
     },
     {
       "Slot": "Ring",
       "Item": {
         "ItemId": 3364,
+        "Source": null,
+        "ShortDescription": "a city guard signet ring",
+        "Description": "a city guard signet ring",
         "Level": 16,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Magic",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
       }
     },
     {
       "Slot": "Ring",
       "Item": {
         "ItemId": 3364,
+        "Source": null,
+        "ShortDescription": "a city guard signet ring",
+        "Description": "a city guard signet ring",
         "Level": 16,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "Magic",
-        "Auras": []
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -338,6 +437,9 @@
         "DiceCount": 999,
         "DiceValue": 1,
         "ItemId": 3005,
+        "Source": null,
+        "ShortDescription": "Hassan\u0027s scimitar",
+        "Description": "Hassan\u0027s scimitar",
         "Level": 42,
         "Cost": 0,
         "DecayPulseLeft": 0,
@@ -346,7 +448,7 @@
           {
             "AbilityName": "Test",
             "Level": 1,
-            "PulseLeft": 3284,
+            "PulseLeft": 31240,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -368,21 +470,118 @@
         "CurrentChargeCount": 1,
         "AlreadyRecharged": false,
         "ItemId": 106,
+        "Source": null,
+        "ShortDescription": "a small wand",
+        "Description": "a small wand",
         "Level": 3,
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
         "Auras": []
       }
+    },
+    {
+      "Slot": "MainHand",
+      "Item": {
+        "$type": "weapon",
+        "WeaponFlags": "Vorpal,TwoHands",
+        "DiceCount": 4,
+        "DiceValue": 10,
+        "ItemId": 3005,
+        "Source": "Reset-E[3001]",
+        "ShortDescription": "Hassan\u0027s scimitar",
+        "Description": "Hassan\u0027s scimitar lies upon the ground, waiting for its owner.",
+        "Level": 42,
+        "Cost": 5600,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Humming,Bless",
+        "Auras": []
+      }
     }
   ],
   "Inventory": [
     {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 22,
+      "ItemId": 96,
+      "Source": "ItemGenerator",
+      "ShortDescription": "an axe of the whale",
+      "Description": "An Axe of the Whale is here.",
+      "Level": 45,
+      "Cost": 675,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 45,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Wisdom",
+              "Modifier": 8
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Constitution",
+              "Modifier": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "armor",
+      "Bash": -450,
+      "Pierce": -450,
+      "Slash": -450,
+      "Exotic": -450,
+      "ItemId": 97,
+      "Source": "ItemGenerator",
+      "ShortDescription": "a breastplate of the boar",
+      "Description": "A Breastplate of the Boar is here.",
+      "Level": 45,
+      "Cost": 900,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 45,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Strength",
+              "Modifier": 11
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Wisdom",
+              "Modifier": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
       "$type": "food",
       "FullHours": 8,
       "HungerHours": 6,
       "IsPoisoned": false,
       "ItemId": 3014,
+      "Source": null,
+      "ShortDescription": "a blueberry danish",
+      "Description": "a blueberry danish",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -395,6 +594,9 @@
       "HungerHours": 6,
       "IsPoisoned": false,
       "ItemId": 3014,
+      "Source": null,
+      "ShortDescription": "a blueberry danish",
+      "Description": "a blueberry danish",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -407,6 +609,9 @@
       "HungerHours": 6,
       "IsPoisoned": false,
       "ItemId": 3014,
+      "Source": null,
+      "ShortDescription": "a blueberry danish",
+      "Description": "a blueberry danish",
       "Level": 0,
       "Cost": 0,
       "DecayPulseLeft": 0,
@@ -419,18 +624,42 @@
       "DiceCount": 5,
       "DiceValue": 7,
       "ItemId": 3350,
+      "Source": null,
+      "ShortDescription": "a standard issue sword",
+      "Description": "a standard issue sword",
       "Level": 16,
       "Cost": 0,
       "DecayPulseLeft": 0,
       "ItemFlags": "Magic",
-      "Auras": []
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 16,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "DamRoll",
+              "Modifier": 1
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "HitRoll",
+              "Modifier": 1
+            }
+          ]
+        }
+      ]
     }
   ],
   "Auras": [
     {
       "AbilityName": "Sanctuary",
-      "Level": 9,
-      "PulseLeft": 868,
+      "Level": 1,
+      "PulseLeft": 70800,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -442,8 +671,8 @@
     },
     {
       "AbilityName": "Shield",
-      "Level": 13,
-      "PulseLeft": 12160,
+      "Level": 6,
+      "PulseLeft": 12000,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -456,8 +685,8 @@
     },
     {
       "AbilityName": "Berserk",
-      "Level": 2,
-      "PulseLeft": 180,
+      "Level": 1,
+      "PulseLeft": 20000,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -487,8 +716,8 @@
     },
     {
       "AbilityName": "Stone Skin",
-      "Level": 3,
-      "PulseLeft": 10280,
+      "Level": 1,
+      "PulseLeft": 10120,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -501,8 +730,8 @@
     },
     {
       "AbilityName": "Protection Evil",
-      "Level": 3,
-      "PulseLeft": 5016,
+      "Level": 1,
+      "PulseLeft": 48560,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -520,8 +749,8 @@
     },
     {
       "AbilityName": "Testroom",
-      "Level": 18,
-      "PulseLeft": 776,
+      "Level": 10,
+      "PulseLeft": 61600,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -543,8 +772,8 @@
     },
     {
       "AbilityName": "Plague",
-      "Level": 12,
-      "PulseLeft": 10660,
+      "Level": 8,
+      "PulseLeft": 10500,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -566,8 +795,8 @@
     },
     {
       "AbilityName": "Poison",
-      "Level": 26,
-      "PulseLeft": 10756,
+      "Level": 19,
+      "PulseLeft": 10596,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -601,6 +830,64 @@
         {
           "$type": "noData",
           "AffectName": "ProtectEvil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Protection Evil",
+      "Level": 46,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "ProtectEvil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Protection Evil",
+      "Level": 46,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "ProtectEvil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Giant Size",
+      "Level": 35,
+      "PulseLeft": 10480,
+      "AuraFlags": "None",
+      "Affects": [
+        {
+          "$type": "size",
+          "Value": "Giant"
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "Strength",
+          "Modifier": 10
+        },
+        {
+          "$type": "characterResource",
+          "Operator": "Add",
+          "Location": "HitPoints",
+          "Modifier": 368
         }
       ]
     },

@@ -227,7 +227,7 @@ public interface ICharacter : IEntity, IContainer
     IItem? GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
     T? GetEquipment<T>(EquipmentSlots slot) // return specific item found in first non-empty specified slot
         where T : IItem;
-    IEquippedItem? SearchEquipmentSlot(IItem item, bool replace);
+    (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchEquipmentSlot(IItem item, bool replace);
 
     // Misc
     bool GetItem(IItem item, IContainer container);

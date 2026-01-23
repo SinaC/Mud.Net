@@ -9,7 +9,6 @@ using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
-using Mud.Server.Commands.Admin.Punish;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -1630,10 +1629,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public T? GetEquipment<T>(EquipmentSlots slot)
         where T : IItem => Equipments.Where(x => x.Slot == slot && x.Item is T).Select(x => x.Item).OfType<T>().FirstOrDefault();
 
-    public IEquippedItem? SearchEquipmentSlot(IItem item, bool replace)
+    public (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchEquipmentSlot(IItem item, bool replace)
         => item.WearLocation switch
         {
-            WearLocations.None => null,
+            WearLocations.None => (null, SearchEquipmentSlotResults.NoWearLocation),
             WearLocations.Light => SearchEquipmentSlot(EquipmentSlots.Light, replace),
             WearLocations.Head => SearchEquipmentSlot(EquipmentSlots.Head, replace),
             WearLocations.Amulet => SearchEquipmentSlot(EquipmentSlots.Amulet, replace),
@@ -1646,12 +1645,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             WearLocations.Ring => SearchEquipmentSlot(EquipmentSlots.Ring, replace),
             WearLocations.Legs => SearchEquipmentSlot(EquipmentSlots.Legs, replace),
             WearLocations.Feet => SearchEquipmentSlot(EquipmentSlots.Feet, replace),
-            WearLocations.Wield => SearchOneHandedWeaponEquipmentSlot(replace),// Search empty mainhand, then empty offhand, TODO use offhand only if mainhand is not wielding a 2H
+            WearLocations.Wield => SearchOneHandedWeaponEquipmentSlot(replace),// Search empty mainhand, then empty offhand
             WearLocations.Hold => SearchOffhandEquipmentSlot(replace),// only if mainhand is not wielding a 2H
             WearLocations.Shield => SearchOffhandEquipmentSlot(replace),// only if mainhand is not wielding a 2H
-            WearLocations.Wield2H => SearchTwoHandedWeaponEquipmentSlot(replace),// Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if giant or specific ability
+            WearLocations.Wield2H => SearchTwoHandedWeaponEquipmentSlot(replace),// Search empty mainhand + empty offhand
             WearLocations.Float => SearchEquipmentSlot(EquipmentSlots.Float, replace),
-            _ => null,
+            _ => (null, SearchEquipmentSlotResults.UnknownWearLocation),
         };
 
     // Misc
@@ -1728,9 +1727,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (Equipments.Any(x => x.Item != null))
         {
             sb.AppendLine($"{RelativeDisplayName(viewer, true)} is using:");
-            foreach (IEquippedItem equippedItem in Equipments.Where(x => x.Item != null))
+            foreach (var equippedItem in Equipments.Where(x => x.Item != null))
             {
-                sb.Append(equippedItem.EquipmentSlotsToString());
+                sb.Append(equippedItem.EquipmentSlotsToString(Size));
                 equippedItem.Item!.Append(sb, viewer, true);
                 sb.AppendLine();
             }
@@ -2375,73 +2374,120 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    protected IEquippedItem? SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
+    protected (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
     {
         if (replace) // search empty slot, if not found, return first matching slot
-            return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
-        return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
-    }
-
-    protected IEquippedItem? SearchTwoHandedWeaponEquipmentSlot(bool replace)
-    {
-        // no autoreplace
-        // If size is giant, one mainhand is enough
-        if (Size >= Sizes.Giant)
         {
-            var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
-            if (mainHand != null)
-                return mainHand;
+            var equippedItem = Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
+            return (equippedItem, equippedItem != null ? SearchEquipmentSlotResults.Found : SearchEquipmentSlotResults.NotFound);
         }
-        // Search empty mainhand + empty offhand
         else
         {
-            var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
-            var offHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
-            if (mainHand != null && offHand != null)
-                return mainHand;
+            var equippedItem = Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
+            return (equippedItem, equippedItem != null ? SearchEquipmentSlotResults.Found : SearchEquipmentSlotResults.NotEmpty);
         }
-
-        return null;
     }
 
-    protected IEquippedItem? SearchOneHandedWeaponEquipmentSlot(bool replace)
+    protected (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchTwoHandedWeaponEquipmentSlot(bool replace)
+    {
+        if (replace)
+        {
+            // If size is giant, one mainhand is enough
+            if (Size >= Sizes.Giant)
+            {
+                // search empty main hand
+                var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
+                if (searchEmptyMainHandResult.equippedItem != null)
+                    return searchEmptyMainHandResult;
+                // search main hand to replace
+                var searchMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, true);
+                if (searchMainHandResult.equippedItem != null)
+                    return searchMainHandResult;
+                return (null, SearchEquipmentSlotResults.NoFreeMainHand);
+            }
+            // mainhand + offhand (no replace)
+            else
+            {
+                // search empty mainhand + offhand
+                var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
+                var searchEmptyOffhandResult = SearchOffhandEquipmentSlot(false);
+                if (searchEmptyMainHandResult.equippedItem != null && searchEmptyOffhandResult.equippedItem != null)
+                    return searchEmptyMainHandResult;
+                // no autoreplace if no empty mainhand + offhand
+                return (null, SearchEquipmentSlotResults.NoFreeMainAndOffHand);
+            }
+        }
+        else
+        {
+            // If size is giant, one mainhand is enough
+            if (Size >= Sizes.Giant)
+            {
+                var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
+                if (searchEmptyMainHandResult.equippedItem != null)
+                    return searchEmptyMainHandResult;
+                return (null, SearchEquipmentSlotResults.NoFreeMainHand);
+            }
+            // Search empty mainhand + empty offhand
+            else
+            {
+                var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
+                var searchEmptyOffhandResult = SearchOffhandEquipmentSlot(false);
+                if (searchEmptyMainHandResult.equippedItem != null && searchEmptyOffhandResult.equippedItem != null)
+                    return searchEmptyMainHandResult;
+                return (null, SearchEquipmentSlotResults.NoFreeMainAndOffHand);
+            }
+        }
+    }
+
+    protected (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchOneHandedWeaponEquipmentSlot(bool replace)
     {
         // Search empty mainhand, then empty offhand only if mainhand is not wielding a 2H
         if (replace)
         {
             // Search empty mainhand
-            var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
-            if (mainHand != null)
-                return mainHand;
+            var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
+            if (searchEmptyMainHandResult.equippedItem != null)
+                return searchEmptyMainHandResult;
             // Search empty offhand
-            var offHand = SearchOffhandEquipmentSlot(false);
-            if (offHand != null)
-                return offHand;
-            // If not empty main/off hand, search a slot to replace
-            return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand) ?? SearchOffhandEquipmentSlot(true);
+            var searchEmptyOffhandResult = SearchOffhandEquipmentSlot(false);
+            if (searchEmptyOffhandResult.equippedItem != null)
+                return searchEmptyOffhandResult;
+            // If not empty mainhand/offhand, search a slot to replace
+            var searchMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, true);
+            if (searchMainHandResult.equippedItem != null)
+                return searchMainHandResult;
+            var searchOffHandResult = SearchOffhandEquipmentSlot(true);
+            if (searchMainHandResult.equippedItem != null)
+                return searchOffHandResult;
+            return (null, SearchEquipmentSlotResults.NoFreeMainOrOffHand);
         }
         else
         {
-            // Search empty main hand
-            var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
-            if (mainHand != null)
-                return mainHand;
-            // If not empty mainhand found, search offhand
+            // Search empty mainhand
+            var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
+            if (searchEmptyMainHandResult.equippedItem != null)
+                return searchEmptyMainHandResult;
+            // If no empty mainhand found, search empty offhand
             return SearchOffhandEquipmentSlot(false);
         }
     }
 
-    protected IEquippedItem? SearchOffhandEquipmentSlot(bool replace)
+    protected (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchOffhandEquipmentSlot(bool replace)
     {
-        // This can lead to strange looking equipments:
-        // wield 1-H weapon -> first mainhand
-        // wield 2-H weapon -> second mainhand + first offhand
-        // hold shield -> second off hand (should be first offhand)
-        // Return offhand only if related mainhand is not wielding 2H
-        int countMainhand2H = Equipments.Count(x => x.Slot == EquipmentSlots.MainHand && x.Item?.WearLocation == WearLocations.Wield2H);
+        // 2H weapon take mainhand + offhand if non giant size, we have to reduce number of available offhand by the number of 2H weapon
+        var countMainhand2HIfNonGiant = Size >= Sizes.Giant
+            ? 0
+            : Equipments.Count(x => x.Slot == EquipmentSlots.MainHand && x.Item?.WearLocation == WearLocations.Wield2H);
         if (replace)
-            return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H) ?? Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(countMainhand2H);
-        return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H);
+        {
+            var equippedItem = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2HIfNonGiant) ?? Equipments.Where(x => x.Slot == EquipmentSlots.OffHand).ElementAtOrDefault(countMainhand2HIfNonGiant);
+            return (equippedItem, equippedItem != null ? SearchEquipmentSlotResults.Found : SearchEquipmentSlotResults.NoFreeOffHand);
+        }
+        else
+        {
+            var equippedItem = Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2HIfNonGiant);
+            return (equippedItem, equippedItem != null ? SearchEquipmentSlotResults.Found : SearchEquipmentSlotResults.NoFreeOffHand);
+        }
     }
 
     protected abstract void RecomputeKnownAbilities();

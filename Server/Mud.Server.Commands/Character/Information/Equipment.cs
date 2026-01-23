@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common.Attributes;
+﻿using Mud.Domain;
+using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -17,9 +18,19 @@ public class Equipment : CharacterGameAction
             sb.AppendLine("Nothing");
         else
         {
+            // 2H weapon take mainhand + offhand if non giant size, we have to reduce number of visible offhand by the number of 2H weapon
+            var countOffHandToHide = Actor.Size >= Sizes.Giant 
+                ? 0
+                : Actor.Equipments.Count(x => x.Slot == EquipmentSlots.MainHand && x.Item?.WearLocation == WearLocations.Wield2H);
             foreach (var equippedItem in Actor.Equipments)
             {
-                var where = equippedItem.EquipmentSlotsToString();
+                // don't display offhand if they are used to wield a 2H weapon
+                if (equippedItem.Item == null && equippedItem.Slot == EquipmentSlots.OffHand)
+                {
+                    if (countOffHandToHide-- > 0)
+                        continue;
+                }
+                var where = equippedItem.EquipmentSlotsToString(Actor.Size);
                 sb.Append(where);
                 if (equippedItem.Item == null)
                     sb.AppendLine("nothing");
