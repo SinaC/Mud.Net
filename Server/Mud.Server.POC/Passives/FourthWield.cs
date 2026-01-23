@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Server.Ability;
-using Mud.Server.Ability.Passive;
-using Mud.Server.Interfaces.Character;
 using Mud.Random;
+using Mud.Server.Ability;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.POC.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 8)]
-public class FourthWield : PassiveBase
+public class FourthWield : AdditionalWieldPassiveBase
 {
     private const string PassiveName = "Fourth Wield";
 
@@ -18,9 +17,18 @@ public class FourthWield : PassiveBase
     {
     }
 
-    // TODO: check if a 3rd weapon is wielded
+    public override int AdditionalHitIndex => 4;
+    public override bool StopMultiHitIfFailed => false; // continue multi hit even if dual wield failed
+
+    protected override int WieldCount => 4;
+
     protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
     {
-        return base.CheckSuccess(user, victim, learnPercentage, diceRoll);
+        var chance = learnPercentage / 5;
+        if (!user.CanSee(victim))
+            chance = 2 * chance / 3;
+
+        return diceRoll < chance;
     }
+
 }

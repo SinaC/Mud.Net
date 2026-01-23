@@ -227,7 +227,7 @@ public class ResetManager : IResetManager
                                             // try to equip
                                             if (item.WearLocation != WearLocations.None)
                                             {
-                                                var equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
+                                                var (equippedItem, searchEquipmentSlotResult) = lastCharacter.SearchEquipmentSlot(item, false);
                                                 if (equippedItem != null)
                                                 {
                                                     equippedItem.Item = item;
@@ -235,7 +235,7 @@ public class ResetManager : IResetManager
                                                     item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
                                                 }
                                                 else
-                                                    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} wear location {wearLocation} doesn't exist or is not available on last character {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, item.WearLocation, lastCharacter.Blueprint.Id);
+                                                    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} wear location {wearLocation} doesn't exist or is not available (search equipment slot result: {searchEquipmentSlotResult} on last character {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, item.WearLocation, searchEquipmentSlotResult, lastCharacter.Blueprint.Id);
                                             }
                                             else
                                                 Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} cannot be equipped", room.Blueprint.Id, itemInEquipmentReset.ItemId);

@@ -9,7 +9,7 @@ public interface IEquippedItem
     EquipmentSlots Slot { get; }
     IItem? Item { get; set; }
 
-    string EquipmentSlotsToString();
+    string EquipmentSlotsToString(Sizes size);
 
     EquippedItemData MapEquippedData();
 }

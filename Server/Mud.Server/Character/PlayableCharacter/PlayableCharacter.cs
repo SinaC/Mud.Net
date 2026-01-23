@@ -206,7 +206,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     if (item != null)
                     {
                         // Try to equip it
-                        var equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                        var (equippedItem, searchEquipmentSlotResult) = SearchEquipmentSlot(equippedItemData.Slot, false);
                         if (equippedItem != null)
                         {
                             if (item.WearLocation != WearLocations.None)
@@ -222,7 +222,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                         }
                         else
                         {
-                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", WiznetFlags.Bugs, AdminLevels.Implementor);
                         }
                     }
                     else
@@ -512,7 +512,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return;
         }
 
-        StandUpInCombatIfPossible();
+        //StandUpInCombatIfPossible();
 
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
         // main hand attack
@@ -521,6 +521,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         attackCount++;
         if (Fighting != victim)
             return;
+
         // additional hits from affects
         var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();
         foreach (var characterAdditionalHitAffect in characterAdditionalHitAffects)
@@ -536,7 +537,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     return;
             }
         }
-        // additional hits (dual wield, second, third attack, ...)
+
+        // additional hits (second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
         foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
@@ -558,34 +560,29 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             else if (additionalHitAbility.StopMultiHitIfFailed)
                 return; // stop once an additional fails
         }
-        // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
-        // TODO: only if wielding 3 or 4 weapons
-        //var thirdWieldLearnInfo = GetLearnInfo("Third wield");
-        //var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
-        //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-        //    thirdWieldChance = 0;
-        //if (RandomManager.Chance(thirdWieldChance))
-        //{
-        //    OneHit(victim, mainHand, multiHitModifier);
-        //    CheckAbilityImprove(thirdWieldLearnInfo.knownAbility, true, 6);
-        //}
-        //if (Fighting != victim)
-        //    return;
-        //if (multiHitModifier?.MaxAttackCount <= 5)
-        //    return;
-        //var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
-        //var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
-        //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-        //    FourthWieldChance = 0;
-        //if (RandomManager.Chance(FourthWieldChance))
-        //{
-        //    OneHit(victim, mainHand, multiHitModifier);
-        //    CheckAbilityImprove(FourthWieldLearnInfo.knownAbility, true, 6);
-        //}
-        //if (Fighting != victim)
-        //    return;
-        //if (multiHitModifier?.MaxAttackCount <= 6)
-        //    return;
+
+        // additional wield  (dual wield, third wield, ...)
+        var additionalWieldAbilities = new List<IAdditionalWieldPassive>();
+        foreach (var additionalWieldAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalWieldPassive>())
+        {
+            var additionalWieldAbility = AbilityManager.CreateInstance<IAdditionalWieldPassive>(additionalWieldAbilityDefinition);
+            if (additionalWieldAbility != null)
+                additionalWieldAbilities.Add(additionalWieldAbility);
+        }
+        foreach (var additionalWieldAbility in additionalWieldAbilities.OrderBy(x => x.AdditionalHitIndex).ThenBy(x => !x.StopMultiHitIfFailed)) // for each hit index, use additional hits which dont stop multi hit first
+        {
+            if (additionalWieldAbility.IsTriggered(this, victim, true, out _, out _, out var weapon))
+            {
+                OneHit(victim, weapon, multiHitModifier);
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return;
+            }
+            else if (additionalWieldAbility.StopMultiHitIfFailed)
+                return; // stop once an additional fails
+        }
     }
 
     public override void HandleAutoGold(IItemCorpse corpse)

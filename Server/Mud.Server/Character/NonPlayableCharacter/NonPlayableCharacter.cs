@@ -212,7 +212,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                     if (item != null)
                     {
                         // Try to equip it
-                        var equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                        var (equippedItem, searchEquipmentSlotResult) = SearchEquipmentSlot(equippedItemData.Slot, false);
                         if (equippedItem != null)
                         {
                             if (item.WearLocation != WearLocations.None)
@@ -228,7 +228,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                         }
                         else
                         {
-                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", WiznetFlags.Bugs, AdminLevels.Implementor);
                         }
                     }
                     else
@@ -373,139 +373,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     // Combat
     public override void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier) // 'this' starts a combat with 'victim'
     {
-        if (victim == null)
-            return;
+        var multiHitResult = MultiHits(victim, multiHitModifier);
+        if (multiHitResult == MultiHitResult.NoVictim || multiHitResult == MultiHitResult.Stunned || multiHitResult == MultiHitResult.NotFightingVictimAnymore)
+            return; // stops here
 
-        // no attacks for stunnies
-        if (IsStunned)
-        {
-            DecreaseStun();
-            if (!IsStunned)
-                Act(ActOptions.ToAll, "%W%{0:N} regain{0:v} {0:s} equilibrium.%x%", this);
-            return;
-        }
-
-        var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
-        // main hand attack
-        int attackCount = 0;
-        OneHit(victim, mainHand, multiHitModifier);
-        attackCount++;
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= attackCount)
-            return;
-        // area attack
-        if (OffensiveFlags.IsSet("AreaAttack"))
-        {
-            if (Room != null)
-            {
-                var people = Room.People.Where(x => x != this && x.Fighting == this).ToArray();
-                foreach (var character in people)
-                    OneHit(character, mainHand, multiHitModifier);
-                attackCount++;
-            }
-        }
-        // additional hits from affects
-        var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();
-        foreach (var characterAdditionalHitAffect in characterAdditionalHitAffects)
-        {
-            for (int additionalHitFromAffect = 0; additionalHitFromAffect < characterAdditionalHitAffect.AdditionalHitCount; additionalHitFromAffect++)
-            {
-                if (characterAdditionalHitAffect.IsAdditionalHitAvailable(this, additionalHitFromAffect))
-                    OneHit(victim, mainHand, multiHitModifier);
-                attackCount++;
-                if (Fighting != victim) // stop if not anymore fighting
-                    return;
-                if (multiHitModifier?.MaxAttackCount <= attackCount)
-                    return;
-            }
-        }
-        // additional hits from abilities (dual wield, second, third attack, ...)
-        var additionalHitAbilities = new List<IAdditionalHitPassive>();
-        foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
-        {
-            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityDefinition);
-            if (additionalHitAbility != null)
-                additionalHitAbilities.Add(additionalHitAbility);
-        }
-        foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex).ThenBy(x => !x.StopMultiHitIfFailed)) // for each hit index, use additional hits which dont stop multi hit first
-        {
-            if (additionalHitAbility.IsTriggered(this, victim, true, out _, out _))
-            {
-                OneHit(victim, mainHand, multiHitModifier);
-                attackCount++;
-                if (Fighting != victim) // stop if not anymore fighting
-                    return;
-                if (multiHitModifier?.MaxAttackCount <= attackCount)
-                    return;
-            }
-            else if (additionalHitAbility.StopMultiHitIfFailed)
-                return; // stop once an additional fails
-        }
-        // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
-        // TODO: only if wielding 3 or 4 weapons
-        //// 3rd hand
-        //var thirdWieldLearnInfo = GetLearnInfo("Third wield");
-        //var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
-        //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-        //    thirdWieldChance = 0;
-        //if (RandomManager.Chance(thirdWieldChance))
-        //    OneHit(victim, mainHand, multiHitModifier);
-        //if (Fighting != victim)
-        //    return;
-        //if (multiHitModifier?.MaxAttackCount <= 5)
-        //    return;
-        //// 4th hand
-        //var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
-        //var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
-        //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-        //    FourthWieldChance = 0;
-        //if (RandomManager.Chance(FourthWieldChance))
-        //    OneHit(victim, mainHand, multiHitModifier);
-        //if (Fighting != victim)
-        //    return;
-        //if (multiHitModifier?.MaxAttackCount <= 6)
-        //    return;
         // fun stuff
-
         if (GlobalCooldown > 0 || Position < Positions.Standing) // wait until GCD is elapsed and standing up
             return;
 
-        int number = RandomManager.Range(0, 9);
-        switch (number)
-        {
-            case 0: if (OffensiveFlags.IsSet("Bash"))
-                    UseSkill("Bash", CommandParser.NoParameters);
-                break;
-            case 1: if (OffensiveFlags.IsSet("Berserk") && !CharacterFlags.IsSet("Berserk"))
-                    UseSkill("Berserk", CommandParser.NoParameters);
-                break;
-            case 2: if (OffensiveFlags.IsSet("Disarm")
-                    || ActFlags.HasAny("Warrior", "Thief")) // TODO: check if weapon skill is not hand to hand
-                    UseSkill("Disarm", CommandParser.NoParameters);
-                break;
-            case 3: if (OffensiveFlags.IsSet("Kick"))
-                    UseSkill("Kick", CommandParser.NoParameters);
-                break;
-            case 4: if (OffensiveFlags.IsSet("DirtKick"))
-                    UseSkill("Dirt Kicking", CommandParser.NoParameters);
-                break;
-            case 5: if (OffensiveFlags.IsSet("Tail"))
-                    UseSkill("Tail", CommandParser.NoParameters);
-                break;
-            case 6: if (OffensiveFlags.IsSet("Trip"))
-                    UseSkill("Trip", CommandParser.NoParameters);
-                break;
-            case 7: if (OffensiveFlags.IsSet("Crush"))
-                    UseSkill("Crush", CommandParser.NoParameters);
-                break;
-            case 8: if (OffensiveFlags.IsSet("Backstab"))
-                    UseSkill("Backstab", CommandParser.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
-                break;
-            case 9: if (OffensiveFlags.IsSet("Bite"))
-                    UseSkill("Bite", CommandParser.NoParameters);
-                break;
-        }
+        UseCombatSkill();
     }
 
     public override void HandleAutoGold(IItemCorpse corpse)
@@ -986,6 +862,168 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         SetBaseAttributes(CharacterAttributes.Wisdom, wisdom, false);
         SetBaseAttributes(CharacterAttributes.Dexterity, dexterity, false);
         SetBaseAttributes(CharacterAttributes.Constitution, constitution, false);
+    }
+
+    //
+    private enum MultiHitResult
+    {
+        Ok,
+        NoVictim,
+        Stunned,
+        NotFightingVictimAnymore,
+        MaxAttackReached,
+        StopBecauseAdditionHitFailed,
+    }
+
+    private MultiHitResult MultiHits(ICharacter? victim, IMultiHitModifier? multiHitModifier) // 'this' starts a combat with 'victim'
+    {
+        if (victim == null)
+            return MultiHitResult.NoVictim;
+
+        // no attacks for stunnies
+        if (IsStunned)
+        {
+            DecreaseStun();
+            if (!IsStunned)
+                Act(ActOptions.ToAll, "%W%{0:N} regain{0:v} {0:s} equilibrium.%x%", this);
+            return MultiHitResult.Stunned;
+        }
+
+        var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
+
+        // main hand attack
+        int attackCount = 0;
+        OneHit(victim, mainHand, multiHitModifier);
+        attackCount++;
+        if (Fighting != victim)
+            return MultiHitResult.NotFightingVictimAnymore;
+        if (multiHitModifier?.MaxAttackCount <= attackCount)
+            return MultiHitResult.MaxAttackReached;
+
+        // area attack
+        if (OffensiveFlags.IsSet("AreaAttack"))
+        {
+            if (Room != null)
+            {
+                var people = Room.People.Where(x => x != this && x.Fighting == this).ToArray();
+                foreach (var character in people)
+                    OneHit(character, mainHand, multiHitModifier);
+                attackCount++;
+            }
+        }
+
+        // additional hits from affects
+        var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();
+        foreach (var characterAdditionalHitAffect in characterAdditionalHitAffects)
+        {
+            for (int additionalHitFromAffect = 0; additionalHitFromAffect < characterAdditionalHitAffect.AdditionalHitCount; additionalHitFromAffect++)
+            {
+                if (characterAdditionalHitAffect.IsAdditionalHitAvailable(this, additionalHitFromAffect))
+                    OneHit(victim, mainHand, multiHitModifier);
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return MultiHitResult.NotFightingVictimAnymore;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return MultiHitResult.MaxAttackReached;
+            }
+        }
+
+        // additional hits from abilities (dual wield, second, third attack, ...)
+        var additionalHitAbilities = new List<IAdditionalHitPassive>();
+        foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
+        {
+            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityDefinition);
+            if (additionalHitAbility != null)
+                additionalHitAbilities.Add(additionalHitAbility);
+        }
+        foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex).ThenBy(x => !x.StopMultiHitIfFailed)) // for each hit index, use additional hits which dont stop multi hit first
+        {
+            if (additionalHitAbility.IsTriggered(this, victim, true, out _, out _))
+            {
+                OneHit(victim, mainHand, multiHitModifier);
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return MultiHitResult.NotFightingVictimAnymore;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return MultiHitResult.MaxAttackReached;
+            }
+            else if (additionalHitAbility.StopMultiHitIfFailed)
+                return MultiHitResult.StopBecauseAdditionHitFailed; // stop once an additional fails
+        }
+
+        // additional wield  (dual wield, third wield, ...)
+        var additionalWieldAbilities = new List<IAdditionalWieldPassive>();
+        foreach (var additionalWieldAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalWieldPassive>())
+        {
+            var additionalWieldAbility = AbilityManager.CreateInstance<IAdditionalWieldPassive>(additionalWieldAbilityDefinition);
+            if (additionalWieldAbility != null)
+                additionalWieldAbilities.Add(additionalWieldAbility);
+        }
+        foreach (var additionalWieldAbility in additionalWieldAbilities.OrderBy(x => x.AdditionalHitIndex).ThenBy(x => !x.StopMultiHitIfFailed)) // for each hit index, use additional hits which dont stop multi hit first
+        {
+            if (additionalWieldAbility.IsTriggered(this, victim, true, out _, out _, out var weapon))
+            {
+                OneHit(victim, weapon, multiHitModifier);
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return MultiHitResult.NotFightingVictimAnymore;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return MultiHitResult.MaxAttackReached;
+            }
+            else if (additionalWieldAbility.StopMultiHitIfFailed)
+                return MultiHitResult.StopBecauseAdditionHitFailed; // stop once an additional fails
+        }
+
+        return MultiHitResult.Ok;
+    }
+
+    private void UseCombatSkill()
+    {
+        var number = RandomManager.Range(0, 9);
+        switch (number)
+        {
+            case 0:
+                if (OffensiveFlags.IsSet("Bash"))
+                    UseSkill("Bash", CommandParser.NoParameters);
+                break;
+            case 1:
+                if (OffensiveFlags.IsSet("Berserk") && !CharacterFlags.IsSet("Berserk"))
+                    UseSkill("Berserk", CommandParser.NoParameters);
+                break;
+            case 2:
+                if (OffensiveFlags.IsSet("Disarm")
+                    || ActFlags.HasAny("Warrior", "Thief")) // TODO: check if weapon skill is not hand to hand
+                    UseSkill("Disarm", CommandParser.NoParameters);
+                break;
+            case 3:
+                if (OffensiveFlags.IsSet("Kick"))
+                    UseSkill("Kick", CommandParser.NoParameters);
+                break;
+            case 4:
+                if (OffensiveFlags.IsSet("DirtKick"))
+                    UseSkill("Dirt Kicking", CommandParser.NoParameters);
+                break;
+            case 5:
+                if (OffensiveFlags.IsSet("Tail"))
+                    UseSkill("Tail", CommandParser.NoParameters);
+                break;
+            case 6:
+                if (OffensiveFlags.IsSet("Trip"))
+                    UseSkill("Trip", CommandParser.NoParameters);
+                break;
+            case 7:
+                if (OffensiveFlags.IsSet("Crush"))
+                    UseSkill("Crush", CommandParser.NoParameters);
+                break;
+            case 8:
+                if (OffensiveFlags.IsSet("Backstab"))
+                    UseSkill("Backstab", CommandParser.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
+                break;
+            case 9:
+                if (OffensiveFlags.IsSet("Bite"))
+                    UseSkill("Bite", CommandParser.NoParameters);
+                break;
+        }
     }
 
     //

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
@@ -40,11 +41,30 @@ public abstract class WearCharacterGameActionBase<TCharacter, TCharacterGameActi
             return false;
         }
         // search slot
-        var equipmentSlot = Actor.SearchEquipmentSlot(item, replace);
+        var (equipmentSlot, searchEquipmentResult) = Actor.SearchEquipmentSlot(item, replace);
         if (equipmentSlot == null)
         {
             if (replace) // we don't want to spam if character is trying to wear all, replace is set to true only when wearing one item
-                Actor.Act(ActOptions.ToCharacter, "You cannot wear {0}.", item);
+            {
+                //Actor.Act(ActOptions.ToCharacter, "You cannot wear {0}", item);
+                switch (searchEquipmentResult)
+                {
+                    case SearchEquipmentSlotResults.NoWearLocation:
+                    case SearchEquipmentSlotResults.UnknownWearLocation:
+                    case SearchEquipmentSlotResults.NotFound:
+                        Actor.Act(ActOptions.ToCharacter, "You cannot wear {0}", item);
+                        break;
+                    case SearchEquipmentSlotResults.NotEmpty:
+                        Actor.Act(ActOptions.ToCharacter, "You cannot wear {0}. Try unequiping first.", item);
+                        break;
+                    case SearchEquipmentSlotResults.NoFreeMainHand:
+                    case SearchEquipmentSlotResults.NoFreeOffHand:
+                    case SearchEquipmentSlotResults.NoFreeMainOrOffHand:
+                    case SearchEquipmentSlotResults.NoFreeMainAndOffHand:
+                        Actor.Act(ActOptions.ToCharacter, "You cannot wear {0}. Try to unequip a weapon, a shield or an hold item first.", item);
+                        break;
+                }
+            }
             return false;
         }
         // too heavy to be wielded ?
