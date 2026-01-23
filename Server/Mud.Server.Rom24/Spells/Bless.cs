@@ -65,7 +65,7 @@ public class Bless : ItemOrDefensiveSpellBase
             if (!DispelManager.SavesDispel(Level, evilAura?.Level ?? item.Level, 0))
             {
                 if (evilAura != null)
-                    item.RemoveAura(evilAura, false);
+                    item.RemoveAura(evilAura, false, true);
                 Caster.Act(ActOptions.ToAll, "{0} glows a pale blue.", item);
                 item.RemoveBaseItemFlags(true, "Evil");
                 return;

@@ -66,7 +66,10 @@ public class Rinfo : AdminGameAction
         foreach (var exitBlueprint in Blueprint.Exits.Where(x => x != null))
         {
             sb.AppendFormatLine("Exit: {0} - {1} Key:{2} Flags:{3}", exitBlueprint.Direction.DisplayName(), exitBlueprint.Destination, exitBlueprint.Key, exitBlueprint.Flags);
-            sb.AppendFormat("Keyword:'{0}' Description:{1}", exitBlueprint.Keyword, exitBlueprint.Description);
+            if (string.IsNullOrEmpty(exitBlueprint.Description))
+                sb.AppendFormatLine("Keyword:'{0}' Description:/", exitBlueprint.Keyword);
+            else
+                sb.AppendFormat("Keyword:'{0}' Description:{1}", exitBlueprint.Keyword, exitBlueprint.Description);
         }
         Actor.Send(sb);
     }

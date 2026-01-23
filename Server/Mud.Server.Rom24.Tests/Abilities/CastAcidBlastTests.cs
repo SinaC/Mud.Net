@@ -133,7 +133,7 @@ public class CastAcidBlastTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
-        casterMock.SetupGet(x => x.Stunned).Returns(10);
+        casterMock.SetupGet(x => x.IsStunned).Returns(true);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
         victimMock.Setup(x => x.SavesSpell(It.IsAny<int>(), It.IsAny<SchoolTypes>())).Returns<int, SchoolTypes>((level, damageType) => false);

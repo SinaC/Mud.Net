@@ -1,8 +1,4 @@
-﻿using Mud.POC.Misc;
-using Mud.POC.TestLuaCSharp;
-using System.Text;
-
-namespace Mud.POC
+﻿namespace Mud.POC
 {
     public class Program
     {
@@ -15,11 +11,6 @@ namespace Mud.POC
 
         private async Task Run()
         {
-            //https://github.com/nuskey8/Lua-CSharp
-            var lua = new TestLuaObject();
-            await lua.Run2();
-
-            Console.WriteLine();
         }
 
         //private void TestPaging()

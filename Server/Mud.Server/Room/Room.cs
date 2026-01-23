@@ -295,7 +295,7 @@ public class Room : EntityBase, IRoom
                     if (exit.IsClosed)
                         sb.Append("A closed door");
                     else if (destination.IsDark && !hasHolylight)
-                        sb.Append("Too dark to tell");
+                        sb.Append("%w%Too dark to tell%x%");
                     else
                         sb.Append(exit.Destination.DisplayName);
                     if (exit.IsClosed)

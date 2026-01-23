@@ -54,7 +54,7 @@ public class Poison : IPostHitDamageWeaponEffect
                 bool wornOff = wieldPoisonAura.DecreasePulseLeft(1);
                 if (wieldPoisonAura.Level <= 1 || wornOff)
                 {
-                    weapon.RemoveAura(wieldPoisonAura, true);
+                    weapon.RemoveAura(wieldPoisonAura, true, true);
                     holder.Act(ActOptions.ToCharacter, "The %G%poison%x% on {0} has worn off.", weapon);
                 }
             }

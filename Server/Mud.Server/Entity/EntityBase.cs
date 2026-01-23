@@ -177,30 +177,30 @@ public abstract class EntityBase : ActorBase, IEntity
             Recompute();
     }
 
-    public void RemoveAura(IAura aura, bool recompute)
+    public void RemoveAura(IAura aura, bool recompute, bool displayWearOffMessage)
     {
         Logger.LogInformation("IEntity.RemoveAura: {name} {abilityName} | recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
         bool removed = _auras.Remove(aura);
         if (!removed)
             Logger.LogWarning("ICharacter.RemoveAura: Trying to remove unknown aura");
         else
-            OnAuraRemoved(aura);
+            OnAuraRemoved(aura, displayWearOffMessage);
         aura.OnRemoved();
         if (recompute && removed)
             Recompute();
     }
 
-    public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute)
+    public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute, bool displayWearOffMessage)
     {
         Logger.LogInformation("IEntity.RemoveAuras: {name} | recompute: {recompute}", DebugName, recompute);
         var auras = Auras.Where(filterFunc).ToArray();
         foreach(IAura aura in auras)
-            RemoveAura(aura, false);
+            RemoveAura(aura, false, displayWearOffMessage);
         if (recompute)
             Recompute();
     }
 
-    public virtual void OnAuraRemoved(IAura aura)
+    public virtual void OnAuraRemoved(IAura aura, bool displayWearOffMessage)
     {
         // NOP
     }

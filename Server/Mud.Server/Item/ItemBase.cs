@@ -99,7 +99,7 @@ public abstract class ItemBase: EntityBase, IItem
         // Auras
         if (data.Auras != null && data.Auras.Length > 0)
         {
-            RemoveAuras(x => true, false); // remove auras added from blueprint
+            RemoveAuras(x => true, false, false); // remove auras added from blueprint
             foreach (var auraData in data.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
@@ -148,14 +148,17 @@ public abstract class ItemBase: EntityBase, IItem
     }
 
     //
-    public override void OnAuraRemoved(IAura aura)
+    public override void OnAuraRemoved(IAura aura, bool displayWearOffMessage)
     {
-        base.OnAuraRemoved(aura);
+        base.OnAuraRemoved(aura, displayWearOffMessage);
 
-        if (aura.AbilityDefinition != null && aura.AbilityDefinition.HasItemWearOffMessage)
+        if (displayWearOffMessage)
         {
-            var holder = ContainedInto as ICharacter ?? EquippedBy;
-            holder?.Act(ActOptions.ToCharacter, aura.AbilityDefinition.ItemWearOffMessage!, this);
+            if (aura.AbilityDefinition != null && aura.AbilityDefinition.HasItemWearOffMessage)
+            {
+                var holder = ContainedInto as ICharacter ?? EquippedBy;
+                holder?.Act(ActOptions.ToCharacter, aura.AbilityDefinition.ItemWearOffMessage!, this);
+            }
         }
     }
 
@@ -300,7 +303,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     public void Disenchant()
     {
-        RemoveAuras(_ => true, false);
+        RemoveAuras(_ => true, false, true);
         BaseItemFlags = new ItemFlags();
         Recompute();
     }

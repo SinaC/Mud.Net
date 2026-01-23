@@ -320,6 +320,28 @@ public abstract class TextBasedLoader
         return char.ToUpper(s[0]) + s[1..];
     }
 
+    protected long FlagConvert(string s)
+    {
+        var number = 0L;
+        foreach (var c in s)
+        {
+            if (!char.IsDigit(c))
+            {
+                while (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
+                {
+                    number += FlagConvert(c);
+                }
+            }
+            else if (char.IsDigit(c))
+            {
+                number = number * 10 + c - '0';
+            }
+            else if (c == '|')
+                number += ReadFlags();
+        }
+        return number;
+    }
+
     protected long FlagConvert(char letter)
     {
         long bitsum = 0;

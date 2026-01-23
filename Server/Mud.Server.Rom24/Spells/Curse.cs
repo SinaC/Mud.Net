@@ -63,7 +63,7 @@ public class Curse : ItemOrOffensiveSpellBase
             if (!DispelManager.SavesDispel(Level, blessAura?.Level ?? item.Level, 0))
             {
                 if (blessAura != null)
-                    item.RemoveAura(blessAura, false);
+                    item.RemoveAura(blessAura, false, true);
                 Caster.Act(ActOptions.ToAll, "{0} glows with a red aura.", item);
                 item.RemoveBaseItemFlags(true, "Bless");
                 return;

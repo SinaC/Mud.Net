@@ -80,9 +80,9 @@ public class Bash : OffensiveSkillBase
         chance -= (4 * Victim[CharacterAttributes.Dexterity]) / 3;
         chance -= Victim[CharacterAttributes.ArmorBash] / 25;
         // speed
-        if ((User as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || User.CharacterFlags.IsSet("Haste"))
+        if (User.CharacterFlags.IsSet("Haste")) // no need to test OFF_FAST because OFF_FAST adds haste effect
             chance += 10;
-        if ((Victim as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || Victim.CharacterFlags.IsSet("Haste"))
+        if (Victim.CharacterFlags.IsSet("Haste")) // no need to test OFF_FAST because OFF_FAST adds haste effect
             chance -= 30;
         // level
         chance += User.Level - Victim.Level;

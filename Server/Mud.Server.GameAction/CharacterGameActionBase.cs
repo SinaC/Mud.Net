@@ -32,7 +32,7 @@ public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionIn
         }
 
         // Check stun
-        if (Actor.Stunned > 0)
+        if (Actor.IsStunned)
             return "You're still a little woozy.";
 
         return null;

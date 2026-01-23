@@ -32,10 +32,10 @@ public class Parry : HitAvoidancePassiveBase
 
     protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
     {
-        if (user.Position <= Positions.Sleeping || user.Stunned > 0)
+        if (user.Position <= Positions.Sleeping || user.IsStunned)
             return false;
 
-        int chance = learnPercentage / 2;
+        var chance = learnPercentage / 2;
 
         if (user.GetEquipment(EquipmentSlots.MainHand) == null)
         {

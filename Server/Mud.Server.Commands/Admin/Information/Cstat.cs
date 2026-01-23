@@ -10,7 +10,6 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
-using System;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
@@ -89,7 +88,7 @@ public class Cstat : AdminGameAction
             sb.AppendLine("No blueprint");
         sb.AppendFormatLine("Name: {0} Keywords: {1}", Whom.Name, string.Join(",", Whom.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", Whom.DisplayName);
-        sb.AppendFormatLine("Leader: {0}", Whom.Leader?.DisplayName ?? "/", npcWhom?.Master?.DisplayName ?? "/");
+        sb.AppendFormatLine("Leader: {0} Master: {1}", Whom.Leader?.DisplayName ?? "/", npcWhom?.Master?.DisplayName ?? "/");
         if (pcWhom?.Group != null)
         {
             foreach (IPlayableCharacter member in pcWhom.Group.Members)
@@ -111,7 +110,7 @@ public class Cstat : AdminGameAction
         if (Whom.Fighting != null)
             sb.AppendFormatLine("Fighting: {0}", Whom.Fighting.DisplayName);
         sb.AppendFormatLine("Shape: {0}", Whom.Shape);
-        sb.AppendFormatLine("Position: {0} GCD:{1} Daze:{2} Stunned: {3}", Whom.Position, Whom.GlobalCooldown, Whom.Daze, Whom.Stunned);
+        sb.AppendFormatLine("Position: {0} GCD:{1} Daze:{2} Stunned: {3}", Whom.Position, Whom.GlobalCooldown, Whom.Daze, Whom.Stun);
         sb.AppendFormatLine("Furniture: {0}", Whom.Furniture?.DisplayName ?? "(none)");
         sb.AppendFormatLine("Room: {0} [vnum: {1}]", Whom.Room?.DisplayName ?? "(none)", Whom.Room?.Blueprint.Id ?? -1);
         sb.AppendFormatLine("Race: {0} Class: {1}", Whom.Race?.DisplayName ?? "(none)", Whom.Class?.DisplayName ?? "(none)");

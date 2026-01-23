@@ -29,9 +29,8 @@ public interface IEntity : IActor
     // Auras
     IAura? GetAura(string abilityName);
     void AddAura(IAura aura, bool recompute);
-    void RemoveAura(IAura aura, bool recompute);
-    void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute);
-    void OnAuraRemoved(IAura aura);
+    void RemoveAura(IAura aura, bool recompute, bool displayWearOffMessage);
+    void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute, bool displayWearOffMessage);
 
     // Incarnation
     bool ChangeIncarnation(IAdmin? admin);

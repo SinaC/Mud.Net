@@ -11,9 +11,9 @@ using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Item;
 using Mud.Random;
 
-namespace Mud.Server.Rom24.Skills;
+namespace Mud.Server.POC.Skills;
 
-[CharacterCommand("backstab", "Ability", "Skill", "Combat"), NotInCombat(Message = "You are facing the wrong end.")]
+[CharacterCommand("circle", "Ability", "Skill", "Combat"), InCombat(Message = "You are facing the wrong end.")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
 [Help(
@@ -24,11 +24,11 @@ the attacker's level, his weapon skill, his backstab skill, and the power of
 his opponent.  You must be not visible to the mob (i.e. sneaking or hiding)
 in order to backstab.")]
 [OneLineHelp("the art of hitting your opponent by surprise")]
-public class Backstab : OffensiveSkillBase
+public class Circle : FightingSkillBase
 {
     private const string SkillName = "Backstab";
 
-    public Backstab(ILogger<Backstab> logger, IRandomManager randomManager)
+    public Circle(ILogger<Circle> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {
     }
@@ -39,8 +39,14 @@ public class Backstab : OffensiveSkillBase
         if (baseSetup != null)
             return baseSetup;
 
+        if (Learned <= 0)
+            return "Circle? What's that?";
+
         if (Victim == User)
-            return "How can you sneak up on yourself?";
+            return "Your arms can't reach around that far!";
+
+        if (Victim.Fighting != User)
+            return User.ActPhrase("{0:N} isn't fighting you.", Victim);
 
         var safeResult = Victim.IsSafe(User);
         if (safeResult != null)
@@ -49,10 +55,13 @@ public class Backstab : OffensiveSkillBase
         // TODO: check kill stealing
 
         if (User.GetEquipment(EquipmentSlots.MainHand) is not IItemWeapon)
-            return "You need to wield a weapon to backstab.";
+            return "You need to wield a weapon to circle.";
 
         if (Victim[ResourceKinds.HitPoints] < Victim.MaxResource(ResourceKinds.HitPoints) / 3)
-            return User.ActPhrase("{0} is hurt and suspicious ... you can't sneak up.", Victim);
+            return User.ActPhrase("{0} is hurt and suspicious ... you can't sneak around.", Victim);
+
+        if (!User.CanSee(Victim))
+            return "You stumble blindly into a wall.";
 
         return null;
     }
@@ -60,10 +69,9 @@ public class Backstab : OffensiveSkillBase
     protected override bool Invoke()
     {
         // TODO: check killer
-        if (RandomManager.Chance(Learned)
-            || (Learned > 1 && Victim.Position <= Positions.Sleeping))
+        if (RandomManager.Chance(Learned))
         {
-            BackstabMultiHitModifier modifier = new (SkillName, "backstab", Learned);
+            CircleMultiHitModifier modifier = new (SkillName, "circle", Learned);
 
             User.MultiHit(Victim, modifier);
             return true;
@@ -75,9 +83,9 @@ public class Backstab : OffensiveSkillBase
         }
     }
 
-    public class BackstabMultiHitModifier : IMultiHitModifier
+    public class CircleMultiHitModifier : IMultiHitModifier
     {
-        public BackstabMultiHitModifier(string abilityName, string damageNoun, int learned)
+        public CircleMultiHitModifier(string abilityName, string damageNoun, int learned)
         {
             AbilityName = abilityName;
             DamageNoun = damageNoun;
@@ -99,9 +107,9 @@ public class Backstab : OffensiveSkillBase
             if (weapon != null)
             {
                 if (weapon.Type != WeaponTypes.Dagger)
-                    return baseDamage * (3 * level / 24);
+                    return baseDamage * (3 * level / 28);
                 else
-                    return baseDamage * (3 * level / 12);
+                    return baseDamage * (3 * level / 16);
             }
             return baseDamage;
         }

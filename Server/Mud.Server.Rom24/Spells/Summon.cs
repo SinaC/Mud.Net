@@ -32,7 +32,7 @@ public class Summon : TransportationSpellBase
     {
         Victim.Act(ActOptions.ToRoom, "{0:N} disappears suddenly.", Victim);
         Victim.ChangeRoom(Caster.Room, true);
-        Caster.Act(ActOptions.ToRoom, "{0:N} arrives suddenly", Victim);
+        Victim.Act(ActOptions.ToRoom, "{0:N} arrives suddenly", Victim);
         Victim.Act(ActOptions.ToCharacter, "{0:N} has summoned you!", Caster);
         AutoLook(Victim);
     }
@@ -47,7 +47,7 @@ public class Summon : TransportationSpellBase
             || Victim.Room.RoomFlags.HasAny("Safe", "Private", "Solitary", "NoRecall", "ImpOnly")
             || (npcVictim != null && npcVictim.ActFlags.IsSet("Aggressive"))
             || Victim.Level >= Level + 3
-            || !Victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)
+            || Victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)
             || Victim.Fighting != null
             || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
             || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprintBase))

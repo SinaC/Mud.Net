@@ -109,7 +109,7 @@ public class Steal : SkillBase
             //Actor.RemoveBaseCharacterFlags(CharacterFlags.Sneak);
             // TODO: what about invis ?
             //Actor.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Sneak"), true); // recompute
-            Actor.RemoveAuras(x => x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Invisible") || a.Modifier.IsSet("Sneak") || a.Modifier.IsSet("Hide")), false);
+            Actor.RemoveAuras(x => x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Invisible") || a.Modifier.IsSet("Sneak") || a.Modifier.IsSet("Hide")), false, true);
 
             Victim.Act(ActOptions.ToCharacter, "{0:N} tried to steal from you.", Actor);
             Victim.ActToNotVictim(Victim, "{0:N} tried to steal from {1}.", Actor, Victim);

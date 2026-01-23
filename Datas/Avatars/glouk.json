@@ -163,9 +163,97 @@
   },
   "Aliases": {},
   "Cooldowns": {},
-  "Pets": [],
+  "Pets": [
+    {
+      "BlueprintId": 80000,
+      "Description": "A construct is here, built from various of gears and springs\r\n",
+      "Name": "construct",
+      "Race": "",
+      "Class": "",
+      "Level": 40,
+      "Sex": "Neutral",
+      "Size": "Tiny",
+      "CurrentResources": {
+        "HitPoints": 519,
+        "MovePoints": 100,
+        "Mana": 0,
+        "Psy": 0,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "MaxResources": {
+        "HitPoints": 704,
+        "MovePoints": 100,
+        "Mana": 0,
+        "Psy": 0,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "Equipments": [],
+      "Inventory": [],
+      "Auras": [
+        {
+          "AbilityName": "Haste",
+          "Level": 40,
+          "PulseLeft": -1,
+          "AuraFlags": "Permanent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Dexterity",
+              "Modifier": 4
+            },
+            {
+              "$type": "characterFlags",
+              "Operator": "Or",
+              "Modifier": "Haste"
+            },
+            {
+              "$type": "CharacterAdditionalHitAffectData",
+              "AdditionalHitCount": 1
+            }
+          ]
+        },
+        {
+          "AbilityName": "Construct",
+          "Level": 49,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent",
+          "Affects": [
+            {
+              "$type": "characterFlags",
+              "Operator": "Or",
+              "Modifier": "Charm"
+            }
+          ]
+        }
+      ],
+      "CharacterFlags": "Haste",
+      "Immunities": "",
+      "Resistances": "Slash,Fire",
+      "Vulnerabilities": "Acid",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 19,
+        "Intelligence": 21,
+        "Wisdom": 21,
+        "Dexterity": 21,
+        "Constitution": 20,
+        "SavingThrow": 0,
+        "HitRoll": 10,
+        "DamRoll": 40,
+        "ArmorBash": 300,
+        "ArmorPierce": 200,
+        "ArmorSlash": 400,
+        "ArmorExotic": 0
+      }
+    }
+  ],
   "Statistics": {
-    "NpcKill": 2,
+    "NpcKill": 3,
     "PcKill": 0,
     "NpcKilled": 0,
     "PcKilled": 0,
@@ -202,9 +290,9 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15830,
-    "MovePoints": 1189,
-    "Mana": 5329,
+    "HitPoints": 15850,
+    "MovePoints": 1196,
+    "Mana": 5349,
     "Psy": 100,
     "Energy": 100,
     "Rage": 0,
@@ -252,33 +340,7 @@
         "Cost": 0,
         "DecayPulseLeft": 0,
         "ItemFlags": "",
-        "Auras": [
-          {
-            "AbilityName": "Test",
-            "Level": 1,
-            "PulseLeft": 364,
-            "AuraFlags": "NoDispel",
-            "Affects": [
-              {
-                "$type": "itemFlags",
-                "Operator": "Add",
-                "Modifier": "Glowing,Humming,Magic"
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "AllArmor",
-                "Modifier": -490
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "Characteristics",
-                "Modifier": 49
-              }
-            ]
-          }
-        ]
+        "Auras": []
       }
     },
     {
@@ -317,45 +379,6 @@
       }
     },
     {
-      "Slot": "MainHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "",
-        "DiceCount": 45,
-        "DiceValue": 45,
-        "ItemId": 96,
-        "Source": "ItemGenerator",
-        "ShortDescription": "an axe of the owl",
-        "Description": "An Axe of the Owl is here.",
-        "Level": 45,
-        "Cost": 900,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "",
-        "Auras": [
-          {
-            "AbilityName": "",
-            "Level": 45,
-            "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
-            "Affects": [
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "Intelligence",
-                "Modifier": 11
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "Wisdom",
-                "Modifier": 11
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
       "Slot": "OffHand",
       "Item": {
         "$type": "shield",
@@ -370,27 +393,60 @@
         "ItemFlags": "",
         "Auras": []
       }
-    },
-    {
-      "Slot": "MainHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "Vorpal,TwoHands",
-        "DiceCount": 1,
-        "DiceValue": 999,
-        "ItemId": 3005,
-        "Source": null,
-        "ShortDescription": "Hassan\u0027s scimitar",
-        "Description": "Hassan\u0027s scimitar",
-        "Level": 42,
-        "Cost": 0,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Humming,Bless",
-        "Auras": []
-      }
     }
   ],
   "Inventory": [
+    {
+      "$type": "weapon",
+      "WeaponFlags": "Vorpal,TwoHands",
+      "DiceCount": 1,
+      "DiceValue": 999,
+      "ItemId": 3005,
+      "Source": null,
+      "ShortDescription": "Hassan\u0027s scimitar",
+      "Description": "Hassan\u0027s scimitar",
+      "Level": 42,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming,Bless",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 45,
+      "DiceValue": 45,
+      "ItemId": 96,
+      "Source": "ItemGenerator",
+      "ShortDescription": "an axe of the owl",
+      "Description": "An Axe of the Owl is here.",
+      "Level": 45,
+      "Cost": 900,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 45,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Intelligence",
+              "Modifier": 11
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Wisdom",
+              "Modifier": 11
+            }
+          ]
+        }
+      ]
+    },
     {
       "$type": "armor",
       "Bash": -225,
@@ -445,7 +501,7 @@
         {
           "AbilityName": "Envenom",
           "Level": 1,
-          "PulseLeft": 244,
+          "PulseLeft": 15772,
           "AuraFlags": "NoDispel",
           "Affects": [
             {
@@ -477,7 +533,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 8756,
+      "PulseLeft": 8300,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -491,7 +547,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 8952,
+      "PulseLeft": 8496,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -504,7 +560,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 8984,
+      "PulseLeft": 8528,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -517,7 +573,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 9000,
+      "PulseLeft": 8544,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -530,7 +586,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 9056,
+      "PulseLeft": 8600,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -543,7 +599,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 8756,
+      "PulseLeft": 8300,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -556,7 +612,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 8556,
+      "PulseLeft": 8100,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -569,7 +625,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 8356,
+      "PulseLeft": 7900,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -582,7 +638,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 3756,
+      "PulseLeft": 3300,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -613,7 +669,7 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 4492,
+      "PulseLeft": 4036,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -636,7 +692,7 @@
     {
       "AbilityName": "Protection Good",
       "Level": 1,
-      "PulseLeft": 4536,
+      "PulseLeft": 4080,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -659,7 +715,7 @@
     {
       "AbilityName": "Sanctuary",
       "Level": 1,
-      "PulseLeft": 740,
+      "PulseLeft": 284,
       "AuraFlags": "None",
       "Affects": [
         {

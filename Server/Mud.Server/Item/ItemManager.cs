@@ -281,7 +281,7 @@ public class ItemManager : IItemManager
         var auras = item.Auras.ToArray(); // clone
         foreach (var aura in auras)
         {
-            item.RemoveAura(aura, false);
+            item.RemoveAura(aura, false, false);
         }
         // no need to recompute
         //

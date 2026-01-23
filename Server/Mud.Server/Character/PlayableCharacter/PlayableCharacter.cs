@@ -504,10 +504,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return;
 
         // no attacks for stunnies
-        if (Stunned > 0)
+        if (IsStunned)
         {
-            Stunned--;
-            if (Stunned == 0)
+            DecreaseStun();
+            if (!IsStunned)
                 Act(ActOptions.ToAll, "{W{0:N} regain{0:v} {0:s} equilibrium.{x", this);
             return;
         }
@@ -1095,6 +1095,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         Wiznet.Log($"{DebugName} is immortal mode changed from {ImmortalMode} to {mode}.", WiznetFlags.Immortal, AdminLevels.God);
         _immortalMode = mode;
+
+        RecomputeCurrentResourceKinds();
     }
 
     // Misc
@@ -1223,7 +1225,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             LearnedAbilityGroups = LearnedAbilityGroups.Select(x => x.MapLearnedAbilityGroupData()).ToArray(),
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
-            Pets = Pets.Select(x => x.MapPetData()).ToArray(),
+            Pets = Pets.Where(x => x.ActFlags.IsSet("pet")).Select(x => x.MapPetData()).ToArray(), // save only pets with act flag PET ro differentiate bought pet and charmed pet
             Statistics = _statistics.ToDictionary(),
             ImmortalMode = ImmortalMode,
             CompletedQuests = _completedQuests.Select(x => x.MapCompletedQuestData()).ToArray(),
@@ -1496,9 +1498,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override void HandleDeath()
     {
+        // remove auras
+        RemoveAuras(_ => true, false, false);
+        // change position
         ChangePosition(Positions.Resting);
+        // reset resources
         foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
             SetResource(resourceKind, 1);
+        // reset cooldowns
         ResetCooldowns();
         // release pets
         foreach (INonPlayableCharacter pet in _pets)
@@ -1510,6 +1517,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             CharacterManager.RemoveCharacter(pet);
         }
         _pets.Clear();
+        //
         if (ImpersonatedBy != null) // If impersonated, no real death
         {
             var room = RoomManager.DefaultDeathRoom ?? RoomManager.DefaultRecallRoom;

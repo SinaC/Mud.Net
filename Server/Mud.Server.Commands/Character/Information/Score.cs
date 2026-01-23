@@ -36,33 +36,36 @@ public class Score : CharacterGameAction
             sb.AppendFormatLine("| %c%Constitution :   %W%[{0,5}/{1,5}]%x% |                         |", Actor[CharacterAttributes.Constitution], Actor.BaseAttribute(CharacterAttributes.Constitution), Actor.Level);
         sb.AppendLine("+--------------------------------+-------------------------+");
         sb.AppendLine("| %W%Resources%x%                      | %W%Defensive%x%               |");
-        sb.AppendFormatLine("| %g%Hp       : %W%[{0,8}/{1,8}]%x% | %g%Bash   :       %W%[{2,6}]%x% |", Actor[ResourceKinds.HitPoints], Actor.MaxResource(ResourceKinds.HitPoints), Actor[Armors.Bash]);
-        sb.AppendFormatLine("| %g%Move     : %W%[{0,8}/{1,8}]%x% | %g%Pierce :       %W%[{2,6}]%x% |", Actor[ResourceKinds.MovePoints], Actor.MaxResource(ResourceKinds.MovePoints), Actor[Armors.Pierce]);
+        sb.AppendFormatLine("| %g%Hp       : %W%[{0,8}/{1,8}]%x% | %g%Bash   :         %W%{2,6}%x% |", Actor[ResourceKinds.HitPoints], Actor.MaxResource(ResourceKinds.HitPoints), Actor[Armors.Bash]);
+        sb.AppendFormatLine("| %g%Move     : %W%[{0,8}/{1,8}]%x% | %g%Pierce :         %W%{2,6}%x% |", Actor[ResourceKinds.MovePoints], Actor.MaxResource(ResourceKinds.MovePoints), Actor[Armors.Pierce]);
         List<string> resources = [];
         foreach (var resourceKind in Actor.CurrentResourceKinds.Where(x => !x.IsMandatoryResource()))
             resources.Add($"%g%{resourceKind,-7}  : %W%[{Actor[resourceKind],8}/{Actor.MaxResource(resourceKind),8}]%x%");
         if (resources.Count < 3)
             resources.AddRange(Enumerable.Repeat("                              ", 3 - resources.Count));
-        sb.AppendFormatLine("| {0} | %g%Slash  :       %W%[{1,6}]%x% |", resources[0], Actor[Armors.Slash]);
-        sb.AppendFormatLine("| {0} | %g%Exotic :       %W%[{1,6}]%x% |", resources[1], Actor[Armors.Exotic]);
-        sb.AppendFormatLine("| {0} | %g%Saves  :       %W%[{1,6}]%x% |", resources[2], Actor[CharacterAttributes.SavingThrow]);
+        sb.AppendFormatLine("| {0} | %g%Slash  :         %W%{1,6}%x% |", resources[0], Actor[Armors.Slash]);
+        sb.AppendFormatLine("| {0} | %g%Exotic :         %W%{1,6}%x% |", resources[1], Actor[Armors.Exotic]);
+        sb.AppendFormatLine("| {0} | %g%Saves  :         %W%{1,6}%x% |", resources[2], Actor[CharacterAttributes.SavingThrow]);
+        for(int i = 3; i < resources.Count; i++)
+            sb.AppendFormatLine("| {0} |                         |", resources[i], Actor[Armors.Slash]);
+        sb.AppendLine("+--------------------------------+-------------------------+");
+            sb.AppendFormatLine("| %g%Hit:     %W%{0,6}%x%   %g%Dam:  %W%{1,6}%x% | %g%Alignment:       %W%{2,6}%x% |", Actor.HitRoll, Actor.DamRoll, Actor.Alignment);
         sb.AppendLine("+--------------------------------+-------------------------+");
         if (pc != null)
-            sb.AppendFormatLine("| %g%Hit:     %W%{0,6}%x%   %g%Dam:  %W%{1,6}%x% | %g%Train: %W%{2,3}%x%   %g%Pract: %W%{3,3}%x% |", Actor.HitRoll, Actor.DamRoll, pc.Trains, pc.Practices);
+            sb.AppendFormatLine("| %y%Silver: %W%{0,7}%x%  %y%Gold: %W%{1,7}%x% | %y%Train: %W%{2,3}%x%   %y%Pract: %W%{3,3}%x% |", FormatCurrency(Actor.SilverCoins), FormatCurrency(Actor.GoldCoins), pc.Trains, pc.Practices);
         else
-            sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%      %g%Dam:  %W%{1,6}%x% |                         |", Actor.HitRoll, Actor.DamRoll);
-        sb.AppendFormatLine("| %g%Silver: %W%{0,7}%x%  %g%Gold: %W%{1,7}%x% | %g%Alignment:       %W%{2,6}%x% |", FormatCurrency(Actor.SilverCoins), FormatCurrency(Actor.GoldCoins), Actor.Alignment);
-        sb.AppendFormatLine("| %g%Silver: %W%{0,7}%x%  %g%Gold: %W%{1,7}%x% | %g%Alignment:       %W%{2,6}%x% |", FormatCurrency(Actor.SilverCoins), FormatCurrency(Actor.GoldCoins), Actor.Alignment);
-        sb.AppendLine("+--------------------------------+-------------------------+");
+            sb.AppendFormatLine("| %y%Silver: %W%{0,7}%x%  %y%Gold: %W%{1,7}%x% |                         |", FormatCurrency(Actor.SilverCoins), FormatCurrency(Actor.GoldCoins));
         if (pc != null)
         {
-            sb.AppendFormatLine("| %g%Carry  :          %W%[{0,4}/{1,4}]%x%  | %g%Position:    %W%{2,10}%x% |", Actor.CarryNumber, Actor.MaxCarryNumber, pc.Position);
-            sb.AppendFormatLine("| %g%Weight :      %W%[{0,6}/{1,6}]%x%  | %g%Wimpy:         %W%{2,8}%x% |", Actor.CarryWeight, Actor.MaxCarryWeight, pc.Wimpy);
+            sb.AppendFormatLine("| %y%Carry  :       %W%[{0,6}/{1,6}]%x% | %y%Position:    %W%{2,10}%x% |", Actor.CarryNumber, Actor.MaxCarryNumber, pc.Position);
+            sb.AppendFormatLine("| %y%Weight :       %W%[{0,6}/{1,6}]%x% | %y%Wimpy:         %W%{2,8}%x% |", Actor.CarryWeight, Actor.MaxCarryWeight, pc.Wimpy);
+            foreach (var currency in Enum.GetValues<Currencies>())
+                sb.AppendFormatLine("| %y%{0,10} :           %W%{1,6}%x% |                         |", currency, pc[currency]);
         }
         else
         {
-            sb.AppendFormatLine("| %g%Carry  :          %W%[{0,4}/{1,4}]%x%  |                         |", Actor.CarryNumber, Actor.MaxCarryNumber);
-            sb.AppendFormatLine("| %g%Weight :      %W%[{0,6}/{1,6}]%x%  |                         |", Actor.CarryWeight, Actor.MaxCarryWeight);
+            sb.AppendFormatLine("| %y%Carry  :       %W%[{0,6}/{1,6}]%x% |                         |", Actor.CarryNumber, Actor.MaxCarryNumber);
+            sb.AppendFormatLine("| %y%Weight :       %W%[{0,6}/{1,6}]%x% |                         |", Actor.CarryWeight, Actor.MaxCarryWeight);
         }
         sb.AppendLine("+--------------------------------+-------------------------+");
         if (pc != null)

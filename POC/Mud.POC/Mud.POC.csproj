@@ -11,7 +11,7 @@
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server\Mud.Server.csproj" />
     <PackageReference Include="KeraLua" Version="1.4.7" />
-    <PackageReference Include="LuaCSharp" Version="0.5.0" />
+    <PackageReference Include="LuaCSharp" Version="0.5.3" />
     <PackageReference Include="NLua" Version="1.7.6" />
     <PackageReference Include="Riok.Mapperly" Version="4.3.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />

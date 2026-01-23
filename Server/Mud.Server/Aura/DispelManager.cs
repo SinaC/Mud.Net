@@ -36,7 +36,7 @@ public class DispelManager : IDispelManager
                 if (isDispellable)
                 {
                     found = true;
-                    victim.RemoveAura(aura, false); // RemoveAura will display WearOff message
+                    victim.RemoveAura(aura, false, true); // RemoveAura will display WearOff message
                     if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                         victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
                 }
@@ -57,7 +57,7 @@ public class DispelManager : IDispelManager
         {
             if (!SavesDispel(dispelLevel, aura))
             {
-                victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
+                victim.RemoveAura(aura, true, true); // RemoveAura will display DispelMessage
                 var dispelRoomMessage = aura.AbilityDefinition?.DispelRoomMessage;
                 if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                     victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);

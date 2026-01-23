@@ -1,25 +1,34 @@
 INGOING
+
 DONE
-    RotLoader mob F shd added
-    RoomManager removed from ItemBase
-    issue with Gain group: ability learned is not set to 1 -> set min learned to 1 if ability level is lower or equal to character level
-    issue with Practice -> use SetLearned instead if IncrementLearned
-    gain on already existing group/ability displays wrong message
-    cast colour spray -> lost your concentration but we don't know that spell
-    add some GCD when losing concentration on spell casting
-    wear doesn't check anti-XXX flags
-    room law/nomob were not implemented correctly
-    cast sho will try to cast 'shocking shield' even if caster will never know that spell but knows 'shocking grasp' -> when search a spell with cast, search among known spells
-    alias was not keeping quote in aliased command
-    level range added in abilities/skills/spells/passives/weapons command
-    score finished
+    immortal flags: Infinite must give access to every resources
+    score fixed
+    issue in combat, when no hit is made by enemy (dodging/parrying/blocking every attacks), player Fighting is not set -> StartCombat added in OneHit if avoidance is successful
+    CSharpLua nuget package updated and unit tests modified
+    summon spell target validity fixed
+    weapons command priority lowered
+    issue with charmies, once killed they stay in the group
+        [ 49 Dru] Glouk                15849/21800 hp  5348/31600 mana  100/  100 psy  100/  100 energy    0/  100 rage    0/    0 combo  1204/ 2110 mv
+        [  1 Pet] A smurf                  6/    6 hp   100/  100 mana   100/  100 mv
+        [  1 Pet] A smurf                  7/    7 hp   100/  100 mana   100/  100 mv
+        [  1 Pet] ???                      0/   10 hp   100/  100 mana   100/  100 mv
+       ChangeMaster is called from RemoveAura which is called before OnRemoved which will remove mob from group
+       this behavior is different from bought pet because they have BaseCharacterFlags set to Charm but charmies have an aura giving Charm
+       -> RemovePet called from NPC.HandleDeath
+    order all kill target will only make first charmie entering fight (if player autoassit if off)
+        -> IsSameGroupOrPet modified to handle case pet1.master == pet2.master
+    assist was buggy we were including ch in potential victim
+    auto assist displayed string was buggy
+    only bought pets must be saved, charmies must be dropped before saving
+    rinfo exits display fixed when no description
+    why hassan switches to construct after a few rounds -> because of offensive flag area attack
+    issue when killed, we see autoloot/gold/sac message -> HandleDeath moved before autoloot/...
+    circle skill added to test IMultiHitModifier
+    NPC not in their spawn area must be deleted if not charmed (5% chance to happen)
 
 ==========
 == TODO ==
 ==========
-
-issue? when entering in a room with a sneaking mob, we see it then if we look/scan we don't see it anymore
-kill can be used on sneaking mob... (room 5027)
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race and learned ability group
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)

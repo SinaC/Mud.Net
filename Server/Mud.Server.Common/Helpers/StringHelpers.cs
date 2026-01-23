@@ -14,7 +14,7 @@ public static class StringHelpers
     public const string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
     public const string CantFindIt = "You can't find it.";
     public const string SomethingGoesWrong = "Something goes wrong.";
-    public const string YouLostYourConcentration = "You lost your concentration!";
+    public const string YouLostYourConcentration = "You lost your concentration.";
 
     //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
     public static readonly IDictionary<Sex, string> Subjects = new Dictionary<Sex, string>
