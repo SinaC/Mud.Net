@@ -96,7 +96,7 @@ public class RoomManager : IRoomManager
     public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        Exit from2To = new(blueprint, to);
+        var from2To = new Exit(blueprint, to, FlagsManager);
         from.Exits[(int)direction] = from2To;
         return from2To;
     }

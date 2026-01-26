@@ -1,5 +1,6 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Room;
+﻿using Mud.Blueprints.Room;
+using Mud.Flags.Interfaces;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Room;
 using System.Diagnostics;
 
@@ -8,7 +9,7 @@ namespace Mud.Server.Room;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Exit : IExit
 {
-    public Exit(ExitBlueprint blueprint, IRoom destination)
+    public Exit(ExitBlueprint blueprint, IRoom destination, IFlagsManager flagsManager)
     {
         Name = blueprint.Keyword;
         Keywords = Name.Split([' '], StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>();
@@ -16,6 +17,7 @@ public class Exit : IExit
         Destination = destination;
         Blueprint = blueprint;
         ExitFlags = Blueprint.Flags;
+        flagsManager.CheckFlags(ExitFlags);
     }
 
     #region IExit
@@ -23,32 +25,34 @@ public class Exit : IExit
     #region ICloseable
 
     public int KeyId => Blueprint.Key;
-    public bool IsCloseable => ExitFlags.HasFlag(ExitFlags.Door);
+    public bool IsCloseable => ExitFlags.IsSet("Door");
     public bool IsLockable => KeyId >= 0;
-    public bool IsClosed => ExitFlags.HasFlag(ExitFlags.Closed);
-    public bool IsLocked => ExitFlags.HasFlag(ExitFlags.Locked);
-    public bool IsPickProof => ExitFlags.HasFlag(ExitFlags.PickProof);
-    public bool IsEasy => ExitFlags.HasFlag(ExitFlags.Easy);
-    public bool IsHard => ExitFlags.HasFlag(ExitFlags.Hard);
+    public bool IsClosed => ExitFlags.IsSet("Closed");
+    public bool IsLocked => ExitFlags.IsSet("Locked");
+    public bool IsPickProof => ExitFlags.IsSet("PickProof");
+    public bool IsEasy => ExitFlags.IsSet("Easy");
+    public bool IsHard => ExitFlags.IsSet("Hard");
 
     public void Open()
     {
-        RemoveFlags(ExitFlags.Closed);
+        ExitFlags.Unset("Closed");
     }
 
     public void Close()
     {
-        AddFlags(ExitFlags.Closed);
+        if (IsCloseable)
+            ExitFlags.Set("Closed");
     }
 
     public void Unlock()
     {
-        RemoveFlags(ExitFlags.Locked);
+        ExitFlags.Unset("Locked");
     }
 
     public void Lock()
     {
-        AddFlags(ExitFlags.Locked);
+        if (IsLockable && IsClosed)
+            ExitFlags.Set("Locked");
     }
 
     #endregion
@@ -59,10 +63,10 @@ public class Exit : IExit
     public IEnumerable<string> Keywords { get; }
     public string Description { get; }
     public IRoom Destination { get; private set; }
-    public ExitFlags ExitFlags { get; private set; }
+    public IExitFlags ExitFlags { get; private set; }
 
-    public bool IsDoor => ExitFlags.HasFlag(ExitFlags.Door);
-    public bool IsHidden => ExitFlags.HasFlag(ExitFlags.Hidden);
+    public bool IsDoor => ExitFlags.IsSet("Door");
+    public bool IsHidden => ExitFlags.IsSet("Hidden");
 
     public void OnRemoved()
     {
@@ -71,16 +75,6 @@ public class Exit : IExit
     }
 
     #endregion
-
-    private void AddFlags(ExitFlags flags)
-    {
-        ExitFlags |= flags;
-    }
-
-    private void RemoveFlags(ExitFlags flags)
-    {
-        ExitFlags &= ~flags;
-    }
 
     //
     private string DebuggerDisplay => $"Exit {Name} Dir:{Blueprint?.Direction} Dest:{Destination?.Blueprint?.Id} Flags:{ExitFlags}";

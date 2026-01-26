@@ -11,6 +11,7 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
@@ -30,6 +31,7 @@ public abstract class CombatTestsBase
         var classManagerMock = new Mock<IClassManager>();
         var raceManagerMock = new Mock<IRaceManager>();
         var rageGeneratorMock = new Mock<IRageGenerator>();
+        var flagsManagerMock = new Mock<IFlagsManager>();
 
         classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
         raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
@@ -57,7 +59,7 @@ public abstract class CombatTestsBase
             StartPosition = Positions.Standing,
         };
 
-        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManager, null!, null!, null!, null!, null!, null!, null!, null!, aggroManager, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, rageGeneratorMock.Object, null!, null!, null!);
+        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManager, null!, null!, null!, null!, null!, null!, null!, null!, aggroManager, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, rageGeneratorMock.Object, null!, flagsManagerMock.Object, null!);
         npc.Initialize(Guid.NewGuid(), blueprint, room);
 
         return npc;
@@ -77,6 +79,7 @@ public abstract class CombatTestsBase
         var wiznetMock = new Mock<IWiznet>();
         var lootManagerMock = new Mock<ILootManager>();
         var rageGeneratorMock = new Mock<IRageGenerator>();
+        var flagsManagerMock = new Mock<IFlagsManager>();
 
         var playerMock = new Mock<IPlayer>();
 
@@ -96,7 +99,7 @@ public abstract class CombatTestsBase
             Alignment = 0,
             Trains = 0,
             Practices = 0,
-            AutoFlags = AutoFlags.None,
+            AutoFlags = null!,
             Currencies = [],
             ActiveQuests = [],
             LearnedAbilities = [],
@@ -131,7 +134,7 @@ public abstract class CombatTestsBase
             Attributes = [],
         };
 
-        var pc = new PlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManager, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, rageGeneratorMock.Object, null!, null!, null!);
+        var pc = new PlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, flagsManagerMock.Object, wiznetMock.Object, lootManagerMock.Object, aggroManager, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, rageGeneratorMock.Object, null!, null!, null!);
         pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, room);
 
         return pc;

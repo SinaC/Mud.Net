@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
@@ -10,7 +11,6 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -40,7 +40,7 @@ public class Nexus : TransportationSpellBase
     protected override void Invoke()
     {
         // search warpstone
-        if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (!Caster.ImmortalMode.IsSet("Infinite"))
         {
             var stone = Caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
             if (stone == null)

@@ -316,7 +316,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "None",
+  "ImmortalMode": "",
   "CompletedQuests": [],
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "joel",
@@ -350,7 +350,7 @@
       "AbilityName": "Fly",
       "Level": 6,
       "PulseLeft": 9916,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -363,7 +363,7 @@
       "AbilityName": "Detect Hidden",
       "Level": 21,
       "PulseLeft": 9404,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -376,7 +376,7 @@
       "AbilityName": "Detect Invis",
       "Level": 32,
       "PulseLeft": 9600,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",

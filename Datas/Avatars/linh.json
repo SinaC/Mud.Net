@@ -506,7 +506,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "None",
+  "ImmortalMode": "",
   "CompletedQuests": [],
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "linh",
@@ -581,6 +581,8 @@
     {
       "Slot": "OffHand",
       "Item": {
+		  "$type": "shield",
+		  "Armor": 10,
         "ItemId": 3704,
         "Level": 0,
         "Cost": 108,

@@ -1,11 +1,12 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
+using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
@@ -55,12 +56,12 @@ public class Cload : AdminGameAction
         var character = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterBlueprint, Impersonating.Room);
         if (character == null)
         {
-            Wiznet.Log($"DoCload: character with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"DoCload: character with id {BlueprintId} cannot be created", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             Actor.Send("Character cannot be created.");
             return;
         }
 
-        Wiznet.Log($"{Actor.DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
+        Wiznet.Log($"{Actor.DisplayName} loads {character.DebugName}.", new WiznetFlags("Load"));
 
         Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Actor.Impersonating!, character);
         Actor.Send("Ok.");

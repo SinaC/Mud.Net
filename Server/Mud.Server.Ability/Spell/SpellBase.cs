@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
-using Mud.Server.Common.Helpers;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -97,7 +97,7 @@ public abstract class SpellBase : ISpell
             foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)
             {
                 var resourceKind = abilityResourceCost.ResourceKind;
-                if (!Caster.CurrentResourceKinds.Contains(resourceKind) && !Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)) // TODO: not sure about this test
+                if (!Caster.CurrentResourceKinds.Contains(resourceKind) && !Caster.ImmortalMode.IsSet("Infinite")) // TODO: not sure about this test
                     return $"You can't use {resourceKind} as resource for the moment.";
                 int resourceLeft = Caster[resourceKind];
                 int cost;
@@ -128,7 +128,7 @@ public abstract class SpellBase : ISpell
                         break;
                 }
                 bool enoughResource = cost <= resourceLeft;
-                if (!enoughResource && !Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+                if (!enoughResource && !Caster.ImmortalMode.IsSet("Infinite"))
                     return $"You don't have enough {resourceKind.DisplayName()}.";
                 var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
                 resourceCostToPays.Add(resourceCostToPay);
@@ -175,7 +175,7 @@ public abstract class SpellBase : ISpell
             Caster.Send(StringHelpers.YouLostYourConcentration);
             pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, false, 1);
             // pay half cost except if 'all'
-            if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+            if (!Caster.ImmortalMode.IsSet("Infinite"))
             {
                 foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
                 {
@@ -189,7 +189,7 @@ public abstract class SpellBase : ISpell
         }
 
         // 2) pay costs
-        if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (!Caster.ImmortalMode.IsSet("Infinite"))
         {
             foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
             {

@@ -76,17 +76,17 @@ public class Score : CharacterGameAction
                 sb.AppendLine("You are thirsty.");
             if (pc[Conditions.Hunger] == 0)
                 sb.AppendLine("You are hungry.");
-            if (pc.ImmortalMode != ImmortalModeFlags.None)
+            if (!pc.ImmortalMode.IsNone)
                 sb.AppendFormatLine("You are %G%{0}%x%", pc.ImmortalMode);
             else
                 sb.AppendLine("You are %R%MORTAL%x%");
-            if (pc.AutoFlags.HasFlag(AutoFlags.Affect))
+            if (pc.AutoFlags.IsSet("Affect"))
             {
                 if (Actor.Auras.Any())
                 {
                     sb.AppendLine("%c%You are affected by the following auras:%x%");
                     // Auras
-                    foreach (var aura in Actor.Auras.Where(x => Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
+                    foreach (var aura in Actor.Auras.Where(x => Actor.ImmortalMode.IsSet("Holylight") || !x.AuraFlags.IsSet("Hidden")).OrderBy(x => x.AuraFlags.IsSet("Permanent") ? int.MaxValue : x.PulseLeft))
                         aura.Append(sb, true); // short version
                 }
             }

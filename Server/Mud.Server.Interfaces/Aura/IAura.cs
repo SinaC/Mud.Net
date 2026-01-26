@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Domain.SerializationData.Avatar;
+﻿using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using System.Text;
@@ -18,7 +18,7 @@ public interface IAura
 
     IAbilityDefinition? AbilityDefinition { get; }
 
-    AuraFlags AuraFlags { get; }
+    IAuraFlags AuraFlags { get; }
 
     IEnumerable<IAffect> Affects { get; } // affects linked to this aura
 

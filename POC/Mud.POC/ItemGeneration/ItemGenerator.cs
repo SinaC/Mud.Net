@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Aura;
@@ -93,7 +94,7 @@ public class ItemGenerator
             var affect = new CharacterAttributeAffect { Location = attribute, Operator = Server.Domain.AffectOperators.Add, Modifier = modifier };
             affects.Add(affect);
         }
-        var aura = new Aura(null, item, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Inherent, level, affects.ToArray());
+        var aura = new Aura(null, item, new AuraFlags("NoDispel","Permanent","Inherent"), level, affects.ToArray());
         item.AddAura(aura, false);
     }
 

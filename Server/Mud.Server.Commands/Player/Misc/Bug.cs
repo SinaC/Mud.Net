@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -39,7 +40,7 @@ public class Bug : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Log($"****USER BUG REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Bugs, AdminLevels.Implementor);
+        Wiznet.Log($"****USER BUG REPORTING -- {Actor.DisplayName}: {Message}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         Actor.Send("Bug logged.");
     }
 }

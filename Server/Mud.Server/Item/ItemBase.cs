@@ -73,7 +73,7 @@ public abstract class ItemBase: EntityBase, IItem
         {
             var affects = blueprint.ItemAffects.Select(GenerateAffectFromItemAffect).Where(x => x != null).ToArray();
             if (affects.Length > 0)
-                AuraManager.AddAura(this, this, blueprint.Level, AuraFlags.Permanent | AuraFlags.NoDispel | AuraFlags.Inherent, false, affects);
+                AuraManager.AddAura(this, this, blueprint.Level, new AuraFlags("Permanent,NoDispel,Inherent"), false, affects);
         }
 
         BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), blueprint.ItemFlags, null);
@@ -174,7 +174,7 @@ public abstract class ItemBase: EntityBase, IItem
             displayName.Append("Something");
         else
             displayName.Append("something");
-        if (beholder.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (beholder.ImmortalMode.IsSet("Holylight"))
             displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
         return displayName.ToString();
     }

@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.GameAction;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
@@ -8,5 +7,5 @@ namespace Mud.Server.Commands.Admin.Avatar;
 [Syntax("[cmd]")]
 public class Omniscient : ImmortalBase
 {
-    protected override ImmortalModeFlags Flag => ImmortalModeFlags.Omniscient;
+    protected override string Flag => "Omniscient";
 }

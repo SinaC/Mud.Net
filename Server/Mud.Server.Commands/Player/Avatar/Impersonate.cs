@@ -2,6 +2,7 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Account;
+using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
@@ -60,12 +61,12 @@ public class Impersonate : PlayerGameAction
         if (location == null)
         {
             location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == DefaultRoomId)!;
-            Wiznet.Log($"Invalid roomId {Whom.RoomId} for character {Whom.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid roomId {Whom.RoomId} for character {Whom.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         }
         var avatarData = ServerPlayerCommand.LoadAvatar(Whom.Name);
         if (avatarData == null)
         {
-            Wiznet.Log($"Avatar {Whom.Name} for player {Actor.Name} cannot be loaded!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Avatar {Whom.Name} for player {Actor.Name} cannot be loaded!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             return;
         }
         var avatar = CharacterManager.AddPlayableCharacter(Guid.NewGuid(), avatarData, Actor, location);

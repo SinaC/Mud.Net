@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
@@ -53,7 +54,7 @@ public class FrenzyEffect : IEffect<ICharacter>
 
         int duration = level / 3;
         int modifier = level / 6;
-        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = (10 * level) / 12, Operator = AffectOperators.Add });

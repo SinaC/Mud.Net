@@ -137,10 +137,10 @@ public class MysteryImporter : IImporter
 
     private AreaFlags ConvertAreaFlags(long input)
     {
-        AreaFlags flags = AreaFlags.None;
-        if (IsSet(input, AREA_CHANGED)) flags |= AreaFlags.Changed;
-        if (IsSet(input, AREA_ADDED)) flags |= AreaFlags.Added;
-        if (IsSet(input, AREA_LOADING)) flags |= AreaFlags.Loading;
+        var flags = new AreaFlags();
+        if (IsSet(input, AREA_CHANGED)) flags.Set("Changed");
+        if (IsSet(input, AREA_ADDED)) flags.Set("Added");
+        if (IsSet(input, AREA_LOADING)) flags.Set("Loading");
         return flags;
     }
 
@@ -256,14 +256,14 @@ public class MysteryImporter : IImporter
 
     private ExitFlags ConvertExitFlags(long input)
     {
-        ExitFlags flags = 0;
-        if (IsSet(input, EX_ISDOOR)) flags |= ExitFlags.Door;
-        if (IsSet(input, EX_CLOSED)) flags |= ExitFlags.Closed;
-        if (IsSet(input, EX_LOCKED)) flags |= ExitFlags.Locked;
-        if (IsSet(input, EX_PICKPROOF)) flags |= ExitFlags.PickProof;
-        if (IsSet(input, EX_NOPASS)) flags |= ExitFlags.NoPass;
-        if (IsSet(input, EX_EASY)) flags |= ExitFlags.Easy;
-        if (IsSet(input, EX_HARD)) flags |= ExitFlags.Hard;
+        var flags = new ExitFlags();
+        if (IsSet(input, EX_ISDOOR)) flags.Set("Door");
+        if (IsSet(input, EX_CLOSED)) flags.Set("Closed");
+        if (IsSet(input, EX_LOCKED)) flags.Set("Locked");
+        if (IsSet(input, EX_PICKPROOF)) flags.Set("PickProof");
+        if (IsSet(input, EX_NOPASS)) flags.Set("NoPass");
+        if (IsSet(input, EX_EASY)) flags.Set("Easy");
+        if (IsSet(input, EX_HARD)) flags.Set("Hard");
         // EX_INFURIATING
         // EX_NOCLOSE
         // EX_NOLOCK
@@ -1252,44 +1252,44 @@ public class MysteryImporter : IImporter
     {
         // v1: exit flags
         // v2: gate flags
-        PortalFlags flags = PortalFlags.None;
+        var flags = new PortalFlags();
         long v1 = System.Convert.ToInt64(objectData.Values[1]);
-        if (IsSet(v1, EX_CLOSED)) flags |= PortalFlags.Closed;
-        if (IsSet(v1, EX_LOCKED)) flags |= PortalFlags.Locked;
-        if (IsSet(v1, EX_PICKPROOF)) flags |= PortalFlags.PickProof;
-        if (IsSet(v1, EX_EASY)) flags |= PortalFlags.Easy;
-        if (IsSet(v1, EX_HARD)) flags |= PortalFlags.Hard;
-        if (IsSet(v1, EX_NOCLOSE)) flags |= PortalFlags.NoClose;
-        if (IsSet(v1, EX_NOLOCK)) flags |= PortalFlags.NoLock;
+        if (IsSet(v1, EX_CLOSED)) flags.Set("Closed");
+        if (IsSet(v1, EX_LOCKED)) flags.Set("Locked");
+        if (IsSet(v1, EX_PICKPROOF)) flags.Set("PickProof");
+        if (IsSet(v1, EX_EASY)) flags.Set("Easy");
+        if (IsSet(v1, EX_HARD)) flags.Set("Hard");
+        if (IsSet(v1, EX_NOCLOSE)) flags.Set("NoClose");
+        if (IsSet(v1, EX_NOLOCK)) flags.Set("NoLock");
         long v2 = System.Convert.ToInt32(objectData.Values[2]);
-        if (IsSet(v2, GATE_NOCURSE)) flags |= PortalFlags.NoCurse;
-        if (IsSet(v2, GATE_GOWITH)) flags |= PortalFlags.GoWith;
-        if (IsSet(v2, GATE_BUGGY)) flags |= PortalFlags.Buggy;
-        if (IsSet(v2, GATE_RANDOM)) flags |= PortalFlags.Random;
+        if (IsSet(v2, GATE_NOCURSE)) flags.Set("NoCurse");
+        if (IsSet(v2, GATE_GOWITH)) flags.Set("GoWith");
+        if (IsSet(v2, GATE_BUGGY)) flags.Set("Buggy");
+        if (IsSet(v2, GATE_RANDOM)) flags.Set("Random");
         return flags;
     }
 
     private ContainerFlags ConvertContainerFlags(ObjectData objectData)
     {
-        ContainerFlags flags = ContainerFlags.None;
+        var flags = new ContainerFlags();
         long v1 = System.Convert.ToInt64(objectData.Values[1]);
-        if (!IsSet(v1, CONT_CLOSEABLE)) flags |= ContainerFlags.NoClose;
-        if (IsSet(v1, CONT_PICKPROOF)) flags |= ContainerFlags.PickProof;
-        if (IsSet(v1, CONT_CLOSED)) flags |= ContainerFlags.Closed;
-        if (IsSet(v1, CONT_LOCKED)) flags |= ContainerFlags.Locked;
+        if (!IsSet(v1, CONT_CLOSEABLE)) flags.Set("NoClose");
+        if (IsSet(v1, CONT_PICKPROOF)) flags.Set("PickProof");
+        if (IsSet(v1, CONT_CLOSED)) flags.Set("Closed");
+        if (IsSet(v1, CONT_LOCKED)) flags.Set("Locked");
         long v2 = System.Convert.ToInt64(objectData.Values[2]);
-        if (v2 <= 0) flags |= ContainerFlags.NoLock;
+        if (v2 <= 0) flags.Set("NoLock");
         return flags;
     }
 
     private FurnitureActions ConvertFurnitureActions(ObjectData objectData)
     {
-        FurnitureActions actions = FurnitureActions.None;
+        var actions = new FurnitureActions();
         int flag = objectData.Values[2] == null ? 0 : System.Convert.ToInt32(objectData.Values[2]);
-        if (IsSet(flag, STAND_AT) || IsSet(flag, STAND_ON) || IsSet(flag, STAND_IN)) actions |= FurnitureActions.Stand;
-        if (IsSet(flag, SIT_AT) || IsSet(flag, SIT_ON) || IsSet(flag, SIT_IN)) actions |= FurnitureActions.Sit;
-        if (IsSet(flag, REST_AT) || IsSet(flag, REST_ON) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_ON)) actions |= FurnitureActions.Rest;
-        if (IsSet(flag, SLEEP_AT) || IsSet(flag, SLEEP_ON) || IsSet(flag, SLEEP_IN) || IsSet(flag, SLEEP_ON)) actions |= FurnitureActions.Sleep;
+        if (IsSet(flag, STAND_AT) || IsSet(flag, STAND_ON) || IsSet(flag, STAND_IN)) actions.Set("Stand");
+        if (IsSet(flag, SIT_AT) || IsSet(flag, SIT_ON) || IsSet(flag, SIT_IN)) actions.Set("Sit");
+        if (IsSet(flag, REST_AT) || IsSet(flag, REST_ON) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_ON)) actions.Set("Rest");
+        if (IsSet(flag, SLEEP_AT) || IsSet(flag, SLEEP_ON) || IsSet(flag, SLEEP_IN) || IsSet(flag, SLEEP_ON)) actions.Set("Sleep");
         return actions;
     }
 

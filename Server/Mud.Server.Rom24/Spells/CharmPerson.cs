@@ -82,7 +82,7 @@ public class CharmPerson : OffensiveSpellBase
         ((IPlayableCharacter)Caster).AddPet(npcVictim); // Guards ensure this will never failed
 
         int duration = RandomManager.Fuzzy(Level / 4);
-        AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+        AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
 
         npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);

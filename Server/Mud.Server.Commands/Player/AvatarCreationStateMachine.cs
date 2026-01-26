@@ -5,6 +5,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
 using Mud.Server.Common;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces;
@@ -524,7 +525,7 @@ done	     exit the character generation process");
                 CreationTime = TimeManager.CurrentTime,
                 Name = _name!,
                 Aliases = [],
-                AutoFlags = AutoFlags.None,
+                AutoFlags = null!,
                 RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO:  mud school
                 Race = _race!.Name,
                 Class = _class!.Name,

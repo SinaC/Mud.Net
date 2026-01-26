@@ -3,10 +3,13 @@ using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System.Diagnostics;
@@ -18,9 +21,14 @@ namespace Mud.Server.Admin;
 [Export(typeof(IAdmin))]
 public class Admin : Player.Player, IAdmin
 {
-    public Admin(ILogger<Admin> logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager)
+    private IFlagsManager FlagsManager { get; }
+
+    public Admin(ILogger<Admin> logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, IFlagsManager flagsManager)
         : base(logger, gameActionManager, commandParser, timeManager, characterManager)
     {
+        FlagsManager = flagsManager;
+
+        WiznetFlags = new WiznetFlags();
     }
 
     public override void Initialize(Guid id, AccountData data)
@@ -28,7 +36,8 @@ public class Admin : Player.Player, IAdmin
         base.Initialize(id, data);
 
         Level = data.AdminData!.AdminLevel;
-        WiznetFlags = data.AdminData!.WiznetFlags;
+        WiznetFlags.Set(data.AdminData!.WiznetFlags);
+        FlagsManager.CheckFlags(WiznetFlags);
     }
 
     // used for promotion
@@ -72,7 +81,7 @@ public class Admin : Player.Player, IAdmin
             AdminData = new AdminData
             {
                 AdminLevel = Level,
-                WiznetFlags = WiznetFlags
+                WiznetFlags = WiznetFlags.Serialize()
             },
             AvatarMetaDatas = AvatarMetaDatas.ToArray(),
         };
@@ -95,16 +104,18 @@ public class Admin : Player.Player, IAdmin
 
     public AdminLevels Level { get; private set; }
 
-    public WiznetFlags WiznetFlags { get; private set; }
+    public IWiznetFlags WiznetFlags { get; private set; }
 
-    public void AddWiznet(WiznetFlags wiznetFlags)
+    public void AddWiznet(IWiznetFlags wiznetFlags)
     {
-        WiznetFlags |= wiznetFlags;
+        WiznetFlags.Set(wiznetFlags);
+        FlagsManager.CheckFlags(WiznetFlags);
     }
 
-    public void RemoveWiznet(WiznetFlags wiznetFlags)
+    public void RemoveWiznet(IWiznetFlags wiznetFlags)
     {
-        WiznetFlags &= ~wiznetFlags;
+        WiznetFlags.Unset(wiznetFlags);
+        FlagsManager.CheckFlags(WiznetFlags);
     }
 
     public IEntity? Incarnating { get; private set; }

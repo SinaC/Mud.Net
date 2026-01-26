@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
@@ -54,7 +54,7 @@ public class Poison : ItemOrOffensiveSpellBase
         if (poisonAura != null)
             poisonAura.Update(Level, TimeSpan.FromMinutes(duration));
         else
-            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                 new PoisonDamageAffect());
@@ -90,7 +90,7 @@ public class Poison : ItemOrOffensiveSpellBase
                 return;
             }
             int duration = Level / 8;
-            AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
+            AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), new AuraFlags("NoDispel"), true,
                 new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
             return;

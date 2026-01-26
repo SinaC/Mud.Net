@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Ability.Passive;
 
@@ -57,7 +57,7 @@ public abstract class PassiveBase : IPassive
 
         // 4) check if failed
         bool checkSuccess;
-        if (user.ImmortalMode.HasFlag(Mud.Domain.ImmortalModeFlags.Omniscient))
+        if (user.ImmortalMode.IsSet("Omniscient"))
         {
             diceRoll = 100;
             checkSuccess = true;

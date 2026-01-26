@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Random;
 
 namespace Mud.Server.Ability.Skill;
 
@@ -57,7 +57,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)
             {
                 var resourceKind = abilityResourceCost.ResourceKind;
-                if (!User.CurrentResourceKinds.Contains(resourceKind) && !User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)) // TODO: not sure about this test
+                if (!User.CurrentResourceKinds.Contains(resourceKind) && !User.ImmortalMode.IsSet("Infinite")) // TODO: not sure about this test
                     return $"You can't use {resourceKind} as resource for the moment.";
                 int resourceLeft = User[resourceKind];
                 int cost;
@@ -87,7 +87,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
                         break;
                 }
                 bool enoughResource = cost <= resourceLeft;
-                if (!enoughResource && !User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+                if (!enoughResource && !User.ImmortalMode.IsSet("Infinite"))
                     return $"You don't have enough {resourceKind}.";
                 var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
                 resourceCostToPays.Add(resourceCostToPay);
@@ -121,7 +121,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         var result = Invoke();
 
         // 2) pay costs
-        if (!User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (!User.ImmortalMode.IsSet("Infinite"))
         {
             foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
             {

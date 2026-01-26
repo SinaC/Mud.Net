@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common.Attributes;
+﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -24,7 +23,7 @@ public class Affects : CharacterGameAction
         {
             sb.AppendLine("%c%You are affected by the following auras:%x%");
             // Auras
-            foreach (var aura in Actor.Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+            foreach (var aura in Actor.Auras.Where(x => !x.AuraFlags.IsSet("Hidden")).OrderBy(x => x.PulseLeft))
                 aura.Append(sb);
         }
         else

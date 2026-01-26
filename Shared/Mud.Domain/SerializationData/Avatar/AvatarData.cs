@@ -27,7 +27,7 @@ public class AvatarData : CharacterData
 
     public required int Practices { get; set; }
 
-    public required AutoFlags AutoFlags { get; set; }
+    public required string AutoFlags { get; set; }
 
     public required Dictionary<Currencies, int> Currencies { get; set; }
 
@@ -48,7 +48,7 @@ public class AvatarData : CharacterData
     // optional
     public Dictionary<AvatarStatisticTypes, long> Statistics { get; set; } = [];
 
-    public ImmortalModeFlags ImmortalMode { get; set; } = ImmortalModeFlags.None;
+    public string ImmortalMode { get; set; } = default!;
 
     public CompletedQuestData[] CompletedQuests { get; set; } = [];
 

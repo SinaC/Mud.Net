@@ -10,7 +10,6 @@ using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Options;
 
 namespace Mud.Server.Character;
 

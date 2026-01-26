@@ -3,10 +3,14 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Random;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
@@ -18,9 +22,14 @@ namespace Mud.Server.Item;
 [Item(typeof(ItemFurnitureBlueprint), typeof(ItemData))]
 public class ItemFurniture : ItemBase, IItemFurniture
 {
-    public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
+    private IFlagsManager FlagsManager { get; }
+
+    public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IFlagsManager flagsManager)
         : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
+        FlagsManager = flagsManager;
+
+        FurnitureActions = new FurnitureActions();
     }
 
     public void Initialize(Guid guid, ItemFurnitureBlueprint blueprint, string source, IContainer containedInto)
@@ -30,6 +39,7 @@ public class ItemFurniture : ItemBase, IItemFurniture
         MaxPeople = blueprint.MaxPeople;
         MaxWeight = blueprint.MaxWeight;
         FurnitureActions = blueprint.FurnitureActions;
+        FlagsManager.CheckFlags(FurnitureActions);
         FurniturePlacePreposition = blueprint.FurniturePlacePreposition;
         HealBonus = blueprint.HealBonus;
         ResourceBonus = blueprint.ResourceBonus;
@@ -42,6 +52,7 @@ public class ItemFurniture : ItemBase, IItemFurniture
         MaxPeople = blueprint.MaxPeople;
         MaxWeight = blueprint.MaxWeight;
         FurnitureActions = blueprint.FurnitureActions;
+        FlagsManager.CheckFlags(FurnitureActions);
         FurniturePlacePreposition = blueprint.FurniturePlacePreposition;
         HealBonus = blueprint.HealBonus;
         ResourceBonus = blueprint.ResourceBonus;
@@ -55,15 +66,15 @@ public class ItemFurniture : ItemBase, IItemFurniture
 
     public int MaxPeople { get; private set; }
     public int MaxWeight { get; private set; }
-    public FurnitureActions FurnitureActions { get; private set; }
+    public IFurnitureActions FurnitureActions { get; private set; }
     public FurniturePlacePrepositions FurniturePlacePreposition { get; private set; }
     public int HealBonus { get; private set; }
     public int ResourceBonus { get; private set; }
 
-    public bool CanStand => FurnitureActions.HasFlag(FurnitureActions.Stand);
-    public bool CanSit => FurnitureActions.HasFlag(FurnitureActions.Sit);
-    public bool CanRest => FurnitureActions.HasFlag(FurnitureActions.Rest);
-    public bool CanSleep => FurnitureActions.HasFlag(FurnitureActions.Sleep);
+    public bool CanStand => FurnitureActions.IsSet("Stand");
+    public bool CanSit => FurnitureActions.IsSet("Sit");
+    public bool CanRest => FurnitureActions.IsSet("Rest");
+    public bool CanSleep => FurnitureActions.IsSet("Sleep");
 
     public StringBuilder AppendPosition(StringBuilder sb, string verb)
     {

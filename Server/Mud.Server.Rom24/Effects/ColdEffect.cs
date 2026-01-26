@@ -1,4 +1,6 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
@@ -8,7 +10,6 @@ using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -55,7 +56,7 @@ public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                     x => x.Modifier -= 1);
             }
             else
-                AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(6), AuraFlags.None, false,
+                AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(6), new AuraFlags(), false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
         }
         // hunger! (warmth sucked out)

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
@@ -10,7 +11,7 @@ public interface IItemFurniture : IItem // TODO: count people actually on furnit
 
     int MaxPeople { get; }
     int MaxWeight { get; }
-    FurnitureActions FurnitureActions { get; }
+    IFurnitureActions FurnitureActions { get; }
     FurniturePlacePrepositions FurniturePlacePreposition { get; }
     int HealBonus { get; }
     int ResourceBonus { get; }

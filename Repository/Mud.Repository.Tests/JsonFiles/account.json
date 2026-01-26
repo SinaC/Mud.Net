@@ -7,11 +7,10 @@
     "pouet": "who",
     "cda": "commanddebug admin"
   },
-  "AdminData":
-  {
+  "AdminData": {
     "Version": 1,
     "AdminLevel": 7,
-    "WiznetFlags": 61439
+    "WiznetFlags": "Incarnate, Punish, Logins, Deaths, MobDeaths, Levels, Snoops, Bugs, Typos, Help, Load, Promote, Restore, Immortal, Saccing"
   },
   "AvatarMetaDatas":
   [

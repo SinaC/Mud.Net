@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -22,7 +23,7 @@ public abstract class CharacterDebuffSpellBase : OffensiveSpellBase
         if (!CanAffect)
             return;
         var (level, duration, affects) = AuraInfo;
-        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, level, duration, AuraFlags.None, true, affects);
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, level, duration, new AuraFlags(), true, affects);
         Victim.Act(ActOptions.ToCharacter, VictimAffectMessage, Caster);
         Victim.Act(ActOptions.ToRoom, RoomAffectMessage, Victim);
     }

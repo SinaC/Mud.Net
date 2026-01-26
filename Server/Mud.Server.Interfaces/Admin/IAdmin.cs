@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData.Account;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Player;
 
@@ -11,9 +12,9 @@ public interface IAdmin : IPlayer
 
     AdminLevels Level { get; }
 
-    WiznetFlags WiznetFlags { get; }
-    void AddWiznet(WiznetFlags wiznetFlags);
-    void RemoveWiznet(WiznetFlags wiznetFlags);
+    IWiznetFlags WiznetFlags { get; }
+    void AddWiznet(IWiznetFlags wiznetFlags);
+    void RemoveWiznet(IWiznetFlags wiznetFlags);
 
     IEntity? Incarnating { get; }
     bool StartIncarnating(IEntity entity);

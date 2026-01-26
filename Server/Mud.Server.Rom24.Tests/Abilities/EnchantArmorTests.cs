@@ -38,6 +38,7 @@ public class EnchantArmorTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         armorMock.SetupGet(x => x.Name).Returns("armor");
         armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
         armorMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
@@ -77,6 +78,7 @@ public class EnchantArmorTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         armorMock.SetupGet(x => x.Name).Returns("armor");
         armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
         armorMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
@@ -116,6 +118,7 @@ public class EnchantArmorTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         armorMock.SetupGet(x => x.Name).Returns("armor");
         armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
         armorMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
@@ -156,6 +159,7 @@ public class EnchantArmorTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         armorMock.SetupGet(x => x.Name).Returns("armor");
         armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
         armorMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
@@ -196,6 +200,7 @@ public class EnchantArmorTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         armorMock.SetupGet(x => x.Name).Returns("armor");
         armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
         armorMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());

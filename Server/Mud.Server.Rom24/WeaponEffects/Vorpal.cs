@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.WeaponEffects;
 
@@ -33,7 +33,7 @@ public class Vorpal : IInstantDeathWeaponEffect
         // vulnerable: 0.5%
         // calculate weapon (or not) damage
         if (victim.BodyParts.IsSet("Head")
-            && !victim.ImmortalMode.HasFlag(ImmortalModeFlags.NoDeath))
+            && !victim.ImmortalMode.IsSet("NoDeath"))
         {
             var resistanceLevel = ResistanceCalculator.CheckResistance(victim, damageType);
             var chance = resistanceLevel switch

@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common.Attributes;
+﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
@@ -10,7 +9,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 @"Makes you help group members in combat")]
 public class AutoAssist : AutoBase
 {
-    protected override AutoFlags What => AutoFlags.Assist;
+    protected override string What => "Assist";
     protected override string RemovedMessage => "Autoassist removed.";
     protected override string AddedMessage => "You will now assist when needed.";
 }

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -57,7 +58,7 @@ public class Snoop : AdminGameAction
         if (Whom == Actor)
         {
             Actor.Send("Cancelling all snoops.");
-            Wiznet.Log($"{Actor.DisplayName} stops being such as snoop.", WiznetFlags.Punish | WiznetFlags.Snoops);
+            Wiznet.Log($"{Actor.DisplayName} stops being such as snoop.", new WiznetFlags("Punish", "Snoops"));
             foreach (IPlayer player in PlayerManager.Players)
             {
                 if (player.SnoopBy == Actor)
@@ -66,7 +67,7 @@ public class Snoop : AdminGameAction
             return;
         }
 
-        Wiznet.Log($"{Actor.DisplayName} starts snooping {Whom.DisplayName}.", WiznetFlags.Snoops | WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} starts snooping {Whom.DisplayName}.", new WiznetFlags("Snoops", "Punish"));
 
         Whom.SetSnoopBy(Actor);
         Actor.Send("Ok.");

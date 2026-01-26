@@ -2,13 +2,14 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Tests.Abilities;
 
@@ -30,6 +31,7 @@ public class MultiResourceCostTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearnedMultiCost(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         Mock<ICharacter> victimMock = new();
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -59,6 +61,7 @@ public class MultiResourceCostTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearnedMultiCost(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Rage]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         Mock<ICharacter> victimMock = new();
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -89,6 +92,7 @@ public class MultiResourceCostTests : AbilityTestBase
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Rage)]).Returns(10);
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Mana)]).Returns(10);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Rage, ResourceKinds.Mana]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         Mock<ICharacter> victimMock = new();
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -119,6 +123,7 @@ public class MultiResourceCostTests : AbilityTestBase
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Rage)]).Returns(100);
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Mana)]).Returns(10);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Rage, ResourceKinds.Mana]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         Mock<ICharacter> victimMock = new();
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -149,6 +154,7 @@ public class MultiResourceCostTests : AbilityTestBase
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Rage)]).Returns(10);
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Mana)]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Rage, ResourceKinds.Mana]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         Mock<ICharacter> victimMock = new();
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -179,6 +185,7 @@ public class MultiResourceCostTests : AbilityTestBase
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Rage)]).Returns(100);
         casterMock.SetupGet(x => x[It.Is<ResourceKinds>(x => x == ResourceKinds.Mana)]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Rage, ResourceKinds.Mana]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         Mock<ICharacter> victimMock = new();
         victimMock.SetupGet(x => x.Name).Returns("target");

@@ -1,11 +1,11 @@
 ﻿using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Effects;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Effects;
 

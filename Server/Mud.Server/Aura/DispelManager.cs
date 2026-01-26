@@ -1,9 +1,8 @@
 ﻿using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Aura;
 
@@ -84,10 +83,10 @@ public class DispelManager : IDispelManager
 
     private bool SavesDispel(int dispelLevel, IAura aura)
     {
-        if (aura.AuraFlags.HasFlag(AuraFlags.NoDispel))
+        if (aura.AuraFlags.IsSet("NoDispel"))
             return true;
         int auraLevel = aura.Level;
-        if (aura.AuraFlags.HasFlag(AuraFlags.Permanent)
+        if (aura.AuraFlags.IsSet("Permanent")
             || aura.PulseLeft < 0) // very hard to dispel permanent effects
             auraLevel += 5;
 

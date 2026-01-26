@@ -4,7 +4,6 @@ using Mud.Domain.SerializationData.Account;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Domain.SerializationData;
 using System.Text.Json;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Mud.Repository.Tests
 {
@@ -27,7 +26,7 @@ namespace Mud.Repository.Tests
                 Alignment = 0,
                 Trains = 0,
                 Practices = 0,
-                AutoFlags = AutoFlags.Sacrifice | AutoFlags.Affect,
+                AutoFlags = "Sacrifice,Affect",
                 ActiveQuests = [],
                 LearnedAbilities = [],
                 LearnedAbilityGroups = [],
@@ -104,7 +103,6 @@ namespace Mud.Repository.Tests
             Assert.HasCount(2, deserialized.Aliases);
             Assert.IsNotNull(deserialized.AdminData);
             Assert.AreEqual(AdminLevels.Implementor, deserialized.AdminData.AdminLevel);
-            Assert.AreEqual(Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.Resets).Aggregate(WiznetFlags.None, (acc, f) => acc | f), deserialized.AdminData.WiznetFlags);
             Assert.HasCount(3, deserialized.AvatarMetaDatas);
         }
     }

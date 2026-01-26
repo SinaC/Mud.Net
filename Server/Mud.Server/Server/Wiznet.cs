@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 
@@ -18,13 +19,13 @@ public class Wiznet : IWiznet
         AdminManager = adminManager;
     }
 
-    public void Log(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
+    public void Log(string message, IWiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
     {
-        if (flags.HasFlag(WiznetFlags.Bugs))
+        if (flags.IsSet("Bugs"))
         {
             Logger.LogError("WIZNET: FLAGS: {flags} {message}", flags, message);
         }
-        else if (flags.HasFlag(WiznetFlags.Typos))
+        else if (flags.IsSet("Typos"))
         {
             Logger.LogWarning("WIZNET: FLAGS: {flags} {message}", flags, message);
         }
@@ -32,7 +33,7 @@ public class Wiznet : IWiznet
         {
             Logger.LogInformation("WIZNET: FLAGS: {flags} {message}", flags, message);
         }
-        foreach (var admin in AdminManager.Admins.Where(a => a.WiznetFlags.HasFlag(flags) && a.Level >= minLevel))
+        foreach (var admin in AdminManager.Admins.Where(a => a.WiznetFlags.HasAny(flags) && a.Level >= minLevel))
             admin.Send($"%W%WIZNET%x%:{message}");
     }
 }

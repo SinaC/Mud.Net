@@ -72,7 +72,7 @@ public class Curse : ItemOrOffensiveSpellBase
                 Caster.Act(ActOptions.ToCharacter, "The holy aura of {0} is too powerful for you to overcome.");
             return;
         }
-        AuraManager.AddAura(item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
+        AuraManager.AddAura(item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
             new ItemFlagsAffect { Modifier = new ItemFlags("Evil"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);

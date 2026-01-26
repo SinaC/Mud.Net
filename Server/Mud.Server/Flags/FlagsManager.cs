@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
-using Mud.Flags;
+using Mud.Flags.Attributes;
 using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Flags;
 using System.Reflection;
@@ -55,6 +55,18 @@ public class FlagsManager : IFlagsManager
         }
     }
 
+    public IEnumerable<string> AvailableValues<TFlags>()
+        where TFlags : IFlags<string>
+    {
+        var flagType = typeof(TFlags);
+        if (!FlagDefinitionsByFlagType.TryGetValue(flagType, out var flagDefinitions))
+        {
+            Logger.LogError("FlagManager: unknown type {flagType}", flagType.FullName);
+            return [];
+        }
+
+        return flagDefinitions.Values.Select(x => x.Flag);
+    }
 
     public bool CheckFlags(Type flagType, IFlags<string>? flags)
     {
@@ -102,6 +114,35 @@ public class FlagsManager : IFlagsManager
         }
         return sb;
     }
+
+    public string PrettyPrint<TFlags>(TFlags? flags, bool shortDisplay)
+        where TFlags : IFlags<string>
+    {
+        if (flags == null)
+            return string.Empty;
+        var tFlagsType = typeof(TFlags);
+        if (!FlagDefinitionsByFlagType.TryGetValue(tFlagsType, out var flagDefinitions))
+        {
+            Logger.LogError("FlagManager: unknown type {flagType}", tFlagsType.FullName);
+            // no append
+            return string.Empty;
+        }
+        var flagsPrettyPrint = new List<string>();
+        foreach (var flag in flags.Values)
+        {
+            if (flagDefinitions.TryGetValue(flag, out var flagDefinition))
+            {
+                var flagPrettyPrint = flagDefinition.FlagValues.PrettyPrint(flag, shortDisplay);
+                if (!string.IsNullOrWhiteSpace(flagPrettyPrint))
+                    flagsPrettyPrint.Add(flagPrettyPrint);
+            }
+            else
+                // no append
+                Logger.LogError("FlagManager: flag {flag} not found in {type}", flag, tFlagsType.FullName);
+        }
+        return string.Join(",", flagsPrettyPrint);
+    }
+
     private class FlagDefinition
     {
         public Type FlagType { get; }

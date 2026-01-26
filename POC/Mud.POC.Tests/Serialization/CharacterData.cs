@@ -1,5 +1,4 @@
 ﻿using Mud.Domain;
-using Mud.Flags.Interfaces;
 
 namespace Mud.POC.Tests.Serialization;
 

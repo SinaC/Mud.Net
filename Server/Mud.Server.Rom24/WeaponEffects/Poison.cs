@@ -1,8 +1,8 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
-using Mud.Flags;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Affect.Item;
@@ -39,7 +39,7 @@ public class Poison : IPostHitDamageWeaponEffect
             if (victimPoisonAura == null)
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
-                AuraManager.AddAura(victim, "Poison", holder, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                AuraManager.AddAura(victim, "Poison", holder, 3 * level / 4, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                     poisonAffect);
@@ -48,7 +48,7 @@ public class Poison : IPostHitDamageWeaponEffect
                 victimPoisonAura.Update(3 * level / 4, TimeSpan.FromMinutes(duration));
 
             // weaken the poison if it's temporary 
-            if (wieldPoisonAura != null && !wieldPoisonAura.AuraFlags.HasFlag(AuraFlags.Permanent))
+            if (wieldPoisonAura != null && !wieldPoisonAura.AuraFlags.IsSet("Permanent"))
             {
                 wieldPoisonAura.DecreaseLevel();
                 bool wornOff = wieldPoisonAura.DecreasePulseLeft(1);

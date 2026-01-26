@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -45,7 +45,7 @@ public class Slay : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Log($"{Actor.DisplayName} slayed {Whom.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} slayed {Whom.DebugName}.", new WiznetFlags("Punish"));
 
         Whom.Act(ActOptions.ToAll, "%R%{0:N} slay{0:v} {1} in cold blood!%x%", Actor.Impersonating!, Whom);
         Whom.RawKilled(Actor.Impersonating, false);

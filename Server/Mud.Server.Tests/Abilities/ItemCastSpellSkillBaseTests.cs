@@ -12,6 +12,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Random;
 using Mud.Server.Tests.Mocking;
+using Mud.Flags;
 
 namespace Mud.Server.Tests.Abilities;
 
@@ -37,6 +38,7 @@ public class ItemCastSpellSkillBaseTests : AbilityTestBase
         Mock<ICharacter> targetMock = new();
         userMock.SetupGet(x => x.Name).Returns("user");
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());

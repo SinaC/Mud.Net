@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
@@ -11,7 +13,6 @@ using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -39,7 +40,7 @@ public class CreateRose : ItemCreationSpellBase
         if (rose == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Log($"SpellCreateRose: cannot create item from blueprint {RoseBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellCreateRose: cannot create item from blueprint {RoseBlueprintId}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             return;
         }
         int duration = Level;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -11,7 +12,6 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -59,7 +59,7 @@ public class PickLock : SkillBase
             chance *= 2;
         if (Closeable.IsHard)
             chance /= 2;
-        if (!RandomManager.Chance(chance) && !User.ImmortalMode.HasFlag(ImmortalModeFlags.PassThru))
+        if (!RandomManager.Chance(chance) && !User.ImmortalMode.IsSet("PassThru"))
         {
             User.Send("%W%You failed.%x%");
             return false;
@@ -107,7 +107,7 @@ public class PickLock : SkillBase
             return "It's not closed.";
         if (!closeable.IsLockable)
             return "It can't be unlocked.";
-        if (closeable.IsPickProof && !User.ImmortalMode.HasFlag(ImmortalModeFlags.PassThru))
+        if (closeable.IsPickProof && !User.ImmortalMode.IsSet("PassThru"))
             return "You failed.";
         return null;
     }

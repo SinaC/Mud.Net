@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -9,7 +9,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
@@ -102,7 +101,7 @@ public class Purge : AdminGameAction
 
     private void PurgeRoom(IRoom room)
     {
-        Wiznet.Log($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", new WiznetFlags("Punish"));
 
         // Purge non playable characters (without NoPurge flag) (TODO: what if npc was wearing NoPurge items?)
         var nonPlayableCharacters = room.NonPlayableCharacters.Where(x => !x.ActFlags.IsSet("NoPurge")).ToArray(); // clone
@@ -118,7 +117,7 @@ public class Purge : AdminGameAction
 
     private void PurgeNonPlayableCharacter(INonPlayableCharacter nonPlayableCharacterVictim)
     {
-        Wiznet.Log($"{Actor.DisplayName} purges npc {nonPlayableCharacterVictim.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges npc {nonPlayableCharacterVictim.DebugName}.", new WiznetFlags("Punish"));
 
         nonPlayableCharacterVictim.Act(ActOptions.ToRoom, "{0} purge{0:v} {1}.", Actor.Impersonating!, nonPlayableCharacterVictim);
         CharacterManager.RemoveCharacter(nonPlayableCharacterVictim);
@@ -127,7 +126,7 @@ public class Purge : AdminGameAction
 
     private void PurgePlayableCharacter(IPlayableCharacter playableCharacterVictim)
     {
-        Wiznet.Log($"{Actor.DisplayName} purges player {playableCharacterVictim.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges player {playableCharacterVictim.DebugName}.", new WiznetFlags("Punish"));
 
         playableCharacterVictim.Act(ActOptions.ToRoom, "{0} disintegrate{0:v} {1}.", Actor.Impersonating!, playableCharacterVictim);
         playableCharacterVictim.StopFighting(true);
@@ -139,7 +138,7 @@ public class Purge : AdminGameAction
 
     private void PurgeItem(IItem item)
     {
-        Wiznet.Log($"{Actor.DisplayName} purges item {item.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges item {item.DebugName}.", new WiznetFlags("Punish"));
 
         Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Actor.Impersonating!, item);
         ItemManager.RemoveItem(item);

@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -72,7 +72,7 @@ public class Restore : AdminGameAction
         {
             foreach (var loopVictim in Impersonating.Room.People)
                 RestoreOneCharacter(loopVictim);
-            Wiznet.Log($"{Actor.DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
+            Wiznet.Log($"{Actor.DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", new WiznetFlags("Restore"));
             Actor.Send("Room restored.");
             return;
         }
@@ -81,19 +81,19 @@ public class Restore : AdminGameAction
         {
             foreach (var loopVictim in CharacterManager.PlayableCharacters)
                 RestoreOneCharacter(loopVictim);
-            Wiznet.Log($"{Actor.DisplayName} has restored all active players.", WiznetFlags.Restore);
+            Wiznet.Log($"{Actor.DisplayName} has restored all active players.", new WiznetFlags("Restore"));
             Actor.Send("All active players restored.");
             return;
         }
 
         RestoreOneCharacter(Whom);
-        Wiznet.Log($"{Actor.DisplayName} has restored {Whom.DisplayName}.", WiznetFlags.Restore);
+        Wiznet.Log($"{Actor.DisplayName} has restored {Whom.DisplayName}.", new WiznetFlags("Restore"));
         Actor.Send("Ok.");
     }
 
     private void RestoreOneCharacter(ICharacter victim)
     {
-        victim.RemoveAuras(x => !x.AuraFlags.HasFlag(AuraFlags.NoDispel) && !x.AuraFlags.HasFlag(AuraFlags.Permanent) && !x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Charm")), true, true); // TODO: harmful auras only ?
+        victim.RemoveAuras(x => !x.AuraFlags.IsSet("NoDispel") && !x.AuraFlags.IsSet("Permanent") && !x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Charm")), true, true); // TODO: harmful auras only ?
         foreach (var resource in victim.CurrentResourceKinds)
             victim.UpdateResource(resource, victim.MaxResource(resource));
         victim.Send("{0} has restored you.", Actor.Impersonating?.DisplayName ?? Actor.DisplayName);

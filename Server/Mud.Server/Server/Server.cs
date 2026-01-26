@@ -9,7 +9,9 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
 using Mud.Network.Interfaces;
+using Mud.Random;
 using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
@@ -25,6 +27,7 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -37,12 +40,10 @@ using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
-using Mud.Random;
 using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
-using Mud.Server.Interfaces.Combat;
 
 namespace Mud.Server.Server;
 
@@ -634,7 +635,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         // Let's go
         Logger.LogInformation("Promoting {name} to {level}", player.Name, level);
-        Wiznet.Log($"Promoting {player.Name} to {level}", WiznetFlags.Promote);
+        Wiznet.Log($"Promoting {player.Name} to {level}", new WiznetFlags("Promote"));
 
         // Remove from playing client
         lock (_playingClientLockObject)
@@ -849,14 +850,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             previousPlayerPair.Value.Client.DataReceived -= ClientPlayingOnDataReceived;
             previousPlayerPair.Value.Client.Disconnect();
 
-            Wiznet.Log($"{username} has reconnected.", WiznetFlags.Logins);
+            Wiznet.Log($"{username} has reconnected.", new WiznetFlags("Logins"));
 
             // Welcome back
             client.WriteData("Reconnecting to Mud.Net!!" + Environment.NewLine);
         }
         else
         {
-            Wiznet.Log($"{username} has connected.", WiznetFlags.Logins);
+            Wiznet.Log($"{username} has connected.", new WiznetFlags("Logins"));
 
             // Welcome
             client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
@@ -978,7 +979,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
         else
         {
-            Wiznet.Log($"{playingClient!.Player.DisplayName} has disconnected.", WiznetFlags.Logins);
+            Wiznet.Log($"{playingClient!.Player.DisplayName} has disconnected.", new WiznetFlags("Logins"));
 
             var admin = playingClient.Player as IAdmin;
             // Remove LastTeller and SnoopBy
@@ -1198,7 +1199,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         // for each pc
         //   for each aggresive npc in pc room
         //     pick a random valid victim in room
-        var pcs = CharacterManager.PlayableCharacters.Where(x => x.Room != null && !x.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)).ToArray();
+        var pcs = CharacterManager.PlayableCharacters.Where(x => x.Room != null && !x.ImmortalMode.IsSet("AlwaysSafe")).ToArray();
         foreach (var pc in pcs)
         {
             var aggressors = pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToArray();
@@ -1269,7 +1270,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         return
             aggressor.Level >= victim.Level - 5
-            && !victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)
+            && !victim.ImmortalMode.IsSet("AlwaysSafe")
             && (!aggressor.ActFlags.IsSet("Wimpy") || victim.Position < Positions.Sleeping) // wimpy aggressive mobs only attack if player is asleep
             && aggressor.CanSee(victim);
     }
@@ -1284,8 +1285,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private void HandleAuras<TEntity>(IEnumerable<TEntity> entities, int pulseCount)
         where TEntity : IEntity
     {
-        var auraFilterFunc = new Func<IAura, bool>(a => !a.AuraFlags.HasFlag(AuraFlags.Permanent) && a.PulseLeft > 0);
-        foreach (var entity in entities.Where(x => x.Auras.Any(a => !a.AuraFlags.HasFlag(AuraFlags.Permanent) && a.PulseLeft > 0)))
+        var auraFilterFunc = new Func<IAura, bool>(a => !a.AuraFlags.IsSet("Permanent") && a.PulseLeft > 0);
+        foreach (var entity in entities.Where(x => x.Auras.Any(a => !a.AuraFlags.IsSet("Permanent") && a.PulseLeft > 0)))
         {
             try
             {
@@ -1476,7 +1477,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                         // charmie assisting group member
                                         (npcCandidate is not null && npcCandidate.CharacterFlags.IsSet("Charm") && ch.IsSameGroupOrPet(npcCandidate))
                                         // PC with autoassist assisting group member
-                                        || (pcCandidate is not null && pcCandidate.AutoFlags.HasFlag(AutoFlags.Assist) && ch.IsSameGroupOrPet(pcCandidate))
+                                        || (pcCandidate is not null && pcCandidate.AutoFlags.IsSet("Assist") && ch.IsSameGroupOrPet(pcCandidate))
                                         )
                                 {
                                     Logger.LogDebug("Group member assisting: ch {ch} fighting {victim} is helped by {candidate}", ch.DebugName, victim.DebugName, candidate.DebugName);
@@ -1563,7 +1564,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 // regen is now handled in HandleResources
 
                 // dots/hots
-                if (!ch.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
+                if (!ch.ImmortalMode.IsSet("AlwaysSafe"))
                 {
                     // apply a random periodic affects if any
                     var periodicAuras = ch.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
@@ -1689,7 +1690,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Logger.LogWarning("Impersonable {name} is not impersonated", pc.DebugName);
 
                 // Light
-                if (!pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+                if (!pc.ImmortalMode.IsSet("Infinite"))
                 {
                     var light = pc.GetEquipment<IItemLight>(EquipmentSlots.Light);
                     if (light != null
@@ -1709,7 +1710,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
 
                 // Update conditions
-                if (!pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+                if (!pc.ImmortalMode.IsSet("Infinite"))
                 {
                     pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
                     // TODO: not if undead from here

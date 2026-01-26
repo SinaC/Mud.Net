@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -39,7 +40,7 @@ public class Typo : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Log($"****USER TYPO REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Typos, AdminLevels.Implementor);
+        Wiznet.Log($"****USER TYPO REPORTING -- {Actor.DisplayName}: {Message}", new WiznetFlags("Typos"), AdminLevels.Implementor);
         Actor.Send("Typo logged.");
     }
 }

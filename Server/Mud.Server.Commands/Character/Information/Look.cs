@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -73,7 +74,7 @@ public class Look : CharacterGameAction
         if (Actor.CharacterFlags.IsSet("Blind"))
             return "You can't see a thing!";
 
-        if (Actor.Room.IsDark && !Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (Actor.Room.IsDark && !Actor.ImmortalMode.IsSet("Holylight"))
         {
             IsRoomDark = true;
             return null;
@@ -197,7 +198,7 @@ public class Look : CharacterGameAction
                 }
                 else
                 {
-                    Wiznet.Log($"Invalid liquid name {DrinkContainer.LiquidName} item {DrinkContainer.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Invalid liquid name {DrinkContainer.LiquidName} item {DrinkContainer.DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     Actor.Send("It's {0}filled with a transparent liquid.", left);
                 }
             }

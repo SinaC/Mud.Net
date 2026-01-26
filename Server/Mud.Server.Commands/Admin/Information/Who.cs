@@ -44,7 +44,7 @@ public class Who : AdminGameAction
                             player.Impersonating.Level,
                             player.Impersonating.Class?.DisplayName ?? "(none)",
                             player.Impersonating.Race?.DisplayName ?? "(none)",
-                            player.Impersonating.ImmortalMode != Mud.Domain.ImmortalModeFlags.None ? player.Impersonating.ImmortalMode : string.Empty);
+                            player.Impersonating.ImmortalMode.IsNone ? string.Empty : player.Impersonating.ImmortalMode);
                     else
                         sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
                     break;
@@ -67,7 +67,7 @@ public class Who : AdminGameAction
                             admin.Impersonating.Level,
                             admin.Impersonating.Class?.DisplayName ?? "(none)",
                             admin.Impersonating.Race?.DisplayName ?? "(none)",
-                            admin.Impersonating.ImmortalMode != Mud.Domain.ImmortalModeFlags.None ? admin.Impersonating.ImmortalMode : string.Empty);
+                            admin.Impersonating.ImmortalMode.IsNone ? string.Empty : admin.Impersonating.ImmortalMode);
                     else if (admin.Incarnating != null)
                         sb.AppendFormatLine("[ IG] [{0}] {1} incarnating {2}", admin.Level, admin.DisplayName, admin.Incarnating.DisplayName);
                     else

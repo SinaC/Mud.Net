@@ -14,7 +14,7 @@ public class CharacterAffectTests : TestBase
     {
         var room = GenerateRoom("");
         var npc = GenerateNPC("Charm", room);
-        var characterAura = new Aura.Aura(null!, null!, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect { Operator = AffectOperators.Add, Modifier = new CharacterFlags("Haste") });
+        var characterAura = new Aura.Aura(null!, null!, new AuraFlags("Permanent"), 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect { Operator = AffectOperators.Add, Modifier = new CharacterFlags("Haste") });
         npc.AddAura(characterAura, false);
         npc.Recompute();
 

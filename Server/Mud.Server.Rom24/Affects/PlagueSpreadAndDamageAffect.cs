@@ -1,12 +1,12 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Affects;
@@ -47,7 +47,7 @@ public class PlagueSpreadAndDamageAffect : NoAffectDataAffectBase, ICharacterPer
                     victim.Send("You feel hot and feverish.");
                     victim.Act(ActOptions.ToRoom, "{0:N} shivers and looks very ill.", victim);
                     int duration = RandomManager.Range(1, 2 * aura.Level);
-                    AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                    AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
                         new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add},
                         new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or},
                         new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));

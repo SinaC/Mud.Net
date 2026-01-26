@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
@@ -9,7 +11,6 @@ using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.POC.Skills;
 
@@ -35,7 +36,7 @@ public class DemoralizingRoar : OffensiveSkillBase
         var roarAura = Victim.GetAura(SkillName);
         if (roarAura == null)
         {
-            AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(30), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(30), new AuraFlags(), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = -User.Level, Operator = AffectOperators.Add });
         }
         else

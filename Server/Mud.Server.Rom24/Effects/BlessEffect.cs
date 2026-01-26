@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
@@ -35,7 +36,7 @@ public class BlessEffect : IEffect<ICharacter>
         if (victim != source)
             sourceCharacter?.Act(ActOptions.ToCharacter, "You grant {0} the favor of your god.", victim);
         int duration = 6 + level;
-        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = level / 8, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -level / 8, Operator = AffectOperators.Add });
     }

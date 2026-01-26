@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
-using Mud.Server.Common.Helpers;
 
 namespace Mud.Server.POC.Spells;
 
@@ -41,7 +40,7 @@ public class SpellConstruct : NoTargetSpellBase
                 return;
             }
             pcCaster.AddPet(construct);
-            AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
+            AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, new AuraFlags("Permanent", "NoDispel"), true,
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
         }
     }

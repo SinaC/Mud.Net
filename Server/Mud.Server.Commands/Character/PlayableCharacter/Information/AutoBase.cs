@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
@@ -6,20 +6,20 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 
 public abstract class AutoBase : PlayableCharacterGameAction
 {
-    protected abstract AutoFlags What { get; }
+    protected abstract string What { get; }
     protected abstract string RemovedMessage { get; }
     protected abstract string AddedMessage { get; }
 
     public override void Execute(IActionInput actionInput)
     {
-        if (Actor.AutoFlags.HasFlag(What))
+        if (Actor.AutoFlags.IsSet(What))
         {
-            Actor.RemoveAutoFlags(What);
+            Actor.RemoveAutoFlags(new AutoFlags(What));
             Actor.Send(RemovedMessage);
         }
         else
         {
-            Actor.AddAutoFlags(What);
+            Actor.AddAutoFlags(new AutoFlags(What));
             Actor.Send(AddedMessage);
         }
     }

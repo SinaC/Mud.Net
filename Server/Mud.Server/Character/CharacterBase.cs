@@ -178,7 +178,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public ICharacter? Fighting { get; protected set; }
 
-    public abstract ImmortalModeFlags ImmortalMode { get; }
+    public abstract IImmortalModes ImmortalMode { get; protected set; }
 
     public IEnumerable<IEquippedItem> Equipments => _equipments;
     public IEnumerable<IItem> Inventory => Content;
@@ -672,7 +672,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (exit == null)
             return false;
-        if (exit.ExitFlags.HasFlag(ExitFlags.Hidden))
+        if (exit.ExitFlags.IsSet("Hidden"))
         {
             if (CharacterFlags.IsSet("DetectHidden"))
                 return true;
@@ -879,7 +879,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // remove any existing Shape aura
         if (Shape != Shapes.Normal)
-            RemoveAuras(x => x.AuraFlags.HasFlag(AuraFlags.Shapeshift), false, true);
+            RemoveAuras(x => x.AuraFlags.IsSet("Shapeshift"), false, true);
 
         Shape = shape;
 
@@ -987,7 +987,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         var exit = fromRoom[direction];
         var toRoom = exit?.Destination;
 
-        var passThru = ImmortalMode.HasFlag(ImmortalModeFlags.PassThru);
+        var passThru = ImmortalMode.IsSet("PassThru");
 
         // Check if existing exit
         if (exit == null || toRoom == null)
@@ -997,7 +997,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
         // Closed ?
-        if ((exit.IsClosed && (!CharacterFlags.IsSet("PassDoor") || exit.ExitFlags.HasFlag(ExitFlags.NoPass)))
+        if ((exit.IsClosed && (!CharacterFlags.IsSet("PassDoor") || exit.ExitFlags.IsSet("NoPass")))
              && !passThru)
         {
             Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
@@ -1083,15 +1083,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (portal == null)
             return false;
 
-        var passThru = ImmortalMode.HasFlag(ImmortalModeFlags.PassThru);
+        var passThru = ImmortalMode.IsSet("PassThru");
 
-        if (portal.PortalFlags.HasFlag(PortalFlags.Closed) && !passThru)
+        if (portal.PortalFlags.IsSet("Closed") && !passThru)
         {
             Send("You can't seem to find a way in.");
             return false;
         }
 
-        if (((portal.PortalFlags.HasFlag(PortalFlags.NoCurse) && CharacterFlags.IsSet("Curse")) || Room.RoomFlags.IsSet("NoRecall"))
+        if (((portal.PortalFlags.IsSet("NoCurse") && CharacterFlags.IsSet("Curse")) || Room.RoomFlags.IsSet("NoRecall"))
             && !passThru)
         {
             Send("Something prevents you from leaving...");
@@ -1101,13 +1101,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Default destination is portal stored destination
         IRoom? destination = portal.Destination;
         // Random portal will fix it's destination once used
-        if (portal.PortalFlags.HasFlag(PortalFlags.Random) && portal.Destination == null)
+        if (portal.PortalFlags.IsSet("Random") && portal.Destination == null)
         {
             destination = RoomManager.GetRandomRoom(this);
             portal.ChangeDestination(destination);
         }
         // Buggy portal has a low chance to lead somewhere else
-        if (portal.PortalFlags.HasFlag(PortalFlags.Buggy) && RandomManager.Chance(5))
+        if (portal.PortalFlags.IsSet("Buggy") && RandomManager.Chance(5))
             destination = RoomManager.GetRandomRoom(this);
 
         if (destination == null
@@ -1141,7 +1141,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         ChangeRoom(destination, false);
 
         // take portal along
-        if (portal.PortalFlags.HasFlag(PortalFlags.GoWith) && portal.ContainedInto is IRoom)
+        if (portal.PortalFlags.IsSet("GoWith") && portal.ContainedInto is IRoom)
         {
             portal.ChangeContainer(Room);
         }
@@ -1195,7 +1195,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (destination == null)
         {
             Logger.LogError("ICharacter.ChangeRoom: {name} from: {room} to null", DebugName, Room == null ? "<<no room>>" : Room.DebugName);
-            Wiznet.Log($"Null destination room for character {DebugName}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Null destination room for character {DebugName}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         }
 
         Logger.LogDebug("ICharacter.ChangeRoom: {name} from: {fromRoom} to {toRoom}", DebugName, Room == null ? "<<no room>>" : Room.DebugName, destination == null ? "<<no room>>" : destination.DebugName);
@@ -1409,7 +1409,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return true;
         if (victim.Fighting == caster || victim == caster)
             return false;
-        if (!area && ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
+        if (!area && ImmortalMode.IsSet("AlwaysSafe"))
             return false;
         // safe room
         if (victim.Room.RoomFlags.IsSet("Safe"))
@@ -1445,7 +1445,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Killing players
         else
         {
-            if (area && victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
+            if (area && victim.ImmortalMode.IsSet("AlwaysSafe"))
                 return true;
             // Npc doing the killing
             if (caster is INonPlayableCharacter npcCaster)
@@ -1484,7 +1484,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return "Invalid target!";
         if (victim.Fighting == aggressor || victim == aggressor)
             return null;
-        if (victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
+        if (victim.ImmortalMode.IsSet("AlwaysSafe"))
             return null;
         if (victim.Room.RoomFlags.IsSet("Safe"))
             return "Not in this room.";
@@ -2062,7 +2062,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     #endregion
 
-    protected abstract WiznetFlags DeathWiznetFlags { get; }
+    protected abstract IWiznetFlags DeathWiznetFlags { get; }
 
     protected abstract bool CreateCorpseOnDeath { get; }
 
@@ -2523,7 +2523,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected virtual void RecomputeCurrentResourceKinds()
     {
         // Get current resource kind from class if any, default resources otherwisse
-        CurrentResourceKinds = ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)
+        CurrentResourceKinds = ImmortalMode.IsSet("Infinite")
             ? Enum.GetValues<ResourceKinds>().ToList()
             : (Class?.CurrentResourceKinds(Shape) ?? ResourceKindsExtensions.DefaultAvailableResources).Union(ResourceKindsExtensions.MandatoryAvailableResources).ToList();
     }
@@ -2608,7 +2608,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or },
                 AffectManager.CreateInstance("Sanctuary"));
         }
@@ -2616,7 +2616,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or },
                 AffectManager.CreateInstance("ProtectGood"));
         }
@@ -2624,7 +2624,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or },
                 AffectManager.CreateInstance("ProtectEvil"));
         }
@@ -2634,7 +2634,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             // TODO: code copied from haste spell (except duration and aura flags) use effect ??
             var hasteAbilityDefinition = AbilityManager["Haste"];
             var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
+            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
                 new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });
