@@ -5,6 +5,7 @@ public interface IRandomManager
     int Next(int maxExcluded);
     int Next(int minIncluded, int maxExcluded);
     bool Chance(int percentage);
+    bool OneOutOf(int number);
     int Dice(int count, int value);
     int Range(int min, int max);
     long Range(long min, long max);

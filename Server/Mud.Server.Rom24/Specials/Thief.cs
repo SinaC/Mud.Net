@@ -29,7 +29,7 @@ namespace Mud.Server.Rom24.Specials
                 return false;
 
             // failed: funny message
-            if (victim.Position >= Positions.Sleeping && RandomManager.Range(0, npc.Level) == 0)
+            if (victim.Position >= Positions.Sleeping && RandomManager.OneOutOf(npc.Level))
             {
                 victim.Act(ActOptions.ToCharacter, "You discover $n's hands in your wallet!", npc);
                 npc.ActToNotVictim(victim, "{0:N} discovers {1:N}'s hands in {0:s} wallet!", victim, npc);

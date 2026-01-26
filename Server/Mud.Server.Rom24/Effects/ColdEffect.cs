@@ -72,7 +72,7 @@ public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         if (!item.IsValid)
             return;
         if (item.ItemFlags.HasAny("BurnProof", "NoPurge")
-            || RandomManager.Range(0, 4) == 0)
+            || RandomManager.OneOutOf(4))
             return;
         // Affects only potion and drink container
         if (!(item is IItemPotion || item is IItemDrinkContainer))

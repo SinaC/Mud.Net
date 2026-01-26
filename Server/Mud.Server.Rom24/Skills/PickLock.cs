@@ -61,11 +61,11 @@ public class PickLock : SkillBase
             chance /= 2;
         if (!RandomManager.Chance(chance) && !User.ImmortalMode.HasFlag(ImmortalModeFlags.PassThru))
         {
-            User.Send("You failed.");
+            User.Send("%W%You failed.%x%");
             return false;
         }
         Closeable.Unlock();
-        User.Act(ActOptions.ToAll, "{0:N} picks the lock on {1}.", User, Closeable);
+        User.Act(ActOptions.ToAll, "%W%{0:N} picks the lock on {1}.%x%", User, Closeable);
         return true;
     }
 

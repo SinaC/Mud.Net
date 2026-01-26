@@ -49,8 +49,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IClassManager ClassManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
@@ -180,7 +180,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (petData.MaxResources != null)
         {
             foreach (var maxResourceData in petData.MaxResources)
+            {
                 SetBaseMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+                SetCurrentMaxResource(maxResourceData.Key, maxResourceData.Value);
+            }
         }
         if (petData.CurrentResources != null)
         {
@@ -287,7 +290,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override string DisplayName => Blueprint?.ShortDescription?.UpperFirstLetter() ?? "???";
 
-    public override string DebugName => $"{DisplayName}[Id:{Blueprint?.Id ?? -1}]";
+    public override string DebugName => $"{DisplayName}[BId:{Blueprint?.Id ?? -1}][Id:{Id}]";
 
     public override void OnAuraRemoved(IAura aura, bool displayWearOffMessage)
     {
@@ -418,6 +421,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public IAssistFlags AssistFlags { get; protected set; } = null!;
 
+    public bool IsAlive
+        => IsValid && this[ResourceKinds.HitPoints] > 0;
+
     // special behavior
     public ISpecialBehavior? SpecialBehavior { get; protected set; } = null!;
 
@@ -426,6 +432,21 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // If 'this' is NPC and in objective list or in kill loot table
         return questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => !o.IsCompleted && o.TargetBlueprint.Id == Blueprint.Id)
                 || questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).Any(q => q.Objectives.OfType<LootItemQuestObjective>().Where(o => !o.IsCompleted).Any(x => q.KillLootTable.GetValueOrDefault(Blueprint.Id)?.ObjectiveIds?.Contains(x.Id) == true));
+    }
+
+    // pet/charmies
+    public bool IsPetOrCharmie
+    {
+        get
+        {
+            if (Master != null)
+                return true;
+            if (ActFlags.IsSet("pet"))
+                return true;
+            if (CharacterFlags.IsSet("charm"))
+                return true;
+            return false;
+        }
     }
 
     public IPlayableCharacter? Master { get; protected set; }
@@ -686,7 +707,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
     }
 
-    protected override bool IsAllowedToFleeTo(IRoom destination)
+    protected override bool IsAllowedToEnterTo(IRoom destination)
         => !destination.RoomFlags.IsSet("NoMob");
 
     protected override bool HasBoat
@@ -724,8 +745,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         if (GlobalCooldown < Pulse.PulseViolence/2)
         {
-            if ((ActFlags.IsSet("Wimpy") && this[ResourceKinds.HitPoints] < MaxResource(ResourceKinds.HitPoints) / 5 && RandomManager.Chance(25))
-                || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))
+            if ((ActFlags.IsSet("Wimpy") && this[ResourceKinds.HitPoints] < MaxResource(ResourceKinds.HitPoints) / 5 && RandomManager.Chance(25)) // wimpy
+                || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room)) // charmies flee when master is not in the same room
                 Flee();
         }
     }
@@ -787,7 +808,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected bool UseSkill(string skillName, params ICommandParameter[] parameters)
     {
-        Logger.LogInformation("{name} tries to use {skillName} on {fightingName}.", DebugName, skillName, Fighting?.DebugName ?? "???");
+        Logger.LogInformation("{name} uses {skillName} on {fightingName}.", DebugName, skillName, Fighting?.DebugName ?? "???");
         var abilityDefinition = AbilityManager[skillName];
         if (abilityDefinition == null)
         {

@@ -4,6 +4,6 @@ namespace Mud.Server.Interfaces.Affect.Room;
 
 public interface IRoomResourceRateAffect : IRoomAffect
 {
-    int Modifier { get; set; }
-    AffectOperators Operator { get; set; }
+    int Modifier { get; }
+    AffectOperators Operator { get; }
 }

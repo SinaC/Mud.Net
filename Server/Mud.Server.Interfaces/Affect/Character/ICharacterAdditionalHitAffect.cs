@@ -4,7 +4,7 @@ namespace Mud.Server.Interfaces.Affect.Character
 {
     public interface ICharacterAdditionalHitAffect : IAffect
     {
-        int AdditionalHitCount { get; set; }
+        int AdditionalHitCount { get; }
 
         bool IsAdditionalHitAvailable(ICharacter character, int hitCount);
     }

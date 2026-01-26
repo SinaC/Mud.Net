@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
 using Mud.Random;
 
 namespace Mud.Server.Ability.Spell;
@@ -14,7 +13,7 @@ public abstract class HealSpellBase : DefensiveSpellBase
     protected override void Invoke()
     {
         int value = HealValue;
-        Victim.UpdateResource(ResourceKinds.HitPoints, value);
+        Victim.Heal(Caster, value);
         Victim.Send(HealVictimPhrase);
         if (Caster != Victim)
             Caster.Send(HealCasterPhrase);

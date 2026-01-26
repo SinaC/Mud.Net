@@ -87,7 +87,7 @@ public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
 
     protected override bool Invoke()
     {
-        User.Act(ActOptions.ToAll, "{0:N} recite{0:v} {1}.", User, Item);
+        User.Act(ActOptions.ToAll, "%W%{0:N} recite{0:v} {1}.%x%", User, Item);
 
         int chance = 20 + (4 * Learned) / 5;
         if (!RandomManager.Chance(chance))

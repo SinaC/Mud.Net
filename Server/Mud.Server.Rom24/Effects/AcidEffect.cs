@@ -56,7 +56,7 @@ public class AcidEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         if (!item.IsValid)
             return;
         if (item.ItemFlags.HasAny("BurnProof", "NoPurge")
-                || RandomManager.Range(0, 4) == 0)
+                || RandomManager.OneOutOf(4))
             return;
         // Affects only corpse, container, armor, clothing, wand, staff and scroll
         if (!(item is IItemCorpse || item is IItemContainer || item is IItemArmor || item is IItemWand || item is IItemStaff || item is IItemScroll || item is IItemClothing))

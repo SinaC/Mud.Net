@@ -42,6 +42,7 @@ using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
+using Mud.Server.Interfaces.Combat;
 
 namespace Mud.Server.Server;
 
@@ -108,6 +109,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IWiznet Wiznet { get; }
     private IPulseManager PulseManager { get; }
     private IReadOnlyCollection<ISanityCheck> SanityChecks { get; }
+    private IAggroManager AggroManager { get; }
     private ServerOptions ServerOptions { get; }
 
     public Server(ILogger<Server> logger, IServiceProvider serviceProvider, IOptions<ServerOptions> serverOptions,
@@ -115,7 +117,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager, IEffectManager effectManager, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, ISpecialBehaviorManager specialBehaviorManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
-        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks)
+        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks, IAggroManager aggroManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -144,6 +146,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Wiznet = wiznet;
         PulseManager = pulseManager;
         SanityChecks = sanityChecks.ToArray();
+        AggroManager = aggroManager;
 
         _clients = new ConcurrentDictionary<IClient, PlayingClient>();
         _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
@@ -1369,12 +1372,46 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleViolence(int pulseCount)
     {
+        // remove empty aggro table and handle aggro switch
+        foreach (var npc in CharacterManager.NonPlayableCharacters)
+        {
+            var aggroTable = AggroManager.GetAggroTable(npc);
+            if (aggroTable != null)
+            {
+                if (aggroTable.AggroByEnemy.Count == 0)
+                {
+                    Logger.LogInformation("Remove NPC {npc} from aggro manager because aggro table is empty", npc.DebugName);
+                    AggroManager.Clear(npc);
+                }
+                else
+                {
+                    var victim = npc.Fighting;
+                    // check aggro switch
+                    var newVictim = AggroManager.ChooseEnemy(npc);
+                    if (newVictim != victim && newVictim != null)
+                    {
+                        Logger.LogInformation("Aggro switch for {character} from {victim} to {newVictim}", npc.DebugName, victim?.DebugName, newVictim.DebugName);
+                        npc.Act(ActOptions.ToAll, "%W%{0:N} turn{0:v} towards {1} and starts attacking.%x%", npc, newVictim);
+                        npc.StartFighting(newVictim); // ensure to set npc.Fighting = newVictim
+                    }
+
+                    // decrease aggro in not in same room
+                    AggroManager.DecreaseAggroOfEnemiesIfNotInSameRoom(npc);
+
+                    // dump
+                    Logger.LogDebug("NPC {npc} aggro table", npc.DebugName);
+                    foreach (var entry in aggroTable.AggroByEnemy)
+                        Logger.LogDebug("  {enemy}: {aggro}", entry.Key.DebugName, entry.Value);
+                }
+            }
+        }
+
         //Logger.LogDebug("HandleViolence: {0}", DateTime.Now);
         var fightingCharacters = CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToArray(); // clone because multi hit could kill character and then modify list
         foreach (var ch in fightingCharacters)
         {
-            var npcCh = ch as INonPlayableCharacter;
-            var pcCh = ch as IPlayableCharacter;
+            var npc = ch as INonPlayableCharacter;
+            var pc = ch as IPlayableCharacter;
 
             var victim = ch.Fighting;
             if (victim != null)
@@ -1390,10 +1427,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     {
                         Logger.LogDebug("Stop fighting between {character} and {victim}, because not in same room", ch.DebugName, victim.DebugName);
                         ch.StopFighting(false);
-                        if (npcCh != null)
+                        if (npc != null)
                         {
                             Logger.LogDebug("Non-playable character stop fighting, resetting it");
-                            npcCh.Reset(); // TODO: remove periodic aura
+                            npc.Reset(); // TODO: remove periodic aura
                         }
                     }
 
@@ -1428,10 +1465,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                 var pcCandidate = candidate as IPlayableCharacter;
                                 var npcCandidate = candidate as INonPlayableCharacter;
                                 // NPC (not charmed) assisting PC
-                                if (pcCh is not null && npcCandidate is not null && npcCandidate.AssistFlags.IsSet("Players"))
+                                if (pc is not null && npcCandidate is not null && npcCandidate.AssistFlags.IsSet("Players"))
                                 {
                                     Logger.LogDebug("NPC assisting PC: ch {ch} fighting {victim} is helped by {candidate}", ch.DebugName, victim.DebugName, candidate.DebugName);
-                                    npcCandidate.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcCandidate);
+                                    npcCandidate.Act(ActOptions.ToAll, "%W%{0:N} scream{0:v} and attack{0:v}!%x%", npcCandidate);
                                     npcCandidate.MultiHit(victim);
                                 }
                                 // group member assisting
@@ -1446,14 +1483,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                     candidate.MultiHit(victim);
                                 }
                                 // ch and candidate are not charmed NPC
-                                else if (npcCh is not null && !npcCh.CharacterFlags.IsSet("Charm") && npcCandidate is not null && !npcCandidate.CharacterFlags.IsSet("Charm"))
+                                else if (npc is not null && !npc.CharacterFlags.IsSet("Charm") && npcCandidate is not null && !npcCandidate.CharacterFlags.IsSet("Charm"))
                                 {
                                     var isAssistAll = npcCandidate.AssistFlags.IsSet("All");
-                                    var isAssistGroup = npcCandidate.Blueprint.Group != 0 && npcCandidate.Blueprint.Group == npcCh.Blueprint.Group; // group assist
-                                    var isAssistRace = npcCandidate.AssistFlags.IsSet("Race") && npcCandidate.Race == npcCh.Race;
-                                    var isAssistAlign = npcCandidate.AssistFlags.IsSet("Align") && ((npcCandidate.IsGood && npcCh.IsGood) || (npcCandidate.IsNeutral && npcCh.IsNeutral) || (npcCandidate.IsEvil && npcCh.IsEvil));
+                                    var isAssistGroup = npcCandidate.Blueprint.Group != 0 && npcCandidate.Blueprint.Group == npc.Blueprint.Group; // group assist
+                                    var isAssistRace = npcCandidate.AssistFlags.IsSet("Race") && npcCandidate.Race == npc.Race;
+                                    var isAssistAlign = npcCandidate.AssistFlags.IsSet("Align") && ((npcCandidate.IsGood && npc.IsGood) || (npcCandidate.IsNeutral && npc.IsNeutral) || (npcCandidate.IsEvil && npc.IsEvil));
                                     // TODO: assist guard
-                                    var isAssistVnum = npcCandidate.AssistFlags.IsSet("Vnum") && npcCandidate.Blueprint.Id == npcCh.Blueprint.Id;
+                                    var isAssistVnum = npcCandidate.AssistFlags.IsSet("Vnum") && npcCandidate.Blueprint.Id == npc.Blueprint.Id;
                                     if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                                     {
                                         if (RandomManager.Chance(50))
@@ -1462,7 +1499,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                             if (target != null)
                                             {
                                                 Logger.LogDebug("NPC assisting NPC: ch {ch} fighting {victim} is helped by {candidate}. all: {isAssistAll} group: {isAssistGroup} race: {isAssistRace} align: {isAssistAlign}", ch.DebugName, victim.DebugName, candidate.DebugName, isAssistAll, isAssistGroup, isAssistRace, isAssistAlign);
-                                                npcCandidate.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcCandidate);
+                                                npcCandidate.Act(ActOptions.ToAll, "%W%{0:N} scream{0:v} and attack{0:v}!%x%", npcCandidate);
                                                 npcCandidate.MultiHit(target);
                                             }
                                         }
@@ -1599,7 +1636,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     continue;
 
                 // scavenger
-                if (npc.ActFlags.IsSet("Scavenger") && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                if (npc.ActFlags.IsSet("Scavenger") && npc.Room.Content.Any() && RandomManager.OneOutOf(64))
                 {
                     //Logger.LogDebug("Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
                     // get most valuable item in room
@@ -1612,10 +1649,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
 
                 // sentinel
-                if (!npc.ActFlags.IsSet("Sentinel") && RandomManager.Range(0, 7) == 0)
+                if (!npc.ActFlags.IsSet("Sentinel") && RandomManager.OneOutOf(8))
                 {
                     //Logger.LogDebug("Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
-                    int exitNumber = RandomManager.Range(0, 31);
+                    var exitNumber = RandomManager.Range(0, 31);
                     if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
                     {
                         var exitDirection = (ExitDirections)exitNumber;

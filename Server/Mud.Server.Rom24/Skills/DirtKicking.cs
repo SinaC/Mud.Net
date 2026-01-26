@@ -104,7 +104,7 @@ public class DirtKicking : OffensiveSkillBase
         //
         if (chance == 0)
         {
-            User.Send("There isn't any dirt to kick.");
+            User.Send("%W%There isn't any dirt to kick.%x%");
             return false;
         }
         // now the attack

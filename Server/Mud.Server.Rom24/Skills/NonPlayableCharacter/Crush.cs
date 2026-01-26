@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Table;
 using Mud.Random;
+using Mud.Server.Common;
 
 namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 
@@ -53,7 +54,7 @@ public class Crush : FightingSkillBase
 
         if (RandomManager.Chance(chance))
         {
-            Victim.Act(ActOptions.ToAll, "{0:N} grab{0:v} {1:n} and slam{0:v} {1:m} to the ground with bone crushing force!", User, Victim);
+            Victim.Act(ActOptions.ToAll, "%W%{0:N} grab{0:v} {1:n} and slam{0:v} {1:m} to the ground with bone crushing force!%x%", User, Victim);
             int damage;
             if (User.Level < 20)
                 damage = 20;
@@ -72,13 +73,13 @@ public class Crush : FightingSkillBase
             damage += TableValues.DamBonus(User);
             Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "crush", true);
             Victim.ChangePosition(Positions.Resting);
-            //WAIT_STATE(victim,PULSE_VIOLENCE); TODO ?
+            Victim.SetDaze(Pulse.PulseViolence);
             //check_killer(ch,victim);
             return true;
         }
 
-        User.Act(ActOptions.ToCharacter, "Your crush attempt misses {0:N}.", Victim);
-        User.Act(ActOptions.ToRoom, "{0:N} lashes out wildly with {0:s} arms but misses.", User);
+        User.Act(ActOptions.ToCharacter, "%W%Your crush attempt misses {0:N}.%x%", Victim);
+        User.Act(ActOptions.ToRoom, "%W%{0:N} lashes out wildly with {0:s} arms but misses.%x%", User);
         //check_killer(ch,victim);
 
         // No need to start a fight because this ability can only used in combat

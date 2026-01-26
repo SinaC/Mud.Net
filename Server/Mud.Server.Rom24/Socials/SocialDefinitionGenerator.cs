@@ -10,7 +10,6 @@ public class SocialDefinitionGenerator : ISocialDefinitionGenerator
     private static readonly SocialDefinition[] _socialDefinitions =
     [
         new SocialDefinition("gack","Gaaack!","{0} gacks with dismay!","Appalled, you gack at {1}.","{0} gacks expressively, shooting {1} a dismayed look.","{0} gacks, and looks your way, dismayed.","That person isn't here.","*GACK!*","Appalled, {0} gacks at {0:f}!"),
-        new SocialDefinition("gack","Gaaack!","{0} gacks with dismay!","Appalled, you gack at {1}.","{0} gacks expressively, shooting {1} a dismayed look.","{0} gacks, and looks your way, dismayed.","That person isn't here.","*GACK!*","Appalled, {0} gacks at {0:f}!"),
         new SocialDefinition("kiss","Isn't there someone you want to kiss?",null,"You kiss {1:m}.","{0} kisses {1}.","{0} kisses you.","Never around when required.","All the lonely people :(",null),
         new SocialDefinition("bounce","BOIINNNNNNGG!","{0} bounces around with a happy smile.","You bounce onto {1:s} lap and wiggle about.","{0} bounces onto {1}'s lap and wiggles about.","{0} bounces onto your lap and wiggles about.","You don't see your plaything.","You bounce your head like a basketball.","{0} plays basketball with {0:s} head."),
         new SocialDefinition("smile","You smile happily.","{0} smiles happily.","You smile at {1:m}.","{0} beams a smile at {1}.","{0} smiles at you.","There's no one by that name around.","You smile at yourself.","{0} smiles at {0:f}."),

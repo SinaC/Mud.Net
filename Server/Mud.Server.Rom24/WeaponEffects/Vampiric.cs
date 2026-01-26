@@ -23,7 +23,7 @@ public class Vampiric : IPostHitDamageWeaponEffect
         victim.Act(ActOptions.ToRoom, "{0} draws life from {1}.", weapon, victim);
         victim.Act(ActOptions.ToCharacter, "You feel {0} drawing your life away.", weapon);
         victim.AbilityDamage(holder, damage, SchoolTypes.Negative, null, false);
-        holder.UpdateResource(ResourceKinds.HitPoints, damage / 2);
+        holder.Heal(holder, damage / 2);
         holder.UpdateAlignment(-1);
         return true;
     }

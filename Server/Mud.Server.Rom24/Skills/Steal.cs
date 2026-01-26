@@ -105,7 +105,7 @@ public class Steal : SkillBase
         if (Failed)
         {
             // Failure
-            Actor.Send("Oops.");
+            Actor.Send("%W%Oops.%x%");
             //Actor.RemoveBaseCharacterFlags(CharacterFlags.Sneak);
             // TODO: what about invis ?
             //Actor.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Sneak"), true); // recompute
@@ -160,8 +160,8 @@ public class Steal : SkillBase
             if (What.EquippedBy != null)
                 What.ChangeEquippedBy(null, false);
             What.ChangeContainer(Actor);
-            Actor.Act(ActOptions.ToCharacter, "You pocket {0}.", What);
-            Actor.Send("Got it!");
+            Actor.Act(ActOptions.ToCharacter, "%W%You pocket {0}.%x%", What);
+            Actor.Send("%W%Got it!%x%");
         }
         // Money
         else
@@ -170,11 +170,11 @@ public class Steal : SkillBase
             Victim.UpdateMoney(-Silver, -Gold);
 
             if(Silver <= 0)
-                Actor.Send("Bingo! You got {0} gold coins.", Gold);
+                Actor.Send("%W%Bingo! You got {0} gold coins.%x%", Gold);
             else if (Gold <= 0)
-                Actor.Send("Bingo! You got {0} silver coins.", Silver);
+                Actor.Send("%W%Bingo! You got {0} silver coins.%x%", Silver);
             else
-                Actor.Send("Bingo! You got {0} silver and {1} gold coins.", Silver, Gold);
+                Actor.Send("%W%Bingo! You got {0} silver and {1} gold coins.%x%", Silver, Gold);
         }
 
         return true;

@@ -171,7 +171,7 @@ public abstract class EntityBase : ActorBase, IEntity
             Logger.LogWarning("IEntity.AddAura: {name} is not valid anymore", DebugName);
             return;
         }
-        Logger.LogInformation("IEntity.AddAura: Add: {name} {abilityName}| recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
+        Logger.LogDebug("IEntity.AddAura: Add: {name} {abilityName}| recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
         _auras.Add(aura);
         if (recompute)
             Recompute();
@@ -179,7 +179,7 @@ public abstract class EntityBase : ActorBase, IEntity
 
     public void RemoveAura(IAura aura, bool recompute, bool displayWearOffMessage)
     {
-        Logger.LogInformation("IEntity.RemoveAura: {name} {abilityName} | recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
+        Logger.LogDebug("IEntity.RemoveAura: {name} {abilityName} | recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
         bool removed = _auras.Remove(aura);
         if (!removed)
             Logger.LogWarning("ICharacter.RemoveAura: Trying to remove unknown aura");
@@ -192,7 +192,7 @@ public abstract class EntityBase : ActorBase, IEntity
 
     public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute, bool displayWearOffMessage)
     {
-        Logger.LogInformation("IEntity.RemoveAuras: {name} | recompute: {recompute}", DebugName, recompute);
+        Logger.LogDebug("IEntity.RemoveAuras: {name} | recompute: {recompute}", DebugName, recompute);
         var auras = Auras.Where(filterFunc).ToArray();
         foreach(IAura aura in auras)
             RemoveAura(aura, false, displayWearOffMessage);
@@ -242,8 +242,8 @@ public abstract class EntityBase : ActorBase, IEntity
 
     protected AuraData[] MapAuraData()
     {
-        // don't save Shapeshift
-        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(AuraFlags.Shapeshift)).Select(x => x.MapAuraData()).ToArray();
+        // don't save Shapeshift neither NoSave
+        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(AuraFlags.Shapeshift) && !x.AuraFlags.HasFlag(AuraFlags.NoSave)).Select(x => x.MapAuraData()).ToArray();
     }
 
     protected static TFlags NewAndCopyAndSet<TFlags>(Func<TFlags> newFunc, TFlags? toCopy, TFlags? toSet)

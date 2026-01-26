@@ -263,7 +263,7 @@ public class PortalTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemPortal>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, UseAggro = false, BlueprintIds = null! });
         var roomManagerMock = new Mock<IRoomManager>();
         var roomMock = new Mock<IRoom>();
 

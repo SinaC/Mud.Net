@@ -32,7 +32,7 @@ namespace Mud.Server.Rom24.Specials
             ICharacter? victim = null;
             foreach (var ch in npc.Room.People.Where(x => x != npc && x.Fighting != null))
             {
-                if (RandomManager.Range(0, count) == 0)
+                if (RandomManager.OneOutOf(count))
                     victim = ch.Level > ch.Fighting!.Level // attack highest level between ch and ch.Fighting
                         ? ch
                         : ch.Fighting;

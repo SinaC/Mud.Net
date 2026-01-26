@@ -136,7 +136,7 @@ public class DeathOnFirstHitTests
         //      npc starts a fight with member
         //      member and pc starts a fight with npc
         //      npc deals lethal damage to member
-        //      ùeùber dies and is removed from fight
+        //      member dies and is removed from fight
         //      npc doesn't fight anyone anymore
         //      pc is still fighting npc
         combatManager.AbilityDamage(npc, pc2, 1000, Domain.SchoolTypes.Bash);

@@ -45,7 +45,7 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         {
             victim.Send("You feel poison coursing through your veins.");
             victim.Act(ActOptions.ToRoom, "{0} looks very ill.", victim);
-            int duration = level / 2;
+            var duration = level / 2;
             var poisonAura = victim.GetAura(auraName);
             if (poisonAura != null)
             {

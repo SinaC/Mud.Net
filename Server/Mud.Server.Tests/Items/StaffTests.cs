@@ -83,7 +83,7 @@ public class StaffTests : TestBase
     {
         var loggerMock = new Mock<ILogger<ItemStaff>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, BlueprintIds = null! });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, UseAggro = false, BlueprintIds = null! });
         var roomMock = new Mock<IRoom>();
 
         var staff = new ItemStaff(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!);

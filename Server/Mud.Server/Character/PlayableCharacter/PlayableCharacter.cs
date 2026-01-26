@@ -67,8 +67,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
     private ImmortalModeFlags _immortalMode;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
+        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
@@ -386,7 +386,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override string DisplayName => Name.UpperFirstLetter();
 
-    public override string DebugName => $"{DisplayName}[{ImpersonatedBy?.DisplayName ?? "???"}]";
+    public override string DebugName => $"{DisplayName}[{ImpersonatedBy?.DisplayName ?? "???"}][Id:{Id}]";
 
     public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
     {
@@ -1038,7 +1038,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {multiplier}", WiznetFlags.Bugs, AdminLevels.Implementor);
             multiplier = 1;
         }
-        int difficultyMultiplier = abilityLearned.Rating;
+        var difficultyMultiplier = abilityLearned.Rating;
         if (difficultyMultiplier <= 0)
         {
             Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {abilityLearned.Name} Player {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
@@ -1066,7 +1066,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             if (RandomManager.Chance(chance))
             {
                 Send("You learn from your mistakes, and your {0} skill improves.!", abilityLearned.Name);
-                int increment = RandomManager.Range(1, 3);
+                var increment = RandomManager.Range(1, 3);
                 abilityLearned.IncrementLearned(increment);
                 GainExperience(2 * difficultyMultiplier);
                 return true;
@@ -1375,7 +1375,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override bool CanMove => true;
 
-    protected override bool IsAllowedToFleeTo(IRoom destination)
+    protected override bool IsAllowedToEnterTo(IRoom destination)
         => true;
 
     protected override bool HasBoat

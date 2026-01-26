@@ -1,14 +1,19 @@
 INGOING
 DONE
-    dual, third, fourth wield implemented
-    2h weapon + giant size fixed
-    change EquipmentSlotsToString and equipment command
-        if not giant and wielding 2H, we hide one offhand by wielded 2H
-        if not giant and wielding 2H, slot is displayed <wielded with 2 hands instead of wielded
+    combat system based on aggro/threat https://www.wowhead.com/classic/guide/threat-overview-classic-wow
+    issue with pet max resources on load fixed
+    taunt: new skill used to force a NPC to attack user
+    new ICharacterAffect: CharacterAggroModifierAffect used in AggroManager
+    Circle skill name fixed (was Backstab)
+    new AuraFlags.NoSave: these auras will not be saved (use for taunt/maul/...)
+    group command: target should be following user
+    aggro/threat unit tests (try to reuse Mud.POC.Tests\Combat tests)
 
 ==========
 == TODO ==
 ==========
+
+rescue needs to be changed to use new aggro system ?
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race and learned ability group
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
@@ -52,8 +57,6 @@ new combat system
         first group to hit the mob will receive the reward
         if everyone in the group has been killed, reward priority goes to next group which has hit the mob
         prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
-    threat/aggro (see Generating Threat)
-    https://www.wowhead.com/classic/guide/threat-overview-classic-wow
 
 multitable generator, paging a table should repeat the header at the beginning of each page
 
@@ -155,7 +158,6 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
 store an Aura list in World this will avoid looping on all room/character/item to check aura
-redo DoScore, DoAffects
 cannot quit while affected by an harmful aura/periodic aura
 while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
 remove Send(..., bool addTrailingNewLine)

@@ -26,7 +26,7 @@ in order to backstab.")]
 [OneLineHelp("the art of hitting your opponent by surprise")]
 public class Circle : FightingSkillBase
 {
-    private const string SkillName = "Backstab";
+    private const string SkillName = "Circle";
 
     public Circle(ILogger<Circle> logger, IRandomManager randomManager)
         : base(logger, randomManager)
@@ -83,7 +83,7 @@ public class Circle : FightingSkillBase
         }
     }
 
-    public class CircleMultiHitModifier : IMultiHitModifier
+    private class CircleMultiHitModifier : IMultiHitModifier
     {
         public CircleMultiHitModifier(string abilityName, string damageNoun, int learned)
         {

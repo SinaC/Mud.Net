@@ -7,6 +7,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Random;
+using Mud.Server.Common;
 
 namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 
@@ -41,7 +42,7 @@ public class Tail : FightingSkillBase
         {
             int damage = RandomManager.Range(2*User.Level, 3*User.Level);
             Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "tailsweep", true);
-            //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
+            Victim.SetDaze(2*Pulse.PulseViolence);
             //check_killer(ch,victim);
             return true;
         }

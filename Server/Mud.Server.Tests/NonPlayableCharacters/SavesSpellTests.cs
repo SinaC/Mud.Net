@@ -125,7 +125,7 @@ public class SavesSpellTests : TestBase
             ShieldFlags = new ShieldFlags(),
         };
 
-        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManager, null!, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculator, null!, null!, null!, null!);
+        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManager, null!, null!, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculator, null!, null!, null!, null!);
         npc.Initialize(Guid.NewGuid(), blueprint, roomMock.Object);
 
         return npc;

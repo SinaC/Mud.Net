@@ -91,12 +91,12 @@ public class Envenom : ItemInventorySkillBase
     {
         if (RandomManager.Chance(Learned))
         {
-            User.Act(ActOptions.ToAll, "{0:N} treats {1} with deadly poison.", User, poisonable);
+            User.Act(ActOptions.ToAll, "%W%{0:N} treats {1} with deadly poison.%x%", User, poisonable);
             poisonable.Poison();
             poisonable.Recompute();
             return true;
         }
-        User.Act(ActOptions.ToCharacter, "You fail to poison {0}.", poisonable);
+        User.Act(ActOptions.ToCharacter, "%W%You fail to poison {0}.%x%", poisonable);
         return false;
     }
 
@@ -109,10 +109,10 @@ public class Envenom : ItemInventorySkillBase
             int duration = (User.Level * percent) / (2 * 100);
             AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
                 new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
-            User.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", User, weapon);
+            User.Act(ActOptions.ToAll, "%W%{0:N} coat{0:v} {1} with deadly venom.%x%", User, weapon);
             return true;
         }
-        User.Act(ActOptions.ToCharacter, "You fail to envenom {0}.", weapon);
+        User.Act(ActOptions.ToCharacter, "%W%You fail to envenom {0}.%x%", weapon);
         return false;
     }
 }

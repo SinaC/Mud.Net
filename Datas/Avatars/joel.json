@@ -10,7 +10,7 @@
   "Alignment": 0,
   "Trains": 18,
   "Practices": 37,
-  "AutoFlags": "Exit, Sacrifice, Gold, Split, Loot, Affect",
+  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
     "QuestPoints": 0
   },
@@ -287,72 +287,7 @@
   },
   "Aliases": {},
   "Cooldowns": {},
-  "Pets": [
-    {
-      "BlueprintId": 1300,
-      "Description": "It seems to be made of nothing more than darkness ...\r\n",
-      "Name": "oldstyle shadow guardian",
-      "Race": "human",
-      "Class": "",
-      "Level": 9,
-      "Sex": "Neutral",
-      "Size": "Medium",
-      "CurrentResources": {
-        "HitPoints": 121,
-        "MovePoints": 101,
-        "Mana": 112,
-        "Psy": 1,
-        "Energy": 0,
-        "Rage": 0,
-        "Combo": 0
-      },
-      "MaxResources": {
-        "HitPoints": 122,
-        "MovePoints": 1000,
-        "Mana": 132,
-        "Psy": 132,
-        "Energy": 0,
-        "Rage": 0,
-        "Combo": 0
-      },
-      "Equipments": [],
-      "Inventory": [],
-      "Auras": [
-        {
-          "AbilityName": "Charm Person",
-          "Level": 1,
-          "PulseLeft": 1540,
-          "AuraFlags": "None",
-          "Affects": [
-            {
-              "$type": "characterFlags",
-              "Operator": "Or",
-              "Modifier": "Charm"
-            }
-          ]
-        }
-      ],
-      "CharacterFlags": "Invisible,DetectInvis,Infrared,Sneak",
-      "Immunities": "",
-      "Resistances": "",
-      "Vulnerabilities": "",
-      "ShieldFlags": "",
-      "Attributes": {
-        "Strength": 13,
-        "Intelligence": 13,
-        "Wisdom": 13,
-        "Dexterity": 13,
-        "Constitution": 13,
-        "SavingThrow": 0,
-        "HitRoll": 0,
-        "DamRoll": 9,
-        "ArmorBash": 20,
-        "ArmorPierce": 20,
-        "ArmorSlash": 20,
-        "ArmorExotic": 80
-      }
-    }
-  ],
+  "Pets": [],
   "Statistics": {
     "NpcKill": 0,
     "PcKill": 0,
@@ -391,7 +326,7 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 125,
+    "HitPoints": 125000,
     "MovePoints": 125,
     "Mana": 175,
     "Psy": 100,
@@ -400,7 +335,7 @@
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 125,
+    "HitPoints": 125000,
     "MovePoints": 125,
     "Mana": 175,
     "Psy": 100,
@@ -413,8 +348,8 @@
   "Auras": [
     {
       "AbilityName": "Fly",
-      "Level": 10,
-      "PulseLeft": 9996,
+      "Level": 6,
+      "PulseLeft": 9916,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -426,8 +361,8 @@
     },
     {
       "AbilityName": "Detect Hidden",
-      "Level": 22,
-      "PulseLeft": 9484,
+      "Level": 21,
+      "PulseLeft": 9404,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -439,8 +374,8 @@
     },
     {
       "AbilityName": "Detect Invis",
-      "Level": 34,
-      "PulseLeft": 9680,
+      "Level": 32,
+      "PulseLeft": 9600,
       "AuraFlags": "None",
       "Affects": [
         {

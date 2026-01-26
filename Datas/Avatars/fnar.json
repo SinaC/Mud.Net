@@ -495,7 +495,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 115,
+        "HitPoints": 116,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -558,6 +558,93 @@
         "ArmorSlash": -40,
         "ArmorExotic": 60
       }
+    },
+    {
+      "BlueprintId": 80000,
+      "Description": "A construct is here, built from various of gears and springs\r\n",
+      "Name": "construct",
+      "Race": "",
+      "Class": "",
+      "Level": 40,
+      "Sex": "Neutral",
+      "Size": "Tiny",
+      "CurrentResources": {
+        "HitPoints": 3520,
+        "MovePoints": 100,
+        "Mana": 0,
+        "Psy": 0,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "MaxResources": {
+        "HitPoints": 3520,
+        "MovePoints": 100,
+        "Mana": 0,
+        "Psy": 0,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "Equipments": [],
+      "Inventory": [],
+      "Auras": [
+        {
+          "AbilityName": "Haste",
+          "Level": 40,
+          "PulseLeft": -1,
+          "AuraFlags": "Permanent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "Dexterity",
+              "Modifier": 4
+            },
+            {
+              "$type": "characterFlags",
+              "Operator": "Or",
+              "Modifier": "Haste"
+            },
+            {
+              "$type": "CharacterAdditionalHitAffectData",
+              "AdditionalHitCount": 1
+            }
+          ]
+        },
+        {
+          "AbilityName": "Construct",
+          "Level": 23,
+          "PulseLeft": -1,
+          "AuraFlags": "NoDispel, Permanent",
+          "Affects": [
+            {
+              "$type": "characterFlags",
+              "Operator": "Or",
+              "Modifier": "Charm"
+            }
+          ]
+        }
+      ],
+      "CharacterFlags": "Haste",
+      "Immunities": "",
+      "Resistances": "Slash,Fire",
+      "Vulnerabilities": "Acid",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 19,
+        "Intelligence": 21,
+        "Wisdom": 21,
+        "Dexterity": 21,
+        "Constitution": 20,
+        "SavingThrow": 0,
+        "HitRoll": 10,
+        "DamRoll": 40,
+        "ArmorBash": 300,
+        "ArmorPierce": 200,
+        "ArmorSlash": 400,
+        "ArmorExotic": 0
+      }
     }
   ],
   "Statistics": {
@@ -609,8 +696,8 @@
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 514,
-    "MovePoints": 413,
+    "HitPoints": 516,
+    "MovePoints": 418,
     "Mana": 605,
     "Psy": 100,
     "Energy": 0,
@@ -618,7 +705,7 @@
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 516,
+    "HitPoints": 524,
     "MovePoints": 436,
     "Mana": 605,
     "Psy": 100,
@@ -1777,7 +1864,7 @@
     {
       "AbilityName": "Armor",
       "Level": 1,
-      "PulseLeft": 3428,
+      "PulseLeft": 3368,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1791,7 +1878,7 @@
     {
       "AbilityName": "Fly",
       "Level": 1,
-      "PulseLeft": 3692,
+      "PulseLeft": 3632,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1804,7 +1891,7 @@
     {
       "AbilityName": "Bless",
       "Level": 1,
-      "PulseLeft": 4428,
+      "PulseLeft": 4368,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1824,7 +1911,7 @@
     {
       "AbilityName": "Infravision",
       "Level": 1,
-      "PulseLeft": 8356,
+      "PulseLeft": 8296,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1837,7 +1924,7 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 3580,
+      "PulseLeft": 3520,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1860,7 +1947,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 3144,
+      "PulseLeft": 3084,
       "AuraFlags": "None",
       "Affects": [
         {

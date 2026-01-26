@@ -66,7 +66,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         if (!item.IsValid)
             return;
         if (item.ItemFlags.HasAny("BurnProof", "NoPurge")
-                || RandomManager.Range(0, 4) == 0)
+                || RandomManager.OneOutOf(4))
             return;
         // Affects only container, potion, scroll, staff, wand, food, pill
         if (!(item is IItemContainer || item is IItemFood || item is IItemPotion || item is IItemScroll || item is IItemStaff || item is IItemWand || item is IItemPill))

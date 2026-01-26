@@ -40,7 +40,7 @@ public class DemoralizingRoar : OffensiveSkillBase
         }
         else
             roarAura.Update(User.Level, TimeSpan.FromSeconds(9));
-        Actor.Act(ActOptions.ToAll, "{0:N} roar{0:v} demoralizing {1}.", Actor, Victim);
+        Actor.Act(ActOptions.ToAll, "%W%{0:N} roar{0:v} demoralizing {1}.%x%", Actor, Victim);
         return true;
     }
 }
