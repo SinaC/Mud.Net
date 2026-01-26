@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
@@ -7,14 +9,12 @@ using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -73,7 +73,7 @@ public class Bless : ItemOrDefensiveSpellBase
             Caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
             return;
         }
-        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), AuraFlags.None, true,
+        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
             new ItemFlagsAffect { Modifier = new ItemFlags("Bless"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);

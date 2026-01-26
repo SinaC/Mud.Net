@@ -1,6 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Flags;
+using Mud.Flags.Attributes;
 using Mud.Flags.Interfaces;
 
 namespace Mud.Server.POC.Flags;

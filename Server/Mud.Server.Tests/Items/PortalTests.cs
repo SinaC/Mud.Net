@@ -2,7 +2,8 @@
 using Moq;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Room;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
@@ -24,7 +25,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed"),
             MaxChargeCount = 10,
             CurrentChargeCount = 7,
         };
@@ -46,7 +47,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed"),
             MaxChargeCount = 10,
             CurrentChargeCount = 7,
         };
@@ -70,7 +71,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed"),
             MaxChargeCount = -1,
             CurrentChargeCount = 7,
         };
@@ -94,7 +95,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
@@ -116,13 +117,13 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
         portal.Open();
 
-        Assert.AreEqual(portalBlueprint.PortalFlags & ~PortalFlags.Closed, portal.PortalFlags);
+        Assert.IsFalse(portal.PortalFlags.IsSet("Closed"));
         Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
         Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
     }
@@ -138,7 +139,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.PickProof | PortalFlags.NoClose,
+            PortalFlags = new PortalFlags("PickProof", "NoClose"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
@@ -160,13 +161,13 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
         portal.Close();
 
-        Assert.AreEqual(portalBlueprint.PortalFlags | PortalFlags.Closed, portal.PortalFlags);
+        Assert.IsTrue(portal.PortalFlags.IsSet("Closed"));
         Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
         Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
     }
@@ -182,7 +183,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.NoLock | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed", "NoLock"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
@@ -204,13 +205,13 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
         portal.Lock();
 
-        Assert.AreEqual(portalBlueprint.PortalFlags | PortalFlags.Locked, portal.PortalFlags);
+        Assert.IsTrue(portal.PortalFlags.IsSet("Locked"));
         Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
         Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
     }
@@ -226,7 +227,7 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof,
+            PortalFlags = new PortalFlags("PickProof", "Closed"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
@@ -248,13 +249,13 @@ public class PortalTests : TestBase
             Description = "PortalDesc",
             Destination = 123,
             Key = 10,
-            PortalFlags = PortalFlags.Closed | PortalFlags.PickProof | PortalFlags.Locked,
+            PortalFlags = new PortalFlags("PickProof", "Closed", "Locked"),
         };
         var portal = GeneratePortal(portalBlueprint);
 
         portal.Unlock();
 
-        Assert.AreEqual(portalBlueprint.PortalFlags & ~PortalFlags.Locked, portal.PortalFlags);
+        Assert.IsFalse(portal.PortalFlags.IsSet("Locked"));
         Assert.AreEqual(portalBlueprint.MaxChargeCount, portal.MaxChargeCount);
         Assert.AreEqual(portalBlueprint.CurrentChargeCount, portal.CurrentChargeCount);
     }
@@ -265,12 +266,13 @@ public class PortalTests : TestBase
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, UseAggro = false, BlueprintIds = null! });
         var roomManagerMock = new Mock<IRoomManager>();
+        var flagsManagerMock = new Mock<IFlagsManager>();
         var roomMock = new Mock<IRoom>();
 
         roomMock.SetupGet(x => x.Blueprint).Returns(new RoomBlueprint { Id = 123 });
         roomManagerMock.SetupGet(x => x.Rooms).Returns([roomMock.Object]);
 
-        var portal = new ItemPortal(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, roomManagerMock.Object, null!);
+        var portal = new ItemPortal(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, roomManagerMock.Object, null!, flagsManagerMock.Object);
         portal.Initialize(Guid.NewGuid(), portalBlueprint, string.Empty, roomMock.Object);
 
         return portal;

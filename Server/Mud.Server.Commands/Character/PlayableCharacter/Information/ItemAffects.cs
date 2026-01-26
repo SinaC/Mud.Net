@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Affect.Character;
@@ -31,7 +30,7 @@ public class ItemAffects : PlayableCharacterGameAction
             {
                 sb.AppendFormatLine("%c%You are affected by following auras from {0}:%x%", equipedItem.DisplayName);
                 // Auras
-                foreach (var aura in equipedItem.Auras.Where(x => Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
+                foreach (var aura in equipedItem.Auras.Where(x => Actor.ImmortalMode.IsSet("Holylight") || !x.AuraFlags.IsSet("Hidden")).OrderBy(x => x.AuraFlags.IsSet("Permanent") ? int.MaxValue : x.PulseLeft))
                     aura.Append<ICharacterAffect>(sb);
                 found = true;
             }

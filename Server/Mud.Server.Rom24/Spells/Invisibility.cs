@@ -47,7 +47,7 @@ public class Invisibility : ItemOrDefensiveSpellBase
             return;
 
         victim.Act(ActOptions.ToAll, "{0:N} fade{0:v} out of existence.", victim);
-        AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
+        AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), new AuraFlags(), true,
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Invisible"), Operator = AffectOperators.Or });
     }
 
@@ -60,7 +60,7 @@ public class Invisibility : ItemOrDefensiveSpellBase
         }
 
         Caster.Act(ActOptions.ToAll, "{0} fades out of sight.", item);
-        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
+        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), new AuraFlags(), true,
             new ItemFlagsAffect { Modifier = new ItemFlags("Invis"), Operator = AffectOperators.Or });
     }
 }

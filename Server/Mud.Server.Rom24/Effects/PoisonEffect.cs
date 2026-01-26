@@ -1,15 +1,15 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
-using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Effects;
@@ -56,7 +56,7 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                     x => x.Modifier -= 1);
             }
             else
-                AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());

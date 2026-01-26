@@ -1,9 +1,10 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
@@ -13,7 +14,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.Item;
 
@@ -71,20 +71,20 @@ public class Drink : CharacterGameAction
         // get liquid info
         if (Drinkable.LiquidName == null)
         {
-            Wiznet.Log($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             return "You can't drink from that.";
         }
         LiquidInfo = TableValues.LiquidInfo(Drinkable.LiquidName);
         if (LiquidInfo == default)
         {
-            Wiznet.Log($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             return "You can't drink from that.";
         }
         // empty
         if (Drinkable.IsEmpty)
             return "It is already empty.";
         // full ?
-        if (pc != null && pc[Conditions.Full] > 45 && !pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (pc != null && pc[Conditions.Full] > 45 && !pc.ImmortalMode.IsSet("Infinite"))
             return "You're too full to drink more.";
 
         return null;
@@ -127,7 +127,7 @@ public class Drink : CharacterGameAction
             else
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
-                AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     poisonAffect);
             }

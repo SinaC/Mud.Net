@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -118,7 +118,7 @@ public class DirtKicking : OffensiveSkillBase
             DamageResults damageResults = Victim.AbilityDamage(User, damage, SchoolTypes.None, "kicked dirt", false);
             // TODO check killer
             if (damageResults == DamageResults.Done)
-                AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
+                AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, new AuraFlags("NoDispel"), true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
             return true;

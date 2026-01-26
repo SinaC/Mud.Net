@@ -1,11 +1,11 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Special;
-using Mud.Random;
 using Mud.Server.Rom24.Affects;
 using Mud.Server.Specials;
 
@@ -56,7 +56,7 @@ namespace Mud.Server.Rom24.Specials
             if (poisonAura != null)
                 poisonAura.Update(level, TimeSpan.FromMinutes(duration));
             else
-                AuraManager.AddAura(victim, "Poison", npc, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                AuraManager.AddAura(victim, "Poison", npc, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());

@@ -142,7 +142,7 @@ public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
             ];
             if (addGlowing)
                 affects.Add(new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
-            AuraManager.AddAura(weapon, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false, affects.ToArray());
+            AuraManager.AddAura(weapon, SpellName, Caster, Level, Pulse.Infinite, new AuraFlags("Permanent"), false, affects.ToArray());
         }
         weapon.Recompute();
     }

@@ -13,7 +13,7 @@ public class ItemWeaponAffectTests : TestBase
     {
         var room = GenerateRoom("");
         var weapon = GenerateWeapon("", "", room);
-        var weaponAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20),  new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Add});
+        var weaponAura = new Aura.Aura(null!, null!, new AuraFlags(), 10, TimeSpan.FromMinutes(20),  new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Add});
         weapon.AddAura(weaponAura, false);
 
         weapon.Recompute();
@@ -27,7 +27,7 @@ public class ItemWeaponAffectTests : TestBase
     {
         var room = GenerateRoom("");
         var weapon = GenerateWeapon("", "", room);
-        var weaponAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemFlagsAffect { Modifier = new ItemFlags("AntiEvil"), Operator = AffectOperators.Add });
+        var weaponAura = new Aura.Aura(null!, null!, new AuraFlags(), 10, TimeSpan.FromMinutes(20), new ItemFlagsAffect { Modifier = new ItemFlags("AntiEvil"), Operator = AffectOperators.Add });
         weapon.AddAura(weaponAura, false);
 
         weapon.Recompute();
@@ -43,7 +43,7 @@ public class ItemWeaponAffectTests : TestBase
     {
         var room = GenerateRoom("");
         var weapon = GenerateWeapon("AntiNeutral,Bless", "Flaming,Sharp", room);
-        var weaponAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20), 
+        var weaponAura = new Aura.Aura(null!, null!, new AuraFlags(), 10, TimeSpan.FromMinutes(20), 
             new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Nor }, // remove weapon holy
             new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Frost"), Operator = AffectOperators.Assign }, // assign weapon frost
             new ItemFlagsAffect { Modifier = new ItemFlags("Dark"), Operator = AffectOperators.Add }, // add item dark
@@ -64,7 +64,7 @@ public class ItemWeaponAffectTests : TestBase
     public void MultipleEffectsOnContainingRoom()
     {
         var room = GenerateRoom("");
-        var roomAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20),
+        var roomAura = new Aura.Aura(null!, null!, new AuraFlags(), 10, TimeSpan.FromMinutes(20),
             new ItemFlagsAffect { Modifier = new ItemFlags("AntiGood"), Operator = AffectOperators.Or },
             new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Add });
         room.AddAura(roomAura, false);

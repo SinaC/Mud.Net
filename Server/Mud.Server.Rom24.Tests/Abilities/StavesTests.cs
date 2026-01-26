@@ -50,6 +50,7 @@ public class StavesTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         victimMock.SetupGet(x => x.Name).Returns("victim");
         victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         victimMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
@@ -109,6 +110,7 @@ public class StavesTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.Setup(x => x.Inventory).Returns([inventoryItem1Mock.Object, inventoryItem2Mock.Object]);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         victimMock.SetupGet(x => x.Name).Returns("victim");
         victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         victimMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
@@ -171,6 +173,7 @@ public class StavesTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.Setup(x => x.Inventory).Returns([inventoryItem1Mock.Object, inventoryItem2Mock.Object]);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         victimMock.SetupGet(x => x.Name).Returns("victim");
         victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         victimMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
@@ -233,6 +236,7 @@ public class StavesTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.Setup(x => x.Inventory).Returns([inventoryItem1Mock.Object, inventoryItem2Mock.Object]);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         victimMock.SetupGet(x => x.Name).Returns("victim");
         victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         victimMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
@@ -299,6 +303,7 @@ public class StavesTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.Setup(x => x.Inventory).Returns([inventoryItem1Mock.Object, inventoryItem2Mock.Object]);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         victim1Mock.SetupGet(x => x.Name).Returns("victim");
         victim1Mock.SetupGet(x => x.Room).Returns(roomMock.Object);
         victim1Mock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
@@ -375,6 +380,7 @@ public class StavesTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.Inventory).Returns([inventoryItem1Mock.Object, inventoryItem2Mock.Object]);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         victimMock.SetupGet(x => x.Name).Returns("victim");
         victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         victimMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());

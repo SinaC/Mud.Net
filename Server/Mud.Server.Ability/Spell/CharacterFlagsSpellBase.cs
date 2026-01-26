@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -30,7 +30,7 @@ public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
             return;
         }
         var duration = Duration;
-        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, AuraFlags.None, true,
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, new AuraFlags(), true,
             new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
         Victim.Send(SelfSuccess);
         if (Victim != Caster)

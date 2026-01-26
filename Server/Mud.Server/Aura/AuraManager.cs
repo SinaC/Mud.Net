@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
-using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -84,28 +84,31 @@ public class AuraManager : IAuraManager
         }
     }
 
-    public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
+    public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, IAuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
     {
         var abilityDefinition = AbilityManager[abilityName];
         var aura = new Aura(abilityDefinition, source, auraFlags, level, duration, affects);
-        CheckAffects(affects);
+        CheckAura(aura);
         target.AddAura(aura, recompute);
         return aura;
     }
 
-    public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, AuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
+    public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, IAuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
     {
         var abilityDefinition = AbilityManager[abilityName];
         var aura = new Aura(abilityDefinition, source, auraFlags, level, affects);
-        CheckAffects(affects);
+        CheckAura(aura);
         target.AddAura(aura, recompute);
         return aura;
     }
 
-    public IAura AddAura(IEntity target, IEntity source, int level, AuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
+    public IAura AddAura(IEntity target, IEntity source, int level, IAuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
     {
-        var aura = new Aura(null, source, auraFlags | AuraFlags.Inherent, level, affects);
-        CheckAffects(affects);
+        var newAuraFlags = new AuraFlags();
+        newAuraFlags.Copy(auraFlags);
+        newAuraFlags.Set("Inherent");
+        var aura = new Aura(null, source, newAuraFlags, level, affects);
+        CheckAura(aura);
         target.AddAura(aura, recompute);
         return aura;
     }
@@ -114,28 +117,32 @@ public class AuraManager : IAuraManager
     {
         var aura = new Aura(AffectManager, AbilityManager, auraData);
         // TODO: how could we check if an affecs is IFlagsAffect and if a value found in Modifier is invalid using FlagsManager
+        CheckAura(aura);
         target.AddAura(aura, recompute);
         return aura;
     }
 
-    private bool CheckAffects(IAffect?[]? affects)
+    private bool CheckAura(IAura aura)
     {
-        if (affects == null)
-            return true;
-        foreach (var affect in affects)
+        var check = true;
+        check &= FlagsManager.CheckFlags(aura.AuraFlags);
+        if (aura.Affects != null)
         {
-            if (affect is not null)
+            foreach (var affect in aura.Affects)
             {
-                // if affect is derived from FlagsAffectBase<TFlags>, check Modifier flags values
-                var affectType = affect.GetType();
-                if (FlagsAffectModifierGetterDefinitions.TryGetValue(affectType, out var flagsAffectModifierGetterDefinition))
+                if (affect is not null)
                 {
-                    var flags = flagsAffectModifierGetterDefinition.ModifierFlagsGetterFunc(affect);
-                    FlagsManager.CheckFlags(flagsAffectModifierGetterDefinition.IFlagsAffectType, flags);
+                    // if affect is derived from FlagsAffectBase<TFlags>, check Modifier flags values
+                    var affectType = affect.GetType();
+                    if (FlagsAffectModifierGetterDefinitions.TryGetValue(affectType, out var flagsAffectModifierGetterDefinition))
+                    {
+                        var flags = flagsAffectModifierGetterDefinition.ModifierFlagsGetterFunc(affect);
+                        check &= FlagsManager.CheckFlags(flagsAffectModifierGetterDefinition.IFlagsAffectType, flags);
+                    }
                 }
             }
         }
-        return true;
+        return check;
     }
 
     private class FlagsAffectModifierGetterDefinition

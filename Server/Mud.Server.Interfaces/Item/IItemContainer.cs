@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags.Interfaces;
 
 namespace Mud.Server.Interfaces.Item;
 
@@ -6,7 +6,7 @@ public interface IItemContainer : IItemCloseable, IItemCanContain
 {
     int MaxItems { get; }
     int MaxWeight { get; }
-    ContainerFlags ContainerFlags { get; }
+    IContainerFlags ContainerFlags { get; }
     // Key already found in ICloseable
     int MaxWeightPerItem { get; }
     int WeightMultiplier { get; } // percentage

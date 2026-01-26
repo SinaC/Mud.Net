@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -11,7 +13,6 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Skills;
@@ -71,7 +72,7 @@ public class Lore : ItemInventorySkillBase
             case IItemDrinkable itemDrinkable:
                 if (itemDrinkable.LiquidName == null)
                 {
-                    Wiznet.Log($"Invalid liquid name {itemDrinkable.LiquidName} item {itemDrinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Invalid liquid name {itemDrinkable.LiquidName} item {itemDrinkable.DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     sb.AppendLine("It holds a mysterious liquid");
                 }
                 else
@@ -81,7 +82,7 @@ public class Lore : ItemInventorySkillBase
                 }
                 break;
             case IItemContainer itemContainer:
-                sb.AppendFormatLine("Maximum weight {0}# Maximum weight per item: {1}# flags: {2} Weight multiplier: {3}%", itemContainer.MaxWeight, itemContainer.MaxWeightPerItem, itemContainer.ContainerFlags.ToString(), itemContainer.WeightMultiplier);
+                sb.AppendFormatLine("Maximum weight {0}# Maximum weight per item: {1}# flags: {2} Weight multiplier: {3}%", itemContainer.MaxWeight, itemContainer.MaxWeightPerItem, itemContainer.ContainerFlags, itemContainer.WeightMultiplier);
                 break;
             case IItemWeapon itemWeapon:
                 sb.AppendFormatLine("Weapon type: {0}", itemWeapon.Type.ToString());

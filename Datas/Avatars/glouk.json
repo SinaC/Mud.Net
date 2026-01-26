@@ -534,7 +534,7 @@
       "AbilityName": "Giant Strength",
       "Level": 1,
       "PulseLeft": 8300,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -548,7 +548,7 @@
       "AbilityName": "Detect Evil",
       "Level": 1,
       "PulseLeft": 8496,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -561,7 +561,7 @@
       "AbilityName": "Detect Good",
       "Level": 1,
       "PulseLeft": 8528,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -574,7 +574,7 @@
       "AbilityName": "Detect Invis",
       "Level": 1,
       "PulseLeft": 8544,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -587,7 +587,7 @@
       "AbilityName": "Detect Hidden",
       "Level": 1,
       "PulseLeft": 8600,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -600,7 +600,7 @@
       "AbilityName": "Shock Shield",
       "Level": 1,
       "PulseLeft": 8300,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "shieldFlags",
@@ -613,7 +613,7 @@
       "AbilityName": "Fire Shield",
       "Level": 1,
       "PulseLeft": 8100,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "shieldFlags",
@@ -626,7 +626,7 @@
       "AbilityName": "Ice Shield",
       "Level": 1,
       "PulseLeft": 7900,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "shieldFlags",
@@ -670,7 +670,7 @@
       "AbilityName": "Protection Evil",
       "Level": 1,
       "PulseLeft": 4036,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -693,7 +693,7 @@
       "AbilityName": "Protection Good",
       "Level": 1,
       "PulseLeft": 4080,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -716,7 +716,7 @@
       "AbilityName": "Sanctuary",
       "Level": 1,
       "PulseLeft": 284,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "shieldFlags",

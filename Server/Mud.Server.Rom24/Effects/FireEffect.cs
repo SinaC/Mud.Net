@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
-using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -48,7 +48,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             victim.Send("Your eyes tear up from smoke...you can't see a thing!");
             victim.Act(ActOptions.ToRoom, "{0} is blinded by smoke!", victim);
             int duration = RandomManager.Range(1, level / 10);
-            AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false, // TODO:
+            AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false, // TODO:
                 new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
         }

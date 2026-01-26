@@ -1,8 +1,8 @@
 ﻿using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Effects;
-using Mud.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -24,7 +24,7 @@ public class BlindnessEffect : IEffect<ICharacter>
     {
         if (victim.CharacterFlags.IsSet("Blind") || victim.GetAura(abilityName) != null || victim.SavesSpell(level, SchoolTypes.None))
             return;
-        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(1 + level), AuraFlags.None, true,
+        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(1 + level), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Add });
         victim.Send("You are blinded!");

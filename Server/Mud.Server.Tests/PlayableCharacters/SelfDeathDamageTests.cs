@@ -3,21 +3,22 @@ using Moq;
 using Mud.Blueprints.Character;
 using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Character.PlayableCharacter;
-using Mud.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Random;
-using Mud.Server.Interfaces.Loot;
 
 namespace Mud.Server.Tests.PlayableCharacters
 {
@@ -39,6 +40,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             var wiznetMock = new Mock<IWiznet>();
             var lootManagerMock = new Mock<ILootManager>();
             var aggroManagerMock = new Mock<IAggroManager>();
+            var flagsManagerMock = new Mock<IFlagsManager>();
 
             var playerMock = new Mock<IPlayer>();
             var roomMock = new Mock<IRoom>();
@@ -59,7 +61,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Alignment = 0,
                 Trains = 0,
                 Practices = 0,
-                AutoFlags = AutoFlags.None,
+                AutoFlags = null!,
                 Currencies = [],
                 ActiveQuests = [],
                 LearnedAbilities = [],
@@ -94,7 +96,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Attributes = [],
             };
 
-            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, flagsManagerMock.Object, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
             pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 
@@ -119,13 +121,14 @@ namespace Mud.Server.Tests.PlayableCharacters
             var roomMock = new Mock<IRoom>();
             var lootManagerMock = new Mock<ILootManager>();
             var aggroManagerMock = new Mock<IAggroManager>();
+            var flagsManagerMock = new Mock<IFlagsManager>();
 
             var blueprint = GenerateBluePrint();
 
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
             raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!);
             npc.Initialize(Guid.NewGuid(), blueprint, roomMock.Object);
             npc.AbilityDamage(npc, 100000, SchoolTypes.Poison, "poison", false);
 

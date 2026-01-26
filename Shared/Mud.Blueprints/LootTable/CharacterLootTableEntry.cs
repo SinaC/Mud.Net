@@ -1,5 +1,4 @@
-﻿using System;
-using Mud.Random;
+﻿using Mud.Random;
 
 namespace Mud.Blueprints.LootTable;
 

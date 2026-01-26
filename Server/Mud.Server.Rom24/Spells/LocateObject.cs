@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
@@ -12,7 +13,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
@@ -48,7 +48,7 @@ public class LocateObject : SpellBase
     protected override void Invoke()
     {
         StringBuilder sb = new ();
-        var hasHolylight = Caster.ImmortalMode.HasFlag(Mud.Domain.ImmortalModeFlags.Holylight);
+        var hasHolylight = Caster.ImmortalMode.IsSet("Holylight");
         int maxFound = hasHolylight
             ? 200
             : Level * 2;

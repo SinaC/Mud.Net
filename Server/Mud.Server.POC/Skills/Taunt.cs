@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
+using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -61,7 +61,7 @@ public class Taunt : OffensiveSkillBase
             tauntAura.Update(tauntAura.Level, TimeSpan.FromSeconds(6));
         else
         {
-            AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromSeconds(6), AuraFlags.NoSave, true,
+            AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromSeconds(6), new AuraFlags("NoSave"), true,
                 new CharacterAggroModifierAffect { MultiplierInPercent = 800 });
         }
 

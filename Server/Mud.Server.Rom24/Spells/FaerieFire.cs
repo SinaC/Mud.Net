@@ -37,7 +37,7 @@ public class FaerieFire : OffensiveSpellBase
     {
         if (Victim.CharacterFlags.IsSet("FaerieFire"))
             return;
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
+        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2 * Level, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("FaerieFire"), Operator = AffectOperators.Or });
         Victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", Victim);

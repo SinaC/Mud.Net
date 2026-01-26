@@ -7,7 +7,7 @@ namespace Mud.POC.Tests.Serialization;
 public class AdminData : PlayerData
 {
     public AdminLevels AdminLevel { get; set; }
-    public WiznetFlags WiznetFlags { get; set; }
+    public string WiznetFlags { get; set; } = default!;
 
     // TODO: extra fields
 }

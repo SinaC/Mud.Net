@@ -1,13 +1,6 @@
 INGOING
 DONE
-    combat system based on aggro/threat https://www.wowhead.com/classic/guide/threat-overview-classic-wow
-    issue with pet max resources on load fixed
-    taunt: new skill used to force a NPC to attack user
-    new ICharacterAffect: CharacterAggroModifierAffect used in AggroManager
-    Circle skill name fixed (was Backstab)
-    new AuraFlags.NoSave: these auras will not be saved (use for taunt/maul/...)
-    group command: target should be following user
-    aggro/threat unit tests (try to reuse Mud.POC.Tests\Combat tests)
+    Change AutoFlags, AreaFlags, AuraFlags, ContainerFlags, ExitFlags, PortalFlags, WiznetFlags, FurnitureActions, ImmortalModeFlags to IFlags
 
 ==========
 == TODO ==

@@ -1,21 +1,15 @@
 ﻿using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Room;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Loot;
 
@@ -102,7 +96,7 @@ public class ItemGenerator : IItemGenerator
             var affect = new CharacterAttributeAffect { Location = attribute, Operator = AffectOperators.Add, Modifier = modifier };
             affects.Add(affect);
         }
-        var aura = new Aura.Aura(null, item, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Inherent, level, affects.ToArray());
+        var aura = new Aura.Aura(null, item, new AuraFlags("NoDispel", "Permanent", "Inherent"), level, affects.ToArray());
         item.AddAura(aura, false);
     }
 

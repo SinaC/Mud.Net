@@ -9,7 +9,7 @@
   },
   "AdminData": {
     "AdminLevel": "Implementor",
-    "WiznetFlags": "Incarnate, Punish, Logins, Deaths, MobDeaths, Levels, Snoops, Bugs, Typos, Help, Load, Promote, Restore, Immortal, Saccing"
+    "WiznetFlags": "Incarnate,Punish,Logins,Deaths,MobDeaths,Levels,Snoops,Bugs,Typos,Help,Load,Promote,Restore,Immortal,Saccing"
   },
   "AvatarMetaDatas": [
     {

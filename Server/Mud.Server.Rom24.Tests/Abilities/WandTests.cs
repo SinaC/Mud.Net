@@ -2,10 +2,11 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
@@ -14,7 +15,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 using Mud.Server.Rom24.Effects;
 using Mud.Server.Rom24.Skills;
 using Mud.Server.Rom24.Spells;
@@ -46,6 +46,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -85,6 +86,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -124,6 +126,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -165,6 +168,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -206,6 +210,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -249,6 +254,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -290,6 +296,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -336,6 +343,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -382,6 +390,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -428,6 +437,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -474,6 +484,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -525,6 +536,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -571,6 +583,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -617,6 +630,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -662,6 +676,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -706,6 +721,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -757,6 +773,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -808,6 +825,7 @@ public class WandTests : AbilityTestBase
         userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags());
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);

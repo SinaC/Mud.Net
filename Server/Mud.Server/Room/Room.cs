@@ -245,14 +245,14 @@ public class Room : EntityBase, IRoom
     public StringBuilder Append(StringBuilder sb, ICharacter viewer)
     {
         // Room name
-        if (viewer.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (viewer.ImmortalMode.IsSet("Holylight"))
             sb.AppendFormatLine($"%c%{DisplayName} [{Blueprint?.Id.ToString() ?? "???"}]%x%");
         else
             sb.AppendFormatLine("%c%{0}%x%", DisplayName);
         // Room description
         sb.Append(Description);
         // Exits
-        if (viewer is IPlayableCharacter playableViewer && playableViewer.AutoFlags.HasFlag(AutoFlags.Exit))
+        if (viewer is IPlayableCharacter playableViewer && playableViewer.AutoFlags.IsSet("Exit"))
             AppendExits(sb, viewer, true);
         ItemsHelpers.AppendItems(sb, Content.Where(viewer.CanSee), viewer, false, false);
         AppendCharacters(sb, viewer);
@@ -261,7 +261,7 @@ public class Room : EntityBase, IRoom
 
     public StringBuilder AppendExits(StringBuilder sb, ICharacter viewer, bool compact)
     {
-        var hasHolylight = viewer.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight);
+        var hasHolylight = viewer.ImmortalMode.IsSet("Holylight");
         if (compact)
             sb.Append("[Exits:");
         else if (hasHolylight)

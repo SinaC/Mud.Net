@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
@@ -76,7 +76,7 @@ public class Incarnate : AdminGameAction
     {
         if (Target == null)
         {
-            Wiznet.Log($"{Actor.DisplayName} stops incarnating {Actor.Incarnating?.DebugName}.", WiznetFlags.Incarnate);
+            Wiznet.Log($"{Actor.DisplayName} stops incarnating {Actor.Incarnating?.DebugName}.", new WiznetFlags("Incarnate"));
 
             Actor.Send("%M%You stop incarnating %C%{0}%x%.", Actor.Incarnating?.DisplayName ?? "???");
             Actor.StopIncarnating();
@@ -94,7 +94,7 @@ public class Incarnate : AdminGameAction
         if (incarnated)
         {
             string msg = $"{Actor.DisplayName} starts incarnating {Target.DebugName}.";
-            Wiznet.Log(msg, WiznetFlags.Incarnate);
+            Wiznet.Log(msg, new WiznetFlags("Incarnate"));
 
             Actor.Send("%M%You start incarnating %C%{0}%x%.", Target.DisplayName);
         }

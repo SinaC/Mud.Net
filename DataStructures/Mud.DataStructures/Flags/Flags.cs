@@ -46,7 +46,7 @@ public class Flags : IFlags<string>
         if (flags != null)
         {
             foreach (var flag in flags.Values)
-                _hashSet.Add(flag);
+                _hashSet.Add(flag.Trim());
         }
     }
 
@@ -62,7 +62,7 @@ public class Flags : IFlags<string>
         if (flags != null)
         {
             foreach (string flag in flags)
-                _hashSet.Add(flag);
+                _hashSet.Add(flag.Trim());
         }
     }
 
@@ -71,7 +71,7 @@ public class Flags : IFlags<string>
         if (flags != null)
         {
             foreach (string flag in flags.Values)
-                _hashSet.Remove(flag);
+                _hashSet.Remove(flag.Trim());
         }
     }
 
@@ -85,7 +85,7 @@ public class Flags : IFlags<string>
     public void Unset(params string[] flags)
     {
         foreach (string flag in flags)
-            _hashSet.Remove(flag);
+            _hashSet.Remove(flag.Trim());
     }
 
     public void Copy(IFlags<string> flags)

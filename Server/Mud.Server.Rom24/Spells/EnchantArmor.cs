@@ -137,7 +137,7 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
             ];
             if (addGlowing)
                 affects.Add(new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
-            AuraManager.AddAura(armor, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false, affects.ToArray());
+            AuraManager.AddAura(armor, SpellName, Caster, Level, Pulse.Infinite, new AuraFlags("Permanent"), false, affects.ToArray());
         }
         armor.Recompute();
     }

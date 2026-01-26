@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Blueprints.Item;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
@@ -22,7 +23,7 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof,
+            ContainerFlags = new ContainerFlags("PickProof"),
         };
         var container = GenerateContainer(containerBlueprint);
 
@@ -41,13 +42,13 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
+            ContainerFlags = new ContainerFlags("PickProof", "Closed"),
         };
         var container = GenerateContainer(containerBlueprint);
 
         container.Open();
 
-        Assert.AreEqual(containerBlueprint.ContainerFlags & ~ContainerFlags.Closed, container.ContainerFlags);
+        Assert.IsFalse(container.ContainerFlags.IsSet("Closed"));
     }
 
     [TestMethod]
@@ -60,7 +61,7 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof | ContainerFlags.NoClose,
+            ContainerFlags = new ContainerFlags("PickProof", "Closed"),
         };
         var container = GenerateContainer(containerBlueprint);
 
@@ -79,13 +80,13 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof,
+            ContainerFlags = new ContainerFlags("PickProof"),
         };
         var container = GenerateContainer(containerBlueprint);
 
         container.Close();
 
-        Assert.AreEqual(containerBlueprint.ContainerFlags | ContainerFlags.Closed, container.ContainerFlags);
+        Assert.IsTrue(container.ContainerFlags.IsSet("Closed"));
     }
 
     [TestMethod]
@@ -98,7 +99,7 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed | ContainerFlags.NoLock,
+            ContainerFlags = new ContainerFlags("PickProof", "Closed", "NoLock"),
         };
         var container = GenerateContainer(containerBlueprint);
 
@@ -117,13 +118,13 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
+            ContainerFlags = new ContainerFlags("PickProof", "Closed")
         };
         var container = GenerateContainer(containerBlueprint);
 
         container.Lock();
 
-        Assert.AreEqual(containerBlueprint.ContainerFlags | ContainerFlags.Locked, container.ContainerFlags);
+        Assert.IsTrue(container.ContainerFlags.IsSet("Locked"));
     }
 
     [TestMethod]
@@ -136,7 +137,7 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed,
+            ContainerFlags = new ContainerFlags("PickProof", "Closed")
         };
         var container = GenerateContainer(containerBlueprint);
 
@@ -155,13 +156,13 @@ public class ContainerTests : TestBase
             ShortDescription = "PortalShort",
             Description = "PortalDesc",
             Key = 10,
-            ContainerFlags = ContainerFlags.PickProof | ContainerFlags.Closed | ContainerFlags.Locked,
+            ContainerFlags = new ContainerFlags("PickProof", "Closed", "NoLock"),
         };
         var container = GenerateContainer(containerBlueprint);
 
         container.Unlock();
 
-        Assert.AreEqual(containerBlueprint.ContainerFlags & ~ContainerFlags.Locked, container.ContainerFlags);
+        Assert.IsFalse(container.ContainerFlags.IsSet("Locked"));
     }
 
     private static IItemContainer GenerateContainer(ItemContainerBlueprint containerBlueprint)
@@ -169,9 +170,10 @@ public class ContainerTests : TestBase
         var loggerMock = new Mock<ILogger<ItemContainer>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
         var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 60, UseAggro = false, BlueprintIds = null! });
+        var flagsManagerMock = new Mock<IFlagsManager>();
         var roomMock = new Mock<IRoom>();
 
-        var container = new ItemContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!);
+        var container = new ItemContainer(loggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, null!, null!, flagsManagerMock.Object);
         container.Initialize(Guid.NewGuid(), containerBlueprint, string.Empty, roomMock.Object);
 
         return container;

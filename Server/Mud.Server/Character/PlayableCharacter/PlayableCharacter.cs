@@ -8,6 +8,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
@@ -65,7 +66,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
-    private ImmortalModeFlags _immortalMode;
 
     public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
         : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
@@ -86,6 +86,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _pets = [];
         _learnedAbilityGroups = [];
+
+        ImmortalMode = new ImmortalModes();
+        AutoFlags = new AutoFlags();
     }
 
     public void Initialize(Guid guid, AvatarData data, IPlayer player, IRoom room)
@@ -99,19 +102,20 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         Room = RoomManager.NullRoom; // add in null room to avoid problem if an initializer needs a room
 
         // Extract informations from PlayableCharacterData
-        _immortalMode = data.ImmortalMode;
+        ImmortalMode = new ImmortalModes(data.ImmortalMode);
+        FlagsManager.CheckFlags(ImmortalMode);
         CreationTime = data.CreationTime;
         Class = ClassManager[data.Class]!;
         if (Class == null)
         {
             Class = ClassManager.Classes.First();
-            Wiznet.Log($"Invalid class '{data.Class}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid class '{data.Class}' for character {data.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         }
         Race = RaceManager[data.Race]!;
         if (Race == null || Race is not IPlayableRace)
         {
             Race = RaceManager.PlayableRaces.First();
-            Wiznet.Log($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid race '{data.Race}' for character {data.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         }
         BaseBodyForms = Race.BodyForms;
         BaseBodyParts = Race.BodyParts;
@@ -137,14 +141,15 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
         else
         {
-            Wiznet.Log($"PlayableCharacter.ctor: currentResources not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"PlayableCharacter.ctor: currentResources not found in pfile for {data.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             // set to 1 if not found
             foreach (ResourceKinds resource in Enum.GetValues<ResourceKinds>())
                 SetResource(resource, 1);
         }
         Trains = data.Trains;
         Practices = data.Practices;
-        AutoFlags = data.AutoFlags;
+        AutoFlags = new AutoFlags(data.AutoFlags);
+        FlagsManager.CheckFlags(AutoFlags);
         // Conditions
         if (data.Conditions != null)
         {
@@ -153,10 +158,15 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
         //
         BaseCharacterFlags = new CharacterFlags(data.CharacterFlags);
+        FlagsManager.CheckFlags(BaseCharacterFlags);
         BaseImmunities = new IRVFlags(data.Immunities);
+        FlagsManager.CheckFlags(BaseImmunities);
         BaseResistances = new IRVFlags(data.Resistances);
+        FlagsManager.CheckFlags(BaseResistances);
         BaseVulnerabilities = new IRVFlags(data.Vulnerabilities);
+        FlagsManager.CheckFlags(BaseVulnerabilities);
         BaseShieldFlags = new ShieldFlags(data.ShieldFlags);
+        FlagsManager.CheckFlags(BaseShieldFlags);
         BaseSex = data.Sex;
         BaseSize = data.Size;
         if (data.Attributes != null)
@@ -166,7 +176,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
         else
         {
-            Wiznet.Log($"PlayableCharacter.ctor: attributes not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"PlayableCharacter.ctor: attributes not found in pfile for {data.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             // set to 1 if not found
             foreach (var attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
@@ -197,7 +207,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             {
                 if (equippedItemData.Item == null)
                 {
-                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {data.Name} is null.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {data.Name} is null.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 }
                 else
                 {
@@ -217,17 +227,17 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                             }
                             else
                             {
-                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {data.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {data.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                             }
                         }
                         else
                         {
-                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                         }
                     }
                     else
                     {
-                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {data.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {data.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     }
                 }
             }
@@ -267,13 +277,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             {
                 var abilityDefinition = AbilityManager[learnedAbilityData.Name];
                 if (abilityDefinition == null)
-                    Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} doesn't exist anymore", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 else
                 {
                     // search ability usage in race then in class
                     var abilityUsage = ((IPlayableRace)Race).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage == null)
-                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {Race.Name} or {Class.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {Race.Name} or {Class.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     else
                     {
                         var abilityLearned = new AbilityLearned(learnedAbilityData, abilityUsage);
@@ -289,7 +299,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             {
                 var abilityGroupDefinition = AbilityGroupManager[learnedAbilityGroupData.Name];
                 if (abilityGroupDefinition == null)
-                    Wiznet.Log($"LearnedAbilityGroup: Ability group {learnedAbilityGroupData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"LearnedAbilityGroup: Ability group {learnedAbilityGroupData.Name} doesn't exist anymore", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 else
                 {
                     var abilityGroupLearned = new AbilityGroupLearned(learnedAbilityGroupData, abilityGroupDefinition);
@@ -319,7 +329,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             {
                 var abilityDefinition = AbilityManager[cooldown.Key];
                 if (abilityDefinition == null)
-                    Wiznet.Log($"Cooldown: ability {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Cooldown: ability {cooldown.Key} doesn't exist anymore", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 else
                     SetCooldown(cooldown.Key, Pulse.ToTimeSpan(cooldown.Value));
             }
@@ -332,14 +342,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 var blueprint = CharacterManager.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
                 if (blueprint == null)
                 {
-                    Wiznet.Log($"Pet blueprint id {petData.BlueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Pet blueprint id {petData.BlueprintId} doesn't exist anymore", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 }
                 else
                 {
                     var pet = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
                     if (pet == null)
                     {
-                        Wiznet.Log($"Pet blueprint id {petData.BlueprintId} cannot be created for {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Wiznet.Log($"Pet blueprint id {petData.BlueprintId} cannot be created for {DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     }
                     else
                         AddPet(pet);
@@ -397,7 +407,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             displayName.Append("Someone");
         else
             displayName.Append("someone");
-        if (beholder.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (beholder.ImmortalMode.IsSet("Holylight"))
             displayName.Append($" [PLR {ImpersonatedBy?.DisplayName ?? " ??? "}]");
         return displayName.ToString();
     }
@@ -406,7 +416,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (victim == null)
             return false;
-        if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (ImmortalMode.IsSet("Holylight"))
             return true;
         return base.CanSee(victim);
     }
@@ -415,7 +425,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (exit == null)
             return false;
-        if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (ImmortalMode.IsSet("Holylight"))
             return true;
         return base.CanSee(exit);
     }
@@ -426,16 +436,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return false;
 
         var adminLevel = (ImpersonatedBy as IAdmin)?.Level;
-        if (room.RoomFlags.IsSet("ImpOnly") && (!ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || adminLevel is null || adminLevel < AdminLevels.Implementor))
+        if (room.RoomFlags.IsSet("ImpOnly") && (!ImmortalMode.IsSet("Holylight") || adminLevel is null || adminLevel < AdminLevels.Implementor))
             return false;
 
-        if (room.RoomFlags.IsSet("GodsOnly") && (!ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || adminLevel is null || adminLevel < AdminLevels.God))
+        if (room.RoomFlags.IsSet("GodsOnly") && (!ImmortalMode.IsSet("Holylight") || adminLevel is null || adminLevel < AdminLevels.God))
             return false;
 
-        if (room.RoomFlags.IsSet("HeroesOnly") && !ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (room.RoomFlags.IsSet("HeroesOnly") && !ImmortalMode.IsSet("Holylight"))
             return false;
 
-        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && !ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && !ImmortalMode.IsSet("Holylight"))
             return false;
 
 
@@ -474,13 +484,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     #endregion
 
-    public override ImmortalModeFlags ImmortalMode => _immortalMode;
+    public override IImmortalModes ImmortalMode { get; protected set; }
 
-    public override int MaxCarryWeight => ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)
+    public override int MaxCarryWeight => ImmortalMode.IsSet("Infinite")
         ? 10000000
         : base.MaxCarryWeight;
 
-    public override int MaxCarryNumber => ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)
+    public override int MaxCarryNumber => ImmortalMode.IsSet("Infinite")
         ? 1000
         : base.MaxCarryNumber;
 
@@ -587,7 +597,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override void HandleAutoGold(IItemCorpse corpse)
     {
-        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Gold) && corpse.Content.Any())
+        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.IsSet("Gold") && corpse.Content.Any())
         {
             var corpseContent = corpse.Content.OfType<IItemMoney>().Where(CanLoot).ToArray();
             foreach (var money in corpseContent)
@@ -597,7 +607,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override void HandleAutoLoot(IItemCorpse corpse)
     {
-        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Loot) && corpse.Content.Any())
+        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.IsSet("Loot") && corpse.Content.Any())
         {
             var corpseContent = corpse.Content.Where(CanLoot).ToArray();
             foreach (var item in corpseContent)
@@ -607,7 +617,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override void HandleAutoSacrifice(IItemCorpse corpse)
     {
-        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.HasFlag(AutoFlags.Sacrifice) && !corpse.Content.Any()) // TODO: corpse empty only if autoloot is set?
+        if (!corpse.IsPlayableCharacterCorpse && AutoFlags.IsSet("Sacrifice") && !corpse.Content.Any()) // TODO: corpse empty only if autoloot is set?
             SacrificeItem(corpse);
     }
 
@@ -645,7 +655,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     // Abilities
     public override IEnumerable<IAbilityLearned> LearnedAbilities
-        => ImmortalMode.HasFlag(ImmortalModeFlags.Omniscient)
+        => ImmortalMode.IsSet("Omniscient")
             ? OmniscienceManager.LearnedAbilities 
             : base.LearnedAbilities;
 
@@ -678,7 +688,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         var abilityLearned = GetAbilityLearned(abilityName);
 
         int learned = 0;
-        if (ImmortalMode.HasFlag(ImmortalModeFlags.Omniscient))
+        if (ImmortalMode.IsSet("Omniscient"))
             learned = abilityLearned?.Learned ?? 100;
         else if (abilityLearned != null && abilityLearned.Level <= Level)
         {
@@ -777,16 +787,18 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         Wimpy = Math.Clamp(wimpy, 0, MaxResource(ResourceKinds.HitPoints)/2); // not higher than half max hit points
     }
 
-    public AutoFlags AutoFlags { get; protected set; }
+    public IAutoFlags AutoFlags { get; protected set; }
 
-    public void AddAutoFlags(AutoFlags autoFlags)
+    public void AddAutoFlags(IAutoFlags autoFlags)
     {
-        AutoFlags |= autoFlags;
+        AutoFlags.Set(autoFlags);
+        FlagsManager.CheckFlags(AutoFlags);
     }
 
-    public void RemoveAutoFlags(AutoFlags autoFlags)
+    public void RemoveAutoFlags(IAutoFlags autoFlags)
     {
-        AutoFlags &= ~autoFlags;
+        AutoFlags.Unset(autoFlags);
+        FlagsManager.CheckFlags(AutoFlags);
     }
 
     public int this[Conditions condition]
@@ -855,7 +867,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (target is IItemQuest questItem)
         {
             // See only if on this quest
-            if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || questItem.IsQuestObjective(this, false)) // we don't care if the objective is completed or not
+            if (ImmortalMode.IsSet("Holylight") || questItem.IsQuestObjective(this, false)) // we don't care if the objective is completed or not
                 return true;
             return false;
         }
@@ -1002,7 +1014,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 {
                     levelGained = true;
                     Level++;
-                    Wiznet.Log($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
+                    Wiznet.Log($"{DebugName} has attained level {Level}", new WiznetFlags("Levels"));
                     Send("%G%You raise a level!!%x%");
                     Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                     AdvanceLevel();
@@ -1035,13 +1047,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // check to see if the character has a chance to learn
         if (multiplier <= 0)
         {
-            Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {multiplier}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {multiplier}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             multiplier = 1;
         }
         var difficultyMultiplier = abilityLearned.Rating;
         if (difficultyMultiplier <= 0)
         {
-            Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {abilityLearned.Name} Player {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {abilityLearned.Name} Player {DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             difficultyMultiplier = 1;
         }
         // percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
@@ -1088,10 +1100,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Immortality
-    public void ChangeImmortalMode(ImmortalModeFlags mode)
+    public void ChangeImmortalMode(IImmortalModes mode)
     {
-        Wiznet.Log($"{DebugName} is immortal mode changed from {ImmortalMode} to {mode}.", WiznetFlags.Immortal, AdminLevels.God);
-        _immortalMode = mode;
+        Wiznet.Log($"{DebugName} is immortal mode changed from {ImmortalMode} to {mode}.", new WiznetFlags("Immortal"), AdminLevels.God);
+
+        ImmortalMode = mode;
+        FlagsManager.CheckFlags(ImmortalMode);
 
         RecomputeCurrentResourceKinds();
     }
@@ -1120,7 +1134,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
 
         Act(ActOptions.ToAll, "{0:N} sacrifices {1:v} to Mota.", this, item);
-        Wiznet.Log($"{DebugName} sacrifices {item.DebugName} as a burnt offering.", WiznetFlags.Saccing);
+        Wiznet.Log($"{DebugName} sacrifices {item.DebugName} as a burnt offering.", new WiznetFlags("Saccing"));
         ItemManager.RemoveItem(item);
         //
         long silver = Math.Max(1, item.Level * 3);
@@ -1129,7 +1143,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (silver <= 0)
         {
             Send("Mota doesn't give you anything for your sacrifice."); // TODO: god
-            Wiznet.Log($"DoSacrifice: {item.DebugName} gives zero or negative money {silver}!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"DoSacrifice: {item.DebugName} gives zero or negative money {silver}!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         }
         else if (silver == 1)
             Send("Mota gives you one silver coin for your sacrifice.");
@@ -1138,7 +1152,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (silver > 0)
             UpdateMoney(silver, 0);
         // autosplit
-        if (silver > 0 && AutoFlags.HasFlag(AutoFlags.Split))
+        if (silver > 0 && AutoFlags.IsSet("Split"))
             SplitMoney(silver, 0);
 
         return true;
@@ -1206,7 +1220,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Experience = Experience,
             Trains = Trains,
             Practices = Practices,
-            AutoFlags = AutoFlags,
+            AutoFlags = AutoFlags.Serialize(),
             Conditions = _conditions.ToDictionary(),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
@@ -1224,7 +1238,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
             Pets = Pets.Where(x => x.ActFlags.IsSet("pet")).Select(x => x.MapPetData()).ToArray(), // save only pets with act flag PET ro differentiate bought pet and charmed pet
             Statistics = _statistics.ToDictionary(),
-            ImmortalMode = ImmortalMode,
+            ImmortalMode = ImmortalMode.Serialize(),
             CompletedQuests = _completedQuests.Select(x => x.MapCompletedQuestData()).ToArray(),
             PulseLeftBeforeNextAutomaticQuest = PulseLeftBeforeNextAutomaticQuest,
         };
@@ -1246,7 +1260,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         bool got = base.GetItem(item, container);
         // autosplit
-        if (got && AutoFlags.HasFlag(AutoFlags.Split)
+        if (got && AutoFlags.IsSet("Split")
                 && (silver > 0 || gold > 0))
             SplitMoney(silver, gold);
         return true;
@@ -1256,7 +1270,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override Positions DefaultPosition => Positions.Standing;
 
-    protected override bool CannotDie => ImmortalMode.HasFlag(ImmortalModeFlags.NoDeath);
+    protected override bool CannotDie => ImmortalMode.IsSet("NoDeath");
 
     protected override bool CheckEquippedItemsDuringRecompute()
     {
@@ -1362,7 +1376,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
 
-    protected override WiznetFlags DeathWiznetFlags => WiznetFlags.Deaths;
+    protected override IWiznetFlags DeathWiznetFlags => new WiznetFlags("Deaths");
 
     protected override bool CreateCorpseOnDeath => true;
 
@@ -1610,7 +1624,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     protected override IAbilityLearned? GetAbilityLearned(string abilityName)
-        => ImmortalMode.HasFlag(ImmortalModeFlags.Omniscient)
+        => ImmortalMode.IsSet("Omniscient")
             ? OmniscienceManager[abilityName]
             : base.GetAbilityLearned(abilityName);
 

@@ -1,8 +1,8 @@
 ﻿using Mud.Common;
-using Mud.Domain;
+using Mud.Flags.Interfaces;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
@@ -34,10 +34,12 @@ affect    : display your affects when looking your score")]
 public class Auto : PlayableCharacterGameAction
 {
     private IGameActionManager GameActionManager { get; }
+    private IFlagsManager FlagsManager { get; }
 
-    public Auto(IGameActionManager gameActionManager)
+    public Auto(IGameActionManager gameActionManager, IFlagsManager flagsManager)
     {
         GameActionManager = gameActionManager;
+        FlagsManager = flagsManager;
     }
 
     protected enum Actions
@@ -46,19 +48,19 @@ public class Auto : PlayableCharacterGameAction
         SubCommand
     }
 
-    protected (string? parameter, AutoFlags Flag, Type? GameActionType)[] ActionTable { get; } =
+    protected (string Flag, Type? GameActionType)[] ActionTable { get; } =
 [
-        ("assist", AutoFlags.Assist, typeof(AutoAssist)),
-        ("exit", AutoFlags.Exit, typeof(AutoExit)),
-        ("sacrifice", AutoFlags.Sacrifice, typeof(AutoSacrifice)),
-        ("gold", AutoFlags.Gold, typeof(AutoGold)),
-        ("split", AutoFlags.Split, typeof(AutoSplit)),
-        ("loot", AutoFlags.Loot, typeof(AutoLoot)),
-        ("affect", AutoFlags.Affect, typeof(AutoAffect)),
+        ("Assist", typeof(AutoAssist)),
+        ("Exit", typeof(AutoExit)),
+        ("Sacrifice", typeof(AutoSacrifice)),
+        ("Gold", typeof(AutoGold)),
+        ("Split", typeof(AutoSplit)),
+        ("Loot", typeof(AutoLoot)),
+        ("Affect", typeof(AutoAffect)),
     ];
 
     protected Actions Action { get; set; }
-    protected AutoFlags? What { get; set; }
+    protected string? What { get; set; }
     protected Type? GameActionType { get; set; }
 
     public override string? Guards(IActionInput actionInput)
@@ -81,15 +83,13 @@ public class Auto : PlayableCharacterGameAction
         }
 
         // search in action table
-        foreach (var actionTableEntry in ActionTable.Where(x => x.parameter is not null && x.GameActionType is not null))
+        var actionEntry = ActionTable.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Flag, actionInput.Parameters[0].Value));
+        if (actionEntry != default)
         {
-            if (actionTableEntry.parameter!.StartsWith(actionInput.Parameters[0].Value))
-            {
-                Action = Actions.SubCommand;
-                What = actionTableEntry.Flag;
-                GameActionType = actionTableEntry.GameActionType;
-                return null;
-            }
+            Action = Actions.SubCommand;
+            What = actionEntry.Flag;
+            GameActionType = actionEntry.GameActionType;
+            return null;
         }
 
         return "This is not a valid auto.";
@@ -101,8 +101,8 @@ public class Auto : PlayableCharacterGameAction
         {
             case Actions.Display:
                 StringBuilder sb = new();
-                foreach (var autoFlag in Enum.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
-                    sb.AppendFormatLine("{0}: {1}", autoFlag.PrettyPrint(), Actor.AutoFlags.HasFlag(autoFlag) ? "ON" : "OFF");
+                foreach (var autoFlag in FlagsManager.AvailableValues<IAutoFlags>().OrderBy(x => x))
+                    sb.AppendFormatLine("{0}: {1}", autoFlag, Actor.AutoFlags.IsSet(autoFlag) ? "%g%ON%x%" : "%r%OFF%x%");
                 Actor.Send(sb);
                 return;
 

@@ -10,7 +10,7 @@
   "Alignment": 1000,
   "Trains": 65,
   "Practices": 61,
-  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
+  "AutoFlags": "Sacrifice,Exit,Gold,Assist,Split,Loot,Affect",
   "Currencies": {
     "QuestPoints": 35
   },
@@ -476,8 +476,8 @@
   "Conditions": {
     "Drunk": 0,
     "Full": 0,
-    "Thirst": 10,
-    "Hunger": 32
+    "Thirst": 9,
+    "Hunger": 30
   },
   "Aliases": {
     "a": "cast \u0027colour spray\u0027",
@@ -495,7 +495,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 116,
+        "HitPoints": 123,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -616,7 +616,7 @@
           "AbilityName": "Construct",
           "Level": 23,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent",
+          "AuraFlags": "NoDispel,Permanent",
           "Affects": [
             {
               "$type": "characterFlags",
@@ -675,7 +675,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "None",
+  "ImmortalMode": "",
   "CompletedQuests": [
     {
       "QuestId": 1,
@@ -696,8 +696,8 @@
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 516,
-    "MovePoints": 418,
+    "HitPoints": 534,
+    "MovePoints": 436,
     "Mana": 605,
     "Psy": 100,
     "Energy": 0,
@@ -705,7 +705,7 @@
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 524,
+    "HitPoints": 536,
     "MovePoints": 436,
     "Mana": 605,
     "Psy": 100,
@@ -718,7 +718,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11710,
+        "TimeLeft": 11709,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -732,7 +732,7 @@
             "AbilityName": "",
             "Level": 0,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -786,7 +786,7 @@
             "AbilityName": "",
             "Level": 5,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -815,7 +815,7 @@
             "AbilityName": "",
             "Level": 5,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -849,7 +849,7 @@
             "AbilityName": "",
             "Level": 22,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -883,7 +883,7 @@
             "AbilityName": "",
             "Level": 12,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -936,7 +936,7 @@
             "AbilityName": "",
             "Level": 12,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -970,7 +970,7 @@
             "AbilityName": "",
             "Level": 12,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -1023,7 +1023,7 @@
             "AbilityName": "",
             "Level": 17,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -1052,7 +1052,7 @@
             "AbilityName": "",
             "Level": 20,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -1081,7 +1081,7 @@
             "AbilityName": "",
             "Level": 3,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterResource",
@@ -1158,7 +1158,7 @@
             "AbilityName": "",
             "Level": 21,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -1213,7 +1213,7 @@
           "AbilityName": "",
           "Level": 11,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1250,7 +1250,7 @@
           "AbilityName": "",
           "Level": 7,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1280,7 +1280,7 @@
           "AbilityName": "",
           "Level": 21,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1316,7 +1316,7 @@
           "AbilityName": "",
           "Level": 11,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1352,7 +1352,7 @@
           "AbilityName": "",
           "Level": 11,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1388,7 +1388,7 @@
           "AbilityName": "",
           "Level": 11,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1424,7 +1424,7 @@
           "AbilityName": "",
           "Level": 11,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1460,7 +1460,7 @@
           "AbilityName": "",
           "Level": 11,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1496,7 +1496,7 @@
           "AbilityName": "",
           "Level": 16,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1593,7 +1593,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 228480,
+      "DecayPulseLeft": 228240,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1622,7 +1622,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 148560,
+      "DecayPulseLeft": 148320,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1667,7 +1667,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 153840,
+      "DecayPulseLeft": 153600,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1680,7 +1680,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 157920,
+      "DecayPulseLeft": 157680,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1796,7 +1796,7 @@
           "AbilityName": "",
           "Level": 3,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -1864,8 +1864,8 @@
     {
       "AbilityName": "Armor",
       "Level": 1,
-      "PulseLeft": 3368,
-      "AuraFlags": "None",
+      "PulseLeft": 3072,
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -1878,8 +1878,8 @@
     {
       "AbilityName": "Fly",
       "Level": 1,
-      "PulseLeft": 3632,
-      "AuraFlags": "None",
+      "PulseLeft": 3336,
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -1891,8 +1891,8 @@
     {
       "AbilityName": "Bless",
       "Level": 1,
-      "PulseLeft": 4368,
-      "AuraFlags": "None",
+      "PulseLeft": 4072,
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -1911,8 +1911,8 @@
     {
       "AbilityName": "Infravision",
       "Level": 1,
-      "PulseLeft": 8296,
-      "AuraFlags": "None",
+      "PulseLeft": 8000,
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
@@ -1924,8 +1924,8 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 3520,
-      "AuraFlags": "None",
+      "PulseLeft": 3224,
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -1947,8 +1947,8 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 3084,
-      "AuraFlags": "None",
+      "PulseLeft": 2788,
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",

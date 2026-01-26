@@ -2,6 +2,8 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
@@ -9,7 +11,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Tests.Abilities;
 
@@ -78,6 +79,7 @@ public class SpellBaseTests : AbilityTestBase
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([]);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
@@ -101,6 +103,7 @@ public class SpellBaseTests : AbilityTestBase
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(10);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
@@ -148,6 +151,7 @@ public class SpellBaseTests : AbilityTestBase
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
@@ -175,6 +179,7 @@ public class SpellBaseTests : AbilityTestBase
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x.ImpersonatedBy).Returns(playerMock.Object);
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());

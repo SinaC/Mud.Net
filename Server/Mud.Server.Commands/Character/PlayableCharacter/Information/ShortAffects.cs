@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
@@ -27,7 +26,7 @@ public class ShortAffects : PlayableCharacterGameAction
         {
             sb.AppendLine("%c%You are affected by following auras:%x%");
             // Auras
-            foreach (var aura in Actor.Auras.Where(x => Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
+            foreach (var aura in Actor.Auras.Where(x => Actor.ImmortalMode.IsSet("Holylight") || !x.AuraFlags.IsSet("Hidden")).OrderBy(x => x.AuraFlags.IsSet("Permanent") ? int.MaxValue : x.PulseLeft))
                 aura.Append(sb, true);
         }
         else
@@ -37,7 +36,7 @@ public class ShortAffects : PlayableCharacterGameAction
             foreach (var pet in Actor.Pets.Where(x => x.Auras.Any()))
             {
                 sb.AppendFormatLine("%c%{0} is affected by following auras:%x%", pet.DisplayName);
-                foreach (IAura aura in pet.Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+                foreach (IAura aura in pet.Auras.Where(x => !x.AuraFlags.IsSet("Hidden")).OrderBy(x => x.PulseLeft))
                     aura.Append(sb, true);
             }
 

@@ -8,7 +8,7 @@ public class AuraData
 
     public required int PulseLeft { get; set; }
 
-    public required AuraFlags AuraFlags { get; set; }
+    public required string AuraFlags { get; set; }
 
     public required AffectDataBase[] Affects { get; set; }
 }

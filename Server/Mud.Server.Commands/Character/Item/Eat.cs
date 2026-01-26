@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
@@ -13,7 +14,6 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.Item;
 
@@ -59,7 +59,7 @@ public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameAc
         else
             return "That's not edible.";
 
-        if (Actor is IPlayableCharacter pc && pc[Conditions.Full] > 40 && pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (Actor is IPlayableCharacter pc && pc[Conditions.Full] > 40 && pc.ImmortalMode.IsSet("Infinite"))
             return "You are too full to eat more.";
 
         return null;
@@ -98,7 +98,7 @@ public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameAc
                 else
                 {
                     var poisonAffect = AffectManager.CreateInstance("Poison");
-                    AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                    AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
                         new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                         poisonAffect);
                 }

@@ -4,13 +4,13 @@ using Mud.Blueprints.Item;
 using Mud.Blueprints.Reset;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using System.Diagnostics;
 
 namespace Mud.Server.Server;
 
@@ -37,7 +37,7 @@ public class ResetManager : IResetManager
         Logger.LogDebug("Resetting {areaName}", area.DisplayName);
         foreach (IRoom room in area.Rooms)
             ResetRoom(room);
-        Wiznet.Log($"{area.DisplayName} has just been reset.", WiznetFlags.Resets);
+        Wiznet.Log($"{area.DisplayName} has just been reset.", new WiznetFlags("Resets"));
     }
 
     public void ResetRoom(IRoom room)

@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common.Attributes;
+﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
@@ -10,7 +9,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 @"Take all gold from dead mobiles")]
 public class AutoGold : AutoBase
 {
-    protected override AutoFlags What => AutoFlags.Gold;
+    protected override string What => "Gold";
     protected override string RemovedMessage => "Autogold removed.";
     protected override string AddedMessage => "Automatic gold looting set.";
 }

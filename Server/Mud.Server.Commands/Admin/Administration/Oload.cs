@@ -1,13 +1,14 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Item;
+﻿using Mud.Blueprints.Item;
+using Mud.Domain;
+using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
@@ -63,12 +64,12 @@ public class Oload : AdminGameAction
         var item = ItemManager.AddItem(Guid.NewGuid(), ItemBlueprint, $"Oload[{Actor.Name}]", container!);
         if (item == null)
         {
-            Wiznet.Log($"DoIload: item with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"DoIload: item with id {BlueprintId} cannot be created", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             Actor.Send("Item cannot be created.");
             return;
         }
 
-        Wiznet.Log($"{Actor.DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
+        Wiznet.Log($"{Actor.DisplayName} loads {item.DebugName}.", new WiznetFlags("Load"));
 
         Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Actor.Impersonating!, item);
         Actor.Send("Ok.");

@@ -293,6 +293,7 @@ public class CastAcidBlastTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         //
         Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast' target");

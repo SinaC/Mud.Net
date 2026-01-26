@@ -55,6 +55,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         RaceManager = raceManager;
         ClassManager = classManager;
         SpecialBehaviorManager = specialBehaviorManager;
+
+        ImmortalMode = new ImmortalModes();
     }
 
     protected void Initialize(Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
@@ -171,7 +173,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         else
         {
-            Wiznet.Log($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             // set to 1 if not found
             foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
@@ -192,7 +194,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         else
         {
-            Wiznet.Log($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             // set to 1 if not found
             foreach (var resource in Enum.GetValues<ResourceKinds>())
                 SetResource(resource, 1);
@@ -206,7 +208,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             {
                 if (equippedItemData.Item == null)
                 {
-                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {petData.Name} is null.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {petData.Name} is null.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 }
                 else
                 {
@@ -226,17 +228,17 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                             }
                             else
                             {
-                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {petData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                             }
                         }
                         else
                         {
-                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                         }
                     }
                     else
                     {
-                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {petData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     }
                 }
             }
@@ -312,7 +314,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             displayName.Append("Someone");
         else
             displayName.Append("someone");
-        if (beholder.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+        if (beholder.ImmortalMode.IsSet("Holylight"))
             displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
         return displayName.ToString();
     }
@@ -348,7 +350,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         return base.CanLoot(target);
     }
 
-    public override ImmortalModeFlags ImmortalMode => ImmortalModeFlags.None;
+    public override IImmortalModes ImmortalMode { get; protected set; }
 
     public override int MaxCarryWeight => ActFlags.IsSet("Pet")
         ? 0
@@ -686,7 +688,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
 
-    protected override WiznetFlags DeathWiznetFlags => WiznetFlags.MobDeaths;
+    protected override IWiznetFlags DeathWiznetFlags => new WiznetFlags("MobDeaths");
 
     protected override bool CreateCorpseOnDeath => !ActFlags.IsSet("NoCorpse");
 
@@ -797,7 +799,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             // TODO: code copied from haste spell (except duration and aura flags) use effect ??
             var hasteAbilityDefinition = AbilityManager["Haste"];
             var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
+            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
                 new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });

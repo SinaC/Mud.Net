@@ -40,6 +40,7 @@ public class ColourSprayTests : AbilityTestBase
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
+        casterMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         targetMock.SetupGet(x => x.Name).Returns("target");

@@ -54,7 +54,7 @@ public class Plague : OffensiveSpellBase
             plagueAura.Update(level, TimeSpan.FromMinutes(duration));
         else
         {
-            AuraManager.AddAura(Victim, SpellName, Caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SpellName, Caster, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
                 new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));

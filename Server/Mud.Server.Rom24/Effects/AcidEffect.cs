@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
 using Mud.Server.Domain;
@@ -10,7 +12,6 @@ using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -112,7 +113,7 @@ public class AcidEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                     () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 1, Operator = AffectOperators.Add },
                     x => x.Modifier += 1);
             else
-                AuraManager.AddAura(item, auraName, source, level, Pulse.Infinite, AuraFlags.Permanent, false,
+                AuraManager.AddAura(item, auraName, source, level, Pulse.Infinite, new AuraFlags("Permanent"), false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 1, Operator = AffectOperators.Add });
             item.Recompute();
             return;

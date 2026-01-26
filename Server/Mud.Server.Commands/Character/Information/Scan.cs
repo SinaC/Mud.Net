@@ -35,7 +35,7 @@ public class Scan : CharacterGameAction
             return "Maybe it would help if you could see?";
         if (Actor.Room.RoomFlags.IsSet("NoScan"))
             return "Your vision is clouded by a mysterious force.";
-        var hasHolylight = Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight);
+        var hasHolylight = Actor.ImmortalMode.IsSet("Holylight");
         if (actionInput.Parameters.Length > 0)
         {
             if (ExitDirectionsExtensions.TryFindDirection(actionInput.Parameters[0].Value, out ExitDirections direction))

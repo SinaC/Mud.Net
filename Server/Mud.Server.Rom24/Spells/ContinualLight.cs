@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Item;
@@ -8,14 +10,12 @@ using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -56,7 +56,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
                 return;
             }
 
-            AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
+            AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, new AuraFlags("NoDispel", "Permanent"), true,
                 new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
             return;
@@ -66,7 +66,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
         if (light == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Log($"ContinualLight: cannot create item from blueprint {LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"ContinualLight: cannot create item from blueprint {LightBallBlueprintId}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             return;
         }
         Caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", Caster, light);

@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -59,7 +59,7 @@ public class Calm : NoTargetSpellBase
         // Compute chance of stopping combat
         int chance = 4 * Level - maxLevel + 2 * count;
         // Always works if immortal
-        if (Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
+        if (Caster.ImmortalMode.IsSet("Infinite"))
             sumLevel = 0;
         // Harder to stop large fights
         if (RandomManager.Range(0, chance) < sumLevel)
@@ -86,7 +86,7 @@ public class Calm : NoTargetSpellBase
                 ? -5
                 : -2;
             int duration = Level / 4;
-            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm"), Operator = AffectOperators.Or });

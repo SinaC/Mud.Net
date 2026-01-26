@@ -1,5 +1,4 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Domain.SerializationData;
@@ -8,7 +7,7 @@ namespace Mud.Server.Domain.SerializationData;
 public class ItemPortalData : ItemData
 {
     public required int DestinationRoomId { get; set; }
-    public required PortalFlags PortalFlags { get; set; }
+    public required string PortalFlags { get; set; }
     public required int MaxChargeCount { get; set; }
     public required int CurrentChargeCount { get; set; }
 }

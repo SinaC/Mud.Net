@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
@@ -8,7 +10,6 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -42,7 +43,7 @@ public class ChangeSex : DefensiveSpellBase
             return;
 
         var newSex = RandomManager.Random(Enum.GetValues<Sex>().Where(x => x != Victim.Sex));
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
+        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(2 * Level), new AuraFlags(), true,
             new CharacterSexAffect { Value = newSex });
         Victim.Send("You feel different.");
         Victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like {0:m}self anymore...", Victim);

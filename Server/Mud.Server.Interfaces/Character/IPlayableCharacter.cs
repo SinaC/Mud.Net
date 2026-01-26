@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Item;
@@ -39,9 +40,9 @@ public interface IPlayableCharacter : ICharacter
     void SetWimpy(int wimpy);
 
     //
-    AutoFlags AutoFlags { get; }
-    void AddAutoFlags(AutoFlags autoFlags);
-    void RemoveAutoFlags(AutoFlags autoFlags);
+    IAutoFlags AutoFlags { get; }
+    void AddAutoFlags(IAutoFlags autoFlags);
+    void RemoveAutoFlags(IAutoFlags autoFlags);
 
     // Conditions: drunk, full, thirst, hunger
     int this[Conditions condition] { get; }
@@ -87,7 +88,7 @@ public interface IPlayableCharacter : ICharacter
     void GainLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage);
 
     // Immortality
-    void ChangeImmortalMode(ImmortalModeFlags mode);
+    void ChangeImmortalMode(IImmortalModes mode);
 
     // Misc
     bool SacrificeItem(IItem item);

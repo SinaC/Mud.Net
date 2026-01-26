@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
@@ -20,11 +22,14 @@ public class ItemPortal : ItemBase, IItemPortal
     private const int NoDestinationRoomId = -1;
 
     private IRoomManager RoomManager { get; }
+    private IFlagsManager FlagsManager { get; }
 
-    public ItemPortal(ILogger<ItemPortal> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager)
+    public ItemPortal(ILogger<ItemPortal> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IRoomManager roomManager, IAuraManager auraManager, IFlagsManager flagsManager)
         : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         RoomManager = roomManager;
+        FlagsManager = flagsManager;
+        PortalFlags = new PortalFlags();
     }
 
     public void Initialize(Guid guid, ItemPortalBlueprint blueprint, string source, IContainer containedInto) 
@@ -34,6 +39,7 @@ public class ItemPortal : ItemBase, IItemPortal
         Destination = FindDestination(blueprint);
         KeyId = blueprint.Key;
         PortalFlags = blueprint.PortalFlags;
+        FlagsManager.CheckFlags(PortalFlags);
         MaxChargeCount = blueprint.MaxChargeCount;
         CurrentChargeCount = blueprint.CurrentChargeCount;
     }
@@ -44,7 +50,8 @@ public class ItemPortal : ItemBase, IItemPortal
 
         Destination = FindDestination(itemData);
         KeyId = blueprint.Key;
-        PortalFlags = itemData.PortalFlags;
+        PortalFlags = NewAndCopyAndSet(() => new PortalFlags(), new PortalFlags(itemData.PortalFlags), null);
+        FlagsManager.CheckFlags(PortalFlags); 
         MaxChargeCount = itemData.MaxChargeCount;
         CurrentChargeCount = itemData.CurrentChargeCount;
     }
@@ -85,41 +92,41 @@ public class ItemPortal : ItemBase, IItemPortal
 
     public int KeyId { get; private set; }
 
-    public bool IsCloseable => !PortalFlags.HasFlag(PortalFlags.NoClose);
-    public bool IsLockable => !PortalFlags.HasFlag(PortalFlags.NoLock) && KeyId > 0;
-    public bool IsClosed => PortalFlags.HasFlag(PortalFlags.Closed);
-    public bool IsLocked => PortalFlags.HasFlag(PortalFlags.Locked);
-    public bool IsPickProof => PortalFlags.HasFlag(PortalFlags.PickProof);
-    public bool IsEasy => PortalFlags.HasFlag(PortalFlags.Easy);
-    public bool IsHard => PortalFlags.HasFlag(PortalFlags.Hard);
+    public bool IsCloseable => !PortalFlags.IsSet("NoClose");
+    public bool IsLockable => !PortalFlags.IsSet("NoLock") && KeyId > 0;
+    public bool IsClosed => PortalFlags.IsSet("Closed");
+    public bool IsLocked => PortalFlags.IsSet("Locked");
+    public bool IsPickProof => PortalFlags.IsSet("PickProof");
+    public bool IsEasy => PortalFlags.IsSet("Easy");
+    public bool IsHard => PortalFlags.IsSet("Hard");
 
     public void Open()
     {
-        RemoveFlags(PortalFlags.Closed);
+        PortalFlags.Unset("Closed");
     }
 
     public void Close()
     {
         if (IsCloseable)
-            AddFlags(PortalFlags.Closed);
+            PortalFlags.Set("Closed");
     }
 
     public void Unlock()
     {
-        RemoveFlags(PortalFlags.Locked);
+        PortalFlags.Unset("Locked");
     }
 
     public void Lock()
     {
         if (IsLockable && IsClosed)
-            AddFlags(PortalFlags.Locked);
+            PortalFlags.Set("Locked");
     }
 
     #endregion
 
     public IRoom? Destination { get; protected set; }
 
-    public PortalFlags PortalFlags { get; protected set; }
+    public IPortalFlags PortalFlags { get; protected set; }
 
     public int MaxChargeCount { get; protected set; }
 
@@ -168,21 +175,11 @@ public class ItemPortal : ItemBase, IItemPortal
             ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),
             DestinationRoomId = Destination?.Blueprint?.Id ?? -1,
-            PortalFlags = PortalFlags,
+            PortalFlags = PortalFlags.Serialize(),
             MaxChargeCount = MaxChargeCount,
             CurrentChargeCount = CurrentChargeCount,
         };
     }
 
     #endregion
-
-    private void AddFlags(PortalFlags flags)
-    {
-        PortalFlags |= flags;
-    }
-
-    private void RemoveFlags(PortalFlags flags)
-    {
-        PortalFlags &= ~flags;
-    }
 }

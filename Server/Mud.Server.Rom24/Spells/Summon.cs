@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Blueprints.Character;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
@@ -9,7 +10,6 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -47,7 +47,7 @@ public class Summon : TransportationSpellBase
             || Victim.Room.RoomFlags.HasAny("Safe", "Private", "Solitary", "NoRecall", "ImpOnly")
             || (npcVictim != null && npcVictim.ActFlags.IsSet("Aggressive"))
             || Victim.Level >= Level + 3
-            || Victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)
+            || Victim.ImmortalMode.IsSet("AlwaysSafe")
             || Victim.Fighting != null
             || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
             || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprintBase))

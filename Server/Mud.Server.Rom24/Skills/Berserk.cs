@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -78,7 +78,7 @@ public class Berserk : NoTargetSkillBase
             int duration = RandomManager.Fuzzy(User.Level / 8);
             int modifier = Math.Max(1, User.Level / 5);
             int acModifier = Math.Max(10, 10 * (User.Level / 5));
-            AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
+            AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), new AuraFlags("NoDispel"), true,
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Berserk"), Operator = AffectOperators.Or },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },

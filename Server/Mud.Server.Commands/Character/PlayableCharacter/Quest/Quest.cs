@@ -171,7 +171,7 @@ public class Quest : PlayableCharacterGameAction
                 sb.Append($"     %g%{objective.CompletionState}%x%");
             else
                 sb.Append($"     {objective.CompletionState}");
-            if (Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
+            if (Actor.ImmortalMode.IsSet("Holylight"))
             {
                 switch (objective)
                 {

@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -65,14 +65,14 @@ public class Force : AdminGameAction
         if (Whom != null)
         {
             Actor.Send("You force {0} to '{1}'.", Whom.DebugName, What);
-            Wiznet.Log($"{Actor.DisplayName} forces {Whom.DebugName} to {What}", WiznetFlags.Punish);
+            Wiznet.Log($"{Actor.DisplayName} forces {Whom.DebugName} to {What}", new WiznetFlags("Punish"));
 
             ForceOneCharacter(Whom);
         }
         else
         {
             Actor.Send("You force everyone to '{0}'.", What);
-            Wiznet.Log($"{Actor.DisplayName} forces everyone to {What}", WiznetFlags.Punish);
+            Wiznet.Log($"{Actor.DisplayName} forces everyone to {What}", new WiznetFlags("Punish"));
 
             foreach (ICharacter victim in CharacterManager.Characters.Where(x => x != Impersonating))
                 ForceOneCharacter(victim);

@@ -1,8 +1,8 @@
 ﻿using DeepEqual.Syntax;
 using Mud.Domain;
+using Mud.Flags;
 using Mud.POC.Serialization;
 using Mud.Server.Domain;
-using Mud.Flags;
 using System.Text.Json;
 
 namespace Mud.POC.Tests.Serialization
@@ -164,7 +164,7 @@ namespace Mud.POC.Tests.Serialization
             {
                 AdminLevel = AdminLevels.DemiGod,
                 Name = "SinaC",
-                WiznetFlags = WiznetFlags.Deaths | WiznetFlags.Incarnate,
+                WiznetFlags = "Deaths,Incarnate",
                 Characters =
                 [
                     new PlayableCharacterData

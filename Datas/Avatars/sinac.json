@@ -660,7 +660,7 @@
       "AbilityName": "Sanctuary",
       "Level": 1,
       "PulseLeft": 70800,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "shieldFlags",
@@ -673,7 +673,7 @@
       "AbilityName": "Shield",
       "Level": 6,
       "PulseLeft": 12000,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -718,7 +718,7 @@
       "AbilityName": "Stone Skin",
       "Level": 1,
       "PulseLeft": 10120,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -732,7 +732,7 @@
       "AbilityName": "Protection Evil",
       "Level": 1,
       "PulseLeft": 48560,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -751,7 +751,7 @@
       "AbilityName": "Testroom",
       "Level": 10,
       "PulseLeft": 61600,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "roomHealRate",
@@ -774,7 +774,7 @@
       "AbilityName": "Plague",
       "Level": 8,
       "PulseLeft": 10500,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -797,7 +797,7 @@
       "AbilityName": "Poison",
       "Level": 19,
       "PulseLeft": 10596,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterAttribute",
@@ -871,7 +871,7 @@
       "AbilityName": "Giant Size",
       "Level": 35,
       "PulseLeft": 10480,
-      "AuraFlags": "None",
+      "AuraFlags": "",
       "Affects": [
         {
           "$type": "size",

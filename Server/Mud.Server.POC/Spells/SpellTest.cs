@@ -40,7 +40,7 @@ public class SpellTest : ItemOrDefensiveSpellBase
         }
 
         // Immune to all damages
-        AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
+        AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), new AuraFlags("NoDispel"), true,
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Pouet")},
             new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Magic"), Operator = AffectOperators.Or },
             new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Weapon"), Operator = AffectOperators.Or });
@@ -58,11 +58,11 @@ public class SpellTest : ItemOrDefensiveSpellBase
 
         if (item is IItemWeapon itemWeapon)
         {
-            AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
+            AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), new AuraFlags("NoDispel"), true,
                 new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison") });
         }
 
-        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
+        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(10), new AuraFlags("NoDispel"), true,
             new ItemFlagsAffect { Modifier = new ItemFlags("Glowing", "Humming", "Magic") },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -Level*10, Operator = AffectOperators.Add},
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Characteristics, Modifier = Level, Operator = AffectOperators.Add });

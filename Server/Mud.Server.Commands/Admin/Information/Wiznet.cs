@@ -1,7 +1,9 @@
 ﻿using Mud.Common;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
@@ -21,8 +23,15 @@ a field on and off.  The events should be self-explanatory, if they are not,
 fiddle with them a while.  More events are available at higher levels.")]
 public class Wiznet : AdminGameAction
 {
+    private IFlagsManager FlagsManager { get; }
+
+    public Wiznet(IFlagsManager flagsManager)
+    {
+        FlagsManager = flagsManager;
+    }
+
     protected bool Display { get; set; }
-    protected WiznetFlags? FlagToToggle { get; set; }
+    protected string? FlagToToggle { get; set; }
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -42,46 +51,49 @@ public class Wiznet : AdminGameAction
             return null;
         }
 
-        if (!EnumHelpers.TryFindByName(actionInput.Parameters[0].Value.ToLowerInvariant(), out WiznetFlags flag) || flag == WiznetFlags.None)
-            return "No such option.";
+        var flag = FlagsManager.AvailableValues<IWiznetFlags>().FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x, actionInput.Parameters[0].Value));
+        if (flag != null)
+        {
+            Display = false;
+            FlagToToggle = flag;
 
-        Display = false;
-        FlagToToggle = flag;
+            return null;
+        }
+        return "No such option.";
 
-        return null;
     }
 
     public override void Execute(IActionInput actionInput)
     {
         if (Display)
         {
-            StringBuilder sb = new();
-            foreach (WiznetFlags loopFlag in Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
+            var sb = new StringBuilder();
+            foreach (var loopFlag in FlagsManager.AvailableValues<IWiznetFlags>().OrderBy(x => x))
             {
-                var isOnLoop = Actor.WiznetFlags.HasFlag(loopFlag);
-                sb.AppendLine($"{loopFlag,-16} : {(isOnLoop ? "ON" : "OFF")}");
+                var isOnLoop = Actor.WiznetFlags.IsSet(loopFlag);
+                sb.AppendLine($"{loopFlag,-16} : {(isOnLoop ? "%g%ON%x%" : "%r%OFF%x%")}");
             }
             Actor.Send(sb);
             return;
         }
-        if (!FlagToToggle.HasValue) // all
+        if (FlagToToggle is null) // all
         {
-            foreach (WiznetFlags wiznetFlag in Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
-                Actor.AddWiznet(wiznetFlag);
+            foreach (var wiznetFlag in FlagsManager.AvailableValues<IWiznetFlags>().OrderBy(x => x))
+                Actor.AddWiznet(new WiznetFlags(wiznetFlag));
             Actor.Send("You will now see every wiznet informations.");
             return;
         }
 
-        var isOn = (Actor.WiznetFlags & FlagToToggle.Value) == FlagToToggle.Value;
+        var isOn = Actor.WiznetFlags.IsSet(FlagToToggle);
         if (isOn)
         {
-            Actor.Send($"You'll no longer see {FlagToToggle.Value} on wiznet.");
-            Actor.RemoveWiznet(FlagToToggle.Value);
+            Actor.Send($"You'll no longer see {FlagToToggle} on wiznet.");
+            Actor.RemoveWiznet(new WiznetFlags(FlagToToggle));
         }
         else
         {
-            Actor.Send($"You will now see {FlagToToggle.Value} on wiznet.");
-            Actor.AddWiznet(FlagToToggle.Value);
+            Actor.Send($"You will now see {FlagToToggle} on wiznet.");
+            Actor.AddWiznet(new WiznetFlags(FlagToToggle));
         }
     }
 }

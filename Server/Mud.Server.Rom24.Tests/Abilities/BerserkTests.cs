@@ -165,6 +165,7 @@ public class BerserkTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
@@ -191,6 +192,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
@@ -219,6 +221,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(10); // NOT enough mana
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
@@ -245,6 +248,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
@@ -273,6 +277,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 

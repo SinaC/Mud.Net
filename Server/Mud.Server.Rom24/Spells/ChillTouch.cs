@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
@@ -8,7 +10,6 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -60,7 +61,7 @@ public class ChillTouch : DamageTableSpellBase
                 x => x.Modifier -= 1);
         }
         else
-            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(6), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(6), new AuraFlags(), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
     }
 }

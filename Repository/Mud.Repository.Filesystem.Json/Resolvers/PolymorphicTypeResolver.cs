@@ -55,7 +55,7 @@ public class PolymorphicTypeResolver : DefaultJsonTypeInfoResolver
         // TODO: maybe add a condition on pfile version and a version attribute on property
         if (jsonTypeInfo.Kind == JsonTypeInfoKind.Object)
         {
-            foreach (JsonPropertyInfo propertyInfo in jsonTypeInfo.Properties)
+            foreach (var propertyInfo in jsonTypeInfo.Properties)
             {
                 // Strip IsRequired constraint from every property.
                 propertyInfo.IsRequired = false;

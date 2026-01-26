@@ -46,6 +46,7 @@ public class ScrollTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -86,6 +87,7 @@ public class ScrollTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -125,6 +127,7 @@ public class ScrollTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -166,6 +169,7 @@ public class ScrollTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -207,6 +211,7 @@ public class ScrollTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -249,6 +254,7 @@ public class ScrollTests : AbilityTestBase
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
         userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -289,6 +295,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -334,6 +341,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -379,6 +387,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -424,6 +433,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -469,6 +479,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -519,6 +530,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         targetMock.SetupGet(x => x.Name).Returns("target");
         targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
         targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
@@ -564,6 +576,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -608,6 +621,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -651,6 +665,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -693,6 +708,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -741,6 +757,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -790,6 +807,7 @@ public class ScrollTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+        userMock.SetupGet(x => x.ImmortalMode).Returns(new ImmortalModes());
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
         roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
         areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);

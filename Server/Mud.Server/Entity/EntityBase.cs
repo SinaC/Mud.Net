@@ -243,7 +243,7 @@ public abstract class EntityBase : ActorBase, IEntity
     protected AuraData[] MapAuraData()
     {
         // don't save Shapeshift neither NoSave
-        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(AuraFlags.Shapeshift) && !x.AuraFlags.HasFlag(AuraFlags.NoSave)).Select(x => x.MapAuraData()).ToArray();
+        return Auras.Where(x => x.IsValid && !x.AuraFlags.IsSet("Shapeshift") && !x.AuraFlags.IsSet("NoSave")).Select(x => x.MapAuraData()).ToArray();
     }
 
     protected static TFlags NewAndCopyAndSet<TFlags>(Func<TFlags> newFunc, TFlags? toCopy, TFlags? toSet)

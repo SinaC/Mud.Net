@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Room;
+﻿using Mud.Blueprints.Room;
+using Mud.Flags.Interfaces;
 
 namespace Mud.Server.Interfaces.Room;
 
@@ -11,7 +11,7 @@ public interface IExit : ICloseable
     IEnumerable<string> Keywords { get; }
     string Description { get; }
     IRoom Destination { get; }
-    ExitFlags ExitFlags { get; }
+    IExitFlags ExitFlags { get; }
 
     bool IsDoor { get; }
     bool IsHidden { get; }

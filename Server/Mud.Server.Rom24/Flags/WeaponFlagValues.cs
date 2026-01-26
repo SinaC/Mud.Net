@@ -1,6 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Flags;
+using Mud.Flags.Attributes;
 using Mud.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
@@ -8,7 +8,7 @@ namespace Mud.Server.Rom24.Flags;
 [FlagValues(typeof(IFlagValues), typeof(IWeaponFlags)), Shared]
 public class WeaponFlagValues : IFlagValues
 {
-    private static readonly string[] Flags = 
+    private static readonly string[] Flags =
     [
         "Flaming",
         "Frost",
@@ -40,13 +40,13 @@ public class WeaponFlagValues : IFlagValues
         return flag switch
         {
             string f when StringCompareHelpers.StringEquals(f, "Flaming") => "%R%(Flaming)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "Frost") => "%C%(Frost)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "Vampiric") => "%D%(Vampiric)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "Sharp") => "%W%(Sharp)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "Vorpal") => "%M%(Vorpal)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "TwoHands") => "%W%(Two-handed)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "Shocking") => "%Y%(Sparkling)%x%",
-             string f when StringCompareHelpers.StringEquals(f, "Poison") => "%G%(Envenomed)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Frost") => "%C%(Frost)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Vampiric") => "%D%(Vampiric)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Sharp") => "%W%(Sharp)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Vorpal") => "%M%(Vorpal)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "TwoHands") => "%W%(Two-handed)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Shocking") => "%Y%(Sparkling)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Poison") => "%G%(Envenomed)%x%",
             _ => flag.ToString(),
         };
     }

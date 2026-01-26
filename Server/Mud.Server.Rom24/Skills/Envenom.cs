@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -107,7 +107,7 @@ public class Envenom : ItemInventorySkillBase
         {
             int level = (User.Level * percent) / 100;
             int duration = (User.Level * percent) / (2 * 100);
-            AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
+            AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), new AuraFlags("NoDispel"), true,
                 new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
             User.Act(ActOptions.ToAll, "%W%{0:N} coat{0:v} {1} with deadly venom.%x%", User, weapon);
             return true;

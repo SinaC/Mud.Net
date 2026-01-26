@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -72,7 +72,7 @@ public class Slow : OffensiveSpellBase
 
         var duration = Level / 2;
         var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or });
         Victim.Recompute();
