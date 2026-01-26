@@ -179,6 +179,7 @@ public interface ICharacter : IEntity, IContainer
     void SetResource(ResourceKinds resourceKind, int value);
     void UpdateResource(ResourceKinds resourceKind, decimal amount);
     void Regen(int pulseCount);
+    void Heal(ICharacter source, int amount);
 
     // Alignment
     void UpdateAlignment(int amount);

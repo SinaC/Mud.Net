@@ -54,7 +54,7 @@ public class Staves : ItemCastSpellSkillBase<IItemStaff>
     protected override bool Invoke()
     {
         bool success;
-        User.Act(ActOptions.ToAll, "{0:N} brandish{0:v} {1}.", User, Item);
+        User.Act(ActOptions.ToAll, "%W%{0:N} brandish{0:v} {1}.%x%", User, Item);
         int chance = 20 + (4 * Learned) / 5;
         if (User.Level < Item.Level
             || !RandomManager.Chance(chance))

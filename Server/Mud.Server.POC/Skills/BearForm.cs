@@ -40,8 +40,8 @@ public class BearForm : NoTargetSkillBase
         }
 
         // TODO: better wording
-        User.Send("You shapeshift into a bear.");
-        User.Act(ActOptions.ToRoom, "{0:N} shapeshifts into a bear.", this);
+        User.Send("%W%You shapeshift into a bear.%x%");
+        User.Act(ActOptions.ToRoom, "%W%{0:N} shapeshifts into a bear.%x%", this);
         User.ChangeShape(Shapes.Bear);
         // set rage: current 100= max=100
         User.SetBaseMaxResource(ResourceKinds.Rage, 100);

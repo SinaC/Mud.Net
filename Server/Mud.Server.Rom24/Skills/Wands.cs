@@ -63,9 +63,9 @@ public class Wands : ItemCastSpellSkillBase<IItemWand>
     {
         bool success;
         if (Target != null)
-            User.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", User, Target, Item);
+            User.Act(ActOptions.ToAll, "%W%{0:N} zap{0:v} {1} with {2}.%x%", User, Target, Item);
         else
-            User.Act(ActOptions.ToAll, "{0:N} use{0:v} {1}.", User, Item);
+            User.Act(ActOptions.ToAll, "%W%{0:N} use{0:v} {1}.%x%", User, Item);
         int chance = 20 + (4 * Learned) / 5;
         if (User.Level < Item.Level
             || !RandomManager.Chance(chance))

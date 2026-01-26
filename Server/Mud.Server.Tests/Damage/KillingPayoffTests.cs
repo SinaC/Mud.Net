@@ -18,6 +18,7 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Random;
 using Mud.Server.Interfaces.Loot;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mud.Server.Tests.Damage;
 
@@ -30,7 +31,7 @@ public class KillingPayoffTests
         var pcLoggerMock = new Mock<ILogger<PlayableCharacter>>();
         var npcLoggerMock = new Mock<ILogger<NonPlayableCharacter>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 10, BlueprintIds = new BlueprintIds { Coins = 0, Corpse = 0, DefaultDeathRoom = 0, DefaultRecallRoom = 0, DefaultRoom = 0, MudSchoolRoom = 0, NullRoom = 0 } });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 10, UseAggro = false, BlueprintIds = new BlueprintIds { Coins = 0, Corpse = 0, DefaultDeathRoom = 0, DefaultRecallRoom = 0, DefaultRoom = 0, MudSchoolRoom = 0, NullRoom = 0 } });
         var roomManagerMock = new Mock<IRoomManager>();
         var itemManagerMock = new Mock<IItemManager>();
         var characterManagerMock = new Mock<ICharacterManager>();
@@ -41,6 +42,7 @@ public class KillingPayoffTests
         var randomManagerMock = new Mock<IRandomManager>();
         var tableValuesMock = new Mock<ITableValues>();
         var lootManagerMock = new Mock<ILootManager>();
+        var aggroManagerMock = new Mock<IAggroManager>();
 
         var playerMock = new Mock<IPlayer>();
         var roomMock = new Mock<IRoom>();
@@ -141,12 +143,12 @@ public class KillingPayoffTests
             HitPointDiceBonus = 23,
         };
 
-        var pc = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var pc = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
-        var pet = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var pet = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pet.Initialize(Guid.NewGuid(), petBlueprint, roomMock.Object);
         pc.AddPet(pet);
-        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         victim.Initialize(Guid.NewGuid(), victimBlueprint, roomMock.Object);
 
         victim.AbilityDamage(pet, 100000, SchoolTypes.Poison, "poison", false);
@@ -166,7 +168,7 @@ public class KillingPayoffTests
         var pcLoggerMock = new Mock<ILogger<PlayableCharacter>>();
         var npcLoggerMock = new Mock<ILogger<NonPlayableCharacter>>();
         var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 100, BlueprintIds = new BlueprintIds { Coins = 0, Corpse = 0, DefaultDeathRoom = 0, DefaultRecallRoom = 0, DefaultRoom = 0, MudSchoolRoom = 0, NullRoom = 0 } });
+        var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 100, UseAggro = false, BlueprintIds = new BlueprintIds { Coins = 0, Corpse = 0, DefaultDeathRoom = 0, DefaultRecallRoom = 0, DefaultRoom = 0, MudSchoolRoom = 0, NullRoom = 0 } });
         var roomManagerMock = new Mock<IRoomManager>();
         var itemManagerMock = new Mock<IItemManager>();
         var characterManagerMock = new Mock<ICharacterManager>();
@@ -177,6 +179,7 @@ public class KillingPayoffTests
         var randomManagerMock = new Mock<IRandomManager>();
         var tableValuesMock = new Mock<ITableValues>();
         var lootManagerMock = new Mock<ILootManager>();
+        var aggroManagerMock = new Mock<IAggroManager>();
 
         var playerMock = new Mock<IPlayer>();
         var roomMock = new Mock<IRoom>();
@@ -305,13 +308,13 @@ public class KillingPayoffTests
             HitPointDiceBonus = 23,
         };
 
-        var pc1 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var pc1 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc1.Initialize(Guid.NewGuid(), pcData1, playerMock.Object, roomMock.Object);
-        var pc2 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var pc2 = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc2.Initialize(Guid.NewGuid(), pcData2, playerMock.Object, roomMock.Object);
         var group = new Group.Group(pc1);
         group.AddMember(pc2);
-        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
+        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         victim.Initialize(Guid.NewGuid(), victimBlueprint, roomMock.Object);
 
         victim.AbilityDamage(pc2, 100000, SchoolTypes.Poison, "poison", false);

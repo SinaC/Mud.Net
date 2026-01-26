@@ -40,8 +40,8 @@ public class CatForm : NoTargetSkillBase
         }
 
         // TODO: better wording
-        User.Send("You shapeshift into a cat.");
-        User.Act(ActOptions.ToRoom, "{0:N} shapeshifts into a cat.", this);
+        User.Send("%W%You shapeshift into a cat.%x%");
+        User.Act(ActOptions.ToRoom, "%W%{0:N} shapeshifts into a cat.%x%", this);
         User.ChangeShape(Shapes.Cat);
         // set energy: current=0, max=100
         User.SetBaseMaxResource(ResourceKinds.Energy, 100);

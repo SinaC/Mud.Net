@@ -1,4 +1,5 @@
-﻿using Mud.Common.Attributes;
+﻿using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
 
@@ -20,12 +21,12 @@ public class ShieldFlagValues : IFlagValues
     {
         //if (shortDisplay)
         //else
-            return flag switch
-            {
-                "FireShield" => "%R%(Fire)%x%",
-                "IceShield" => "%C%(Ice)%x%",
-                "ShockShield" => "%Y%(Shock)%x%",
-                _ => string.Empty, // we don't want to display the other flags
-            };
+        return flag switch
+        {
+            string f when StringCompareHelpers.StringEquals(f, "FireShield") => "%R%(Fire)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "IceShield") => "%C%(Ice)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "ShockShield") => "%Y%(Shock)%x%",
+            _ => string.Empty,// we don't want to display the other flags
+        };
     }
 }

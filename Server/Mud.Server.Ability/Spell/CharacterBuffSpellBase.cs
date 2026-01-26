@@ -41,7 +41,7 @@ public abstract class CharacterBuffSpellBase : DefensiveSpellBase
         {
             if (Victim.GetAura(AbilityDefinition.Name) != null)
             {
-                if (Victim != Caster)
+                if (Victim == Caster)
                     Caster.Send(SelfAlreadyAffectedMessage);
                 else
                     Caster.Act(ActOptions.ToCharacter, NotSelfAlreadyAffectedMessage, Victim);

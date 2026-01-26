@@ -46,7 +46,7 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
 
     protected override void Invoke()
     {
-        IItemArmor armor = Item;
+        var armor = Item;
         //if (item.EquippedBy == null)
         //{
         //    caster.Send("The item must be carried to be enchanted.");
@@ -54,7 +54,7 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
         //}
 
         IAura? existingAura = null;
-        int fail = 25; // base 25% chance of failure
+        var fail = 25; // base 25% chance of failure
 
         // find existing bonuses
         foreach (var aura in armor.Auras)

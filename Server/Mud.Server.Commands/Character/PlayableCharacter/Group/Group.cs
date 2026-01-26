@@ -64,7 +64,7 @@ public class Group : PlayableCharacterGameAction
             return null;
         }
 
-        // add/remove member to group
+        // add/remove PC member to group
         Whom = FindHelpers.FindByName(Actor.Room.PlayableCharacters, actionInput.Parameters[0])!;
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
@@ -72,6 +72,10 @@ public class Group : PlayableCharacterGameAction
         // can't group ourself
         if (Whom == Actor)
             return "You can't group yourself.";
+
+        // can't group someone not following us
+        if (Whom.Leader != Actor)
+            return Actor.ActPhrase("{0:N} isn't following you.", Whom);
 
         // we are not in a group -> add
         if (Actor.Group == null)
@@ -91,6 +95,9 @@ public class Group : PlayableCharacterGameAction
             // not in the same group
             if (Whom.Group != Actor.Group)
                 return "{0:N} is already in a group.";
+            // cannot remove a charmie
+            if (Whom.CharacterFlags.IsSet("charm"))
+                return "You can't remove charmed mobs from your group.";
             Action = Actions.Remove;
             return null;
         }

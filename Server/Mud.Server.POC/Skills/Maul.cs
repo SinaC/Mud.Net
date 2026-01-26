@@ -34,7 +34,7 @@ public class Maul : OffensiveSkillBase
         var maulAura = User.GetAura(SkillName);
         if (maulAura == null)
         {
-            AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.Permanent, true,
+            AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.Permanent | AuraFlags.NoSave, true,
                 new NextHitDamageModifierAffect { Modifier = 128 });
             return true;
         }

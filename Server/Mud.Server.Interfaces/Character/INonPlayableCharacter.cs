@@ -27,12 +27,15 @@ public interface INonPlayableCharacter : ICharacter
     IOffensiveFlags OffensiveFlags { get; }
     IAssistFlags AssistFlags { get; }
 
+    bool IsAlive { get; }
+
     // Special behavior
     ISpecialBehavior? SpecialBehavior { get; }
 
     bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted);
 
     // Pet/charmies
+    bool IsPetOrCharmie { get; }
     IPlayableCharacter? Master { get; } // character allowed to order us
     void ChangeMaster(IPlayableCharacter? master);
     bool Order(string commandLine);

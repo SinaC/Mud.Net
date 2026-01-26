@@ -46,7 +46,7 @@ public class Cooldowns : CharacterGameAction
                 .Select(x => new { AbilityName = x.Key, TimeLeft = Pulse.ToTimeSpan(x.Value) })
                 .OrderBy(x => x.TimeLeft))
             {
-                sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.TimeLeft.FormatDelay());
+                sb.AppendFormatLine("%b%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.TimeLeft.FormatDelay());
             }
             Actor.Send(sb);
             return;

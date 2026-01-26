@@ -80,22 +80,22 @@ public class Recall : NoTargetSkillBase
             int chance = (80 * Learned) / 100;
             if (!RandomManager.Chance(chance))
             {
-                pcUser.Send("You failed.");
+                pcUser.Send("%W%You failed.%x%");
                 return false;
             }
 
             int lose = 50;
             pcUser.GainExperience(-lose);
-            pcUser.Send("You recall from combat! You lose {0} exps.", lose);
+            pcUser.Send("%W%You recall from combat! You lose {0} exps.%x%", lose);
             pcUser.StopFighting(true);
         }
 
         pcUser.IncrementStatistics(AvatarStatisticTypes.RecallUsed);
 
         pcUser.UpdateResource(ResourceKinds.MovePoints, -pcUser[ResourceKinds.MovePoints] / 2); // half move
-        pcUser.Act(ActOptions.ToRoom, "{0:N} disappears.", pcUser);
+        pcUser.Act(ActOptions.ToRoom, "%W%{0:N} disappears.%x%", pcUser);
         pcUser.ChangeRoom(RecallRoom, false);
-        pcUser.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcUser);
+        pcUser.Act(ActOptions.ToRoom, "%W%{0:N} appears in the room.%x%", pcUser);
 
         StringBuilder sb = new ();
         pcUser.Room.Append(sb, pcUser);
@@ -114,9 +114,9 @@ public class Recall : NoTargetSkillBase
                 pet.StopFighting(true);
             }
 
-            pet.Act(ActOptions.ToRoom, "{0:N} disappears.", pet);
+            pet.Act(ActOptions.ToRoom, "%W%{0:N} disappears.%x%", pet);
             pet.ChangeRoom(RecallRoom, false);
-            pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
+            pet.Act(ActOptions.ToRoom, "%W%{0:N} appears in the room.%x%", pet);
             // Needed ?
             //StringBuilder sbPet = new StringBuilder();
             //pet.Room.Append(sbPet, pet);

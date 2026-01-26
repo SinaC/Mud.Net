@@ -1,6 +1,4 @@
 ﻿using Mud.POC.Combat;
-using Mud.Server.Combat;
-using Mud.Server.Interfaces.Combat;
 
 namespace Mud.POC.Tests.Combat;
 

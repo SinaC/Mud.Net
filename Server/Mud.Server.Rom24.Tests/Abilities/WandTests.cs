@@ -727,7 +727,7 @@ public class WandTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        userMock.Verify(x => x.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", It.IsAny<object[]>()), Times.Once);
+        userMock.Verify(x => x.Act(ActOptions.ToAll, "%W%{0:N} zap{0:v} {1} with {2}.%x%", It.IsAny<object[]>()), Times.Once);
         auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "Fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
         userMock.Verify(x => x.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", It.IsAny<object[]>()), Times.Once);
     }

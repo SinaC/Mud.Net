@@ -10,4 +10,5 @@ public enum AuraFlags
     Hidden      = 0x00000008, // Not displayed
     Shapeshift  = 0x00000010, // must be unique
     Inherent    = 0x00000020, // no related to an ability
+    NoSave      = 0x00000040, // will not be saved in pfile
 }

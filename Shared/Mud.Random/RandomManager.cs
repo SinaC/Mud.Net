@@ -28,6 +28,9 @@ public class RandomManager : IRandomManager
     public bool Chance(int percentage)
         => 1 + _random.Next(100) < percentage;
 
+    public bool OneOutOf(int number)
+        => _random.Next(0, number) == 0;
+
     public int Dice(int count, int value)
         //=> Enumerable.Range(0, count).Sum(x => _randomizer.Next(value)+1);
         => _random.Next(count, count*value + 1); // faster :)

@@ -119,8 +119,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     public override string DisplayName => ShortDescription ?? Blueprint.ShortDescription ?? Name.UpperFirstLetter();
 
-    public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
-
+    public override string DebugName => $"{DisplayName}[BId:{Blueprint?.Id ?? -1}][Id:{Id}]";
 
     // Recompute
 
@@ -249,9 +248,7 @@ public abstract class ItemBase: EntityBase, IItem
             Logger.LogError("Trying to put a container in itself!!");
             return false;
         }
-
-        Logger.LogInformation("ChangeContainer: {name} : {containedInto} -> {container}", DebugName, ContainedInto == null ? "<<??>>" : ContainedInto.DebugName, container == null ? "<<??>>" : container.DebugName);
-
+        Logger.LogDebug("ChangeContainer: {name} : {containedInto} -> {container}", DebugName, ContainedInto == null ? "<<??>>" : ContainedInto.DebugName, container == null ? "<<??>>" : container.DebugName);
         ContainedInto?.GetFromContainer(this);
         //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container
         var putInContainer = container?.PutInContainer(this) ?? true;
@@ -266,7 +263,7 @@ public abstract class ItemBase: EntityBase, IItem
     {
         var previousEquippedBy = EquippedBy;
         EquippedBy?.Unequip(this);
-        Logger.LogInformation("ChangeEquippedBy: {name} : {equippedBy} -> {character}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
+        Logger.LogDebug("ChangeEquippedBy: {name} : {equippedBy} -> {character}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
         EquippedBy = character;
         character?.Equip(this);
         if (recompute)

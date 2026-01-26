@@ -67,8 +67,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
     protected ILootManager LootManager { get; }
+    protected IAggroManager AggroManager { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager)
         : base(logger, gameActionManager, commandParser, messageForwardOptions)
     {
         AbilityManager = abilityManager;
@@ -85,6 +86,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         FlagsManager = flagsManager;
         Wiznet = wiznet;
         LootManager = lootManager;
+        AggroManager = aggroManager;
+
         _inventory = [];
         _equipments = [];
         _baseAttributes = new ();
@@ -812,6 +815,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
+    public void Heal(ICharacter source, int amount)
+    {
+        UpdateResource(ResourceKinds.HitPoints, amount);
+        AggroManager.OnHeal(source, this, amount);
+    }
+
     // Alignment
     public void UpdateAlignment(int amount)
     {
@@ -866,7 +875,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
 
         if (shape == Shapes.Normal)
-            Send("You regain your normal form");
+            Send("%W%You regain your normal form%x%");
 
         // remove any existing Shape aura
         if (Shape != Shapes.Normal)
@@ -1110,7 +1119,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
 
-        if (!IsAllowedToFleeTo(destination))
+        if (!IsAllowedToEnterTo(destination))
         {
             Send("Something prevents you from leaving...");
             return false;
@@ -1240,13 +1249,23 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Logger.LogDebug("{name} starts fighting {victimName}", DebugName, victim.DebugName);
 
         Fighting = victim;
+
+        // generate small amount of aggro when entering in combat
+        AggroManager.OnStartFight(this, victim);
+
         StandUpInCombatIfPossible();
         return true;
     }
 
     public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
     {
-        Logger.LogDebug("{name} stops fighting {victimName}", Name, Fighting?.Name ?? "<<no victim>>");
+        Logger.LogDebug("{name} stops fighting {victimName} [{both}]", DebugName, Fighting?.DebugName ?? "<<no victim>>", both);
+
+        // remove 'this' aggro table
+        if (both)
+            AggroManager.Clear(this);
+        //else if (Fighting != null)
+        //    AggroManager.OnStopFight(this, Fighting);
 
         Fighting = null;
         Stun = 0;
@@ -1300,7 +1319,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", DeathWiznetFlags);
 
+        // remove 'this' from every fight
         StopFighting(true);
+
+        // Clear 'this' generated aggro in every aggro table
+        AggroManager.OnDeath(this);
 
         // Death cry
         ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry + body part creation
@@ -1535,7 +1558,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
 
-        var from = Room;
+        var wasInRoom = Room;
         var pc = this as IPlayableCharacter;
         var npc = this is INonPlayableCharacter;
 
@@ -1546,18 +1569,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var exit = Room.Exits[(int) randomExit];
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
-                && !(RandomManager.Range(0, Daze) != 0) // partially dazed, has some chance to flee
-                && IsAllowedToFleeTo(destination))
+                && RandomManager.OneOutOf(Daze) // partially dazed, has some chance to flee
+                && IsAllowedToEnterTo(destination))
             {
                 // Try to move without checking if in combat or not
                 Move(randomExit, false, false); // followers will not follow
-                if (Room != from) // successful only if effectively moved away
+                if (Room != wasInRoom) // successful only if effectively moved away
                 {
                     //
                     StopFighting(true);
                     //
                     Send("You flee from combat!");
-                    Act(from.People, "{0} has fled!", this);
+                    Act(wasInRoom.People, "{0} has fled!", this);
 
                     if (pc != null)
                         // TODO
@@ -1568,6 +1591,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
                         Send("You lost 10 exp.");
                         pc.GainExperience(-10);
                     }
+
+                    // decrease aggro when fleeing
+                    AggroManager.OnFlee(this, wasInRoom);
 
                     return true;
                 }
@@ -1619,7 +1645,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         _cooldownsPulseLeft.Remove(abilityName);
         if (verbose)
-            Send("%c%{0} is available.%x%", abilityName);
+            Send("%b%{0}%x% is available.", abilityName);
     }
 
     // Equipment
@@ -2019,6 +2045,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         StopFighting(true);
 
+        AggroManager.Clear(this);
+
         // Leave follower
         Leader?.RemoveFollower(this);
 
@@ -2042,7 +2070,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected abstract bool CanMove { get; }
 
-    protected abstract bool IsAllowedToFleeTo(IRoom destination);
+    protected abstract bool IsAllowedToEnterTo(IRoom destination);
 
     protected abstract bool HasBoat { get; }
 
@@ -2797,6 +2825,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // no damage done, stops here
         if (damage <= 0)
             return DamageResults.NoDamage;
+
+        // generate aggro amount depending on received damage
+        AggroManager.OnReceiveDamage(source, this, damage);
 
         // hurt the victim
         _currentResources[(int)ResourceKinds.HitPoints] -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0

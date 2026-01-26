@@ -5,6 +5,7 @@
         public const string SectionName = "World.Settings";
 
         public required int MaxLevel { get; init; }
+        public required bool UseAggro { get; set; }
         public required BlueprintIds BlueprintIds { get; init; }
     }
 

@@ -70,10 +70,10 @@ public class Berserk : NoTargetSkillBase
         //
         if (RandomManager.Chance(chance))
         {
-            User.UpdateResource(ResourceKinds.HitPoints, User.Level * 2);
+            User.Heal(User, User.Level * 2);
 
-            User.Send("Your pulse races as you are consumed by rage!");
-            User.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", User);
+            User.Send("%W%Your pulse races as you are consumed by rage!%x%");
+            User.Act(ActOptions.ToRoom, "%W%{0:N} gets a wild look in {0:s} eyes.%x%", User);
 
             int duration = RandomManager.Fuzzy(User.Level / 8);
             int modifier = Math.Max(1, User.Level / 5);
@@ -85,11 +85,8 @@ public class Berserk : NoTargetSkillBase
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });
             return true;
         }
-        else
-        {
-            User.Send("Your pulse speeds up, but nothing happens.");
 
-            return false;
-        }
+        User.Send("%W%Your pulse speeds up, but nothing happens.%x%");
+        return false;
     }
 }

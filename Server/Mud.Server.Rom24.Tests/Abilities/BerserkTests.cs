@@ -202,7 +202,7 @@ public class BerserkTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        userMock.Verify(x => x.Send("Your pulse speeds up, but nothing happens.", It.IsAny<object[]>()), Times.Once);
+        userMock.Verify(x => x.Send("%W%Your pulse speeds up, but nothing happens.%x%", It.IsAny<object[]>()), Times.Once);
     }
 
     [TestMethod]
@@ -256,7 +256,7 @@ public class BerserkTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        userMock.Verify(x => x.Send("Your pulse races as you are consumed by rage!", It.IsAny<object[]>()), Times.Once);
+        userMock.Verify(x => x.Send("%W%Your pulse races as you are consumed by rage!%x%", It.IsAny<object[]>()), Times.Once);
     }
 
     [TestMethod]
@@ -282,6 +282,6 @@ public class BerserkTests : AbilityTestBase
         skill.Execute(actionInput);
 
         Assert.IsNull(result);
-        userMock.Verify(x => x.Send("Your pulse races as you are consumed by rage!", It.IsAny<object[]>()), Times.Once);
+        userMock.Verify(x => x.Send("%W%Your pulse races as you are consumed by rage!%x%", It.IsAny<object[]>()), Times.Once);
     }
 }

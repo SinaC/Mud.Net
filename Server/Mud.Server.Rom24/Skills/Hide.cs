@@ -29,7 +29,7 @@ public class Hide : NoTargetSkillBase
 
     protected override bool Invoke()
     {
-        User.Send("You attempt to hide.");
+        User.Send("%W%You attempt to hide.%x%");
 
         if (User.CharacterFlags.IsSet("Hide"))
             User.RemoveBaseCharacterFlags(false, "Hide");

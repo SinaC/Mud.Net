@@ -70,7 +70,7 @@ public class Room : EntityBase, IRoom
 
     public override string DisplayName => Name.UpperFirstLetter();
 
-    public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
+    public override string DebugName => $"{DisplayName}[BId:{Blueprint.Id}][Id:{Id}]";
 
     // Recompute
 

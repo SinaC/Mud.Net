@@ -111,7 +111,6 @@ public partial class App : Application
         var exportAttributeType = typeof(ExportAttribute);
         foreach (var type in assemblies.SelectMany(x => x.GetTypes()).Where(t => t.CustomAttributes.Any(a => exportAttributeType.IsAssignableFrom(a.AttributeType))))
         {
-            Log.Information("Registering type {0}.", type.FullName);
             ExportInspector.Register(services, type);
         }
     }

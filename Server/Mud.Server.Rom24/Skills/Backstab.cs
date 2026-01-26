@@ -75,7 +75,7 @@ public class Backstab : OffensiveSkillBase
         }
     }
 
-    public class BackstabMultiHitModifier : IMultiHitModifier
+    private class BackstabMultiHitModifier : IMultiHitModifier
     {
         public BackstabMultiHitModifier(string abilityName, string damageNoun, int learned)
         {

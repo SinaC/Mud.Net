@@ -5,6 +5,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
@@ -21,12 +22,13 @@ public class CharacterManager : ICharacterManager
     private IRoomManager RoomManager { get; }
     private IItemManager ItemManager { get; }
     private IFlagsManager FlagsManager { get; }
+    private IAggroManager AggroManager { get; }
 
     private readonly Dictionary<int, CharacterBlueprintBase> _nonPlayableCharacterBlueprints;
     private readonly List<ICharacter> _characters;
     private readonly Dictionary<int, int> _nonPlayableCharacterInstanceCountByBlueprintId;
 
-    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IRoomManager roomManager, IItemManager itemManager, IFlagsManager flagsManager)
+    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IRoomManager roomManager, IItemManager itemManager, IFlagsManager flagsManager, IAggroManager aggroManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -37,6 +39,7 @@ public class CharacterManager : ICharacterManager
         _characters = [];
         _nonPlayableCharacterInstanceCountByBlueprintId = [];
         FlagsManager = flagsManager;
+        AggroManager = aggroManager;
     }
 
     public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints
@@ -167,6 +170,9 @@ public class CharacterManager : ICharacterManager
 
         // Remove auras
         character.RemoveAuras(_ => true, false, false);
+
+        // Remove aggro table if any and from all aggro tables
+        AggroManager.OnRemove(character);
 
         // Remove content
         if (character.Inventory.Any())
