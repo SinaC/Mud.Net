@@ -2,7 +2,7 @@
 using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Commands.Character.Item;
+using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -12,7 +12,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
@@ -57,7 +56,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
 
         if (actionInput.Parameters.Length == 0)
             return BuildCommandSyntax();
-        if (Keeper.shopBlueprintBase is CharacterShopBlueprint shopBlueprint)
+        if (ShopBlueprintBase is CharacterShopBlueprint shopBlueprint)
         {
             if (actionInput.Parameters.Length >= 2 && !actionInput.Parameters[0].IsNumber)
                 return BuildCommandSyntax();
@@ -68,10 +67,10 @@ public class Buy : ShopPlayableCharacterGameActionBase
                 ? actionInput.Parameters[1]
                 : actionInput.Parameters[0];
 
-            Item = FindHelpers.FindByName(Keeper.shopKeeper.Inventory.Where(Actor.CanSee), whatParameter)!;
-            var cost = GetBuyCost(Keeper.shopKeeper, shopBlueprint, Item, true);
+            Item = FindHelpers.FindByName(ShopKeeper!.Inventory.Where(Actor.CanSee), whatParameter)!;
+            var cost = GetBuyCost(ShopKeeper, shopBlueprint, Item, true);
             if (Item == null || cost <= 0)
-                return Actor.ActPhrase("{0:N} tells you 'I don't sell that -- try 'list''.", Keeper.shopKeeper);
+                return Actor.ActPhrase("{0:N} tells you 'I don't sell that -- try 'list''.", ShopKeeper!);
             if (Count <= 0 || Count > 10)
                 return "Number must be between 1 and 10";
             // can afford ?
@@ -80,20 +79,20 @@ public class Buy : ShopPlayableCharacterGameActionBase
             if (TotalCost > wealth)
             {
                 if (Count == 1)
-                    return Actor.ActPhrase("{0:N} tells you 'You can't afford to buy {1}'.", Keeper.shopKeeper, Item);
+                    return Actor.ActPhrase("{0:N} tells you 'You can't afford to buy {1}'.", ShopKeeper!, Item);
                 else
                 {
                     // how many can afford?
                     var affordableCount = wealth / cost;
                     if (affordableCount > 0)
-                        return Actor.ActPhrase("{0:N} tells you 'You can only afford {1} of these'.", Keeper.shopKeeper, affordableCount);
+                        return Actor.ActPhrase("{0:N} tells you 'You can only afford {1} of these'.", ShopKeeper!, affordableCount);
                     else
-                        return Actor.ActPhrase("{0:N} tells you '{1}? You must be kidding - you can't even afford a single one, let alone {2}!'", Keeper.shopKeeper, Item, Count);
+                        return Actor.ActPhrase("{0:N} tells you '{1}? You must be kidding - you can't even afford a single one, let alone {2}!'", ShopKeeper!, Item, Count);
                 }
             }
             // can use item ?
             if (Item.Level > Actor.Level)
-                return Actor.ActPhrase("{0:N} tells you 'You can't use {1} yet'.", Keeper.shopKeeper, Item);
+                return Actor.ActPhrase("{0:N} tells you 'You can't use {1} yet'.", ShopKeeper!, Item);
             // can carry more items ?
             if (Actor.CarryNumber + Item.CarryCount * Count > Actor.MaxCarryNumber)
                 return "You can't carry that many items.";
@@ -102,9 +101,9 @@ public class Buy : ShopPlayableCharacterGameActionBase
                 return "You can't carry that much weight.";
             // check for object sold to the keeper
             if (Count > 1 && !Item.ItemFlags.IsSet("Inventory"))
-                return Actor.ActPhrase("{0:N} tells you 'Sorry - {1} is something I have only one of'.", Keeper.shopKeeper, Item);
+                return Actor.ActPhrase("{0:N} tells you 'Sorry - {1} is something I have only one of'.", ShopKeeper!, Item);
         }
-        else if (Keeper.shopBlueprintBase is CharacterPetShopBlueprint petShopBlueprint)
+        else if (ShopBlueprintBase is CharacterPetShopBlueprint petShopBlueprint)
         {
             if (actionInput.Parameters.Length > 2)
                 return BuildCommandSyntax();
@@ -113,22 +112,22 @@ public class Buy : ShopPlayableCharacterGameActionBase
             {
                 PetName = actionInput.Parameters[1].Value;
                 if (!UniquenessManager.IsAvatarNameAvailable(PetName))
-                    return Actor.ActPhrase("{0:N} tells you 'Sorry, this name will not suit your familiar.'", Keeper.shopKeeper);
+                    return Actor.ActPhrase("{0:N} tells you 'Sorry, this name will not suit your familiar.'", ShopKeeper!);
             }
 
             PetBlueprint = petShopBlueprint.PetBlueprints.Where(x => StringCompareHelpers.AllStringsStartsWith(x!.Keywords, whatParameter.Tokens)).ElementAtOrDefault(whatParameter.Count - 1);
             if (PetBlueprint == null)
-                return Actor.ActPhrase("{0:N} tells you 'Sorry, you can't buy that here.'", Keeper.shopKeeper);
+                return Actor.ActPhrase("{0:N} tells you 'Sorry, you can't buy that here.'", ShopKeeper!);
             if (Actor.Pets.Any())
-                return Actor.ActPhrase("{0:N} tells you 'You already own a pet.'", Keeper.shopKeeper);
+                return Actor.ActPhrase("{0:N} tells you 'You already own a pet.'", ShopKeeper!);
             if (PetBlueprint.Level > Actor.Level)
-                return Actor.ActPhrase("{0:N} tells you 'You're not powerful enough to master this pet.'", Keeper.shopKeeper);
-            var cost = GetBuyCost(Keeper.shopKeeper, petShopBlueprint, PetBlueprint, true);
+                return Actor.ActPhrase("{0:N} tells you 'You're not powerful enough to master this pet.'", ShopKeeper!);
+            var cost = GetBuyCost(ShopKeeper!, petShopBlueprint, PetBlueprint, true);
             // can afford ?
             TotalCost = cost;
             var wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
             if (TotalCost > wealth)
-                return Actor.ActPhrase("{0:N} tells you 'You can't afford to buy {1}'.", Keeper.shopKeeper, PetBlueprint.ShortDescription);
+                return Actor.ActPhrase("{0:N} tells you 'You can't afford to buy {1}'.", ShopKeeper!, PetBlueprint.ShortDescription);
         }
         return null;
     }
@@ -143,7 +142,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
         // lets imagine ch has 35 silver and 10 gold and buy something for 375 silver
         //      375 is transformed into -25 silver and 4 gold
         // we could display, ch gives 4 gold pieces to shopkeeper and gives ch 25 silver pieces in change.
-        Keeper.shopKeeper.UpdateMoney(silverCost, goldCost);
+        ShopKeeper!.UpdateMoney(silverCost, goldCost);
 
         if (Item is not null)
         {
@@ -155,7 +154,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
             if (Item.ItemFlags.IsSet("Inventory"))
             {
                 for (int i = 0; i < Count; i++)
-                    ItemManager.AddItem(Guid.NewGuid(), Item.Blueprint, $"Buy[{Keeper.shopKeeper.DebugName}]", Actor);
+                    ItemManager.AddItem(Guid.NewGuid(), Item.Blueprint, $"Buy[{ShopKeeper!.DebugName}]", Actor);
             }
             // Items previously sold to keeper are 'given' to buyer
             else
@@ -179,7 +178,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
             pet.ActFlags.Set("pet");
             pet.AddBaseCharacterFlags(true, "Charm");
             Actor.AddPet(pet);
-            Actor.Act(ActOptions.ToCharacter, "{0:N} tells you 'Enjoy your pet.'", Keeper.shopKeeper);
+            Actor.Act(ActOptions.ToCharacter, "{0:N} tells you 'Enjoy your pet.'", ShopKeeper);
             Actor.Act(ActOptions.ToRoom, "{0} bought {1} as a pet.", Actor, pet);
         }
     }

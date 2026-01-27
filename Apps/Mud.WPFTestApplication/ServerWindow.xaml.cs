@@ -392,7 +392,7 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorExotic = 0,
             StartPosition = Positions.Standing,
             DefaultPosition = Positions.Standing,
-            ActFlags = new ActFlags("Pet"),
+            ActFlags = new ActFlags("NoCorpse", "Pet"),
             OffensiveFlags = new OffensiveFlags("Bash"),
             CharacterFlags = new CharacterFlags("Haste"),
             Immunities = new IRVFlags(),

@@ -996,6 +996,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction.DisplayNameLowerCase());
             return false;
         }
+
+        // Can see room ?
+        if (!CanSee(toRoom))
+        {
+            Send("Alas, you cannot go that way.");
+            return false;
+        }
+
         // Closed ?
         if ((exit.IsClosed && (!CharacterFlags.IsSet("PassDoor") || exit.ExitFlags.IsSet("NoPass")))
              && !passThru)

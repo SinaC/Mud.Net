@@ -2,6 +2,7 @@
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Repository.Interfaces;
 using Mud.Server.Commands.Character.Social;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
@@ -18,11 +19,14 @@ public class SocialManager : ISocialManager
     private readonly IGameActionInfo[] _socialGameActions;
     private ILogger<SocialManager> Logger { get; }
 
-    public SocialManager(ILogger<SocialManager> logger, IEnumerable<ISocialDefinitionGenerator> socialDefinitionGenerators)
+    public SocialManager(ILogger<SocialManager> logger, ISocialRepository socialRepository)
     {
         Logger = logger;
 
-        var socialDefinitions = socialDefinitionGenerators.SelectMany(x => x.SocialDefinitions).ToList();
+        // load socials from repository
+        var socialData = socialRepository.Load().ToList();
+        // generate social definitions
+        var socialDefinitions = socialData.Select(x => new SocialDefinition(x.Name, x.CharacterNoArg, x.OthersNoArg, x.CharacterFound, x.OthersFound, x.VictimFound, x.CharacterNotFound, x.CharacterAuto, x.OthersAuto)).ToList();
         var duplicates = socialDefinitions.GroupBy(x => x.Name, StringComparer.InvariantCultureIgnoreCase).Where(x => x.Count() > 1).ToArray();
         if (duplicates.Length > 0)
         {

@@ -34,7 +34,6 @@ public class GroupSay : PlayableCharacterGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Actor.Act(ActOptions.ToGroup, "%g%{0:n} says the group '%x%{1}%g%'%x%", Actor, What);
-        Actor.Send($"%g%You say to the group: '%x%{What}%g%'%x%");
+        Actor.Act(ActOptions.ToGroup, "%g%{0:N} say{0:v} the group '%x%{1}%g%'%x%", Actor, What);
     }
 }

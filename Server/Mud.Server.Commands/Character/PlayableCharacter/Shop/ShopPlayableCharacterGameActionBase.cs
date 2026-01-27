@@ -1,12 +1,12 @@
 ﻿using Mud.Blueprints.Character;
-using Mud.Flags;
+using Mud.Random;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
@@ -23,7 +23,8 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
         RandomManager = randomManager;
     }
 
-    protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprintBase shopBlueprintBase) Keeper { get; set; } = default;
+    protected INonPlayableCharacter? ShopKeeper { get; set; }
+    protected CharacterShopBlueprintBase? ShopBlueprintBase { get; set; }
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -31,35 +32,20 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
         if (baseGuards != null)
             return baseGuards;
 
-        Keeper = FindKeeper();
-        if (Keeper == default)
-            return ""; // message already send by FindKeeper
-        return null;
-    }
-
-    //
-    protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprintBase shopBlueprintBase) FindKeeper()
-    {
         var (shopKeeper, shopBlueprint) = Actor.Room.GetNonPlayableCharacters<CharacterShopBlueprintBase>().FirstOrDefault();
         if (shopKeeper == null)
-        {
-            Actor.Send("You can't do that here.");
-            return default;
-        }
-
-        // TODO: undesirables: killer/thief
+            return StringHelpers.CantDoThatHere;
 
         if (TimeManager.Hour < shopBlueprint.OpenHour)
-        {
-            Actor.Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%Sorry, I am closed. Come back later.%g%'%x%", Actor);
-            return default;
-        }
+            return Actor.ActPhrase("%g%{0:N} say{0:v} '%x%Sorry, I am closed. Come back later.%g%'%x%", shopKeeper);
+
         if (TimeManager.Hour > shopBlueprint.CloseHour)
-        {
-            Actor.Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%Sorry, I am closed. Come back tomorrow.%g%'%x%", Actor);
-            return default;
-        }
-        return (shopKeeper, shopBlueprint);
+            return Actor.ActPhrase("%g%{0:N} say{0:v} '%x%Sorry, I am closed. Come back tomorrow.%g%'%x%", shopKeeper);
+
+        ShopKeeper = shopKeeper;
+        ShopBlueprintBase = shopBlueprint;
+
+        return null;
     }
 
     protected long GetBuyCost(INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint, IItem item, bool tryToHaggle)

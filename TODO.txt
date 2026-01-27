@@ -1,6 +1,10 @@
 INGOING
 DONE
-    Change AutoFlags, AreaFlags, AuraFlags, ContainerFlags, ExitFlags, PortalFlags, WiznetFlags, FurnitureActions, ImmortalModeFlags to IFlags
+    social repository
+    exits command doesn't display anymore exits to room player cannot see
+    a player cannot go anymore to room he/she cannot see
+    colors added in AppendExits
+    small refactoring in shop based commands
 
 ==========
 == TODO ==
@@ -107,7 +111,6 @@ reimplement hot/dot
 
 when a player connects, if no avatar found -> switch to avatar create state machine
 compatibility must only be in blueprint loading
-choose between flags as bits or strings (example RoomFlags and CharacterFlags)
 check usage of OnCleaned/OnRemoved
 stop cloning list and stop removing while iterating -> flag the entity as soft deleted and remove them in Cleanup phase
 
@@ -128,7 +131,6 @@ commands dynamically added to Character depending on room they are, for example
 -> hard to do because game actions are generated once
 
 jukebox
-offensive flags: rescue, ...
 clan/guild, auction house, note
 commands: auction, channels, clantalk, report, read, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, config, deaf, pmote, note, board, quote, nwrite,
 	myclan, petition, clanlist
@@ -140,17 +142,14 @@ Move CanSee in IEntity
 each time operator IS or AS is used, this should be replaced with an overridable method
 pull/push
 Multiple wear location
-item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 UnitTests on Rom24Effects
-assist_guard
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-store an Aura list in World this will avoid looping on all room/character/item to check aura
 cannot quit while affected by an harmful aura/periodic aura
 while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
 remove Send(..., bool addTrailingNewLine)
@@ -164,6 +163,12 @@ search commands/skills/spells for additional guards already implemented that cou
     what at least one parameter (item) is required
     whom at least one parameter (character) is required
 prompt modifiable by user
+
+not implemented in rom24
+    item: protect, room_key
+    mob: assist_guard
+    offensive flags: rescue, ...
+
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 

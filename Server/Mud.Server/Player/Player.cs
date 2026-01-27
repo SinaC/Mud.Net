@@ -421,16 +421,15 @@ public class Player : ActorBase, IPlayer
         sb.AppendLine($"_lastInput: {_lastInput} Timestamp: {_lastCommandTimestamp}");
         sb.AppendLine($"IsAfk: {IsAfk}");
         sb.AppendLine($"PlayerState: {PlayerState}");
+        sb.AppendLine($"PagingLineCount: {PagingLineCount}");
         sb.AppendLine($"Lag: {Lag}");
-        sb.AppendLine($"GCD: {Impersonating?.GlobalCooldown}");
-        sb.AppendLine($"DAZE: {Impersonating?.Daze}");
         sb.AppendLine($"Aliases: {Aliases?.Count ?? 0}");
         sb.AppendLine($"Avatars: {_avatarMetaDatas?.Count ?? 0}");
         sb.AppendLine($"SnoopBy: {SnoopBy?.DisplayName ?? "none"}");
         sb.AppendLine($"LastTeller: {LastTeller?.DisplayName ?? "none"}");
         sb.AppendLine($"DelayedTells: {DelayedTells?.Count() ?? 0}");
-        sb.AppendLine($"Impersonating: {Impersonating?.DisplayName ?? "none"}");
-        sb.AppendLine($"CurrentStateMachine: {CurrentStateMachine}");
+        sb.AppendLine($"Impersonating: {Impersonating?.DebugName ?? "none"}");
+        sb.AppendLine($"CurrentStateMachine: {CurrentStateMachine?.GetType().Name ?? "none"}");
 
         return sb;
     }
@@ -456,8 +455,8 @@ public class Player : ActorBase, IPlayer
             Logger.LogError("[{name}] is neither out of game nor impersonating", DisplayName);
             executedSuccessfully = false;
         }
-        if (!executedSuccessfully)
-            Logger.LogWarning("Error while executing command");
+        //if (!executedSuccessfully)
+        //    Logger.LogWarning("Error while executing command");
         return executedSuccessfully;
     }
 

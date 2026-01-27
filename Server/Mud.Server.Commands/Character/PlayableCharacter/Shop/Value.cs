@@ -1,4 +1,5 @@
 ﻿using Mud.Blueprints.Character;
+using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -7,7 +8,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
@@ -30,7 +30,7 @@ public class Value : ShopPlayableCharacterGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
-        if (Keeper.shopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
+        if (ShopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
             return "You cannot sell anything here.";
 
         if (actionInput.Parameters.Length == 0)
@@ -38,10 +38,10 @@ public class Value : ShopPlayableCharacterGameActionBase
 
         What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)
-            return Actor.ActPhrase("{0:N} tells you 'You don't have that item'.", Keeper.shopKeeper);
+            return Actor.ActPhrase("{0:N} tells you 'You don't have that item'.", ShopKeeper!);
 
-        if (!Keeper.shopKeeper.CanSee(What))
-            return Actor.ActPhrase("{0:N} doesn't see what you are offering.", Keeper.shopKeeper);
+        if (!ShopKeeper!.CanSee(What))
+            return Actor.ActPhrase("{0:N} doesn't see what you are offering.", ShopKeeper);
 
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
@@ -49,9 +49,9 @@ public class Value : ShopPlayableCharacterGameActionBase
         if (What is IItemQuest)
             return "You cannot value that.";
 
-        Cost = GetSellCost(Keeper.shopKeeper, shopBlueprint, What, false);
+        Cost = GetSellCost(ShopKeeper, shopBlueprint, What, false);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
-            return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
+            return Actor.ActPhrase("{0:N} looks uninterested in {1}.", ShopKeeper, What);
 
         return null;
     }
@@ -61,6 +61,6 @@ public class Value : ShopPlayableCharacterGameActionBase
         long silver = Cost % 100;
         long gold = Cost / 100;
 
-        Actor.Act(ActOptions.ToCharacter, "{0:N} tells you 'I'll give you {1} silver and {2} gold coins for {3}'.", Keeper.shopKeeper, silver, gold, What);
+        Actor.Act(ActOptions.ToCharacter, "{0:N} tells you 'I'll give you {1} silver and {2} gold coins for {3}'.", ShopKeeper!, silver, gold, What);
     }
 }

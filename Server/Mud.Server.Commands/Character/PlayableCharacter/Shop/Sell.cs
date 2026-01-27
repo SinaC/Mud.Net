@@ -1,4 +1,5 @@
 ﻿using Mud.Blueprints.Character;
+using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -7,7 +8,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
@@ -33,7 +33,7 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
-        if (Keeper.shopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
+        if (ShopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
             return "You cannot sell anything here.";
 
         if (actionInput.Parameters.Length == 0)
@@ -41,10 +41,10 @@ public class Sell : ShopPlayableCharacterGameActionBase
 
         What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)
-            return Actor.ActPhrase("{0:N} tells you 'You don't have that item'.", Keeper.shopKeeper);
+            return Actor.ActPhrase("{0:N} tells you 'You don't have that item'.", ShopKeeper!);
 
-        if (!Keeper.shopKeeper.CanSee(What))
-            return Actor.ActPhrase("{0:N} doesn't see what you are offering.", Keeper.shopKeeper);
+        if (!ShopKeeper!.CanSee(What))
+            return Actor.ActPhrase("{0:N} doesn't see what you are offering.", ShopKeeper!);
 
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
@@ -52,12 +52,12 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (What is IItemQuest)
             return "You cannot sell that.";
 
-        Cost = GetSellCost(Keeper.shopKeeper, shopBlueprint, What, true);
+        Cost = GetSellCost(ShopKeeper, shopBlueprint, What, true);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
-            return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
+            return Actor.ActPhrase("{0:N} looks uninterested in {1}.", ShopKeeper!, What);
 
-        if (Cost > Keeper.shopKeeper.SilverCoins + Keeper.shopKeeper.GoldCoins * 100)
-            return Actor.ActPhrase("{0} tells you 'I'm afraid I don't have enough wealth to buy {1}.", Keeper.shopKeeper, What);
+        if (Cost > ShopKeeper.SilverCoins + ShopKeeper.GoldCoins * 100)
+            return Actor.ActPhrase("{0} tells you 'I'm afraid I don't have enough wealth to buy {1}.", ShopKeeper!, What);
 
         return null;
     }
@@ -71,13 +71,13 @@ public class Sell : ShopPlayableCharacterGameActionBase
         Actor.Act(ActOptions.ToCharacter, "You sell {0} for {1} silver and {2} gold piece{3}.", What, silver, gold, Cost == 1 ? string.Empty : "s");
 
         Actor.UpdateMoney(silver, gold);
-        Keeper.shopKeeper.DeductCost(Cost);
+        ShopKeeper!.DeductCost(Cost);
 
         if (What is IItemTrash || What.ItemFlags.IsSet("SellExtract"))
             ItemManager.RemoveItem(What);
         else
         {
-            What.ChangeContainer(Keeper.shopKeeper);
+            What.ChangeContainer(ShopKeeper!);
             int duration = RandomManager.Range(50, 100);
             What.SetTimer(TimeSpan.FromMinutes(duration));
         }
