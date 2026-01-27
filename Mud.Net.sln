@@ -5,6 +5,7 @@ VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5337A639-8D6A-4F63-83CC-E2CED6D36DD5}"
 	ProjectSection(SolutionItems) = preProject
+		CHANGES.txt = CHANGES.txt
 		ISSUES.txt = ISSUES.txt
 		ISSUES2.txt = ISSUES2.txt
 		MERC file format.txt = MERC file format.txt

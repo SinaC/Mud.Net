@@ -1,0 +1,440 @@
+2026/01/27
+	- social repository (#292)
+	- exits command doesn't display anymore exits to room player cannot see (#292)
+	- a player cannot go anymore to room he/she cannot see (#292)
+	- colors added in AppendExits (#292)
+	- small refactoring in shop based commands (#292)
+2026/01/26
+	- aggro/threat manager to handle combat (#288)
+	- issue with pet max resources on load fixed (#288)
+	- taunt: new skill used to force a NPC to attack user (#288)
+	- new ICharacterAffect: CharacterAggroModifierAffect used in AggroManager (#288)
+	- Circle skill name fixed (was Backstab) (#288)
+	- new AuraFlags.NoSave: these auras will not be saved (use for taunt/maul/...) (#288)
+	- group command: target should be following user (#288)
+	- Change AutoFlags, AreaFlags, AuraFlags, ContainerFlags, ExitFlags, PortalFlags, WiznetFlags, FurnitureActions, ImmortalModeFlags to IFlags (#290)
+2026/01/23
+	- immortal flags: Infinite must give access to every resources (#285)
+	- score fixed (#285)
+	- issue in combat, when no hit is made by enemy (dodging/parrying/blocking every attacks), player Fighting is not set -> StartCombat added in OneHit if avoidance is successful (#285)
+	- CSharpLua nuget package updated and unit tests modified (#285)
+	- summon spell target validity fixed (#285)
+	- weapons command priority lowered (#285)
+	- issue with charmies, once killed they stay in the group (#285)
+		[ 49 Dru] Glouk                15849/21800 hp  5348/31600 mana  100/  100 psy  100/  100 energy    0/  100 rage    0/    0 combo  1204/ 2110 mv
+		[  1 Pet] A smurf                  6/    6 hp   100/  100 mana   100/  100 mv
+		[  1 Pet] A smurf                  7/    7 hp   100/  100 mana   100/  100 mv
+		[  1 Pet] ???                      0/   10 hp   100/  100 mana   100/  100 mv
+		ChangeMaster is called from RemoveAura which is called before OnRemoved which will remove mob from group
+		this behavior is different from bought pet because they have BaseCharacterFlags set to Charm but charmies have an aura giving Charm
+		-> RemovePet called from NPC.HandleDeath
+	- order all kill target will only make first charmie entering fight (if player autoassit if off) (#285)
+		-> IsSameGroupOrPet modified to handle case pet1.master == pet2.master
+	- assist was buggy we were including ch in potential victim (#285)
+	- auto assist displayed string was buggy (#285)
+	- only bought pets must be saved, charmies must be dropped before saving (#285)
+	- rinfo exits display fixed when no description (#285)
+	- why hassan switches to construct after a few rounds -> because of offensive flag area attack (#285)
+	- issue when killed, we see autoloot/gold/sac message -> HandleDeath moved before autoloot/... (#285)
+	- circle skill added to test IMultiHitModifier (#285)
+	- NPC not in their spawn area must be deleted if not charmed (5% chance to happen) (#285)
+	- dual, third, fourth wield implemented (#286)
+	- 2h weapon + giant size fixed (#286)
+	- change EquipmentSlotsToString and equipment command (#286)
+		if not giant and wielding 2H, we hide one offhand by wielded 2H
+		if not giant and wielding 2H, slot is displayed <wielded with 2 hands instead of wielded
+2026/01/20
+	- RotLoader mob F shd added (#283)
+	- RoomManager removed from ItemBase (#283)
+	- issue with Gain group: ability learned is not set to 1 -> set min learned to 1 if ability level is lower or equal to character level (#283)
+	- issue with Practice -> use SetLearned instead if IncrementLearned (#283)
+	- gain on already existing group/ability displays wrong message (#283)
+	- cast colour spray -> lost your concentration but we don't know that spell (#283)
+	- add some GCD when losing concentration on spell casting (#283)
+	- wear doesn't check anti-XXX flags (#283)
+	- room law/nomob were not implemented correctly (#283)
+	- cast sho will try to cast 'shocking shield' even if caster will never know that spell but knows 'shocking grasp' -> when search a spell with cast, search among known spells (#283)
+	- alias was not keeping quote in aliased command (#283)
+	- level range added in abilities/skills/spells/passives/weapons command (#283)
+	- score finished (#283)
+2026/01/18
+	- store npc/item instance count to optimize ResetManager (#281)
+2026/01/17
+	- generated item (#277)
+	- issue with auto quest item on floor, item despawned in HandleItems (#279)
+	- NoMob removed from CanGoTo NPC check -> this will allow pet to go anywhere (#279)
+	- UberMove deactivation fixed (#279)
+	- floor quest objective/location quest objective room blueprint ids are now displayed when Holylight is turned on in Quest/QuestInfo/QuestDisplay (#279)
+	- kill quest objective target blueprint is now displayed when Holylight is turned on in Quest/QuestInfo/QuestDisplay (#279)
+	- abstract removed from GameActions in ActorBase and GameActions override removed from derived types (#279)
+	- bug in incarnate: incarnate fountain, incarnate hassan, impossible to re-incarnate fountain because IncarnatedBy has not been reset (#279)
+	- outfit command was accessible to npc (#279)
+2026/01/16
+	- change folder structures (#272)
+	- add item source (reset, loot table, quest, creation spell...) (#274)
+	- when checking ability resource cost, remove error/warning about move not found in allowed resources (#274)
+	- perserve item order after load/save (#274)
+	- item generator POC (#276)
+	- aura from pfile are not duplicated anymore (#276)
+	- description is displayed correctly in iinfo and istat (#276)
+	- short description and description are now saved in pfile (#276)
+2026/01/15
+	- dedicated class to manage loots (#269)
+	- load affect from area files (#270)
+2026/01/14
+	- Add NoLootOnDeath act flags: when killed, destroy its inventory/equipments (#265)
+	- DropItemsOnDeath act flags removed (#265)
+	- rfind admin command added (#265)
+	- display bug in Buy, we were displayed deduced costs return instead of real value (deduce costs could be negative if not enough silver coins) (#265)
+	- AvatarStatistics GoldSpent and SilverSpent merged into MoneySpent (#265)
+	- saved LearnedAbilities must be _learnedAbilities (use base.LearnedAbilities) or it will save OmniscienceManager learned abilities (#265)
+	- RandomStats items flags added to allow some randomization when creating items (#266)
+	- add ItemFlags RandomStats: will randomize a little bit stats (#266)
+	- ItemData and derived ItemXXXData have to store additional informations (#266)
+	- Item.Initialize must randomize if RandomStats is set (#266)
+		cost: 80% -> 120%
+		level: -5 -> +5 (keep in range 1 -> maxLevel)
+		weapon:
+			dice count: increase by -1 -> +1
+			dice value: increase by -1 -> +1
+		armor:
+			ac: 95% -> 105%
+		scroll/potion/pill:
+			spell level: 95% -> 105%
+		wand/staff:
+			spell level: 95% -> 105%
+			current charge count: 90% -> 110%
+	- remove AbilityManager from EntityBase (#266)
+	- AbilityDefinition added in Aura -> no more AbilityManager needed in ItemBase/EntityBase/RoomBase/DispelManager (#266)
+2026/01/13
+	- OmniscientManager (used by ImmortalModes.Omniscient) generates AbiltityUsage for every abilities using class info or fake one if not found in class, and set learned to 100% (#263)
+		used in PlayableCharacter where abilities are used
+	- Omniscient command added (#263)
+	- Lore learned check added (#263)
+	- Check on ItemQuest added in Steal (#263)
+	- DualWield moved to POC passives (#263)
+	- Aura wear off char/item messages handled in derived classes instead of EntityBase (#263)
+	- Item serialization data moved to dedicated folder (#263)
+	- NoCorpse and DropItemsOnDeath Act flags added -> moving items to corpse moved from ItemCorpse to CharacterBase (#263)
+		NoCorpse: when killed, will not create a corpse (if NoCorpse is set and DropItemsOnDeath is not set, inventory/equipments/... will be destroyed)
+		DropItemsOnDeath: when killed, inventory/equipments/... will be dropped on the floor instead of corpse
+	- IsQuestObjective fixed for NPC in loot table, we are still displaying a mob as quest objective even if objective was complete for that item loot (#263)
+2026/01/12
+	- Door resets were not stored in Rom/Rot/Mystery loaded text added when door are closed/locked in reset room Quest sub commands (#261)
+	- Auto sub commands (#261)
+	- Use master and group member in CreateCorpse and KillingPayoff to trigger quest objectives and death rewards every member should loot the corpse starting with killer -> every one has a chance to get quest item autosac will be performed by killer (#261)
+	- CanLoot added, used in addition to CanSee to know if an item can be looted by a character (#261)
+2026/01/10
+	- 2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground (#253)
+	- for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated (#253)
+	- quest item generated on the floor issue: if multiple people are on the same quest, only one instance should be visible by each player (#253)
+		issue repro steps:
+		connect 2 players and get same quest with at least one floor item objective
+		each player on the quest will see 2 items on the floor and will be allowed to get both items from the floor
+		-> owner to solve the issue ? -> no!
+		solution is to use HandleItems to load item if needed (if a player is on a quest with floor item and there is not already an item on the floor, spawn it)
+		+ when a player disconnect, delete item only if none is on the 'same' quest
+	- QuestSanityCheck enhanced to detect invalid item/location/mob/incoherent objectives clean quest items when none is on a quest with floor objective on that item (once every minute ?) fix quest statistics issue in GenerateQuest (#253)
+	- fix admin guards issue (#253)
+	- Pulse/Delay uniformization (#255)
+	- add StayDeath item flags (#257)
+	- quest history (#259)
+	- cannot get again an already complete quest (#259)
+	- rename CurrentQuest into ActiveQuest (#259)
+	- quest save completed quests (#259)
+2026/01/09
+	- NoDeath/HolyLight/Infinite/PAssThru/AlwaysSafe/Omniscient immortal modes added (#251)
+2026/01/08
+	- removed some this is IPlayable and this is INonPlayable (#249)
+2026/01/07
+	- forbidden names added in uniqueness manager (#240)
+	- settings for forbidden names and check password (#240)
+	- export attribute for state machine (#240)
+	- initialize step in state machine (#240)
+	- hash password using bcrypt (#241)
+	- for each avatar (will be saved in avatar) (#242)
+		mob kill count
+		killed count
+		automated quest request/complete/abandon/timeout count
+		earned silver/gold
+		spent silver/gold
+		earned currency
+		spent currency
+	- pet issue: after reconnects, don't follow order anymore -> charm was missing from base character flags after load (#242)
+	- flag pretty print issue: flag container is case insensitive but in PrettyPrint overrides we were comparing with case sensitive (#242)
+	- when using nofollow on pet, it remains in group (#244)
+	- specific no follow command for playable character, if follower is a pet, call RemovePet instead of RemoveFollower (#244)
+	- Additional world sanity check to detect exits with unknown/invalid key (#246)
+	- new admin command: rinfo (#246)
+	- minor refactoring for admin commands: cstat/cinfo/rstat/istat/iinfo (#246)
+2026/01/06
+	- quest description + new command quest info to get additional info on quest (#233)
+	- pet shop blueprint + convert in rom importer (#233)
+	- check every CharacterShopBlueprint is used and handle CharacterPetShopBlueprint (#233)
+	- convert in rot/mystery importer (#233)
+	- buy/list should work with CharacterPetShopBlueprint (sell cannot work) (#233)
+	- description and position are now displayed when looking a character (#233)
+	- first letter of DisplayName for NPC is now upper case (#233)
+	- group displayed resources fixed (#233)
+	- flag PetRoom removed from midgaard pet shop room containing pets (3032) (#233)
+	- entity description can be set (#233)
+	- resets command now has higher priority than resetarea (#233)
+	- pet name when buying it (#233)
+	- use peek skill in Look and Examine (#233)
+	- pfile refactoring (#234)
+	- account: name, password, admin data(level, wiznet), avatar meta datas (name, version, level, class, race, location) (#234)
+	- avatar: character data (#234)
+	- accounts and avatars are stored in a dedicated folder (#234)
+	- avatar and account serialization data moved to dedicated folder (#236)
+	- add unit tests on StringCompareHelpers (#236)
+2026/01/05
+	- automated quests (#231)
+		make quest giver says instead of using Send
+		timer between 2 quests
+		additional guards in quest auto
+		rewards: quest points
+		quit/stop impersonate confirmation when on automated quest
+		cannot only be complete/abandon/... at questor
+	- add auto in quest generic command (#231)
+	- look now displays (QUEST) on target (#231)
+	- quest difficulty color (#231)
+	- base class for predefined and generated quest (#231)
+	- currencies: quest, trivia, ... (#231)
+2026/01/02
+	- WeaponFlags were not cleared correctly when worn off (#229)
+	- Look item were missing CRLF when no extra description (#229)
+	- ExtraDescription fixed (they were duplicated for each keyword) (#229)
+	- Red Aura and Yellow Aura fixed (it's not displayed on target if evil/detect evil and good/detect good) (#229)
+	- new data structure ArrayByEnum to avoid casting enum to int to access an array based on enum (#229)
+	- fix inventory and equipment when blind (cannot see anything except potions) (#229)
+	- call Look command when impersonating instead of calling directly room.display (#229)
+	- optimize AbilityManager Search methods using Dictionary of Trie (#229)
+	- new Dictionary extension method: GetOrDefaultValue (#229)
+2025/12/31
+	- SafeLinkedList implementation (in POC) (#226)
+2025/12/30
+	- maul ability implemented (#220)
+	- Add new game action for skill and assign guards there (#222)
+	- Don't use ability manager in skillbase anymore (#222)
+	- Don't create anymore SkillActionInput in SkillBase but in GameActionManager to simulate a similar behavior as Spells using Cast to create SpellActionInput (#222)
+	- add hp/move in resource (#224)
+Guards for skills don't have to be check in SkillBase because SkillBase are always linked to a command (#222)
+2025/12/29
+	- multiple resources for abilities (#214)
+	- transform NotInCombat, AllowedShapes, MinPosition in predefined Guards that can be added with attribute (#218)
+	- Guards predefined that can be added with attribute (#218)
+	- Override default guard message ("You lost your concentration." for example when casting in non-combat spell during combat) (#218)
+2025/12/27
+	- alignment choice during creation and enable/disable race/class during avatar creation (#210)
+	- ReadOnlyCollection removed when cloning + look npc fighting in room fixed + unit tests fixed (#212)
+2025/12/26
+	- shared export with multiple interface (#208)
+2025/12/25
+	- POC for combat using aggro (#204)
+	- MinPosition and not in combat for spells (#207)
+2025/12/19
+	- worth command to display silver/gold (#196)
+	- bash/kick/... can only be used when standing (#196)
+	- haggle (#196)
+	- socials using dynamic commands added (#197)
+	- socials: dynamic command manager (#197)
+	- why 1st impersonation takes 800ms ? GameActionManager.PolymorphismSimulator was using Debug.Write which can be really slow (#197)
+	- socials command to display available socials (#197)
+	- rage generation (#198)
+	- wimpy added (#200)
+	- Choose importer from app.settings and blueprints moved to shared (#202)
+2025/12/18
+	- GCD is IG -> must be moved to ICharacter (#186)
+	- Lag added on Player to replace GCD for punishment (#186)
+		HandleInputs should handle Lag the same way GCD is handled for the moment (#186)
+	- Daze + stand back when dazed in combat (#186)
+	- console server added (#189)
+	- Mud.Server.Domain added (#189)
+	- solution folders added (#189)
+	- healer functionality added (#193)
+	- AssemblyInfos removed everywhere (#193)
+	- SaySpell moved to helper (#193)
+	- AbilityTypes and AbilityEffects moved to Server.Domain (#193)
+2025/12/17
+	- NPC start/default position (#175)
+	- resource/hit/move are now decimal (#178)
+	- updated every second instead of every minute (#178)
+	- scan/farsight fixed (#178)
+	- range int extensions replaced with clamp from math lib (#178)
+	- fix IsAll command parameter for wear/get/drop/remove (#180)
+	- character.AppendToRoom fixed (CRLF removed) (#180)
+	- scan help text fixed (#180)
+	- compare command (#184)
+	- Haste auras were duplicated when character had base flags Haste (#185)
+2025/12/16
+	- add NoAffectData affect base class implementing MapAffectData (#168)
+	- table generator when repeating columns, should not repeat separator (#168)
+	- haste should add a new Affect AdditionalHitAffect (#169)
+		-> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
+	- rename JsonPolymorphismAttribute to JsonBaseTypeAttribute (#169)
+	- weapon doesn't inherit anymore from PassiveBase (#169)
+	- Set parameter to all when parsing IsAll without additiona argument (#170)
+2025/12/15
+	- check all warnings and fix them (#161)
+	- check all obsolete and fix them (#161)
+	- check nullable reference types (#161)
+	- check all properties for nullability (such as Room, ContainedInto, Race, Class, ...) (#161)
+	- Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness (#163)
+	- handle shield damage reduction and on hit with affect (#165)
+	- Handle shield on hit differenty (#165)
+	- Handle shields reduction damage with affects (#165)
+	- Affect flags are not displayed correctly (#165)
+	- NoAffectData added, can be used as AffectDataType -> class using that attribute must return new NoAffectData { AffectName } on MapAffectData (#165)
+	- avoid creating a new AffectDataBase for each new affect if no additional data (#165)
+			should be able to use a NoAffectData -> issue because XXXAffectData is used to choose which affect to instantiate -> add name in NoAffectData and special case if NoAffectData use AffectDefinitionByName instead of AffectDefinitionByDataType in CreateInstance(AffectDataBase affectData)
+2025/12/14
+	- FlagFactory and DefineFlagValues POC (#160)
+	- find a way to 'validate' available flag values,this would replace FlagValues -> flag value for a same flag category could be added in different assembly (like affect or spell/...) and have a kind of manager to handle that (#160)
+	- Remove FlagFactory and FlagValues (#160)
+	- RoomManager/ItemManager/CharacterManager must call CheckFlags on blueprints and serialization data (#160)
+	- AuraManager must call CheckFlags when adding aura (#160)
+	- FlagsManager could store a list of FlagAffect to ease CheckFlags on FlagAffect ? (#160)
+2025/12/13
+	- dont use json derived type for json serialization (#152)
+	- remove IXXXFlags from YYYData (#156)
+2025/12/12
+	- Instantiate Affect from AffectData using AffectAttribute (#150)
+	- Instantiate Item from ItemBlueprint/ItemData using new ItemAttribute (#150)
+	- offensive skill base will automatically start the combat if needed -> druid skill modified (#150)
+	- shapeshift aura flags, only one shapeshift aura allowed (#150)
+		fix following: for the moment, cat form and bear form add affect which are maintain if switch off form
+	- pixie pc race added (#150)
+	- shortaffects priority raised to 'appear' before sacrifice command when typing 'sa' (#150)
+	- addition affect on bear/cat form (#150)
+	- SkillBase,PassiveBase: we should find another way to retrieve ability info than using new(GetType()) (using AbilityManager ?) -> no (no need to inject ability manager and add a new property such has Name in IAbility to be able to use AbilityManager) (#150)
+	- don't save Shapeshift auras (#150)
+2025/12/11
+	- Resources kinds depend on Shape + ShapeAttribute to forbid some skill/spell to be used (#148)
+	- in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned -> add an additional parameter in attribute to disable this behavior, use only if known  (#148)
+	- add energy/rage resource (#148)
+	- implement resource dynamically changed depending on some status (bear/cat/... form for druid) (#148)
+	- in MergeAbility if merging with an ability found in class.BasicAbilityGroups, set to min %1 (#148)
+	- combo points (#148)
+	- rename shapeshift into shape (#148)
+	- combo finishers will use every combo points -> new CostAmountOperators.All (#148)
+	- ferocious bite (#148)
+	- abilities can be shape depend: cat abilities, bear abilities, cat/bear abilities, ... -> additional info in ability definition (#148)
+	- new shapeshift attribute, multiple allowed, any if no specified (#148)
+2025/12/10
+	- missing specials except guard/executioner added (#147)
+2025/12/09
+	- add 'uniqueness' admin command to display entries in UniquenessManager (#140)
+	- rename AbilityInfo into AbilityDefinition (same goes for AbilityGroupInfo) (#140)
+	- help ability group (#140)
+	- once a mob has been bashed it cannot be bashed again because it's position will not be set to stand -> in Damage, set victim position to Standing (#140)
+	- gain command can also gain group of abilities (we should display which abilities are already known when displaying group) (#140)
+	- customization (#142)
+	- groups command (#142)
+	- fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???"); (#142)
+		set CommandAttribute and GameActionBase as abstract
+		add ActorCommandAttribute and RoomCommandAttribute
+		add ActorGameActionInfo and use as base class for PlayerGameActionInfo
+		add RoomGameActionInfo and RoomGameAction
+2025/12/08
+	- AbilityGroup added to calculate learned abilities for PC (#138)
+	- ability group definition (#138)
+	- classes expose ability group usage: group name + cost (#138)
+	- ability group manager exposes ability group info: group name + help + abilities infos (similar to ability manager) + included groups (#138)
+	- ability group in avatar creation (#138)
+	- don't merge anymore abilities from class with learned abilities, use ability group instead (#138)
+	- characters exposes learned ability group : group name + cost --> quite similar to learned abilities (#138)
+2025/12/06
+	- GetValues removed from EnumHelpers (#134)
+	- MaxAttributes capping refactored (#134)
+	- issue fixed in armor value in damage function (#134)
+	- ! cannot be used with deleteavatar (#134)
+	- once any other command than deleteavatar is used, reset deleteavatar 1st try (#134)
+	- logger removed from AbilityInfo (#134)
+	- iaffect command added (#135)
+2025/12/05
+	- link between weapon skill and weapon type (#125)
+	- avoidance fix (#125)
+	- DeleteAvatar command (#125)
+	- Pulse test command (#125)
+	- outfit command added (#127)
+	- starting abilities added (#127)
+	- weapon choice during avatar creation added (#127)
+	- sleep bug fixed (#127)
+	- istat bug fixed (#127)
+	- Know alignment spell fixed (#129)
+	- lore ability added (#129)
+	- human EnhancedPrimeAttribute (#129)
+	- current attribute must be in (#129)
+		PC: range(3,maxAllowed) with maxAllowed = MIN(race.max + 4,25)
+		NPC: range(3,25)
+	- domain refactor + typo fixed on polearm (#131)
+2025/12/04
+	- rom24b6 classes finished (#121)
+	- skill can have resource cost (berserk for example)+ bug fixed in MergeAbilities min(ability usage, ability learned) instead of min(ability usage, ability usage) (#123)
+2025/12/03
+	- reimplement Mud.Server.Tests (#115)
+	- use Json for repository (#116)
+	- add MaxItem count in container (#118)
+	- add Specials (special behaviors) (#120)
+2025/12/02
+	- add spell farsight and create rose + use AbilityDamage in weapon effects + consider ShieldFlags in Reset + various typo (#113)
+2025/12/01
+	- add shield flags to handle Sanctuary/ProtectionGood/ProtectionEvil (#111)
+2025/11/29
+	- various issues fixed in rom24 classes/races + reset room unnecessary logs removed (#107)
+	- ServiceProvider removed from Flags (#109)
+2025/11/28
+	- ExportAttribute used instead of IRegistrable + multiple bugs fixed (#102)
+	- use ExportAttribute for manager/repository/... (#105)
+2025/11/27
+	- use DI for Character/Room/Item/Quest/Player/Admin  (#98)
+	- logs added during bootstrap (#101)
+2025/11/21
+	- help added in every skills/spells/passives (#94)
+	- move sanity checks to dedicated classes + handle 'D' and 'R' door resets (#96)
+2025/11/20
+	- settings refactored (#85)
+	- unused references removed (#85)
+	- sanity checks for rom24 added (#85)
+2025/11/19
+	- Microsoft ILogger used (#81)
+	- Serilog used for logging (instead of NLog)) (#81)
+	- string interpolation in logging (#83)
+2025/11/18
+	- commands moved to dedicated project (#75)
+	- DebuggerDisplay attributes added (#77)
+	- CharacterBase.CanSee fixed (#75)
+	- Help command added (#75)
+2025/11/17
+	- Microsoft DI used (#73)
+	- ResetManager added (#73)
+	- unit tests (#73)
+	- AutoMapper fixed (#73)
+2025/11/15
+	- migrated to .NET 8 (#66)
+	- commands with wrong baseGuards fixed (#66)
+	- nuget packages updated (#66)
+	- nullable/implicit namespaces enabled (#66)
+	- IAdditionalHitPassive added to handle additional hit effects  (#67)
+...
+...
+...
+2020/04/17
+	- repository unit tests added
+	- minor refactoring
+2020/04/16
+	- uniqueness manager added
+	- random manager added
+2020/04/15
+	- settings moved to dedicated class
+	- say ability added
+	- mongo repositories fixed
+	- admin/player commands moved from IServer to IAdminManager/IPlayerManager
+2020/04/14
+	- XXXDataManager renamed to XXXRepository
+	- IServer split into IServer, IPlayerManager, IAdminManager
+	- AdditionalInfo in CharacterData
+2020/04/11
+	- migration to .net 4.7.2
+	- updated nuget packages
+	- SimpleInjector instead of static classes
