@@ -163,8 +163,8 @@ public class Admin : Player.Player, IAdmin
             Logger.LogError("[{name}] is neither out of game nor impersonating nor incarnating", DisplayName);
             executedSuccessfully = false;
         }
-        if (!executedSuccessfully)
-            Logger.LogWarning("Error while executing command");
+        //if (!executedSuccessfully)
+        //    Logger.LogWarning("Error while executing command");
         return executedSuccessfully;
     }
 

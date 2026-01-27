@@ -1,7 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
@@ -72,7 +72,7 @@ public class Gain : PlayableCharacterGameAction
 
         Trainer = Actor.Room?.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Gain"))!;
         if (Trainer == null)
-            return "You can't do that here.";
+            return StringHelpers.CantDoThatHere;
 
         if (actionInput.Parameters.Length == 0)
             return Actor.ActPhrase("{0:N} tells you 'Pardon me?'", Trainer);

@@ -263,7 +263,7 @@ public class Room : EntityBase, IRoom
     {
         var hasHolylight = viewer.ImmortalMode.IsSet("Holylight");
         if (compact)
-            sb.Append("[Exits:");
+            sb.Append("%G%[Exits:");
         else if (hasHolylight)
             sb.AppendFormatLine($"Obvious exits from room {Blueprint?.Id.ToString() ?? "???"}:");
         else
@@ -273,7 +273,7 @@ public class Room : EntityBase, IRoom
         {
             var exit = this[direction];
             var destination = exit?.Destination;
-            if (exit != null && destination != null && viewer.CanSee(exit))
+            if (exit != null && destination != null && viewer.CanSee(exit) && viewer.CanSee(destination))
             {
                 if (compact)
                 {
@@ -282,7 +282,7 @@ public class Room : EntityBase, IRoom
                         sb.Append('[');
                     if (exit.IsClosed)
                         sb.Append('(');
-                    sb.AppendFormat("{0}", direction.ToString().ToLowerInvariant());
+                    sb.Append(direction.ToString().ToLowerInvariant());
                     if (exit.IsClosed)
                         sb.Append(')');
                     if (exit.IsHidden)
@@ -297,7 +297,7 @@ public class Room : EntityBase, IRoom
                     else if (destination.IsDark && !hasHolylight)
                         sb.Append("%w%Too dark to tell%x%");
                     else
-                        sb.Append(exit.Destination.DisplayName);
+                        sb.AppendFormat("%c%{0}%x%", exit.Destination.DisplayName);
                     if (exit.IsClosed)
                         sb.Append(" (CLOSED)");
                     if (exit.IsHidden)
@@ -317,7 +317,7 @@ public class Room : EntityBase, IRoom
                 sb.AppendLine("None.");
         }
         if (compact)
-            sb.AppendLine("]");
+            sb.AppendLine("]%x%");
         return sb;
     }
 

@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
@@ -55,7 +56,7 @@ public class Train : PlayableCharacterGameAction
 
         var trainer = Actor.Room?.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Train"));
         if (trainer == null)
-            return "You can't do that here.";
+            return StringHelpers.CantDoThatHere;
 
         // display
         if (actionInput.Parameters.Length == 0)

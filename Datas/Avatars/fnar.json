@@ -2,17 +2,17 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3001,
-  "SilverCoins": 10776602,
-  "GoldCoins": 5933,
+  "RoomId": 3025,
+  "SilverCoins": 10776861,
+  "GoldCoins": 6069,
   "Wimpy": 0,
-  "Experience": 23185,
+  "Experience": 23282,
   "Alignment": 1000,
   "Trains": 65,
   "Practices": 61,
   "AutoFlags": "Sacrifice,Exit,Gold,Assist,Split,Loot,Affect",
   "Currencies": {
-    "QuestPoints": 35
+    "QuestPoints": 58
   },
   "ActiveQuests": [],
   "LearnedAbilities": [
@@ -476,8 +476,8 @@
   "Conditions": {
     "Drunk": 0,
     "Full": 0,
-    "Thirst": 9,
-    "Hunger": 30
+    "Thirst": 5,
+    "Hunger": 22
   },
   "Aliases": {
     "a": "cast \u0027colour spray\u0027",
@@ -495,7 +495,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 123,
+        "HitPoints": 69,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -648,15 +648,15 @@
     }
   ],
   "Statistics": {
-    "NpcKill": 183,
+    "NpcKill": 184,
     "PcKill": 0,
     "NpcKilled": 2,
     "PcKilled": 0,
     "NoSourceKilled": 0,
     "MoneySpent": 14809,
-    "GoldEarned": 5262,
+    "GoldEarned": 5398,
     "GoldStolen": 0,
-    "SilverEarned": 8117125,
+    "SilverEarned": 8117384,
     "SilverStolen": 0,
     "RecallUsed": 6,
     "FoodEaten": 21,
@@ -664,10 +664,10 @@
     "PillEaten": 0,
     "PotionQuaffed": 0,
     "PortalUsed": 0,
-    "QuestPointsEarned": 18,
+    "QuestPointsEarned": 41,
     "QuestPointsSpent": 0,
-    "GeneratedQuestsRequested": 1,
-    "GeneratedQuestsCompleted": 1,
+    "GeneratedQuestsRequested": 2,
+    "GeneratedQuestsCompleted": 2,
     "GeneratedQuestsAbandoned": 0,
     "GeneratedQuestsTimedout": 0,
     "PredefinedQuestsRequested": 2,
@@ -688,7 +688,7 @@
       "CompletionTime": "2026-01-17T15:57:31.2756904+01:00"
     }
   ],
-  "PulseLeftBeforeNextAutomaticQuest": 0,
+  "PulseLeftBeforeNextAutomaticQuest": 4740,
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
@@ -696,16 +696,16 @@
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 534,
-    "MovePoints": 436,
-    "Mana": 605,
+    "HitPoints": 515,
+    "MovePoints": 283,
+    "Mana": 597,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 536,
+    "HitPoints": 540,
     "MovePoints": 436,
     "Mana": 605,
     "Psy": 100,
@@ -718,7 +718,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11709,
+        "TimeLeft": 11705,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -1593,7 +1593,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 228240,
+      "DecayPulseLeft": 227280,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1622,7 +1622,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 148320,
+      "DecayPulseLeft": 147360,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1667,7 +1667,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 153600,
+      "DecayPulseLeft": 152640,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1680,7 +1680,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 157680,
+      "DecayPulseLeft": 156720,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1864,7 +1864,7 @@
     {
       "AbilityName": "Armor",
       "Level": 1,
-      "PulseLeft": 3072,
+      "PulseLeft": 2184,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1878,7 +1878,7 @@
     {
       "AbilityName": "Fly",
       "Level": 1,
-      "PulseLeft": 3336,
+      "PulseLeft": 2448,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1891,7 +1891,7 @@
     {
       "AbilityName": "Bless",
       "Level": 1,
-      "PulseLeft": 4072,
+      "PulseLeft": 3184,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1911,7 +1911,7 @@
     {
       "AbilityName": "Infravision",
       "Level": 1,
-      "PulseLeft": 8000,
+      "PulseLeft": 7112,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1924,7 +1924,7 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 3224,
+      "PulseLeft": 2336,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1947,7 +1947,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 2788,
+      "PulseLeft": 1900,
       "AuraFlags": "",
       "Affects": [
         {

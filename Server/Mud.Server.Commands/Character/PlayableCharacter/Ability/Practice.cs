@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
@@ -55,7 +56,7 @@ public class Practice : PlayableCharacterGameAction
         // practice
         var practicer = Actor.Room?.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Practice"));
         if (practicer == null)
-            return "You can't do that here.";
+            return StringHelpers.CantDoThatHere;
         if (Actor.Practices < 0)
             return "You have no practice sessions left.";
         // search ability

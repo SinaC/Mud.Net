@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Random;
 using System.Text;
+using Mud.Server.Common.Helpers;
 
 namespace Mud.Server.Rom24.Commands.PlayableCharacter;
 
@@ -55,7 +56,7 @@ public class Heal : PlayableCharacterGameAction
 
         Healer = Actor.Room?.NonPlayableCharacters.FirstOrDefault(x => x.ActFlags.IsSet("IsHealer"))!; // don't check if CanSee so blind people can use heal blind
         if (Healer == null)
-            return "You can't do that here.";
+            return StringHelpers.CantDoThatHere;
 
         if (actionInput.Parameters.Length == 0)
         {

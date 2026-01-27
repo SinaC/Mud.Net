@@ -1,11 +1,10 @@
 ﻿using Mud.Server.Domain;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Interfaces.Social
+namespace Mud.Server.Interfaces.Social;
+
+public interface ISocialManager
 {
-    public interface ISocialManager
-    {
-        IEnumerable<IGameActionInfo> GetGameActions();
-        IReadOnlyDictionary<string, SocialDefinition> SocialDefinitionByName { get; }
-    }
+    IEnumerable<IGameActionInfo> GetGameActions();
+    IReadOnlyDictionary<string, SocialDefinition> SocialDefinitionByName { get; }
 }

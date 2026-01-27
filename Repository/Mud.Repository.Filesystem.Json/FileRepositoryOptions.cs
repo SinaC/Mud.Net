@@ -6,5 +6,6 @@
 
         public required string AccountPath { get; init; }
         public required string AvatarPath { get; init; }
+        public required string SocialPath { get; init; }
     }
 }
