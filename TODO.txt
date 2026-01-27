@@ -1,10 +1,5 @@
 INGOING
 DONE
-    social repository
-    exits command doesn't display anymore exits to room player cannot see
-    a player cannot go anymore to room he/she cannot see
-    colors added in AppendExits
-    small refactoring in shop based commands
 
 ==========
 == TODO ==
@@ -241,6 +236,11 @@ Its a bit more complex, but here is how one MMORPG that I am rather familiar wit
  What this does is allows you to manage what mobs drop without having to alter each and every mob. You want to add another item to the rare loot table, next load it will be there and available to players.
  The downside to this system is it can be complex and it is harder to get an idea of the overall drop-rate of individual items. For example, if you were looking for Spider Webbing using the data above your effective % chance would be 29.25% (45% to call the Spider table, 65% to get Webbing inside that table).
 
+mud codebases
+https://github.com/MUDOmnibus?tab=repositories
+https://github.com/DikuMUDOmnibus?tab=repositories&q=rom&type=&language=&sort=
+
+http://download.ansalon.net/rom/faq/section7.html#7.18
 
 mudbytes
 http://www.mudbytes.net/files/tags/RoT/
