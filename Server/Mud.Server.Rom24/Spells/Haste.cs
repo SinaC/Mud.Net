@@ -69,7 +69,8 @@ public class Haste : DefensiveSpellBase
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
-            new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });
+            new CharacterAdditionalHitAffect { AdditionalHitCount = 1 },
+            new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
         Victim.Send("You feel yourself moving more quickly.");
         Victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", Victim);
         if (Caster != Victim)

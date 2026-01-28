@@ -1,12 +1,10 @@
 ﻿using Mud.Domain;
-using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Affects;
-using Mud.Server.Affects.Character;
-using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using System.Text;
 
 namespace Mud.Server.Rom24.Affects;
@@ -15,17 +13,17 @@ namespace Mud.Server.Rom24.Affects;
 public class PlagueSpreadAndDamageAffect : NoAffectDataAffectBase, ICharacterPeriodicAffect
 {
     private IRandomManager RandomManager { get; }
-    private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public PlagueSpreadAndDamageAffect(IRandomManager randomManager, IAuraManager auraManager)
+    public PlagueSpreadAndDamageAffect(IRandomManager randomManager, IEffectManager effectManager)
     {
         RandomManager = randomManager;
-        AuraManager = auraManager;
+        EffectManager = effectManager;
     }
 
     public override void Append(StringBuilder sb)
     {
-        sb.Append("%c%applies %r%disease%x% damage periodically");
+        sb.Append("%c%applies %r%Disease%x% damage periodically");
     }
 
     public void Apply(IAura aura, ICharacter character)
@@ -39,24 +37,16 @@ public class PlagueSpreadAndDamageAffect : NoAffectDataAffectBase, ICharacterPer
         // spread
         if (character.Room != null)
         {
-            foreach (ICharacter victim in character.Room.People.Where(x => !x.CharacterFlags.IsSet("Plague")))
+            var plagueEffect = EffectManager.CreateInstance<ICharacter>("Plague");
+            foreach (var victim in character.Room.People)
             {
-                if (!victim.SavesSpell(aura.Level - 2, SchoolTypes.Disease)
-                    && RandomManager.Chance(6))
-                {
-                    victim.Send("You feel hot and feverish.");
-                    victim.Act(ActOptions.ToRoom, "{0:N} shivers and looks very ill.", victim);
-                    int duration = RandomManager.Range(1, 2 * aura.Level);
-                    AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
-                        new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add},
-                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or},
-                        new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));
-                }
+                if (RandomManager.Chance(6) && !victim.SavesSpell(aura.Level - 2, SchoolTypes.Disease))
+                    plagueEffect?.Apply(victim, character, aura.AbilityName, aura.Level-1, -5);
             }
         }
 
         // damage
-        int damage = Math.Min(character.Level, aura.Level / 5 + 1);
+        var damage = Math.Min(character.Level, aura.Level / 5 + 1);
         character.UpdateResource(ResourceKinds.MovePoints, -damage);
         character.UpdateResource(ResourceKinds.Mana, -damage);
         character.UpdateResource(ResourceKinds.Psy, -damage);

@@ -1256,9 +1256,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         return 
             !aggressor.ActFlags.IsSet("Aggressive")
+            || aggressor.Fighting != null
             || aggressor.Room.RoomFlags.IsSet("Safe")
             || aggressor.CharacterFlags.IsSet("Calm")
-            || aggressor.Fighting != null
             || aggressor.CharacterFlags.IsSet("Charm")
             || aggressor.Position <= Positions.Sleeping
             || aggressor.ActFlags.IsSet("Wimpy") && victim.Position >= Positions.Sleeping // wimpy aggressive mobs only attack if player is asleep
@@ -1275,22 +1275,22 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             && aggressor.CanSee(victim);
     }
 
-    private void HandleAuras(int pulseCount) 
+    private void HandleAurasTimeout(int pulseCount) 
     {
-        HandleAuras(CharacterManager.Characters, pulseCount);
-        HandleAuras(ItemManager.Items, pulseCount);
-        HandleAuras(RoomManager.Rooms, pulseCount);
+        HandleAurasTimeout(CharacterManager.Characters, pulseCount);
+        HandleAurasTimeout(ItemManager.Items, pulseCount);
+        HandleAurasTimeout(RoomManager.Rooms, pulseCount);
     }
 
-    private void HandleAuras<TEntity>(IEnumerable<TEntity> entities, int pulseCount)
+    private void HandleAurasTimeout<TEntity>(IEnumerable<TEntity> entities, int pulseCount)
         where TEntity : IEntity
     {
-        var auraFilterFunc = new Func<IAura, bool>(a => !a.AuraFlags.IsSet("Permanent") && a.PulseLeft > 0);
-        foreach (var entity in entities.Where(x => x.Auras.Any(a => !a.AuraFlags.IsSet("Permanent") && a.PulseLeft > 0)))
+        var auraFilterFunc = new Func<IAura, bool>(a => a.IsValid && !a.AuraFlags.IsSet("Permanent") && a.PulseLeft > 0);
+        foreach (var entity in entities.Where(x => x.Auras.Any(auraFilterFunc)))
         {
             try
             {
-                bool needsRecompute = false;
+                var needsRecompute = false;
                 var auras = entity.Auras.Where(auraFilterFunc).ToArray(); // must be cloned because collection may be modified during foreach
                 foreach (var aura in auras)
                 {
@@ -1302,8 +1302,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         entity.RemoveAura(aura, false, true); // recompute once each aura has been processed
                         needsRecompute = true;
                     }
-                    else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
-                        aura.DecreaseLevel();
                 }
                 if (needsRecompute)
                     entity.Recompute();
@@ -1311,7 +1309,61 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Logger.LogError("Exception while handling auras of {entityType} {name}. Exception: {ex}", typeof(TEntity), entity.DebugName, ex);
+                Logger.LogError("Exception while handling decrease pulse auras of {entityType} {name}. Exception: {ex}", typeof(TEntity), entity.DebugName, ex);
+            }
+        }
+    }
+
+    private void HandleAurasPower(int pulseCount)
+    {
+        HandleAurasPower(CharacterManager.Characters);
+        HandleAurasPower(ItemManager.Items);
+        HandleAurasPower(RoomManager.Rooms);
+    }
+
+    private void HandleAurasPower<TEntity>(IEnumerable<TEntity> entities)
+        where TEntity : IEntity
+    {
+        var auraFilterFunc = new Func<IAura, bool>(a => a.IsValid && !a.AuraFlags.IsSet("Permanent") && a.PulseLeft > 0 && a.Level > 0);
+        foreach (var entity in entities.Where(x => x.Auras.Any(auraFilterFunc)))
+        {
+            try
+            {
+                foreach (var aura in entity.Auras.Where(auraFilterFunc))
+                {
+                   if (RandomManager.Chance(20)) // spell strength fades with time
+                        aura.DecreaseLevel();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception while handling decrease level auras of {entityType} {name}. Exception: {ex}", typeof(TEntity), entity.DebugName, ex);
+            }
+        }
+    }
+
+
+    private void HandleAurasPeriodic(int pulseCount)
+    {
+        var auraFilterFunc = new Func<IAura, bool>(x => x.IsValid && x.Affects.Any(a => a is ICharacterPeriodicAffect));
+        var charactersWithPeriodicAura = CharacterManager.Characters.Where(x => !x.ImmortalMode.IsSet("AlwaysSafe") && x.Auras.Any(auraFilterFunc)).ToArray(); // clone because periodic affect may kill character and modify list
+        foreach (var ch in charactersWithPeriodicAura)
+        {
+            try
+            {
+                // dots/hots
+                var aurasWithPeriodicAffects = ch.Auras.Where(auraFilterFunc).ToArray();
+                foreach (var auraWithPeriodicAffects in aurasWithPeriodicAffects)
+                {
+                    foreach (var periodAffect in auraWithPeriodicAffects.Affects.OfType<ICharacterPeriodicAffect>())
+                    {
+                        periodAffect?.Apply(auraWithPeriodicAffects, ch);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception while handling character {name}. Exception: {ex}", ch.DebugName, ex);
             }
         }
     }
@@ -1551,37 +1603,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             catch (Exception ex)
             {
                 Logger.LogError("Exception while handling player {name}. Exception: {ex}", playingClient.Player.Name, ex);
-            }
-        }
-    }
-
-    private void HandleCharacters(int pulseCount)
-    {
-        foreach (var ch in CharacterManager.Characters)
-        {
-            try
-            {
-                // regen is now handled in HandleResources
-
-                // dots/hots
-                if (!ch.ImmortalMode.IsSet("AlwaysSafe"))
-                {
-                    // apply a random periodic affects if any
-                    var periodicAuras = ch.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
-                    if (periodicAuras.Length > 0)
-                    {
-                        var periodicAura = periodicAuras.Random(RandomManager);
-                        if (periodicAura != null)
-                        {
-                            var affect = periodicAura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
-                            affect?.Apply(periodicAura, ch);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            { 
-                Logger.LogError("Exception while handling character {name}. Exception: {ex}", ch.DebugName, ex);
             }
         }
     }
@@ -1885,18 +1906,30 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void GameLoopTask()
     {
-        PulseManager.Add("Auras", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleAuras);
+        // 3/4-second pulses
+        PulseManager.Add("Violence", Pulse.FromSeconds(1), Pulse.PulseViolence, HandleViolence);
+
+        // 1-second pulses
+        PulseManager.Add("AurasTimeout", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleAurasTimeout);
         PulseManager.Add("CDs", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleCooldowns);
         PulseManager.Add("Quests", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleQuests);
         PulseManager.Add("Resources", Pulse.FromSeconds(1), Pulse.FromSeconds(1), HandleResources);
-        PulseManager.Add("Violence", Pulse.FromSeconds(1), Pulse.PulseViolence, HandleViolence);
+
+        // 4-seconds pulses
         PulseManager.Add("NPCs", Pulse.FromSeconds(1), Pulse.FromSeconds(4), HandleNonPlayableCharacters);
+
+        // 30-seconds pulses
+        PulseManager.Add("AurasPeriodic", Pulse.FromSeconds(1), Pulse.FromSeconds(30), HandleAurasPeriodic);
+
+        // 1-minute pulses
+        PulseManager.Add("AurasPower", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleAurasPower);
         PulseManager.Add("PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandlePlayableCharacters);
-        PulseManager.Add("NPCs+PCs", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleCharacters);
         PulseManager.Add("Players", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandlePlayers);
         PulseManager.Add("Items", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleItems);
         PulseManager.Add("Rooms", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleRooms);
         PulseManager.Add("Time", Pulse.FromSeconds(1), Pulse.FromMinutes(1), HandleTime); // 1 minute IRL = 1 hour IG
+
+        // 2-minutes pulses
         PulseManager.Add("Areas", Pulse.FromMinutes(2), Pulse.FromMinutes(2), HandleAreas);
 
         try

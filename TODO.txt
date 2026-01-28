@@ -1,9 +1,26 @@
 INGOING
 DONE
+    CharacterRegenModifierAffect added and used in Regen
+    poison, slow, haste, plague modified to use new CharacterRegenModifierAffect
+    plague spell/affect refactored as an effect to be able to use CharacterRegenModifierAffect
+    poison spell refactored to use poison effect
+    plague effect
+    HandleAuras: decreasing level should happen only once by minute and not once by second
+    multiple affect to string modified
 
 ==========
 == TODO ==
 ==========
+
+split permanent aura and non-permanent auras into 2 collections
+in HandleAuras, only check non-permanent auras collection
+add period in periodic aura to be used in HandleAurasPeriodic
+
+new affect to modify move
+    slow -> move*2
+    haste/fly -> move/2
+
+when moving, plague should try to spread
 
 rescue needs to be changed to use new aggro system ?
 

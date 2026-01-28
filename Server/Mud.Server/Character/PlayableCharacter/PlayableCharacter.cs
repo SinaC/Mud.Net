@@ -518,7 +518,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             DecreaseStun();
             if (!IsStunned)
-                Act(ActOptions.ToAll, "{W{0:N} regain{0:v} {0:s} equilibrium.{x", this);
+                Act(ActOptions.ToAll, "%W%{0:N} regain{0:v} {0:s} equilibrium.%x%", this);
             return;
         }
 
@@ -1313,9 +1313,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         decimal moveGain = Math.Max(15, Level);
         decimal manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
         decimal psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
-        // regen
-        if (CharacterFlags.IsSet("Regeneration"))
-            hitGain *= 2;
         // class bonus
         hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
         // abilities

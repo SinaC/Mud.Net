@@ -74,7 +74,8 @@ public class Slow : OffensiveSpellBase
         var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or },
+            new CharacterRegenModifierAffect {  Modifier = 2, Operator = AffectOperators.Divide });
         Victim.Recompute();
         Victim.Send("You feel yourself slowing d o w n...");
         Caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", Victim);
