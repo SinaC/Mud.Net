@@ -9,10 +9,10 @@ using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -33,11 +33,13 @@ public class Poison : ItemOrOffensiveSpellBase
     private const string SpellName = "Poison";
 
     private IAuraManager AuraManager { get; }
+    private IAffectManager AffectManager { get; }
 
-    public Poison(ILogger<Poison> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public Poison(ILogger<Poison> logger, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
+        AffectManager = affectManager;
     }
 
     protected override void Invoke(ICharacter victim)
@@ -54,10 +56,14 @@ public class Poison : ItemOrOffensiveSpellBase
         if (poisonAura != null)
             poisonAura.Update(Level, TimeSpan.FromMinutes(duration));
         else
+        {
+            var poisonAffect = AffectManager.CreateInstance("Poison");
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
-                new PoisonDamageAffect());
+                poisonAffect,
+                new CharacterRegenModifierAffect { Modifier = 4, Operator = AffectOperators.Divide });
+        }
         victim.Send("You feel very sick.");
         victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
     }

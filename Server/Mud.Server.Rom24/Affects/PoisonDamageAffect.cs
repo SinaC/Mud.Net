@@ -12,7 +12,7 @@ public class PoisonDamageAffect : NoAffectDataAffectBase, ICharacterPeriodicAffe
 {
     public override void Append(StringBuilder sb)
     {
-        sb.Append("%c%applies %G%poison%x% damage periodically");
+        sb.Append("%c%applies %G%Poison%x% damage periodically");
     }
 
     public void Apply(IAura aura, ICharacter character)

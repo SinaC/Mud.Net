@@ -751,10 +751,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             var (hitGain, moveGain, manaGain, psyGain) = CalculateResourcesDeltaByMinute();
 
+            // room rates
             hitGain = hitGain * Room.HealRate / 100;
             manaGain = manaGain * Room.ResourceRate / 100;
             psyGain = psyGain * Room.ResourceRate / 100;
 
+            // furniture rates
             if (Furniture != null && Furniture.HealBonus != 0)
             {
                 hitGain = (hitGain * Furniture.HealBonus) / 100;
@@ -767,27 +769,31 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 psyGain = (psyGain * Furniture.ResourceBonus) / 100;
             }
 
-            if (CharacterFlags.IsSet("Poison"))
+            // regeneration flag
+            if (CharacterFlags.IsSet("Regeneration"))
+                hitGain *= 2;
+
+            // auras
+            foreach (var regenAffect in Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterRegenModifierAffect>()))
             {
-                hitGain /= 4;
-                moveGain /= 4;
-                manaGain /= 4;
-                psyGain /= 4;
+                if (regenAffect.Operator == AffectOperators.Multiply)
+                {
+                    hitGain *= regenAffect.Modifier;
+                    moveGain *= regenAffect.Modifier;
+                    manaGain *= regenAffect.Modifier;
+                    psyGain *= regenAffect.Modifier;
+                }
+                else if (regenAffect.Operator == AffectOperators.Divide)
+                {
+                    hitGain /= regenAffect.Modifier;
+                    moveGain /= regenAffect.Modifier;
+                    manaGain /= regenAffect.Modifier;
+                    psyGain /= regenAffect.Modifier;
+                }
+                else
+                    Logger.LogError("Regen: invalid regenAffect.Operator {operator} in regen affect", regenAffect.Operator);
             }
-            if (CharacterFlags.IsSet("Plague"))
-            {
-                hitGain /= 8;
-                moveGain /= 8;
-                manaGain /= 8;
-                psyGain /= 8;
-            }
-            if (CharacterFlags.IsSet("Haste") || CharacterFlags.IsSet("Slow"))
-            {
-                hitGain /= 2;
-                moveGain /= 2;
-                manaGain /= 2;
-                psyGain /= 2;
-            }
+
             //
             var byMinuteDivisor = Pulse.ToMinutes(pulseCount);
             hitGain /= byMinuteDivisor;
@@ -1956,8 +1962,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     _currentAttributes[CharacterAttributes.Dexterity] = affect.Modifier;
                     _currentAttributes[CharacterAttributes.Constitution] = affect.Modifier;
                     break;
-                case AffectOperators.Or:
-                case AffectOperators.Nor:
+                default:
                     Logger.LogError("Invalid AffectOperators {operator} for CharacterAttributeAffect Characteristics", affect.Operator);
                     break;
             }
@@ -1979,8 +1984,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     _currentAttributes[CharacterAttributes.ArmorSlash] = affect.Modifier;
                     _currentAttributes[CharacterAttributes.ArmorExotic] = affect.Modifier;
                     break;
-                case AffectOperators.Or:
-                case AffectOperators.Nor:
+                default:
                     Logger.LogError("Invalid AffectOperators {operator} for CharacterAttributeAffect AllArmor", affect.Operator);
                     break;
             }
@@ -2013,8 +2017,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             case AffectOperators.Assign:
                 _currentAttributes[attribute] = affect.Modifier;
                 break;
-            case AffectOperators.Or:
-            case AffectOperators.Nor:
+            default:
                 Logger.LogError("Invalid AffectOperators {operator} for CharacterAttributeAffect {location}", affect.Operator, affect.Location);
                 break;
         }
@@ -2040,8 +2043,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             case AffectOperators.Assign:
                 _currentMaxResources[affect.Location] = Math.Max(0, affect.Modifier);
                 break;
-            case AffectOperators.Or:
-            case AffectOperators.Nor:
+            default:
                 Logger.LogError("Invalid AffectOperators {operator} for CharacterResourceAffect {location}", affect.Operator, affect.Location);
                 break;
         }
@@ -2645,7 +2647,41 @@ public abstract class CharacterBase : EntityBase, ICharacter
             AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
-                new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });
+                new CharacterAdditionalHitAffect { AdditionalHitCount = 1 },
+                new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
+        }
+        if (BaseCharacterFlags.IsSet("Slow") && !Auras.HasAffect<ICharacterFlagsAffect>(x => x.Modifier.IsSet("Slow")))
+        {
+            // TODO: code copied from slow spell (except duration and aura flags) use effect ??
+            var slowAbilityDefinition = AbilityManager["Slow"];
+            var duration = Level / 2;
+            var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
+            AuraManager.AddAura(this, slowAbilityDefinition?.Name ?? "Slow", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or },
+                new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
+        }
+        if (BaseCharacterFlags.IsSet("Poison") && !Auras.HasAffect<ICharacterFlagsAffect>(x => x.Modifier.IsSet("Poison")))
+        {
+            var poisonAffect = AffectManager.CreateInstance("Poison");
+            var poisonAbilityDefinition = AbilityManager["Poison"];
+            var duration = Level;
+            AuraManager.AddAura(this, poisonAbilityDefinition?.Name ?? "Poison", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+               new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
+               new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+               poisonAffect,
+               new CharacterRegenModifierAffect { Modifier = 4, Operator = AffectOperators.Divide });
+        }
+        if (BaseCharacterFlags.IsSet("Plague") && !Auras.HasAffect<ICharacterFlagsAffect>(x => x.Modifier.IsSet("Plague")))
+        {
+            var plagueAffect = AffectManager.CreateInstance("Plague");
+            var plagueAbilityDefinition = AbilityManager["Plague"];
+            var duration = RandomManager.Range(1, 2 * Level);
+            AuraManager.AddAura(this, plagueAbilityDefinition?.Name ?? "Plague", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
+                plagueAffect,
+                new CharacterRegenModifierAffect { Modifier = 8, Operator = AffectOperators.Divide });
         }
     }
 

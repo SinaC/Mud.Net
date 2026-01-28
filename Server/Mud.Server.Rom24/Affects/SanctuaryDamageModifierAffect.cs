@@ -11,7 +11,7 @@ public class SanctuaryDamageModifierAffect : NoAffectDataAffectBase, ICharacterD
 {
     public override void Append(StringBuilder sb)
     {
-        sb.Append("%c%reduces %y%incoming damage%c% by %y%50%%x%");
+        sb.Append("%c%reduces %y%Incoming damage%c% by %y%50%%x%");
     }
 
     public int ModifyDamage(ICharacter? source, ICharacter victim, SchoolTypes damageType, DamageSources damageSource, int damage)

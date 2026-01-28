@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3025,
+  "RoomId": 3024,
   "SilverCoins": 10776861,
   "GoldCoins": 6069,
   "Wimpy": 0,
@@ -476,8 +476,8 @@
   "Conditions": {
     "Drunk": 0,
     "Full": 0,
-    "Thirst": 5,
-    "Hunger": 22
+    "Thirst": 0,
+    "Hunger": 0
   },
   "Aliases": {
     "a": "cast \u0027colour spray\u0027",
@@ -495,7 +495,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 69,
+        "HitPoints": 179,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -675,7 +675,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "",
+  "ImmortalMode": "Omniscient",
   "CompletedQuests": [
     {
       "QuestId": 1,
@@ -688,7 +688,7 @@
       "CompletionTime": "2026-01-17T15:57:31.2756904+01:00"
     }
   ],
-  "PulseLeftBeforeNextAutomaticQuest": 4740,
+  "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "fnar",
   "Race": "giant",
   "Class": "warrior",
@@ -696,16 +696,16 @@
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 515,
-    "MovePoints": 283,
-    "Mana": 597,
-    "Psy": 100,
+    "HitPoints": 493,
+    "MovePoints": 275,
+    "Mana": 315,
+    "Psy": 79,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 540,
+    "HitPoints": 548,
     "MovePoints": 436,
     "Mana": 605,
     "Psy": 100,
@@ -718,7 +718,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11705,
+        "TimeLeft": 11685,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -1593,7 +1593,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 227280,
+      "DecayPulseLeft": 224640,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1622,7 +1622,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 147360,
+      "DecayPulseLeft": 144720,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1667,7 +1667,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 152640,
+      "DecayPulseLeft": 150000,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1680,7 +1680,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 156720,
+      "DecayPulseLeft": 154080,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1863,8 +1863,8 @@
   "Auras": [
     {
       "AbilityName": "Armor",
-      "Level": 1,
-      "PulseLeft": 2184,
+      "Level": 9,
+      "PulseLeft": 56000,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1878,7 +1878,7 @@
     {
       "AbilityName": "Fly",
       "Level": 1,
-      "PulseLeft": 2448,
+      "PulseLeft": 32000,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1890,8 +1890,8 @@
     },
     {
       "AbilityName": "Bless",
-      "Level": 1,
-      "PulseLeft": 3184,
+      "Level": 8,
+      "PulseLeft": 10560,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1910,8 +1910,8 @@
     },
     {
       "AbilityName": "Infravision",
-      "Level": 1,
-      "PulseLeft": 7112,
+      "Level": 9,
+      "PulseLeft": 49840,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1923,8 +1923,8 @@
     },
     {
       "AbilityName": "Protection Evil",
-      "Level": 1,
-      "PulseLeft": 2336,
+      "Level": 8,
+      "PulseLeft": 20800,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1945,9 +1945,116 @@
       ]
     },
     {
+      "AbilityName": "Poison",
+      "Level": 7,
+      "PulseLeft": 34680,
+      "AuraFlags": "",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "Strength",
+          "Modifier": -2
+        },
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Poison"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "Poison"
+        },
+        {
+          "$type": "CharacterRegenModifierAffectData",
+          "Modifier": 4,
+          "Operator": "Divide"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Plague",
+      "Level": 13,
+      "PulseLeft": 18240,
+      "AuraFlags": "",
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": "Add",
+          "Location": "Strength",
+          "Modifier": -5
+        },
+        {
+          "$type": "characterFlags",
+          "Operator": "Or",
+          "Modifier": "Plague"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "Plague"
+        },
+        {
+          "$type": "CharacterRegenModifierAffectData",
+          "Modifier": 8,
+          "Operator": "Divide"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Fire Shield",
+      "Level": 23,
+      "PulseLeft": 6480,
+      "AuraFlags": "",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "FireShield"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "FireShield"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Ice Shield",
+      "Level": 23,
+      "PulseLeft": 6600,
+      "AuraFlags": "",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "IceShield"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "IceShield"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Shock Shield",
+      "Level": 23,
+      "PulseLeft": 6800,
+      "AuraFlags": "",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ShockShield"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "ShockShield"
+        }
+      ]
+    },
+    {
       "AbilityName": "Giant Strength",
-      "Level": 1,
-      "PulseLeft": 1900,
+      "Level": 23,
+      "PulseLeft": 5500,
       "AuraFlags": "",
       "Affects": [
         {

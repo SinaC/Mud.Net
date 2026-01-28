@@ -11,7 +11,7 @@ public class ProtectionEvilDamageModifierAffect : NoAffectDataAffectBase, IChara
 {
     public override void Append(StringBuilder sb)
     {
-        sb.Append("%c%reduces %y%incoming damage%c% from %y%evil source%c% by %y%25%%x%");
+        sb.Append("%c%reduces %y%Incoming damage%c% from %y%evil source%c% by %y%25%%x%");
     }
 
     public int ModifyDamage(ICharacter? source, ICharacter victim, SchoolTypes damageType, DamageSources damageSource, int damage)

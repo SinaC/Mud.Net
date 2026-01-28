@@ -654,8 +654,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         decimal moveGain = Level;
         decimal manaGain = 5 + Level;
         decimal psyGain = 5 + Level;
-        if (CharacterFlags.IsSet("Regeneration"))
-            hitGain *= 2;
         switch (Position)
         {
             case Positions.Sleeping:
@@ -802,7 +800,41 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, new AuraFlags("Permanent"), false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
-                new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });
+                new CharacterAdditionalHitAffect { AdditionalHitCount = 1 },
+                new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
+        }
+        if (BaseCharacterFlags.IsSet("Slow"))
+        {
+            // TODO: code copied from slow spell (except duration and aura flags) use effect ??
+            var slowAbilityDefinition = AbilityManager["Slow"];
+            var duration = Level / 2;
+            var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
+            AuraManager.AddAura(this, slowAbilityDefinition?.Name ?? "Slow", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or },
+                new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
+        }
+        if (BaseCharacterFlags.IsSet("Poison"))
+        {
+            var poisonAffect = AffectManager.CreateInstance("Poison");
+            var poisonAbilityDefinition = AbilityManager["Poison"];
+            var duration = Level;
+            AuraManager.AddAura(this, poisonAbilityDefinition?.Name ?? "Poison", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+               new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
+               new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+               poisonAffect,
+               new CharacterRegenModifierAffect { Modifier = 4, Operator = AffectOperators.Divide });
+        }
+        if (BaseCharacterFlags.IsSet("Plague"))
+        {
+            var plagueAffect = AffectManager.CreateInstance("Plague");
+            var plagueAbilityDefinition = AbilityManager["Plague"];
+            var duration = RandomManager.Range(1, 2 * Level);
+            AuraManager.AddAura(this, plagueAbilityDefinition?.Name ?? "Plague", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
+                plagueAffect,
+                new CharacterRegenModifierAffect { Modifier = 8, Operator = AffectOperators.Divide });
         }
     }
 

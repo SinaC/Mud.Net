@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
-using Mud.Server.Rom24.Affects;
+using Mud.Server.Interfaces.Effect;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -27,12 +24,12 @@ public class Plague : OffensiveSpellBase
 {
     private const string SpellName = "Plague";
 
-    private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public Plague(ILogger<Plague> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public Plague(ILogger<Plague> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        AuraManager = auraManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
@@ -54,11 +51,9 @@ public class Plague : OffensiveSpellBase
             plagueAura.Update(level, TimeSpan.FromMinutes(duration));
         else
         {
-            AuraManager.AddAura(Victim, SpellName, Caster, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
-                new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));
             Victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", Victim);
+            var plagueEffect = EffectManager.CreateInstance<ICharacter>("Plague");
+            plagueEffect?.Apply(Victim, Caster, SpellName, level, -5);
         }
     }
 }
