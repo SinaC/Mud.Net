@@ -2,7 +2,6 @@
 using Mud.Domain;
 using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
 using System.Text;

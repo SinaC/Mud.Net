@@ -20,7 +20,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <armor>")]
 [Help(
 @"The enchant armor spell imbues armor with powerful protective magics. It is

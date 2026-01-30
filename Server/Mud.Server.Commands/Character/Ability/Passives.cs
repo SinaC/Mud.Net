@@ -29,7 +29,7 @@ public class Passives : AbilitiesCharacterGameActionBase<ICharacter, ICharacterG
     protected override string Title => "Passives";
 
     public Passives(IOptions<WorldOptions> worldOptions)
-    : base(worldOptions)
+        : base(worldOptions)
     {
     }
 }

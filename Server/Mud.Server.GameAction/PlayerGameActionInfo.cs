@@ -8,8 +8,8 @@ public class PlayerGameActionInfo : ActorGameActionInfo, IPlayerGameActionInfo
 {
     public IPlayerGuard[] PlayerGuards { get; }
 
-    public PlayerGameActionInfo(Type commandExecutionType, PlayerCommandAttribute playerCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<IPlayerGuard> guards)
-        : base(commandExecutionType, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute)
+    public PlayerGameActionInfo(Type commandExecutionType, PlayerCommandAttribute playerCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<IActorGuard> actorGuards, IEnumerable<IPlayerGuard> guards)
+        : base(commandExecutionType, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards)
     {
         PlayerGuards = guards.ToArray();
     }

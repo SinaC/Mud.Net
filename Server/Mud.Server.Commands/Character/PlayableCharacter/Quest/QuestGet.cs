@@ -10,7 +10,7 @@ using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questget", "Quest", Priority = 4), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questget", "Quest", Priority = 4), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Get which quest ?")]
 [Alias("qget")]
 [Syntax(
         "[cmd] <quest name>",
@@ -32,9 +32,6 @@ public class QuestGet : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Get which quest?";
 
         if (!Actor.Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>().Any())
             return "You cannot get any quest here.";

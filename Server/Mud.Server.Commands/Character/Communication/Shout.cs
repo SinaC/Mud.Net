@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("shout", "Communication"), MinPosition(Positions.Resting)]
+[CharacterCommand("shout", "Communication"), MinPosition(Positions.Resting), NoArgumentGuard("Shout what ?")]
 [Syntax("[cmd] <message>")]
 [Help(
 @"[cmd] sends a message to all awake players in the world.  To curb excessive
@@ -30,9 +30,6 @@ public class Shout : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Shout what?";
 
         What = CommandParser.JoinParameters(actionInput.Parameters);
 

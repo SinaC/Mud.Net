@@ -1066,7 +1066,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             chance = Math.Clamp(100 - abilityLearned.Learned, 5, 95);
             if (RandomManager.Chance(chance))
             {
-                Send("You have become better at {0}!", abilityLearned.Name);
+                Send("%W%You have become better at {0}!%x%", abilityLearned.Name);
                 abilityLearned.IncrementLearned(1);
                 GainExperience(2 * difficultyMultiplier);
                 return true;
@@ -1077,7 +1077,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             chance = Math.Clamp(abilityLearned.Learned / 2, 5, 30);
             if (RandomManager.Chance(chance))
             {
-                Send("You learn from your mistakes, and your {0} skill improves.!", abilityLearned.Name);
+                Send("%W%You learn from your mistakes, and your {0} skill improves!%x%", abilityLearned.Name);
                 var increment = RandomManager.Range(1, 3);
                 abilityLearned.IncrementLearned(increment);
                 GainExperience(2 * difficultyMultiplier);

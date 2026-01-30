@@ -15,7 +15,7 @@ using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [AbilityCharacterWearOffMessage("You feel weaker.")]
 [AbilityDispellable("{0:N} no longer looks so mighty.")]
 [Syntax("cast [spell] <character>")]

@@ -15,7 +15,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [AbilityCharacterWearOffMessage("You slowly float to the ground.")]
 [AbilityDispellable("{0:N} falls to the ground!")]
 [Syntax("cast [spell] <character>")]

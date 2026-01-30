@@ -26,8 +26,23 @@ public abstract class GameActionBase<TActor, TGameActionInfo> : IGameAction
         Actor = actor!;
         if (Actor == null)
             return $"This command must be executed by {typeof(TActor).Name}";
+
+        var actorGuards = (actionInput.GameActionInfo as ActorGameActionInfo)?.ActorGuards;
+        if (actorGuards != null && actorGuards.Length > 0)
+        {
+            foreach (var guard in actorGuards)
+            {
+                var guardResult = guard.Guards(actionInput.Actor, actionInput, this);
+                if (guardResult != null)
+                    return guardResult;
+            }
+        }
+
         return null;
     }
+
+    public string BuildCommandSyntax()
+        => BuildCommandSyntax(Command, GameActionInfo.Syntax, false).ToString();
 
     public static StringBuilder BuildCommandSyntax(string commandNames, IEnumerable<string> syntaxes, bool addSpaces)
     {
@@ -42,7 +57,4 @@ public abstract class GameActionBase<TActor, TGameActionInfo> : IGameAction
         }
         return sb;
     }
-
-    protected string BuildCommandSyntax()
-        => BuildCommandSyntax(Command, GameActionInfo.Syntax, false).ToString();
 }

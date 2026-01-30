@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questcomplete", "Quest", Priority = 2), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questcomplete", "Quest", Priority = 2), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Complete which quest ?")]
 [Alias("qcomplete")]
 [Syntax(
        "[cmd] <id>",
@@ -21,9 +21,6 @@ public class QuestComplete : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Complete which quest?";
 
         // all
         if (actionInput.Parameters[0].IsAll)

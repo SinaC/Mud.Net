@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("enter", "Movement"), MinPosition(Positions.Standing), NotInCombat]
+[CharacterCommand("enter", "Movement"), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Nope, can't do it")]
 [Syntax("[cmd] <portal>")]
 [Help(
 @"This command will allow you to step into (walk through) a portal.")]
@@ -22,8 +22,6 @@ public class Enter : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Nope, can't do it.";
         var item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
         if (item == null)
             return StringHelpers.ItemNotFound;

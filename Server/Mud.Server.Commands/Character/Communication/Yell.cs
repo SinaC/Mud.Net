@@ -6,7 +6,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("yell", "Communication"), MinPosition(Positions.Resting)]
+[CharacterCommand("yell", "Communication"), MinPosition(Positions.Resting), NoArgumentGuard("Yell what ?")]
 [Syntax("[cmd] <message>")]
 [Help(@"[cmd] sends a message to all awake players within your area.")]
 public class Yell : CharacterGameAction
@@ -25,9 +25,6 @@ public class Yell : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Yell what?";
 
         What = CommandParser.JoinParameters(actionInput.Parameters);
 

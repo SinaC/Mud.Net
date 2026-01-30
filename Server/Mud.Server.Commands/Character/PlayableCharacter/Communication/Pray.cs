@@ -1,5 +1,6 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 
@@ -7,7 +8,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 
 [PlayableCharacterCommand("pray", "Communication")]
 [Syntax("[cmd] <msg>")]
-[Help(@"This commands allows players to send a message to admins.")]
+[Help(@"This commands allows players to send a message to admins."), NoArgumentGuard("Pray what ?")]
 public class Pray : PlayableCharacterGameAction
 {
     private ICommandParser CommandParser { get; }
@@ -26,9 +27,6 @@ public class Pray : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Pray what?";
 
         What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;

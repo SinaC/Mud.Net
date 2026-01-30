@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("unlock", "Movement"), MinPosition(Positions.Resting)]
+[CharacterCommand("unlock", "Movement"), MinPosition(Positions.Resting), NoArgumentGuard("Unlock what ?")]
 [Syntax(
     "[cmd] <container|portal>",
     "[cmd] <direction|door>")]
@@ -35,9 +35,6 @@ public class Unlock : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Unlock what?";
 
         // Search item: in room, then inventory, then in equipment
         var item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);

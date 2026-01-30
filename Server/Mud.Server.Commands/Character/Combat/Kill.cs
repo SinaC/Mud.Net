@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Combat;
 
-[CharacterCommand("kill", "Combat", Priority = 1), MinPosition(Positions.Standing)]
+[CharacterCommand("kill", "Combat", Priority = 1), MinPosition(Positions.Standing), NoArgumentGuard("Kill whom?")]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] is used to kill mobiles (monsters) you see all over the world.
@@ -22,9 +22,6 @@ public class Kill : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Kill whom?";
 
         Whom = FindHelpers.FindByName(Actor.Room.People, actionInput.Parameters[0])!;
         if (Whom == null)

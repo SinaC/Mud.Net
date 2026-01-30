@@ -1,21 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Enchantment), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [AbilityItemWearOffMessage("{0:N}'s protective aura fades.")]
 [Syntax("cast [spell] <object>")]
 [Help(
@@ -45,7 +44,7 @@ public class Fireproof : ItemInventorySpellBase
             return;
         }
 
-        int duration = RandomManager.Fuzzy(Level / 4);
+        var duration = RandomManager.Fuzzy(Level / 4);
         AuraManager.AddAura(Item, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
             new ItemFlagsAffect { Modifier = new ItemFlags("BurnProof"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", Item);

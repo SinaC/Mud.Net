@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("close", "Movement"), MinPosition(Positions.Resting)]
+[CharacterCommand("close", "Movement"), MinPosition(Positions.Resting), NoArgumentGuard("Close what ?")]
 [Syntax(
         "[cmd] <container|portal>",
         "[cmd] <direction|door>")]
@@ -36,8 +36,6 @@ public class Close : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Close what?";
         // Search item: in room, then inventory, then in equipment
         var item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
         if (item != null)

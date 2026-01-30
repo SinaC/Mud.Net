@@ -2,13 +2,14 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Account;
 
-[PlayerCommand("delete", "Account", Priority = 999, NoShortcut = true)]
+[PlayerCommand("delete", "Account", Priority = 999, NoShortcut = true), NoArgumentGuard]
 [Alias("suicide")]
 [Syntax("[cmd] <password>")]
 [Help(
@@ -33,9 +34,6 @@ public class Delete : AccountGameActionBase
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         if (CheckPassword && !PasswordHelpers.Check(actionInput.Parameters[0].Value, Actor.Password))
         {

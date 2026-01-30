@@ -1,12 +1,13 @@
 ﻿using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("rfind", "Information")]
+[AdminCommand("rfind", "Information"), NoArgumentGuard]
 [Syntax("[cmd] <room>")]
 public class Rfind : AdminGameAction
 {
@@ -24,9 +25,6 @@ public class Rfind : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Pattern = actionInput.Parameters[0];
 

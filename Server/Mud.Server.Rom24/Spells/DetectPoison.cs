@@ -11,7 +11,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell detects the presence of poison in food or drink.")]

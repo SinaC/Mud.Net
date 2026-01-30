@@ -2,6 +2,7 @@
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("info", "Information")]
+[AdminCommand("info", "Information"), NoArgumentGuard]
 [Syntax(
     "[cmd] race",
     "[cmd] npcrace",
@@ -41,9 +42,6 @@ public class Info : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         if (actionInput.Parameters[0].Value == "class" || actionInput.Parameters[0].Value == "classes")
         {

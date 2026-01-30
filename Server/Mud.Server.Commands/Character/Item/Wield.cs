@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("wield", "Item", "Equipment"), MinPosition(Positions.Resting)]
+[CharacterCommand("wield", "Item", "Equipment"), MinPosition(Positions.Resting), NoArgumentGuard("Wield what ?")]
 [Syntax("[cmd] <weapon>")]
 [Help(
 @"[cmd] will take an weapon from inventory and start using it
@@ -30,8 +30,6 @@ public class Wield : WearCharacterGameActionBase<ICharacter, ICharacterGameActio
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Wield what?";
         What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)
             return StringHelpers.ItemInventoryNotFound;

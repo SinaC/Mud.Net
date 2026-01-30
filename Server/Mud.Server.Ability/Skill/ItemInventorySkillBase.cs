@@ -17,8 +17,9 @@ public abstract class ItemInventorySkillBase : SkillBase
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)
     {
-        if (skillActionInput.Parameters.Length < 1)
-            return "What should the skill be cast upon?";
+        if (skillActionInput.Parameters.Length < 1) // should already been tested in Guards
+            return "What should the skill be used upon?";
+
         Item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), skillActionInput.Parameters[0])!; // TODO: equipments ?
         if (Item == null)
             return "You are not carrying that.";

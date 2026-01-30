@@ -29,7 +29,7 @@ public class Skills : AbilitiesCharacterGameActionBase<ICharacter, ICharacterGam
     protected override string Title => "Skills/Passives/Weapons";
 
     public Skills(IOptions<WorldOptions> worldOptions)
-    : base(worldOptions)
+        : base(worldOptions)
     {
     }
 }

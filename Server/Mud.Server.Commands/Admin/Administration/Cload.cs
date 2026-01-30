@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("cload", "Admin"), MustBeImpersonated]
+[AdminCommand("cload", "Admin"), MustBeImpersonated, NoArgumentGuard]
 [Alias("mload")]
 [Syntax("[cmd] <id>")]
 [Help(
@@ -39,7 +39,7 @@ public class Cload : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0 || !actionInput.Parameters[0].IsNumber)
+        if (!actionInput.Parameters[0].IsNumber)
             return BuildCommandSyntax();
 
         BlueprintId = actionInput.Parameters[0].AsNumber;

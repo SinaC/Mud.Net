@@ -19,7 +19,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax(
     "cast [spell]",
     "cast [spell] <object>")]

@@ -10,7 +10,7 @@
   "Alignment": -44,
   "Trains": 22,
   "Practices": 89,
-  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
+  "AutoFlags": "Assist,Exit,Sacrifice,Gold,Split,Loot,Affect",
   "Currencies": {
     "QuestPoints": 0
   },
@@ -174,7 +174,7 @@
       "Sex": "Neutral",
       "Size": "Tiny",
       "CurrentResources": {
-        "HitPoints": 519,
+        "HitPoints": 553,
         "MovePoints": 100,
         "Mana": 0,
         "Psy": 0,
@@ -221,7 +221,7 @@
           "AbilityName": "Construct",
           "Level": 49,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent",
+          "AuraFlags": "NoDispel,Permanent",
           "Affects": [
             {
               "$type": "characterFlags",
@@ -280,7 +280,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "UberMode",
+  "ImmortalMode": "NoDeath,Holylight,Infinite,PassThru,AlwaysSafe,Omniscient",
   "CompletedQuests": [],
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "glouk",
@@ -290,9 +290,9 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15850,
-    "MovePoints": 1196,
-    "Mana": 5349,
+    "HitPoints": 15880,
+    "MovePoints": 1255,
+    "Mana": 5378,
     "Psy": 100,
     "Energy": 100,
     "Rage": 0,
@@ -359,7 +359,7 @@
             "AbilityName": "",
             "Level": 10,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -429,7 +429,7 @@
           "AbilityName": "",
           "Level": 45,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -466,7 +466,7 @@
           "AbilityName": "",
           "Level": 45,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -501,7 +501,7 @@
         {
           "AbilityName": "Envenom",
           "Level": 1,
-          "PulseLeft": 15772,
+          "PulseLeft": 15400,
           "AuraFlags": "NoDispel",
           "Affects": [
             {
@@ -533,7 +533,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 8300,
+      "PulseLeft": 7928,
       "AuraFlags": "",
       "Affects": [
         {
@@ -547,7 +547,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 8496,
+      "PulseLeft": 8124,
       "AuraFlags": "",
       "Affects": [
         {
@@ -560,7 +560,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 8528,
+      "PulseLeft": 8156,
       "AuraFlags": "",
       "Affects": [
         {
@@ -573,7 +573,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 8544,
+      "PulseLeft": 8172,
       "AuraFlags": "",
       "Affects": [
         {
@@ -586,7 +586,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 8600,
+      "PulseLeft": 8228,
       "AuraFlags": "",
       "Affects": [
         {
@@ -599,7 +599,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 8300,
+      "PulseLeft": 7928,
       "AuraFlags": "",
       "Affects": [
         {
@@ -612,7 +612,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 8100,
+      "PulseLeft": 7728,
       "AuraFlags": "",
       "Affects": [
         {
@@ -625,7 +625,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 7900,
+      "PulseLeft": 7528,
       "AuraFlags": "",
       "Affects": [
         {
@@ -638,7 +638,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 3300,
+      "PulseLeft": 2928,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -669,7 +669,7 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 4036,
+      "PulseLeft": 3664,
       "AuraFlags": "",
       "Affects": [
         {
@@ -692,7 +692,7 @@
     {
       "AbilityName": "Protection Good",
       "Level": 1,
-      "PulseLeft": 4080,
+      "PulseLeft": 3708,
       "AuraFlags": "",
       "Affects": [
         {
@@ -709,23 +709,6 @@
         {
           "$type": "noData",
           "AffectName": "ProtectGood"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Sanctuary",
-      "Level": 1,
-      "PulseLeft": 284,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "shieldFlags",
-          "Operator": "Or",
-          "Modifier": "Sanctuary"
-        },
-        {
-          "$type": "noData",
-          "AffectName": "Sanctuary"
         }
       ]
     },

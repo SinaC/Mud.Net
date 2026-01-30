@@ -1,11 +1,18 @@
-﻿using Mud.Server.Interfaces.Guards;
+﻿using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Guards.PlayerGuards;
 
 public class MustBeImpersonatedGuard : IPlayerGuard
 {
-    public string? Guards(IPlayer actor)
+    public string? Guards(IPlayer actor, IActionInput actionInput, IGameAction gameAction)
+       => Guards(actor);
+
+    public string? Guards(IPlayer actor, ICommandParameter[] commandParameters)
+        => Guards(actor);
+
+    private string? Guards(IPlayer actor)
     {
         if (actor.Impersonating == null)
             return $"You must be impersonated to use that.";

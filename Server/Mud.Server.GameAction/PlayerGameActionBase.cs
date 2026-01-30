@@ -23,7 +23,7 @@ public abstract class PlayerGameActionBase<TPlayer, TPlayerGameActionInfo> : Gam
         {
             foreach (var guard in GameActionInfo.PlayerGuards)
             {
-                var guardResult = guard.Guards(Actor);
+                var guardResult = guard.Guards(Actor, actionInput, this);
                 if (guardResult != null)
                     return guardResult;
             }

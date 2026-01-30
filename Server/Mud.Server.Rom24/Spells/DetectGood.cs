@@ -13,7 +13,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [AbilityCharacterWearOffMessage("The gold in your vision disappears.")]
 [AbilityDispellable]
 [Syntax("cast [spell]")]

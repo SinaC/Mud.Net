@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("split", "Item", Priority = 600), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("split", "Item", Priority = 600), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Split how much ?")]
 [Syntax("[cmd] <silver amount> <gold amount>")]
 [Help(
 @"[cmd] splits some coins  between you and all the members of your
@@ -28,9 +28,6 @@ public class Split : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Split how much?";
 
         if (actionInput.Parameters.Length > 0)
             Silver = actionInput.Parameters[0].AsLong;

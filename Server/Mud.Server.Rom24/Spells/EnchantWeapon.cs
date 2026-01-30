@@ -20,7 +20,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <weapon>")]
 [Help(
 @"This spell magically enchants a weapon, increasing its to-hit and to-dam

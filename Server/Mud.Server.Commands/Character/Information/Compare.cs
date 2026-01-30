@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("compare", "Information"), MinPosition(Positions.Resting)]
+[CharacterCommand("compare", "Information"), MinPosition(Positions.Resting), NoArgumentGuard("Compare what to what ?")]
 [Alias("cmp")]
 [Syntax(
     "[cmd] <object-1> <object-2>",
@@ -32,9 +32,6 @@ public class Compare : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Compare what to what?";
 
         // search first item in inventory
         var what1 = actionInput.Parameters[0];

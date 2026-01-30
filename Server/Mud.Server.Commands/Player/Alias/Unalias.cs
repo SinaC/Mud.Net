@@ -1,11 +1,12 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Alias;
 
 // TODO: avoid duplicate code, there is exactly the same code in Mud.Server.Character.PlayableCharacter.Unalias
-[PlayerCommand("unalias", "Alias")]
+[PlayerCommand("unalias", "Alias"), NoArgumentGuard("Unalias what ?")]
 [Alias("unmacro")]
 [Syntax("[cmd] <word>")]
 [Help(
@@ -20,8 +21,6 @@ public class Unalias : PlayerGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Unalias what?";
         TargetAlias = actionInput.Parameters[0].Value.ToLowerInvariant().Trim();
         if (!Actor.Aliases.ContainsKey(TargetAlias))
             return "No alias of that name to remove.";

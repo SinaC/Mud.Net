@@ -1,4 +1,5 @@
 ﻿using Mud.Common.Attributes;
+using Mud.Server.Guards.ActorGuards;
 using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Guards.CharacterGuards;
@@ -11,6 +12,20 @@ namespace Mud.Server.Guards;
 [Export(typeof(IGuardGenerator)), Shared]
 public class GuardGenerator : IGuardGenerator
 {
+    public IActorGuard[] GenerateActorGuards(Type type)
+    {
+        var guardAttributes = type.GetCustomAttributes<ActorGuardAttributeBase>();
+        List<IActorGuard> guards = [];
+        foreach (var guardAttribute in guardAttributes)
+        {
+            if (guardAttribute is NoArgumentGuardAttribute noArgumentGuardAttribute)
+            {
+                guards.Add(new NoArgumentGuard(noArgumentGuardAttribute.Message));
+            }
+        }
+        return guards.ToArray();
+    }
+
     public ICharacterGuard[] GenerateCharacterGuards(Type type)
     {
         var guardAttributes = type.GetCustomAttributes<CharacterGuardAttributeBase>();

@@ -6,6 +6,7 @@ using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -14,7 +15,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("cstat", "Information")]
+[AdminCommand("cstat", "Information"), NoArgumentGuard]
 [Alias("mstat")]
 [Syntax("[cmd] <character>")]
 public class Cstat : AdminGameAction
@@ -33,9 +34,6 @@ public class Cstat : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Whom = Impersonating == null
             ? FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[0])!

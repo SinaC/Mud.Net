@@ -1,11 +1,12 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Communication;
 
-[AdminCommand("admintalk", "Communication")]
+[AdminCommand("admintalk", "Communication"), NoArgumentGuard("What do you want to say on admin channel ?")]
 [Alias("atalk")]
 [Alias(":")]
 [Syntax("[cmd] <message>")]
@@ -30,9 +31,6 @@ public class AdminTalk : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
         
-        if (actionInput.Parameters.Length == 0)
-            return "What do you want to say on admin channel ?";
-
         What = $"%c%[%y%{Actor.DisplayName}%c%]: {actionInput.Parameters[0].Value}%x%";
 
         return null;

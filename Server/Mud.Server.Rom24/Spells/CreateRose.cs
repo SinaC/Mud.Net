@@ -16,7 +16,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Creation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell]")]
 [Help(
 @"A romantic spell that creates a fragrant red rose, with utterly no game

@@ -246,7 +246,7 @@ public class Room : EntityBase, IRoom
     {
         // Room name
         if (viewer.ImmortalMode.IsSet("Holylight"))
-            sb.AppendFormatLine($"%c%{DisplayName} [{Blueprint?.Id.ToString() ?? "???"}]%x%");
+            sb.AppendFormatLine($"%c%{DisplayName} %r%[{Blueprint?.Id.ToString() ?? "???"}]%x%");
         else
             sb.AppendFormatLine("%c%{0}%x%", DisplayName);
         // Room description

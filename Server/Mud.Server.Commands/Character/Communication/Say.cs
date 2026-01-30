@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("say", "Communication"), MinPosition(Positions.Resting)]
+[CharacterCommand("say", "Communication"), MinPosition(Positions.Resting), NoArgumentGuard("Say what ?")]
 [Alias("'")]
 [Syntax("[cmd] <message>")]
 [Help(@"[cmd] sends a message to all awake players/mobs in your room (In Character channel).")]
@@ -27,9 +27,6 @@ public class Say : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Say what?";
 
         What = CommandParser.JoinParameters(actionInput.Parameters);
 

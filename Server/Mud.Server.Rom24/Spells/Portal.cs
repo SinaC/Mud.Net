@@ -14,7 +14,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <target>")]
 [Help(
 @"The portal spell is similar to gate, but creates a lasting one-way portal

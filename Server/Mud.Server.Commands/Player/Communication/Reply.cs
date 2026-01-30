@@ -1,11 +1,12 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("reply", "Communication")]
+[PlayerCommand("reply", "Communication"), NoArgumentGuard("Reply what ?")]
 [Syntax("[cmd] <message>")]
 [Help(
 @"[cmd] sends a message to the last player who sent you a TELL.  [cmd] will work
@@ -28,8 +29,6 @@ public class Reply : TellGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Reply what?";
         if (Actor.LastTeller == null)
             return StringHelpers.CharacterNotFound;
 

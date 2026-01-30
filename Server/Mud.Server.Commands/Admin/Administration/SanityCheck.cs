@@ -1,12 +1,13 @@
 ﻿using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("sanitycheck", "Admin")]
+[AdminCommand("sanitycheck", "Admin"), NoArgumentGuard]
 [Syntax("[cmd] <character>")]
 public class SanityCheck : AdminGameAction
 {
@@ -24,9 +25,6 @@ public class SanityCheck : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0])!;
         if (Whom == null)

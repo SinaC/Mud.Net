@@ -1,16 +1,17 @@
 INGOING
 DONE
-    CharacterRegenModifierAffect added and used in Regen
-    poison, slow, haste, plague modified to use new CharacterRegenModifierAffect
-    plague spell/affect refactored as an effect to be able to use CharacterRegenModifierAffect
-    poison spell refactored to use poison effect
-    plague effect
-    HandleAuras: decreasing level should happen only once by minute and not once by second
-    multiple affect to string modified
+    typo fixed in spell with NoCombat guard attribute
+    colors added in damage phrases
+    color added when improving ability
+    add NoArgument guard attribute
 
 ==========
 == TODO ==
 ==========
+
+move guards from attributes to class definition
+    each command/ability/spell/... will have a list of IGuard
+    don't need to use reflection to get attributes
 
 split permanent aura and non-permanent auras into 2 collections
 in HandleAuras, only check non-permanent auras collection
@@ -69,7 +70,8 @@ new combat system
 
 multitable generator, paging a table should repeat the header at the beginning of each page
 
-try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
+try to use Mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
+    -> issue for mappers found in modules/plugins
 
 ability with different kind of resource, can be paid with mana or rage for example
 would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which is available for bear (rage) and cat (energy)

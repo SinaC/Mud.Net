@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("deleteavatar", "Avatar", Priority = 1000, NoShortcut = true), CannotBeImpersonated]
+[PlayerCommand("deleteavatar", "Avatar", Priority = 1000, NoShortcut = true), CannotBeImpersonated, NoArgumentGuard]
 [Syntax("[cmd] <avatar name>")]
 public class DeleteAvatar : PlayerGameAction
 {
@@ -25,9 +25,6 @@ public class DeleteAvatar : PlayerGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         var avatarName = actionInput.Parameters[0].Value;
 

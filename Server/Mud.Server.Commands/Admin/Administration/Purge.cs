@@ -12,7 +12,7 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated]
+[AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated, NoArgumentGuard]
 [Syntax(
     "[cmd] all",
     "[cmd] <character>",
@@ -45,9 +45,6 @@ public class Purge : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         // All -> room
         if (actionInput.Parameters[0].IsAll)

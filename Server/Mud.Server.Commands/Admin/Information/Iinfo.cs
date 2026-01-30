@@ -1,19 +1,16 @@
 ﻿using Mud.Blueprints.Item;
 using Mud.Blueprints.Item.Affects;
 using Mud.Common;
-using Mud.Server.Affects.Character;
 using Mud.Server.Common.Extensions;
-using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Affect.Character;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("iinfo", "Information")]
+[AdminCommand("iinfo", "Information"), NoArgumentGuard]
 [Alias("oinfo")]
 [Syntax("[cmd] <id>")]
 public class Iinfo : AdminGameAction
@@ -32,9 +29,6 @@ public class Iinfo : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         if (!actionInput.Parameters[0].IsNumber)
             return BuildCommandSyntax();

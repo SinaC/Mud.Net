@@ -15,6 +15,7 @@ public static class StringHelpers
     public const string CantFindIt = "You can't find it.";
     public const string SomethingGoesWrong = "Something goes wrong.";
     public const string YouLostYourConcentration = "You lost your concentration.";
+    public const string YouCantConcentrateEnough = "You can't concentrate enough.";
     public const string CantDoThatHere = "You can't do that here.";
 
     //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/

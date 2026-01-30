@@ -28,7 +28,7 @@ public class Weapons : AbilitiesCharacterGameActionBase<ICharacter, ICharacterGa
     protected override Func<AbilityTypes, bool> AbilityTypeFilterFunc => x => x == AbilityTypes.Weapon;
     protected override string Title => "Weapons";
     public Weapons(IOptions<WorldOptions> worldOptions)
-    : base(worldOptions)
+        : base(worldOptions)
     {
     }
 

@@ -54,44 +54,57 @@ public abstract class AbilityTestBase
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
                 {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
                     var characterGuards = guardGenerator.GenerateCharacterGuards(type);
-                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null, characterGuards);
+                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, characterGuards);
                     break;
                 }
             case CharacterCommandAttribute characterCommandAttribute:
                 {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
                     var characterGuards = guardGenerator.GenerateCharacterGuards(type);
                     if (type.IsAssignableTo(typeof(ISkill)))
                     {
                         var skillDefinition = new AbilityDefinition(type, characterGuards);
-                        gameActionInfo = new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, skillDefinition, characterGuards);
+                        gameActionInfo = new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, skillDefinition, actorGuards, characterGuards);
                     }
                     else
-                        gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, characterGuards);
+                        gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, characterGuards);
                     break;
                 }
             case AdminCommandAttribute adminCommandAttribute:
                 {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
                     var playerGuards = guardGenerator.GeneratePlayerGuards(type);
                     var adminGuards = guardGenerator.GenerateAdminGuards(type);
-                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null, playerGuards, adminGuards);
+                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, playerGuards, adminGuards);
                     break;
                 }
             case PlayerCommandAttribute playerCommandAttribute:
                 {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
                     var playerGuards = guardGenerator.GeneratePlayerGuards(type);
-                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null, playerGuards);
+                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, playerGuards);
                     break;
                 }
             case ItemCommandAttribute itemCommandAttribute:
-                gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null);
-                break;
+                {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
+                    gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards);
+                    break;
+                }
             case RoomCommandAttribute roomCommandAttribute:
-                gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null);
-                break;
+                {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
+                    gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards);
+                    break;
+                }
             case ActorCommandAttribute actorCommandAttribute:
-                gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null);
-                break;
+                {
+                    var actorGuards = guardGenerator.GenerateActorGuards(type);
+                    gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards);
+                    break;
+                }
             default:
                 gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;

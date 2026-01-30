@@ -2,6 +2,7 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Quest;
 
-[AdminCommand("questdisplay", "Quest")]
+[AdminCommand("questdisplay", "Quest"), NoArgumentGuard]
 [Syntax("[cmd] <character>")]
 [Alias("qdisplay")]
 public class QuestDisplay : AdminGameAction
@@ -29,9 +30,6 @@ public class QuestDisplay : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Whom = FindHelpers.FindByName(CharacterManager.PlayableCharacters.Where(x => x.ImpersonatedBy != null), actionInput.Parameters[0])!;
         if (Whom == null)

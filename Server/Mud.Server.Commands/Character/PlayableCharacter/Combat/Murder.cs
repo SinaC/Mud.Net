@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Combat;
 
-[PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true), MinPosition(Positions.Standing)]
+[PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true), MinPosition(Positions.Standing), NoArgumentGuard("Murder whom ?")]
 [Syntax("[cmd] <character>")]
 [Help(
 @"MURDER is used to kill other players. To kill mobiles (monsters), you
@@ -30,9 +30,6 @@ public class Murder : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Murder whom?";
 
         Whom = FindHelpers.FindByName(Actor.Room?.People!, actionInput.Parameters[0])!;
         if (Whom == null)
