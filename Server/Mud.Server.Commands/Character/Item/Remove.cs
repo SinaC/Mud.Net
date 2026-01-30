@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("remove", "Item", "Equipment"), MinPosition(Positions.Resting)]
+[CharacterCommand("remove", "Item", "Equipment"), MinPosition(Positions.Resting), NoArgumentGuard("Remove what ?")]
 [Syntax("[cmd] <item>")]
 [Help(@"[cmd] will take any object from your equipment and put it back into your\r\ninventory.")]
 public class Remove : CharacterGameAction
@@ -21,8 +21,6 @@ public class Remove : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Remove what?";
         //
         What = FindHelpers.FindByName(Actor.Equipments.Where(x => x.Item != null && Actor.CanSee(x.Item)), x => x.Item!, actionInput.Parameters[0])!;
         if (What?.Item == null)

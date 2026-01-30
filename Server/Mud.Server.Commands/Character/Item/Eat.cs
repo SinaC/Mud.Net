@@ -17,7 +17,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("eat", "Food"), MinPosition(Positions.Resting)]
+[CharacterCommand("eat", "Food"), MinPosition(Positions.Resting), NoArgumentGuard("Eat what ?")]
 [Syntax("[cmd] <food|pill>")]
 [Help(@"When you are hungry, [cmd] something.")]
 public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
@@ -44,9 +44,6 @@ public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameAc
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Eat what?";
 
         var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0]);
         if (item == null)

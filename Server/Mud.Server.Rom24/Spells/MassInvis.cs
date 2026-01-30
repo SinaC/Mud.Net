@@ -15,7 +15,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [AbilityCharacterWearOffMessage("You are no longer invisible.")]
 [AbilityDispellable("{0:N} fades into existence.")]
 [Syntax("cast [spell]")]

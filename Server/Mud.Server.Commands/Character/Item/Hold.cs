@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("hold", "Item", "Equipment"), MinPosition(Positions.Resting)]
+[CharacterCommand("hold", "Item", "Equipment"), MinPosition(Positions.Resting), NoArgumentGuard("Hold what ?")]
 [Syntax("[cmd] <item>")]
 [Help(
 @"[CMD] will take a light source, a wand, or a staff from inventory
@@ -29,9 +29,6 @@ public class Hold : WearCharacterGameActionBase<ICharacter, ICharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return null;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Wield what?";
 
         What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)

@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated]
+[AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated, NoArgumentGuard]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] kills a character in cold blood, no saving throw.  Best not to use this
@@ -30,9 +30,6 @@ public class Slay : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Whom = FindHelpers.FindByName(Impersonating.Room.People, actionInput.Parameters[0])!;
         if (Whom == null)

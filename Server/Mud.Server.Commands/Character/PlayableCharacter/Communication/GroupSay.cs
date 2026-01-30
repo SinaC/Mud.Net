@@ -1,10 +1,11 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 
-[PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
+[PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000), NoArgumentGuard("Say your group what ?")]
 [Alias("gtell")]
 [Alias("gsay")]
 [Syntax("[cmd] <message>")]
@@ -24,9 +25,6 @@ public class GroupSay : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Say your group what?";
 
         What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;

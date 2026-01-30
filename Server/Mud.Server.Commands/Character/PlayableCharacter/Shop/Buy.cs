@@ -15,7 +15,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
-[PlayableCharacterCommand("buy", "Shop"), MinPosition(Positions.Resting)]
+[PlayableCharacterCommand("buy", "Shop"), MinPosition(Positions.Resting), NoArgumentGuard]
 [Syntax(
     "[cmd] [number] <item>",
     "[cmd] pet [name]")]
@@ -54,8 +54,6 @@ public class Buy : ShopPlayableCharacterGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
         if (ShopBlueprintBase is CharacterShopBlueprint shopBlueprint)
         {
             if (actionInput.Parameters.Length >= 2 && !actionInput.Parameters[0].IsNumber)

@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Combat;
 
-[CharacterCommand("consider", "Information", "Combat"), MinPosition(Positions.Resting)]
+[CharacterCommand("consider", "Information", "Combat"), MinPosition(Positions.Resting), NoArgumentGuard("Consider killing whom?")]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] tells you what your chances are of killing a character.
@@ -22,9 +22,6 @@ public class Consider : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Consider killing whom?";
 
         Whom = FindHelpers.FindByName(Actor.Room.People, actionInput.Parameters[0])!;
         if (Whom == null)

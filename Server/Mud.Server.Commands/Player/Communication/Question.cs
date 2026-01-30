@@ -1,11 +1,13 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("question", "Communication")]
+[PlayerCommand("question", "Communication"), NoArgumentGuard("Ask what ?")]
+[Alias("ask")]
 [Syntax("[cmd] <message>")]
 [Help(
 @"With these channels, you can ask questions to other players such newbie 
@@ -17,7 +19,6 @@ public class Question : CommunicationGameActionBase
     {
     }
 
-    protected override string NoParamMessage => "Ask what ?";
     protected override string ActorSendPattern => "%y%You question '{0}'%x%";
     protected override string OtherSendPattern => "%y%{0} questions '{1}'%x%";
 }

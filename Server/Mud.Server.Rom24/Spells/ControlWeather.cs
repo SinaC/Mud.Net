@@ -14,7 +14,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Environment), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Environment), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax(
     "cast [spell] better",
     "cast [spell] worse")]

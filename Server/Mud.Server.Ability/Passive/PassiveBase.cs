@@ -33,20 +33,6 @@ public abstract class PassiveBase : IPassive
         learnPercentage = percentage;
         var abilityDefinition = abilityLearned.AbilityUsage.AbilityDefinition;
 
-        // 3) check guards
-        if (abilityDefinition.Guards.Length > 0)
-        {
-            foreach (var guard in abilityDefinition.Guards)
-            {
-                var guardResult = guard.Guards(user);
-                if (guardResult != null)
-                {
-                    diceRoll = 0;
-                    return false;
-                }
-            }
-        }
-
         // 3) check cooldown
         int cooldownPulseLeft = user.CooldownPulseLeft(abilityDefinition.Name);
         if (cooldownPulseLeft > 0)

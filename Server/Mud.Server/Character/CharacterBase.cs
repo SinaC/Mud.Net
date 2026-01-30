@@ -2808,14 +2808,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
             {
                 if (this == source)
                 {
-                    phraseOther = "{0:N} {2} {0:f}.[{4}]";
-                    phraseSource = "You {1} yourself.[{3}]";
+                    phraseSource = "%g%You {1} %g%yourself.[{3}]%x%";
+                    phraseOther = "%y%{0:N} {2} %y%{0:f}.[{4}]%x";
                 }
                 else
                 {
-                    phraseOther = "{0:N} {2} {1}.[{4}]";
-                    phraseSource = "You {1} {0}.[{3}]";
-                    phraseVictim = "{0:N} {1} you.[{3}]";
+                    phraseSource = "%g%You {1} %g%{0}.[{3}]%x%";
+                    phraseVictim = "%r%{0:N} {1} %r%you.[{3}]%x%";
+                    phraseOther = "%y%{0:N} {2} %y%{1}.[{4}]%x%";
                 }
             }
             else
@@ -2824,28 +2824,28 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 {
                     if (this == source)
                     {
-                        phraseOther = "{0:N} is unaffected by {0:s} own {2}.";
-                        phraseSource = "Luckily, you are immune to that.";
+                        phraseSource = "%g%Luckily, you are immune to that.%x%";
+                        phraseOther = "%y%{0:N} is unaffected by {0:s} own {2}.%x%";
                     }
                     else
                     {
-                        phraseOther = "{1:N} is unaffected by {0:p} {2}!";
-                        phraseSource = "{0} is unaffected by your {1}!";
-                        phraseVictim = "{0:p} {1} is powerless against you.";
+                        phraseSource = "%g%{0} is unaffected by your {1}!%x%";
+                        phraseVictim = "%r%{0:p} {1} is powerless against you.%x%";
+                        phraseOther = "%y%{1:N} is unaffected by {0:p} {2}!%x%";
                     }
                 }
                 else
                 {
                     if (this == source)
                     {
-                        phraseOther = "{0:P} {3} {2} {0:m}.[{4}]";
-                        phraseSource = "Your {2} {1} you.[{3}]";
+                        phraseSource = "%g%Your {2} {1} %g%you.[{3}]%x%";
+                        phraseOther = "%y%{0:P} {3} {2} %r%{0:m}.[{4}]%x%";
                     }
                     else
                     {
-                        phraseOther = "{0:P} {3} {2} {1}.[{4}]";
-                        phraseSource = "Your {2} {1} {0}.[{3}]";
-                        phraseVictim = "{0:P} {2} {1} you.[{3}]";
+                        phraseSource = "%g%Your {2} {1} %g%{0}.[{3}]%x%";
+                        phraseVictim = "%r%{0:P} {2} {1} %r%you.[{3}]%x%";
+                        phraseOther = "%y%{0:P} {3} {2} %y%{1}.[{4}]%x%";
                     }
                 }
             }
@@ -2895,9 +2895,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         else
         {
             if (damage > MaxResource(ResourceKinds.HitPoints) / 4)
-                Send("That really did HURT!");
+                Send("%R%That really did HURT!%x%");
             if (this[ResourceKinds.HitPoints] < MaxResource(ResourceKinds.HitPoints) / 4)
-                Send("You sure are BLEEDING!");
+                Send("%R%You sure are BLEEDING!%x%");
         }
 
         if (Position == Positions.Sleeping)

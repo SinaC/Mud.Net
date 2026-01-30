@@ -163,40 +163,53 @@ public class GameActionManager : IGameActionManager
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
             {
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
                 var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
-                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, characterGuards);
+                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, characterGuards);
             }
             case CharacterCommandAttribute characterCommandAttribute:
             {
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
                 var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
 
                 var abilityDefinition = AbilityManager[type];
                 if (abilityDefinition != null)
                 {
                     if (abilityDefinition.Type == AbilityTypes.Skill)
-                        return new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, abilityDefinition, characterGuards);
+                        return new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, abilityDefinition, actorGuards, characterGuards);
                     else
                         Logger.LogError("GameActionManager.CreateGameActionInfo: ability definition {ability} for type {type} is not a skill.", abilityDefinition.Name, type.FullName ?? "???");
                 }
-                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, characterGuards);
+                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, characterGuards);
             }
             case AdminCommandAttribute adminCommandAttribute:
             {
                 var playerGuards = GuardGenerator.GeneratePlayerGuards(type);
                 var adminGuards = GuardGenerator.GenerateAdminGuards(type);
-                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, playerGuards, adminGuards);
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
+                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, playerGuards, adminGuards);
             }
             case PlayerCommandAttribute playerCommandAttribute:
             {
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
                 var playerGuards = GuardGenerator.GeneratePlayerGuards(type);
-                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, playerGuards);
+                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, playerGuards);
             }
             case ItemCommandAttribute itemCommandAttribute:
-                return new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
+                return new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards);
+            }
             case RoomCommandAttribute roomCommandAttribute:
-                return new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
+                return new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards);
+            }
             case ActorCommandAttribute actorCommandAttribute:
-                return new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var actorGuards = GuardGenerator.GenerateActorGuards(type);
+                return new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards);
+            }
             default:
                 Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
                 return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);

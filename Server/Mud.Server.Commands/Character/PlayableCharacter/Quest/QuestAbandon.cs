@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questabandon", "Quest", Priority = 3), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questabandon", "Quest", Priority = 3), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Abandon which quest ?")]
 [Alias("qabandon")]
 [Syntax("[cmd] <id>")]
 public class QuestAbandon : PlayableCharacterGameAction
@@ -20,8 +20,6 @@ public class QuestAbandon : PlayableCharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return "Abandon which quest?";
         int id = actionInput.Parameters[0].AsNumber;
         What = id > 0 
             ? Actor.ActiveQuests.ElementAtOrDefault(id - 1)!

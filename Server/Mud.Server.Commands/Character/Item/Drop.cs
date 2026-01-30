@@ -2,6 +2,7 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.ActorGuards;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -9,7 +10,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("drop", "Item", "Inventory"), MinPosition(Positions.Resting)]
+[CharacterCommand("drop", "Item", "Inventory"), MinPosition(Positions.Resting), NoArgumentGuard("Drop what ?")]
 [Syntax(
         "[cmd] <item>",
         "[cmd] <amount> coin|coins|silver|gold",
@@ -40,9 +41,6 @@ public class Drop : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Drop what?";
 
         // money?
         if (actionInput.Parameters[0].IsLong && actionInput.Parameters.Length > 1)

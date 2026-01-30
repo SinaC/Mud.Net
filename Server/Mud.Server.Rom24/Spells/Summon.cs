@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Transportation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell summons a character from anywhere else in the world into your room.

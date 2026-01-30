@@ -12,7 +12,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Healing, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Healing, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell refreshes the movement points of a character who is out of movement

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questinfo", "Quest", Priority = 6), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questinfo", "Quest", Priority = 6), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("What quest do you want into about ?")]
 [Alias("qinfo")]
 [Syntax("[cmd]")]
 public class QuestInfo : PlayableCharacterGameAction
@@ -23,9 +23,6 @@ public class QuestInfo : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Info about which quest?";
 
         var id = actionInput.Parameters[0].AsNumber;
         var quest = id > 0

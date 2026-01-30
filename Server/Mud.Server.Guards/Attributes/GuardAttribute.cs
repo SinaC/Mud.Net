@@ -8,6 +8,27 @@ public abstract class GuardAttributeBase : Attribute
 {
 }
 
+// Actor
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+public abstract class ActorGuardAttributeBase : GuardAttributeBase
+{
+}
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+public class NoArgumentGuardAttribute : ActorGuardAttributeBase
+{
+    public string? Message { get; set; } // if set, this message is returned when the guard fails, otherwise BuildCommandSyntax is used
+
+    public NoArgumentGuardAttribute()
+    {
+    }
+
+    public NoArgumentGuardAttribute(string message)
+    {
+        Message = message;
+    }
+}
+
 // Character
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public abstract class CharacterGuardAttributeBase : GuardAttributeBase

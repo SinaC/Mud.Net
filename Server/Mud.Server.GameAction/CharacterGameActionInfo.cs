@@ -8,8 +8,8 @@ public class CharacterGameActionInfo : ActorGameActionInfo, ICharacterGameAction
 {
     public ICharacterGuard[] CharacterGuards { get; }
 
-    public CharacterGameActionInfo(Type commandExecutionType, CharacterCommandAttribute characterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<ICharacterGuard> guards)
-        : base(commandExecutionType, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute)
+    public CharacterGameActionInfo(Type commandExecutionType, CharacterCommandAttribute characterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<IActorGuard> actorGuards, IEnumerable<ICharacterGuard> guards)
+        : base(commandExecutionType, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards)
     {
         CharacterGuards = guards.ToArray();
     }

@@ -6,8 +6,8 @@ namespace Mud.Server.GameAction;
 
 public class PlayableCharacterGameActionInfo : CharacterGameActionInfo, IPlayableCharacterGameActionInfo
 {
-    public PlayableCharacterGameActionInfo(Type commandExecutionType, PlayableCharacterCommandAttribute playableCharacterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<ICharacterGuard> characterGuards)
-        : base(commandExecutionType, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, characterGuards)
+    public PlayableCharacterGameActionInfo(Type commandExecutionType, PlayableCharacterCommandAttribute playableCharacterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<IActorGuard> actorGuards, IEnumerable<ICharacterGuard> characterGuards)
+        : base(commandExecutionType, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, characterGuards)
     {
     }
 }

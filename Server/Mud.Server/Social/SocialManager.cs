@@ -55,7 +55,7 @@ public class SocialManager : ISocialManager
             AddCommandInParameters = false,
         };
 
-        var gai = new CharacterGameActionInfo(typeof(DynamicSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null, [new MinPositionGuard(Positions.Standing)]);
+        var gai = new CharacterGameActionInfo(typeof(DynamicSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null, [], [new MinPositionGuard(Positions.Standing)]);
         return gai;
     }
 }

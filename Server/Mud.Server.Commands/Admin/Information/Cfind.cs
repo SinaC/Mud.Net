@@ -1,12 +1,13 @@
 ﻿using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("cfind", "Information")]
+[AdminCommand("cfind", "Information"), NoArgumentGuard]
 [Alias("mfind")]
 [Syntax("[cmd] <character>")]
 public class Cfind : AdminGameAction
@@ -25,9 +26,6 @@ public class Cfind : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Pattern = actionInput.Parameters[0];
 

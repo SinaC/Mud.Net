@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Ability;
 
-[CharacterCommand("cast", "Ability", Priority = 2), MinPosition(Positions.Sitting)]
+[CharacterCommand("cast", "Ability", Priority = 2), MinPosition(Positions.Sitting), NoArgumentGuard("Cast what ?")]
 [Syntax("[cmd] <ability> <target>")]
 [Help(
 @"Before you can cast a spell, you have to practice it.  The more you practice,
@@ -59,9 +59,6 @@ public class Cast : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Cast what ?";
 
         var (learned, abilityDefinition) = SearchLearnedSpell(actionInput.Parameters[0]);
         if (abilityDefinition == null || learned <= 0)

@@ -8,6 +8,7 @@ using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -15,7 +16,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand("envenom", "Ability", "Skill", "Enchantment")]
+[CharacterCommand("envenom", "Ability", "Skill", "Enchantment"), NoArgumentGuard("Envenom what item ?")]
 [Syntax(
         "[cmd] <weapon>",
         "[cmd] <food>",

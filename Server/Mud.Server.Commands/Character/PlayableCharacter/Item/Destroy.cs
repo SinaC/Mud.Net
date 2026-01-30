@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Destroy what ?")]
 [Syntax("[cmd] <item>")]
 public class Destroy : PlayableCharacterGameAction
 {
@@ -29,9 +29,6 @@ public class Destroy : PlayableCharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Destroy what?";
 
         var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0]);
         if (item == null)

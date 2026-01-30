@@ -8,6 +8,7 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -17,7 +18,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand("lore", "Ability", "Skill", "Information")]
+[CharacterCommand("lore", "Ability", "Skill", "Information"), NoArgumentGuard("Check the lore on what ?")]
 [Syntax("[cmd] <item>")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 36)]
 [Help(

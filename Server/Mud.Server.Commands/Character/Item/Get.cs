@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("get", "Item", "Inventory"), MinPosition(Positions.Resting)]
+[CharacterCommand("get", "Item", "Inventory"), MinPosition(Positions.Resting), NoArgumentGuard("Get what ?")]
 [Alias("take")]
 [Syntax(
     "[cmd] <item>",
@@ -32,9 +32,6 @@ public class Get : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Get what?";
 
         var whatParameter = actionInput.Parameters[0];
         // get item, get all, get all.item

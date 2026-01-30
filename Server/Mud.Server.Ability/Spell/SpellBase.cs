@@ -73,7 +73,7 @@ public abstract class SpellBase : ISpell
         {
             foreach (var guard in AbilityDefinition.Guards)
             {
-                var guardResult = guard.Guards(Caster);
+                var guardResult = guard.Guards(Caster, spellActionInput.Parameters);
                 if (guardResult != null)
                     return guardResult;
             }

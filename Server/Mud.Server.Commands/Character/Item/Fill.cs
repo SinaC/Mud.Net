@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("fill", "Drink"), MinPosition(Positions.Resting)]
+[CharacterCommand("fill", "Drink"), MinPosition(Positions.Resting), NoArgumentGuard("Fill what ?")]
 [Syntax("[cmd] <container>")]
 [Help(@"[cmd] fills a drink container with water.")]
 public class Fill : CharacterGameAction
@@ -22,9 +22,6 @@ public class Fill : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Fill what?";
 
         // search drink container
         var item = FindHelpers.FindByName(Actor.Inventory, actionInput.Parameters[0]);

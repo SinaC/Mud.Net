@@ -1,11 +1,12 @@
 ﻿using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Quest;
 
-[AdminCommand("questreset", "Quest")]
+[AdminCommand("questreset", "Quest"), NoArgumentGuard]
 [Syntax("[cmd] <character>")]
 [Alias("qreset")]
 public class QuestReset : AdminGameAction
@@ -24,9 +25,6 @@ public class QuestReset : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Whom = FindHelpers.FindByName(CharacterManager.PlayableCharacters.Where(x => x.ImpersonatedBy != null), actionInput.Parameters[0])!;
         if (Whom == null)

@@ -1,11 +1,12 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("gossip", "Communication")]
+[PlayerCommand("gossip", "Communication"), NoArgumentGuard("Gossip what ?")]
 [Alias("ooc")]
 [Alias(".")]
 [Syntax("[cmd] <message>")]
@@ -17,7 +18,6 @@ public class Gossip : CommunicationGameActionBase
     {
     }
 
-    protected override string NoParamMessage => "Gossip what ?";
     protected override string ActorSendPattern => "%m%You gossip '%M%{0}%m%'%x%";
     protected override string OtherSendPattern => "%m%{0} gossips '%M%{1}%m%'%x%";
 }

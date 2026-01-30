@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("path", "Information"), MustBeImpersonated]
+[AdminCommand("path", "Information"), MustBeImpersonated, NoArgumentGuard]
 [Syntax("[cmd] <location>")]
 public class Path : AdminGameAction
 {
@@ -34,10 +34,6 @@ public class Path : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Impersonating, actionInput.Parameters[0])!;
         if (Where == null)

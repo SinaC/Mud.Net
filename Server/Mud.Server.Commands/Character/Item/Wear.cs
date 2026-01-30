@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("wear", "Item", "Equipment", Priority = 50), MinPosition(Positions.Resting)]
+[CharacterCommand("wear", "Item", "Equipment", Priority = 50), MinPosition(Positions.Resting), NoArgumentGuard("Wear, wield or hold what ?")]
 [Syntax(
         "[cmd] <item>",
         "[cmd] all")]
@@ -36,9 +36,6 @@ public class Wear : WearCharacterGameActionBase<ICharacter, ICharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Wear, wield, or hold what?";
 
         var whatParameter = actionInput.Parameters[0];
         // wear all, wear all.item

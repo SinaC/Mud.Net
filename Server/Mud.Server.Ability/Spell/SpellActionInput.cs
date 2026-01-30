@@ -14,14 +14,6 @@ public class SpellActionInput : ISpellActionInput
     public CastFromItemOptions CastFromItemOptions { get; } = default!;
     public bool IsCastFromItem => CastFromItemOptions != null;
 
-    public SpellActionInput(IActionInput actionInput, IAbilityDefinition abilityDefinition, ICharacter caster, int level)
-    {
-        Caster = caster;
-        Parameters = actionInput.Parameters.Skip(1).ToArray();
-        AbilityDefinition = abilityDefinition;
-        Level = level;
-    }
-
     public SpellActionInput(IAbilityDefinition abilityDefinition, ICharacter caster, int level, params ICommandParameter[] parameters)
     {
         Caster = caster;

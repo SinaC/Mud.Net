@@ -13,7 +13,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Cure), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Cure), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax(
     "cast [spell] <character>",
     "cast [spell] <object>")]

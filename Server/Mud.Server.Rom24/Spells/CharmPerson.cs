@@ -16,7 +16,7 @@ using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell, if successful, causes the victim to follow you and to take orders

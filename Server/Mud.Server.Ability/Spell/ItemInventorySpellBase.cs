@@ -31,7 +31,7 @@ public abstract class ItemInventorySpellBase : SpellBase, ITargetedAction
         }
 
         if (spellActionInput.Parameters.Length < 1)
-            return "What should it be used upon?";
+            return "What should it be cast upon?";
         Item = FindHelpers.FindByName(Caster.Inventory.Where(Caster.CanSee), spellActionInput.Parameters[0])!; // TODO: equipments ?
         if (Item == null)
             return "You are not carrying that.";

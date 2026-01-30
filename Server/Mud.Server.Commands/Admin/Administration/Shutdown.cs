@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true), MinAdminLevel(AdminLevels.Implementor), CannotBeImpersonated]
+[AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true), MinAdminLevel(AdminLevels.Implementor), CannotBeImpersonated, NoArgumentGuard]
 [Syntax("[cmd] <delay>")]
 [Help(
 @"[cmd] shuts down the server and prevents the normal 'startup' script
@@ -29,8 +29,9 @@ public class Shutdown : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0 || !int.TryParse(actionInput.Parameters[0].Value, out int seconds))
+        if (!actionInput.Parameters[0].IsNumber)
             return BuildCommandSyntax();
+        var seconds = actionInput.Parameters[0].AsNumber;
         if (seconds < 30)
             return "You cannot shutdown that fast.";
 

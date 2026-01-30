@@ -13,7 +13,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("impersonate", "Avatar", Priority = 100), CannotBeImpersonated]
+[PlayerCommand("impersonate", "Avatar", Priority = 100), CannotBeImpersonated, NoArgumentGuard("Impersonate whom ?")]
 [Syntax(
     "[cmd]",
     "[cmd] <avatar name>")]
@@ -41,9 +41,6 @@ public class Impersonate : PlayerGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Impersonate whom?";
 
         Whom = Actor.AvatarMetaDatas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
         if (Whom == null)

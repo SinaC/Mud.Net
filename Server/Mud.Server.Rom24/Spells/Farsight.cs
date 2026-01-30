@@ -17,7 +17,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.None, PulseWaitTime = 36), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.None, PulseWaitTime = 36), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [Syntax(
     "cast [spell]",
     "cast [spell] <direction>")]

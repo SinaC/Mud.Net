@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("goto", "Admin"), MustBeImpersonated]
+[AdminCommand("goto", "Admin"), MustBeImpersonated, NoArgumentGuard]
 [Syntax("[cmd] <location>")]
 [Help(
 @"[cmd] takes you to a location.  The location may be specified as the name
@@ -40,9 +40,6 @@ public class Goto : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Impersonating, actionInput.Parameters[0])!;
         if (Where == null)

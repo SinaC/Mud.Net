@@ -25,7 +25,7 @@ public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionIn
         {
             foreach (var guard in GameActionInfo.CharacterGuards)
             {
-                var guardResult = guard.Guards(Actor);
+                var guardResult = guard.Guards(Actor, actionInput, this);
                 if (guardResult != null)
                     return guardResult;
             }

@@ -9,8 +9,8 @@ public class SkillGameActionInfo : CharacterGameActionInfo, ISkillGameActionInfo
 {
     public IAbilityDefinition AbilityDefinition { get; }
 
-    public SkillGameActionInfo(Type commandExecutionType, CharacterCommandAttribute characterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IAbilityDefinition abilityDefinition, IEnumerable<ICharacterGuard> guards)
-        : base(commandExecutionType, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, guards)
+    public SkillGameActionInfo(Type commandExecutionType, CharacterCommandAttribute characterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IAbilityDefinition abilityDefinition, IEnumerable<IActorGuard> actorGuards, IEnumerable<ICharacterGuard> characterGuards)
+        : base(commandExecutionType, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, characterGuards)
     {
         AbilityDefinition = abilityDefinition;
     }

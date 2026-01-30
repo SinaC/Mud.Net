@@ -2,6 +2,7 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("istat", "Information")]
+[AdminCommand("istat", "Information"), NoArgumentGuard]
 [Alias("ostat")]
 [Syntax("[cmd] <item>")]
 public class Istat : AdminGameAction
@@ -31,9 +32,6 @@ public class Istat : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         What = Impersonating == null
             ? FindHelpers.FindByName(ItemManager.Items, actionInput.Parameters[0])!

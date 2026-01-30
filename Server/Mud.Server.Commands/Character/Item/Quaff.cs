@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("quaff", "Drink"), MinPosition(Positions.Resting)]
+[CharacterCommand("quaff", "Drink"), MinPosition(Positions.Resting), NoArgumentGuard("Quaff what ?")]
 [Syntax("[cmd] <potion>")]
 [Help(@"[cmd] quaffs a magical potion (as opposed to DRINK, which drinks mundane liquids)")]
 public class Quaff : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
@@ -31,9 +31,6 @@ public class Quaff : CastSpellCharacterGameActionBase<ICharacter, ICharacterGame
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return "Quaff what?";
 
         var item = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0]);
         if (item == null)

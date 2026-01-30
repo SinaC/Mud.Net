@@ -1,7 +1,5 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Ability;
-using Mud.Server.Commands.Character.Movement;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -11,12 +9,11 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("examine", "Information", Priority = 20/*must be greater than 'Exits' priority */), MinPosition(Positions.Resting)]
+[CharacterCommand("examine", "Information", Priority = 20/*must be greater than 'Exits' priority */), MinPosition(Positions.Resting), NoArgumentGuard("Examine what or whom ?")]
 [Syntax(
     "[cmd] <character>",
     "[cmd] <item>",
@@ -39,9 +36,6 @@ public class Examine : CharacterGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-           return "Examine what or whom?";
 
         // Search character
         Target = FindHelpers.FindByName(Actor.Room.People, actionInput.Parameters[0])!;

@@ -29,7 +29,7 @@ public class Spells : AbilitiesCharacterGameActionBase<ICharacter, ICharacterGam
     protected override string Title => "Spells";
 
     public Spells(IOptions<WorldOptions> worldOptions)
-    : base(worldOptions)
+        : base(worldOptions)
     {
     }
 }

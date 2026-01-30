@@ -15,7 +15,6 @@ public abstract class CommunicationGameActionBase : PlayerGameAction
         PlayerManager = playerManager;
     }
 
-    protected abstract string NoParamMessage { get; }
     protected abstract string ActorSendPattern { get; }
     protected abstract string OtherSendPattern { get; }
 
@@ -26,9 +25,6 @@ public abstract class CommunicationGameActionBase : PlayerGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return NoParamMessage;
 
         What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;

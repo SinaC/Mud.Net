@@ -1,14 +1,15 @@
-﻿using Mud.Common;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Blueprints.Quest;
+using Mud.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("cinfo", "Information")]
+[AdminCommand("cinfo", "Information"), NoArgumentGuard]
 [Alias("minfo")]
 [Syntax("[cmd] <id>")]
 public class Cinfo : AdminGameAction
@@ -27,9 +28,6 @@ public class Cinfo : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         if (!actionInput.Parameters[0].IsNumber)
             return BuildCommandSyntax();

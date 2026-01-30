@@ -3,6 +3,7 @@ using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,7 +12,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
-[PlayableCharacterCommand("value", "Shop")]
+[PlayableCharacterCommand("value", "Shop"), NoArgumentGuard("Value what ?")]
 [Syntax("[cmd] <item>")]
 [Help(@"[cmd] asks the shop keeper how much he, she, or it will buy the item for.")]
 public class Value : ShopPlayableCharacterGameActionBase
@@ -32,9 +33,6 @@ public class Value : ShopPlayableCharacterGameActionBase
 
         if (ShopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
             return "You cannot sell anything here.";
-
-        if (actionInput.Parameters.Length == 0)
-            return "Value what?";
 
         What = FindHelpers.FindByName(Actor.Inventory.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (What == null)

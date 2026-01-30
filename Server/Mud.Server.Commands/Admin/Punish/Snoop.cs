@@ -3,13 +3,14 @@ using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Admin.Punish;
 
-[AdminCommand("snoop", "Punish")]
+[AdminCommand("snoop", "Punish"), NoArgumentGuard]
 [Syntax("[cmd] <player name>")]
 [Help(
 @"[cmd] shows you a copy of all the input and output going to a character.
@@ -34,9 +35,6 @@ public class Snoop : AdminGameAction
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
 
         Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0])!;
         if (Whom == null)

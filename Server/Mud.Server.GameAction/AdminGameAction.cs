@@ -13,7 +13,7 @@ public abstract class AdminGameAction : PlayerGameActionBase<IAdmin, IAdminGameA
         {
             foreach (var guard in adminGuards)
             {
-                var guardResult = guard.Guards(admin);
+                var guardResult = guard.Guards(admin, actionInput, this);
                 if (guardResult != null)
                     return guardResult;
             }

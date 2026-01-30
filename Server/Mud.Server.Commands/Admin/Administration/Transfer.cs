@@ -1,6 +1,7 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("transfer", "Admin")]
+[AdminCommand("transfer", "Admin"), NoArgumentGuard]
 [Alias("teleport")]
 [Syntax(
         "[cmd] <character> (if impersonated)",
@@ -39,8 +40,6 @@ public class Transfer : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
-            return BuildCommandSyntax();
         if (Actor.Impersonating == null && actionInput.Parameters.Length == 1)
             return "Transfer without specifying location can only be used when impersonating.";
 

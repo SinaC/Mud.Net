@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Random;
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
 [AbilityCharacterWearOffMessage("Your force shield shimmers then fades away.")]
 [AbilityDispellable("The shield protecting {0:n} vanishes.")]
 [Syntax("cast [spell]")]
