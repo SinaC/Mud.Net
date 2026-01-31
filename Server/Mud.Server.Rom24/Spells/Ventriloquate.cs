@@ -1,20 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.None), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.None)]
 [Syntax("cast [spell] <speaker> <message>")]
 [Help(
 @"This spell throws your voice, making it appear that some other object or
@@ -26,6 +27,8 @@ your message.")]
 public class Ventriloquate : SpellBase
 {
     private const string SpellName = "Ventriloquate";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private ICommandParser CommandParser { get; }
 

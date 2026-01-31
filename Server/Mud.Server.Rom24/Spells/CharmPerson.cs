@@ -1,22 +1,22 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell, if successful, causes the victim to follow you and to take orders
@@ -28,6 +28,8 @@ people who attack your followers will be penalized as if they attacked you.")]
 public class CharmPerson : OffensiveSpellBase
 {
     private const string SpellName = "Charm Person";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IAuraManager AuraManager { get; }
 

@@ -5,15 +5,15 @@ using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Transportation)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell summons a character from anywhere else in the world into your room.
@@ -22,6 +22,8 @@ Characters who are fighting may not be summoned.")]
 public class Summon : TransportationSpellBase
 {
     private const string SpellName = "Summon";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public Summon(ILogger<Summon> logger, IRandomManager randomManager, ICharacterManager characterManager)
         : base(logger, randomManager, characterManager)

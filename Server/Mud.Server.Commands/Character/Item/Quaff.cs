@@ -3,19 +3,22 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("quaff", "Drink"), MinPosition(Positions.Resting), NoArgumentGuard("Quaff what ?")]
+[CharacterCommand("quaff", "Drink")]
 [Syntax("[cmd] <potion>")]
 [Help(@"[cmd] quaffs a magical potion (as opposed to DRINK, which drinks mundane liquids)")]
 public class Quaff : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Quaff what ?" }];
+
     private IItemManager ItemManager { get; }
 
     public Quaff(ILogger<Quaff> logger, ICommandParser commandParser, IAbilityManager abilityManager, IItemManager itemManager)
@@ -24,11 +27,11 @@ public class Quaff : CastSpellCharacterGameActionBase<ICharacter, ICharacterGame
         ItemManager = itemManager;
     }
 
-    protected IItemPotion Potion { get; set; } = default!;
+    private IItemPotion Potion { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

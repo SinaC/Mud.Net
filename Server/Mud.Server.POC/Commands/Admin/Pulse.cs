@@ -1,13 +1,15 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.POC.Commands.Admin
 {
-    [AdminCommand("Pulse", "Admin"), MinAdminLevel(AdminLevels.Implementor)]
+    [AdminCommand("Pulse", "Admin")]
     [Syntax(
         "[cmd]",
         "[cmd] <pulse>")]
@@ -15,17 +17,19 @@ namespace Mud.Server.POC.Commands.Admin
     {
         private IPulseManager PulseManager { get; }
 
+        protected override IGuard<IAdmin>[] Guards => [new RequiresMinAdminLevel(AdminLevels.Implementor)];
+
         public Pulse(IPulseManager pulseManager)
         {
             PulseManager = pulseManager;
         }
 
-        protected bool DisplayAll { get; set; }
-        protected string PulseName { get; set; } = default!;
+        private bool DisplayAll { get; set; }
+        private string PulseName { get; set; } = default!;
 
-        public override string? Guards(IActionInput actionInput)
+        public override string? CanExecute(IActionInput actionInput)
         {
-            var baseGuards = base.Guards(actionInput);
+            var baseGuards = base.CanExecute(actionInput);
             if (baseGuards != null)
                 return baseGuards;
 

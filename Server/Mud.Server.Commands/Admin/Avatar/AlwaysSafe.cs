@@ -1,9 +1,8 @@
 ﻿using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("alwayssafe", "Avatar", "Immortal"), MustBeImpersonated]
+[AdminCommand("alwayssafe", "Avatar", "Immortal")]
 [Syntax("[cmd]")]
 public class AlwaysSafe : ImmortalBase
 {

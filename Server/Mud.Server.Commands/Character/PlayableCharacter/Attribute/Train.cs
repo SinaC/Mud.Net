@@ -4,15 +4,16 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Race;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Attribute;
 
-[PlayableCharacterCommand("train", "Attribute"), MinPosition(Positions.Resting)]
+[PlayableCharacterCommand("train", "Attribute")]
 [Syntax(
         "[cmd]",
         "[cmd] <attribute>",
@@ -33,6 +34,8 @@ In the long run, your character will be most powerful if you train
 WIS and CON both to 18 before practising or training anything else.")]
 public class Train : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Resting)];
+
     private enum Actions
     {
         Display,
@@ -48,9 +51,9 @@ public class Train : PlayableCharacterGameAction
     private ResourceKinds? ResourceKind { get; set; }
     private int Cost { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

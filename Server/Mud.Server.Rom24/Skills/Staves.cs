@@ -9,6 +9,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -26,6 +27,8 @@ the use of staves and similar devices")]
 public class Staves : ItemCastSpellSkillBase<IItemStaff>
 {
     private const string SkillName = "Staves";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Staves(ILogger<Staves> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
         : base(logger, randomManager, abilityManager, itemManager)

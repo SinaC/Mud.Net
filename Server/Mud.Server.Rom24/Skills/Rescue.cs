@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -6,7 +7,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -24,6 +25,8 @@ the target. (note: you rescue a friend, not the monster)")]
 public class Rescue : OffensiveSkillBase
 {
     private const string SkillName = "Rescue";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Rescue(ILogger<Rescue> logger, IRandomManager randomManager)
         : base(logger, randomManager)

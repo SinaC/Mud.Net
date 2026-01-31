@@ -1,16 +1,17 @@
-﻿using Mud.Domain;
-using Mud.Flags;
+﻿using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Admin.Punish;
 
-[AdminCommand("snoop", "Punish"), NoArgumentGuard]
+[AdminCommand("snoop", "Punish")]
 [Syntax("[cmd] <player name>")]
 [Help(
 @"[cmd] shows you a copy of all the input and output going to a character.
@@ -19,6 +20,8 @@ character at a time. Try to respect privacy.
 Snoop yourself to cancel all outstanding snoops.")]
 public class Snoop : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private IPlayerManager PlayerManager { get; }
     private IWiznet Wiznet { get; }
 
@@ -28,11 +31,11 @@ public class Snoop : AdminGameAction
         Wiznet = wiznet;
     }
 
-    protected IPlayer Whom { get; set; } = default!;
+    private IPlayer Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -1,20 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation), MinPosition(Positions.Sitting)]
+[Spell(SpellName, AbilityEffects.Transportation)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell duplicates the built-in RECALL ability.  It is provided solely for
@@ -24,6 +25,9 @@ providing the spell.")]
 public class WordOfRecall : SpellBase
 {
     private const string SpellName = "Word of Recall";
+
+    protected override ISpellGuard[] Guards => [new RequiresMinPosition(Positions.Sitting)];
+
 
     public WordOfRecall(ILogger<WordOfRecall> logger, IRandomManager randomManager)
         : base(logger, randomManager)

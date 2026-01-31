@@ -1,5 +1,7 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Admin.Information;
@@ -7,6 +9,8 @@ namespace Mud.Server.Commands.Admin.Information;
 [AdminCommand("dumpcommands")]
 public class DumpCommands : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IGameActionManager GameActionManager { get; }
 
     public DumpCommands(IGameActionManager gameActionManager)

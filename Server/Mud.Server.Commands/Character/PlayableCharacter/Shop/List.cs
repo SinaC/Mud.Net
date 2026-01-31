@@ -1,11 +1,15 @@
 ﻿using Mud.Blueprints.Character;
 using Mud.Common;
+using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
@@ -19,14 +23,16 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 List <name> shows you only objects of that name.")]
 public class List : ShopPlayableCharacterGameActionBase
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Resting)];
+
     public List(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager)
         : base(timeManager, abilityManager, randomManager)
     {
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

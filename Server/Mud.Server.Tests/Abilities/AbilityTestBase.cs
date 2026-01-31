@@ -5,9 +5,7 @@ using Mud.Server.Ability;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
-using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Tests.Mocking;
 using System.Reflection;
 
@@ -34,25 +32,25 @@ public abstract class AbilityTestBase : TestBase
         switch (commandAttribute)
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null, [], []);
+                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case CharacterCommandAttribute characterCommandAttribute:
-                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, [], []);
+                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case AdminCommandAttribute adminCommandAttribute:
-                gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null, [], [], []);
+                gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case PlayerCommandAttribute playerCommandAttribute:
-                gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null, [], []);
+                gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case ItemCommandAttribute itemCommandAttribute:
-                gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null, []);
+                gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case RoomCommandAttribute roomCommandAttribute:
-                gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null, []);
+                gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case ActorCommandAttribute actorCommandAttribute:
-                gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null, []);
+                gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             default:
                 gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, null);
@@ -67,7 +65,7 @@ public abstract class AbilityTestBase : TestBase
     {
         var mock = new Mock<IAbilityLearned>();
         mock.SetupGet(x => x.Name).Returns(name);
-        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, new AbilityDefinition(typeof(Rom24AcidBlast), Array.Empty<ICharacterGuard>())));
+        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, new AbilityDefinition(typeof(Rom24AcidBlast))));
         mock.Setup(x => x.HasCost).Returns(true);
         return mock.Object;
     }

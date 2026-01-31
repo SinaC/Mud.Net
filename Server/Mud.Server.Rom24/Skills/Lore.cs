@@ -8,17 +8,18 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using System.Text;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand("lore", "Ability", "Skill", "Information"), NoArgumentGuard("Check the lore on what ?")]
+[CharacterCommand("lore", "Ability", "Skill", "Information")]
 [Syntax("[cmd] <item>")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 36)]
 [Help(
@@ -32,6 +33,8 @@ to use.")]
 public class Lore : ItemInventorySkillBase
 {
     private const string SkillName = "Lore";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresAtLeastOneArgument { Message = "Check the lore on what ?" }];
 
     private ITableValues TableValues { get; }
     private IWiznet Wiznet { get; }

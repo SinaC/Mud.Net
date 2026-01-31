@@ -2,13 +2,15 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("compare", "Information"), MinPosition(Positions.Resting), NoArgumentGuard("Compare what to what ?")]
+[CharacterCommand("compare", "Information")]
 [Alias("cmp")]
 [Syntax(
     "[cmd] <object-1> <object-2>",
@@ -24,12 +26,14 @@ you are currently wearing or wielding of the same type.
 [cmd] doesn't consider any special modifiers of the objects.")]
 public class Compare : CharacterGameAction
 {
-    protected IItem Item1 { get; set; } = default!;
-    protected IItem Item2 { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Compare what to what ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItem Item1 { get; set; } = default!;
+    private IItem Item2 { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Account;
 
@@ -14,9 +16,11 @@ return your character to 'safe' status if you change your mind after the
 first delete.")]
 public class Delete : AdminGameAction
 {
-    public override string? Guards(IActionInput actionInput)
+    protected override IGuard<IAdmin>[] Guards => [];
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

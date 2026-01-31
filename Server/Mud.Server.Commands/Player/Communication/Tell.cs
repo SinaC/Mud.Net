@@ -1,7 +1,9 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
@@ -11,6 +13,8 @@ namespace Mud.Server.Commands.Player.Communication;
 [Help(@"[cmd] sends a message to one player anywhere in the world.")]
 public class Tell : TellGameActionBase
 {
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastTwoArguments { Message = "Tell whom what ?" }];
+
     private ICommandParser CommandParser { get; }
     private IPlayerManager PlayerManager { get; }
 
@@ -20,17 +24,14 @@ public class Tell : TellGameActionBase
         PlayerManager = playerManager;
     }
 
-    protected IPlayer Whom { get; set; } = default!;
-    protected string What { get; set; } = default!;
+    private IPlayer Whom { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length < 2)
-            return "Tell whom what ?";
 
         Whom = PlayerManager.GetPlayer(actionInput.Parameters[0], true)!;
         if (Whom == null)

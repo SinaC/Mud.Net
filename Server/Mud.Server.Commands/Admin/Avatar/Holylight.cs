@@ -1,9 +1,8 @@
 ﻿using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("holylight", "Avatar", "Immortal"), MustBeImpersonated]
+[AdminCommand("holylight", "Avatar", "Immortal")]
 [Syntax("[cmd]")]
 public class Holylight : ImmortalBase
 {

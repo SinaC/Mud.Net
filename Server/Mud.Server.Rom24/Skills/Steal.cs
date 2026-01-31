@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Commands.Character.Communication;
@@ -10,18 +11,18 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Options;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand(SkillName, "Item"), NotInCombat]
+[CharacterCommand(SkillName, "Item")]
 [Syntax("[cmd] <item|coin> <victim>")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
 [Help(
@@ -33,6 +34,8 @@ if you are caught (making you free game for killing).")]
 public class Steal : SkillBase
 {
     private const string SkillName = "Steal";
+
+    protected override IGuard<ICharacter>[] Guards => [new CannotBeInCombat()];
 
     private IGameActionManager GameActionManager { get; }
     private int MaxLevel { get; }

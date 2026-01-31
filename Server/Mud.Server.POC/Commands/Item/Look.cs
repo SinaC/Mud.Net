@@ -3,6 +3,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Mud.Server.POC.Commands.Item;
 [ItemCommand("look", "POC")]
 public class Look : ItemGameActionBase<IItem, IItemGameActionInfo>
 {
+    protected override IGuard<IItem>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         //TODO: better 'UI'

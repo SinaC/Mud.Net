@@ -1,18 +1,21 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("say", "Communication"), MinPosition(Positions.Resting), NoArgumentGuard("Say what ?")]
+[CharacterCommand("say", "Communication")]
 [Alias("'")]
 [Syntax("[cmd] <message>")]
 [Help(@"[cmd] sends a message to all awake players/mobs in your room (In Character channel).")]
 public class Say : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Say what ?" }];
+
     private ICommandParser CommandParser { get; }
 
     public Say(ICommandParser commandParser)
@@ -20,11 +23,11 @@ public class Say : CharacterGameAction
         CommandParser = commandParser;
     }
 
-    protected string What { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -1,5 +1,7 @@
 ﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using Mud.Server.TableGenerator;
 using System.Text;
 
@@ -8,6 +10,8 @@ namespace Mud.Server.POC.Commands.Player;
 [PlayerCommand("test", "POC")]
 public class Test : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         TableGenerator<Tuple<string, string, int>> generator = new ();

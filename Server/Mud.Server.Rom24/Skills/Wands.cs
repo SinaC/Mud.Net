@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -8,8 +9,8 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -28,6 +29,8 @@ the use of wands and similar items ")]
 public class Wands : ItemCastSpellSkillBase<IItemWand>
 {
     private const string SkillName = "Wands";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Wands(ILogger<Wands> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
         : base(logger, randomManager, abilityManager, itemManager)

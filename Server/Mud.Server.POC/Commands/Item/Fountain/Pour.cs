@@ -1,6 +1,7 @@
 ﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
@@ -9,6 +10,8 @@ namespace Mud.Server.POC.Commands.Item.Fountain;
 [ItemCommand("pour", "POC")]
 public class Pour : ItemGameActionBase<IItemFountain, IItemGameActionInfo>
 {
+    protected override IGuard<IItemFountain>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         var container = Actor.EquippedBy ?? Actor.ContainedInto;

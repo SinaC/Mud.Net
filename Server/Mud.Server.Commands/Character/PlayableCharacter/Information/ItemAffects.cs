@@ -2,7 +2,9 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Affect.Character;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
@@ -18,6 +20,8 @@ displayed, at higher levels the effects and duration of the spell will
 also be shown.")]
 public class ItemAffects : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         // TODO: various information depending on level

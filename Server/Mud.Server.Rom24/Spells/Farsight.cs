@@ -1,23 +1,23 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.None, PulseWaitTime = 36), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.None, PulseWaitTime = 36)]
 [Syntax(
     "cast [spell]",
     "cast [spell] <direction>")]
@@ -33,9 +33,7 @@ public class Farsight : NoTargetSpellBase
 {
     private const string SpellName = "Farsight";
 
-    // {0} is the victim
-    // {1} is the direction
-    private static readonly string[] DistanceFormat = ["{0} right here.", "{0} nearby to the {1}.", "{0} not far {1}.", "{0} off in the distance {1}."];
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public Farsight(ILogger<Farsight> logger, IRandomManager randomManager)
         : base(logger, randomManager)
@@ -115,4 +113,9 @@ public class Farsight : NoTargetSpellBase
         foreach (var victim in room.People.Where(Caster.CanSee))
             sb.AppendFormatLine(DistanceFormat[distance], victim.RelativeDisplayName(Caster), direction);
     }
+    
+    // {0} is the victim
+    // {1} is the direction
+    private static readonly string[] DistanceFormat = ["{0} right here.", "{0} nearby to the {1}.", "{0} not far {1}.", "{0} off in the distance {1}."];
+
 }

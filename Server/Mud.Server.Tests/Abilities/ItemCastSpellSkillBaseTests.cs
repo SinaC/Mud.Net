@@ -2,17 +2,18 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 using Mud.Server.Tests.Mocking;
-using Mud.Flags;
 
 namespace Mud.Server.Tests.Abilities;
 
@@ -30,7 +31,7 @@ public class ItemCastSpellSkillBaseTests : AbilityTestBase
         Mock<IItemManager> itemManagerMock = new();
         ItemCastSpellSkillBaseTestsSkill skill = new(new Mock<ILogger<ItemCastSpellSkillBaseTestsSkill>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object, "Acid Blast", 50);
 
-        abilityManagerMock.Setup(x => x.Get("Acid Blast", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Rom24AcidBlast), []));
+        abilityManagerMock.Setup(x => x.Get("Acid Blast", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Rom24AcidBlast)));
         abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Rom24AcidBlast(new Mock<ILogger<Rom24AcidBlast>>().Object, randomManagerMock.Object));
 
         Mock<IRoom> roomMock = new();
@@ -46,7 +47,7 @@ public class ItemCastSpellSkillBaseTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
 
         var actionInput = BuildActionInput<ItemCastSpellSkillBaseTestsSkill>(userMock.Object, "whatever target");
-        SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
         var result = skill.Setup(skillActionInput);
 
         skill.Execute();
@@ -59,6 +60,8 @@ public class ItemCastSpellSkillBaseTests : AbilityTestBase
     [Skill(SkillName, AbilityEffects.None)]
     public class ItemCastSpellSkillBaseTestsSkill : ItemCastSpellSkillBase<IItemScroll>
     {
+        protected override IGuard<ICharacter>[] Guards => [];
+
         protected string SpellName { get; }
         protected int SpellLevel { get; }
 

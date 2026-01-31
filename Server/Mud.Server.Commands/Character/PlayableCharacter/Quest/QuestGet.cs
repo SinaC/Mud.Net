@@ -1,16 +1,17 @@
-﻿using Mud.Common;
-using Mud.Domain;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Blueprints.Quest;
+using Mud.Common;
+using Mud.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questget", "Quest", Priority = 4), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Get which quest ?")]
+[PlayableCharacterCommand("questget", "Quest", Priority = 4)]
 [Alias("qget")]
 [Syntax(
         "[cmd] <quest name>",
@@ -18,6 +19,8 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
         "[cmd] all.<quest name>")]
 public class QuestGet : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "Get which quest ?" }];
+
     private IQuestManager QuestManager { get; }
 
     public QuestGet(IQuestManager questManager)
@@ -25,11 +28,11 @@ public class QuestGet : PlayableCharacterGameAction
         QuestManager = questManager;
     }
 
-    protected List<(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)> What { get; set; } = default!;
+    private List<(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)> What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

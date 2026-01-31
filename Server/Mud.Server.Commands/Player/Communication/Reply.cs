@@ -1,12 +1,14 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("reply", "Communication"), NoArgumentGuard("Reply what ?")]
+[PlayerCommand("reply", "Communication")]
 [Syntax("[cmd] <message>")]
 [Help(
 @"[cmd] sends a message to the last player who sent you a TELL.  [cmd] will work
@@ -14,6 +16,8 @@ even if you can't see the player, and without revealing their identity.  This
 is handy for talking to invisible or switched immortal players.")]
 public class Reply : TellGameActionBase
 {
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastOneArgument { Message = "Reply what ?" }];
+
     private ICommandParser CommandParser { get; }
 
     public Reply(ICommandParser commandParser)
@@ -21,11 +25,11 @@ public class Reply : TellGameActionBase
         CommandParser = commandParser;
     }
 
-    protected string What { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -2,6 +2,7 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 using System.Text;
 
@@ -18,6 +19,8 @@ Syntax: who immortals
 */
 public class Who : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IPlayerManager PlayerManager { get; }
     private IAdminManager AdminManager { get; }
 

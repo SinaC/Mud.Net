@@ -2,18 +2,22 @@
 using Mud.Blueprints.Quest;
 using Mud.Common;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("cinfo", "Information"), NoArgumentGuard]
+[AdminCommand("cinfo", "Information")]
 [Alias("minfo")]
 [Syntax("[cmd] <id>")]
 public class Cinfo : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private ICharacterManager CharacterManager { get; }
 
     public Cinfo(ICharacterManager characterManager)
@@ -21,11 +25,11 @@ public class Cinfo : AdminGameAction
         CharacterManager = characterManager;
     }
 
-    protected CharacterBlueprintBase Blueprint { get; set; } = default!;
+    private CharacterBlueprintBase Blueprint { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

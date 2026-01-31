@@ -11,23 +11,13 @@ public abstract class PlayerGameActionBase<TPlayer, TPlayerGameActionInfo> : Gam
 {
     public IPlayableCharacter Impersonating { get; private set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
         Impersonating = Actor.Impersonating!;
-
-        if (GameActionInfo.PlayerGuards.Length > 0)
-        {
-            foreach (var guard in GameActionInfo.PlayerGuards)
-            {
-                var guardResult = guard.Guards(Actor, actionInput, this);
-                if (guardResult != null)
-                    return guardResult;
-            }
-        }
 
         if (Actor.IsAfk && GameActionInfo.Name.ToLowerInvariant() != "afk")
             Actor.ToggleAfk();

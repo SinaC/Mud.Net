@@ -1,12 +1,13 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("question", "Communication"), NoArgumentGuard("Ask what ?")]
+[PlayerCommand("question", "Communication")]
 [Alias("ask")]
 [Syntax("[cmd] <message>")]
 [Help(
@@ -14,6 +15,8 @@ namespace Mud.Server.Commands.Player.Communication;
 helper. You can turn it off by simply typing [cmd].")]
 public class Question : CommunicationGameActionBase
 {
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastOneArgument { Message = "Ask what ?" }];
+
     public Question(ICommandParser commandParser, IPlayerManager playerManager)
        : base(commandParser, playerManager)
     {

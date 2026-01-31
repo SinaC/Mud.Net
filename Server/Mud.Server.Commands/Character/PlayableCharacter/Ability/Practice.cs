@@ -3,16 +3,17 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 
-[PlayableCharacterCommand("practice", "Ability"), MinPosition(Positions.Sleeping)]
+[PlayableCharacterCommand("practice", "Ability")]
 [Syntax(
         "[cmd]",
         "[cmd] <ability>")]
@@ -30,6 +31,8 @@ have each time you gain a level.  Unused sessions are saved until you
 do use them.")]
 public class Practice : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Sleeping)];
+
     private ITableValues TableValues { get; }
 
     public Practice(ITableValues tableValues)
@@ -37,12 +40,12 @@ public class Practice : PlayableCharacterGameAction
         TableValues = tableValues;
     }
 
-    protected bool Display { get; set; }
-    protected IAbilityLearned AbilityLearned { get; set; } = default!;
+    private bool Display { get; set; }
+    private IAbilityLearned AbilityLearned { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

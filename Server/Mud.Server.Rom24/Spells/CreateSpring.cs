@@ -6,17 +6,17 @@ using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Creation)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell brings forth a magical spring from the ground, which has the
@@ -25,6 +25,8 @@ same properties as a fountain.")]
 public class CreateSpring : ItemCreationSpellBase
 {
     private const string SpellName = "Create Spring";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private int SpringBlueprintId { get; }
 

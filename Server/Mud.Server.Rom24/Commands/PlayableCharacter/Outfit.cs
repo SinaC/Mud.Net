@@ -3,22 +3,25 @@ using Mud.Domain;
 using Mud.Server.Commands.Character.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Commands.PlayableCharacter;
 
-[PlayableCharacterCommand("outfit", "Equipment", "Newbie"), MinPosition(Positions.Resting), NotInCombat]
+[PlayableCharacterCommand("outfit", "Equipment", "Newbie")]
 [Help(
 @"The [cmd] command, usable by levels 5 and below, equips your character with
 a new set of sub issue gear (banner, weapon, helmet, shield, and vest), 
 courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.")]
 public class Outfit : WearCharacterGameActionBase<IPlayableCharacter, IPlayableCharacterGameActionInfo>
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new CannotBeInCombat(), new RequiresMinPosition(Positions.Resting)];
+
     private IItemManager ItemManager { get; }
     private IAbilityManager AbilityManager { get; }
     private Rom24Options Options { get; }
@@ -31,9 +34,9 @@ public class Outfit : WearCharacterGameActionBase<IPlayableCharacter, IPlayableC
         Options = options.Value;
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

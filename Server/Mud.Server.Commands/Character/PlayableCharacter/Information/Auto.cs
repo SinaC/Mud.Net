@@ -2,8 +2,10 @@
 using Mud.Flags.Interfaces;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
@@ -33,6 +35,8 @@ loot      : take all equipment from dead mobiles
 affect    : display your affects when looking your score")]
 public class Auto : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
     private IGameActionManager GameActionManager { get; }
     private IFlagsManager FlagsManager { get; }
 
@@ -42,13 +46,13 @@ public class Auto : PlayableCharacterGameAction
         FlagsManager = flagsManager;
     }
 
-    protected enum Actions
+    private enum Actions
     {
         Display,
         SubCommand
     }
 
-    protected (string Flag, Type? GameActionType)[] ActionTable { get; } =
+    private (string Flag, Type? GameActionType)[] ActionTable { get; } =
 [
         ("Assist", typeof(AutoAssist)),
         ("Exit", typeof(AutoExit)),
@@ -59,13 +63,13 @@ public class Auto : PlayableCharacterGameAction
         ("Affect", typeof(AutoAffect)),
     ];
 
-    protected Actions Action { get; set; }
-    protected string? What { get; set; }
-    protected Type? GameActionType { get; set; }
+    private Actions Action { get; set; }
+    private string? What { get; set; }
+    private Type? GameActionType { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

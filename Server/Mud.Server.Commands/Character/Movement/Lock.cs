@@ -4,22 +4,25 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("lock", "Movement"), MinPosition(Positions.Resting), NoArgumentGuard("Lock what ?")]
+[CharacterCommand("lock", "Movement")]
 [Syntax(
         "[cmd] <container|portal>",
         "[cmd] <direction|door>")]
 [Help(@"[cmd] lock a closed object or door. You must have the requisite key to [cmd].")]
 public class Lock : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Lock what ?" }];
+
     private ILogger<Lock> Logger { get; }
 
     public Lock(ILogger<Lock> logger)
@@ -27,12 +30,12 @@ public class Lock : CharacterGameAction
         Logger = logger;
     }
 
-    protected ICloseable What { get; set; } = default!;
-    protected ExitDirections ExitDirection { get; set; } = default!;
+    private ICloseable What { get; set; } = default!;
+    private ExitDirections ExitDirection { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
@@ -100,7 +103,7 @@ public class Lock : CharacterGameAction
             if (otherSideExit != null)
                 otherSideExit.Lock();
             else
-                Logger.LogWarning("Non bidirectional exit in room {bluePrintId} direction {exitDirection}", Actor.Room.Blueprint.Id, ExitDirection);
+                Logger.LogWarning("Non-bidirectional exit in room {bluePrintId} direction {exitDirection}", Actor.Room.Blueprint.Id, ExitDirection);
         }
     }
 

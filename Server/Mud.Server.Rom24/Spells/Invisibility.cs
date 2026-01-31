@@ -1,23 +1,22 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Buff)]
 [AbilityCharacterWearOffMessage("You are no longer invisible.")]
 [AbilityItemWearOffMessage("{0} fades into view.")]
 [AbilityDispellable("{0:N} fades into existence.")]
@@ -32,6 +31,8 @@ to render the object invisible.")]
 public class Invisibility : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Invisibility";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IAuraManager AuraManager { get; }
 

@@ -3,8 +3,10 @@ using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
@@ -23,6 +25,8 @@ a field on and off.  The events should be self-explanatory, if they are not,
 fiddle with them a while.  More events are available at higher levels.")]
 public class Wiznet : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IFlagsManager FlagsManager { get; }
 
     public Wiznet(IFlagsManager flagsManager)
@@ -30,12 +34,12 @@ public class Wiznet : AdminGameAction
         FlagsManager = flagsManager;
     }
 
-    protected bool Display { get; set; }
-    protected string? FlagToToggle { get; set; }
+    private bool Display { get; set; }
+    private string? FlagToToggle { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

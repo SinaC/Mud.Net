@@ -2,16 +2,18 @@
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.TableGenerator;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("info", "Information"), NoArgumentGuard]
+[AdminCommand("info", "Information")]
 [Syntax(
     "[cmd] race",
     "[cmd] npcrace",
@@ -21,6 +23,8 @@ namespace Mud.Server.Commands.Admin.Information;
     "[cmd] <class>")]
 public class Info : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private IClassManager ClassManager { get; }
     private IRaceManager RaceManager { get; }
 
@@ -30,16 +34,16 @@ public class Info : AdminGameAction
         RaceManager = raceManager;
     }
 
-    protected bool DisplayClasses { get; set; }
-    protected bool DisplayRaces { get; set; }
-    protected bool DisplayNpcRaces { get; set; }
-    protected IClass Class { get; set; } = default!;
-    protected IPlayableRace Race { get; set; } = default!;
-    protected IRace NpcRace { get; set; } = default!;
+    private bool DisplayClasses { get; set; }
+    private bool DisplayRaces { get; set; }
+    private bool DisplayNpcRaces { get; set; }
+    private IClass Class { get; set; } = default!;
+    private IPlayableRace Race { get; set; } = default!;
+    private IRace NpcRace { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

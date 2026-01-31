@@ -1,5 +1,6 @@
 ﻿using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.GameAction;
@@ -13,9 +14,11 @@ public abstract class GameActionBase<TActor, TGameActionInfo> : IGameAction
 
     public TActor Actor { get; private set; } = default!;
 
+    protected abstract IGuard<TActor>[] Guards { get; }
+
     public abstract void Execute(IActionInput actionInput);
 
-    public virtual string? Guards(IActionInput actionInput)
+    public virtual string? CanExecute(IActionInput actionInput)
     {
         var gameActionInfo = actionInput.GameActionInfo as TGameActionInfo;
         GameActionInfo = gameActionInfo!;
@@ -26,13 +29,11 @@ public abstract class GameActionBase<TActor, TGameActionInfo> : IGameAction
         Actor = actor!;
         if (Actor == null)
             return $"This command must be executed by {typeof(TActor).Name}";
-
-        var actorGuards = (actionInput.GameActionInfo as ActorGameActionInfo)?.ActorGuards;
-        if (actorGuards != null && actorGuards.Length > 0)
+        if (Actor is TActor typedActor)
         {
-            foreach (var guard in actorGuards)
+            foreach (var guard in Guards)
             {
-                var guardResult = guard.Guards(actionInput.Actor, actionInput, this);
+                var guardResult = guard.Guards(typedActor, actionInput, this);
                 if (guardResult != null)
                     return guardResult;
             }

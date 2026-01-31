@@ -2,9 +2,12 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Punish;
 
@@ -20,6 +23,8 @@ This is typically used for 'force all save'.")]
 // TODO: check if force mob murder player is possible (should not be)
 public class Force : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastTwoArguments()];
+
     private ICommandParser CommandParser { get; }
     private ICharacterManager CharacterManager { get; }
     private IWiznet Wiznet { get; }
@@ -31,17 +36,14 @@ public class Force : AdminGameAction
         Wiznet = wiznet;
     }
 
-    protected ICharacter Whom { get; set; } = default!;
-    protected string What { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length < 2)
-            return BuildCommandSyntax();
 
         if (actionInput.Parameters[1].Value == "delete" || actionInput.Parameters[1].Value == "deleteavatar")
             return "That will NOT be done.";

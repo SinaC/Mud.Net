@@ -1,28 +1,30 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("rest", "Movement"), MinPosition(Positions.Sleeping)]
+[CharacterCommand("rest", "Movement")]
 [Syntax(
         "[cmd]",
         "[cmd] <furniture>")]
 public class Rest : CharacterGameAction
 {
-    protected IItemFurniture What { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Sleeping), new CannotBeInCombat { Message = "Maybe you should finish fighting first?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItemFurniture What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        if (Actor.Fighting != null)
-            return "Maybe you should finish fighting first?";
         if (Actor.Position == Positions.Resting)
             return "You are already resting.";
         if (Actor.Position == Positions.Sleeping && Actor.CharacterFlags.IsSet("Sleep"))

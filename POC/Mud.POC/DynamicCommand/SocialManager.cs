@@ -1,6 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.GameAction;
-using Mud.Server.Guards.CharacterGuards;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.DynamicCommand
@@ -33,7 +31,7 @@ namespace Mud.POC.DynamicCommand
                 AddCommandInParameters = true, // the generic social command will extract the command and parameters
             };
 
-            var gai = new CharacterGameActionInfo(typeof(GenericSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null, [], [new MinPositionGuard(Positions.Standing)]);
+            var gai = new CharacterGameActionInfo(typeof(GenericSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null);
             return gai;
         }
 

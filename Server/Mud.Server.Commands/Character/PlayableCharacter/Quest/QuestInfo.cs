@@ -3,24 +3,28 @@ using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Quest.Objectives;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questinfo", "Quest", Priority = 6), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("What quest do you want into about ?")]
+[PlayableCharacterCommand("questinfo", "Quest", Priority = 6)]
 [Alias("qinfo")]
 [Syntax("[cmd]")]
 public class QuestInfo : PlayableCharacterGameAction
 {
-    protected IQuest What { get; set; } = default!;
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "What quest do you want info about ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IQuest What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -26,9 +26,9 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
     protected INonPlayableCharacter? ShopKeeper { get; set; }
     protected CharacterShopBlueprintBase? ShopBlueprintBase { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

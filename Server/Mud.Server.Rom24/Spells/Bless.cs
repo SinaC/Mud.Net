@@ -7,18 +7,18 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Dispel), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Dispel)]
 [AbilityCharacterWearOffMessage("You feel less righteous.")]
 [AbilityItemWearOffMessage("{0}'s holy aura fades.")]
 [Syntax(
@@ -33,6 +33,8 @@ are more effective against demonic beings).")]
 public class Bless : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Bless";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IAuraManager AuraManager { get; }
     private IEffectManager EffectManager { get; }

@@ -1,16 +1,18 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("transfer", "Admin"), NoArgumentGuard]
+[AdminCommand("transfer", "Admin")]
 [Alias("teleport")]
 [Syntax(
         "[cmd] <character> (if impersonated)",
@@ -20,6 +22,8 @@ namespace Mud.Server.Commands.Admin.Administration;
 or to a specified location.")]
 public class Transfer : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
     private IItemManager ItemManager { get; }
@@ -31,12 +35,12 @@ public class Transfer : AdminGameAction
         ItemManager = itemManager;
     }
 
-    protected IRoom Where { get; set; } = default!;
-    protected ICharacter Whom { get; set; } = default!;
+    private IRoom Where { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

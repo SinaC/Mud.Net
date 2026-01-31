@@ -2,8 +2,11 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Admin.Punish;
@@ -13,6 +16,8 @@ namespace Mud.Server.Commands.Admin.Punish;
 [Help(@"This command add lag to a player. Be careful when using this command!")]
 public class AddLag : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastTwoArguments()];
+
     private IPlayerManager PlayerManager { get; }
     private IWiznet Wiznet { get; }
 
@@ -22,19 +27,16 @@ public class AddLag : AdminGameAction
         Wiznet = wiznet;
     }
 
-    protected IPlayer Whom { get; set; } = default!;
-    protected int Modifier { get; set; }
+    private IPlayer Whom { get; set; } = default!;
+    private int Modifier { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length < 2)
-            return BuildCommandSyntax();
-
-        if (!actionInput.Parameters[0].IsNumber)
+        if (!actionInput.Parameters[1].IsNumber)
             return BuildCommandSyntax();
 
         Modifier = actionInput.Parameters[1].AsNumber;

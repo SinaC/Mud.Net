@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.HealingArea, PulseWaitTime = 36), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.HealingArea, PulseWaitTime = 36)]
 [Syntax("cast [spell]")]
 [Help(
 @"The mass healing spell, as its name might suggest, performs a healing spell
@@ -22,6 +22,8 @@ measure.")]
 public class MassHealing : NoTargetSpellBase
 {
     private const string SpellName = "Mass Healing";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IEffectManager EffectManager { get; }
 

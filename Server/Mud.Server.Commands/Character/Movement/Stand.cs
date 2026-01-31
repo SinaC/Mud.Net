@@ -1,24 +1,27 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using System.Text;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("stand", "Movement"), MinPosition(Positions.Sleeping)]
+[CharacterCommand("stand", "Movement")]
 [Syntax(
     "[cmd]",
     "[cmd] <furniture>")]
 public class Stand : CharacterGameAction
 {
-    protected IItemFurniture What { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Sleeping)];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItemFurniture What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

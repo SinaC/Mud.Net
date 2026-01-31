@@ -6,16 +6,17 @@ using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
-[PlayableCharacterCommand("buy", "Shop"), MinPosition(Positions.Resting), NoArgumentGuard]
+[PlayableCharacterCommand("buy", "Shop")]
 [Syntax(
     "[cmd] [number] <item>",
     "[cmd] pet [name]")]
@@ -28,6 +29,8 @@ an item, use an * (buy 5*pie will buy 5 pies).  These can be combined into
 (for example) buy 2*2.shield, as long as the * is first.")]
 public class Buy : ShopPlayableCharacterGameActionBase
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Buy what ?" }];
+
     private ILogger<Buy> Logger { get; }
     private IItemManager ItemManager { get; }
     private ICharacterManager CharacterManager { get; }
@@ -48,9 +51,9 @@ public class Buy : ShopPlayableCharacterGameActionBase
     protected string? PetName { get; set; }
     protected long TotalCost { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

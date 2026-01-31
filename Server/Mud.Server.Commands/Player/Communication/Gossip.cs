@@ -1,18 +1,21 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("gossip", "Communication"), NoArgumentGuard("Gossip what ?")]
+[PlayerCommand("gossip", "Communication")]
 [Alias("ooc")]
 [Alias(".")]
 [Syntax("[cmd] <message>")]
 [Help(@"[cmd] sends a message to all players in the world (Out Of Character channel).")]
 public class Gossip : CommunicationGameActionBase
 {
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastOneArgument { Message = "Gossip what ?" }];
+
     public Gossip(ICommandParser commandParser, IPlayerManager playerManager)
         : base(commandParser, playerManager)
     {

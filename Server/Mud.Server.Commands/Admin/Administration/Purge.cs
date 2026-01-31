@@ -2,17 +2,19 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated, NoArgumentGuard]
+[AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true)]
 [Syntax(
     "[cmd] all",
     "[cmd] <character>",
@@ -27,6 +29,8 @@ set (i.e. the pit, the fountain, shopkeepers, Hassan).  Mobiles may be
 purged if they are called directly by name.")]
 public class Purge : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new MustBeImpersonated(), new RequiresAtLeastOneArgument()];
+
     private ICharacterManager CharacterManager { get; }
     private IItemManager ItemManager { get; }
     private IWiznet Wiznet { get; }
@@ -38,11 +42,11 @@ public class Purge : AdminGameAction
         Wiznet = wiznet;
     }
 
-    protected IEntity Target { get; set; } = default!;
+    private IEntity Target { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

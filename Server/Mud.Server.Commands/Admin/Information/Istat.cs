@@ -2,20 +2,24 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("istat", "Information"), NoArgumentGuard]
+[AdminCommand("istat", "Information")]
 [Alias("ostat")]
 [Syntax("[cmd] <item>")]
 public class Istat : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private IItemManager ItemManager { get; }
     private ITableValues TableValues { get; }
 
@@ -25,11 +29,11 @@ public class Istat : AdminGameAction
         TableValues = tableValues;
     }
 
-    protected IItem What { get; set; } = default!;
+    private IItem What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

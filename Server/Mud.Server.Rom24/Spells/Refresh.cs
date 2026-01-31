@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Healing, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Healing, PulseWaitTime = 18)]
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell refreshes the movement points of a character who is out of movement
@@ -21,6 +21,8 @@ points.")]
 public class Refresh : DefensiveSpellBase
 {
     private const string SpellName = "Refresh";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IEffectManager EffectManager { get; }
 

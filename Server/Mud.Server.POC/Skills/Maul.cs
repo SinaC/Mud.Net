@@ -6,20 +6,24 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.POC.Affects;
 
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("maul", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Bear])]
+[Skill(SkillName, AbilityEffects.Damage)]
 [Help(
 @"Increases the druid's next attack by 128 damage.")]
 //https://www.wowhead.com/classic/spell=9881/maul
 public class Maul : OffensiveSkillBase
 {
     private const string SkillName = "Maul";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresShapesGuard([Shapes.Bear])];
 
     private IAuraManager AuraManager { get; }
 

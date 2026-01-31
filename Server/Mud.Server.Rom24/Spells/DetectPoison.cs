@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Detection)]
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell detects the presence of poison in food or drink.")]
@@ -19,6 +19,8 @@ namespace Mud.Server.Rom24.Spells;
 public class DetectPoison : ItemInventorySpellBase<IItemPoisonable>
 {
     private const string SpellName = "Detect Poison";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public DetectPoison(ILogger<DetectPoison> logger, IRandomManager randomManager)
         : base(logger, randomManager)

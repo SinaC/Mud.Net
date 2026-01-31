@@ -3,15 +3,17 @@ using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Quest.Objectives;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("quest", "Quest", Priority = 1), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("quest", "Quest", Priority = 1)]
 [Syntax(
         "[cmd]",
         "[cmd] <id>",
@@ -26,6 +28,8 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
         "[cmd] history")]
 public class Quest : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
+
     private ICommandParser CommandParser { get; }
     private IGameActionManager GameActionManager { get; }
 
@@ -35,14 +39,14 @@ public class Quest : PlayableCharacterGameAction
         GameActionManager = gameActionManager;
     }
 
-    protected enum Actions
+    private enum Actions
     {
         DisplayAll,
         Display,
         SubCommand
     }
 
-    protected (string? parameter, Type? GameActionType)[] ActionTable { get; } =
+    private (string? parameter, Type? GameActionType)[] ActionTable { get; } =
     [
         ("auto", typeof(QuestAuto)),
         ("abandon", typeof(QuestAbandon)),
@@ -53,14 +57,14 @@ public class Quest : PlayableCharacterGameAction
         ("history", typeof(QuestHistory)),
     ];
 
-    protected Actions Action { get; set; }
-    protected Type? GameActionType { get; set; }
-    protected IQuest? What { get; set; }
-    protected string? CommandLine { get; set; }
+    private Actions Action { get; set; }
+    private Type? GameActionType { get; set; }
+    private IQuest? What { get; set; }
+    private string? CommandLine { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

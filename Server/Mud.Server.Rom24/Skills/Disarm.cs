@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -7,8 +8,8 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -22,6 +23,8 @@ are skilled both your own and your opponent's weapon.")]
 public class Disarm : FightingSkillBase
 {
     private const string SkillName = "Disarm";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Disarm(ILogger<Disarm> logger, IRandomManager randomManager)
         : base(logger, randomManager)

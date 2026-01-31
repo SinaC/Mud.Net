@@ -6,17 +6,17 @@ using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Creation)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell creates a Magic Mushroom, which you or anyone else can eat.")]
@@ -24,6 +24,8 @@ namespace Mud.Server.Rom24.Spells;
 public class CreateFood : ItemCreationSpellBase
 {
     private const string SpellName = "Create Food";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private int MushroomBlueprintId { get; }
 

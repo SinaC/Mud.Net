@@ -4,17 +4,18 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.TableGenerator;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 
-[PlayableCharacterCommand("gain", "Ability"), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("gain", "Ability")]
 [Syntax(
         "[cmd] list",
         "[cmd] skills|spells|groups",
@@ -38,6 +39,8 @@ Gained skills and spells do NOT increase your experience per level or total
 number of creation points.")]
 public class Gain : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
+
     private IAbilityManager AbilityManager { get; }
     private IAbilityGroupManager AbilityGroupManager { get; }
 
@@ -47,7 +50,7 @@ public class Gain : PlayableCharacterGameAction
         AbilityGroupManager = abilityGroupManager;
     }
 
-    protected enum Actions
+    private enum Actions
     {
         DisplayAll,
         DisplayGroups,
@@ -59,14 +62,14 @@ public class Gain : PlayableCharacterGameAction
         GainAbility
     }
 
-    protected INonPlayableCharacter Trainer { get; set; } = default!;
-    protected IAbilityUsage AbilityUsage { get; set; } = default!;
-    protected IAbilityGroupUsage AbilityGroupUsage { get; set; } = default!;
-    protected Actions Action { get; set; }
+    private INonPlayableCharacter Trainer { get; set; } = default!;
+    private IAbilityUsage AbilityUsage { get; set; } = default!;
+    private IAbilityGroupUsage AbilityGroupUsage { get; set; } = default!;
+    private Actions Action { get; set; }
     
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

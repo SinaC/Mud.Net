@@ -1,22 +1,26 @@
 ﻿using Mud.Blueprints.Character;
 using Mud.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questabandon", "Quest", Priority = 3), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Abandon which quest ?")]
+[PlayableCharacterCommand("questabandon", "Quest", Priority = 3)]
 [Alias("qabandon")]
 [Syntax("[cmd] <id>")]
 public class QuestAbandon : PlayableCharacterGameAction
 {
-    protected IQuest What { get; set; } = default!;
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "Abandan which quest ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IQuest What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

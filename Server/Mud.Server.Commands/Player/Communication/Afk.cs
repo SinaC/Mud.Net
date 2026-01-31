@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
@@ -13,6 +15,8 @@ but don't want to miss tells. [cmd] shows up in your prompt until it is
 turned off.")]
 public class Afk : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         Actor.ToggleAfk();

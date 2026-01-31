@@ -6,12 +6,13 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Mud.Server.Commands.Character.Information;
 // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
 // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
 // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-[CharacterCommand("look", "Information", Priority = 0), MinPosition(Positions.Resting)]
+[CharacterCommand("look", "Information", Priority = 0)]
 [Alias("read")]
 [Syntax(
     "[cmd]",
@@ -38,6 +39,8 @@ namespace Mud.Server.Commands.Character.Information;
 [Help(@"[cmd] looks at something and sees what you can see.")]
 public class Look : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting)];
+
     private ILogger<Look> Logger { get; }
     private IAbilityManager AbilityManager { get; }
     private ITableValues TableValues { get; }
@@ -51,18 +54,18 @@ public class Look : CharacterGameAction
         Wiznet = wiznet;
     }
 
-    protected bool IsRoomDark { get; set; }
-    protected bool DisplayRoom { get; set; }
-    protected IItemDrinkContainer DrinkContainer { get; set; } = default!;
-    protected IContainer ItemContainer { get; set; } = default!;
-    protected ICharacter Victim { get; set; } = default!;
-    protected string ItemDescription { get; set; } = default!;
-    protected string RoomExtraDescription { get; set; } = default!;
-    protected ExitDirections? Direction { get; set; } = default!;
+    private bool IsRoomDark { get; set; }
+    private bool DisplayRoom { get; set; }
+    private IItemDrinkContainer DrinkContainer { get; set; } = default!;
+    private IContainer ItemContainer { get; set; } = default!;
+    private ICharacter Victim { get; set; } = default!;
+    private string ItemDescription { get; set; } = default!;
+    private string RoomExtraDescription { get; set; } = default!;
+    private ExitDirections? Direction { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

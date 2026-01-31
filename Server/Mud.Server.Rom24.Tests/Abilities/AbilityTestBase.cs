@@ -3,12 +3,10 @@ using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Rom24.Spells;
 using System.Reflection;
 
@@ -18,14 +16,12 @@ namespace Mud.Server.Rom24.Tests.Abilities;
 public abstract class AbilityTestBase
 {
     protected IServiceProvider _serviceProvider = default!;
-    protected Mock<IGuardGenerator> _guardGeneratorMock = default!;
 
     [TestInitialize]
     public void TestInitialize()
     {
         var serviceProviderMock = new Mock<IServiceProvider>();
         _serviceProvider = serviceProviderMock.Object;
-        _guardGeneratorMock = new Mock<IGuardGenerator>();
 
         RegisterAdditionalDependencies(serviceProviderMock);
     }
@@ -48,61 +44,48 @@ public abstract class AbilityTestBase
         SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
         IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
 
-        var guardGenerator = _guardGeneratorMock.Object;
         IGameActionInfo gameActionInfo;
         switch (commandAttribute)
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    var characterGuards = guardGenerator.GenerateCharacterGuards(type);
-                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, characterGuards);
+                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             case CharacterCommandAttribute characterCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    var characterGuards = guardGenerator.GenerateCharacterGuards(type);
                     if (type.IsAssignableTo(typeof(ISkill)))
                     {
-                        var skillDefinition = new AbilityDefinition(type, characterGuards);
-                        gameActionInfo = new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, skillDefinition, actorGuards, characterGuards);
+                        var skillDefinition = new AbilityDefinition(type);
+                        gameActionInfo = new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, skillDefinition);
                     }
                     else
-                        gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, characterGuards);
+                        gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             case AdminCommandAttribute adminCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    var playerGuards = guardGenerator.GeneratePlayerGuards(type);
-                    var adminGuards = guardGenerator.GenerateAdminGuards(type);
-                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, playerGuards, adminGuards);
+                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             case PlayerCommandAttribute playerCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    var playerGuards = guardGenerator.GeneratePlayerGuards(type);
-                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards, playerGuards);
+                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             case ItemCommandAttribute itemCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards);
+                    gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             case RoomCommandAttribute roomCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards);
+                    gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             case ActorCommandAttribute actorCommandAttribute:
                 {
-                    var actorGuards = guardGenerator.GenerateActorGuards(type);
-                    gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null, actorGuards);
+                    gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 }
             default:

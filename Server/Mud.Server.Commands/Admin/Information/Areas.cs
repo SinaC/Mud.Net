@@ -1,7 +1,9 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Admin.Information;
@@ -10,6 +12,8 @@ namespace Mud.Server.Commands.Admin.Information;
 [Help(@"[cmd] shows you a list of areas in the game.")]
 public class Areas : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IAreaManager AreaManager { get; }
 
     public Areas(IAreaManager areaManager)

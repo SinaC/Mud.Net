@@ -1,12 +1,14 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Combat;
 
-[PlayableCharacterCommand("wimpy", "Combat"), MinPosition(Positions.Standing)]
+[PlayableCharacterCommand("wimpy", "Combat")]
 [Syntax(
     "[cmd]",
     "[cmd] <number>")]
@@ -22,11 +24,13 @@ tripped or bash by an enemy.
 Some monsters are wimpy.")]
 public class Wimpy : PlayableCharacterGameAction
 {
-    protected int Number { get; set; }
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing)];
 
-    public override string? Guards(IActionInput actionInput)
+    private int Number { get; set; }
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

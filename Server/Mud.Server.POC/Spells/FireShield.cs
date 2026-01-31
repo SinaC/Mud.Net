@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.POC.Affects;
-using Mud.Random;
 
 namespace Mud.Server.POC.Spells;
 
@@ -18,6 +18,7 @@ namespace Mud.Server.POC.Spells;
 public class FireShield : CharacterBuffSpellBase
 {
     private const string SpellName = "Fire Shield";
+
 
     public FireShield(ILogger<FireShield> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)

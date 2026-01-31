@@ -2,17 +2,21 @@
 using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Destroy what ?")]
+[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true)]
 [Syntax("[cmd] <item>")]
 public class Destroy : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "Destroy what ?"}];
+
     private ILogger<Destroy> Logger { get; }
     private IItemManager ItemManager { get; }
 
@@ -22,11 +26,11 @@ public class Destroy : PlayableCharacterGameAction
         ItemManager = itemManager;
     }
 
-    protected IItem What { get; set; } = default!;
+    private IItem What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

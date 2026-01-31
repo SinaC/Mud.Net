@@ -1,17 +1,21 @@
 ﻿using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("cfind", "Information"), NoArgumentGuard]
+[AdminCommand("cfind", "Information")]
 [Alias("mfind")]
 [Syntax("[cmd] <character>")]
 public class Cfind : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private ICharacterManager CharacterManager { get; }
 
     public Cfind(ICharacterManager characterManager)
@@ -19,11 +23,11 @@ public class Cfind : AdminGameAction
         CharacterManager = characterManager;
     }
 
-    protected ICommandParameter Pattern { get; set; } = default!;
+    private ICommandParameter Pattern { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

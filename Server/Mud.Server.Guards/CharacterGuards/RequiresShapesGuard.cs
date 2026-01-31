@@ -5,19 +5,13 @@ using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Guards.CharacterGuards;
 
-public class ShapesGuard(Shapes[] shapes) : ICharacterGuard
+public class RequiresShapesGuard(Shapes[] shapes) : IGuard<ICharacter>
 {
     public Shapes[] Shapes { get; } = shapes;
 
-    public string? Guards(ICharacter actor, IActionInput actionInput, IGameAction gameAction)
-       => Guards(actor);
-
-    public string? Guards(ICharacter actor, ICommandParameter[] commandParameters)
-        => Guards(actor);
-
-    private string? Guards(ICharacter actor)
+    public string? Guards(ICharacter character, IActionInput actionInput, IGameAction gameAction)
     {
-        if (!Shapes.Contains(actor.Shape))
+        if (!Shapes.Contains(character.Shape))
         {
             if (Shapes.Length > 1)
                 return $"You are not in {string.Join(" or ", Shapes.Select(x => x.ToString()))} shape";

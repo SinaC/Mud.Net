@@ -1,22 +1,22 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Buff)]
 [AbilityCharacterWearOffMessage("You feel less protected.")]
 [AbilityDispellable]
 [Syntax("cast [spell] <target>")]
@@ -29,6 +29,8 @@ time.")]
 public class ProtectionEvil : CharacterBuffSpellBase
 {
     private const string SpellName = "Protection Evil";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public ProtectionEvil(ILogger<ProtectionEvil> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)

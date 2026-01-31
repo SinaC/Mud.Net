@@ -4,6 +4,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Options;
 using Mud.Server.TableGenerator;
 
@@ -13,6 +14,8 @@ public abstract class AbilitiesCharacterGameActionBase<TCharacter, TCharacterGam
     where TCharacter : class, ICharacter
     where TCharacterGameActionInfo : class, ICharacterGameActionInfo
 {
+    protected override IGuard<TCharacter>[] Guards => [];
+
     private int MaxLevel { get; }
 
     protected AbilitiesCharacterGameActionBase(IOptions<WorldOptions> worldOptions)
@@ -26,9 +29,9 @@ public abstract class AbilitiesCharacterGameActionBase<TCharacter, TCharacterGam
     protected abstract Func<AbilityTypes, bool> AbilityTypeFilterFunc { get; }
     protected abstract string Title { get; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

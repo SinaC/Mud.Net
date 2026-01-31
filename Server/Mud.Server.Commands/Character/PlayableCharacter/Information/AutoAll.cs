@@ -2,8 +2,10 @@
 using Mud.Flags.Interfaces;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 
@@ -13,6 +15,8 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 @"Active every 'auto'")]
 public class AutoAll : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
     private IFlagsManager FlagsManager { get; }
 
     public AutoAll(IFlagsManager flagsManager)

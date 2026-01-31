@@ -2,18 +2,22 @@
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("visible", "Movement"), MinPosition(Positions.Sleeping)]
+[CharacterCommand("visible", "Movement")]
 [Syntax("[cmd]")]
 [Help(
 @"[cmd] cancels your hiding and sneaking, as well as any invisibility,
 making you visible again.")]
 public class Visible : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Sleeping)];
+
     public override void Execute(IActionInput actionInput)
     {
         Actor.RemoveBaseCharacterFlags(true, "Invisible", "Sneak", "Hide");

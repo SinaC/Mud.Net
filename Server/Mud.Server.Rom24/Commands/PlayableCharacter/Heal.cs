@@ -1,14 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
-using Mud.Server.Common.Helpers;
 
 namespace Mud.Server.Rom24.Commands.PlayableCharacter;
 
@@ -21,6 +22,8 @@ a full listing of the healer's services, type 'heal' at his residence. To
 receive healing, bring plenty of money, and type '[cmd] <spell>'.")]
 public class Heal : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
     private ILogger<Heal> Logger { get; }
     private IRandomManager RandomManager { get; }
 
@@ -44,13 +47,13 @@ public class Heal : PlayableCharacterGameAction
         ("mana", "restore mana", null, 10),
     ];
 
-    protected INonPlayableCharacter Healer { get; set; } = default!;
-    protected (string Keyword, string Description, string? SpellName, int Cost) SelectedHealSpellInfo { get; set; } = default!;
-    protected long TotalCost { get; set; }
+    private INonPlayableCharacter Healer { get; set; } = default!;
+    private (string Keyword, string Description, string? SpellName, int Cost) SelectedHealSpellInfo { get; set; } = default!;
+    private long TotalCost { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

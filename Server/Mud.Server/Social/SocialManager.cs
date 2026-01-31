@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Domain;
 using Mud.Repository.Interfaces;
 using Mud.Server.Commands.Character.Social;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Social;
 
@@ -55,7 +53,7 @@ public class SocialManager : ISocialManager
             AddCommandInParameters = false,
         };
 
-        var gai = new CharacterGameActionInfo(typeof(DynamicSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null, [], [new MinPositionGuard(Positions.Standing)]);
+        var gai = new CharacterGameActionInfo(typeof(DynamicSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null);
         return gai;
     }
 }

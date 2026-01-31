@@ -2,15 +2,16 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("wear", "Item", "Equipment", Priority = 50), MinPosition(Positions.Resting), NoArgumentGuard("Wear, wield or hold what ?")]
+[CharacterCommand("wear", "Item", "Equipment", Priority = 50)]
 [Syntax(
         "[cmd] <item>",
         "[cmd] all")]
@@ -23,17 +24,19 @@ inventory.
 in your inventory with the same name")]
 public class Wear : WearCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Wear, wield or hold what ?" }];
+
     public Wear(IWiznet wiznet)
         : base(wiznet)
     {
     }
 
-    protected IItem[] What { get; set; } = default!;
-    protected bool Replace { get; set; }
+    private IItem[] What { get; set; } = default!;
+    private bool Replace { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

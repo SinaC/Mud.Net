@@ -2,23 +2,27 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("enter", "Movement"), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Nope, can't do it")]
+[CharacterCommand("enter", "Movement")]
 [Syntax("[cmd] <portal>")]
 [Help(
 @"This command will allow you to step into (walk through) a portal.")]
 public class Enter : CharacterGameAction
 {
-    protected IItemPortal What { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "Nope, can't do it." }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItemPortal What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

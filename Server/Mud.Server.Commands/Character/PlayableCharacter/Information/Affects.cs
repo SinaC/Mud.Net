@@ -3,6 +3,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
@@ -17,6 +18,8 @@ Spell effects are no longer shown on score(this can be changed by using
 'auto affect' command)")]
 public class Affects : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         // TODO: various information depending on level
