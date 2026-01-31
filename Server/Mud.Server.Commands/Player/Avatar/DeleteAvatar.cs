@@ -1,16 +1,20 @@
 ﻿using Mud.Common;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("deleteavatar", "Avatar", Priority = 1000, NoShortcut = true), CannotBeImpersonated, NoArgumentGuard]
+[PlayerCommand("deleteavatar", "Avatar", Priority = 1000, NoShortcut = true)]
 [Syntax("[cmd] <avatar name>")]
 public class DeleteAvatar : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new CannotBeImpersonated(), new RequiresAtLeastOneArgument()];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
 
     public DeleteAvatar(IServerPlayerCommand serverPlayerCommand)
@@ -20,9 +24,9 @@ public class DeleteAvatar : PlayerGameAction
 
     protected string AvatarName { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

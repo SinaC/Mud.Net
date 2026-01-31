@@ -2,20 +2,24 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated, NoArgumentGuard]
+[AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true)]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] kills a character in cold blood, no saving throw.  Best not to use this
 command on players if you enjoy being a god.")]
 public class Slay : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new MustBeImpersonated(), new RequiresAtLeastOneArgument()];
+
     private IWiznet Wiznet { get; }
 
     public Slay(IWiznet wiznet)
@@ -23,11 +27,11 @@ public class Slay : AdminGameAction
         Wiznet = wiznet;
     }
 
-    protected ICharacter Whom { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

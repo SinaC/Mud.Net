@@ -1,16 +1,20 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 
 [PlayableCharacterCommand("pray", "Communication")]
 [Syntax("[cmd] <msg>")]
-[Help(@"This commands allows players to send a message to admins."), NoArgumentGuard("Pray what ?")]
+[Help(@"This commands allows players to send a message to admins.")]
 public class Pray : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresAtLeastOneArgument { Message = "Pay what ?" }];
+
     private ICommandParser CommandParser { get; }
     private IAdminManager AdminManager { get; }
 
@@ -20,11 +24,11 @@ public class Pray : PlayableCharacterGameAction
         AdminManager = adminManager;
     }
  
-    protected string What { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -2,8 +2,10 @@
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.TableGenerator;
 
@@ -11,6 +13,8 @@ namespace Mud.Server.Commands.Admin.Information;
 
 public abstract class AbilitiesAdminGameActionBase : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IAbilityManager AbilityManager { get; }
     protected IClassManager ClassManager { get; }
     protected IRaceManager RaceManager { get; }
@@ -27,9 +31,9 @@ public abstract class AbilitiesAdminGameActionBase : AdminGameAction
 
     protected abstract AbilityTypes? AbilityTypesFilter { get; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

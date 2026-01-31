@@ -1,23 +1,27 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
-using Mud.Random;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("claw", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Cat])]
+[Skill(SkillName, AbilityEffects.Damage)]
 [Help(
 @"Claw the enemy, causing 115 additional damage.  Awards 1 combo point.")]
 //https://www.wowhead.com/classic/spell=9850/claw
 public class Claw : OffensiveSkillBase
 {
     private const string SkillName = "Claw";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresShapesGuard([Shapes.Cat])];
 
     public Claw(ILogger<Claw> logger, IRandomManager randomManager)
         : base(logger, randomManager)

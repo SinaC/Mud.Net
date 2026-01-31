@@ -7,6 +7,7 @@ using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -52,6 +53,7 @@ public abstract class SpellBase : ISpell
 
     #endregion
 
+    protected virtual ISpellGuard[] Guards { get; } = []; // no guard by default
     protected abstract string? SetTargets(ISpellActionInput spellActionInput);
     protected abstract void Invoke();
 
@@ -69,11 +71,11 @@ public abstract class SpellBase : ISpell
         Level = spellActionInput.Level;
 
         // 2) check guards
-        if (AbilityDefinition.Guards.Length > 0)
+        if (Guards != null && Guards.Length > 0)
         {
-            foreach (var guard in AbilityDefinition.Guards)
+            foreach (var guard in Guards)
             {
-                var guardResult = guard.Guards(Caster, spellActionInput.Parameters);
+                var guardResult = guard.Guards(Caster, spellActionInput);
                 if (guardResult != null)
                     return guardResult;
             }

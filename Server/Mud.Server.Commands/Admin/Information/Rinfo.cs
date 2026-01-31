@@ -2,7 +2,9 @@
 using Mud.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
@@ -12,6 +14,8 @@ namespace Mud.Server.Commands.Admin.Information;
 [Syntax("[cmd] <id>")]
 public class Rinfo : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IRoomManager RoomManager { get; }
 
     public Rinfo(IRoomManager roomManager)
@@ -19,11 +23,11 @@ public class Rinfo : AdminGameAction
         RoomManager = roomManager;
     }
 
-    protected RoomBlueprint Blueprint { get; set; } = default!;
+    private RoomBlueprint Blueprint { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

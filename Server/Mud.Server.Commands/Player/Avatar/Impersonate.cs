@@ -4,21 +4,25 @@ using Mud.Domain;
 using Mud.Domain.SerializationData.Account;
 using Mud.Flags;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("impersonate", "Avatar", Priority = 100), CannotBeImpersonated, NoArgumentGuard("Impersonate whom ?")]
+[PlayerCommand("impersonate", "Avatar", Priority = 100)]
 [Syntax(
     "[cmd]",
     "[cmd] <avatar name>")]
 public class Impersonate : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new CannotBeImpersonated(), new RequiresAtLeastOneArgument { Message = "Impersonate whom ?"}];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
@@ -34,11 +38,11 @@ public class Impersonate : PlayerGameAction
         DefaultRoomId = worldOptions.Value.BlueprintIds.DefaultRoom;
     }
 
-    protected AvatarMetaData Whom { get; set; } = default!;
+    private AvatarMetaData Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

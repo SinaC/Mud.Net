@@ -3,14 +3,15 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("pour", "Drink"), MinPosition(Positions.Resting)]
+[CharacterCommand("pour", "Drink")]
 [Syntax(
         "[cmd] <container> out",
         "[cmd] <container> <container>",
@@ -20,18 +21,17 @@ namespace Mud.Server.Commands.Character.Item;
 You can also pour from an object into something a character is holding.")]
 public class Pour : CharacterGameAction
 {
-    protected IItemDrinkContainer SourceContainer { get; set; } = default!;
-    protected ICharacter TargetCharacter { get; set; } = default!;
-    protected IItemDrinkContainer TargetContainer { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastTwoArguments { Message = "Pour what into what ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItemDrinkContainer SourceContainer { get; set; } = default!;
+    private ICharacter TargetCharacter { get; set; } = default!;
+    private IItemDrinkContainer TargetContainer { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length < 2)
-            return "Pour what into what?";
 
         // search source container
         var item = FindHelpers.FindByName(Actor.Inventory, actionInput.Parameters[0]);

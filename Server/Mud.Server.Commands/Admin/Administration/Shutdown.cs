@@ -1,19 +1,23 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true), MinAdminLevel(AdminLevels.Implementor), CannotBeImpersonated, NoArgumentGuard]
+[AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true)]
 [Syntax("[cmd] <delay>")]
 [Help(
 @"[cmd] shuts down the server and prevents the normal 'startup' script
 from restarting it.")]
 public class Shutdown : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresMinAdminLevel(AdminLevels.Implementor), new CannotBeImpersonated(), new RequiresAtLeastOneArgument()];
+
     private IServerAdminCommand ServerAdminCommand { get; }
 
     public Shutdown(IServerAdminCommand serverAdminCommand)
@@ -21,11 +25,11 @@ public class Shutdown : AdminGameAction
         ServerAdminCommand = serverAdminCommand;
     }
 
-    protected int Seconds { get; set; }
+    private int Seconds { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

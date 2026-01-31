@@ -3,18 +3,22 @@ using Mud.Blueprints.Item.Affects;
 using Mud.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("iinfo", "Information"), NoArgumentGuard]
+[AdminCommand("iinfo", "Information")]
 [Alias("oinfo")]
 [Syntax("[cmd] <id>")]
 public class Iinfo : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private IItemManager ItemManager { get; }
 
     public Iinfo(IItemManager itemManager)
@@ -22,11 +26,11 @@ public class Iinfo : AdminGameAction
         ItemManager = itemManager;
     }
 
-    protected ItemBlueprintBase Blueprint { get; set; } = default!;
+    private ItemBlueprintBase Blueprint { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

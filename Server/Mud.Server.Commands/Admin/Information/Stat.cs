@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
@@ -23,6 +24,8 @@ namespace Mud.Server.Commands.Admin.Information;
 [AdminCommand("stat", "Information")]
 public class Stat : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IAreaManager AreaManager { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }

@@ -6,6 +6,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
@@ -18,6 +19,8 @@ Str: 23/15 means you have a 15 strength from training, but a 23 strength
 from other factors (skills, spells or items).")]
 public class Score : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [];
+
     public override void Execute(IActionInput actionInput)
     {
         var pc = Actor as IPlayableCharacter;

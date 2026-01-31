@@ -2,7 +2,6 @@
 using Moq;
 using Mud.Common;
 using Mud.Server.Ability;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests.Abilities;
@@ -13,10 +12,9 @@ public class AbilityManagerTests : AbilityTestBase
     [TestMethod]
     public void Ctor_AbilitiesFound()
     {
-        Mock<IGuardGenerator> guardGeneratorMock = new();
         Mock<IAssemblyHelper> assemblyHelperMock = new();
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
-        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, null!, guardGeneratorMock.Object, assemblyHelperMock.Object);
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, null!, assemblyHelperMock.Object);
 
         Assert.IsTrue(abilityManager.Abilities.Any());
     }
@@ -24,10 +22,9 @@ public class AbilityManagerTests : AbilityTestBase
     [TestMethod]
     public void Indexer_ExistingAbility()
     {
-        Mock<IGuardGenerator> guardGeneratorMock = new();
         Mock<IAssemblyHelper> assemblyHelperMock = new();
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
-        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, null!, guardGeneratorMock.Object, assemblyHelperMock.Object);
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, null!, assemblyHelperMock.Object);
 
         var abilityDefinition = abilityManager["Acid Blast"];
 
@@ -37,10 +34,9 @@ public class AbilityManagerTests : AbilityTestBase
     [TestMethod]
     public void Indexer_NonExistingAbility()
     {
-        Mock<IGuardGenerator> guardGeneratorMock = new();
         Mock<IAssemblyHelper> assemblyHelperMock = new();
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
-        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, null!, guardGeneratorMock.Object, assemblyHelperMock.Object);
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, null!, assemblyHelperMock.Object);
 
         var abilityDefinition = abilityManager["Pouet"];
 

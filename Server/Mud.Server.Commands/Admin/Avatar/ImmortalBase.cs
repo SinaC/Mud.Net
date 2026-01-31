@@ -1,10 +1,15 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
 public abstract class ImmortalBase : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new MustBeImpersonated()];
+
     protected abstract string Flag { get; }
 
     public override void Execute(IActionInput actionInput)

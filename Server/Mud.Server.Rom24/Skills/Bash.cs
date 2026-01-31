@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common;
@@ -8,7 +9,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -25,6 +26,8 @@ your opponent.")]
 public class Bash : OffensiveSkillBase
 {
     private const string SkillName = "Bash";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Bash(ILogger<Bash> logger, IRandomManager randomManager)
         : base(logger, randomManager)

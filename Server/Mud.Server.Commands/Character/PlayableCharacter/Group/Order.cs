@@ -3,13 +3,14 @@ using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
 
-[PlayableCharacterCommand("order", "Pet"), MinPosition(Positions.Resting)]
+[PlayableCharacterCommand("order", "Pet")]
 [Syntax(
         "[cmd] <pet|charmie> command",
         "[cmd] all command")]
@@ -24,6 +25,8 @@ Most charmed creatures lose their aggresive nature (while charmed).
 If your charmed creature engages in combat, that will break the charm.")]
 public class Order : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Resting)];
+
     private ICommandParser CommandParser { get; }
 
     public Order(ICommandParser commandParser)
@@ -31,12 +34,12 @@ public class Order : PlayableCharacterGameAction
         CommandParser = commandParser;
     }
 
-    protected INonPlayableCharacter[] Whom { get; set; } = default!;
-    protected string CommandLine { get; set; } = default!;
+    private INonPlayableCharacter[] Whom { get; set; } = default!;
+    private string CommandLine { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

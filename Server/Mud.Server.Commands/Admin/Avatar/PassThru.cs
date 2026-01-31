@@ -1,9 +1,8 @@
 ﻿using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("passthru", "Avatar", "Immortal"), MustBeImpersonated]
+[AdminCommand("passthru", "Avatar", "Immortal")]
 [Syntax("[cmd]")]
 public class PassThru : ImmortalBase
 {

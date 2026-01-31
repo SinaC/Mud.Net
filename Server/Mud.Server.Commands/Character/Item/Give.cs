@@ -1,16 +1,17 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
+using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("give", "Item", "Equipment"), MinPosition(Positions.Resting)]
+[CharacterCommand("give", "Item", "Equipment")]
 [Syntax(
         "[cmd] <item> <character>",
         "[cmd] <amount> coin|coins|silver|gold <character>")]
@@ -19,19 +20,18 @@ namespace Mud.Server.Commands.Character.Item;
 [cmd] X.sword is also allowed to give the Xth sword of the list.")]
 public class Give : CharacterGameAction
 {
-    protected long? Silver { get; set; }
-    protected long? Gold { get; set; }
-    protected IItem What { get; set; } = default!;
-    protected ICharacter Whom { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastTwoArguments { Message = "Give what to whom ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private long? Silver { get; set; }
+    private long? Gold { get; set; }
+    private IItem What { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length < 2)
-            return "Give what to whom?";
 
         // money ?
         if (actionInput.Parameters[0].IsLong && actionInput.Parameters.Length > 2)

@@ -1,16 +1,19 @@
 ﻿using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 
-[PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000), NoArgumentGuard("Say your group what ?")]
+[PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
 [Alias("gtell")]
 [Alias("gsay")]
 [Syntax("[cmd] <message>")]
 public class GroupSay : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresAtLeastOneArgument { Message = "Say your group what ?" }];
+
     private ICommandParser CommandParser { get; }
 
     public GroupSay(ICommandParser commandParser)
@@ -18,11 +21,11 @@ public class GroupSay : PlayableCharacterGameAction
         CommandParser = commandParser;
     }
 
-    protected string What { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -4,22 +4,25 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("unlock", "Movement"), MinPosition(Positions.Resting), NoArgumentGuard("Unlock what ?")]
+[CharacterCommand("unlock", "Movement")]
 [Syntax(
     "[cmd] <container|portal>",
     "[cmd] <direction|door>")]
 [Help(@"[cmd] unlock a closed object or door. You must have the requisite key to [cmd].")]
 public class Unlock : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Unlock what ?" }];
+
     private ILogger<Unlock> Logger { get; }
 
     public Unlock(ILogger<Unlock> logger)
@@ -30,9 +33,9 @@ public class Unlock : CharacterGameAction
     protected ICloseable What { get; set; } = default!;
     protected ExitDirections ExitDirection { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

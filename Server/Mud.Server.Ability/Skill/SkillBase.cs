@@ -149,10 +149,10 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 
     #region IGameAction
 
-    public sealed override string? Guards(IActionInput actionInput)
+    public sealed override string? CanExecute(IActionInput actionInput)
     {
         // check base guards (skill guards will be checked here because a skill is always linked to a command)
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

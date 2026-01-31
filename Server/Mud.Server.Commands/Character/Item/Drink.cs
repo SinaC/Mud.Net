@@ -6,24 +6,27 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("drink", "Drink"), MinPosition(Positions.Resting)]
+[CharacterCommand("drink", "Drink")]
 [Syntax(
     "[cmd]",
     "[cmd] <container>")]
 [Help(@"When you are thirsty, [cmd] something.")]
 public class Drink : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting)];
+
     private ITableValues TableValues { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
@@ -39,12 +42,12 @@ public class Drink : CharacterGameAction
         Wiznet = wiznet;
     }
 
-    protected IItemDrinkable Drinkable { get; set; } = default!;
-    protected (string name, string color, int proof, int full, int thirst, int food, int servingsize) LiquidInfo { get; set; } = default;
+    private IItemDrinkable Drinkable { get; set; } = default!;
+    private (string name, string color, int proof, int full, int thirst, int food, int servingsize) LiquidInfo { get; set; } = default;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

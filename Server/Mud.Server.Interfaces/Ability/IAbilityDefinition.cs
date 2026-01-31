@@ -1,5 +1,4 @@
 ﻿using Mud.Server.Domain;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Interfaces.Ability;
 
@@ -26,6 +25,4 @@ public interface IAbilityDefinition
 
     bool IsDispellable { get; }
     string? DispelRoomMessage { get; }
-
-    public ICharacterGuard[] Guards { get; }
 }

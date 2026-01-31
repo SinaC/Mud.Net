@@ -2,6 +2,8 @@
 using Mud.Domain.SerializationData.Account;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.TableGenerator;
 using System.Text;
@@ -11,6 +13,8 @@ namespace Mud.Server.Commands.Player.Avatar;
 [PlayerCommand("listavatar", "Avatar")]
 public class ListAvatar : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [];
+
     private IRoomManager RoomManager { get; }
 
     public ListAvatar(IRoomManager roomManager)
@@ -18,9 +22,9 @@ public class ListAvatar : PlayerGameAction
         RoomManager = roomManager;
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

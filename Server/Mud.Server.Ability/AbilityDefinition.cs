@@ -37,11 +37,9 @@ public class AbilityDefinition : IAbilityDefinition
     public bool IsDispellable { get; }
     public string? DispelRoomMessage { get; }
 
-    public ICharacterGuard[] Guards { get; }
-
     #endregion
 
-    public AbilityDefinition(Type abilityExecutionType, IEnumerable<ICharacterGuard> guards)
+    public AbilityDefinition(Type abilityExecutionType)
     {
         AbilityExecutionType = abilityExecutionType;
 
@@ -66,7 +64,5 @@ public class AbilityDefinition : IAbilityDefinition
         ItemWearOffMessage = additionalInfoAttributes.OfType<AbilityItemWearOffMessageAttribute>().SingleOrDefault()?.HolderMessage;
         IsDispellable = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().Any();
         DispelRoomMessage = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().SingleOrDefault()?.RoomMessage;
-
-        Guards = guards.ToArray();
     }
 }

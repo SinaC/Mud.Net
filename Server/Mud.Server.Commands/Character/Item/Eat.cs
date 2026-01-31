@@ -7,21 +7,24 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("eat", "Food"), MinPosition(Positions.Resting), NoArgumentGuard("Eat what ?")]
+[CharacterCommand("eat", "Food")]
 [Syntax("[cmd] <food|pill>")]
 [Help(@"When you are hungry, [cmd] something.")]
 public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameActionInfo>
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Eat what ?" }];
+
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
@@ -36,12 +39,12 @@ public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameAc
         ItemManager = itemManager;
     }
 
-    protected IItemFood Food { get; set; } = default!;
-    protected IItemPill Pill { get; set; } = default!;
+    private IItemFood Food { get; set; } = default!;
+    private IItemPill Pill { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

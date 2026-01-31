@@ -1,26 +1,29 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("swipe", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Bear])]
+[Skill(SkillName, AbilityEffects.Damage)]
 [Help(
 @"Swipe 3 nearby enemies, inflicting 128 damage.")]
 //https://www.wowhead.com/classic/spell=9881/maul
 public class Swipe : FightingSkillBase
 {
     private const string SkillName = "Swipe";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresShapesGuard([Shapes.Bear])];
 
     public Swipe(ILogger<Swipe> logger, IRandomManager randomManager)
         : base(logger, randomManager)

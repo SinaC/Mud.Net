@@ -1,16 +1,20 @@
 ﻿using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("unimpersonate", "Avatar", Priority = 100), MustBeImpersonated]
+[PlayerCommand("unimpersonate", "Avatar", Priority = 100)]
 [Syntax(
     "[cmd]")]
 public class UnImpersonate : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new MustBeImpersonated()];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
 
     public UnImpersonate(IServerPlayerCommand serverPlayerCommand)
@@ -18,9 +22,9 @@ public class UnImpersonate : PlayerGameAction
         ServerPlayerCommand = serverPlayerCommand;
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

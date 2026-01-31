@@ -2,8 +2,11 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Account;
@@ -15,8 +18,10 @@ namespace Mud.Server.Commands.Player.Account;
 your old password.  The second argument is your new password.
 
 The [cmd] command is protected against being snooped or logged.")]
-public class Password : AccountGameActionBase
+public class Password : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new CannotBeInCombat(), new RequiresAtLeastTwoArguments()];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private bool CheckPassword { get; }
 
@@ -28,16 +33,15 @@ public class Password : AccountGameActionBase
 
     private string NewPassword { get; set; } = null!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length != 2)
-            return BuildCommandSyntax();
         if (actionInput.Parameters[1].Value.Length < 5)
             return "New password must be at least five characters long.";
+
         if (CheckPassword && !PasswordHelpers.Check(actionInput.Parameters[0].Value, Actor.Password))
         {
             Actor.SetLag(Pulse.FromSeconds(10));

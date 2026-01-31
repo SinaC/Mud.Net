@@ -1,17 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("up", "Movement", Priority = 0), MinPosition(Positions.Standing), NotInCombat]
+[CharacterCommand("up", "Movement", Priority = 0)]
 [Help("Use this command to walk in up direction.")]
-public class Up : CharacterGameAction
+public class Up : MoveBase
 {
-    public override void Execute(IActionInput actionInput)
-    {
-        Actor.Move(ExitDirections.Up, false, true);
-    }
+    protected override ExitDirections Direction => ExitDirections.Up;
 }

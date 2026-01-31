@@ -2,14 +2,18 @@
 using Microsoft.Extensions.Logging;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("createavatar", "Avatar"), CannotBeImpersonated]
+[PlayerCommand("createavatar", "Avatar")]
 public class CreateAvatar : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new CannotBeImpersonated()];
+
     private ILogger<CreateAvatar> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private int MaxAvatarCount { get; }
@@ -20,9 +24,9 @@ public class CreateAvatar : PlayerGameAction
         ServiceProvider = serviceProvider;
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

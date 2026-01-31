@@ -1,20 +1,24 @@
 ﻿using Microsoft.Extensions.Options;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("impersonate", "Avatar", Priority = 0), CannotBeImpersonated]
+[AdminCommand("impersonate", "Avatar", Priority = 0)]
 [Syntax(
     "[cmd]",
     "[cmd] <avatar name>")]
 public class Impersonate : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new CannotBeImpersonated()];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
@@ -30,13 +34,13 @@ public class Impersonate : AdminGameAction
         PlayerImpersonate = new(ServerPlayerCommand, RoomManager, CharacterManager, worldOptions, Wiznet);
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        var guards = PlayerImpersonate.Guards(actionInput);
+        var guards = PlayerImpersonate.CanExecute(actionInput);
         if (guards != null)
             return guards;
 

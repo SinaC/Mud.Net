@@ -3,15 +3,17 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("get", "Item", "Inventory"), MinPosition(Positions.Resting), NoArgumentGuard("Get what ?")]
+[CharacterCommand("get", "Item", "Inventory")]
 [Alias("take")]
 [Syntax(
     "[cmd] <item>",
@@ -24,12 +26,14 @@ from a corpse. TAKE is a synonym for get.
 [cmd] X.sword is also allowed to get the Xth sword of the list.")]
 public class Get : CharacterGameAction
 {
-    protected IItem[] What { get; set; } = default!;
-    protected IContainer Where { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Get what ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItem[] What { get; set; } = default!;
+    private IContainer Where { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

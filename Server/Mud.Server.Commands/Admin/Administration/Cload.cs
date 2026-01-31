@@ -3,14 +3,16 @@ using Mud.Domain;
 using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("cload", "Admin"), MustBeImpersonated, NoArgumentGuard]
+[AdminCommand("cload", "Admin")]
 [Alias("mload")]
 [Syntax("[cmd] <id>")]
 [Help(
@@ -24,18 +26,20 @@ public class Cload : AdminGameAction
     private ICharacterManager CharacterManager { get; }
     private IWiznet Wiznet { get; }
 
+    protected override IGuard<IAdmin>[] Guards => [new MustBeImpersonated(), new RequiresAtLeastOneArgument()];
+
     public Cload(ICharacterManager characterManager, IWiznet wiznet)
     {
         CharacterManager = characterManager;
         Wiznet = wiznet;
     }
 
-    protected int BlueprintId { get; set; }
-    protected CharacterBlueprintBase CharacterBlueprint { get; set; } = default!;
+    private int BlueprintId { get; set; }
+    private CharacterBlueprintBase CharacterBlueprint { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

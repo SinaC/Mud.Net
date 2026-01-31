@@ -8,7 +8,6 @@ using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Social;
 using System.Reflection;
 
@@ -20,20 +19,18 @@ public class GameActionManager : IGameActionManager
     private ILogger<GameActionManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private ICommandParser CommandParser { get; }
-    private IGuardGenerator GuardGenerator { get; }
     private IAbilityManager AbilityManager { get; }
 
-    private List<IGameActionInfo> _dynamicGameActionInfos;
-    private List<IGameActionInfo> _staticGameActionInfos;
+    private readonly List<IGameActionInfo> _dynamicGameActionInfos;
+    private readonly List<IGameActionInfo> _staticGameActionInfos;
     private readonly Dictionary<Type, IGameActionInfo> _staticGameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IGuardGenerator guardGenerator, IAbilityManager abilityManager, ISocialManager socialManager)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IAbilityManager abilityManager, ISocialManager socialManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
         CommandParser = commandParser;
-        GuardGenerator = guardGenerator;
         AbilityManager = abilityManager;
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
@@ -77,7 +74,7 @@ public class GameActionManager : IGameActionManager
             return "Something goes wrong.";
         }
         var actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
-        var guardsResult = gameAction.Guards(actionInput);
+        var guardsResult = gameAction.CanExecute(actionInput);
         if (guardsResult != null)
             return guardsResult;
         gameAction.Execute(actionInput);
@@ -162,56 +159,31 @@ public class GameActionManager : IGameActionManager
         switch (commandAttribute)
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-            {
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
-                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, characterGuards);
-            }
+                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case CharacterCommandAttribute characterCommandAttribute:
             {
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
-
                 var abilityDefinition = AbilityManager[type];
                 if (abilityDefinition != null)
                 {
                     if (abilityDefinition.Type == AbilityTypes.Skill)
-                        return new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, abilityDefinition, actorGuards, characterGuards);
+                        return new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, abilityDefinition);
                     else
                         Logger.LogError("GameActionManager.CreateGameActionInfo: ability definition {ability} for type {type} is not a skill.", abilityDefinition.Name, type.FullName ?? "???");
                 }
-                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, characterGuards);
+                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             }
             case AdminCommandAttribute adminCommandAttribute:
-            {
-                var playerGuards = GuardGenerator.GeneratePlayerGuards(type);
-                var adminGuards = GuardGenerator.GenerateAdminGuards(type);
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, playerGuards, adminGuards);
-            }
+                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case PlayerCommandAttribute playerCommandAttribute:
-            {
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                var playerGuards = GuardGenerator.GeneratePlayerGuards(type);
-                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards, playerGuards);
-            }
+                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case ItemCommandAttribute itemCommandAttribute:
-            {
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                return new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards);
-            }
+                return new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case RoomCommandAttribute roomCommandAttribute:
-            {
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                return new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards);
-            }
+                return new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case ActorCommandAttribute actorCommandAttribute:
-            {
-                var actorGuards = GuardGenerator.GenerateActorGuards(type);
-                return new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, actorGuards);
-            }
+                return new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             default:
-                Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
+                Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {type}", type.FullName ?? "???");
                 return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
         }
     }

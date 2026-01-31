@@ -2,15 +2,15 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.ActorGuards;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("drop", "Item", "Inventory"), MinPosition(Positions.Resting), NoArgumentGuard("Drop what ?")]
+[CharacterCommand("drop", "Item", "Inventory")]
 [Syntax(
         "[cmd] <item>",
         "[cmd] <amount> coin|coins|silver|gold",
@@ -25,6 +25,8 @@ namespace Mud.Server.Commands.Character.Item;
 // Drop all.item
 public class Drop : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Drop what ?" }];
+
     private IItemManager ItemManager { get; }
 
     public Drop(IItemManager itemManager)
@@ -32,13 +34,13 @@ public class Drop : CharacterGameAction
         ItemManager = itemManager;
     }
 
-    protected long Silver { get; set; }
-    protected long Gold { get; set; }
-    protected IItem[] What { get; set; } = default!;
+    private long Silver { get; set; }
+    private long Gold { get; set; }
+    private IItem[] What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

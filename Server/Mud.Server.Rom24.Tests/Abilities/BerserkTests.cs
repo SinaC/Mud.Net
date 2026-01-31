@@ -29,7 +29,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -49,7 +49,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -73,7 +73,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -98,7 +98,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -123,7 +123,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -148,7 +148,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -171,7 +171,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -198,7 +198,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
         skill.Execute();
@@ -227,7 +227,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -254,7 +254,7 @@ public class BerserkTests : AbilityTestBase
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
         skill.Execute();
@@ -283,7 +283,7 @@ public class BerserkTests : AbilityTestBase
 
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
-        var result = skill.Guards(actionInput);
+        var result = skill.CanExecute(actionInput);
         skill.Execute(actionInput);
 
         Assert.IsNull(result);

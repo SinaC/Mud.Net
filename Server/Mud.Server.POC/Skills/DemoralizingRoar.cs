@@ -8,20 +8,23 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("DemoralizingRoar", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Bear])]
+[Skill(SkillName, AbilityEffects.Damage)]
 [Help(
 @"The druid roars, decreasing nearby enemies' melee attack power by 138.  Lasts 30 sec.")]
 //https://www.wowhead.com/classic/spell=9898/demoralizing-roar
 public class DemoralizingRoar : OffensiveSkillBase
 {
     private const string SkillName = "Demoralizing Roar";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresShapesGuard([Shapes.Bear])];
 
     private IAuraManager AuraManager { get; }
 

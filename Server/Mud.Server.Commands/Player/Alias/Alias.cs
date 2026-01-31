@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Alias;
 
@@ -26,27 +28,22 @@ alias kick use kick --> kick orc will equal typing 'use kick orc'
 Only the first word on the line will be subsituted at this time.")]
 public class Alias : PlayerGameAction
 {
-    private ICommandParser CommandParser { get; }
+    protected override IGuard<IPlayer>[] Guards => [];
 
-    public Alias(ICommandParser commandParser)
-    {
-        CommandParser = commandParser;
-    }
-
-    protected enum Actions
+    private enum Actions
     {
         DisplayAll,
         Display,
         Assign
     }
 
-    protected Actions Action { get; set; }
-    protected string TargetAlias { get; set; } = default!;
-    protected string TargetCommand { get; set; } = default!;
+    private Actions Action { get; set; }
+    private string TargetAlias { get; set; } = default!;
+    private string TargetCommand { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
@@ -74,7 +71,7 @@ public class Alias : PlayerGameAction
             return "That shall not be done.";
 
         Action = Actions.Assign;
-        TargetCommand = CommandParser.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
+        TargetCommand = actionInput.CommandLine.Substring(actionInput.Command.Length + TargetAlias.Length + 2);
         return null;
     }
 

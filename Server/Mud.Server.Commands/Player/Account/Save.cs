@@ -1,7 +1,10 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Account;
 
@@ -11,8 +14,10 @@ namespace Mud.Server.Commands.Player.Account;
 15 minutes regardless, and is the preferred method of saving.  Typing save
 will block all other command for about 20 seconds, so use it sparingly.
 (90+ players all typing save every 30 seconds just generated too much lag)")]
-public class Save : AccountGameActionBase
+public class Save : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new CannotBeInCombat()];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
 
     public Save(IServerPlayerCommand serverPlayerCommand)

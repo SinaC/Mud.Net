@@ -1,19 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.POC.Skills;
 
-[CharacterCommand("circle", "Ability", "Skill", "Combat"), InCombat(Message = "You are facing the wrong end.")]
+[CharacterCommand("circle", "Ability", "Skill", "Combat")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
 [Help(
@@ -27,6 +29,8 @@ in order to backstab.")]
 public class Circle : FightingSkillBase
 {
     private const string SkillName = "Circle";
+
+    protected override IGuard<ICharacter>[] Guards => [new MustBeInCombat { Message = "You are facing the wrong end." }];
 
     public Circle(ILogger<Circle> logger, IRandomManager randomManager)
         : base(logger, randomManager)

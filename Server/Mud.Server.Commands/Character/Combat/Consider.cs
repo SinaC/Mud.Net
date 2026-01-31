@@ -2,24 +2,27 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Combat;
 
-[CharacterCommand("consider", "Information", "Combat"), MinPosition(Positions.Resting), NoArgumentGuard("Consider killing whom?")]
+[CharacterCommand("consider", "Information", "Combat")]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] tells you what your chances are of killing a character.
 Of course, it's only a rough estimate.")]
 public class Consider : CharacterGameAction
 {
-    protected ICharacter Whom { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Consider killing whom?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private ICharacter Whom { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

@@ -7,6 +7,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Options;
 using System.Text;
 
@@ -23,6 +24,8 @@ SPLIT commands.  If anyone in your group is attacked, you will automatically
 join the fight.")]
 public class Group : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
     private int MaxLevel { get; }
 
     public Group(IOptions<WorldOptions> worldOptions)
@@ -30,7 +33,7 @@ public class Group : PlayableCharacterGameAction
         MaxLevel = worldOptions.Value.MaxLevel;
     }
 
-    protected enum Actions
+    private enum Actions
     {
         DisplayPets,
         DisplayGroup,
@@ -39,12 +42,12 @@ public class Group : PlayableCharacterGameAction
         Remove
     }
 
-    protected Actions Action { get; set; }
-    protected IPlayableCharacter Whom { get; set; } = default!;
+    private Actions Action { get; set; }
+    private IPlayableCharacter Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

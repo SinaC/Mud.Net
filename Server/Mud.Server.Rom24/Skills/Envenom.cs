@@ -8,15 +8,16 @@ using Mud.Server.Affects.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand("envenom", "Ability", "Skill", "Enchantment"), NoArgumentGuard("Envenom what item ?")]
+[CharacterCommand("envenom", "Ability", "Skill", "Enchantment")]
 [Syntax(
         "[cmd] <weapon>",
         "[cmd] <food>",
@@ -37,6 +38,8 @@ quickly and is rendered almost powerless by repeated blows in combat.")]
 public class Envenom : ItemInventorySkillBase
 {
     private const string SkillName = "Envenom";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresAtLeastOneArgument { Message = "Envenom what item ?" }];
 
     private IAuraManager AuraManager { get; }
 

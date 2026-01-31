@@ -6,20 +6,24 @@ using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("cstat", "Information"), NoArgumentGuard]
+[AdminCommand("cstat", "Information")]
 [Alias("mstat")]
 [Syntax("[cmd] <character>")]
 public class Cstat : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
+
     private ICharacterManager CharacterManager { get; }
 
     public Cstat(ICharacterManager characterManager)
@@ -27,11 +31,11 @@ public class Cstat : AdminGameAction
         CharacterManager = characterManager;
     }
 
-    protected ICharacter Whom { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

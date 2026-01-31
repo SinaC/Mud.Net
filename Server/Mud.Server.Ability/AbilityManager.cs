@@ -7,7 +7,6 @@ using Mud.Domain;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using System.Reflection;
 
 namespace Mud.Server.Ability;
@@ -23,7 +22,7 @@ public class AbilityManager : IAbilityManager
     private Dictionary<AbilityTypes, IReadOnlyTrie<IAbilityDefinition>> AbilityDefinitionTrieByAbilityTypes { get; }
     private Dictionary<Type, IAbilityDefinition[]> AbilitiesByExecutionType { get; } // created on-the-fly when needed
 
-    public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IGuardGenerator guardGenerator, IAssemblyHelper assemblyHelper)
+    public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -34,8 +33,7 @@ public class AbilityManager : IAbilityManager
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && iAbilityType.IsAssignableFrom(t))))
         {
-            var characterGuards = guardGenerator.GenerateCharacterGuards(abilityType);
-            var abilityDefinition = new AbilityDefinition(abilityType, characterGuards);
+            var abilityDefinition = new AbilityDefinition(abilityType);
             if (abilityDefinitions.Any(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)))
                 Logger.LogError("Duplicate ability {abilityDefinitionName}", abilityDefinition.Name);
             else

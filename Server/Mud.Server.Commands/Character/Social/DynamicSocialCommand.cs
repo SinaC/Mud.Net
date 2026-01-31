@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Social;
 
 namespace Mud.Server.Commands.Character.Social;
@@ -11,6 +14,8 @@ namespace Mud.Server.Commands.Character.Social;
 [DynamicCommand]
 public class DynamicSocialCommand : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Standing)];
+
     private ILogger<DynamicSocialCommand> Logger { get; }
     private ISocialManager SocialManager { get; }
 
@@ -20,13 +25,13 @@ public class DynamicSocialCommand : CharacterGameAction
         SocialManager = socialManager;
     }
 
-    protected SocialDefinition SocialDefinition { get; set; } = null!;
-    protected bool UseCharacterNotFound { get; set; }
-    protected ICharacter? Victim { get; set; }
+    private SocialDefinition SocialDefinition { get; set; } = null!;
+    private bool UseCharacterNotFound { get; set; }
+    private ICharacter? Victim { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards is not null)
             return baseGuards;
 

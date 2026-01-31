@@ -2,8 +2,10 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
@@ -17,6 +19,8 @@ each room is purged of its mobiles/objects before resetting.")]
 // TODO: hard parameter
 public class ResetArea : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IAreaManager AreaManager { get; }
     private IResetManager ResetManager { get; }
 
@@ -26,11 +30,11 @@ public class ResetArea : AdminGameAction
         ResetManager = resetManager;
     }
 
-    protected IArea Area { get; set; } = default!;
+    private IArea Area { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

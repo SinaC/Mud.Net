@@ -52,7 +52,7 @@ public class ColourSprayTests : AbilityTestBase
 
         var parameters = BuildParameters("target");
         ColourSpray spell = new (new Mock<ILogger<ColourSpray>>().Object, randomManagerMock.Object, effectManagerMock.Object);
-        SpellActionInput abilityActionInput = new (new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new (new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
         var setupResult = spell.Setup(abilityActionInput);
 
         spell.Execute();

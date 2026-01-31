@@ -1,9 +1,8 @@
 ﻿using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("omniscient", "Avatar", "Immortal"), MustBeImpersonated]
+[AdminCommand("omniscient", "Avatar", "Immortal")]
 [Syntax("[cmd]")]
 public class Omniscient : ImmortalBase
 {

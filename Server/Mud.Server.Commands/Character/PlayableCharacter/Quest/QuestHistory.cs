@@ -1,16 +1,20 @@
 ﻿using Mud.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questhistory", "Quest", Priority = 6), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questhistory", "Quest", Priority = 6)]
 [Alias("qhistory")]
 [Syntax("[cmd]")]
 public class QuestHistory : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
+
     public override void Execute(IActionInput actionInput)
     {
         if (Actor.CompletedQuests.Any())

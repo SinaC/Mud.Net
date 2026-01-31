@@ -3,16 +3,18 @@ using Mud.Domain;
 using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("iload", "Admin"), MustBeImpersonated, NoArgumentGuard]
+[AdminCommand("iload", "Admin")]
 [Alias("oload")]
 [Syntax("[cmd] <id>")]
 [Help(
@@ -26,6 +28,8 @@ determine their power, new format objects have a preset level that cannot
 be changed without set.")]
 public class Oload : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new MustBeImpersonated(), new RequiresAtLeastOneArgument()];
+
     private IItemManager ItemManager { get; }
     private IWiznet Wiznet { get; }
 
@@ -35,12 +39,12 @@ public class Oload : AdminGameAction
         Wiznet = wiznet;
     }
 
-    protected int BlueprintId { get; set; }
-    protected ItemBlueprintBase ItemBlueprint { get; set; } = default!;
+    private int BlueprintId { get; set; }
+    private ItemBlueprintBase ItemBlueprint { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

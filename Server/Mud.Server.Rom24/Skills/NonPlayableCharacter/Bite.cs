@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 
@@ -15,6 +16,8 @@ namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 public class Bite : FightingSkillBase
 {
     private const string SkillName = "Bite";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Bite(ILogger<Bite> logger, IRandomManager randomManager)
         : base(logger, randomManager)

@@ -1,10 +1,7 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.POC.DynamicCommand
 {
@@ -12,6 +9,8 @@ namespace Mud.POC.DynamicCommand
     [GenericCommand]
     public class GenericSocialCommand : CharacterGameAction
     {
+        protected override IGuard<ICharacter>[] Guards => [];
+
         public override void Execute(IActionInput actionInput)
         {
             // TODO: extract social and parameters

@@ -6,16 +6,16 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Debuff), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Debuff)]
 [AbilityCharacterWearOffMessage("You feel less tired.")]
 [AbilityDispellable]
 [Syntax("cast [spell] <victim>")]
@@ -25,6 +25,8 @@ namespace Mud.Server.Rom24.Spells;
 public class Sleep : OffensiveSpellBase
 {
     private const string SpellName = "Sleep";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IAuraManager AuraManager { get; }
 

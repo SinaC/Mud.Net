@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Cure), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Cure)]
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell cures poison in one so unfortunate.")]
@@ -20,6 +20,8 @@ namespace Mud.Server.Rom24.Spells;
 public class CurePoison : CureSpellBase
 {
     private const string SpellName = "Cure Poison";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public CurePoison(ILogger<CurePoison> logger, IRandomManager randomManager, IAbilityManager abilityManager, IDispelManager dispelManager)
         : base(logger, randomManager, abilityManager, dispelManager)

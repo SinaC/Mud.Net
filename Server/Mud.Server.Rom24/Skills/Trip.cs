@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common;
@@ -8,7 +9,7 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -24,6 +25,8 @@ find the attack easy to avoid.  Thieves and warriors may learn trip.")]
 public class Trip : OffensiveSkillBase
 {
     private const string SkillName = "Trip";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Trip(ILogger<Trip> logger, IRandomManager randomManager)
         : base(logger, randomManager)

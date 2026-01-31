@@ -3,22 +3,26 @@ using Mud.Blueprints.Quest;
 using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questlist", "Quest", Priority = 5), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questlist", "Quest", Priority = 5)]
 [Alias("qlist")]
 public class QuestList : PlayableCharacterGameAction
 {
-    protected List<QuestBlueprint> What { get; set; } = default!;
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
 
-    public override string? Guards(IActionInput actionInput)
+    private List<QuestBlueprint> What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

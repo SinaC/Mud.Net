@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Buff)]
 [AbilityCharacterWearOffMessage("You feel solid again.")]
 [AbilityDispellable]
 [Syntax("cast [spell]")]
@@ -23,6 +23,8 @@ namespace Mud.Server.Rom24.Spells;
 public class PassDoor : CharacterFlagsSpellBase
 {
     private const string SpellName = "Pass Door";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public PassDoor(ILogger<PassDoor> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)

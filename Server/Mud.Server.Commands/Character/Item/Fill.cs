@@ -2,24 +2,27 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("fill", "Drink"), MinPosition(Positions.Resting), NoArgumentGuard("Fill what ?")]
+[CharacterCommand("fill", "Drink")]
 [Syntax("[cmd] <container>")]
 [Help(@"[cmd] fills a drink container with water.")]
 public class Fill : CharacterGameAction
 {
-    protected IItemFountain Fountain { get; set; } = default!;
-    protected IItemDrinkContainer DrinkContainer { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Fill what ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItemFountain Fountain { get; set; } = default!;
+    private IItemDrinkContainer DrinkContainer { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

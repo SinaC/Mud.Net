@@ -11,6 +11,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -26,6 +27,8 @@ helps in hitting or avoiding a dirt kick.")]
 public class DirtKicking : OffensiveSkillBase
 {
     private const string SkillName = "Dirt Kicking";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     private IAuraManager AuraManager { get; }
 

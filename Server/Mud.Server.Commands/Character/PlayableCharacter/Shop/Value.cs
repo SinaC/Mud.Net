@@ -1,22 +1,26 @@
 ﻿using Mud.Blueprints.Character;
+using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
-[PlayableCharacterCommand("value", "Shop"), NoArgumentGuard("Value what ?")]
+[PlayableCharacterCommand("value", "Shop")]
 [Syntax("[cmd] <item>")]
 [Help(@"[cmd] asks the shop keeper how much he, she, or it will buy the item for.")]
 public class Value : ShopPlayableCharacterGameActionBase
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument {  Message = "Value what ?"}];
+
     public Value(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager, IItemManager itemManager)
         : base(timeManager, abilityManager, randomManager)
     {
@@ -25,9 +29,9 @@ public class Value : ShopPlayableCharacterGameActionBase
     protected IItem What { get; set; } = default!;
     protected long Cost { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

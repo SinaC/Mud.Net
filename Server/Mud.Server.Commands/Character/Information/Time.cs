@@ -1,7 +1,9 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Information;
 
@@ -12,6 +14,8 @@ namespace Mud.Server.Commands.Character.Information;
 and the current local time for the host computer.")]
 public class Time : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [];
+
     private ITimeManager TimeManager { get; }
 
     public Time(ITimeManager timeManager)

@@ -3,14 +3,15 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("sacrifice", "Item"), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("sacrifice", "Item")]
 [Alias("tap")]
 [Alias("junk")]
 [Syntax(
@@ -21,11 +22,13 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 The nature of the reward depends upon the type of object.")]
 public class Sacrifice : PlayableCharacterGameAction
 {
-    protected IItem[] What { get; set; } = default!;
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItem[] What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

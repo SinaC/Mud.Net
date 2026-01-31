@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Alias;
 
@@ -26,12 +28,7 @@ alias kick use kick --> kick orc will equal typing 'use kick orc'
 Only the first word on the line will be subsituted at this time.")]
 public class Alias : PlayableCharacterGameAction
 {
-    private ICommandParser CommandParser { get; }
-
-    public Alias(ICommandParser commandParser)
-    {
-        CommandParser = commandParser;
-    }
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
 
     protected enum Actions 
     {
@@ -44,9 +41,9 @@ public class Alias : PlayableCharacterGameAction
     protected string TargetAlias { get; set; } = default!;
     protected string TargetCommand { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

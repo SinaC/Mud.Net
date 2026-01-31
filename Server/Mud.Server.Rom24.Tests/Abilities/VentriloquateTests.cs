@@ -2,12 +2,12 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.Rom24.Tests.Abilities;
@@ -33,7 +33,7 @@ public class VentriloquateTests : AbilityTestBase
         Ventriloquate spell = new(new Mock<ILogger<Ventriloquate>>().Object, randomManagerMock.Object, new CommandParser(new Mock<ILogger<CommandParser>>().Object));
         
         var parameters = BuildParameters("");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -59,7 +59,7 @@ public class VentriloquateTests : AbilityTestBase
         Ventriloquate spell = new(new Mock<ILogger<Ventriloquate>>().Object, randomManagerMock.Object, new CommandParser(new Mock<ILogger<CommandParser>>().Object));
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -84,7 +84,7 @@ public class VentriloquateTests : AbilityTestBase
         Ventriloquate spell = new(new Mock<ILogger<Ventriloquate>>().Object, randomManagerMock.Object, new CommandParser(new Mock<ILogger<CommandParser>>().Object));
 
         var parameters = BuildParameters("target 'I'm a badass'");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -109,7 +109,7 @@ public class VentriloquateTests : AbilityTestBase
         Ventriloquate spell = new(new Mock<ILogger<Ventriloquate>>().Object, randomManagerMock.Object, new CommandParser(new Mock<ILogger<CommandParser>>().Object));
 
         var parameters = BuildParameters("player 'I'm a badass'");
-        var abilityActionInput = new SpellActionInput(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        var abilityActionInput = new SpellActionInput(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -137,7 +137,7 @@ public class VentriloquateTests : AbilityTestBase
         Ventriloquate spell = new(new Mock<ILogger<Ventriloquate>>().Object, randomManagerMock.Object, new CommandParser(new Mock<ILogger<CommandParser>>().Object));
 
         var parameters = BuildParameters("target 'I'm a badass'");
-        var abilityActionInput = new SpellActionInput(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        var abilityActionInput = new SpellActionInput(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -165,7 +165,7 @@ public class VentriloquateTests : AbilityTestBase
         var spell = new Ventriloquate(new Mock<ILogger<Ventriloquate>>().Object, randomManagerMock.Object, new CommandParser(new Mock<ILogger<CommandParser>>().Object));
 
         var parameters = BuildParameters("target I'm a badass");
-        var abilityActionInput = new SpellActionInput(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        var abilityActionInput = new SpellActionInput(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 

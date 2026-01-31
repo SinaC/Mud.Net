@@ -2,14 +2,16 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Account;
 
-[PlayerCommand("delete", "Account", Priority = 999, NoShortcut = true), NoArgumentGuard]
+[PlayerCommand("delete", "Account", Priority = 999, NoShortcut = true)]
 [Alias("suicide")]
 [Syntax("[cmd] <password>")]
 [Help(
@@ -18,8 +20,10 @@ available for use.  This command must be typed twice to delete a character,
 and you cannot be forced to delete.  Typing delete with an argument will
 return your character to 'safe' status if you change your mind after the
 first delete.")]
-public class Delete : AccountGameActionBase
+public class Delete : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new CannotBeInCombat(), new RequiresAtLeastOneArgument()];
+
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private bool CheckPassword { get; }
 
@@ -29,9 +33,9 @@ public class Delete : AccountGameActionBase
         CheckPassword = options.Value.CheckPassword;
     }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

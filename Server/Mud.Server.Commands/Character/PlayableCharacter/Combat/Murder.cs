@@ -3,19 +3,22 @@ using Mud.Server.Commands.Character.Communication;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Combat;
 
-[PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true), MinPosition(Positions.Standing), NoArgumentGuard("Murder whom ?")]
+[PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
 [Syntax("[cmd] <character>")]
 [Help(
 @"MURDER is used to kill other players. To kill mobiles (monsters), you
 have to use KILL.")]
 public class Murder : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new RequiresAtLeastOneArgument { Message = "Murder whom ?" }];
+
     private IGameActionManager GameActionManager { get; }
 
     public Murder(IGameActionManager gameActionManager)
@@ -23,11 +26,11 @@ public class Murder : PlayableCharacterGameAction
         GameActionManager = gameActionManager;
     }
 
-    protected ICharacter Whom { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

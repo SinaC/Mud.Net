@@ -3,8 +3,10 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.TableGenerator;
 using System.Text;
@@ -13,7 +15,8 @@ namespace Mud.Server.Commands.Actor;
 
 [ActorCommand("help", Priority = 0)]
 [Syntax(
-    "[help] <topic>")]
+    "[cmd]",
+    "[cmd] <topic>")]
 [Help(
 @"[cmd] without any arguments shows a one-page command summary.
 
@@ -21,6 +24,8 @@ namespace Mud.Server.Commands.Actor;
 all the commands, spells, skills, passives, races and classes listed in the game.")]
 public class Help : ActorGameAction
 {
+    protected override IGuard<IActor>[] Guards => [];
+
     private const int ColumnCount = 4;
     private const string PassivesCategory = "Passives";
     private const string WeaponPassivesCategory = "Weapons";
@@ -44,11 +49,11 @@ public class Help : ActorGameAction
     }
 
     private bool ShouldDisplayCategoriesAndCommands { get; set; }
-    protected ICommandParameter Parameter { get; set; } = default!;
+    private ICommandParameter Parameter { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

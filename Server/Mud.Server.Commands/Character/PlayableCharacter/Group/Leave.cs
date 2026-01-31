@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
 
@@ -9,9 +11,11 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
 [Help(@"[cmd] makes you leave a group.")]
 public class Leave : PlayableCharacterGameAction
 {
-    public override string? Guards(IActionInput actionInput)
+    protected override IGuard<IPlayableCharacter>[] Guards => [];
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

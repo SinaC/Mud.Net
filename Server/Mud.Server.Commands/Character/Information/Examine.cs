@@ -3,17 +3,18 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("examine", "Information", Priority = 20/*must be greater than 'Exits' priority */), MinPosition(Positions.Resting), NoArgumentGuard("Examine what or whom ?")]
+[CharacterCommand("examine", "Information", Priority = 20/*must be greater than 'Exits' priority */)]
 [Syntax(
     "[cmd] <character>",
     "[cmd] <item>",
@@ -22,6 +23,8 @@ namespace Mud.Server.Commands.Character.Information;
 [Help(@"[cmd] is short for 'LOOK container' followed by 'LOOK IN container'.")]
 public class Examine : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Examine what or whom ?" }];
+
     private IAbilityManager AbilityManager { get; }
 
     public Examine(IAbilityManager abilityManager)
@@ -29,11 +32,11 @@ public class Examine : CharacterGameAction
         AbilityManager = abilityManager;
     }
 
-    protected IEntity Target { get; set; } = default!;
+    private IEntity Target { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

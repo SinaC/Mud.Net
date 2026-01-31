@@ -1,18 +1,21 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("wake", "Movement"), MinPosition(Positions.Sleeping)]
+[CharacterCommand("wake", "Movement")]
 [Syntax(
         "[cmd]",
         "[cmd] <character>")]
 public class Wake : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Sleeping)];
+
     private IGameActionManager GameActionManager { get; }
 
     public Wake(IGameActionManager gameActionManager)
@@ -20,11 +23,11 @@ public class Wake : CharacterGameAction
         GameActionManager = gameActionManager;
     }
 
-    protected ICharacter Whom { get; set; } = default!;
+    private ICharacter Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

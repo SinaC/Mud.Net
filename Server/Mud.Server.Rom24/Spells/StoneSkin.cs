@@ -6,16 +6,16 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
 [AbilityCharacterWearOffMessage("Your skin feels soft again.")]
 [AbilityDispellable("{0:N}'s skin regains its normal texture.")]
 [Syntax("cast [spell]")]
@@ -26,6 +26,8 @@ class. It provides 40 points of armor.")]
 public class StoneSkin : DefensiveSpellBase
 {
     private const string SpellName = "Stone Skin";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IAuraManager AuraManager { get; }
 

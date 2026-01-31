@@ -1,14 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Table;
-using Mud.Random;
-using Mud.Server.Common;
 
 namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 
@@ -17,6 +18,8 @@ namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 public class Crush : FightingSkillBase
 {
     private const string SkillName = "Crush";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     private ITableValues TableValues { get; }
 

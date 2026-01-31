@@ -2,8 +2,11 @@
 using Mud.Flags;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Misc;
 
@@ -14,6 +17,8 @@ namespace Mud.Server.Commands.Player.Misc;
 to the mud implementors.")]
 public class Bug : PlayerGameAction
 {
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastOneArgument { Message = "Report which bug ?" }];
+
     private ICommandParser CommandParser { get; }
     private IWiznet Wiznet { get; }
 
@@ -23,17 +28,15 @@ public class Bug : PlayerGameAction
         Wiznet = wiznet;
     }
 
-    protected string Message { get; set; } = default!;
+    private string Message { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
         Message = CommandParser.JoinParameters(actionInput.Parameters);
-        if (string.IsNullOrWhiteSpace(Message))
-            return "Report which bug?";
 
         return null;
     }

@@ -2,12 +2,14 @@
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("split", "Item", Priority = 600), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Split how much ?")]
+[PlayableCharacterCommand("split", "Item", Priority = 600)]
 [Syntax("[cmd] <silver amount> <gold amount>")]
 [Help(
 @"[cmd] splits some coins  between you and all the members of your
@@ -20,12 +22,14 @@ split 20 50	--> split 20 silver, 50 gold
 split  0 10	--> split 10 gold")]
 public class Split : PlayableCharacterGameAction
 {
-    protected long Silver { get; set; }
-    protected long Gold { get; set; }
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "Split how much ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private long Silver { get; set; }
+    private long Gold { get; set; }
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

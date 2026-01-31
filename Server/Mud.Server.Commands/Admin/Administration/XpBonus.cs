@@ -2,9 +2,12 @@
 using Mud.Flags;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Options;
 
@@ -14,6 +17,8 @@ namespace Mud.Server.Commands.Admin.Administration;
 [Syntax("[cmd] <player name> <experience>")]
 public class XpBonus : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastTwoArguments()];
+
     private IPlayerManager PlayerManager { get; }
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private IWiznet Wiznet { get; }
@@ -27,17 +32,14 @@ public class XpBonus : AdminGameAction
         MaxLevel = worldOptions.Value.MaxLevel;
     }
 
-    protected IPlayableCharacter Whom { get; set; } = default!;
-    protected int Experience { get; set; }
+    private IPlayableCharacter Whom { get; set; } = default!;
+    private int Experience { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length < 2)
-            return BuildCommandSyntax();
 
         if (!actionInput.Parameters[1].IsNumber)
             return BuildCommandSyntax();

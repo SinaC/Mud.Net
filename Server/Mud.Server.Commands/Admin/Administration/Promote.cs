@@ -2,18 +2,21 @@
 using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true), MinAdminLevel(AdminLevels.Supremacy), CannotBeImpersonated]
+[AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true)]
 [Syntax("[cmd] <player name> <level>")]
 public class Promote : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new CannotBeImpersonated(), new RequiresMinAdminLevel(AdminLevels.Supremacy), new RequiresAtLeastTwoArguments()];
+
     private IPlayerManager PlayerManager { get; }
     private IServerAdminCommand ServerAdminCommand { get; }
 
@@ -23,17 +26,14 @@ public class Promote : AdminGameAction
         ServerAdminCommand = serverAdminCommand;
     }
 
-    protected AdminLevels Level { get; set; }
-    protected IPlayer Whom { get; set; } = default!;
+    private AdminLevels Level { get; set; }
+    private IPlayer Whom { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
-
-        if (actionInput.Parameters.Length < 2)
-            return BuildCommandSyntax();
 
         // whom
         Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0], true)!;

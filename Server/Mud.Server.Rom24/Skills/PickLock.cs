@@ -8,9 +8,11 @@ using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Skills;
@@ -30,6 +32,8 @@ learn to pick locks, but they will never find it easy.")]
 public class PickLock : SkillBase
 {
     private const string SkillName = "Pick Lock";
+
+    protected override IGuard<ICharacter>[] Guards => [new RequiresAtLeastOneArgument { Message = "Pick what ?"}];
 
     public PickLock(ILogger<PickLock> logger, IRandomManager randomManager)
         : base(logger, randomManager)
@@ -71,9 +75,6 @@ public class PickLock : SkillBase
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)
     {
-        if (skillActionInput.Parameters.Length == 0)
-            return "Pick what?";
-
         // search item
         var item = FindHelpers.FindItemHere(User, skillActionInput.Parameters[0]);
         if (item != null)

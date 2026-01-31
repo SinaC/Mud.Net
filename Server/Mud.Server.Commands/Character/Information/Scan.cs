@@ -3,15 +3,16 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("scan", "Information"), MinPosition(Positions.Standing), NotInCombat]
+[CharacterCommand("scan", "Information")]
 [Syntax(
     "[cmd]",
     "[cmd] <direction>")]
@@ -20,12 +21,14 @@ namespace Mud.Server.Commands.Character.Information;
 check if there is players/mobs or 3 rooms forward in a specific direction")]
 public class Scan : CharacterGameAction
 {
-    protected int MaxDistance = 2;
-    protected ExitDirections? Direction { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
 
-    public override string? Guards(IActionInput actionInput)
+    private int MaxDistance = 2;
+    private ExitDirections? Direction { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

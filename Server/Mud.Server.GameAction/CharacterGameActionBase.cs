@@ -7,9 +7,9 @@ public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionIn
     where TCharacter: class, ICharacter
     where TCharacterGameActionInfo: class, ICharacterGameActionInfo
 {
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
@@ -18,17 +18,6 @@ public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionIn
         {
             Actor.RemoveBaseCharacterFlags(false, "Hide");
             Actor.Recompute();
-        }
-
-        // check guards from GameActionInfo
-        if (GameActionInfo.CharacterGuards.Length > 0)
-        {
-            foreach (var guard in GameActionInfo.CharacterGuards)
-            {
-                var guardResult = guard.Guards(Actor, actionInput, this);
-                if (guardResult != null)
-                    return guardResult;
-            }
         }
 
         // Check stun

@@ -2,13 +2,14 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
-using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Room;
-using Mud.Random;
 
 namespace Mud.Server.Tests.Abilities;
 
@@ -33,7 +34,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -56,7 +57,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -82,7 +83,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -109,7 +110,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         casterMock.Setup(x => x.CanSee(victimMock.Object)).Returns<ICharacter>(_ => true);
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), [new MinPositionGuard(Positions.Standing)]), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -136,7 +137,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         casterMock.Setup(x => x.CanSee(victimMock.Object)).Returns<ICharacter>(_ => true);
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), [new MinPositionGuard(Positions.Standing)]), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -163,7 +164,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         casterMock.Setup(x => x.CanSee(victimMock.Object)).Returns<ICharacter>(_ => true);
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), [new MinPositionGuard(Positions.Standing)]), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -190,7 +191,7 @@ public class DefensiveSpellBaseTests : AbilityTestBase
         casterMock.Setup(x => x.CanSee(victimMock.Object)).Returns<ICharacter>(_ => true);
         DefensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<DefensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -201,6 +202,8 @@ public class DefensiveSpellBaseTests : AbilityTestBase
     [Spell(SpellName, AbilityEffects.Buff)]
     public class DefensiveSpellBaseSpellsSpell : DefensiveSpellBase
     {
+        protected override ISpellGuard[] Guards => [new RequiresMinPosition(Positions.Standing)];
+
         public DefensiveSpellBaseSpellsSpell(ILogger<DefensiveSpellBaseSpellsSpell> logger, IRandomManager randomManager)
             : base(logger, randomManager)
         {

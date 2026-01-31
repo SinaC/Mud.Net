@@ -5,16 +5,16 @@ using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24)]
 [Syntax("cast [spell] <target>")]
 [Help(
 @"The portal spell is similar to gate, but creates a lasting one-way portal
@@ -27,6 +27,8 @@ secret of this material component has been lost...")]
 public class Portal : TransportationSpellBase
 {
     private const string SpellName = "Portal";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IItemManager ItemManager { get; }
     private int PortalBlueprintId { get; }

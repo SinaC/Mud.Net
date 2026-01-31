@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Flags;
+using Mud.Flags.Interfaces;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Flags;
-using Mud.Flags.Interfaces;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
 [AbilityCharacterWearOffMessage("You no longer see invisible objects.")]
 [AbilityDispellable]
 [Syntax("cast [spell]")]
@@ -23,6 +23,8 @@ namespace Mud.Server.Rom24.Spells;
 public class DetectInvis : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Invis";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     public DetectInvis(ILogger<DetectInvis> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)

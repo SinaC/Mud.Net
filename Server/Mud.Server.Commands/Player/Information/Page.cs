@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Information;
 
@@ -15,12 +17,14 @@ default is 24 lines).  Change this to a higher number for larger screen
 sizes, or to 0 to disabling paging.")]
 public class Page : PlayerGameAction
 {
-    protected bool Display { get; set; }
-    protected int LineCount { get; set; }
+    protected override IGuard<IPlayer>[] Guards => [];
 
-    public override string? Guards(IActionInput actionInput)
+    private bool Display { get; set; }
+    private int LineCount { get; set; }
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

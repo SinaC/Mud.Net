@@ -1,19 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Cure), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Cure)]
 [Syntax(
     "cast [spell] <character>",
     "cast [spell] <object>")]
@@ -25,6 +25,8 @@ inventory, in which case it's chance of success is significantly higher.")]
 public class RemoveCurse : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Remove Curse";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IDispelManager DispelManager { get; }
 

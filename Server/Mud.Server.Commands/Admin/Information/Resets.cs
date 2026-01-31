@@ -1,10 +1,12 @@
-﻿using Mud.Common;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Reset;
+using Mud.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;
@@ -17,6 +19,8 @@ namespace Mud.Server.Commands.Admin.Information;
 "[cmd] (if impersonated)")]
 public class Resets : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [];
+
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
     private IItemManager ItemManager { get; }
@@ -28,11 +32,11 @@ public class Resets : AdminGameAction
         ItemManager = itemManager;
     }
 
-    protected IRoom Room { get; set; } = default!;
+    private IRoom Room { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

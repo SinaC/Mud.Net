@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -8,8 +9,8 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.Rom24.Skills;
@@ -27,6 +28,8 @@ the reading of magical scrolls and books")]
 public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
 {
     private const string SkillName = "Scrolls";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     public Scrolls(ILogger<Scrolls> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
         : base(logger, randomManager, abilityManager, itemManager)

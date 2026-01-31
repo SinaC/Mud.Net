@@ -1,20 +1,23 @@
 ﻿using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
-using Mud.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questauto", "Quest", Priority = 6), MinPosition(Positions.Standing), NotInCombat]
+[PlayableCharacterCommand("questauto", "Quest", Priority = 6)]
 [Alias("qauto")]
 [Syntax("[cmd]")]
 public class QuestAuto : PlayableCharacterGameAction
 {
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
+
     private IQuestManager QuestManager { get; }
     private IRandomManager RandomManager { get; }
 
@@ -26,9 +29,9 @@ public class QuestAuto : PlayableCharacterGameAction
 
     private INonPlayableCharacter QuestGiver { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

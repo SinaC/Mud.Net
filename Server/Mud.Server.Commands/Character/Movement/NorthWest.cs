@@ -1,18 +1,13 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("northwest", "Movement", Priority = 1), MinPosition(Positions.Standing), NotInCombat]
+[CharacterCommand("northwest", "Movement", Priority = 1)]
 [Alias("nw")]
 [Help("Use this command to walk in north west direction.")]
-public class NorthWest : CharacterGameAction
+public class NorthWest : MoveBase
 {
-    public override void Execute(IActionInput actionInput)
-    {
-        Actor.Move(ExitDirections.NorthWest, false, true);
-    }
+    protected override ExitDirections Direction => ExitDirections.NorthWest;
 }

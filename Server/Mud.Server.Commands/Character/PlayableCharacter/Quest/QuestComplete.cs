@@ -1,24 +1,28 @@
 ﻿using Mud.Blueprints.Character;
 using Mud.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayableCharacterGuards;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questcomplete", "Quest", Priority = 2), MinPosition(Positions.Standing), NotInCombat, NoArgumentGuard("Complete which quest ?")]
+[PlayableCharacterCommand("questcomplete", "Quest", Priority = 2)]
 [Alias("qcomplete")]
 [Syntax(
        "[cmd] <id>",
        "[cmd] all")]
 public class QuestComplete : PlayableCharacterGameAction
 {
-    protected IQuest[] What { get; set; } = default!;
+    protected override IGuard<IPlayableCharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat(), new RequiresAtLeastOneArgument { Message = "Complete which quest ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IQuest[] What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

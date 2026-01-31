@@ -6,19 +6,19 @@ using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Detection)]
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell reveals information about the object.")]
@@ -26,6 +26,8 @@ namespace Mud.Server.Rom24.Spells;
 public class Identify : ItemInventorySpellBase
 {
     private const string SpellName = "Identify";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private ITableValues TableValues { get; }
     private IWiznet Wiznet { get; }

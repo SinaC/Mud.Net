@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
-using Mud.Random;
 
 namespace Mud.Server.POC.Spells;
 

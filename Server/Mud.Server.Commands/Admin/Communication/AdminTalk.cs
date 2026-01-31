@@ -1,12 +1,13 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Communication;
 
-[AdminCommand("admintalk", "Communication"), NoArgumentGuard("What do you want to say on admin channel ?")]
+[AdminCommand("admintalk", "Communication")]
 [Alias("atalk")]
 [Alias(":")]
 [Syntax("[cmd] <message>")]
@@ -16,6 +17,8 @@ Using this command with no argument turns off the admin channel (or
 turns it back on).")]
 public class AdminTalk : AdminGameAction
 {
+    protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument { Message = "What do you want to say on admin channel ?" }];
+
     private IAdminManager AdminManager { get; }
 
     public AdminTalk(IAdminManager adminManager)
@@ -23,11 +26,11 @@ public class AdminTalk : AdminGameAction
         AdminManager = adminManager;
     }
 
-    protected string What { get; set; } = default!;
+    private string What { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
         

@@ -11,6 +11,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.POC.Skills;
 
@@ -24,6 +25,8 @@ namespace Mud.Server.POC.Skills;
 public class Taunt : OffensiveSkillBase
 {
     private const string SkillName = "Taunt";
+
+    protected override IGuard<ICharacter>[] Guards => [];
 
     private IAuraManager AuraManager { get; }
     private IAggroManager AggroManager { get; }

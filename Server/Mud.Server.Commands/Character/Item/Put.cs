@@ -3,14 +3,15 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("put", "Item", "Equipment"), MinPosition(Positions.Resting)]
+[CharacterCommand("put", "Item", "Equipment")]
 [Syntax("[cmd] <item> [in] <container>")]
 [Help(
 @"[cmd] puts an object into a container.
@@ -19,12 +20,14 @@ namespace Mud.Server.Commands.Character.Item;
 [cmd] X.sword is also allowed to put the Xth sword of the list.")]
 public class Put : CharacterGameAction
 {
-    protected IItem[] What { get; set; } = default!;
-    protected IItemContainer Container { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastTwoArguments { Message = "Put what in what ?" }];
 
-    public override string? Guards(IActionInput actionInput)
+    private IItem[] What { get; set; } = default!;
+    private IItemContainer Container { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

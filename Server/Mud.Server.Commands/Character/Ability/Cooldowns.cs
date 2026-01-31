@@ -2,7 +2,9 @@
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Ability;
@@ -14,11 +16,13 @@ namespace Mud.Server.Commands.Character.Ability;
     "[cmd] <ability>")]
 public class Cooldowns : CharacterGameAction
 {
-    protected IAbilityLearned AbilityLearned { get; set; } = default!;
+    protected override IGuard<ICharacter>[] Guards => [];
 
-    public override string? Guards(IActionInput actionInput)
+    private IAbilityLearned AbilityLearned { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

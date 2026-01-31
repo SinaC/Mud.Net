@@ -1,18 +1,21 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
 
-[PlayerCommand("answer", "Communication"), NoArgumentGuard("Answer what ?")]
+[PlayerCommand("answer", "Communication")]
 [Syntax("[cmd] <message>")]
 [Help(
 @"With these channels, you can ask questions to other players such newbie 
 helper. You can turn it off by simply typing QUESTION.")]
 public class Answer : CommunicationGameActionBase
 {
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastOneArgument { Message = "Answer what ?"}];
+
     public Answer(ICommandParser commandParser, IPlayerManager playerManager)
        : base(commandParser, playerManager)
     {

@@ -1,20 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Random;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Environment), NotInCombat(Message = StringHelpers.YouCantConcentrateEnough)]
+[Spell(SpellName, AbilityEffects.Environment)]
 [Syntax(
     "cast [spell] better",
     "cast [spell] worse")]
@@ -24,6 +24,8 @@ namespace Mud.Server.Rom24.Spells;
 public class ControlWeather : NoTargetSpellBase
 {
     private const string SpellName = "Control Weather";
+
+    protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private ITimeManager TimeManager { get; }
     private ICommandParser CommandParser { get; }
@@ -35,7 +37,7 @@ public class ControlWeather : NoTargetSpellBase
         CommandParser = commandParser;
     }
 
-    protected bool IsBetterRequired { get; set; }
+    private bool IsBetterRequired { get; set; }
 
     public override string? Setup(ISpellActionInput spellActionInput)
     {

@@ -5,13 +5,15 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Ability;
 
-[CharacterCommand("cast", "Ability", Priority = 2), MinPosition(Positions.Sitting), NoArgumentGuard("Cast what ?")]
+[CharacterCommand("cast", "Ability", Priority = 2)]
 [Syntax("[cmd] <ability> <target>")]
 [Help(
 @"Before you can cast a spell, you have to practice it.  The more you practice,
@@ -43,6 +45,8 @@ See also the help sections for individual spells.
 Use the 'spells' command to see the spells you already have (help spells).")]
 public class Cast : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Sitting), new RequiresAtLeastOneArgument { Message = "Cast what ?" }];
+
     private ILogger<Cast> Logger { get; }
     private IAbilityManager AbilityManager { get; }
 
@@ -52,11 +56,11 @@ public class Cast : CharacterGameAction
         AbilityManager = abilityManager;
     }
 
-    protected ISpell SpellInstance { get; set; } = default!;
+    private ISpell SpellInstance { get; set; } = default!;
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

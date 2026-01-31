@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
+using Mud.Server.Interfaces.Player;
 using System.Text;
 
 namespace Mud.Server.Commands.Player.Communication;
@@ -11,9 +13,11 @@ namespace Mud.Server.Commands.Player.Communication;
 AFK/BUILDING/LINKDEAD.")]
 public class Replay : PlayerGameAction
 {
-    public override string? Guards(IActionInput actionInput)
+    protected override IGuard<IPlayer>[] Guards => [];
+
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

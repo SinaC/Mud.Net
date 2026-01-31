@@ -4,22 +4,25 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Guards.Attributes;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("close", "Movement"), MinPosition(Positions.Resting), NoArgumentGuard("Close what ?")]
+[CharacterCommand("close", "Movement")]
 [Syntax(
         "[cmd] <container|portal>",
         "[cmd] <direction|door>")]
 [Help(@"[cmd] close an object or a door.")]
 public class Close : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Close what ?" }];
+
     private ILogger<Close> Logger { get; }
 
     public Close(ILogger<Close> logger)
@@ -27,12 +30,12 @@ public class Close : CharacterGameAction
         Logger = logger;
     }
 
-    protected ICloseable What { get; set; } = default!;
-    protected ExitDirections ExitDirection { get; set; }
+    private ICloseable What { get; set; } = default!;
+    private ExitDirections ExitDirection { get; set; }
 
-    public override string? Guards(IActionInput actionInput)
+    public override string? CanExecute(IActionInput actionInput)
     {
-        var baseGuards = base.Guards(actionInput);
+        var baseGuards = base.CanExecute(actionInput);
         if (baseGuards != null)
             return baseGuards;
 

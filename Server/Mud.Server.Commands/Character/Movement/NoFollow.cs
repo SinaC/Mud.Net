@@ -1,6 +1,7 @@
 ﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.Movement;
 
@@ -9,6 +10,8 @@ namespace Mud.Server.Commands.Character.Movement;
 // TODO: help
 public class NoFollow : CharacterGameAction
 {
+    protected override IGuard<ICharacter>[] Guards => [];
+
     private ICharacterManager CharacterManager { get; }
 
     public NoFollow(ICharacterManager characterManager)
