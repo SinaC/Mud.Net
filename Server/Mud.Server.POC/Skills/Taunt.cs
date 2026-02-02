@@ -1,17 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Flags;
 using Mud.Random;
-using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Ability.Skill.Interfaces;
 using Mud.Server.Affects.Character;
-using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.POC.Skills;
 

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Interfaces\Mud.Server.Ability.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Class.Interfaces\Mud.Server.Class.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

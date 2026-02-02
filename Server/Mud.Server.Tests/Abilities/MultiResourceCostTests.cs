@@ -5,9 +5,10 @@ using Mud.Domain;
 using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Interfaces;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 

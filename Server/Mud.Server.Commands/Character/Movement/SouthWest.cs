@@ -1,6 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Common.Attributes;
-using Mud.Server.GameAction;
+using Mud.Server.Domain.Attributes;
 
 namespace Mud.Server.Commands.Character.Movement;
 

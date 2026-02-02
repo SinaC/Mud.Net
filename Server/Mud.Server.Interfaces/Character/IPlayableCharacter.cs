@@ -1,8 +1,8 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.AbilityGroup.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;

@@ -1,13 +1,17 @@
 ﻿using Mud.Common;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Ability.Passive.Interfaces;
+using Mud.Server.Ability.Skill.Interfaces;
+using Mud.Server.Ability.Spell.Interfaces;
+using Mud.Server.AbilityGroup.Interfaces;
+using Mud.Server.Class.Interfaces;
+using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Actor;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
-using Mud.Server.Interfaces.Race;
+using Mud.Server.Race.Interfaces;
 using Mud.Server.TableGenerator;
 using System.Text;
 

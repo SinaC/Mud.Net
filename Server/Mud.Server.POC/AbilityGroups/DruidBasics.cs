@@ -1,6 +1,6 @@
 ﻿using Mud.Common.Attributes;
 using Mud.Server.Ability.AbilityGroup;
-using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.AbilityGroup.Interfaces;
 
 namespace Mud.Server.POC.AbilityGroups
 {

@@ -1,11 +1,11 @@
 ﻿using Mud.Flags;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.PlayerGuards;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 

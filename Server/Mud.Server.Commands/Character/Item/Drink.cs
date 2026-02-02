@@ -2,17 +2,17 @@
 using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Affects.Character;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 

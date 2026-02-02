@@ -8,6 +8,7 @@ using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Server.CommandParser.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;

@@ -1,6 +1,5 @@
 ﻿using Mud.Domain.SerializationData.Avatar;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Character;
+using Mud.Server.Ability.Interfaces;
 
 namespace Mud.Server.Ability;
 
@@ -61,9 +60,6 @@ public class AbilityLearned : IAbilityLearned
         Rating = rating;
         Learned = learned;
     }
-
-    public bool CanBePracticed(IPlayableCharacter playableCharacter)
-        => Level <= playableCharacter.Level && Learned > 0;
 
     public bool HasCost => AbilityUsage.HasCost;
 }

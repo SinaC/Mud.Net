@@ -5,6 +5,7 @@ using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Server.CommandParser.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;

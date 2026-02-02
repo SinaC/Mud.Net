@@ -1,9 +1,10 @@
 ﻿using Mud.Blueprints.Character;
 using Mud.Random;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Ability.Passive.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;

@@ -10,6 +10,7 @@ using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Affects.Character;
+using Mud.Server.CommandParser.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;

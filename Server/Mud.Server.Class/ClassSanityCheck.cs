@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Class;
 

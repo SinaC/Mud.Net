@@ -1,13 +1,14 @@
 ﻿using Mud.Common;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
-using Mud.Server.Interfaces.Race;
+using Mud.Server.Race.Interfaces;
 using Mud.Server.TableGenerator;
 using System.Text;
 

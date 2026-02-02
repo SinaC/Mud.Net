@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Skill.Interfaces\Mud.Server.Ability.Skill.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Spell.Interfaces\Mud.Server.Ability.Spell.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Spell\Mud.Server.Ability.Spell.csproj" />
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

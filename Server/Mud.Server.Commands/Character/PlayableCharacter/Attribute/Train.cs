@@ -1,15 +1,15 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
-using Mud.Server.Interfaces.Race;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Attribute;
 

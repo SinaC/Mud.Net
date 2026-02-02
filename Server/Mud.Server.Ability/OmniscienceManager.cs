@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Class;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Options;
 
 namespace Mud.Server.Ability;

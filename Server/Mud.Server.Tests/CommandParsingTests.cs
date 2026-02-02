@@ -36,7 +36,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void NoArg()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test", out var command, out var parameters);
 
@@ -48,7 +48,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test arg1", out var command, out var parameters);
 
@@ -67,7 +67,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_2()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 'arg1 arg2 arg3 arg4'", out var command, out var parameters);
 
@@ -86,7 +86,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void MultipleArgs()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 'arg1' 'arg2' 'arg3' 'arg4'", out var command, out var parameters);
 
@@ -122,7 +122,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void MultipleArgs_2()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 'arg1 arg2' 'arg3 arg4'", out var command, out var parameters);
 
@@ -146,7 +146,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void MultipleArgs_3()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 'arg1 arg2\" arg3 arg4", out var command, out var parameters);
 
@@ -176,7 +176,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_Count()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 3.arg1", out var command, out var parameters);
 
@@ -195,7 +195,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_Count_2()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 2.'arg1'", out var command, out var parameters);
 
@@ -214,7 +214,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_Count_3()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 2'.arg1'", out var command, out var parameters);
 
@@ -233,7 +233,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void MultipleArgs_Count()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 2'.arg1' arg3", out var command, out var parameters);
 
@@ -257,7 +257,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void MultipleArgs_Count_2()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 2.'arg1 arg2' 3.arg3 5.arg4", out var command, out var parameters);
 
@@ -287,7 +287,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_Count_Invalid()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test 2.", out var command, out var parameters);
 
@@ -297,7 +297,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_Count_Invalid_2()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test .", out var command, out var parameters);
 
@@ -307,7 +307,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void SingleArg_Count_4()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("test '2.arg1'", out var command, out var parameters);
 
@@ -326,7 +326,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void NoArg_OutOfGame()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters("/test", out var command, out var parameters);
 
@@ -338,7 +338,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void NoArg_DetectOutOfGame()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters(null, "/test", out var command, out var parameters, out var forceOutOfGame);
 
@@ -351,7 +351,7 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void NoArg_DetectOutOfGame_2()
     {
-        var commandParser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var commandParser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
 
         var processed = commandParser.ExtractCommandAndParameters(null, "test", out var command, out var parameters, out var forceOutOfGame);
 

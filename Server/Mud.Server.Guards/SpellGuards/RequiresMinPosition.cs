@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Ability.Spell.Interfaces;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Guards.SpellGuards;
 

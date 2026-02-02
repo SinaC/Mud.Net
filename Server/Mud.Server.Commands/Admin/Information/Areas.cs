@@ -1,9 +1,9 @@
-﻿using Mud.Server.Common.Attributes;
+﻿using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Admin.Information;

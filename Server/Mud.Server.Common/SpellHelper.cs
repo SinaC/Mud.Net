@@ -1,4 +1,4 @@
-﻿using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Ability.Interfaces;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 

@@ -1,10 +1,11 @@
 ﻿using Mud.Common;
+using Mud.Server.Ability.Interfaces;
 using Mud.Server.Common;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Ability;

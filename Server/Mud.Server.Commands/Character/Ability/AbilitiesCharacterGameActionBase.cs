@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using Mud.Server.Ability.Interfaces;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Options;
 using Mud.Server.TableGenerator;
 

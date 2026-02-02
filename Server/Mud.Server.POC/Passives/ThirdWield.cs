@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Random;
-using Mud.Server.Ability;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.POC.Passives;

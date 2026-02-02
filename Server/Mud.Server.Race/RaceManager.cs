@@ -1,5 +1,5 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Server.Interfaces.Race;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Race;
 

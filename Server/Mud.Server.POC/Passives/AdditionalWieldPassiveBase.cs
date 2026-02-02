@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Ability.Passive;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Ability.Passive.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 

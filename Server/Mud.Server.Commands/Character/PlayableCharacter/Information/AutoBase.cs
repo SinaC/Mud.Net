@@ -1,8 +1,8 @@
 ﻿using Mud.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 

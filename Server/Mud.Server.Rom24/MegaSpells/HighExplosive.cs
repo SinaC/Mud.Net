@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
-using Mud.Server.Ability;
+using Mud.Random;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Domain;
-using Mud.Random;
+using Mud.Server.Domain.Attributes;
 
 namespace Mud.Server.Rom24.MegaSpells;
 

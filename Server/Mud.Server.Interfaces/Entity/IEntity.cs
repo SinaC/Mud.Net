@@ -1,5 +1,4 @@
-﻿using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Actor;
+﻿using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;

@@ -2,12 +2,11 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Domain;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Race;
-using System.Linq;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Race.Interfaces;
 using System.Reflection;
 
 namespace Mud.Server.Race;

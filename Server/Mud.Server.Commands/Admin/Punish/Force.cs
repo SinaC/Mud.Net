@@ -1,13 +1,14 @@
 ﻿using Mud.Flags;
-using Mud.Server.Common.Attributes;
+using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.AdminGuards;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Admin.Punish;
 

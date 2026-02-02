@@ -1,4 +1,4 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Domain.Attributes;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 

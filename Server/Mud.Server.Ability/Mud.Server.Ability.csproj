@@ -9,11 +9,10 @@
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Domain\Mud.Domain.csproj" />
-    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
-    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Interfaces\Mud.Server.Ability.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Passive.Interfaces\Mud.Server.Ability.Passive.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.CommandParser.Interfaces\Mud.Server.CommandParser.Interfaces.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
-    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />

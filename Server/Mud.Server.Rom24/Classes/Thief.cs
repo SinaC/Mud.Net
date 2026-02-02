@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.AbilityGroup.Interfaces;
 using Mud.Server.Class;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Domain;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.AbilityGroup;
-using Mud.Server.Interfaces.Class;
+using Mud.Server.Domain.Attributes;
 
 namespace Mud.Server.Rom24.Classes;
 

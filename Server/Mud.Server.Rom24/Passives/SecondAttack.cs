@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Server.Ability;
-using Mud.Server.Ability.Passive;
-using Mud.Server.Common.Attributes;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Character;
 using Mud.Random;
+using Mud.Server.Ability.Passive;
+using Mud.Server.Ability.Passive.Interfaces;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Rom24.Passives;
 

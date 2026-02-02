@@ -1,4 +1,4 @@
-﻿using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.CommandParser.Interfaces;
 
 namespace Mud.Server.Interfaces.Admin;
 

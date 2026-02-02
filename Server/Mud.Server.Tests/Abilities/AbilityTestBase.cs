@@ -2,8 +2,10 @@
 using Moq;
 using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Tests.Mocking;
@@ -16,7 +18,7 @@ public abstract class AbilityTestBase : TestBase
 {
     protected static ICommandParameter[] BuildParameters(string parameters)
     {
-        var parser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        var parser = new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object);
         return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
     }
 
@@ -57,7 +59,7 @@ public abstract class AbilityTestBase : TestBase
                 break;
         }
 
-        new CommandParser(new Mock<ILogger<CommandParser>>().Object).ExtractCommandAndParameters(commandLine, out var command, out var parameters);
+        new CommandParser.CommandParser(new Mock<ILogger<CommandParser.CommandParser>>().Object).ExtractCommandAndParameters(commandLine, out var command, out var parameters);
         return new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
     }
 

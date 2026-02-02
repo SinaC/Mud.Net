@@ -1,14 +1,14 @@
 ﻿using Mud.Domain;
-using Mud.Server.Domain;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Class.Interfaces;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Race.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Interfaces.Character;

@@ -1,8 +1,10 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 

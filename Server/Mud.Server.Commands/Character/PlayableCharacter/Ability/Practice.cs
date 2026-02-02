@@ -1,13 +1,13 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.PlayableCharacterGuards;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.TableGenerator;
 
@@ -63,7 +63,7 @@ public class Practice : PlayableCharacterGameAction
         if (Actor.Practices < 0)
             return "You have no practice sessions left.";
         // search ability
-        AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => x.CanBePracticed(Actor) && StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
+        AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => CanBePracticed(x, Actor) && StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
         if (AbilityLearned == null)
             return "You can't practice that.";
         if (AbilityLearned.Rating <= 0)
@@ -77,7 +77,7 @@ public class Practice : PlayableCharacterGameAction
     {
         if (Display)
         {
-            var sb = PracticeAbilityTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { ColumnRepetionCount = 3 }, Actor.LearnedAbilities.Where(x => x.CanBePracticed(Actor)).OrderBy(x => x.Level).ThenBy(x => x.Name));
+            var sb = PracticeAbilityTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { ColumnRepetionCount = 3 }, Actor.LearnedAbilities.Where(x => CanBePracticed(x, Actor)).OrderBy(x => x.Level).ThenBy(x => x.Name));
             sb.AppendFormatLine("You have {0} practice sessions left.", Actor.Practices);
             Actor.Send(sb);
             return;
@@ -106,4 +106,7 @@ public class Practice : PlayableCharacterGameAction
         generator.AddColumn("Pra%", 6, x => $"{x.Learned}%");
         return generator;
     });
+
+    private static bool CanBePracticed(IAbilityLearned abilityLearned, IPlayableCharacter playableCharacter)
+        => abilityLearned.Level <= playableCharacter.Level && abilityLearned.Learned > 0;
 }

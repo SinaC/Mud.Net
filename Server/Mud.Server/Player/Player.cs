@@ -5,6 +5,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
 using Mud.Server.Actor;
+using Mud.Server.CommandParser.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;

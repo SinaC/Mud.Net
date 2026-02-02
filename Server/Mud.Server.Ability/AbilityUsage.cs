@@ -1,4 +1,4 @@
-﻿using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Ability.Interfaces;
 
 namespace Mud.Server.Ability;
 
