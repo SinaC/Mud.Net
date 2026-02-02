@@ -5,7 +5,7 @@ using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.Domain.SerializationData;
@@ -29,8 +29,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
     private ITableValues TableValues { get; }
     private IFlagsManager FlagsManager { get; }
 
-    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
-       : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
+    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
+       : base(logger, gameActionManager, parser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         TableValues = tableValues;
 

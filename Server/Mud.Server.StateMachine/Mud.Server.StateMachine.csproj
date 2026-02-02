@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Server.Commands.Actor\Mud.Server.Commands.Actor.csproj" />
+    <ProjectReference Include="..\Mud.Server.Commands.Admin\Mud.Server.Commands.Admin.csproj" />
+    <ProjectReference Include="..\Mud.Server.Commands.Player\Mud.Server.Commands.Player.csproj" />
+    <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
+    <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
+    <ProjectReference Include="..\Mud.Server.StateMachine.Interfaces\Mud.Server.StateMachine.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
+    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
+  </ItemGroup>
+
+
+</Project>

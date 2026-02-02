@@ -1,5 +1,5 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Admin;
 

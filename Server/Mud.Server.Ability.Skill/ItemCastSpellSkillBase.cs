@@ -4,7 +4,7 @@ using Mud.Random;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Ability.Spell.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces;

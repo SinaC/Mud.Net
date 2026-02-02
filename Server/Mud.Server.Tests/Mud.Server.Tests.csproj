@@ -41,8 +41,9 @@
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags\Mud.Flags.csproj" />
-    <ProjectReference Include="..\Mud.Server.CommandParser\Mud.Server.CommandParser.csproj" />
+    <ProjectReference Include="..\Mud.Server.Parser\Mud.Server.Parser.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
+    <ProjectReference Include="..\Mud.Server.Group\Mud.Server.Group.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />

@@ -6,7 +6,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.Ability.Passive.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
 using System.Reflection;

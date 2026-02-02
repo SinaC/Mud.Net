@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain;
 
 namespace Mud.Server.Ability.Interfaces;

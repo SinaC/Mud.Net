@@ -6,7 +6,7 @@ using Mud.Domain.SerializationData.Avatar;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -25,8 +25,8 @@ public class ItemFurniture : ItemBase, IItemFurniture
 {
     private IFlagsManager FlagsManager { get; }
 
-    public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IFlagsManager flagsManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
+    public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IFlagsManager flagsManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         FlagsManager = flagsManager;
 

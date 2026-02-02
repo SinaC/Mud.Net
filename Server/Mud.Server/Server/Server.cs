@@ -16,7 +16,7 @@ using Mud.Repository.Interfaces;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.AbilityGroup.Interfaces;
 using Mud.Server.Class.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;

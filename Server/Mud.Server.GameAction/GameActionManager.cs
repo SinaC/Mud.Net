@@ -4,7 +4,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Server.Ability.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Actor;
@@ -19,7 +19,7 @@ public class GameActionManager : IGameActionManager
 {
     private ILogger<GameActionManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private ICommandParser CommandParser { get; }
+    private IParser Parser { get; }
     private IAbilityManager AbilityManager { get; }
 
     private readonly List<IGameActionInfo> _dynamicGameActionInfos;
@@ -27,11 +27,11 @@ public class GameActionManager : IGameActionManager
     private readonly Dictionary<Type, IGameActionInfo> _staticGameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IAbilityManager abilityManager, ISocialManager socialManager)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, IParser parser, IAbilityManager abilityManager, ISocialManager socialManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
-        CommandParser = commandParser;
+        Parser = parser;
         AbilityManager = abilityManager;
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
@@ -93,7 +93,7 @@ public class GameActionManager : IGameActionManager
         var command = gameActionInfo.Name;
         var parameters = commandLine == null
             ? Enumerable.Empty<ICommandParameter>().ToArray()
-            : CommandParser.SplitParameters(commandLine).Select(CommandParser.ParseParameter).ToArray();
+            : Parser.SplitParameters(commandLine).Select(Parser.ParseParameter).ToArray();
         return Execute(gameActionInfo, actor, commandLine!, command, parameters);
     }
 

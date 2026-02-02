@@ -1,4 +1,4 @@
-﻿using Mud.Server.CommandParser.Interfaces;
+﻿using Mud.Server.Parser.Interfaces;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 

@@ -16,8 +16,8 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Ability.Spell.Interfaces;
 using Mud.Server.Affects.Character;
 using Mud.Server.Class.Interfaces;
-using Mud.Server.CommandParser;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -53,8 +53,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IClassManager ClassManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
@@ -469,7 +469,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (Master == null)
             return false;
         Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master, commandLine);
-        CommandParser.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
+        Parser.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
         bool executed = ExecuteCommand(commandLine, command, parameters);
         return executed;
     }
@@ -1043,44 +1043,44 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         {
             case 0:
                 if (OffensiveFlags.IsSet("Bash"))
-                    UseSkill("Bash", CommandParser.NoParameters);
+                    UseSkill("Bash", Parser.NoParameters);
                 break;
             case 1:
                 if (OffensiveFlags.IsSet("Berserk") && !CharacterFlags.IsSet("Berserk"))
-                    UseSkill("Berserk", CommandParser.NoParameters);
+                    UseSkill("Berserk", Parser.NoParameters);
                 break;
             case 2:
                 if (OffensiveFlags.IsSet("Disarm")
                     || ActFlags.HasAny("Warrior", "Thief")) // TODO: check if weapon skill is not hand to hand
-                    UseSkill("Disarm", CommandParser.NoParameters);
+                    UseSkill("Disarm", Parser.NoParameters);
                 break;
             case 3:
                 if (OffensiveFlags.IsSet("Kick"))
-                    UseSkill("Kick", CommandParser.NoParameters);
+                    UseSkill("Kick", Parser.NoParameters);
                 break;
             case 4:
                 if (OffensiveFlags.IsSet("DirtKick"))
-                    UseSkill("Dirt Kicking", CommandParser.NoParameters);
+                    UseSkill("Dirt Kicking", Parser.NoParameters);
                 break;
             case 5:
                 if (OffensiveFlags.IsSet("Tail"))
-                    UseSkill("Tail", CommandParser.NoParameters);
+                    UseSkill("Tail", Parser.NoParameters);
                 break;
             case 6:
                 if (OffensiveFlags.IsSet("Trip"))
-                    UseSkill("Trip", CommandParser.NoParameters);
+                    UseSkill("Trip", Parser.NoParameters);
                 break;
             case 7:
                 if (OffensiveFlags.IsSet("Crush"))
-                    UseSkill("Crush", CommandParser.NoParameters);
+                    UseSkill("Crush", Parser.NoParameters);
                 break;
             case 8:
                 if (OffensiveFlags.IsSet("Backstab"))
-                    UseSkill("Backstab", CommandParser.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
+                    UseSkill("Backstab", Parser.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
                 break;
             case 9:
                 if (OffensiveFlags.IsSet("Bite"))
-                    UseSkill("Bite", CommandParser.NoParameters);
+                    UseSkill("Bite", Parser.NoParameters);
                 break;
         }
     }

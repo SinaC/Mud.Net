@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Domain.SerializationData;
@@ -26,8 +26,8 @@ public class ItemCorpse : ItemBase, IItemCorpse
 
     private IItemManager ItemManager { get; }
 
-    public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
+    public ItemCorpse(ILogger<ItemCorpse> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         ItemManager = itemManager;
 

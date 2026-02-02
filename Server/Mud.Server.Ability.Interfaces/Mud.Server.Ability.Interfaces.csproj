@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Server.CommandParser.Interfaces\Mud.Server.CommandParser.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Parser.Interfaces\Mud.Server.Parser.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
   </ItemGroup>
 

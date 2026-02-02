@@ -2,7 +2,6 @@
 using Mud.Blueprints.Item;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;

@@ -32,6 +32,19 @@
     <PackageReference Include="System.Text.Json" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\Mud.Server.Ability.Passive\Mud.Server.Ability.Passive.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Ability.Skill\Mud.Server.Ability.Skill.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Ability.Spell\Mud.Server.Ability.Spell.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.AbilityGroup\Mud.Server.AbilityGroup.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Parser\Mud.Server.Parser.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Commands.Actor\Mud.Server.Commands.Actor.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Commands.Admin\Mud.Server.Commands.Admin.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Commands.Character\Mud.Server.Commands.Character.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Commands.PlayableCharacter\Mud.Server.Commands.PlayableCharacter.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Commands.Player\Mud.Server.Commands.Player.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Domain\Mud.Server.Domain.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Group\Mud.Server.Group.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.StateMachine\Mud.Server.StateMachine.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Blueprints\Mud.Blueprints.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
@@ -46,7 +59,6 @@
     <ProjectReference Include="..\..\Server\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Affects\Mud.Server.Affects.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Class\Mud.Server.Class.csproj" />
-    <ProjectReference Include="..\..\Server\Mud.Server.Commands\Mud.Server.Commands.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Common\Mud.Server.Common.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Effects\Mud.Server.Effects.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />

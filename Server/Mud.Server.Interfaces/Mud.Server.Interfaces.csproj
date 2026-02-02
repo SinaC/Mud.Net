@@ -13,7 +13,7 @@
     <ProjectReference Include="..\Mud.Server.Ability.Interfaces\Mud.Server.Ability.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.AbilityGroup.Interfaces\Mud.Server.AbilityGroup.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Class.Interfaces\Mud.Server.Class.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.CommandParser.Interfaces\Mud.Server.CommandParser.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Parser.Interfaces\Mud.Server.Parser.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Race.Interfaces\Mud.Server.Race.Interfaces.csproj" />

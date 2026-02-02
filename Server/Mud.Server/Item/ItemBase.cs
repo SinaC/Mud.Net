@@ -10,7 +10,7 @@ using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Affects.Character;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
@@ -36,8 +36,8 @@ public abstract class ItemBase: EntityBase, IItem
     protected IRandomManager RandomManager { get; }
     protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions)
+    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions)
     { 
         MaxLevel = worldOptions.Value.MaxLevel;
         RandomManager = randomManager;

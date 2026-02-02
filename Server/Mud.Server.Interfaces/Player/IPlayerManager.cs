@@ -1,4 +1,4 @@
-﻿using Mud.Server.CommandParser.Interfaces;
+﻿using Mud.Server.Parser.Interfaces;
 
 namespace Mud.Server.Interfaces.Player;
 

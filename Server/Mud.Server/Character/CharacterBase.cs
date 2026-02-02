@@ -12,7 +12,7 @@ using Mud.Server.Ability.Interfaces;
 using Mud.Server.Ability.Passive.Interfaces;
 using Mud.Server.Affects.Character;
 using Mud.Server.Class.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -71,8 +71,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected ILootManager LootManager { get; }
     protected IAggroManager AggroManager { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions)
     {
         AbilityManager = abilityManager;
         RandomManager = randomManager;

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Random;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.GameAction;
@@ -15,8 +15,8 @@ namespace Mud.Server.Item;
 [Item(typeof(ItemWarpStoneBlueprint), typeof(ItemData))]
 public class ItemWarpstone : ItemBase, IItemWarpstone
 {
-    public ItemWarpstone(ILogger<ItemWarpstone> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
+    public ItemWarpstone(ILogger<ItemWarpstone> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
     }
 }

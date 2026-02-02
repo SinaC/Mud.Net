@@ -1,5 +1,5 @@
 ﻿using Mud.DataStructures.Trie;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 

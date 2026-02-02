@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mud.Server.Ability.Interfaces\Mud.Server.Ability.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.CommandParser.Interfaces\Mud.Server.CommandParser.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Parser.Interfaces\Mud.Server.Parser.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
   </ItemGroup>
 

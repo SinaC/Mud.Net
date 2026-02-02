@@ -11,7 +11,7 @@
     <ProjectReference Include="..\..\Shared\Mud.Domain\Mud.Domain.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability.Interfaces\Mud.Server.Ability.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability.Passive.Interfaces\Mud.Server.Ability.Passive.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.CommandParser.Interfaces\Mud.Server.CommandParser.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Parser.Interfaces\Mud.Server.Parser.Interfaces.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />

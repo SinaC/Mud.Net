@@ -1,0 +1,43 @@
+﻿using Mud.Domain;
+using Mud.Server.Parser.Interfaces;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Guards.Interfaces;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
+
+namespace Mud.Server.Commands.Character.Communication;
+
+[CharacterCommand("yell", "Communication")]
+[Syntax("[cmd] <message>")]
+[Help(@"[cmd] sends a message to all awake players within your area.")]
+public class Yell : CharacterGameAction
+{
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Yell what ?" }];
+
+    private IParser Parser { get; }
+
+    public Yell(IParser parser)
+    {
+        Parser = parser;
+    }
+
+    private string What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
+    {
+        var baseGuards = base.CanExecute(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
+
+        What = Parser.JoinParameters(actionInput.Parameters);
+
+        return null;
+    }
+
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Act(Actor.Room.Area.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating!), "%G%{0:n} yell{0:v} '%x%{1}%G%'%x%", Actor, What);
+    }
+}

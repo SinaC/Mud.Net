@@ -3,7 +3,7 @@ using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Ability.Spell.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
@@ -28,12 +28,12 @@ public class Ventriloquate : SpellBase
 
     protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
-    private ICommandParser CommandParser { get; }
+    private IParser Parser { get; }
 
-    public Ventriloquate(ILogger<Ventriloquate> logger, IRandomManager randomManager, ICommandParser commandParser)
+    public Ventriloquate(ILogger<Ventriloquate> logger, IRandomManager randomManager, IParser parser)
         : base(logger, randomManager)
     {
-        CommandParser = commandParser;
+        Parser = parser;
     }
 
     protected ICharacter Victim { get; set; } = default!;
@@ -54,7 +54,7 @@ public class Ventriloquate : SpellBase
             return StringHelpers.CharacterNotFound;
         if (Victim == Caster)
             return "Just say it.";
-        Phrase = CommandParser.JoinParameters(spellActionInput.Parameters.Skip(1));
+        Phrase = Parser.JoinParameters(spellActionInput.Parameters.Skip(1));
         return null;
     }
 

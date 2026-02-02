@@ -4,7 +4,7 @@ using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.AbilityGroup.Interfaces;
-using Mud.Server.CommandParser.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain.Attributes;
 using System.Reflection;
 
