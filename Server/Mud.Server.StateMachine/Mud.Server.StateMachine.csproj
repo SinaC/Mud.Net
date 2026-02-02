@@ -15,7 +15,6 @@
     <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\Mud.Server.StateMachine.Interfaces\Mud.Server.StateMachine.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
   </ItemGroup>
 
 

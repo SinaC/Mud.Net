@@ -1,6 +1,7 @@
 ﻿using Mud.Common.Attributes;
+using Mud.Domain.SerializationData.Avatar;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Domain.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public class AffectAttribute : ExportAttribute // every affect will be exported without ContractType

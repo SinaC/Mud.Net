@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
+namespace Mud.Server.Commands.PlayableCharacter.Item;
 
 [PlayableCharacterCommand("sacrifice", "Item")]
 [Alias("tap")]

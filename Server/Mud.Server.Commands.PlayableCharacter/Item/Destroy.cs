@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
+namespace Mud.Server.Commands.PlayableCharacter.Item;
 
 [PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true)]
 [Syntax("[cmd] <item>")]

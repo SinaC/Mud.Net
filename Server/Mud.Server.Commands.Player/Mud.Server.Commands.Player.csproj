@@ -11,13 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Server.Commands.Actor\Mud.Server.Commands.Actor.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Flags\Mud.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
+    <ProjectReference Include="..\Mud.Server.Guards.Interfaces\Mud.Server.Guards.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Guards\Mud.Server.Guards.csproj" />
     <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\Mud.Server.StateMachine.Interfaces\Mud.Server.StateMachine.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
   </ItemGroup>
 
 </Project>

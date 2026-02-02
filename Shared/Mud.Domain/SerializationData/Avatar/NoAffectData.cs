@@ -1,7 +1,6 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Domain.SerializationData.Avatar;
 
-namespace Mud.Server.Affects;
+namespace Mud.Domain.SerializationData.Avatar;
 
 [JsonBaseType(typeof(AffectDataBase), "noData")]
 public sealed class NoAffectData : AffectDataBase

@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
+namespace Mud.Server.Commands.PlayableCharacter.Quest;
 
 [PlayableCharacterCommand("questabandon", "Quest", Priority = 3)]
 [Alias("qabandon")]

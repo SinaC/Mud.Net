@@ -3,7 +3,7 @@ using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Flags.Attributes;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Flags;
+using Mud.Server.Flags.Interfaces;
 using System.Reflection;
 using System.Text;
 

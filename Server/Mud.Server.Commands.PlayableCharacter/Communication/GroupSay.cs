@@ -6,7 +6,7 @@ using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
+namespace Mud.Server.Commands.PlayableCharacter.Communication;
 
 [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
 [Alias("gtell")]

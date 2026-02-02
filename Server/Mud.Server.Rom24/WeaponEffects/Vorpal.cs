@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Domain;
-using Mud.Server.Effects;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;

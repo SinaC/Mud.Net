@@ -1,11 +1,11 @@
 ﻿using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Server.Domain.Attributes;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Avatar;

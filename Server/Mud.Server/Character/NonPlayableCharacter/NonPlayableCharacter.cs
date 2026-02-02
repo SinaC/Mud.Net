@@ -30,7 +30,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Loot;
@@ -42,6 +41,7 @@ using Mud.Server.Quest.Objectives;
 using Mud.Server.Race.Interfaces;
 using System.Diagnostics;
 using System.Text;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 

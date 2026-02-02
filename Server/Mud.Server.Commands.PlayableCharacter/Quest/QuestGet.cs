@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
+namespace Mud.Server.Commands.PlayableCharacter.Quest;
 
 [PlayableCharacterCommand("questget", "Quest", Priority = 4)]
 [Alias("qget")]

@@ -6,7 +6,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
+namespace Mud.Server.Commands.PlayableCharacter.Information;
 
 [PlayableCharacterCommand("affects", "Information")]
 [Alias("auras")]

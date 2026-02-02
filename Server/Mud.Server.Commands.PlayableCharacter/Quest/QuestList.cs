@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 using System.Text;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
+namespace Mud.Server.Commands.PlayableCharacter.Quest;
 
 [PlayableCharacterCommand("questlist", "Quest", Priority = 5)]
 [Alias("qlist")]

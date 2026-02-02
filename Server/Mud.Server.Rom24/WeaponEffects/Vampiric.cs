@@ -1,9 +1,9 @@
 ﻿using Mud.Domain;
-using Mud.Server.Effects;
+using Mud.Random;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.WeaponEffects;
 

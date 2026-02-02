@@ -1,6 +1,6 @@
 ﻿using Mud.Blueprints.Room;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Room;
 using System.Diagnostics;
 

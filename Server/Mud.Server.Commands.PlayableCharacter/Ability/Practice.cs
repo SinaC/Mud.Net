@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.TableGenerator;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
+namespace Mud.Server.Commands.PlayableCharacter.Ability;
 
 [PlayableCharacterCommand("practice", "Ability")]
 [Syntax(
@@ -84,7 +84,7 @@ public class Practice : PlayableCharacterGameAction
         }
 
         Actor.UpdateTrainsAndPractices(0, -1);
-        var learned = Math.Min(75, AbilityLearned.Learned + (TableValues.LearnBonus(Actor) / AbilityLearned.Rating)); // cannot go higher than 75
+        var learned = Math.Min(75, AbilityLearned.Learned + TableValues.LearnBonus(Actor) / AbilityLearned.Rating); // cannot go higher than 75
         AbilityLearned.SetLearned(learned);
         int maxLearned = Actor.Class?.MaxPracticePercentage ?? 50;
         if (AbilityLearned.Learned < maxLearned)

@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Race.Interfaces;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Attribute;
+namespace Mud.Server.Commands.PlayableCharacter.Attribute;
 
 [PlayableCharacterCommand("train", "Attribute")]
 [Syntax(

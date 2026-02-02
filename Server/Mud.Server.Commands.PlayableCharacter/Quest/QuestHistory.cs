@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.TableGenerator;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
+namespace Mud.Server.Commands.PlayableCharacter.Quest;
 
 [PlayableCharacterCommand("questhistory", "Quest", Priority = 6)]
 [Alias("qhistory")]

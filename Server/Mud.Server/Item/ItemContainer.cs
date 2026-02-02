@@ -10,11 +10,11 @@ using Mud.Server.Domain.Attributes;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Item;
 

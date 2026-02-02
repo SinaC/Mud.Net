@@ -4,7 +4,7 @@ using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
+namespace Mud.Server.Commands.PlayableCharacter.Information;
 
 public abstract class AutoBase : PlayableCharacterGameAction
 {

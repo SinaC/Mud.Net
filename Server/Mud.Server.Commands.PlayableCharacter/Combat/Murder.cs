@@ -8,7 +8,7 @@ using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Combat;
+namespace Mud.Server.Commands.PlayableCharacter.Combat;
 
 [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true)]
 [Syntax("[cmd] <character>")]

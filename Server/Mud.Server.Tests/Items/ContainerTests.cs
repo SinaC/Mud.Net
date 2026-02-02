@@ -2,7 +2,7 @@
 using Moq;
 using Mud.Blueprints.Item;
 using Mud.Flags;
-using Mud.Server.Interfaces.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;

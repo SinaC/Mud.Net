@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Mud.Server.AbilityGroup\Mud.Server.AbilityGroup.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Parser\Mud.Server.Parser.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Commands.Character\Mud.Server.Commands.Character.csproj" />

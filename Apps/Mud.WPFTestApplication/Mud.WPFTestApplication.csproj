@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\Server\Mud.Server.Ability.Skill\Mud.Server.Ability.Skill.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Ability.Spell\Mud.Server.Ability.Spell.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.AbilityGroup\Mud.Server.AbilityGroup.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Parser\Mud.Server.Parser.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.Actor\Mud.Server.Commands.Actor.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.Admin\Mud.Server.Commands.Admin.csproj" />

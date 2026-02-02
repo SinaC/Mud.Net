@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Mud.Flags\Mud.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.Commands.Character\Mud.Server.Commands.Character.csproj" />
     <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Group\Mud.Server.Group.csproj" />
     <ProjectReference Include="..\Mud.Server.Quest\Mud.Server.Quest.csproj" />

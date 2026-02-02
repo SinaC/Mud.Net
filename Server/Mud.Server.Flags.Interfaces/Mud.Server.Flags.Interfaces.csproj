@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Server.AbilityGroup.Interfaces\Mud.Server.AbilityGroup.Interfaces.csproj" />
+    <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
   </ItemGroup>
 
 </Project>

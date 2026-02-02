@@ -4,7 +4,7 @@ using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
+namespace Mud.Server.Commands.PlayableCharacter.Group;
 
 [PlayableCharacterCommand("nofollow", "Group", "Movement")]
 [Syntax("[cmd]")]

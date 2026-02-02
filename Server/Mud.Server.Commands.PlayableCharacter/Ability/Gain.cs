@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.TableGenerator;
 using System.Text;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
+namespace Mud.Server.Commands.PlayableCharacter.Ability;
 
 [PlayableCharacterCommand("gain", "Ability")]
 [Syntax(

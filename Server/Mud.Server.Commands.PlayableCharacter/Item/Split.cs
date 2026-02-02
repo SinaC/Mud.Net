@@ -7,7 +7,7 @@ using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
+namespace Mud.Server.Commands.PlayableCharacter.Item;
 
 [PlayableCharacterCommand("split", "Item", Priority = 600)]
 [Syntax("[cmd] <silver amount> <gold amount>")]

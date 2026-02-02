@@ -1,6 +1,7 @@
 ﻿using Mud.Domain.SerializationData.Avatar;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Room;
 

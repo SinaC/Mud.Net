@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
+namespace Mud.Server.Commands.PlayableCharacter.Quest;
 
 [PlayableCharacterCommand("questcomplete", "Quest", Priority = 2)]
 [Alias("qcomplete")]

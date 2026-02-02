@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Options;
 using System.Text;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
+namespace Mud.Server.Commands.PlayableCharacter.Group;
 
 [PlayableCharacterCommand("group", "Group", "Information")]
 [Syntax(

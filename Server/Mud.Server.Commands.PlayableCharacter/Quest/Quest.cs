@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Quest.Objectives;
 using System.Text;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
+namespace Mud.Server.Commands.PlayableCharacter.Quest;
 
 [PlayableCharacterCommand("quest", "Quest", Priority = 1)]
 [Syntax(

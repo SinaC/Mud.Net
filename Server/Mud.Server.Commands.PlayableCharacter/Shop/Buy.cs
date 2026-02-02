@@ -13,7 +13,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
+namespace Mud.Server.Commands.PlayableCharacter.Shop;
 
 [PlayableCharacterCommand("buy", "Shop")]
 [Syntax(

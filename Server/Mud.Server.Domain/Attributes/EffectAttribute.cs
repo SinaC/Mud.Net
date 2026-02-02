@@ -1,6 +1,6 @@
 ﻿using Mud.Common.Attributes;
 
-namespace Mud.Server.Effects;
+namespace Mud.Server.Domain.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public class EffectAttribute : ExportAttribute // every effect will be exported without ContractType

@@ -4,12 +4,12 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Server.Ability.Interfaces;
-using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Social;
+using Mud.Server.Parser.Interfaces;
 using System.Reflection;
 
 namespace Mud.Server.GameAction;
@@ -99,7 +99,7 @@ public class GameActionManager : IGameActionManager
 
     public string? Execute<TGameAction, TActor>(TActor actor, string? commandLine)
         where TActor : IActor
-        => Execute<TActor>(typeof(TGameAction), actor, commandLine);
+        => Execute(typeof(TGameAction), actor, commandLine);
 
     public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
         where TActor : IActor

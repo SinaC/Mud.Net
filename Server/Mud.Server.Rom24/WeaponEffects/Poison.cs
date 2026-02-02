@@ -2,7 +2,7 @@
 using Mud.Flags;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Server.Effects;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Affect.Item;

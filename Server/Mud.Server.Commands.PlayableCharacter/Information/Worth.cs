@@ -5,7 +5,7 @@ using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
+namespace Mud.Server.Commands.PlayableCharacter.Information;
 
 [PlayableCharacterCommand("worth", "Information")]
 public class Worth : PlayableCharacterGameAction

@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mud.Server.Ability.Passive.Interfaces\Mud.Server.Ability.Passive.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.Ability.Skill\Mud.Server.Ability.Skill.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Spell\Mud.Server.Ability.Spell.csproj" />
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Guards.Interfaces\Mud.Server.Guards.Interfaces.csproj" />

@@ -1,6 +1,6 @@
 ﻿using Mud.Server.Domain.Attributes;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
+namespace Mud.Server.Commands.PlayableCharacter.Information;
 
 [PlayableCharacterCommand("autosacrifice", "Information")]
 [Syntax("[cmd]")]

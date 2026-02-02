@@ -5,7 +5,7 @@ using Mud.Server.Guards.PlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Alias;
+namespace Mud.Server.Commands.PlayableCharacter.Alias;
 
 // TODO: exactly the same code in Mud.Server.Player.Alias
 [PlayableCharacterCommand("unalias", "Alias")]

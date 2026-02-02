@@ -1,8 +1,9 @@
 ﻿using Mud.Domain;
+using Mud.Random;
 using Mud.Server.Affects;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
-using Mud.Random;
 using System.Text;
 
 namespace Mud.Server.POC.Affects;

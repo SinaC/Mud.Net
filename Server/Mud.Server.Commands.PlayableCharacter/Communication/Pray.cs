@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
+namespace Mud.Server.Commands.PlayableCharacter.Communication;
 
 [PlayableCharacterCommand("pray", "Communication")]
 [Syntax("[cmd] <msg>")]

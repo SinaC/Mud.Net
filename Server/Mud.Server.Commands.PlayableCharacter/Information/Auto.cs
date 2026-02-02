@@ -1,14 +1,14 @@
 ﻿using Mud.Common;
 using Mud.Flags.Interfaces;
 using Mud.Server.Domain.Attributes;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
-namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
+namespace Mud.Server.Commands.PlayableCharacter.Information;
 
 [PlayableCharacterCommand("auto", "Information")]
 [Syntax(
