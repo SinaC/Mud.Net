@@ -2,16 +2,16 @@
 using Moq;
 using Mud.Blueprints.Character;
 using Mud.Domain;
-using Mud.Server.Character.NonPlayableCharacter;
-using Mud.Server.Domain;
 using Mud.Flags;
+using Mud.Random;
+using Mud.Server.Character.NonPlayableCharacter;
+using Mud.Server.Class.Interfaces;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Random;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Tests.NonPlayableCharacters;
 

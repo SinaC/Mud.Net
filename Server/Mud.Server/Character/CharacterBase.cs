@@ -8,31 +8,33 @@ using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Ability.Passive.Interfaces;
 using Mud.Server.Affects.Character;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Entity;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
-using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Loot;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Loot.Interfaces;
 using Mud.Server.Options;
+using Mud.Server.Parser.Interfaces;
+using Mud.Server.Race.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Character;
@@ -69,8 +71,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected ILootManager LootManager { get; }
     protected IAggroManager AggroManager { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions)
     {
         AbilityManager = abilityManager;
         RandomManager = randomManager;

@@ -1,18 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
-using Mud.Server.Ability;
+using Mud.Flags;
+using Mud.Random;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
-using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
-using Mud.Flags;
-using Mud.Server.GameAction;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
-using Mud.Random;
 
 namespace Mud.Server.Rom24.Spells;
 

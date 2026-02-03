@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Server.Interfaces.Effect;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Interfaces.Item;
 using System.Reflection;
 

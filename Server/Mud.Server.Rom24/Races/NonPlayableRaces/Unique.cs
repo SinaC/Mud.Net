@@ -2,8 +2,8 @@
 using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
 {

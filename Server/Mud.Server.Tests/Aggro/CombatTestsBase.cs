@@ -7,17 +7,17 @@ using Mud.Flags;
 using Mud.Random;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Character.PlayableCharacter;
+using Mud.Server.Class.Interfaces;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Loot.Interfaces;
 using Mud.Server.Options;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Tests.Aggro;
 

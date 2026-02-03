@@ -2,11 +2,10 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Flags;
-using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Ability.Interfaces;
 using Mud.Server.Actor;
 using Mud.Server.Common.Helpers;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -15,6 +14,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
+using Mud.Server.Parser.Interfaces;
 using System.Diagnostics;
 using System.Text;
 
@@ -24,14 +24,14 @@ public abstract class EntityBase : ActorBase, IEntity
 {
     private readonly List<IAura> _auras;
 
-    protected ICommandParser CommandParser { get; }
+    protected IParser Parser { get; }
     protected bool PrefixForwardedMessages { get; }
     protected bool ForwardSlaveMessages { get; }
 
-    protected EntityBase(ILogger<EntityBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions)
+    protected EntityBase(ILogger<EntityBase> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions)
         : base(logger, gameActionManager)
     {
-        CommandParser = commandParser;
+        Parser = parser;
         PrefixForwardedMessages = messageForwardOptions.Value.PrefixForwardedMessages;
         ForwardSlaveMessages = messageForwardOptions.Value.ForwardSlaveMessages;
 
@@ -59,7 +59,7 @@ public abstract class EntityBase : ActorBase, IEntity
     public override bool ProcessInput(string input)
     {
         // Extract command and parameters
-        bool extractedSuccessfully = CommandParser.ExtractCommandAndParameters(input, out var command, out var parameters);
+        bool extractedSuccessfully = Parser.ExtractCommandAndParameters(input, out var command, out var parameters);
         if (!extractedSuccessfully)
         {
             Logger.LogWarning("Command and parameters not extracted successfully");

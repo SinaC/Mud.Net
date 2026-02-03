@@ -1,10 +1,8 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Interfaces;
 using Mud.Server.Domain;
-using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Guards;
+using Mud.Server.Domain.Attributes;
 using System.Reflection;
 
 namespace Mud.Server.Ability;

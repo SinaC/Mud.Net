@@ -1,0 +1,108 @@
+﻿using Mud.Common;
+using Mud.Domain;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Common.Extensions;
+using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Guards.Interfaces;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Room;
+using System.Text;
+
+namespace Mud.Server.Commands.Character.Information;
+
+[CharacterCommand("scan", "Information")]
+[Syntax(
+    "[cmd]",
+    "[cmd] <direction>")]
+[Help(
+@"This command allows you to see 1 rooms forward in the 8 directions to
+check if there is players/mobs or 3 rooms forward in a specific direction")]
+public class Scan : CharacterGameAction
+{
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Standing), new CannotBeInCombat()];
+
+    private int MaxDistance = 2;
+    private ExitDirections? Direction { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
+    {
+        var baseGuards = base.CanExecute(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
+
+        if (Actor.Room == null)
+            return "You are nowhere.";
+        if (Actor.CharacterFlags.IsSet("Blind"))
+            return "Maybe it would help if you could see?";
+        if (Actor.Room.RoomFlags.IsSet("NoScan"))
+            return "Your vision is clouded by a mysterious force.";
+        var hasHolylight = Actor.ImmortalMode.IsSet("Holylight");
+        if (actionInput.Parameters.Length > 0)
+        {
+            if (ExitDirectionsExtensions.TryFindDirection(actionInput.Parameters[0].Value, out ExitDirections direction))
+            {
+                MaxDistance = hasHolylight ? 5 : 3;
+                Direction = direction;
+                return null;
+            }
+            else
+                return "Which way do you want to scan?";
+        }
+        MaxDistance = hasHolylight ? 4 : 1;
+        return null;
+    }
+
+    public override void Execute(IActionInput actionInput)
+    {
+        StringBuilder sb = new(1024);
+        if (Direction == null)
+        {
+            // Current room
+            sb.AppendLine("Right here you see:");
+            StringBuilder currentScan = ScanRoom(Actor.Room);
+            if (currentScan.Length == 0)
+                sb.AppendLine("None");// should never happen, 'this' is in the room
+            else
+                sb.Append(currentScan);
+            // Scan in one direction for each distance, then starts with another direction
+            foreach (var direction in Enum.GetValues<ExitDirections>())
+                ScanOneDirection(sb, direction, MaxDistance);
+        }
+        else
+            ScanOneDirection(sb, Direction.Value, MaxDistance);
+        Actor.Send(sb);
+    }
+
+    private void ScanOneDirection(StringBuilder sb, ExitDirections direction, int maxDistance)
+    {
+        var currentRoom = Actor.Room; // starting point
+        for (int distance = 1; distance < maxDistance + 1; distance++)
+        {
+            var exit = currentRoom[direction];
+            var destination = exit?.Destination;
+            if (destination == null)
+                break; // stop in that direction if no exit found or no linked room found
+            if (destination.RoomFlags.IsSet("NoScan"))
+                break; // no need to scan further
+            if (exit?.IsClosed == true)
+                break; // can't see thru closed door
+            var roomScan = ScanRoom(destination);
+            if (roomScan.Length > 0)
+            {
+                sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
+                sb.Append(roomScan);
+            }
+            currentRoom = destination;
+        }
+    }
+
+    private StringBuilder ScanRoom(IRoom room)
+    {
+        StringBuilder peopleInRoom = new();
+        foreach (ICharacter victim in room.People.Where(Actor.CanSee))
+            peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(Actor));
+        return peopleInRoom;
+    }
+}

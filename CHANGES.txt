@@ -1,7 +1,9 @@
+2026/01/31
+	- Guards refactoring (#300) (#298)
 2026/01/28
-	- affect modifying regen
-	- plague/poison refactoring
-	- issue fixed in HandleAuras, was triggered too often which decreased aura level every second instead of every minute
+	- affect modifying regen (#295)
+	- plague/poison refactoring (#295)
+	- issue fixed in HandleAuras, was triggered too often which decreased aura level every second instead of every minute (#295)
 2026/01/27
 	- social repository (#292)
 	- exits command doesn't display anymore exits to room player cannot see (#292)

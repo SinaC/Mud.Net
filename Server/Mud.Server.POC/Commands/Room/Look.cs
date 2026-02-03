@@ -1,8 +1,9 @@
 ﻿using Mud.Common;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;

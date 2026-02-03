@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Random;
-using Mud.Server.Interfaces.Flags;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Room;
 

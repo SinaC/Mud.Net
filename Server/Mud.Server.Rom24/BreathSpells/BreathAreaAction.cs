@@ -1,6 +1,6 @@
 ﻿using Mud.Domain;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Rom24.BreathSpells;

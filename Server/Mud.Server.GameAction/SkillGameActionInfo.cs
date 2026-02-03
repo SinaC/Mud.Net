@@ -1,5 +1,5 @@
-﻿using Mud.Server.Common.Attributes;
-using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Ability.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;

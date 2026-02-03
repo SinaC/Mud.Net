@@ -2,10 +2,10 @@
 using Mud.Flags;
 using Mud.Server.Affects.Character;
 using Mud.Server.Domain;
-using Mud.Server.Effects;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Rom24.Effects;

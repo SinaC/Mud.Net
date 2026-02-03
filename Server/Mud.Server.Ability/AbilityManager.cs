@@ -4,9 +4,11 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Ability.Passive.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Domain.Attributes;
 using System.Reflection;
 
 namespace Mud.Server.Ability;

@@ -9,6 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\Repository\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Shared\Mud.Flags\Mud.Flags.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Skill.Interfaces\Mud.Server.Ability.Skill.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability.Spell\Mud.Server.Ability.Spell.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />

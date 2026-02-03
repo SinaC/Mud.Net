@@ -1,19 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Random;
-using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Spell.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
-using Mud.Server.GameAction;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.SpellGuards;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Parser.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
@@ -30,19 +28,19 @@ public class LocateObject : SpellBase
     protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private IItemManager ItemManager { get; }
-    private ICommandParser CommandParser { get; }
+    private IParser Parser { get; }
 
-    public LocateObject(ILogger<LocateObject> logger, IRandomManager randomManager, IItemManager itemManager, ICommandParser commandParser) 
+    public LocateObject(ILogger<LocateObject> logger, IRandomManager randomManager, IItemManager itemManager, IParser parser) 
         : base(logger, randomManager)
     {
         ItemManager = itemManager;
-        CommandParser = commandParser;
+        Parser = parser;
     }
     protected string ItemName { get; set; } = default!;
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {
-        ItemName = CommandParser.JoinParameters(spellActionInput.Parameters);
+        ItemName = Parser.JoinParameters(spellActionInput.Parameters);
         if (string.IsNullOrWhiteSpace(ItemName))
             return "Locate what?";
         return null;

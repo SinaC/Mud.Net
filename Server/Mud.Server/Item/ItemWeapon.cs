@@ -5,19 +5,21 @@ using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
+using Mud.Server.Parser.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using System.Text;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Item;
 
@@ -27,8 +29,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
     private ITableValues TableValues { get; }
     private IFlagsManager FlagsManager { get; }
 
-    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
-       : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
+    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
+       : base(logger, gameActionManager, parser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
         TableValues = tableValues;
 

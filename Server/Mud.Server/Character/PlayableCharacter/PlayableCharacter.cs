@@ -12,31 +12,33 @@ using Mud.Flags.Interfaces;
 using Mud.Random;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Ability.Passive.Interfaces;
+using Mud.Server.AbilityGroup.Interfaces;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
+using Mud.Server.Effects.Interfaces;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
-using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Flags;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Loot.Interfaces;
 using Mud.Server.Options;
+using Mud.Server.Parser.Interfaces;
+using Mud.Server.Race.Interfaces;
 using System.Diagnostics;
 using System.Text;
 
@@ -67,8 +69,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager, IOmniscienceManager omniscienceManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;

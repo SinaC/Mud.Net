@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;

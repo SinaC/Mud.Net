@@ -5,6 +5,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
 using Mud.Server.Actor;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
@@ -20,7 +21,7 @@ namespace Mud.Server.Player;
 [Export(typeof(IPlayer))]
 public class Player : ActorBase, IPlayer
 {
-    protected ICommandParser CommandParser { get; }
+    protected IParser Parser { get; }
     protected ITimeManager TimeManager { get; }
     protected ICharacterManager CharacterManager { get; }
 
@@ -34,10 +35,10 @@ public class Player : ActorBase, IPlayer
 
     protected IInputTrap<IPlayer>? CurrentStateMachine;
 
-    public Player(ILogger<Player> logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager)
+    public Player(ILogger<Player> logger, IGameActionManager gameActionManager, IParser parser, ITimeManager timeManager, ICharacterManager characterManager)
         : base(logger, gameActionManager)
     {
-        CommandParser = commandParser;
+        Parser = parser;
         TimeManager = timeManager;
         CharacterManager = characterManager;
 
@@ -125,7 +126,7 @@ public class Player : ActorBase, IPlayer
             }
 
             // Extract command and parameters
-            bool extractedSuccessfully = CommandParser.ExtractCommandAndParameters(
+            bool extractedSuccessfully = Parser.ExtractCommandAndParameters(
                 isForceOutOfGame => isForceOutOfGame || Impersonating == null
                     ? Aliases
                     : Impersonating?.Aliases,

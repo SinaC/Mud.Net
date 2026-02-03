@@ -1,7 +1,7 @@
 ﻿using Mud.Common.Attributes;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Admin;
 

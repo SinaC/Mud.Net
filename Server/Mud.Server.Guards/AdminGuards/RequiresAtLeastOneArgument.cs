@@ -1,6 +1,6 @@
-﻿using Mud.Server.Interfaces.Admin;
+﻿using Mud.Server.Guards.Interfaces;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Guards.AdminGuards;
 

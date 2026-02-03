@@ -3,12 +3,13 @@ using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Interfaces;
 using Mud.Server.Domain;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Social;
+using Mud.Server.Parser.Interfaces;
 using System.Reflection;
 
 namespace Mud.Server.GameAction;
@@ -18,7 +19,7 @@ public class GameActionManager : IGameActionManager
 {
     private ILogger<GameActionManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private ICommandParser CommandParser { get; }
+    private IParser Parser { get; }
     private IAbilityManager AbilityManager { get; }
 
     private readonly List<IGameActionInfo> _dynamicGameActionInfos;
@@ -26,11 +27,11 @@ public class GameActionManager : IGameActionManager
     private readonly Dictionary<Type, IGameActionInfo> _staticGameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IAbilityManager abilityManager, ISocialManager socialManager)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, IParser parser, IAbilityManager abilityManager, ISocialManager socialManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
-        CommandParser = commandParser;
+        Parser = parser;
         AbilityManager = abilityManager;
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
@@ -92,13 +93,13 @@ public class GameActionManager : IGameActionManager
         var command = gameActionInfo.Name;
         var parameters = commandLine == null
             ? Enumerable.Empty<ICommandParameter>().ToArray()
-            : CommandParser.SplitParameters(commandLine).Select(CommandParser.ParseParameter).ToArray();
+            : Parser.SplitParameters(commandLine).Select(Parser.ParseParameter).ToArray();
         return Execute(gameActionInfo, actor, commandLine!, command, parameters);
     }
 
     public string? Execute<TGameAction, TActor>(TActor actor, string? commandLine)
         where TActor : IActor
-        => Execute<TActor>(typeof(TGameAction), actor, commandLine);
+        => Execute(typeof(TGameAction), actor, commandLine);
 
     public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
         where TActor : IActor

@@ -6,12 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\DataStructures\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Domain\Mud.Domain.csproj" />
-    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
-    <ProjectReference Include="..\Mud.Server.Domain\Mud.Server.Domain.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
+    <ProjectReference Include="..\Mud.Server.Race.Interfaces\Mud.Server.Race.Interfaces.csproj" />
   </ItemGroup>
 </Project>

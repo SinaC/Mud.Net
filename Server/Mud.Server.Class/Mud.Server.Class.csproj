@@ -8,7 +8,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Domain\Mud.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Server.AbilityGroup\Mud.Server.AbilityGroup.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
-    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Class.Interfaces\Mud.Server.Class.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
   </ItemGroup>
 </Project>

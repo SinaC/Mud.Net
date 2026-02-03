@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
-    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
   </ItemGroup>
 
 </Project>

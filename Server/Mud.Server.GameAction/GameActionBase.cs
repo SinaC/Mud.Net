@@ -1,6 +1,6 @@
-﻿using Mud.Server.Interfaces.Actor;
+﻿using Mud.Server.Guards.Interfaces;
+using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
 using System.Text;
 
 namespace Mud.Server.GameAction;

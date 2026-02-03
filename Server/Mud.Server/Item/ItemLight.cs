@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Item;
 using Mud.Random;
+using Mud.Server.Parser.Interfaces;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Domain.SerializationData;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
@@ -16,8 +18,8 @@ public class ItemLight : ItemBase, IItemLight
 {
     private const int Infinite = -1;
 
-    public ItemLight(ILogger<ItemLight> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions, worldOptions, randomManager, auraManager)
+    public ItemLight(ILogger<ItemLight> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions, worldOptions, randomManager, auraManager)
     {
     }
 

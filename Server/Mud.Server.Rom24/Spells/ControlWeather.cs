@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Random;
-using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common.Attributes;
+using Mud.Server.Ability.Spell.Interfaces;
 using Mud.Server.Domain;
-using Mud.Server.GameAction;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Guards;
+using Mud.Server.Parser.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -28,13 +26,13 @@ public class ControlWeather : NoTargetSpellBase
     protected override ISpellGuard[] Guards => [new CannotBeInCombat()];
 
     private ITimeManager TimeManager { get; }
-    private ICommandParser CommandParser { get; }
+    private IParser Parser { get; }
 
-    public ControlWeather(ILogger<ControlWeather> logger, IRandomManager randomManager, ITimeManager timeManager, ICommandParser commandParser)
+    public ControlWeather(ILogger<ControlWeather> logger, IRandomManager randomManager, ITimeManager timeManager, IParser parser)
         : base(logger, randomManager)
     {
         TimeManager = timeManager;
-        CommandParser = commandParser;
+        Parser = parser;
     }
 
     private bool IsBetterRequired { get; set; }
@@ -45,7 +43,7 @@ public class ControlWeather : NoTargetSpellBase
         if (baseSetup != null)
             return baseSetup;
 
-        var what = CommandParser.JoinParameters(spellActionInput.Parameters);
+        var what = Parser.JoinParameters(spellActionInput.Parameters);
         if (StringCompareHelpers.StringEquals(what, "better"))
         {
             IsBetterRequired = true;

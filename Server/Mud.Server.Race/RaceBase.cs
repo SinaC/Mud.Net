@@ -1,7 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Race;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Race;
 

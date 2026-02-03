@@ -1,10 +1,5 @@
 INGOING
 DONE
-    Guards refactoring
-    move guards from attributes to class definition
-    each command/ability/spell/... will have a list of IGuard
-    don't need to use reflection to get attributes
-    ISpellGuard added to be used in Spell casting -> add in spells and use in Cast
 
 ==========
 == TODO ==

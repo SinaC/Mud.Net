@@ -1,0 +1,49 @@
+﻿using Mud.Domain;
+using Mud.Server.Parser.Interfaces;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
+using Mud.Server.Guards.Interfaces;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Player;
+
+namespace Mud.Server.Commands.Character.Communication;
+
+[CharacterCommand("shout", "Communication")]
+[Syntax("[cmd] <message>")]
+[Help(
+@"[cmd] sends a message to all awake players in the world.  To curb excessive
+shouting, [cmd] imposes a three-second delay on the shouter.")]
+public class Shout : CharacterGameAction
+{
+    protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Shout what ?" }];
+
+    private IParser Parser { get; }
+    private IPlayerManager PlayerManager { get; }
+
+    public Shout(IParser parser, IPlayerManager playerManager)
+    {
+        Parser = parser;
+        PlayerManager = playerManager;
+    }
+
+    private string What { get; set; } = default!;
+
+    public override string? CanExecute(IActionInput actionInput)
+    {
+        var baseGuards = base.CanExecute(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
+
+        What = Parser.JoinParameters(actionInput.Parameters);
+
+        return null;
+    }
+
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating!), "{0:N} shout{0:v} '{1}'", Actor, What);
+        Actor.SetGlobalCooldown(12);
+    }
+}

@@ -8,6 +8,7 @@ using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
@@ -36,8 +37,8 @@ public class Room : EntityBase, IRoom
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
-        : base(logger, gameActionManager, commandParser, messageForwardOptions)
+    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
+        : base(logger, gameActionManager, parser, messageForwardOptions)
     {
         TimeManager = timeManager;
 

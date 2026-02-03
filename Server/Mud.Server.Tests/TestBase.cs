@@ -4,19 +4,19 @@ using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Room;
 using Mud.Domain;
-using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Flags;
+using Mud.Random;
+using Mud.Server.Character.NonPlayableCharacter;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Item;
 using Mud.Server.Options;
-using Mud.Random;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.Tests;
 

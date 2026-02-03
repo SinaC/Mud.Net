@@ -1,0 +1,25 @@
+﻿using Mud.Server.Parser.Interfaces;
+using Mud.Server.Domain.Attributes;
+using Mud.Server.Guards.Interfaces;
+using Mud.Server.Guards.PlayerGuards;
+using Mud.Server.Interfaces.Player;
+
+namespace Mud.Server.Commands.Player.Communication;
+
+[PlayerCommand("answer", "Communication")]
+[Syntax("[cmd] <message>")]
+[Help(
+@"With these channels, you can ask questions to other players such newbie 
+helper. You can turn it off by simply typing QUESTION.")]
+public class Answer : CommunicationGameActionBase
+{
+    protected override IGuard<IPlayer>[] Guards => [new RequiresAtLeastOneArgument { Message = "Answer what ?"}];
+
+    public Answer(IParser Parser, IPlayerManager playerManager)
+       : base(Parser, playerManager)
+    {
+    }
+
+    protected override string ActorSendPattern => "%y%You answer '{0}'%x%";
+    protected override string OtherSendPattern => "%y%{0} answers '{1}'%x%";
+}

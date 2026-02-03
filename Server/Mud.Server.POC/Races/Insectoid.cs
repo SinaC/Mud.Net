@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Race;
+using Mud.Server.Ability.Interfaces;
+using Mud.Server.Class.Interfaces;
+using Mud.Server.Domain;
 using Mud.Server.Race;
+using Mud.Server.Race.Interfaces;
 
 namespace Mud.Server.POC.Races;
 

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Server.Loot.Interfaces\Mud.Server.Loot.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
+  </ItemGroup>
+
+</Project>
