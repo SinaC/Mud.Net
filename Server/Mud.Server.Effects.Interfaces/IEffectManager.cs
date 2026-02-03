@@ -1,6 +1,6 @@
 ﻿using Mud.Server.Interfaces.Entity;
 
-namespace Mud.Server.Interfaces.Effect;
+namespace Mud.Server.Effects.Interfaces;
 
 public interface IEffectManager
 {

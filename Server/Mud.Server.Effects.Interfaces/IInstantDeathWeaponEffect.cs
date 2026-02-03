@@ -2,7 +2,7 @@
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Interfaces.Effect;
+namespace Mud.Server.Effects.Interfaces;
 
 public interface IInstantDeathWeaponEffect : IWeaponEffect
 {

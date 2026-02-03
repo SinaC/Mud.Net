@@ -7,11 +7,11 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.SpellGuards;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Spells;

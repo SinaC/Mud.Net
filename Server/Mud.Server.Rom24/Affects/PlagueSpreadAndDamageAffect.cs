@@ -2,10 +2,10 @@
 using Mud.Random;
 using Mud.Server.Affects;
 using Mud.Server.Domain.Attributes;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Effect;
 using System.Text;
 
 namespace Mud.Server.Rom24.Affects;

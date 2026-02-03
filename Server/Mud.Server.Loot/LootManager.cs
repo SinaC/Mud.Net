@@ -5,9 +5,9 @@ using Mud.Domain;
 using Mud.Random;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Loot.Interfaces;
 using Mud.Server.Quest.Objectives;
 
 namespace Mud.Server.Loot;

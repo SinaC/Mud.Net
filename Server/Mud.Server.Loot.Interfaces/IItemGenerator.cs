@@ -2,7 +2,7 @@
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Interfaces.Loot;
+namespace Mud.Server.Loot.Interfaces;
 
 public interface IItemGenerator
 {

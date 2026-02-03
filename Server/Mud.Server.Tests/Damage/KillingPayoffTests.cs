@@ -13,10 +13,10 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Loot.Interfaces;
 using Mud.Server.Options;
 using Mud.Server.Race.Interfaces;
 

@@ -8,8 +8,8 @@ using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Loot;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Loot.Interfaces;
 
 namespace Mud.Server.Loot;
 

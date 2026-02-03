@@ -5,8 +5,8 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Ability.Spell.Interfaces;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
+using Mud.Server.Effects.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Effect;
 
 namespace Mud.Server.Rom24.Spells;
 

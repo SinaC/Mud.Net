@@ -1,7 +1,7 @@
 ﻿using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Interfaces.Loot;
+namespace Mud.Server.Loot.Interfaces;
 
 public interface ILootManager
 {
