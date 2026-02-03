@@ -1,5 +1,4 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Server.Domain;
 
 namespace Mud.Server.Domain.Attributes;
 
@@ -40,7 +39,7 @@ public class WeaponAttribute(string name, string[] weaponTypes) : AbilityBaseAtt
     public string[] WeaponTypes { get; set; } = weaponTypes;
 }
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class, Inherited = true)]
 public abstract class AbilityAdditionalInfoAttribute : Attribute
 {
 }

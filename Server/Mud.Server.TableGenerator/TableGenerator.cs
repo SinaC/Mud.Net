@@ -11,7 +11,7 @@ namespace Mud.Server.TableGenerator;
 
 public class TableGeneratorOptions
 {
-    public static TableGeneratorOptions Default = new();
+    internal static TableGeneratorOptions Default { get; } = new();
 
     public int ColumnRepetionCount { get; set; } = 1;
     public bool HideHeaders { get; set; } = false;

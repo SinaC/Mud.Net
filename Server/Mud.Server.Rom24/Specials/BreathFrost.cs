@@ -1,17 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Random;
-using Mud.Server.Specials;
+using Mud.Server.Domain.Attributes;
 
-namespace Mud.Server.Rom24.Specials
+namespace Mud.Server.Rom24.Specials;
+
+[SpecialBehavior("spec_breath_frost")]
+public class BreathFrost : BreathBase
 {
-    [SpecialBehavior("spec_breath_frost")]
-    public class BreathFrost : BreathBase
+    public BreathFrost(ILogger<BreathAcid> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
-        public BreathFrost(ILogger<BreathAcid> logger, IRandomManager randomManager)
-            : base(logger, randomManager)
-        {
-        }
-
-        protected override string GetSpellName() => "frost breath";
     }
+
+    protected override string GetSpellName() => "frost breath";
 }
