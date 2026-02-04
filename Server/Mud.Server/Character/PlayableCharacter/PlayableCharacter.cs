@@ -107,12 +107,23 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         ImmortalMode = new ImmortalModes(data.ImmortalMode);
         FlagsManager.CheckFlags(ImmortalMode);
         CreationTime = data.CreationTime;
-        Class = ClassManager[data.Class]!;
-        if (Class == null)
+
+        var classes = new List<IClass>();
+        foreach (var className in data.Classes)
         {
-            Class = ClassManager.Classes.First();
-            Wiznet.Log($"Invalid class '{data.Class}' for character {data.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+            var @class = ClassManager[className];
+            if (@class == null)
+                Wiznet.Log($"Invalid class '{className}' for character {data.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+            else
+                classes.Add(@class);
         }
+        if (classes.Count == 0)
+        {
+            classes.Add(ClassManager.Classes.First());
+            Wiznet.Log($"No classes found for character {data.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+        }
+        Classes = classes;
+
         Race = RaceManager[data.Race]!;
         if (Race == null || Race is not IPlayableRace)
         {
@@ -283,9 +294,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 else
                 {
                     // search ability usage in race then in class
-                    var abilityUsage = ((IPlayableRace)Race).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
+                    var abilityUsage = ((IPlayableRace)Race).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Classes.AvailableAbilities().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage == null)
-                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {Race.Name} or {Class.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {Race.Name} or {Classes.Name()}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     else
                     {
                         var abilityLearned = new AbilityLearned(learnedAbilityData, abilityUsage);
@@ -309,8 +320,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 }
             }
         }
-        // add class basics group
-        foreach (var basicAbilityGroupUsage in Class.BasicAbilityGroups)
+        // Add class basics group
+        foreach (var basicAbilityGroupUsage in Classes.BasicAbilityGroups())
         {
             if (!_learnedAbilityGroups.ContainsKey(basicAbilityGroupUsage.Name))
             {
@@ -1208,7 +1219,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Name = Name,
             RoomId = Room?.Blueprint?.Id ?? 0,
             Race = Race?.Name ?? string.Empty,
-            Class = Class?.Name ?? string.Empty,
+            Classes = Classes.Select(x => x.Name).ToArray(),
             Level = Level,
             Sex = BaseSex,
             Size = BaseSize,
@@ -1298,7 +1309,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (Race is IPlayableRace playableRace)
         {
             var max = playableRace.GetMaxAttribute(basicAttribute) + 4;
-            if (Class != null && basicAttribute == Class.PrimeAttribute)
+            if (Classes.PrimeAttributes().Contains(basicAttribute))
             {
                 max += 2;
                 if (playableRace?.EnhancedPrimeAttribute == true)
@@ -1316,7 +1327,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         decimal manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
         decimal psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
         // class bonus
-        hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
+        hitGain += Classes.MaxHitPointGainPerLevel() - 10;
         // abilities
         foreach (var regenerationAbility in AbilityManager.SearchAbilitiesByExecutionType<IRegenerationPassive>())
         {
@@ -1549,11 +1560,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     protected override (int thac0_00, int thac0_32) GetThac0()
-    {
-        if (Class != null)
-            return Class.Thac0;
-        return (20, 0);
-    }
+        => Classes.Thac0();
 
     protected override SchoolTypes NoWeaponDamageType => SchoolTypes.Bash;
 
@@ -1607,12 +1614,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // loop among learned ability groups
         foreach (var learnedAbilityGroup in _learnedAbilityGroups)
         {
-            var abilityGroupUsage = Class.AvailableAbilityGroups.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbilityGroup.Key));
+            var abilityGroupUsage = Classes.AvailableAbilityGroups().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbilityGroup.Key));
             if (abilityGroupUsage != null)
             {
                 foreach (var abilityDefinition in abilityGroupUsage.AbilityGroupDefinition.AbilityDefinitions)
                 {
-                    var abilityUsage = Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
+                    var abilityUsage = Classes.AvailableAbilities().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage != null)
                     {
                         MergeAbility(abilityUsage, false);
@@ -1629,7 +1636,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     #endregion
 
-    private int ExperienceByLevel => 1000 * ((Race as IPlayableRace)?.ClassExperiencePercentageMultiplier(Class) ?? 100) / 100;
+    private int ExperienceByLevel => 1000 * (Race is IPlayableRace playableRace ? Classes.ClassExperiencePercentageMultiplier(playableRace) : 100) / 100;
 
     private (int experience, int alignment) ComputeExperienceAndAlignment(ICharacter victim, int totalLevel)
     {
@@ -1754,9 +1761,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         var (_, _, _, _, _, practice, _, hitpoint, _) = TableValues.Bonus(this);
 
         //
-        int addHitpoints = hitpoint + RandomManager.Range(Class?.MinHitPointGainPerLevel ?? 0, Class?.MaxHitPointGainPerLevel ?? 1);
+        int addHitpoints = hitpoint + RandomManager.Range(Classes.MinHitPointGainPerLevel(), Classes.MaxHitPointGainPerLevel());
         int addMana = RandomManager.Range(2, 2 * this[CharacterAttributes.Intelligence] + this[CharacterAttributes.Wisdom]);
-        if (Class?.ResourceKinds.Contains(ResourceKinds.Mana) == false)
+        if (!Classes.IncreasedManaGainWhenLeveling())
             addMana /= 2;
         // TODO: other resources
         int addMove = RandomManager.Range(1, this[CharacterAttributes.Constitution] + this[CharacterAttributes.Dexterity] / 6);

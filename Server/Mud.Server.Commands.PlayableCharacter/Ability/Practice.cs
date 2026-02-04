@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.TableGenerator;
+using Mud.Server.Common.Extensions;
 
 namespace Mud.Server.Commands.PlayableCharacter.Ability;
 
@@ -68,7 +69,7 @@ public class Practice : PlayableCharacterGameAction
             return "You can't practice that.";
         if (AbilityLearned.Rating <= 0)
             return $"You cannot practice {AbilityLearned.Name}.";
-        if (AbilityLearned.Learned >= (Actor.Class?.MaxPracticePercentage ?? 50))
+        if (AbilityLearned.Learned >= (Actor.Classes.MaxPracticePercentage()))
             return $"You are already learned at {AbilityLearned.Name}";
         return null;
     }
@@ -86,7 +87,7 @@ public class Practice : PlayableCharacterGameAction
         Actor.UpdateTrainsAndPractices(0, -1);
         var learned = Math.Min(75, AbilityLearned.Learned + TableValues.LearnBonus(Actor) / AbilityLearned.Rating); // cannot go higher than 75
         AbilityLearned.SetLearned(learned);
-        int maxLearned = Actor.Class?.MaxPracticePercentage ?? 50;
+        var maxLearned = Actor.Classes.MaxPracticePercentage();
         if (AbilityLearned.Learned < maxLearned)
         {
             Actor.Act(ActOptions.ToCharacter, "You practice {0}.", AbilityLearned.Name);

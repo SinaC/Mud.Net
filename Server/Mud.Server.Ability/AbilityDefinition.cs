@@ -1,5 +1,4 @@
-﻿using Mud.Common;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
@@ -43,7 +42,7 @@ public class AbilityDefinition : IAbilityDefinition
 
         var abilityBaseAttribute = abilityExecutionType.GetCustomAttribute<AbilityBaseAttribute>();
         Type = abilityBaseAttribute!.Type;
-        Name = abilityBaseAttribute.Name.ToPascalCase();
+        Name = abilityBaseAttribute.Name.ToLowerInvariant();
         Effects = abilityBaseAttribute.Effects;
         PulseWaitTime = (abilityBaseAttribute as ActiveAbilityBaseAttribute)?.PulseWaitTime;
         CooldownInSeconds = abilityBaseAttribute.CooldownInSeconds <= 0

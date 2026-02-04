@@ -1,13 +1,8 @@
 ﻿namespace Mud.Server.Domain.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class OneLineHelpAttribute : Attribute
+    public class OneLineHelpAttribute(string oneLineHelp) : Attribute
     {
-        public string OneLineHelp { get; }
-
-        public OneLineHelpAttribute(string oneLineHelp)
-        {
-            OneLineHelp = oneLineHelp;
-        }
+        public string OneLineHelp { get; } = oneLineHelp;
     }
 }

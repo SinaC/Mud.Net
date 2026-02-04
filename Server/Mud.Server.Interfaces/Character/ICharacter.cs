@@ -76,7 +76,7 @@ public interface ICharacter : IEntity, IContainer
     Positions Position { get; }
 
     // Class/Race
-    IClass Class { get; }
+    IEnumerable<IClass> Classes { get; }
     IRace Race { get; }
 
     // Attributes/Resources/Flags

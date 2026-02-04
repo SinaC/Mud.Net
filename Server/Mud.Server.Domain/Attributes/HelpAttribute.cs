@@ -1,12 +1,7 @@
 ﻿namespace Mud.Server.Domain.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class HelpAttribute : Attribute
+public class HelpAttribute(string help) : Attribute
 {
-    public string Help { get; }
-
-    public HelpAttribute(string help)
-    {
-        Help = help;
-    }
+    public string Help { get; } = help;
 }

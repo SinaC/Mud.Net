@@ -321,7 +321,7 @@
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "joel",
   "Race": "elf",
-  "Class": "mage",
+  "Classes": ["mage"],
   "Level": 41,
   "Sex": "Neutral",
   "Size": "Medium",

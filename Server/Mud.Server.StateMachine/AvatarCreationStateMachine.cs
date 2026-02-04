@@ -530,7 +530,7 @@ done	     exit the character generation process");
                 AutoFlags = null!,
                 RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO:  mud school
                 Race = _race!.Name,
-                Class = _class!.Name,
+                Classes = [_class!.Name],
                 Level = 1,
                 Sex = _sex!.Value,
                 Size = _race!.Size,
@@ -579,7 +579,7 @@ done	     exit the character generation process");
                 Name = avatarData.Name,
                 Version = Versioning.AvatarCurrentVersion,
                 Level = avatarData.Level,
-                Class = ClassManager[avatarData.Class]!.DisplayName,
+                Classes = [ClassManager[_class.Name]!.DisplayName],
                 Race = RaceManager[avatarData.Race]!.DisplayName,
                 RoomId = avatarData.RoomId
             };

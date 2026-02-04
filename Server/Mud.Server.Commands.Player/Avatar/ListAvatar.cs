@@ -49,8 +49,8 @@ public class ListAvatar : PlayerGameAction
             var generator = new TableGenerator<AvatarMetaData>();
             generator.AddColumn("Name", 14, data => data.Name.UpperFirstLetter());
             generator.AddColumn("Level", 7, data => data.Level.ToString());
-            generator.AddColumn("Class", 12, data => data.Class ?? "???");
-            generator.AddColumn("Race", 12, data => data.Race ?? "???");
+            generator.AddColumn("Classes", 12, data => string.Join(',', data.Classes));
+            generator.AddColumn("Race", 12, data => data.Race);
             generator.AddColumn("Location", 40, data => RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
             return generator;
         } 

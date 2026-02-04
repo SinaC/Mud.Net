@@ -224,7 +224,7 @@
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "sinac",
   "Race": "insectoid",
-  "Class": "druid",
+  "Classes": ["druid"],
   "Level": 46,
   "Sex": "Male",
   "Size": "Medium",

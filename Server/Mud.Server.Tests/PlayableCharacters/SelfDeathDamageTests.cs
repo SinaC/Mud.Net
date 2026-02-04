@@ -73,7 +73,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 // CharacterBaseData
                 Name = "Player",
                 Race = "Human",
-                Class = "Warrior",
+                Classes = ["Warrior"],
                 Level = 1,
                 Sex = Sex.Male,
                 Size = Sizes.Medium,

@@ -81,7 +81,7 @@ public class KillingPayoffTests
             // CharacterBaseData
             Name = "Player",
             Race = "Human",
-            Class = "Warrior",
+            Classes = ["Warrior"],
             Level = 1,
             Sex = Sex.Male,
             Size = Sizes.Medium,
@@ -219,7 +219,7 @@ public class KillingPayoffTests
             // CharacterBaseData
             Name = "Player1",
             Race = "Human",
-            Class = "Warrior",
+            Classes = ["Warrior"],
             Level = 5,
             Sex = Sex.Male,
             Size = Sizes.Medium,
@@ -267,7 +267,7 @@ public class KillingPayoffTests
             // CharacterBaseData
             Name = "Player2",
             Race = "Human",
-            Class = "Warrior",
+            Classes = ["Warrior"],
             Level = 12,
             Sex = Sex.Male,
             Size = Sizes.Medium,

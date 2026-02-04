@@ -74,9 +74,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         Race = RaceManager[blueprint.Race]!;
         if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
             Logger.LogWarning("Unknown race '{race}' for npc {blueprintId}", blueprint.Race, blueprint.Id);
-        Class = ClassManager[blueprint.Class]!;
-        if (Class == null && !string.IsNullOrWhiteSpace(blueprint.Class))
-            Logger.LogWarning("Unknown class '{class}' for npc {blueprintId}", blueprint.Class, blueprint.Id);
+        var @class = ClassManager[blueprint.Class]!;
+        if (@class == null)
+        {
+            if (!string.IsNullOrWhiteSpace(blueprint.Class))
+                Logger.LogWarning("Unknown class '{class}' for npc {blueprintId}", blueprint.Class, blueprint.Id);
+            Classes = [];
+        }
+        else
+            Classes = [@class];
         DamageNoun = blueprint.DamageNoun;
         DamageType = blueprint.DamageType;
         DamageDiceCount = blueprint.DamageDiceCount;
@@ -511,7 +517,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Name = Name,
             //RoomId = Room?.Blueprint?.Id ?? 0,
             Race = Race?.Name ?? string.Empty,
-            Class = Class?.Name ?? string.Empty,
+            Classes = Classes.Select(x => x.Name).ToArray(),
             Level = Level,
             Sex = BaseSex,
             Size = BaseSize,
@@ -757,8 +763,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override (int thac0_00, int thac0_32) GetThac0()
     {
-        if (Class != null)
-            return Class.Thac0;
+        if (Classes.Any())
+            return Classes.Thac0();
 
         int thac0_00 = 20;
         int thac0_32 = -4; // as good as thief
@@ -788,8 +794,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void RecomputeKnownAbilities()
     {
-        if (Class != null) // NPC gain access to all abilities from their class
-            MergeAbilities(Class.AvailableAbilities, false);
+        if (Classes.Any()) // NPC gain access to all abilities from their classes
+            MergeAbilities(Classes.AvailableAbilities(), false);
     }
 
     protected override void AddAurasFromBaseFlags()

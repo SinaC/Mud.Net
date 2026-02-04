@@ -167,6 +167,8 @@ public class Cleric : ClassBase
 
     public override (int thac0_00, int thac0_32) Thac0 => (20, 2);
 
+    public override bool IncreasedManaGainWhenLeveling => true;
+
     public override int MinHitPointGainPerLevel => 7;
 
     public override int MaxHitPointGainPerLevel => 10;

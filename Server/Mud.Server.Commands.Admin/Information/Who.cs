@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Interfaces;
@@ -46,7 +47,7 @@ public class Who : AdminGameAction
                             player.DisplayName,
                             player.Impersonating.DisplayName,
                             player.Impersonating.Level,
-                            player.Impersonating.Class?.DisplayName ?? "(none)",
+                            player.Impersonating.Classes.DisplayName() ?? "(none)",
                             player.Impersonating.Race?.DisplayName ?? "(none)",
                             player.Impersonating.ImmortalMode.IsNone ? string.Empty : player.Impersonating.ImmortalMode);
                     else
@@ -69,7 +70,7 @@ public class Who : AdminGameAction
                             admin.DisplayName,
                             admin.Impersonating.DisplayName,
                             admin.Impersonating.Level,
-                            admin.Impersonating.Class?.DisplayName ?? "(none)",
+                            admin.Impersonating.Classes.DisplayName() ?? "(none)",
                             admin.Impersonating.Race?.DisplayName ?? "(none)",
                             admin.Impersonating.ImmortalMode.IsNone ? string.Empty : admin.Impersonating.ImmortalMode);
                     else if (admin.Incarnating != null)

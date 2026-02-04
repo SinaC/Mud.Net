@@ -3,14 +3,8 @@
 namespace Mud.Server.Domain.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class ItemAttribute : ExportAttribute // every affect will be exported without ContractType
+public class ItemAttribute(Type blueprintType, Type itemDataType) : ExportAttribute // every affect will be exported without ContractType
 {
-    public Type BlueprintType { get; set; }
-    public Type ItemDataType { get; set; }
-
-    public ItemAttribute(Type blueprintType, Type itemDataType)
-    {
-        BlueprintType = blueprintType;
-        ItemDataType = itemDataType;
-    }
+    public Type BlueprintType { get; set; } = blueprintType;
+    public Type ItemDataType { get; set; } = itemDataType;
 }

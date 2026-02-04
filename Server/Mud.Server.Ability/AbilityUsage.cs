@@ -20,7 +20,7 @@ public class AbilityUsage : IAbilityUsage
 
     public AbilityUsage(string name, int level, IEnumerable<IAbilityResourceCost> resourceCosts, int rating, int minLearned, IAbilityDefinition abilityDefinition)
     {
-        Name = name;
+        Name = name.ToLowerInvariant();
         Level = level;
         ResourceCosts = resourceCosts.ToArray();
         Rating = rating;

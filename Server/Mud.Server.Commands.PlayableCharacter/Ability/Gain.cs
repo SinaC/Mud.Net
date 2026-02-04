@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.AbilityGroup.Interfaces;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
@@ -224,8 +225,8 @@ public class Gain : PlayableCharacterGameAction
     }
 
     private IEnumerable<IAbilityGroupUsage> GetAvailableAbilityGroupsNotYetLearned()
-        => Actor.Class.AvailableAbilityGroups.Where(x => Actor.LearnedAbilityGroups.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name)));
+        => Actor.Classes.AvailableAbilityGroups().Where(x => Actor.LearnedAbilityGroups.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name)));
 
     private IEnumerable<IAbilityUsage> GetAvailableAbilitiesNotYetLearned(Func<IAbilityUsage, bool>? filter)
-        => Actor.Class.AvailableAbilities.Where(x => (filter == null || filter(x)) && Actor.LearnedAbilities.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name)));
+        => Actor.Classes.AvailableAbilities().Where(x => (filter == null || filter(x)) && Actor.LearnedAbilities.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name)));
 }

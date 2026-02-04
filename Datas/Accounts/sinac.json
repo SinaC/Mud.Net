@@ -16,7 +16,9 @@
       "Name": "sinac",
       "Version": 1,
       "Level": 46,
-      "Class": "Druid",
+      "Classes": [
+        "Druid"
+      ],
       "Race": "Insectoid",
       "RoomId": 3001
     },
@@ -24,7 +26,10 @@
       "Name": "glouk",
       "Version": 1,
       "Level": 49,
-      "Class": "Druid",
+      "Classes": [
+        "Druid",
+        "Warrior"
+      ],
       "Race": "Insectoid",
       "RoomId": 3001
     },
@@ -32,7 +37,9 @@
       "Name": "fnar",
       "Version": 1,
       "Level": 23,
-      "Class": "Warrior",
+      "Classes": [
+        "Warrior"
+      ],
       "Race": "Giant",
       "RoomId": 3024
     }
