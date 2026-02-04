@@ -147,11 +147,49 @@
       "Level": 1,
       "Learned": 100,
       "Rating": 5
+    },
+    {
+      "Name": "scrolls",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 8
+    },
+    {
+      "Name": "staves",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 8
+    },
+    {
+      "Name": "wands",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 8
+    },
+    {
+      "Name": "recall",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "second attack",
+      "Level": 5,
+      "Learned": 1,
+      "Rating": 3
     }
   ],
   "LearnedAbilityGroups": [
     {
       "Name": "druid basics",
+      "Cost": 0
+    },
+    {
+      "Name": "rom basics",
+      "Cost": 0
+    },
+    {
+      "Name": "warrior basics",
       "Cost": 0
     }
   ],
@@ -169,7 +207,7 @@
       "Description": "A construct is here, built from various of gears and springs\r\n",
       "Name": "construct",
       "Race": "",
-      "Class": "",
+      "Classes": [],
       "Level": 40,
       "Sex": "Neutral",
       "Size": "Tiny",
@@ -285,7 +323,10 @@
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "glouk",
   "Race": "insectoid",
-  "Class": "druid",
+  "Classes": [
+    "druid",
+    "warrior"
+  ],
   "Level": 49,
   "Sex": "Neutral",
   "Size": "Medium",
@@ -501,7 +542,7 @@
         {
           "AbilityName": "Envenom",
           "Level": 1,
-          "PulseLeft": 15400,
+          "PulseLeft": 15396,
           "AuraFlags": "NoDispel",
           "Affects": [
             {
@@ -533,7 +574,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 7928,
+      "PulseLeft": 7924,
       "AuraFlags": "",
       "Affects": [
         {
@@ -547,7 +588,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 8124,
+      "PulseLeft": 8120,
       "AuraFlags": "",
       "Affects": [
         {
@@ -560,7 +601,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 8156,
+      "PulseLeft": 8152,
       "AuraFlags": "",
       "Affects": [
         {
@@ -573,7 +614,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 8172,
+      "PulseLeft": 8168,
       "AuraFlags": "",
       "Affects": [
         {
@@ -586,7 +627,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 8228,
+      "PulseLeft": 8224,
       "AuraFlags": "",
       "Affects": [
         {
@@ -599,7 +640,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 7928,
+      "PulseLeft": 7924,
       "AuraFlags": "",
       "Affects": [
         {
@@ -612,7 +653,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 7728,
+      "PulseLeft": 7724,
       "AuraFlags": "",
       "Affects": [
         {
@@ -625,7 +666,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 7528,
+      "PulseLeft": 7524,
       "AuraFlags": "",
       "Affects": [
         {
@@ -638,7 +679,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 2928,
+      "PulseLeft": 2924,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -669,7 +710,7 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 1,
-      "PulseLeft": 3664,
+      "PulseLeft": 3660,
       "AuraFlags": "",
       "Affects": [
         {
@@ -692,7 +733,7 @@
     {
       "AbilityName": "Protection Good",
       "Level": 1,
-      "PulseLeft": 3708,
+      "PulseLeft": 3704,
       "AuraFlags": "",
       "Affects": [
         {

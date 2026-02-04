@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Class.Interfaces;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
@@ -72,7 +73,7 @@ public class Train : PlayableCharacterGameAction
         if (attributeFound != null)
         {
             BasicAttributes attribute = attributeFound.attribute;
-            var max = GetMaxAttributeValue(attribute, Actor.Race as IPlayableRace, Actor.Class);
+            var max = GetMaxAttributeValue(attribute, Actor.Race as IPlayableRace, Actor.Classes);
             if (Actor.BaseAttribute((CharacterAttributes)attribute) >= max)
                 return $"Your {attributeFound.name} is already at maximum.";
             Cost = 1;
@@ -80,7 +81,7 @@ public class Train : PlayableCharacterGameAction
             Action = Actions.Attribute;
         }
         // resource
-        var resourceFound = Actor.Class?.ResourceKinds.Where(x => TrainableResources.Contains(x))
+        var resourceFound = Actor.Classes.ResourceKinds().Where(x => TrainableResources.Contains(x))
             .Select(x => new { resource = x, name = x.ToString() })
             .FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, actionInput.Parameters[0].Value));
         if (resourceFound != null)
@@ -148,10 +149,10 @@ public class Train : PlayableCharacterGameAction
         }
     }
 
-    private static int GetMaxAttributeValue(BasicAttributes attribute, IPlayableRace? race, IClass? @class)
+    private static int GetMaxAttributeValue(BasicAttributes attribute, IPlayableRace? race, IEnumerable<IClass> classes)
     {
-        int value = race?.GetMaxAttribute(attribute) ?? 18;
-        if (@class != null && attribute == @class.PrimeAttribute)
+        var value = race?.GetMaxAttribute(attribute) ?? 18;
+        if (classes.PrimeAttributes().Contains(attribute))
         {
             value += 2;
             if (race?.EnhancedPrimeAttribute == true)

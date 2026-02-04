@@ -17,7 +17,7 @@ public class AbilityLearned : IAbilityLearned
 
     public AbilityLearned(IAbilityUsage abilityUsage)
     {
-        Name = abilityUsage.Name;
+        Name = abilityUsage.Name.ToLowerInvariant();
         Level = abilityUsage.Level;
         Rating = abilityUsage.Rating;
         AbilityUsage = abilityUsage;
@@ -26,7 +26,7 @@ public class AbilityLearned : IAbilityLearned
 
     public AbilityLearned(LearnedAbilityData learnedAbilityData, IAbilityUsage abilityUsage)
     {
-        Name = learnedAbilityData.Name;
+        Name = learnedAbilityData.Name.ToLowerInvariant();
         Level = learnedAbilityData.Level;
         Rating = learnedAbilityData.Rating;
         AbilityUsage = abilityUsage;

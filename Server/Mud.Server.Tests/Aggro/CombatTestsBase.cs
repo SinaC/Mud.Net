@@ -111,7 +111,7 @@ public abstract class CombatTestsBase
             // CharacterBaseData
             Name = name,
             Race = "Human",
-            Class = "Warrior",
+            Classes = ["Warrior"],
             Level = 1,
             Sex = Sex.Male,
             Size = Sizes.Medium,

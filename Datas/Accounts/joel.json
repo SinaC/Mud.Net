@@ -10,7 +10,7 @@
       "Name": "joel",
       "Version": 1,
       "Level": 41,
-      "Class": "Mage",
+      "Classes": ["Mage"],
       "Race": "Elf",
       "RoomId": 3001
     },
@@ -18,7 +18,7 @@
       "Name": "linh",
       "Version": 1,
       "Level": 3,
-      "Class": "Cleric",
+      "Classes": ["Cleric"],
       "Race": "Human",
       "RoomId": 3001
     }

@@ -1,8 +1,9 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Domain.Attributes;
+using Mud.Server.Class.Interfaces;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Interfaces;
 using Mud.Server.Interfaces.Character;
@@ -30,7 +31,7 @@ public class Score : CharacterGameAction
         sb.AppendLine("+--------------------------------+-------------------------+");
         sb.AppendLine("| %W%Attributes%x%                     |                         |");
         sb.AppendFormatLine("| %c%Strength     :   %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", Actor[CharacterAttributes.Strength], Actor.BaseAttribute(CharacterAttributes.Strength), Actor.Race?.DisplayName ?? "(none)");
-        sb.AppendFormatLine("| %c%Intelligence :   %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", Actor[CharacterAttributes.Intelligence], Actor.BaseAttribute(CharacterAttributes.Intelligence), Actor.Class?.DisplayName ?? "(none)");
+        sb.AppendFormatLine("| %c%Intelligence :   %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", Actor[CharacterAttributes.Intelligence], Actor.BaseAttribute(CharacterAttributes.Intelligence), FormatClasses(Actor.Classes));
         sb.AppendFormatLine("| %c%Wisdom       :   %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", Actor[CharacterAttributes.Wisdom], Actor.BaseAttribute(CharacterAttributes.Wisdom), Actor.Sex);
         sb.AppendFormatLine("| %c%Dexterity    :   %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", Actor[CharacterAttributes.Dexterity], Actor.BaseAttribute(CharacterAttributes.Dexterity), Actor.Level);
         if (pc != null)
@@ -49,10 +50,10 @@ public class Score : CharacterGameAction
         sb.AppendFormatLine("| {0} | %g%Slash  :         %W%{1,6}%x% |", resources[0], Actor[Armors.Slash]);
         sb.AppendFormatLine("| {0} | %g%Exotic :         %W%{1,6}%x% |", resources[1], Actor[Armors.Exotic]);
         sb.AppendFormatLine("| {0} | %g%Saves  :         %W%{1,6}%x% |", resources[2], Actor[CharacterAttributes.SavingThrow]);
-        for(int i = 3; i < resources.Count; i++)
+        for (int i = 3; i < resources.Count; i++)
             sb.AppendFormatLine("| {0} |                         |", resources[i], Actor[Armors.Slash]);
         sb.AppendLine("+--------------------------------+-------------------------+");
-            sb.AppendFormatLine("| %g%Hit:     %W%{0,6}%x%   %g%Dam:  %W%{1,6}%x% | %g%Alignment:       %W%{2,6}%x% |", Actor.HitRoll, Actor.DamRoll, Actor.Alignment);
+        sb.AppendFormatLine("| %g%Hit:     %W%{0,6}%x%   %g%Dam:  %W%{1,6}%x% | %g%Alignment:       %W%{2,6}%x% |", Actor.HitRoll, Actor.DamRoll, Actor.Alignment);
         sb.AppendLine("+--------------------------------+-------------------------+");
         if (pc != null)
             sb.AppendFormatLine("| %y%Silver: %W%{0,7}%x%  %y%Gold: %W%{1,7}%x% | %y%Train: %W%{2,3}%x%   %y%Pract: %W%{3,3}%x% |", FormatCurrency(Actor.SilverCoins), FormatCurrency(Actor.GoldCoins), pc.Trains, pc.Practices);
@@ -97,6 +98,16 @@ public class Score : CharacterGameAction
         // TODO: resistances
 
         Actor.Send(sb);
+    }
+
+    public static string FormatClasses(IEnumerable<IClass> classes)
+    {
+        var count = classes.Count();
+        if (count == 0)
+            return "(none)";
+        else if (count == 1)
+            return classes.Single().DisplayName;
+        return string.Join(',', classes.Select(x => x.ShortName));
     }
 
     private static string FormatCurrency(long currency)

@@ -6,7 +6,7 @@ namespace Mud.Server.Domain.Attributes;
 public abstract class AbilityBaseAttribute(string name, AbilityEffects effects) : ExportAttribute // every ability will be exported without ContractType
 {
     public abstract AbilityTypes Type { get; }
-    public string Name { get; set; } = name;
+    public string Name { get; set; } = name.ToLowerInvariant();
     public AbilityEffects Effects { get; set; } = effects;
     public int CooldownInSeconds { get; set; } = -1;
     public int LearnDifficultyMultiplier { get; set; } = 1;

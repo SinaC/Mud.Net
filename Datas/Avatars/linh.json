@@ -511,7 +511,7 @@
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "linh",
   "Race": "human",
-  "Class": "cleric",
+  "Classes": ["cleric"],
   "Level": 3,
   "Sex": "Female",
   "Size": "Medium",

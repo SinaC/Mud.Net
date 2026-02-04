@@ -6,7 +6,7 @@ public abstract class CharacterData
 
     public required string Race { get; set; }
 
-    public required string Class { get; set; }
+    public required string[] Classes { get; set; }
 
     public required int Level { get; set; }
 

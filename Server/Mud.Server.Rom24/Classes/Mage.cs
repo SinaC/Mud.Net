@@ -161,6 +161,8 @@ public class Mage : ClassBase
 
     public override (int thac0_00, int thac0_32) Thac0 => (20, 6);
 
+    public override bool IncreasedManaGainWhenLeveling => true;
+
     public override int MinHitPointGainPerLevel => 6;
 
     public override int MaxHitPointGainPerLevel => 8;

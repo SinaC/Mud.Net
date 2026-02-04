@@ -103,7 +103,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Position = Positions.Standing;
         Shape = Shapes.Normal;
 
-        Class = null!;
+        Classes = [];
         Race = null!;
         Room = null!;
         CurrentResourceKinds = null!;
@@ -298,7 +298,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public Positions Position { get; protected set; }
 
     // Class/Race
-    public IClass Class { get; protected set; }
+    public IEnumerable<IClass> Classes { get; protected set; }
     public IRace Race { get; protected set; }
 
     // Attributes
@@ -1410,7 +1410,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 save -= 2;
                 break;
         }
-        if (victim.Class?.CurrentResourceKinds(victim.Shape).Contains(ResourceKinds.Mana) == true)
+        if (victim.Classes.CurrentResourceKinds(victim.Shape).Contains(ResourceKinds.Mana) == true)
             save = (save * 9) / 10;
         save = Math.Clamp(save, 5, 95);
         return RandomManager.Chance(save);
@@ -2537,7 +2537,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Get current resource kind from class if any, default resources otherwisse
         CurrentResourceKinds = ImmortalMode.IsSet("Infinite")
             ? Enum.GetValues<ResourceKinds>().ToList()
-            : (Class?.CurrentResourceKinds(Shape) ?? ResourceKindsExtensions.DefaultAvailableResources).Union(ResourceKindsExtensions.MandatoryAvailableResources).ToList();
+            : (Classes.CurrentResourceKinds(Shape) ?? ResourceKindsExtensions.DefaultAvailableResources).Union(ResourceKindsExtensions.MandatoryAvailableResources).ToList();
     }
 
     protected void SetBaseMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

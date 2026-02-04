@@ -36,6 +36,8 @@ public interface IClass
 
     (int thac0_00, int thac0_32) Thac0 { get; }
 
+    bool IncreasedManaGainWhenLeveling { get; }
+
     int MinHitPointGainPerLevel { get; }
     int MaxHitPointGainPerLevel { get; }
 }

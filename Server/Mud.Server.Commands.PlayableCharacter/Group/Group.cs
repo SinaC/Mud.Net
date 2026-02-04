@@ -168,7 +168,7 @@ public class Group : PlayableCharacterGameAction
 
     private void AppendPlayerGroupMemberInfo(StringBuilder sb, IPlayableCharacter member)
     {
-        sb.AppendFormat("[{0,3} {1,3}] {2,-20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
+        sb.AppendFormat("[{0,3} {1,3}] {2,-20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Classes.ShortName(), member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
         if (member.Level >= MaxLevel)
             sb.AppendFormat(" {0} nxt", member.ExperienceToLevel);
         sb.AppendLine();
