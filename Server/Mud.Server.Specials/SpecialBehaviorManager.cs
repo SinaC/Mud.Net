@@ -25,7 +25,7 @@ namespace Mud.Server.Specials
             SpecialBehaviorsByName = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iSpecialBehaviorType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<SpecialBehaviorAttribute>()! })
             .Where(x => x.attribute != null)
-            .ToDictionary(x => x.attribute.Name, x => x.executionType);
+            .ToDictionary(x => x.attribute.Name, x => x.executionType, StringComparer.InvariantCultureIgnoreCase);
         }
 
         public int Count => SpecialBehaviorsByName.Count;

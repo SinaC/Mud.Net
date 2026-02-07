@@ -1575,14 +1575,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         var wasInRoom = Room;
-        var pc = this as IPlayableCharacter;
-        var npc = this is INonPlayableCharacter;
 
         // Try 6 times to find an exit
         for (int attempt = 0; attempt < 6; attempt++)
         {
             var randomExit = RandomManager.Random<ExitDirections>() ?? ExitDirections.North;
-            var exit = Room.Exits[(int) randomExit];
+            var exit = Room[randomExit];
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
                 && RandomManager.OneOutOf(Daze) // partially dazed, has some chance to flee
@@ -1598,11 +1596,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     Send("You flee from combat!");
                     Act(wasInRoom.People, "{0} has fled!", this);
 
-                    if (pc != null)
-                        // TODO
-                        //if ((ch->class == CLASS_THIEF) && (number_percent() < 3 * (ch->level / 2)))
-                        //send_to_char("You snuck away safely.\n\r", ch);
-                        // else
+                    if (this is IPlayableCharacter pc)
+                    // TODO
+                    //if ((ch->class == CLASS_THIEF) && (number_percent() < 3 * (ch->level / 2)))
+                    //send_to_char("You snuck away safely.\n\r", ch);
+                    // else
                     {
                         Send("You lost 10 exp.");
                         pc.GainExperience(-10);
@@ -1661,7 +1659,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         _cooldownsPulseLeft.Remove(abilityName);
         if (verbose)
-            Send("%b%{0}%x% is available.", abilityName);
+            Send("%B%{0}%x% is available.", abilityName.ToPascalCase());
     }
 
     // Equipment
@@ -1781,7 +1779,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (peekInventory)
         {
             sb.AppendLine("You peek at the inventory:");
-            IEnumerable<IItem> items = viewer == this
+            var items = viewer == this
                 ? Inventory
                 : Inventory.Where(viewer.CanSee); // don't display 'invisible item' when inspecting someone else
             ItemsHelpers.AppendItems(sb, items, this, true, true);
@@ -2158,7 +2156,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected int GetWeaponBaseDamage(IItemWeapon weapon, ICharacter victim, int weaponLearned)
     {
-        int damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) * weaponLearned / 100;
+        var damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) * weaponLearned / 100;
         if (GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null) // no shield -> more damage
             damage = 11 * damage / 10;
         foreach (var damageModifierWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IDamageModifierWeaponEffect>(weapon))
@@ -2185,7 +2183,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         var learned = 20 + percentage;
         // Calculate to-hit-armor-class-0 versus armor.
         (int thac0_00, int thac0_32) = GetThac0();
-        int thac0 = IntExtensions.Lerp(thac0_00, thac0_32, Level, 32);
+        var thac0 = IntExtensions.Lerp(thac0_00, thac0_32, Level, 32);
         if (thac0 < 0)
             thac0 /= 2;
         if (thac0 < -5)
@@ -2270,7 +2268,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // base weapon damage
-        int damage = wield == null
+        var damage = wield == null
             ? NoWeaponBaseDamage
             : GetWeaponBaseDamage(wield, victim, learned);
         if (abilityLearned != null)
@@ -2293,15 +2291,22 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // bonus damage from affects
         var recompute = false;
-        var aurasWithCharacterDamageIncreaseModifier = Auras.Where(x => x.IsValid).Where(x => x.Affects.OfType<ICharacterHitDamageModifierAffect>().Any()).ToArray();
-        foreach (var aura in aurasWithCharacterDamageIncreaseModifier)
+        var aurasWithCharacterHitDamageModifierAffect = Auras.Where(x => x.IsValid).Where(x => x.Affects.OfType<ICharacterHitDamageModifierAffect>().Any()).ToArray();
+        foreach (var aura in aurasWithCharacterHitDamageModifierAffect)
         {
-            foreach (var characterDamageIncreaseModifierAffect in aura.Affects.OfType<ICharacterHitDamageModifierAffect>())
+            foreach (var characterHitDamageModifierAffect in aura.Affects.OfType<ICharacterHitDamageModifierAffect>())
             {
-                (damage, var wearOff) = characterDamageIncreaseModifierAffect.ModifyDamage(this, damageType, damage);
-                if (wearOff)
+                (damage, var wornOff) = characterHitDamageModifierAffect.ModifyDamage(this, damageType, damage);
+                if (wornOff)
+                {
+                    RemoveAura(aura, false, true);
                     recompute = true;
+                }
+                if (damage < 1) // no remaining damage, no need to continue
+                    break;
             }
+            if (damage < 1) // no remaining damage, no need to continue
+                break;
         }
         if (recompute)
             Recompute();
@@ -2388,29 +2393,29 @@ public abstract class CharacterBase : EntityBase, ICharacter
             }
 
             _equipments.Clear();
-            _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(Logger, x)));
+            _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
             //Recompute();
         }
         else
         {
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Light));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Head));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Amulet)); // 2 amulets
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Amulet));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Chest));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Cloak));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Waist));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Wrists)); // 2 wrists
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Wrists));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Arms));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Hands));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Ring)); // 2 rings
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Ring));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Legs));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Feet));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.MainHand)); // 2 hands
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.OffHand));
-            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Float));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Light));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Head));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Amulet)); // 2 amulets
+            _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Wrists)); // 2 wrists
+            _equipments.Add(new EquippedItem(EquipmentSlots.Wrists));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Arms));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Hands));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Ring)); // 2 rings
+            _equipments.Add(new EquippedItem(EquipmentSlots.Ring));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Legs));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Feet));
+            _equipments.Add(new EquippedItem(EquipmentSlots.MainHand)); // 2 hands
+            _equipments.Add(new EquippedItem(EquipmentSlots.OffHand));
+            _equipments.Add(new EquippedItem(EquipmentSlots.Float));
         }
     }
 
@@ -2450,8 +2455,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
             {
                 // search empty mainhand + offhand
                 var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
-                var searchEmptyOffhandResult = SearchOffhandEquipmentSlot(false);
-                if (searchEmptyMainHandResult.equippedItem != null && searchEmptyOffhandResult.equippedItem != null)
+                var (equippedItem, _) = SearchOffhandEquipmentSlot(false);
+                if (searchEmptyMainHandResult.equippedItem != null && equippedItem != null)
                     return searchEmptyMainHandResult;
                 // no autoreplace if no empty mainhand + offhand
                 return (null, SearchEquipmentSlotResults.NoFreeMainAndOffHand);
@@ -2471,8 +2476,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
             else
             {
                 var searchEmptyMainHandResult = SearchEquipmentSlot(EquipmentSlots.MainHand, false);
-                var searchEmptyOffhandResult = SearchOffhandEquipmentSlot(false);
-                if (searchEmptyMainHandResult.equippedItem != null && searchEmptyOffhandResult.equippedItem != null)
+                var (equippedItem, _) = SearchOffhandEquipmentSlot(false);
+                if (searchEmptyMainHandResult.equippedItem != null && equippedItem != null)
                     return searchEmptyMainHandResult;
                 return (null, SearchEquipmentSlotResults.NoFreeMainAndOffHand);
             }
@@ -2586,9 +2591,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (!entity.IsValid)
             return;
-        foreach (IAura aura in entity.Auras.Where(x => x.IsValid))
+        foreach (var aura in entity.Auras.Where(x => x.IsValid))
         {
-            foreach (ICharacterAffect affect in aura.Affects.OfType<ICharacterAffect>())
+            foreach (var affect in aura.Affects.OfType<ICharacterAffect>())
             {
                 affect.Apply(this);
             }
@@ -2658,7 +2663,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var slowAbilityDefinition = AbilityManager["Slow"];
             var duration = Level / 2;
             var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(this, slowAbilityDefinition?.Name ?? "Slow", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(this, slowAbilityDefinition?.Name ?? "Slow", this, Level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or },
                 new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
@@ -2668,7 +2673,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var poisonAffect = AffectManager.CreateInstance("Poison");
             var poisonAbilityDefinition = AbilityManager["Poison"];
             var duration = Level;
-            AuraManager.AddAura(this, poisonAbilityDefinition?.Name ?? "Poison", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(this, poisonAbilityDefinition?.Name ?? "Poison", this, Level, TimeSpan.FromMinutes(duration), true,
                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                poisonAffect,
@@ -2679,7 +2684,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var plagueAffect = AffectManager.CreateInstance("Plague");
             var plagueAbilityDefinition = AbilityManager["Plague"];
             var duration = RandomManager.Range(1, 2 * Level);
-            AuraManager.AddAura(this, plagueAbilityDefinition?.Name ?? "Plague", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(this, plagueAbilityDefinition?.Name ?? "Plague", this, Level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
                 plagueAffect,
@@ -2774,29 +2779,56 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (damage > 1)
             damage = CharacterTypeSpecificDamageModifier(damage);
 
+        var fullyAbsorbed = false;
         if (damage > 1)
         {
+            var recompute = false;
             // any damage modifier on victim (this) affects ?
-            var characterDamageDecreaseModifierAffects = Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterDamageModifierAffect>()).ToArray();
-            foreach (var characterDamageDecreaseModifierAffect in characterDamageDecreaseModifierAffects)
+            var aurasWithCharacterHitDamageModifierAffect = Auras.Where(x => x.IsValid).Where(x => x.Affects.OfType<ICharacterDamageModifierAffect>().Any()).ToArray();
+            foreach (var aura in aurasWithCharacterHitDamageModifierAffect)
             {
-                damage = characterDamageDecreaseModifierAffect.ModifyDamage(source, this, damageType, damageSource, damage);
+                foreach (var characterDamageModifierAffect in aura.Affects.OfType<ICharacterDamageModifierAffect>())
+                {
+                    var result = characterDamageModifierAffect.ModifyDamage(source, this, damageType, damageSource, damage);
+                    if (result.WornOff)
+                    {
+                        RemoveAura(aura, false, true);
+                        recompute = true;
+                    }
+                    damage = result.ModifiedDamage;
+
+                    if (result.Action == DamageModifierAffectAction.DamageFullyAbsorbed) // damage fully absorbed, no need to continue
+                    {
+                        fullyAbsorbed = true;
+                        break;
+                    }
+                    if (damage < 1) // no remaining damage, no need to continue
+                        break;
+                }
+                if (fullyAbsorbed || damage < 1) // fully absorbed or no remaining damage, no need to continue
+                    break;
             }
+            if (recompute)
+                Recompute();
         }
 
         // apply resistances
-        var resistanceLevel = ResistanceCalculator.CheckResistance(this, damageType);
-        switch (resistanceLevel)
+        ResistanceLevels resistanceLevel = ResistanceLevels.None;
+        if (damage > 1)
         {
-            case ResistanceLevels.Immune:
-                damage = 0;
-                break;
-            case ResistanceLevels.Resistant:
-                damage = 2 * damage / 3;
-                break;
-            case ResistanceLevels.Vulnerable:
-                damage =  3 * damage / 2;
-                break;
+            resistanceLevel = ResistanceCalculator.CheckResistance(this, damageType);
+            switch (resistanceLevel)
+            {
+                case ResistanceLevels.Immune:
+                    damage = 0;
+                    break;
+                case ResistanceLevels.Resistant:
+                    damage = 2 * damage / 3;
+                    break;
+                case ResistanceLevels.Vulnerable:
+                    damage = 3 * damage / 2;
+                    break;
+            }
         }
 
         // display
@@ -2822,18 +2854,32 @@ public abstract class CharacterBase : EntityBase, ICharacter
             }
             else
             {
-                if (resistanceLevel == ResistanceLevels.Immune)
+                if (fullyAbsorbed)
+                {
+                    if (this == source)
+                    {
+                        phraseSource = "%g%You absorb that.%x%";
+                        phraseOther = "%y%{0:N} has absorbed {0:s} own {3}.%x%";
+                    }
+                    else
+                    {
+                        phraseSource = "%g%{0} has absorbed your {2}!%x%";
+                        phraseVictim = "%r%You absorb {0:p} {2}.%x%";
+                        phraseOther = "%y%{1:N} has absorbed {0:p} {3}!%x%";
+                    }
+                }
+                else if (resistanceLevel == ResistanceLevels.Immune)
                 {
                     if (this == source)
                     {
                         phraseSource = "%g%Luckily, you are immune to that.%x%";
-                        phraseOther = "%y%{0:N} is unaffected by {0:s} own {2}.%x%";
+                        phraseOther = "%y%{0:N} is unaffected by {0:s} own {3}.%x%";
                     }
                     else
                     {
-                        phraseSource = "%g%{0} is unaffected by your {1}!%x%";
-                        phraseVictim = "%r%{0:p} {1} is powerless against you.%x%";
-                        phraseOther = "%y%{1:N} is unaffected by {0:p} {2}!%x%";
+                        phraseSource = "%g%{0} is unaffected by your {2}!%x%";
+                        phraseVictim = "%r%{0:p} {2} is powerless against you.%x%";
+                        phraseOther = "%y%{1:N} is unaffected by {0:p} {3}!%x%";
                     }
                 }
                 else

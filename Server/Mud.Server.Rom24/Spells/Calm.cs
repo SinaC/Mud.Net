@@ -84,7 +84,7 @@ public class Calm : NoTargetSpellBase
                 ? -5
                 : -2;
             int duration = Level / 4;
-            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(victim, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm"), Operator = AffectOperators.Or });

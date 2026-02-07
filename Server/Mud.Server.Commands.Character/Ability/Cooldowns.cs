@@ -51,15 +51,15 @@ public class Cooldowns : CharacterGameAction
                 .Select(x => new { AbilityName = x.Key, TimeLeft = Pulse.ToTimeSpan(x.Value) })
                 .OrderBy(x => x.TimeLeft))
             {
-                sb.AppendFormatLine("%b%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.TimeLeft.FormatDelay());
+                sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName.ToPascalCase(), cooldown.TimeLeft.FormatDelay());
             }
             Actor.Send(sb);
             return;
         }
         int pulseLeft = Actor.CooldownPulseLeft(AbilityLearned.Name);
         if (pulseLeft <= 0)
-            Actor.Send("{0} is not in cooldown.", AbilityLearned.Name);
+            Actor.Send("{0} is not in cooldown.", AbilityLearned.Name.ToPascalCase());
         else
-            Actor.Send("{0} is in cooldown for {1}.", AbilityLearned.Name, Pulse.ToTimeSpan(pulseLeft).FormatDelay());
+            Actor.Send("{0} is in cooldown for {1}.", AbilityLearned.Name.ToPascalCase(), Pulse.ToTimeSpan(pulseLeft).FormatDelay());
     }
 }

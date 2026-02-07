@@ -30,7 +30,7 @@ public class ShadowWordPain : OffensiveSpellBase
         Victim.AbilityDamage(Caster, damage, SchoolTypes.Negative, "word of darkness", true);
         // dot
         // TODO: apply only if not already applied
-        AuraManager.AddAura(Victim, SpellName, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), new AuraFlags(), true,
+        AuraManager.AddAura(Victim, SpellName, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), true,
             new ShadowWordPainAffect());
     }
 }

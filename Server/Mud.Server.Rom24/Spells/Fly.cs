@@ -43,7 +43,7 @@ public class Fly : DefensiveSpellBase
                 Caster.Act(ActOptions.ToCharacter, "{0:N} doesn't need your help to fly.", Victim);
             return;
         }
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 3), new AuraFlags(), true,
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(Level + 3), true,
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Flying"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", Victim);
     }

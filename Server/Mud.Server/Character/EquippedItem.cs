@@ -8,15 +8,11 @@ namespace Mud.Server.Character;
 
 public class EquippedItem : IEquippedItem
 {
-    private ILogger Logger { get; }
-
     public EquipmentSlots Slot { get; }
     public IItem? Item { get; set; }
 
-    public EquippedItem(ILogger logger, EquipmentSlots slot)
+    public EquippedItem(EquipmentSlots slot)
     {
-        Logger = logger;
-
         Slot = slot;
     }
 
@@ -73,9 +69,6 @@ public class EquippedItem : IEquippedItem
                 return "%c%<offhand>                %x%";
             case EquipmentSlots.Float:
                 return "%C%<floating nearby>        %x%";
-            default:
-                Logger.LogError("DoEquipment: missing WearLocation {slot}", Slot);
-                break;
         }
         return "%C%<unknown>%x%";
     }

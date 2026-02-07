@@ -18,7 +18,6 @@ public class FireShield : CharacterBuffSpellBase
 {
     private const string SpellName = "Fire Shield";
 
-
     public FireShield(ILogger<FireShield> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
@@ -33,7 +32,7 @@ public class FireShield : CharacterBuffSpellBase
         => (Level, TimeSpan.FromMinutes(Level / 6),
         new IAffect[]
         {
-            new CharacterShieldFlagsAffect{ Modifier = new ShieldFlags("FireShield"), Operator = AffectOperators.Or },
+            new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("FireShield"), Operator = AffectOperators.Or },
             new FireShieldAfterHitAffect(RandomManager)
         });
 }

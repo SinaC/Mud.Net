@@ -27,7 +27,7 @@ public class NextHitDamageModifierAffect : ICharacterHitDamageModifierAffect
         return new NextHitDamageModifierAffectData { Modifier = Modifier };
     }
 
-    public (int modifiedDamage, bool wearOff) ModifyDamage(ICharacter? source, SchoolTypes damageType, int damage)
+    public (int modifiedDamage, bool wornOff) ModifyDamage(ICharacter? source, SchoolTypes damageType, int damage)
     {
         int modifiedDamage = damage + Modifier;
         return (modifiedDamage, true);

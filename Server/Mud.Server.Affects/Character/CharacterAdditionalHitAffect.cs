@@ -22,7 +22,7 @@ public class CharacterAdditionalHitAffect : ICharacterAdditionalHitAffect
     public void Append(StringBuilder sb)
     {
         if (AdditionalHitCount == 1)
-            sb.Append("%c%gives %y%one %c%additional hit%x%");
+            sb.Append("%c%gives %y%One %c%additional hit%x%");
         else
             sb.AppendFormat("%c%gives %y%{0} %c%additional hits%x%", AdditionalHitCount);
     }

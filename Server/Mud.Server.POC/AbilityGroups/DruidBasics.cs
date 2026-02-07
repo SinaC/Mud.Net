@@ -30,6 +30,7 @@ namespace Mud.Server.POC.AbilityGroups
 
             AddAbility("berserk");
             AddAbility("peek");
+            AddAbility("power word: shield");
         }
 
         #region IAbilityGroup

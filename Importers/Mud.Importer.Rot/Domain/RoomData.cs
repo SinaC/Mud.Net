@@ -17,12 +17,12 @@ internal class RoomData
     public string Guild { get; set; } = default!;
     public string Race { get; set; } = default!;
     public ExitData[] Exits { get; set; } = new ExitData[MaxDir];
-    public Dictionary<string, string> ExtraDescr { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, string> ExtraDescr { get; set; } = [];
     public ExitData Transfer { get; set; } = default!;
     public string Owner { get; set; } = default!;
     public bool HealNeg { get; set; }
 
-    public List<ResetData> Resets { get; set; } = new List<ResetData>();
+    public List<ResetData> Resets { get; set; } = [];
 }
 
 internal class ExitData
@@ -30,8 +30,8 @@ internal class ExitData
     public const long ExDoor = 0x01;
     public const long ExClosed = 0x02;
     public const long ExLocked = 0x04;
-    public const long ExPickproof = 0x08;
-    public const long ExNoPass = 0x10;
+    public const long ExPickproof = 0x20;
+    public const long ExNoPass = 0x40;
 
     public string Description { get; set; } = default!;
     public string Keyword { get; set; } = default!;

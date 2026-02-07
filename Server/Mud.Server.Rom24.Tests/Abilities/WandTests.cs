@@ -273,7 +273,7 @@ public class WandTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        auraManagerMock.Verify(x => x.AddAura(userMock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(userMock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
     }
 
     // character target + no target spell -> success
@@ -510,7 +510,7 @@ public class WandTests : AbilityTestBase
 
         Assert.IsNull(result);
         effectManagerMock.Verify(x => x.CreateInstance<ICharacter>("Curse"), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(targetMock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(targetMock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
         targetMock.Verify(x => x.Send("You feel unclean.", It.IsAny<object[]>()), Times.Once);
     }
 
@@ -559,7 +559,7 @@ public class WandTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        auraManagerMock.Verify(x => x.AddAura(targetMock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(targetMock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
     }
 
     // item target + no target spell -> success
@@ -745,7 +745,7 @@ public class WandTests : AbilityTestBase
 
         Assert.IsNull(result);
         userMock.Verify(x => x.Act(ActOptions.ToAll, "%W%{0:N} zap{0:v} {1} with {2}.%x%", It.IsAny<object[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "Fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
         userMock.Verify(x => x.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", It.IsAny<object[]>()), Times.Once);
     }
 
@@ -799,7 +799,7 @@ public class WandTests : AbilityTestBase
 
         Assert.IsNull(result);
         // no curse effect on item, only aura
-        auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
     }
 
     // item target + mixed defensive target spell -> cast on item
@@ -848,6 +848,6 @@ public class WandTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
     }
 }

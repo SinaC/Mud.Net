@@ -5,5 +5,5 @@ namespace Mud.Server.Interfaces.Affect.Character;
 
 public interface ICharacterHitDamageModifierAffect : IAffect
 {
-    (int modifiedDamage, bool wearOff) ModifyDamage(ICharacter? source, SchoolTypes damageType, int damage);
+    (int modifiedDamage, bool wornOff) ModifyDamage(ICharacter? source, SchoolTypes damageType, int damage);
 }

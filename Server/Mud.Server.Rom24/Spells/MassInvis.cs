@@ -42,7 +42,7 @@ public class MassInvis : NoTargetSpellBase
             {
                 victim.Act(ActOptions.ToAll, "{0:N} slowly fade{0:v} out of existence.", victim);
 
-                AuraManager.AddAura(victim, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(24), new AuraFlags(), true,
+                AuraManager.AddAura(victim, AbilityDefinition.Name, Caster, Level / 2, TimeSpan.FromMinutes(24), true,
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Invisible"), Operator = AffectOperators.Or });
             }
         }

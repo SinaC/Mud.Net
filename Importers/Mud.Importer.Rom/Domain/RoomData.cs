@@ -38,6 +38,12 @@ internal class RoomData
 
 internal class ExitData
 {
+    public const long ExDoor = 0x01;
+    public const long ExClosed = 0x02;
+    public const long ExLocked = 0x04;
+    public const long ExPickproof = 0x20;
+    public const long ExNoPass = 0x40;
+
     public string Description { get; set; } = default!;
     public string Keyword { get; set; } = default!;
     public long ExitInfo { get; set; }

@@ -49,8 +49,8 @@ public class AffectManager : IAffectManager
                 affectDefinitions.Add(affectDefinition);
             }
         }
-        AffectDefinitionByName = affectDefinitions.ToDictionary(x => x.Name, x => x);
-        AffectDefinitionByAffectDataType = affectDefinitions.Where(x => !x.NoAffectData).ToDictionary(x => x.AffectDataType!, x => x);
+        AffectDefinitionByName = affectDefinitions.ToDictionary(x => x.Name, StringComparer.InvariantCultureIgnoreCase);
+        AffectDefinitionByAffectDataType = affectDefinitions.Where(x => !x.NoAffectData).ToDictionary(x => x.AffectDataType!);
     }
 
     public int Count => AffectDefinitionByName.Count;

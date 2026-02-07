@@ -48,7 +48,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             victim.Send("Your eyes tear up from smoke...you can't see a thing!");
             victim.Act(ActOptions.ToRoom, "{0} is blinded by smoke!", victim);
             int duration = RandomManager.Range(1, level / 10);
-            AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false, // TODO:
+            AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), false, // TODO:
                 new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
         }

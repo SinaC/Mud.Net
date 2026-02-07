@@ -42,7 +42,7 @@ public class Sleep : OffensiveSpellBase
             || Victim.SavesSpell(Level - 4, SchoolTypes.Charm))
             return;
 
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(4 + Level), new AuraFlags(), true,
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(4 + Level), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Sleep"), Operator = AffectOperators.Or });
 

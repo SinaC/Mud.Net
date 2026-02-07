@@ -25,7 +25,7 @@ public class WeaponEffectManager : IWeaponEffectManager
         WeaponEffectsByWeaponFlag = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iWeaponEffectType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<WeaponEffectAttribute>()! })
             .Where(x => x.attribute != null)
-            .ToDictionary(x => x.attribute.WeaponFlagName, x => x.executionType);
+            .ToDictionary(x => x.attribute.WeaponFlagName, x => x.executionType, StringComparer.InvariantCultureIgnoreCase);
     }
 
     public int Count => WeaponEffectsByWeaponFlag.Count;

@@ -10,7 +10,7 @@
   "Alignment": -164,
   "Trains": 33,
   "Practices": 74,
-  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
+  "AutoFlags": "Assist,Exit,Sacrifice,Gold,Split,Loot,Affect",
   "Currencies": {
     "QuestPoints": 0
   },
@@ -44,133 +44,133 @@
   ],
   "LearnedAbilities": [
     {
-      "Name": "Berserk",
+      "Name": "berserk",
       "Level": 18,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Axe",
+      "Name": "axe",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Dagger",
+      "Name": "dagger",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Flail",
+      "Name": "flail",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Mace",
+      "Name": "mace",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Peek",
+      "Name": "peek",
       "Level": 1,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Polearm",
+      "Name": "polearm",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Spear",
+      "Name": "spear",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Staff(weapon)",
+      "Name": "staff(weapon)",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Sword",
+      "Name": "sword",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Whip",
+      "Name": "whip",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Fourth Wield",
-      "Level": 1,
-      "Learned": 100,
-      "Rating": 0
-    },
-    {
-      "Name": "Dual Wield",
+      "Name": "fourth wield",
       "Level": 1,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Third Wield",
+      "Name": "dual wield",
       "Level": 1,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Bear Form",
+      "Name": "third wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "bear form",
       "Level": 5,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Cat Form",
+      "Name": "cat form",
       "Level": 15,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Claw",
+      "Name": "claw",
       "Level": 15,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Rake",
+      "Name": "rake",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Maul",
+      "Name": "maul",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Demoralizing Roar",
+      "Name": "demoralizing roar",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Ferocious Bite",
+      "Name": "ferocious bite",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Swipe",
+      "Name": "swipe",
       "Level": 25,
       "Learned": 100,
       "Rating": 1
@@ -219,31 +219,33 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "UberMode",
+  "ImmortalMode": "NoDeath,Holylight,Infinite,PassThru,AlwaysSafe,Omniscient",
   "CompletedQuests": [],
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "sinac",
   "Race": "insectoid",
-  "Classes": ["druid"],
+  "Classes": [
+    "druid"
+  ],
   "Level": 46,
   "Sex": "Male",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 3834,
-    "MovePoints": 12000,
-    "Mana": 3151,
+    "HitPoints": 3892,
+    "MovePoints": 12045,
+    "Mana": 3234,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 38736,
+    "HitPoints": 40070,
     "MovePoints": 13800,
     "Mana": 10000,
     "Psy": 100,
     "Energy": 0,
-    "Rage": 0,
+    "Rage": 100,
     "Combo": 0
   },
   "Equipments": [
@@ -262,9 +264,9 @@
         "ItemFlags": "Glowing,Magic",
         "Auras": [
           {
-            "AbilityName": "Test",
+            "AbilityName": "test",
             "Level": 1,
-            "PulseLeft": 16480,
+            "PulseLeft": 15888,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -305,7 +307,7 @@
             "AbilityName": "",
             "Level": 16,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -340,7 +342,7 @@
             "AbilityName": "",
             "Level": 16,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -375,7 +377,7 @@
             "AbilityName": "",
             "Level": 16,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -410,7 +412,7 @@
             "AbilityName": "",
             "Level": 16,
             "PulseLeft": -1,
-            "AuraFlags": "NoDispel, Permanent, Inherent",
+            "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
               {
                 "$type": "characterAttribute",
@@ -423,38 +425,6 @@
                 "Operator": "Add",
                 "Location": "AllArmor",
                 "Modifier": -4
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "Slot": "MainHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "TwoHands,Vorpal",
-        "DiceCount": 999,
-        "DiceValue": 1,
-        "ItemId": 3005,
-        "Source": null,
-        "ShortDescription": "Hassan\u0027s scimitar",
-        "Description": "Hassan\u0027s scimitar",
-        "Level": 42,
-        "Cost": 0,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Bless,Humming",
-        "Auras": [
-          {
-            "AbilityName": "Test",
-            "Level": 1,
-            "PulseLeft": 31240,
-            "AuraFlags": "NoDispel",
-            "Affects": [
-              {
-                "$type": "weaponFlags",
-                "Operator": "Add",
-                "Modifier": "Flaming,Frost,Holy,Poison,Sharp,Shocking,Vampiric"
               }
             ]
           }
@@ -479,27 +449,64 @@
         "ItemFlags": "",
         "Auras": []
       }
-    },
-    {
-      "Slot": "MainHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "Vorpal,TwoHands",
-        "DiceCount": 4,
-        "DiceValue": 10,
-        "ItemId": 3005,
-        "Source": "Reset-E[3001]",
-        "ShortDescription": "Hassan\u0027s scimitar",
-        "Description": "Hassan\u0027s scimitar lies upon the ground, waiting for its owner.",
-        "Level": 42,
-        "Cost": 5600,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Humming,Bless",
-        "Auras": []
-      }
     }
   ],
   "Inventory": [
+    {
+      "$type": "weapon",
+      "WeaponFlags": "Vorpal,TwoHands",
+      "DiceCount": 4,
+      "DiceValue": 10,
+      "ItemId": 3005,
+      "Source": "Reset-E[3001]",
+      "ShortDescription": "Hassan\u0027s scimitar",
+      "Description": "Hassan\u0027s scimitar lies upon the ground, waiting for its owner.",
+      "Level": 42,
+      "Cost": 5600,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming,Bless",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "TwoHands,Vorpal",
+      "DiceCount": 999,
+      "DiceValue": 1,
+      "ItemId": 3005,
+      "Source": null,
+      "ShortDescription": "Hassan\u0027s scimitar",
+      "Description": "Hassan\u0027s scimitar",
+      "Level": 42,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Bless,Humming",
+      "Auras": [
+        {
+          "AbilityName": "test",
+          "Level": 1,
+          "PulseLeft": 30648,
+          "AuraFlags": "NoDispel",
+          "Affects": [
+            {
+              "$type": "weaponFlags",
+              "Operator": "Add",
+              "Modifier": "Flaming,Frost,Holy,Poison,Sharp,Shocking,Vampiric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ItemId": 3430,
+      "Source": "Oload[sinac]",
+      "ShortDescription": "a silver key",
+      "Description": "You see a silver key here.",
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
     {
       "$type": "weapon",
       "WeaponFlags": "",
@@ -518,7 +525,7 @@
           "AbilityName": "",
           "Level": 45,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -555,7 +562,7 @@
           "AbilityName": "",
           "Level": 45,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -636,7 +643,7 @@
           "AbilityName": "",
           "Level": 16,
           "PulseLeft": -1,
-          "AuraFlags": "NoDispel, Permanent, Inherent",
+          "AuraFlags": "NoDispel,Permanent,Inherent",
           "Affects": [
             {
               "$type": "characterAttribute",
@@ -657,9 +664,9 @@
   ],
   "Auras": [
     {
-      "AbilityName": "Sanctuary",
+      "AbilityName": "sanctuary",
       "Level": 1,
-      "PulseLeft": 70800,
+      "PulseLeft": 70208,
       "AuraFlags": "",
       "Affects": [
         {
@@ -670,9 +677,9 @@
       ]
     },
     {
-      "AbilityName": "Shield",
-      "Level": 6,
-      "PulseLeft": 12000,
+      "AbilityName": "shield",
+      "Level": 5,
+      "PulseLeft": 11408,
       "AuraFlags": "",
       "Affects": [
         {
@@ -684,9 +691,9 @@
       ]
     },
     {
-      "AbilityName": "Berserk",
+      "AbilityName": "berserk",
       "Level": 1,
-      "PulseLeft": 20000,
+      "PulseLeft": 19408,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -715,9 +722,9 @@
       ]
     },
     {
-      "AbilityName": "Stone Skin",
+      "AbilityName": "stone skin",
       "Level": 1,
-      "PulseLeft": 10120,
+      "PulseLeft": 9528,
       "AuraFlags": "",
       "Affects": [
         {
@@ -729,9 +736,9 @@
       ]
     },
     {
-      "AbilityName": "Protection Evil",
+      "AbilityName": "protection evil",
       "Level": 1,
-      "PulseLeft": 48560,
+      "PulseLeft": 47968,
       "AuraFlags": "",
       "Affects": [
         {
@@ -748,9 +755,9 @@
       ]
     },
     {
-      "AbilityName": "Testroom",
+      "AbilityName": "testroom",
       "Level": 10,
-      "PulseLeft": 61600,
+      "PulseLeft": 61008,
       "AuraFlags": "",
       "Affects": [
         {
@@ -771,9 +778,9 @@
       ]
     },
     {
-      "AbilityName": "Plague",
+      "AbilityName": "plague",
       "Level": 8,
-      "PulseLeft": 10500,
+      "PulseLeft": 9908,
       "AuraFlags": "",
       "Affects": [
         {
@@ -789,14 +796,14 @@
         },
         {
           "$type": "noData",
-          "AffectName": "Plague"
+          "AffectName": "plague"
         }
       ]
     },
     {
-      "AbilityName": "Poison",
+      "AbilityName": "poison",
       "Level": 19,
-      "PulseLeft": 10596,
+      "PulseLeft": 10004,
       "AuraFlags": "",
       "Affects": [
         {
@@ -812,12 +819,12 @@
         },
         {
           "$type": "noData",
-          "AffectName": "Poison"
+          "AffectName": "poison"
         }
       ]
     },
     {
-      "AbilityName": "Protection Evil",
+      "AbilityName": "protection evil",
       "Level": 46,
       "PulseLeft": -1,
       "AuraFlags": "Permanent",
@@ -829,12 +836,12 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectEvil"
+          "AffectName": "protectevil"
         }
       ]
     },
     {
-      "AbilityName": "Protection Evil",
+      "AbilityName": "protection evil",
       "Level": 46,
       "PulseLeft": -1,
       "AuraFlags": "Permanent",
@@ -846,12 +853,12 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectEvil"
+          "AffectName": "protectevil"
         }
       ]
     },
     {
-      "AbilityName": "Protection Evil",
+      "AbilityName": "protection evil",
       "Level": 46,
       "PulseLeft": -1,
       "AuraFlags": "Permanent",
@@ -863,14 +870,14 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectEvil"
+          "AffectName": "protectevil"
         }
       ]
     },
     {
-      "AbilityName": "Giant Size",
+      "AbilityName": "giant size",
       "Level": 35,
-      "PulseLeft": 10480,
+      "PulseLeft": 9888,
       "AuraFlags": "",
       "Affects": [
         {
@@ -892,7 +899,7 @@
       ]
     },
     {
-      "AbilityName": "Protection Evil",
+      "AbilityName": "protection evil",
       "Level": 46,
       "PulseLeft": -1,
       "AuraFlags": "Permanent",
@@ -904,7 +911,58 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectEvil"
+          "AffectName": "protectevil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "protection evil",
+      "Level": 46,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "protectevil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "protection evil",
+      "Level": 46,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "protectevil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "protection evil",
+      "Level": 46,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "protectevil"
         }
       ]
     }

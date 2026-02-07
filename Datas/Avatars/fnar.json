@@ -2,14 +2,14 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3024,
-  "SilverCoins": 10776861,
+  "RoomId": 9022,
+  "SilverCoins": 10776876,
   "GoldCoins": 6069,
   "Wimpy": 0,
-  "Experience": 23282,
+  "Experience": 24424,
   "Alignment": 1000,
-  "Trains": 65,
-  "Practices": 61,
+  "Trains": 66,
+  "Practices": 64,
   "AutoFlags": "Sacrifice,Exit,Gold,Assist,Split,Loot,Affect",
   "Currencies": {
     "QuestPoints": 58
@@ -137,7 +137,7 @@
       "Rating": 4
     },
     {
-      "Name": "Fast healing",
+      "Name": "fast healing",
       "Level": 1,
       "Learned": 100,
       "Rating": 1
@@ -301,7 +301,7 @@
     {
       "Name": "create rose",
       "Level": 24,
-      "Learned": 0,
+      "Learned": 1,
       "Rating": 2
     },
     {
@@ -475,9 +475,9 @@
   ],
   "Conditions": {
     "Drunk": 0,
-    "Full": 0,
-    "Thirst": 0,
-    "Hunger": 0
+    "Full": 40,
+    "Thirst": 46,
+    "Hunger": 46
   },
   "Aliases": {
     "a": "cast \u0027colour spray\u0027",
@@ -495,7 +495,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 179,
+        "HitPoints": 38,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -516,7 +516,7 @@
       "Inventory": [],
       "Auras": [
         {
-          "AbilityName": "Haste",
+          "AbilityName": "haste",
           "Level": 20,
           "PulseLeft": -1,
           "AuraFlags": "Permanent",
@@ -569,7 +569,7 @@
       "Sex": "Neutral",
       "Size": "Tiny",
       "CurrentResources": {
-        "HitPoints": 3520,
+        "HitPoints": 2522,
         "MovePoints": 100,
         "Mana": 0,
         "Psy": 0,
@@ -590,7 +590,7 @@
       "Inventory": [],
       "Auras": [
         {
-          "AbilityName": "Haste",
+          "AbilityName": "haste",
           "Level": 40,
           "PulseLeft": -1,
           "AuraFlags": "Permanent",
@@ -613,7 +613,7 @@
           ]
         },
         {
-          "AbilityName": "Construct",
+          "AbilityName": "construct",
           "Level": 23,
           "PulseLeft": -1,
           "AuraFlags": "NoDispel,Permanent",
@@ -648,7 +648,7 @@
     }
   ],
   "Statistics": {
-    "NpcKill": 184,
+    "NpcKill": 204,
     "PcKill": 0,
     "NpcKilled": 2,
     "PcKilled": 0,
@@ -656,11 +656,11 @@
     "MoneySpent": 14809,
     "GoldEarned": 5398,
     "GoldStolen": 0,
-    "SilverEarned": 8117384,
+    "SilverEarned": 8117399,
     "SilverStolen": 0,
-    "RecallUsed": 6,
-    "FoodEaten": 21,
-    "BeveragesConsumed": 11,
+    "RecallUsed": 7,
+    "FoodEaten": 25,
+    "BeveragesConsumed": 15,
     "PillEaten": 0,
     "PotionQuaffed": 0,
     "PortalUsed": 0,
@@ -675,7 +675,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "Omniscient",
+  "ImmortalMode": "NoDeath",
   "CompletedQuests": [
     {
       "QuestId": 1,
@@ -691,23 +691,25 @@
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "fnar",
   "Race": "giant",
-  "Classes": ["warrior"],
-  "Level": 23,
+  "Classes": [
+    "warrior"
+  ],
+  "Level": 24,
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 493,
-    "MovePoints": 275,
-    "Mana": 315,
-    "Psy": 79,
+    "HitPoints": 427,
+    "MovePoints": 453,
+    "Mana": 259,
+    "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 548,
-    "MovePoints": 436,
-    "Mana": 605,
+    "HitPoints": 581,
+    "MovePoints": 453,
+    "Mana": 310,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
@@ -718,7 +720,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11685,
+        "TimeLeft": 11663,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -1192,9 +1194,44 @@
         "ItemFlags": "",
         "Auras": []
       }
+    },
+    {
+      "Slot": "Float",
+      "Item": {
+        "$type": "container",
+        "MaxWeight": 230,
+        "ContainerFlags": "NoClose,NoLock",
+        "MaxWeightPerItem": 115,
+        "Contains": [],
+        "ItemId": 23,
+        "Source": "SpellFloatingDisc[Fnar[Sinac][Id:296ebb7d-d57b-4cd7-87e5-94e4e98617a9]]",
+        "ShortDescription": "a floating disc",
+        "Description": "A floating black disc hangs in the air.",
+        "Level": 23,
+        "Cost": 0,
+        "DecayPulseLeft": 8400,
+        "ItemFlags": "Magic,NoRemove,RotDeath,MeltOnDrop,BurnProof,NoUncurse",
+        "Auras": []
+      }
     }
   ],
   "Inventory": [
+    {
+      "$type": "corpse",
+      "Contains": [],
+      "IsPlayableCharacterCorpse": false,
+      "CorpseName": "The quinton",
+      "HasBeenGeneratedByKillingCharacter": true,
+      "ItemId": 10,
+      "Source": "RawKilled[The tiger[BId:3097]]",
+      "ShortDescription": "the corpse of The quinton",
+      "Description": "The corpse of The quinton is lying here.",
+      "Level": 0,
+      "Cost": 0,
+      "DecayPulseLeft": 960,
+      "ItemFlags": "",
+      "Auras": []
+    },
     {
       "$type": "weapon",
       "WeaponFlags": "",
@@ -1593,8 +1630,53 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 224640,
+      "DecayPulseLeft": 219360,
       "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
+      "Auras": []
+    },
+    {
+      "$type": "potion",
+      "SpellLevel": 25,
+      "ItemId": 5019,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a pink potion",
+      "Description": "A pink potion stands here.",
+      "Level": 13,
+      "Cost": 1220,
+      "DecayPulseLeft": 139440,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "SpellLevel": 30,
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 5020,
+      "Source": "Reset-G[5028]",
+      "ShortDescription": "a platinum wand",
+      "Description": "A platinum wand lies here.",
+      "Level": 2,
+      "Cost": 990,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Humming",
       "Auras": []
     },
     {
@@ -1627,38 +1709,6 @@
       "Auras": []
     },
     {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
-      "$type": "wand",
-      "SpellLevel": 30,
-      "MaxChargeCount": 10,
-      "CurrentChargeCount": 10,
-      "AlreadyRecharged": false,
-      "ItemId": 5020,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a platinum wand",
-      "Description": "A platinum wand lies here.",
-      "Level": 2,
-      "Cost": 990,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Humming",
-      "Auras": []
-    },
-    {
       "$type": "potion",
       "SpellLevel": 25,
       "ItemId": 5019,
@@ -1667,50 +1717,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 150000,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "potion",
-      "SpellLevel": 25,
-      "ItemId": 5019,
-      "Source": "Reset-G[5028]",
-      "ShortDescription": "a pink potion",
-      "Description": "A pink potion stands here.",
-      "Level": 13,
-      "Cost": 1220,
-      "DecayPulseLeft": 154080,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "food",
-      "FullHours": 20,
-      "HungerHours": 40,
-      "IsPoisoned": false,
-      "ItemId": 3009,
-      "Source": "Buy[The baker[Id:3001]]",
-      "ShortDescription": "a big pot pie",
-      "Description": "A big pot pie has been left here.",
-      "Level": 0,
-      "Cost": 22,
-      "DecayPulseLeft": 0,
+      "DecayPulseLeft": 148800,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1769,7 +1776,7 @@
     {
       "$type": "drinkContainer",
       "MaxLiquidAmount": 30,
-      "CurrentLiquidAmount": 25,
+      "CurrentLiquidAmount": 15,
       "LiquidName": "red wine",
       "IsPoisoned": false,
       "ItemId": 3417,
@@ -1862,9 +1869,9 @@
   ],
   "Auras": [
     {
-      "AbilityName": "Armor",
-      "Level": 9,
-      "PulseLeft": 56000,
+      "AbilityName": "armor",
+      "Level": 23,
+      "PulseLeft": 5200,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1876,22 +1883,9 @@
       ]
     },
     {
-      "AbilityName": "Fly",
-      "Level": 1,
-      "PulseLeft": 32000,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "characterFlags",
-          "Operator": "Or",
-          "Modifier": "Flying"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Bless",
-      "Level": 8,
-      "PulseLeft": 10560,
+      "AbilityName": "bless",
+      "Level": 23,
+      "PulseLeft": 6408,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1909,22 +1903,22 @@
       ]
     },
     {
-      "AbilityName": "Infravision",
-      "Level": 9,
-      "PulseLeft": 49840,
+      "AbilityName": "fly",
+      "Level": 23,
+      "PulseLeft": 5708,
       "AuraFlags": "",
       "Affects": [
         {
           "$type": "characterFlags",
           "Operator": "Or",
-          "Modifier": "Infrared"
+          "Modifier": "Flying"
         }
       ]
     },
     {
-      "AbilityName": "Protection Evil",
-      "Level": 8,
-      "PulseLeft": 20800,
+      "AbilityName": "protection evil",
+      "Level": 23,
+      "PulseLeft": 5244,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1940,121 +1934,14 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectEvil"
+          "AffectName": "protectevil"
         }
       ]
     },
     {
-      "AbilityName": "Poison",
-      "Level": 7,
-      "PulseLeft": 34680,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "characterAttribute",
-          "Operator": "Add",
-          "Location": "Strength",
-          "Modifier": -2
-        },
-        {
-          "$type": "characterFlags",
-          "Operator": "Or",
-          "Modifier": "Poison"
-        },
-        {
-          "$type": "noData",
-          "AffectName": "Poison"
-        },
-        {
-          "$type": "CharacterRegenModifierAffectData",
-          "Modifier": 4,
-          "Operator": "Divide"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Plague",
-      "Level": 13,
-      "PulseLeft": 18240,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "characterAttribute",
-          "Operator": "Add",
-          "Location": "Strength",
-          "Modifier": -5
-        },
-        {
-          "$type": "characterFlags",
-          "Operator": "Or",
-          "Modifier": "Plague"
-        },
-        {
-          "$type": "noData",
-          "AffectName": "Plague"
-        },
-        {
-          "$type": "CharacterRegenModifierAffectData",
-          "Modifier": 8,
-          "Operator": "Divide"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Fire Shield",
-      "Level": 23,
-      "PulseLeft": 6480,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "shieldFlags",
-          "Operator": "Or",
-          "Modifier": "FireShield"
-        },
-        {
-          "$type": "noData",
-          "AffectName": "FireShield"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Ice Shield",
-      "Level": 23,
-      "PulseLeft": 6600,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "shieldFlags",
-          "Operator": "Or",
-          "Modifier": "IceShield"
-        },
-        {
-          "$type": "noData",
-          "AffectName": "IceShield"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Shock Shield",
-      "Level": 23,
-      "PulseLeft": 6800,
-      "AuraFlags": "",
-      "Affects": [
-        {
-          "$type": "shieldFlags",
-          "Operator": "Or",
-          "Modifier": "ShockShield"
-        },
-        {
-          "$type": "noData",
-          "AffectName": "ShockShield"
-        }
-      ]
-    },
-    {
-      "AbilityName": "Giant Strength",
-      "Level": 23,
-      "PulseLeft": 5500,
+      "AbilityName": "giant strength",
+      "Level": 24,
+      "PulseLeft": 5752,
       "AuraFlags": "",
       "Affects": [
         {

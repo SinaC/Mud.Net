@@ -59,6 +59,6 @@ public class ColourSprayTests : AbilityTestBase
 
         Assert.IsNull(setupResult);
         effectManagerMock.Verify(x => x.CreateInstance<ICharacter>("Blindness"), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(targetMock.Object, "Blindness", casterMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(targetMock.Object, "Blindness", casterMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
     }
 }

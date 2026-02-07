@@ -52,7 +52,7 @@ public class Sneak : NoTargetSkillBase
     {
         if (RandomManager.Chance(Learned))
         {
-            AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(User.Level), new AuraFlags(), true,
+            AuraManager.AddAura(User, AbilityDefinition.Name, User, User.Level, TimeSpan.FromMinutes(User.Level), true,
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Sneak"), Operator = AffectOperators.Or });
             return true;
         }

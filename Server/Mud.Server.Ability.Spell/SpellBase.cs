@@ -90,7 +90,7 @@ public abstract class SpellBase : ISpell
         // 4) check cooldown
         int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityDefinition.Name} is in cooldown for {Pulse.ToTimeSpan(cooldownPulseLeft).FormatDelay()}.";
+            return $"{AbilityDefinition.Name.ToPascalCase()} is in cooldown for {Pulse.ToTimeSpan(cooldownPulseLeft).FormatDelay()}.";
 
         // 5) check resource cost (even if in Infinite immortal mode, we calculate resource to pay in case abilities would use that information)
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);

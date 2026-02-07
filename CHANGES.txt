@@ -1,3 +1,10 @@
+2026/02/07
+    - Multiple managers fixed to used StringComparer.InvariantCultureIgnoreCase in dictionary (#305)
+    - Floating disc fixed (#305)
+    - Rom import door exit flags fixed (#305)
+    - AbilityDefinition.Name used instead of SpellName/SkillName in spells/skills when adding aura (#305)
+    - Absorb affect
+    - when immune to damage, the phrase displayed is weird (XXX is immune to your misses)
 2026/02/04
 	- Project file structure refactored (#302)
 	- Multiclass (#172)

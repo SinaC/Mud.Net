@@ -86,6 +86,7 @@ public class Druid : ClassBase
         AddAvailableAbility(18, "berserk", [(Mud.Domain.ResourceKinds.Mana, 50, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 5, 100);
         AddAvailableSkill(1, "peek", 5, 100);
         AddAvailableAbility(1, "circle", [(Mud.Domain.ResourceKinds.MovePoints, 25, CostAmountOperators.Fixed)], 5, 100);
+        AddAvailableAbility(40, "power word: shield", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.PercentageCurrent, 1, 100);
 
         // add weapons
         foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Weapon))

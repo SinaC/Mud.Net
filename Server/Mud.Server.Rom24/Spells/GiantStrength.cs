@@ -45,7 +45,7 @@ public class GiantStrength : DefensiveSpellBase
             return;
         }
         int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level), new AuraFlags(), true,
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(Level), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = modifier, Operator = AffectOperators.Add });
         Victim.Act(ActOptions.ToAll, "{0:P} muscles surge with heightened power.", Victim);
     }

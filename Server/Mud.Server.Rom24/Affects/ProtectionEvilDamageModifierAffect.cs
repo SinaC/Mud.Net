@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects;
+using Mud.Server.Domain;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
@@ -12,11 +13,23 @@ public class ProtectionEvilDamageModifierAffect : NoAffectDataAffectBase, IChara
 {
     public override void Append(StringBuilder sb)
     {
-        sb.Append("%c%reduces %y%Incoming damage%c% from %y%evil source%c% by %y%25%%x%");
+        sb.Append("%c%reduces %y%Incoming damage%c% from %y%Evil source%c% by %y%25%%x%");
     }
 
-    public int ModifyDamage(ICharacter? source, ICharacter victim, SchoolTypes damageType, DamageSources damageSource, int damage)
-        => damage > 1 && source?.IsEvil == true
-            ? damage -= damage / 4
-            : damage;
+    public DamageModifierAffectResult ModifyDamage(ICharacter? source, ICharacter victim, SchoolTypes damageType, DamageSources damageSource, int damage)
+    {
+        if (damage > 1 && source?.IsEvil == true)
+            return new DamageModifierAffectResult
+            {
+                ModifiedDamage = 3 * damage / 4,
+                WornOff = false,
+                Action = DamageModifierAffectAction.DamageDecreased,
+            };
+        return new DamageModifierAffectResult
+        {
+            ModifiedDamage = damage,
+            WornOff = false,
+            Action = DamageModifierAffectAction.Nop,
+        };
+    }
 }

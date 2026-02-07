@@ -56,7 +56,7 @@ public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                     x => x.Modifier -= 1);
             }
             else
-                AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(6), new AuraFlags(), false,
+                AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(6), false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
         }
         // hunger! (warmth sucked out)
