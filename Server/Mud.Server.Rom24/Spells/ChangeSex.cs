@@ -41,7 +41,7 @@ public class ChangeSex : DefensiveSpellBase
             return;
 
         var newSex = RandomManager.Random(Enum.GetValues<Sex>().Where(x => x != Victim.Sex));
-        AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(2 * Level), new AuraFlags(), true,
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), true,
             new CharacterSexAffect { Value = newSex });
         Victim.Send("You feel different.");
         Victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like {0:m}self anymore...", Victim);

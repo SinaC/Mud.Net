@@ -302,7 +302,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override string DisplayName => Blueprint?.ShortDescription?.UpperFirstLetter() ?? "???";
 
-    public override string DebugName => $"{DisplayName}[BId:{Blueprint?.Id ?? -1}][Id:{Id}]";
+    public override string DebugName => $"{DisplayName}[BId:{Blueprint?.Id ?? -1}]";
 
     public override void OnAuraRemoved(IAura aura, bool displayWearOffMessage)
     {
@@ -766,8 +766,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (Classes.Any())
             return Classes.Thac0();
 
-        int thac0_00 = 20;
-        int thac0_32 = -4; // as good as thief
+        var thac0_00 = 20;
+        var thac0_32 = -4; // as good as thief
 
         if (ActFlags.IsSet("Warrior"))
             thac0_32 = -10;
@@ -819,7 +819,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             var slowAbilityDefinition = AbilityManager["Slow"];
             var duration = Level / 2;
             var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(this, slowAbilityDefinition?.Name ?? "Slow", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(this, slowAbilityDefinition?.Name ?? "Slow", this, Level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or },
                 new CharacterRegenModifierAffect { Modifier = 2, Operator = AffectOperators.Divide });
@@ -829,7 +829,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             var poisonAffect = AffectManager.CreateInstance("Poison");
             var poisonAbilityDefinition = AbilityManager["Poison"];
             var duration = Level;
-            AuraManager.AddAura(this, poisonAbilityDefinition?.Name ?? "Poison", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(this, poisonAbilityDefinition?.Name ?? "Poison", this, Level, TimeSpan.FromMinutes(duration), true,
                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                poisonAffect,
@@ -840,7 +840,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             var plagueAffect = AffectManager.CreateInstance("Plague");
             var plagueAbilityDefinition = AbilityManager["Plague"];
             var duration = RandomManager.Range(1, 2 * Level);
-            AuraManager.AddAura(this, plagueAbilityDefinition?.Name ?? "Plague", this, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(this, plagueAbilityDefinition?.Name ?? "Plague", this, Level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
                 plagueAffect,
@@ -957,7 +957,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
 
         // main hand attack
-        int attackCount = 0;
+        var attackCount = 0;
         OneHit(victim, mainHand, multiHitModifier);
         attackCount++;
         if (Fighting != victim)

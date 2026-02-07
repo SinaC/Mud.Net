@@ -35,7 +35,7 @@ public class SocialManager : ISocialManager
             socialDefinitions.RemoveAll(x => duplicates.Any(y => StringCompareHelpers.StringEquals(y.Key, x.Name)));
         }
 
-        _socialDefinitionByName = socialDefinitions.ToDictionary(x => x.Name);
+        _socialDefinitionByName = socialDefinitions.ToDictionary(x => x.Name, StringComparer.InvariantCultureIgnoreCase);
         _socialGameActions = socialDefinitions.Select(GenerateGameAction).ToArray();
     }
 

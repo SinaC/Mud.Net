@@ -54,7 +54,7 @@ public class FrenzyEffect : IEffect<ICharacter>
 
         int duration = level / 3;
         int modifier = level / 6;
-        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = (10 * level) / 12, Operator = AffectOperators.Add });

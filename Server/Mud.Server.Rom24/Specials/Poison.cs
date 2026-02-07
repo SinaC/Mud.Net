@@ -56,7 +56,7 @@ public class Poison : ISpecialBehavior
         if (poisonAura != null)
             poisonAura.Update(level, TimeSpan.FromMinutes(duration));
         else
-            AuraManager.AddAura(victim, "Poison", npc, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(victim, "Poison", npc, level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                 new PoisonDamageAffect());

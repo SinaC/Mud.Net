@@ -73,7 +73,7 @@ public class Bless : ItemOrDefensiveSpellBase
             Caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
             return;
         }
-        AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), new AuraFlags(), true,
+        AuraManager.AddAura(item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(6 + Level), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
             new ItemFlagsAffect { Modifier = new ItemFlags("Bless"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);

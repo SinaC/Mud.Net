@@ -42,7 +42,7 @@ public class PlagueEffect : IEffect<ICharacter>
         victim.Send("You feel hot and feverish.");
         victim.Act(ActOptions.ToRoom, "{0:N} shivers and looks very ill.", victim);
         var duration = RandomManager.Range(1, 2 * level);
-        AuraManager.AddAura(victim, auraName, victim, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+        AuraManager.AddAura(victim, auraName, victim, level, TimeSpan.FromMinutes(duration), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
             plagueAffect,

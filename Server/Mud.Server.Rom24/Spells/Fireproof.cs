@@ -45,7 +45,7 @@ public class Fireproof : ItemInventorySpellBase
         }
 
         var duration = RandomManager.Fuzzy(Level / 4);
-        AuraManager.AddAura(Item, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+        AuraManager.AddAura(Item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(duration), true,
             new ItemFlagsAffect { Modifier = new ItemFlags("BurnProof"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", Item);
         Caster.Act(ActOptions.ToRoom, "{0:N} is surrounded by a protective aura.", Item);

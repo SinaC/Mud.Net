@@ -98,7 +98,7 @@ public class Eat : CastSpellCharacterGameActionBase<ICharacter, ICharacterGameAc
                 else
                 {
                     var poisonAffect = AffectManager.CreateInstance("Poison");
-                    AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
+                    AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), false,
                         new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                         poisonAffect);
                 }

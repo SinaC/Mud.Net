@@ -37,7 +37,7 @@ public class DemoralizingRoar : OffensiveSkillBase
         var roarAura = Victim.GetAura(SkillName);
         if (roarAura == null)
         {
-            AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(30), new AuraFlags(), true,
+            AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(30), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = -User.Level, Operator = AffectOperators.Add });
         }
         else

@@ -409,7 +409,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override string DisplayName => Name.UpperFirstLetter();
 
-    public override string DebugName => $"{DisplayName}[{ImpersonatedBy?.DisplayName ?? "???"}][Id:{Id}]";
+    public override string DebugName => $"{DisplayName}[{ImpersonatedBy?.DisplayName ?? "???"}]";
 
     public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
     {
@@ -461,6 +461,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && !ImmortalMode.IsSet("Holylight"))
             return false;
 
+        if (ImmortalMode.IsSet("Holylight"))
+            return true;
 
         return base.CanSee(room);
     }
@@ -480,7 +482,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
 
         // Release pets
-        foreach (INonPlayableCharacter pet in _pets)
+        foreach (var pet in _pets)
         {
             if (pet.Room != null)
                 pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
@@ -539,7 +541,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
         // main hand attack
-        int attackCount = 0;
+        var attackCount = 0;
         OneHit(victim, mainHand, multiHitModifier);
         attackCount++;
         if (Fighting != victim)
@@ -549,7 +551,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();
         foreach (var characterAdditionalHitAffect in characterAdditionalHitAffects)
         {
-            for (int additionalHitFromAffect = 0; additionalHitFromAffect < characterAdditionalHitAffect.AdditionalHitCount; additionalHitFromAffect++)
+            for (var additionalHitFromAffect = 0; additionalHitFromAffect < characterAdditionalHitAffect.AdditionalHitCount; additionalHitFromAffect++)
             {
                 if (characterAdditionalHitAffect.IsAdditionalHitAvailable(this, additionalHitFromAffect))
                     OneHit(victim, mainHand, multiHitModifier);
@@ -700,7 +702,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         var abilityLearned = GetAbilityLearned(abilityName);
 
-        int learned = 0;
+        var learned = 0;
         if (ImmortalMode.IsSet("Omniscient"))
             learned = abilityLearned?.Learned ?? 100;
         else if (abilityLearned != null && abilityLearned.Level <= Level)
@@ -831,7 +833,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // TODO: if undead or ghost
         if (this[condition] == NoCondition)
             return;
-        int previousValue = this[condition];
+        var previousValue = this[condition];
         this[condition] = Math.Clamp(previousValue + value, MinCondition, MaxCondition);
         if (this[condition] == MinCondition)
         {
@@ -1017,7 +1019,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (Level < MaxLevel)
         {
-            bool levelGained = false;
+            var levelGained = false;
             Experience = Math.Max(ExperienceByLevel * (Level-1), Experience + experience); // don't go below current level
             // Raise level
             if (experience > 0)
@@ -1039,7 +1041,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 Recompute();
                 // Bonus -> reset cooldown and set resource to max
                 ResetCooldowns();
-                foreach (ResourceKinds resourceKind in Enum.GetValues<ResourceKinds>())
+                foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
                     SetResource(resourceKind, MaxResource(resourceKind));
                 ImpersonatedBy?.SetSaveNeeded();
             }
@@ -1115,7 +1117,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     // Immortality
     public void ChangeImmortalMode(IImmortalModes mode)
     {
-        Wiznet.Log($"{DebugName} is immortal mode changed from {ImmortalMode} to {mode}.", new WiznetFlags("Immortal"), AdminLevels.God);
+        Wiznet.Log($"{DebugName} immortal mode changed to {mode}.", new WiznetFlags("Immortal"), AdminLevels.God);
 
         ImmortalMode = mode;
         FlagsManager.CheckFlags(ImmortalMode);
@@ -1271,7 +1273,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             gold = money.GoldCoins;
         }
 
-        bool got = base.GetItem(item, container);
+        var got = base.GetItem(item, container);
         // autosplit
         if (got && AutoFlags.IsSet("Split")
                 && (silver > 0 || gold > 0))
@@ -1408,7 +1410,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {
         // Drunk enough to change direction ?
-        int drunkLevel = this[Conditions.Drunk];
+        var drunkLevel = this[Conditions.Drunk];
         if (drunkLevel > 10)
         {
             if (RandomManager.Chance(drunkLevel))
@@ -1430,7 +1432,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
     {
         // Compute move and check if enough move left
-        int moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
+        var moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
         if (CharacterFlags.IsSet("Flying") || CharacterFlags.IsSet("Haste"))
             moveCost /= 2; // flying is less exhausting
         if (CharacterFlags.IsSet("Slow"))
@@ -1603,8 +1605,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected void AddLearnedAbilityGroup(IAbilityGroupLearned abilityGroupLearned)
     {
-        if (!_learnedAbilityGroups.ContainsKey(abilityGroupLearned.Name))
-            _learnedAbilityGroups.Add(abilityGroupLearned.Name, abilityGroupLearned);
+        _learnedAbilityGroups.TryAdd(abilityGroupLearned.Name, abilityGroupLearned);
     }
 
     protected override void RecomputeKnownAbilities()
@@ -1761,12 +1762,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         var (_, _, _, _, _, practice, _, hitpoint, _) = TableValues.Bonus(this);
 
         //
-        int addHitpoints = hitpoint + RandomManager.Range(Classes.MinHitPointGainPerLevel(), Classes.MaxHitPointGainPerLevel());
-        int addMana = RandomManager.Range(2, 2 * this[CharacterAttributes.Intelligence] + this[CharacterAttributes.Wisdom]);
+        var addHitpoints = hitpoint + RandomManager.Range(Classes.MinHitPointGainPerLevel(), Classes.MaxHitPointGainPerLevel());
+        var addMana = RandomManager.Range(2, 2 * this[CharacterAttributes.Intelligence] + this[CharacterAttributes.Wisdom]);
         if (!Classes.IncreasedManaGainWhenLeveling())
             addMana /= 2;
         // TODO: other resources
-        int addMove = RandomManager.Range(1, this[CharacterAttributes.Constitution] + this[CharacterAttributes.Dexterity] / 6);
+        var addMove = RandomManager.Range(1, this[CharacterAttributes.Constitution] + this[CharacterAttributes.Dexterity] / 6);
 
         addHitpoints = (addHitpoints * 9) / 10;
         addMana = (addMana * 9) / 10;
@@ -1776,7 +1777,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         addMana = Math.Max(2, addMana);
         addMove = Math.Max(6, addMove);
 
-        int addPractice = practice;
+        var addPractice = practice;
 
         SetBaseMaxResource(ResourceKinds.HitPoints, BaseMaxResource(ResourceKinds.HitPoints) + addHitpoints, false);
         SetBaseMaxResource(ResourceKinds.MovePoints, BaseMaxResource(ResourceKinds.MovePoints) + addHitpoints, false);
@@ -1803,5 +1804,5 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     //
-    private string DebuggerDisplay => $"PC {Name} IMP:{ImpersonatedBy?.Name} IMM:{ImmortalMode} R:{Room?.Id} F:{Fighting?.Name}";
+    private string DebuggerDisplay => $"PC {Name} IMP:{ImpersonatedBy?.Name} IMM:{ImmortalMode} R:{Room?.Blueprint.Id} F:{Fighting?.Name}";
 }

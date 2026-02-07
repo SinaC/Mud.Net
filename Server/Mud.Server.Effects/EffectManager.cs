@@ -25,7 +25,7 @@ public class EffectManager : IEffectManager
         EffectsByName = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iEffectType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<EffectAttribute>()! })
             .Where(x => x.attribute != null)
-            .ToDictionary(x => x.attribute.Name, x => x.executionType);
+            .ToDictionary(x => x.attribute.Name, x => x.executionType, StringComparer.InvariantCultureIgnoreCase);
     }
 
     public int Count => EffectsByName.Count;

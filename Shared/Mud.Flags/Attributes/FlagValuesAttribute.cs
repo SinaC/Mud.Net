@@ -4,13 +4,7 @@ namespace Mud.Flags.Attributes;
 
 
 [AttributeUsage(AttributeTargets.Class,  AllowMultiple = false)]
-public class FlagValuesAttribute : ExportAttribute
+public class FlagValuesAttribute(Type contractType, Type flagInterfaceType) : ExportAttribute(contractType)
 {
-    public Type FlagInterfaceType { get; }
-
-    public FlagValuesAttribute(Type contractType, Type flagInterfaceType)
-        : base(contractType)
-    {
-        FlagInterfaceType = flagInterfaceType;
-    }
+    public Type FlagInterfaceType { get; } = flagInterfaceType;
 }

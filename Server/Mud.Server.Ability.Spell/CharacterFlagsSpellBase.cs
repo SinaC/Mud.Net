@@ -30,7 +30,7 @@ public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
             return;
         }
         var duration = Duration;
-        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, new AuraFlags(), true,
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, true,
             new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
         Victim.Send(SelfSuccess);
         if (Victim != Caster)

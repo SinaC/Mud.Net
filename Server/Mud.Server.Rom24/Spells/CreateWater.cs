@@ -46,10 +46,10 @@ public class CreateWater : ItemInventorySpellBase<IItemDrinkContainer>
 
     protected override void Invoke()
     {
-        int multiplier = TimeManager.SkyState == SkyStates.Raining
+        var multiplier = TimeManager.SkyState == SkyStates.Raining
             ? 4
             : 2;
-        int water = Math.Min(Level * multiplier, Item.MaxLiquid - Item.LiquidLeft);
+        var water = Math.Min(Level * multiplier, Item.MaxLiquid - Item.LiquidLeft);
         if (water > 0)
         {
             Item.Fill("water", water);

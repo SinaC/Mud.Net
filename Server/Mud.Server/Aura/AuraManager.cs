@@ -87,6 +87,20 @@ public class AuraManager : IAuraManager
     public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, IAuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
     {
         var abilityDefinition = AbilityManager[abilityName];
+        if (abilityDefinition == null)
+            Logger.LogError("AddAura: unknown ability {abilityName}", abilityName);
+        var aura = new Aura(abilityDefinition, source, auraFlags, level, duration, affects);
+        CheckAura(aura);
+        target.AddAura(aura, recompute);
+        return aura;
+    }
+
+    public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, bool recompute, params IAffect?[]? affects)
+    {
+        var auraFlags = new AuraFlags();
+        var abilityDefinition = AbilityManager[abilityName];
+        if (abilityDefinition == null)
+            Logger.LogError("AddAura: unknown ability {abilityName}", abilityName);
         var aura = new Aura(abilityDefinition, source, auraFlags, level, duration, affects);
         CheckAura(aura);
         target.AddAura(aura, recompute);
@@ -96,6 +110,8 @@ public class AuraManager : IAuraManager
     public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, IAuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
     {
         var abilityDefinition = AbilityManager[abilityName];
+        if (abilityDefinition == null)
+            Logger.LogError("AddAura: unknown ability {abilityName}", abilityName);
         var aura = new Aura(abilityDefinition, source, auraFlags, level, affects);
         CheckAura(aura);
         target.AddAura(aura, recompute);

@@ -30,7 +30,7 @@ public class CurseEffect : IEffect<ICharacter>
             sourceCharacter.Act(ActOptions.ToCharacter, "{0:N} looks very uncomfortable.", victim);
         int duration = 2 * level;
         int modifier = level / 8;
-        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+        AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -modifier, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Curse"), Operator = AffectOperators.Or });

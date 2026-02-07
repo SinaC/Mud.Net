@@ -266,7 +266,7 @@ public class ResetManager : IResetManager
 
                 case DoorReset doorReset: // 'D'
                     {
-                        var exit = room.Exits[(int)doorReset.ExitDirection];
+                        var exit = room[doorReset.ExitDirection];
                         if (exit != null)
                         {
                             switch (doorReset.Operation)
@@ -318,9 +318,7 @@ public class ResetManager : IResetManager
                             // get random direction within range
                             var randomIdx = RandomManager.Next(randomizeExitsReset.MaxDirections);
                             // swap exits
-                            var exit = room.Exits[idx];
-                            room.Exits[idx] = room.Exits[randomIdx];
-                            room.Exits[randomIdx] = exit;
+                            (room.Exits[randomIdx], room.Exits[idx]) = (room.Exits[idx], room.Exits[randomIdx]);
                         }
                         break;
                     }

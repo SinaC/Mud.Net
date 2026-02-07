@@ -55,7 +55,7 @@ public class FloatingDisc : ItemCreationSpellBase
         floatingDisc.SetTimer(TimeSpan.FromMinutes(duration));
         floatingDisc.SetCustomValues(Level, maxWeight, maxWeightPerItem);
 
-        Caster.Act(ActOptions.ToGroup, "{0:N} has created a floating black disc.", Caster);
+        Caster.Act(ActOptions.ToRoom, "{0:N} {0:h} created a floating black disc.", Caster);
         Caster.Send("You create a floating disc.");
         // TODO: Try to equip it ?
     }

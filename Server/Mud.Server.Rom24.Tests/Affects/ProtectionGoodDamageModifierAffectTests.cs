@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Mud.Domain;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Rom24.Affects;
 
@@ -15,9 +16,11 @@ public class ProtectionGoodDamageModifierAffectTests
         chMock.SetupGet(x => x.IsGood).Returns(false);
 
         var affect = new ProtectionGoodDamageModifierAffect();
-        var modifiedDamage = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, DamageSources.Ability, 100);
+        var result = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, DamageSources.Ability, 100);
 
-        Assert.AreEqual(100, modifiedDamage);
+        Assert.AreEqual(DamageModifierAffectAction.Nop, result.Action);
+        Assert.IsFalse(result.WornOff);
+        Assert.AreEqual(100, result.ModifiedDamage);
     }
 
     [TestMethod]
@@ -27,8 +30,10 @@ public class ProtectionGoodDamageModifierAffectTests
         chMock.SetupGet(x => x.IsGood).Returns(true);
 
         var affect = new ProtectionGoodDamageModifierAffect();
-        var modifiedDamage = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, DamageSources.Ability, 100);
+        var result = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, DamageSources.Ability, 100);
 
-        Assert.AreEqual(75, modifiedDamage);
+        Assert.AreEqual(DamageModifierAffectAction.DamageDecreased, result.Action);
+        Assert.IsFalse(result.WornOff);
+        Assert.AreEqual(75, result.ModifiedDamage);
     }
 }

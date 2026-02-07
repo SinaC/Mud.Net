@@ -130,7 +130,7 @@ public class Drink : CharacterGameAction
             else
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
-                AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
+                AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), false,
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     poisonAffect);
             }

@@ -40,7 +40,7 @@ public class Rake : OffensiveSkillBase
         var rakeAura = Victim.GetAura(SkillName);
         if (rakeAura == null)
         {
-            AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(9), new AuraFlags(), true,
+            AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(9), true,
                 new RakeAffect()); // should be 96 damage over 9 seconds
         }
         else

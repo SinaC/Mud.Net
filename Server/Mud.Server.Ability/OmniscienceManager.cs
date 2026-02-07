@@ -28,7 +28,7 @@ public class OmniscienceManager : IOmniscienceManager
 
     private Dictionary<string, IAbilityLearned> BuildAbilityLearnedByAbilityName(IAbilityManager abilityManager, IClassManager classManager)
     {
-        var abilityLearnedByAbilityName = new Dictionary<string, IAbilityLearned>();
+        var abilityLearnedByAbilityName = new Dictionary<string, IAbilityLearned>(StringComparer.InvariantCultureIgnoreCase);
         foreach (var abilityDefinition in abilityManager.Abilities)
         {
             // search ability usage in any class, if not found create an artificial one

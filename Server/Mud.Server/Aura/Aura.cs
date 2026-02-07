@@ -168,7 +168,7 @@ public class Aura : IAura
     {
         if (AuraFlags.IsSet("Inherent") || AbilityName is null)
             return "Inherent";
-        return AbilityName;
+        return AbilityName.ToPascalCase();
     }
 
     public virtual AuraData MapAuraData()

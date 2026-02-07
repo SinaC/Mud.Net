@@ -120,7 +120,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     public override string DisplayName => ShortDescription ?? Blueprint.ShortDescription ?? Name.UpperFirstLetter();
 
-    public override string DebugName => $"{DisplayName}[BId:{Blueprint?.Id ?? -1}][Id:{Id}]";
+    public override string DebugName => $"{DisplayName}[BId:{Blueprint?.Id ?? -1}]";
 
     // Recompute
 

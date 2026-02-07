@@ -23,7 +23,7 @@ public abstract class CharacterDebuffSpellBase : OffensiveSpellBase
         if (!CanAffect)
             return;
         var (level, duration, affects) = AuraInfo;
-        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, level, duration, new AuraFlags(), true, affects);
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, level, duration, true, affects);
         Victim.Act(ActOptions.ToCharacter, VictimAffectMessage, Caster);
         Victim.Act(ActOptions.ToRoom, RoomAffectMessage, Victim);
     }

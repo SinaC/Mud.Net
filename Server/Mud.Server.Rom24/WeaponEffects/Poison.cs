@@ -39,7 +39,7 @@ public class Poison : IPostHitDamageWeaponEffect
             if (victimPoisonAura == null)
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
-                AuraManager.AddAura(victim, "Poison", holder, 3 * level / 4, TimeSpan.FromMinutes(duration), new AuraFlags(), false,
+                AuraManager.AddAura(victim, "Poison", holder, 3 * level / 4, TimeSpan.FromMinutes(duration), false,
                     new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                     poisonAffect);

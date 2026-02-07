@@ -56,7 +56,7 @@ public class Poison : ItemOrOffensiveSpellBase
         else
         {
             var poisonAffect = AffectManager.CreateInstance("Poison");
-            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), new AuraFlags(), true,
+            AuraManager.AddAura(victim, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(duration), true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                 poisonAffect,

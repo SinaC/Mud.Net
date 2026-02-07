@@ -1,8 +1,7 @@
-﻿// TODO: exit flags are incorrect (door is missing)
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Importer.Rom.Domain;
+using System.ComponentModel;
 
 namespace Mud.Importer.Rom;
 
@@ -626,24 +625,27 @@ public class RomLoader : TextBasedLoader
                     int door = (int)ReadNumber();
                     if (door < 0 || door >= RoomData.MaxExits)
                         RaiseParseException("ParseRooms: vnum {0} has bad door number", vnum);
+                    var description = ReadString();
+                    var keyword = ReadString();
+                    var locks = ReadNumber();
+                    var key = ReadNumber();
+                    var destinationVnum = ReadNumber();
+                    long exitInfo = 0;
+                    switch (locks)
+                    {
+                        case 1: exitInfo = ExitData.ExDoor; break;
+                        case 2: exitInfo = ExitData.ExDoor | ExitData.ExPickproof; break;
+                        case 3: exitInfo = ExitData.ExDoor | ExitData.ExNoPass; break;
+                        case 4: exitInfo = ExitData.ExDoor | ExitData.ExPickproof | ExitData.ExNoPass; break;
+                    }
                     ExitData exitData = new()
                     {
-                        Description = ReadString(),
-                        Keyword = ReadString(),
-                        ExitInfo = ReadFlags(),
-                        Key = (int)ReadNumber(),
-                        DestinationVNum = (int)ReadNumber()
+                        Description = description,
+                        Keyword = keyword,
+                        ExitInfo = exitInfo,
+                        Key = (int)key,
+                        DestinationVNum = (int)destinationVnum
                     };
-                    //TODO: in stock rom2.4
-                    //switch (locks)
-                    //{
-                    //    case 1: pexit->exit_info = EX_ISDOOR; break;
-                    //    case 2: pexit->exit_info = EX_ISDOOR | EX_PICKPROOF; break;
-                    //    case 3: pexit->exit_info = EX_ISDOOR | EX_NOPASS; break;
-                    //    case 4:
-                    //        pexit->exit_info = EX_ISDOOR | EX_NOPASS | EX_PICKPROOF;
-                    //        break;
-                    //}
                     roomData.Exits[door] = exitData;
                 }
                 else if (letter == 'E')

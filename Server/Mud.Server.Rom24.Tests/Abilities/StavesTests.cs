@@ -269,8 +269,8 @@ public class StavesTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        auraManagerMock.Verify(x => x.AddAura(inventoryItem1Mock.Object, "Fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(inventoryItem2Mock.Object, "Fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(inventoryItem1Mock.Object, "fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(inventoryItem2Mock.Object, "fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
         userMock.Verify(x => x.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", It.IsAny<object[]>()), Times.Exactly(2));
     }
 
@@ -344,13 +344,13 @@ public class StavesTests : AbilityTestBase
 
         Assert.IsNull(result);
         effectManagerMock.Verify(x => x.CreateInstance<ICharacter>("Curse"), Times.Exactly(2)); // 2 victims will generate an effect
-        auraManagerMock.Verify(x => x.AddAura(inventoryItem1Mock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(inventoryItem2Mock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(userMock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Never);
-        auraManagerMock.Verify(x => x.AddAura(victim1Mock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(victim2Mock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "Curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(inventoryItem1Mock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(inventoryItem2Mock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(userMock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Never);
+        auraManagerMock.Verify(x => x.AddAura(victim1Mock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(victim2Mock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "curse", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
     }
 
     // mixed defensive target spell -> user, victim, items in inventory
@@ -413,11 +413,11 @@ public class StavesTests : AbilityTestBase
         skill.Execute();
 
         Assert.IsNull(result);
-        auraManagerMock.Verify(x => x.AddAura(inventoryItem1Mock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(inventoryItem2Mock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(userMock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(victimMock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
-        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Never);
-        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "Invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Never);
+        auraManagerMock.Verify(x => x.AddAura(inventoryItem1Mock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(inventoryItem2Mock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(userMock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(victimMock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
+        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Never);
+        auraManagerMock.Verify(x => x.AddAura(roomItem1Mock.Object, "invisibility", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Never);
     }
 }

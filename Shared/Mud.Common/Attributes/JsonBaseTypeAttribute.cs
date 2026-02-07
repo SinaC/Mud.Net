@@ -14,8 +14,6 @@ public class JsonBaseTypeAttribute : Attribute
     public JsonBaseTypeAttribute(Type baseType, string discriminator)
         : this(baseType)
     {
-        {
-            Discriminator = discriminator;
-        }
+        Discriminator = discriminator;
     }
 }
