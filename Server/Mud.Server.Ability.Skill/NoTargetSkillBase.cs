@@ -15,6 +15,6 @@ public abstract class NoTargetSkillBase : SkillBase
 
     protected override IGuard<ICharacter>[] Guards => [];
 
-    protected override string SetTargets(ISkillActionInput skillActionInput)
+    protected override string? SetTargets(ISkillActionInput skillActionInput)
         => null!;
 }

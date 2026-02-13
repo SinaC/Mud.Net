@@ -4,6 +4,7 @@ using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.DataStructures;
 using Mud.Domain;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
 using Mud.Random;
@@ -104,6 +105,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Shape = Shapes.Normal;
 
         Classes = [];
+        BaseRace = null!;
         Race = null!;
         Room = null!;
         CurrentResourceKinds = null!;
@@ -122,6 +124,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Vulnerabilities = new IRVFlags();
         BaseShieldFlags = new ShieldFlags();
         ShieldFlags = new ShieldFlags();
+
+        BuildDefaultEquimentSlots();
     }
 
     #region ICharacter
@@ -299,6 +303,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // Class/Race
     public IEnumerable<IClass> Classes { get; protected set; }
+    public IRace BaseRace { get; protected set; }
     public IRace Race { get; protected set; }
 
     // Attributes
@@ -853,7 +858,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             || (IsGood && item.ItemFlags.IsSet("AntiGood"))
             || (IsNeutral && item.ItemFlags.IsSet("AntiNeutral")))
         {
-            Act(ActOptions.ToAll, "%R%{0:N} {0:b} %Y%zapped %R%by {1}.%x%", this, item);
+            Act(ActOptions.ToAll, "{0:N} {0:b} zapped by {1} and drop it.", this, item);
             item.ChangeEquippedBy(null, false);
             item.ChangeContainer(Room);
             return true;
@@ -903,11 +908,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         Logger.LogDebug("CharacterBase.Recompute: {name}", DebugName);
 
+        var initialRace = Race;
         var recomputeCount = 0;
-        var additionalRecomputeNeeded = false;
 
         while (true)
         {
+            var additionalRecomputeNeeded = false;
+
             // Reset current attributes
             ResetAttributesAndResourcesAndFlags();
 
@@ -943,13 +950,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
             // 4) Apply own auras
             ApplyAuras(this);
 
-            // 5) Check some equipped items need to be unequipped which could imply an additional recompute
+            // 5) Check equipment slots
+            additionalRecomputeNeeded |= UpdateEquimentSlots(Race);
+
+            // 6) Check some equipped items need to be unequipped which could imply an additional recompute
             additionalRecomputeNeeded |= CheckEquippedItemsDuringRecompute();
 
-            // 6) Keep resources in valid range
+            // 7) Keep resources in valid range
             foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
                 _currentResources[resourceKind] = Math.Min(_currentResources[resourceKind], _currentMaxResources[resourceKind]);
-            // 7) keep basic attributes in valid range
+            // 8) keep basic attributes in valid range
             //  3->25 for NPC
             //  3->MIN(25, max)
             //      where max = max race + 2 if prime attribute + 1 if enhanced prime attribute
@@ -960,11 +970,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 _currentAttributes[characterAttributeIndex] = Math.Clamp(_currentAttributes[characterAttributeIndex], 3, maxAllowed);
             }
 
-            // 8) additional recompute needed ?
+            // 9) additional recompute needed ?
             if (!additionalRecomputeNeeded || recomputeCount >= MaxRecompute)
                 break;
             recomputeCount++;
         }
+
+        if (Race != initialRace)
+            RecomputeKnownAbilities();
     }
 
     // Move
@@ -1359,12 +1372,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // handle death here to avoid showing autoloot/sac/... message to victim
         HandleDeath();
 
-        // xp/reputation/quests for each member of groups + auto loot/gold/sac for killer
+        // xp/reputation/auto loot for each member of groups + gold/sac for killer
         if (payoff)
         {
             if (playableCharactersImpactedByKill != null && playableCharactersImpactedByKill.Length > 0)
             {
-                // xp/reputation/quests/...
+                // xp/reputation/quests/... for each PC impacted by kill
                 var groupLevelSum = playableCharactersImpactedByKill.Sum(x => x.Level);
                 foreach (var playableCharacterImpactedByKill in playableCharactersImpactedByKill)
                     playableCharacterImpactedByKill?.KillingPayoff(this, groupLevelSum);
@@ -1909,13 +1922,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 {
                     case AffectOperators.Add:
                     case AffectOperators.Or:
-                        Resistances.Set(affect.Modifier);
+                        Vulnerabilities.Set(affect.Modifier);
                         break;
                     case AffectOperators.Assign:
-                        Resistances.Copy(affect.Modifier);
+                        Vulnerabilities.Copy(affect.Modifier);
                         break;
                     case AffectOperators.Nor:
-                        Resistances.Unset(affect.Modifier);
+                        Vulnerabilities.Unset(affect.Modifier);
                         break;
                 }
                 break;
@@ -2045,6 +2058,45 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 break;
             default:
                 Logger.LogError("Invalid AffectOperators {operator} for CharacterResourceAffect {location}", affect.Operator, affect.Location);
+                break;
+        }
+    }
+
+    public void ApplyAffect(ICharacterRaceAffect affect)
+    {
+        Race = affect.Race;
+    }
+
+    public void ApplyAffect(ICharacterBodyFormsAffect affect)
+    {
+        switch (affect.Operator)
+        {
+            case AffectOperators.Add:
+            case AffectOperators.Or:
+                BodyForms.Set(affect.Modifier);
+                break;
+            case AffectOperators.Assign:
+                BodyForms = affect.Modifier;
+                break;
+            default:
+                Logger.LogError("Invalid AffectOperators {operator} for CharacterBodyFormsAffect", affect.Operator);
+                break;
+        }
+    }
+
+    public void ApplyAffect(ICharacterBodyPartsAffect affect)
+    {
+        switch (affect.Operator)
+        {
+            case AffectOperators.Add:
+            case AffectOperators.Or:
+                BodyParts.Set(affect.Modifier);
+                break;
+            case AffectOperators.Assign:
+                BodyParts = affect.Modifier;
+                break;
+            default:
+                Logger.LogError("Invalid AffectOperators {operator} for CharacterBodyPartsAffect", affect.Operator);
                 break;
         }
     }
@@ -2380,43 +2432,53 @@ public abstract class CharacterBase : EntityBase, ICharacter
         _equipments.Clear();
     }
 
-    protected void BuildEquipmentSlots()
+    protected bool UpdateEquimentSlots(IRace? race)
     {
-        // TODO: depend also on affects+...
-        if (Race != null)
+        if (race == null)
+            return false;
+        // create race equipment slots
+        var raceEquimentSlots = race.EquipmentSlots.Select(x => new EquippedItem(x)).ToList();
+        // check difference between current equipment slots and race equipment slots
+        var equippedItemsToAdd = new List<IEquippedItem>();
+        var equippedItemsToRemove = new List<IEquippedItem>();
+        // search slot to add
+        foreach (var groupBySlot in raceEquimentSlots.GroupBy(x => x.Slot))
         {
-            // TODO: take care of existing equipment (add only new slot, if slot is removed put equipment in inventory)
-            foreach (var item in _equipments.Where(x => x.Item != null).Select(x => x.Item))
+            var existingCount = _equipments.Count(x => x.Slot == groupBySlot.Key);
+            var newCount = groupBySlot.Count();
+            if (newCount > existingCount)
             {
+                for (var i = 0; i < newCount - existingCount; i++)
+                    equippedItemsToAdd.Add(new EquippedItem(groupBySlot.Key));
+            }
+        }
+        // search slot to remove
+        foreach (var groupBySlot in _equipments.GroupBy(x => x.Slot))
+        {
+            var existingCount = groupBySlot.Count();
+            var newCount = raceEquimentSlots.Count(x => x.Slot == groupBySlot.Key);
+            if (newCount < existingCount)
+            {
+                var removeCount = existingCount - newCount;
+                var toRemove = groupBySlot.OrderBy(x => x.Item == null ? int.MinValue : int.MaxValue).Take(removeCount).ToList(); // first, try to remove slot without equipped item
+                equippedItemsToRemove.AddRange(toRemove);
+            }
+        }
+        // add slots if any to add
+        _equipments.AddRange(equippedItemsToAdd);
+        // remove slots if any to remove
+        foreach (var equippedItemToRemove in equippedItemsToRemove)
+        {
+            var item = equippedItemToRemove.Item;
+            if (item != null)
+            {
+                Act(ActOptions.ToAll, "{0:N} cannot wear anymore {1}.", this, item);
                 item!.ChangeEquippedBy(null, false);
                 item!.ChangeContainer(this);
             }
-
-            _equipments.Clear();
-            _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
-            //Recompute();
+            _equipments.Remove(equippedItemToRemove);
         }
-        else
-        {
-            _equipments.Add(new EquippedItem(EquipmentSlots.Light));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Head));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Amulet)); // 2 amulets
-            _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Wrists)); // 2 wrists
-            _equipments.Add(new EquippedItem(EquipmentSlots.Wrists));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Arms));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Hands));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Ring)); // 2 rings
-            _equipments.Add(new EquippedItem(EquipmentSlots.Ring));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Legs));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Feet));
-            _equipments.Add(new EquippedItem(EquipmentSlots.MainHand)); // 2 hands
-            _equipments.Add(new EquippedItem(EquipmentSlots.OffHand));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Float));
-        }
+        return equippedItemsToRemove.Count > 0;
     }
 
     protected (IEquippedItem? equippedItem, SearchEquipmentSlotResults result) SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
@@ -2606,6 +2668,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             _currentAttributes[characterAtttribute] = _baseAttributes[characterAtttribute];
         foreach(var resourceKind in Enum.GetValues<ResourceKinds>())
             _currentMaxResources[resourceKind] = _baseMaxResources[resourceKind];
+        Race = BaseRace;
         Sex = BaseSex;
         Size = BaseSize;
         //Shape = BaseShape; TODO: uncomment when shape will be handled using aura
@@ -2980,6 +3043,128 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 victim.StartFighting(this);
             StandUpInCombatIfPossible();
         }
+    }
+
+    protected void CreateAndTryToEquipItems(CharacterData characterData)
+    {
+        // create item in inventory and try to equip it
+        var unequippedItems = CreateAndTryToEquipItems(characterData, characterData.Equipments);
+        
+        // recompute if any unequiped items and try to equip unequipped items
+        if (unequippedItems.Count > 0)
+        {
+            Recompute();
+            // try again to equip items failed on previous try
+            var failToEquipItems = CreateAndTryToEquipItems(characterData, unequippedItems.Select(x => x.equippedItemData));
+            // if there are remaining items that cannot be equipped, create them in inventory
+            if (failToEquipItems.Count > 0)
+            {
+                foreach (var (equippedItemData, searchEquipmentSlotResult) in failToEquipItems)
+                {
+                    Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {characterData.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                    // create item in inventory
+                    var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item!, this);
+                    if (item == null)
+                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {characterData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                }
+            }
+        }
+    }
+
+    private ICollection<(EquippedItemData equippedItemData, SearchEquipmentSlotResults searchEquipmentSlotResult)> CreateAndTryToEquipItems(CharacterData characterData, IEnumerable<EquippedItemData> equippedItemsData)
+    {
+        var unequippedItems = new List<(EquippedItemData equippedItemData, SearchEquipmentSlotResults searchEquipmentSlotResult)>();
+        foreach (var equippedItemData in equippedItemsData)
+        {
+            if (equippedItemData.Item == null)
+            {
+                Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {characterData.Name} is null.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+            }
+            else
+            {
+                // search equipment slot
+                var (equippedItem, searchEquipmentSlotResult) = SearchEquipmentSlot(equippedItemData.Slot, false);
+                if (equippedItem != null)
+                {
+                    // create item in inventory
+                    var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item!, this);
+                    if (item != null)
+                    {
+                        // equip item is it can be equipped
+                        if (item.WearLocation != WearLocations.None)
+                        {
+                            equippedItem.Item = item;
+                            item.ChangeContainer(null); // remove from inventory
+                            item.ChangeEquippedBy(this, false); // set as equipped by this
+                        }
+                        else
+                        {
+                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {characterData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                        }
+                    }
+                    else
+                    {
+                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {characterData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                    }
+                }
+                else
+                {
+                    unequippedItems.Add((equippedItemData, searchEquipmentSlotResult));
+                }
+
+                //// Create in inventory
+                //var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item!, this);
+                //if (item != null)
+                //{
+                //    // Try to equip it
+                //    var (equippedItem, searchEquipmentSlotResult) = SearchEquipmentSlot(equippedItemData.Slot, false);
+                //    if (equippedItem != null)
+                //    {
+                //        if (item.WearLocation != WearLocations.None)
+                //        {
+                //            equippedItem.Item = item;
+                //            item.ChangeContainer(null); // remove from inventory
+                //            item.ChangeEquippedBy(this, false); // set as equipped by this
+                //        }
+                //        else
+                //        {
+                //            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {characterData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        unequippedItems.Add((equippedItemData, searchEquipmentSlotResult));
+                //    }
+                //}
+                //else
+                //{
+                //    Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {characterData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                //}
+            }
+        }
+        return unequippedItems;
+    }
+
+    private void BuildDefaultEquimentSlots()
+    {
+        _equipments.Add(new EquippedItem(EquipmentSlots.Light));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Head));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Amulet)); // 2 amulets
+        _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Wrists)); // 2 wrists
+        _equipments.Add(new EquippedItem(EquipmentSlots.Wrists));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Arms));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Hands));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Ring)); // 2 rings
+        _equipments.Add(new EquippedItem(EquipmentSlots.Ring));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Legs));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Feet));
+        _equipments.Add(new EquippedItem(EquipmentSlots.MainHand)); // 2 hands
+        _equipments.Add(new EquippedItem(EquipmentSlots.OffHand));
+        _equipments.Add(new EquippedItem(EquipmentSlots.Float));
     }
 
     private void OnDamageReceived(int damage, DamageSources damageSource)

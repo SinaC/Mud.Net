@@ -46,7 +46,7 @@ public class BearForm : NoTargetSkillBase
         User.UpdateResource(ResourceKinds.Rage, 100); // TODO: should be 0
 
         // TODO: Affect changing Form + disable other form
-        AuraManager.AddAura(User, SkillName, User, User.Level, new AuraFlags("NoDispel", "Permanent", "Shapeshift"), true,
+        AuraManager.AddAura(User, SkillName, User, User.Level, new AuraFlags("NoDispel", "Permanent", "Shapeshift", "NoSave"), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -User.Level * 5, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Constitution, Modifier = User.Level / 10, Operator = AffectOperators.Add },
             new CharacterResourceAffect { Location = ResourceKinds.HitPoints, Modifier = User.Level * 5, Operator = AffectOperators.Add },

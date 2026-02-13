@@ -116,7 +116,7 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Position: {0} GCD:{1} Daze:{2} Stunned: {3}", Whom.Position, Whom.GlobalCooldown, Whom.Daze, Whom.Stun);
         sb.AppendFormatLine("Furniture: {0}", Whom.Furniture?.DisplayName ?? "(none)");
         sb.AppendFormatLine("Room: {0} [vnum: {1}]", Whom.Room?.DisplayName ?? "(none)", Whom.Room?.Blueprint.Id ?? -1);
-        sb.AppendFormatLine("Race: {0} Class: {1}", Whom.Race?.DisplayName ?? "(none)", Whom.Classes.DisplayName());
+        sb.AppendFormatLine("Race: {0} (base: {1}) Class: {2}", Whom.Race?.DisplayName ?? "(none)", Whom.BaseRace?.DisplayName ?? "(none)", Whom.Classes.DisplayName());
         sb.AppendFormatLine("Sex: {0} (base: {1})", Whom.Sex, Whom.BaseSex);
         sb.AppendFormatLine("Size: {0} (base: {1})", Whom.Size, Whom.BaseSize);
         sb.AppendFormatLine("Silver: {0} Gold: {1}", Whom.SilverCoins, Whom.GoldCoins);
