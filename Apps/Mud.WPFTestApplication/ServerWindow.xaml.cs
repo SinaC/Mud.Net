@@ -12,9 +12,13 @@ using Mud.Flags;
 using Mud.Importer;
 using Mud.Network.Interfaces;
 using Mud.Random;
+using Mud.Server.Affects.Character;
+using Mud.Server.Aura;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
@@ -22,6 +26,7 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Loot.Interfaces;
 using Mud.Server.Options;
+using Mud.Server.Race.Interfaces;
 using Mud.WPFTestApplication;
 using System;
 using System.Collections.Generic;
@@ -835,5 +840,56 @@ public partial class ServerWindow : Window, INetworkServer
         // hassan will generate random loot
         var hassanBlueprint = CharacterManager.GetCharacterBlueprint<CharacterBlueprintBase>(3011);
         hassanBlueprint.ActFlags.Set("RandomLoot");
+
+        //
+        var auraManager = ServiceProvider.GetRequiredService<IAuraManager>();
+
+        // add item with add insectoid race affect
+        var insectoidBeltBlueprint = new ItemArmorBlueprint
+        {
+            Id = 95,
+            Name = "belt insectoid",
+            ShortDescription = "an insectoid belt",
+            Description = "an insectoid belt is here",
+            WearLocation = WearLocations.Waist,
+            Level = 1,
+            Cost = 1,
+            NoTake = false,
+            ItemFlags = new ItemFlags(),
+            Bash = 0,
+            Pierce = 0,
+            Slash = 0,
+            Exotic = 0,
+            Weight = 10
+        };
+        ItemManager.AddItemBlueprint(insectoidBeltBlueprint);
+        var insectoidBelt = ItemManager.AddItem(Guid.NewGuid(), 95, "Test", onTheBridge); // 3051
+        var insectoidCharacterRaceAffect = ServiceProvider.GetRequiredService<CharacterRaceAffect>();
+        insectoidCharacterRaceAffect.Race = ServiceProvider.GetRequiredService<IRaceManager>()["insectoid"];
+        auraManager.AddAura(insectoidBelt, insectoidBelt, 1, new AuraFlags("permanent", "inherent"), false, insectoidCharacterRaceAffect);
+
+        // add item with add elf race affect
+        var elfBeltBlueprint = new ItemArmorBlueprint
+        {
+            Id = 94,
+            Name = "belt elf",
+            ShortDescription = "a elf belt",
+            Description = "an elf belt is here",
+            WearLocation = WearLocations.Waist,
+            Level = 1,
+            Cost = 1,
+            NoTake = false,
+            ItemFlags = new ItemFlags(),
+            Bash = 0,
+            Pierce = 0,
+            Slash = 0,
+            Exotic = 0,
+            Weight = 10
+        };
+        ItemManager.AddItemBlueprint(elfBeltBlueprint);
+        var elfBelt = ItemManager.AddItem(Guid.NewGuid(), 94, "Test", onTheBridge); // 3051
+        var elfCharacterRaceAffect = ServiceProvider.GetRequiredService<CharacterRaceAffect>();
+        elfCharacterRaceAffect.Race = ServiceProvider.GetRequiredService<IRaceManager>()["elf"];
+        auraManager.AddAura(elfBelt, elfBelt, 1, new AuraFlags("permanent", "inherent"), false, elfCharacterRaceAffect);
     }
 }

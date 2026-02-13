@@ -124,14 +124,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
         Classes = classes;
 
-        Race = RaceManager[data.Race]!;
-        if (Race == null || Race is not IPlayableRace)
+        BaseRace = RaceManager[data.Race]!;
+        if (BaseRace == null || BaseRace is not IPlayableRace)
         {
-            Race = RaceManager.PlayableRaces.First();
+            BaseRace = RaceManager.PlayableRaces.First();
             Wiznet.Log($"Invalid race '{data.Race}' for character {data.Name}!!", new WiznetFlags("Bugs"), AdminLevels.Implementor);
         }
-        BaseBodyForms = Race.BodyForms;
-        BaseBodyParts = Race.BodyParts;
+        BaseBodyForms = BaseRace.BodyForms;
+        BaseBodyParts = BaseRace.BodyParts;
         Level = data.Level;
         Experience = data.Experience;
         SilverCoins = data.SilverCoins;
@@ -198,7 +198,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // TODO: set not-found attributes to base value (from class/race)
 
         // Must be built before equiping
-        BuildEquipmentSlots();
+        UpdateEquimentSlots(BaseRace);
 
         // Statistics
         if (data.Statistics != null)
@@ -212,48 +212,17 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             foreach (var currency in data.Currencies)
                 this[currency.Key] = currency.Value;
         }
+        // Auras
+        if (data.Auras != null)
+        {
+            foreach (var auraData in data.Auras)
+                AuraManager.AddAura(this, auraData, false);
+        }
+
         // Equipped items
         if (data.Equipments != null)
         {
-            // Create item in inventory and try to equip it
-            foreach (var equippedItemData in data.Equipments)
-            {
-                if (equippedItemData.Item == null)
-                {
-                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {data.Name} is null.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                }
-                else
-                {
-                    // Create in inventory
-                    var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
-                    if (item != null)
-                    {
-                        // Try to equip it
-                        var (equippedItem, searchEquipmentSlotResult) = SearchEquipmentSlot(equippedItemData.Slot, false);
-                        if (equippedItem != null)
-                        {
-                            if (item.WearLocation != WearLocations.None)
-                            {
-                                equippedItem.Item = item;
-                                item.ChangeContainer(null); // remove from inventory
-                                item.ChangeEquippedBy(this, false); // set as equipped by this
-                            }
-                            else
-                            {
-                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {data.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                            }
-                        }
-                        else
-                        {
-                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {data.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                        }
-                    }
-                    else
-                    {
-                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {data.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                    }
-                }
-            }
+            CreateAndTryToEquipItems(data);
         }
         // Inventory
         if (data.Inventory != null)
@@ -277,12 +246,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 QuestManager.AddCompletedQuest(completeQuest, this);
             }
         }
-        // Auras
-        if (data.Auras != null)
-        {
-            foreach (var auraData in data.Auras)
-                AuraManager.AddAura(this, auraData, false);
-        }
         // Learn abilities
         if (data.LearnedAbilities != null)
         {
@@ -294,9 +257,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 else
                 {
                     // search ability usage in race then in class
-                    var abilityUsage = ((IPlayableRace)Race).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Classes.AvailableAbilities().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
+                    var abilityUsage = ((IPlayableRace)BaseRace).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Classes.AvailableAbilities().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage == null)
-                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {Race.Name} or {Classes.Name()}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {BaseRace.Name} or {Classes.Name()}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                     else
                     {
                         var abilityLearned = new AbilityLearned(learnedAbilityData, abilityUsage);
@@ -1220,7 +1183,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             CreationTime = CreationTime,
             Name = Name,
             RoomId = Room?.Blueprint?.Id ?? 0,
-            Race = Race?.Name ?? string.Empty,
+            Race = BaseRace?.Name ?? string.Empty,
             Classes = Classes.Select(x => x.Name).ToArray(),
             Level = Level,
             Sex = BaseSex,
@@ -1637,7 +1600,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     #endregion
 
-    private int ExperienceByLevel => 1000 * (Race is IPlayableRace playableRace ? Classes.ClassExperiencePercentageMultiplier(playableRace) : 100) / 100;
+    private int ExperienceByLevel => 1000 * (BaseRace is IPlayableRace playableRace ? Classes.ClassExperiencePercentageMultiplier(playableRace) : 100) / 100;
 
     private (int experience, int alignment) ComputeExperienceAndAlignment(ICharacter victim, int totalLevel)
     {

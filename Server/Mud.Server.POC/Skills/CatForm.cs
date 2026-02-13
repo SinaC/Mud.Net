@@ -49,7 +49,7 @@ public class CatForm : NoTargetSkillBase
         User.SetResource(ResourceKinds.Combo, 0);
 
         // TODO: Affect changing Form + disable other form
-        AuraManager.AddAura(User, SkillName, User, User.Level, new AuraFlags("NoDispel", "Permanent", "Shapeshift"), true,
+        AuraManager.AddAura(User, SkillName, User, User.Level, new AuraFlags("NoDispel", "Permanent", "Shapeshift", "NoSave"), true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = User.Level * 4, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste", "Infrared"), Operator = AffectOperators.Add });
 

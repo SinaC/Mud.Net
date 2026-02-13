@@ -32,6 +32,8 @@ public class Socials : CharacterGameAction
             if (++col % 5 == 0)
                 sb.AppendLine();
         }
+        if (col % 5 != 0)
+            sb.AppendLine();
         Actor.Page(sb);
     }
 }

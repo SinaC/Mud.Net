@@ -227,7 +227,7 @@ public class Player : ActorBase, IPlayer
         avatarMetaData.Version = Versioning.AvatarCurrentVersion;
         avatarMetaData.Level = Impersonating.Level;
         avatarMetaData.Classes = Impersonating.Classes.Select(x => x.DisplayName).ToArray();
-        avatarMetaData.Race = Impersonating.Race.DisplayName;
+        avatarMetaData.Race = Impersonating.BaseRace.DisplayName;
         avatarMetaData.RoomId = Impersonating.Room.Blueprint.Id;
     }
 

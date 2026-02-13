@@ -71,8 +71,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         Level = blueprint.Level;
         Position = Positions.Standing;
-        Race = RaceManager[blueprint.Race]!;
-        if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
+        BaseRace = RaceManager[blueprint.Race]!;
+        if (BaseRace == null && !string.IsNullOrWhiteSpace(blueprint.Race))
             Logger.LogWarning("Unknown race '{race}' for npc {blueprintId}", blueprint.Race, blueprint.Id);
         var @class = ClassManager[blueprint.Class]!;
         if (@class == null)
@@ -89,15 +89,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         DamageDiceValue = blueprint.DamageDiceValue;
         DamageDiceBonus = blueprint.DamageDiceBonus;
 
-        ActFlags = NewAndCopyAndSet(() => new ActFlags(), blueprint.ActFlags, Race?.ActFlags);
-        OffensiveFlags = NewAndCopyAndSet(() => new OffensiveFlags(), blueprint.OffensiveFlags, Race?.OffensiveFlags);
-        AssistFlags = NewAndCopyAndSet(() => new AssistFlags(), blueprint.AssistFlags, Race?.AssistFlags);
-        BaseBodyForms = NewAndCopyAndSet(() => new BodyForms(), Blueprint.BodyForms, Race?.BodyForms);
-        BaseBodyParts = NewAndCopyAndSet(() => new BodyParts(), Blueprint.BodyParts, Race?.BodyParts);
-        BaseCharacterFlags = NewAndCopyAndSet(() => new CharacterFlags(), blueprint.CharacterFlags, Race?.CharacterFlags);
-        BaseImmunities = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Immunities, Race?.Immunities);
-        BaseResistances = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Resistances, Race?.Resistances);
-        BaseVulnerabilities = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Vulnerabilities, Race?.Vulnerabilities);
+        ActFlags = NewAndCopyAndSet(() => new ActFlags(), blueprint.ActFlags, BaseRace?.ActFlags);
+        OffensiveFlags = NewAndCopyAndSet(() => new OffensiveFlags(), blueprint.OffensiveFlags, BaseRace?.OffensiveFlags);
+        AssistFlags = NewAndCopyAndSet(() => new AssistFlags(), blueprint.AssistFlags, BaseRace?.AssistFlags);
+        BaseBodyForms = NewAndCopyAndSet(() => new BodyForms(), Blueprint.BodyForms, BaseRace?.BodyForms);
+        BaseBodyParts = NewAndCopyAndSet(() => new BodyParts(), Blueprint.BodyParts, BaseRace?.BodyParts);
+        BaseCharacterFlags = NewAndCopyAndSet(() => new CharacterFlags(), blueprint.CharacterFlags, BaseRace?.CharacterFlags);
+        BaseImmunities = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Immunities, BaseRace?.Immunities);
+        BaseResistances = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Resistances, BaseRace?.Resistances);
+        BaseVulnerabilities = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Vulnerabilities, BaseRace?.Vulnerabilities);
 
         BaseSex = blueprint.Sex;
         BaseSize = blueprint.Size;
@@ -109,7 +109,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         else
         {
-            long wealth = RandomManager.Range(blueprint.Wealth / 2, 3 * blueprint.Wealth / 2);
+            var wealth = RandomManager.Range(blueprint.Wealth / 2, 3 * blueprint.Wealth / 2);
             GoldCoins = RandomManager.Range(wealth / 200, wealth / 100);
             SilverCoins = wealth - (GoldCoins * 100);
         }
@@ -147,7 +147,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (!string.IsNullOrWhiteSpace(blueprint.SpecialBehavior))
             SpecialBehavior = SpecialBehaviorManager.CreateInstance(blueprint.SpecialBehavior);
 
-        BuildEquipmentSlots();
+        UpdateEquimentSlots(BaseRace);
 
         Room = room;
         room.Enter(this);
@@ -185,7 +185,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         {
             Wiznet.Log($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
+            foreach (var attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
         }
         // resources
@@ -210,60 +210,23 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 SetResource(resource, 1);
         }
 
+        // Auras
+        if (petData.Auras != null)
+        {
+            foreach (var auraData in petData.Auras)
+                AuraManager.AddAura(this, auraData, false);
+        }
+
         // Equipped items
         if (petData.Equipments != null)
         {
-            // Create item in inventory and try to equip it
-            foreach (var equippedItemData in petData.Equipments)
-            {
-                if (equippedItemData.Item == null)
-                {
-                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {petData.Name} is null.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                }
-                else
-                {
-                    // Create in inventory
-                    var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item!, this);
-                    if (item != null)
-                    {
-                        // Try to equip it
-                        var (equippedItem, searchEquipmentSlotResult) = SearchEquipmentSlot(equippedItemData.Slot, false);
-                        if (equippedItem != null)
-                        {
-                            if (item.WearLocation != WearLocations.None)
-                            {
-                                equippedItem.Item = item;
-                                item.ChangeContainer(null); // remove from inventory
-                                item.ChangeEquippedBy(this, false); // set as equipped by this
-                            }
-                            else
-                            {
-                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {petData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                            }
-                        }
-                        else
-                        {
-                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore (result: {searchEquipmentSlotResult}).", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                        }
-                    }
-                    else
-                    {
-                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {petData.Name}.", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                    }
-                }
-            }
+            CreateAndTryToEquipItems(petData);
         }
         // Inventory
         if (petData.Inventory != null)
         {
             foreach (var itemData in petData.Inventory)
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
-        }
-        // Auras
-        if (petData.Auras != null)
-        {
-            foreach (var auraData in petData.Auras)
-                AuraManager.AddAura(this, auraData, false);
         }
 
         RecomputeKnownAbilities();
@@ -516,7 +479,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Description = Description,
             Name = Name,
             //RoomId = Room?.Blueprint?.Id ?? 0,
-            Race = Race?.Name ?? string.Empty,
+            Race = BaseRace?.Name ?? string.Empty,
             Classes = Classes.Select(x => x.Name).ToArray(),
             Level = Level,
             Sex = BaseSex,
@@ -794,6 +757,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void RecomputeKnownAbilities()
     {
+        if (Race is IPlayableRace playableRace)
+            MergeAbilities(playableRace.Abilities, true);
         if (Classes.Any()) // NPC gain access to all abilities from their classes
             MergeAbilities(Classes.AvailableAbilities(), false);
     }

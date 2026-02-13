@@ -77,6 +77,7 @@ public interface ICharacter : IEntity, IContainer
 
     // Class/Race
     IEnumerable<IClass> Classes { get; }
+    IRace BaseRace { get; }
     IRace Race { get; }
 
     // Attributes/Resources/Flags
@@ -245,6 +246,9 @@ public interface ICharacter : IEntity, IContainer
     void ApplyAffect(ICharacterSexAffect affect);
     void ApplyAffect(ICharacterSizeAffect affect);
     void ApplyAffect(ICharacterResourceAffect affect);
+    void ApplyAffect(ICharacterRaceAffect affect);
+    void ApplyAffect(ICharacterBodyFormsAffect affect);
+    void ApplyAffect(ICharacterBodyPartsAffect affect);
 
     //
     void OnRemoved(IRoom nullRoom);

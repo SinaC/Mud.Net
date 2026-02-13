@@ -1,12 +1,19 @@
 INGOING
 DONE
-    multiple managers fixed to used StringComparer.InvariantCultureIgnoreCase in dictionary
-    Floating disc fixed
-    Rom import door exit flags fixed
-    AbilityDefinition.Name used instead of SpellName/SkillName in spells/skills when adding aura
-    Absorb affect
-    when immune to damage, the phrase displayed is weird
-        XXX is immune to your misses
+    base/current race
+    affect to modify race
+    BuildEquipmentSlots depends on current race
+        create/remove only missing/invalid slot
+    ExperienceByLevel, GetMaxAttribute, RecomputeKnownAbilities, MaxAllowedBasicAttribute: use base (and not current)
+    Initialize
+        equip as much items as possible with default equipment slots, keeping a list of unequipable items
+        recompute race and equipment slots
+        try to equip items that were unequipable in previous equip try
+            if cannot equip -> display already existing Wiznet
+        LearnedAbilities PlayableRace.Abilities
+    CharacterBodyFormsAffect, CharacterBodyPartsAffect
+    morph command (race+aff+irv+body+size, act/off/assist ?)
+    bug fixed in ApplyAffect(ICharacterIRVAffect affect) vulnerabilities affects were applied on resistances instead of vulnerabilities
 
 ==========
 == TODO ==

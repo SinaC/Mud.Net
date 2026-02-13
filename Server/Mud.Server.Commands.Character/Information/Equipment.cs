@@ -26,7 +26,7 @@ public class Equipment : CharacterGameAction
             var countOffHandToHide = Actor.Size >= Sizes.Giant 
                 ? 0
                 : Actor.Equipments.Count(x => x.Slot == EquipmentSlots.MainHand && x.Item?.WearLocation == WearLocations.Wield2H);
-            foreach (var equippedItem in Actor.Equipments)
+            foreach (var equippedItem in Actor.Equipments.OrderBy(x => x.Slot))
             {
                 // don't display offhand if they are used to wield a 2H weapon
                 if (equippedItem.Item == null && equippedItem.Slot == EquipmentSlots.OffHand)

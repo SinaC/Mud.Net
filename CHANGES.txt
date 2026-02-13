@@ -1,3 +1,6 @@
+2026/02/13
+	- base/current race + race/body parts/body forms affect + doppleganger (#307)
+	- bug fixed in ApplyAffect(ICharacterIRVAffect affect) vulnerabilities affects were applied on resistances instead of vulnerabilities
 2026/02/07
     - Multiple managers fixed to used StringComparer.InvariantCultureIgnoreCase in dictionary (#305)
     - Floating disc fixed (#305)

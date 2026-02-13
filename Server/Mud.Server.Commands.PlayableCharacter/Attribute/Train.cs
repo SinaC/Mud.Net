@@ -73,7 +73,7 @@ public class Train : PlayableCharacterGameAction
         if (attributeFound != null)
         {
             BasicAttributes attribute = attributeFound.attribute;
-            var max = GetMaxAttributeValue(attribute, Actor.Race as IPlayableRace, Actor.Classes);
+            var max = GetMaxAttributeValue(attribute, Actor.BaseRace as IPlayableRace, Actor.Classes);
             if (Actor.BaseAttribute((CharacterAttributes)attribute) >= max)
                 return $"Your {attributeFound.name} is already at maximum.";
             Cost = 1;
