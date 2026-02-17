@@ -15,7 +15,7 @@ public class ArrayByEnum<T, U> : IEnumerable<T>
     public ArrayByEnum()
     {
         _lower = Convert.ToInt32(Enum.GetValues(typeof(U)).Cast<U>().Min());
-        int upper = Convert.ToInt32(Enum.GetValues(typeof(U)).Cast<U>().Max());
+        var upper = Convert.ToInt32(Enum.GetValues(typeof(U)).Cast<U>().Max());
         _array = new T[1 + upper - _lower];
     }
 
@@ -26,17 +26,11 @@ public class ArrayByEnum<T, U> : IEnumerable<T>
     }
 
     public Dictionary<U, T> ToDictionary()
-    {
-        return Enum.GetValues(typeof(U)).Cast<U>().ToDictionary(x => x, x => this[x]);
-    }
+        => Enum.GetValues(typeof(U)).Cast<U>().ToDictionary(x => x, x => this[x]);
 
     public IEnumerator<T> GetEnumerator()
-    {
-        return Enum.GetValues(typeof(U)).Cast<U>().Select(i => this[i]).GetEnumerator();
-    }
+        => Enum.GetValues(typeof(U)).Cast<U>().Select(i => this[i]).GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+        => GetEnumerator();
 }

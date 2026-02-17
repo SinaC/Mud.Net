@@ -69,7 +69,9 @@ public class Morph : SkillBase
             : "a";
         User.Send($"%W%You morph into {article} {Race.DisplayName}.%x%");
         User.Act(ActOptions.ToRoom, "%W%{0:N} morphs into {1} {2}.%x%", this, article, Race.DisplayName);
-
+        // remove previous morph without recompute if any
+        User.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, SkillName), false, false);
+        // apply new morph
         AuraManager.AddAura(User, SkillName, User, User.Level, new AuraFlags("NoDispel", "Permanent", "Shapeshift"), true,
             new CharacterRaceAffect(RaceManager) { Race = Race },
             new CharacterSizeAffect { Value = Race.Size },

@@ -10,9 +10,9 @@ public static class EnumHelpers
         where T : struct, Enum
     {
         IEnumerable<string> names = excluded?.Length > 0 
-            ? Enum.GetValues(typeof(T)).Cast<T>().Except(excluded).Select(x => x.ToString())
-            : Enum.GetNames(typeof(T));
-        string? name = names.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x, prefix));
+            ? Enum.GetValues<T>().Cast<T>().Except(excluded).Select(x => x.ToString())
+            : Enum.GetNames<T>();
+        var name = names.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x, prefix));
         if (!string.IsNullOrWhiteSpace(name))
             return Enum.TryParse(name, true, out value);
         value = default;

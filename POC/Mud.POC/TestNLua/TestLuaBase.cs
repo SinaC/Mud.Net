@@ -61,9 +61,9 @@ namespace Mud.POC.TestNLua
                 ScriptTableName = "mob2"
             });
 
-            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1)!, AreaManager.Areas.First());
-            ICharacter bigBadMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(1)!, room);
-            ICharacter weakMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(2)!, room);
+            var room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1)!, AreaManager.Areas.First());
+            var bigBadMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(1)!, room);
+            var weakMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(2)!, room);
         }
     }
 }

@@ -256,11 +256,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} doesn't exist anymore", new WiznetFlags("Bugs"), AdminLevels.Implementor);
                 else
                 {
-                    // search ability usage in race then in class
-                    var abilityUsage = ((IPlayableRace)BaseRace).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Classes.AvailableAbilities().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
-                    if (abilityUsage == null)
-                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {BaseRace.Name} or {Classes.Name()}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
-                    else
+                    // search ability usage in base race then in class
+                    var abilityUsage = (BaseRace as IPlayableRace)?.Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Classes.AvailableAbilities().SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
+                    if (abilityUsage != null)
                     {
                         var abilityLearned = new AbilityLearned(learnedAbilityData, abilityUsage);
                         AddLearnedAbility(abilityLearned);
@@ -1395,7 +1393,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override bool BeforeMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
     {
         // Compute move and check if enough move left
-        var moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
+        var moveCost = (TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType)) / 2; // average of from sector move loss and to sector move loss
         if (CharacterFlags.IsSet("Flying") || CharacterFlags.IsSet("Haste"))
             moveCost /= 2; // flying is less exhausting
         if (CharacterFlags.IsSet("Slow"))

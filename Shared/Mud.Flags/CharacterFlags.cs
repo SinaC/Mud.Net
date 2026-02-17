@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class CharacterFlags : DataStructures.Flags.Flags, ICharacterFlags
+public class CharacterFlags(params string[] flags) : DataStructures.Flags.Flags(flags), ICharacterFlags
 {
-    public CharacterFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

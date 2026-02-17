@@ -9,8 +9,8 @@ public static class StringExtensions
     {
         if (text.Length >= length)
             return text;
-        int space = length - text.Length;
-        int left = space / 2;
+        var space = length - text.Length;
+        var left = space / 2;
         //int right = space/2 + (space%2);
         return text.PadLeft(left + text.Length).PadRight(length);
     }

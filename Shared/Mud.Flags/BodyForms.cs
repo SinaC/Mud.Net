@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class BodyForms : DataStructures.Flags.Flags, IBodyForms
+public class BodyForms(params string[] flags) : DataStructures.Flags.Flags(flags), IBodyForms
 {
-    public BodyForms(params string[] flags)
-        : base(flags)
-    {
-    }
 }

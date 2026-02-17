@@ -16,11 +16,8 @@ using System.Diagnostics;
 namespace Mud.Importer.Mystery;
 
 [Export("MysteryImporter", typeof(IImporter)), Shared]
-public class MysteryImporter : IImporter
+public class MysteryImporter(ILogger<MysteryImporter> logger, IServiceProvider serviceProvider) : IImporter
 {
-    private ILogger<MysteryImporter> Logger { get; }
-    private IServiceProvider ServiceProvider { get; }
-
     private readonly List<AreaBlueprint> _areaBlueprints = [];
     private readonly List<RoomBlueprint> _roomBlueprints = [];
     private readonly List<ItemBlueprintBase> _itemBlueprints = [];
@@ -31,22 +28,16 @@ public class MysteryImporter : IImporter
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
 
-    public MysteryImporter(ILogger<MysteryImporter> logger, IServiceProvider serviceProvider)
-    {
-        Logger = logger;
-        ServiceProvider = serviceProvider;
-    }
-
     public void ImportByList(string path, string areaLst)
     {
-        var loader = ServiceProvider.GetRequiredService<MysteryLoader>();
+        var loader = serviceProvider.GetRequiredService<MysteryLoader>();
         string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
-        foreach (string areaFilename in areaFilenames)
+        foreach (var areaFilename in areaFilenames)
         {
             if (areaFilename.Contains('$'))
                 break;
             if (areaFilename.StartsWith('-'))
-                Logger.LogInformation("Skipping {area}", areaFilename);
+                logger.LogInformation("Skipping {area}", areaFilename);
             else
             {
                 string areaFullName = Path.Combine(path, RemoveCommentIfAny(areaFilename));
@@ -60,7 +51,7 @@ public class MysteryImporter : IImporter
 
     public void Import(string path, params string[] filenames)
     {
-        var loader = ServiceProvider.GetRequiredService<MysteryLoader>();
+        var loader = serviceProvider.GetRequiredService<MysteryLoader>();
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -73,7 +64,7 @@ public class MysteryImporter : IImporter
 
     public void Import(string path, IEnumerable<string> filenames)
     {
-        var loader =ServiceProvider.GetRequiredService<MysteryLoader>();
+        var loader =serviceProvider.GetRequiredService<MysteryLoader>();
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -178,7 +169,7 @@ public class MysteryImporter : IImporter
     private ExitBlueprint[] ConvertExits(RoomData roomData)
     {
         ExitBlueprint[] blueprints = new ExitBlueprint[RoomData.MaxExits];
-        for (int i = 0; i < RoomData.MaxExits; i++)
+        for (var i = 0; i < RoomData.MaxExits; i++)
         {
             ExitData exit = roomData.Exits[i];
             if (exit != null)
@@ -200,37 +191,37 @@ public class MysteryImporter : IImporter
         return blueprints;
     }
 
-    private Sizes? ConvertRoomMaxSize(int size)
+    private static Sizes? ConvertRoomMaxSize(int size)
     {
-        switch (size)
+        return size switch
         {
-            case SIZE_TINY: return Sizes.Tiny;
-            case SIZE_SMALL: return Sizes.Small;
-            case SIZE_MEDIUM: return Sizes.Medium;
-            case SIZE_LARGE: return Sizes.Large;
-            case SIZE_HUGE: return Sizes.Huge;
-            case SIZE_GIANT: return Sizes.Giant;
-            case SIZE_NOSIZE: return null;
-            default: return null;
-        }
+            SIZE_TINY => (Sizes?)Sizes.Tiny,
+            SIZE_SMALL => (Sizes?)Sizes.Small,
+            SIZE_MEDIUM => (Sizes?)Sizes.Medium,
+            SIZE_LARGE => (Sizes?)Sizes.Large,
+            SIZE_HUGE => (Sizes?)Sizes.Huge,
+            SIZE_GIANT => (Sizes?)Sizes.Giant,
+            SIZE_NOSIZE => null,
+            _ => null,
+        };
     }
 
-    private SectorTypes ConvertSectorTypes(int sector)
+    private static SectorTypes ConvertSectorTypes(int sector)
     {
-        switch (sector)
+        return sector switch
         {
-            case SECT_INSIDE: return SectorTypes.Inside;
-            case SECT_CITY: return SectorTypes.City;
-            case SECT_FIELD: return SectorTypes.Field;
-            case SECT_FOREST: return SectorTypes.Forest;
-            case SECT_HILLS: return SectorTypes.Hills;
-            case SECT_MOUNTAIN: return SectorTypes.Mountain;
-            case SECT_WATER_SWIM: return SectorTypes.WaterSwim;
-            case SECT_WATER_NOSWIM: return SectorTypes.WaterNoSwim;
-            case SECT_AIR: return SectorTypes.Air;
-            case SECT_DESERT: return SectorTypes.Desert;
-            default: return SectorTypes.Inside;
-        }
+            SECT_INSIDE => SectorTypes.Inside,
+            SECT_CITY => SectorTypes.City,
+            SECT_FIELD => SectorTypes.Field,
+            SECT_FOREST => SectorTypes.Forest,
+            SECT_HILLS => SectorTypes.Hills,
+            SECT_MOUNTAIN => SectorTypes.Mountain,
+            SECT_WATER_SWIM => SectorTypes.WaterSwim,
+            SECT_WATER_NOSWIM => SectorTypes.WaterNoSwim,
+            SECT_AIR => SectorTypes.Air,
+            SECT_DESERT => SectorTypes.Desert,
+            _ => SectorTypes.Inside,
+        };
     }
 
     private IRoomFlags ConvertRoomFlags(long input)
@@ -333,9 +324,9 @@ public class MysteryImporter : IImporter
                 case 'M':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset M arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning("Reset M arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset M arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     if (reset.Arg4 == 0)
-                        Logger.LogWarning("Reset M arg4 (local limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset M arg4 (local limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new CharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -347,7 +338,7 @@ public class MysteryImporter : IImporter
                 case 'O':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset O arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning("Reset O arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset O arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInRoomReset
                     {
                         RoomId = roomData.VNum,
@@ -358,9 +349,9 @@ public class MysteryImporter : IImporter
                     break;
                 case 'P':
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning("Reset P arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset P arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     if (reset.Arg4 == 0)
-                        Logger.LogWarning("Reset P arg4 (local limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset P arg4 (local limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInItemReset
                     {
                         RoomId = roomData.VNum,
@@ -372,7 +363,7 @@ public class MysteryImporter : IImporter
                     break;
                 case 'G':
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning("Reset G arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset G arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInCharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -382,7 +373,7 @@ public class MysteryImporter : IImporter
                     break;
                 case 'E':
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning("Reset E arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
+                        logger.LogWarning("Reset E arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInEquipmentReset
                     {
                         RoomId = roomData.VNum,
@@ -407,7 +398,7 @@ public class MysteryImporter : IImporter
                     };
                     break;
                 default:
-                    Logger.LogError("Unknown Reset {reset} for room {vnum}", reset.Command, roomData.VNum);
+                    logger.LogError("Unknown Reset {reset} for room {vnum}", reset.Command, roomData.VNum);
                     break;
             }
         }
@@ -993,7 +984,7 @@ public class MysteryImporter : IImporter
             //TODO: rope
 
             default:
-                Logger.LogWarning("ItemBlueprint cannot be created: Vnum: [{vnum}] Type: {type} Flags: {wearFlags} : {name}", objectData.VNum, objectData.ItemType, objectData.WearFlags, objectData.Name);
+                logger.LogWarning("ItemBlueprint cannot be created: Vnum: [{vnum}] Type: {type} Flags: {wearFlags} : {name}", objectData.VNum, objectData.ItemType, objectData.WearFlags, objectData.Name);
                 break;
         }
 
@@ -1027,7 +1018,7 @@ public class MysteryImporter : IImporter
                             };
                         }
                         else
-                            Logger.LogError("Item [{vnum}]: invalid ResourceKind affect {location}", objectData.VNum, objectAffect.Location);
+                            logger.LogError("Item [{vnum}]: invalid ResourceKind affect {location}", objectData.VNum, objectAffect.Location);
                     }
                     else
                     {
@@ -1042,7 +1033,7 @@ public class MysteryImporter : IImporter
                             };
                         }
                         else
-                            Logger.LogError("Item [{vnum}]: invalid attribute affect {location}", objectData.VNum, objectAffect.Location);
+                            logger.LogError("Item [{vnum}]: invalid attribute affect {location}", objectData.VNum, objectAffect.Location);
                     }
                     break;
                 case ObjectAffect.WhereToAffects:
@@ -1061,7 +1052,7 @@ public class MysteryImporter : IImporter
                             ShieldFlags = shieldFlags,
                         };
                     if (characterFlags.IsNone && shieldFlags.IsNone)
-                        Logger.LogError("Item [{vnum}]: invalid affect/shield flags {flags}", objectData.VNum, objectAffect.BitVector);
+                        logger.LogError("Item [{vnum}]: invalid affect/shield flags {flags}", objectData.VNum, objectAffect.BitVector);
                     break;
                 case ObjectAffect.WhereToImmune:
                     yield return new ItemAffectImmFlags
@@ -1160,7 +1151,7 @@ public class MysteryImporter : IImporter
             //TODO: ITEM_WEAR_EYES
         }
 
-        Logger.LogWarning("Unknown wear location: {wearFlags} for item {vnum}", objectData.WearFlags, objectData.VNum);
+        logger.LogWarning("Unknown wear location: {wearFlags} for item {vnum}", objectData.WearFlags, objectData.VNum);
         return WearLocations.None;
     }
 
@@ -1217,7 +1208,7 @@ public class MysteryImporter : IImporter
             //TODO: ranged
         }
 
-        Logger.LogWarning("Unknown weapon type: {type} for item {vnum}", weaponType, objectData.VNum);
+        logger.LogWarning("Unknown weapon type: {type} for item {vnum}", weaponType, objectData.VNum);
         return WeaponTypes.Exotic;
     }
 
@@ -1301,7 +1292,7 @@ public class MysteryImporter : IImporter
         if (IsSet(flag, STAND_AT) || IsSet(flag, SIT_AT) || IsSet(flag, REST_AT) || IsSet(flag, SLEEP_AT)) return FurniturePlacePrepositions.At;
         if (IsSet(flag, STAND_ON) || IsSet(flag, SIT_ON) || IsSet(flag, REST_ON) || IsSet(flag, SLEEP_ON)) return FurniturePlacePrepositions.On;
         if (IsSet(flag, STAND_IN) || IsSet(flag, SIT_IN) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_IN)) return FurniturePlacePrepositions.In;
-        Logger.LogWarning("Unknown Furniture preposition {flag} for item {vnum}", flag, objectData.VNum);
+        logger.LogWarning("Unknown Furniture preposition {flag} for item {vnum}", flag, objectData.VNum);
         return FurniturePlacePrepositions.None;
     }
 
@@ -1603,7 +1594,7 @@ public class MysteryImporter : IImporter
             case "rest": return Positions.Resting;
             case "sleep": return Positions.Sleeping;
             default:
-                Logger.LogError("Invalid position {position} for mob {vnum}", mobileData.DefaultPos, mobileData.VNum);
+                logger.LogError("Invalid position {position} for mob {vnum}", mobileData.DefaultPos, mobileData.VNum);
                 return Positions.Standing;
         }
     }
@@ -1628,7 +1619,7 @@ public class MysteryImporter : IImporter
             case "huge": return Sizes.Huge;
             case "giant": return Sizes.Giant;
             default:
-                Logger.LogError("Invalid size {size} for mob {vnum}", mobileData.Size, mobileData.VNum);
+                logger.LogError("Invalid size {size} for mob {vnum}", mobileData.Size, mobileData.VNum);
                 return Sizes.Medium;
         }
     }
@@ -1817,7 +1808,7 @@ public class MysteryImporter : IImporter
                 case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
                 case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
                 case ITEM_COMPONENT:
-                    Logger.LogWarning("Invalid buy type {type} for mob {keeper}", buyType, shopData.Keeper);
+                    logger.LogWarning("Invalid buy type {type} for mob {keeper}", buyType, shopData.Keeper);
                     break;
                 case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
                 case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
@@ -1827,7 +1818,7 @@ public class MysteryImporter : IImporter
                 case ITEM_SADDLE:
                 case ITEM_ROPE:
                 default:
-                    Logger.LogWarning("Invalid buy type {type} for mob {keeper}", buyType, shopData.Keeper);
+                    logger.LogWarning("Invalid buy type {type} for mob {keeper}", buyType, shopData.Keeper);
                     break;
             }
         }
@@ -2157,7 +2148,7 @@ public class MysteryImporter : IImporter
             // DAYLIGHT, EARTH, WEAKEN
         }
 
-        Logger.LogWarning("Unknown damage type {type} for {msg}", damageType, errorMsg);
+        logger.LogWarning("Unknown damage type {type} for {msg}", damageType, errorMsg);
         return SchoolTypes.None;
     }
 
@@ -2240,7 +2231,7 @@ public class MysteryImporter : IImporter
     private void RaiseConvertException(string format, params object[] parameters)
     {
         string message = string.Format(format, parameters);
-        Logger.LogError(message);
+        logger.LogError(message);
         throw new MysteryConvertException(message);
     }
 

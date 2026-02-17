@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class FurnitureActions : DataStructures.Flags.Flags, IFurnitureActions
+public class FurnitureActions(params string[] flags) : DataStructures.Flags.Flags(flags), IFurnitureActions
 {
-    public FurnitureActions(params string[] flags)
-        : base(flags)
-    {
-    }
 }

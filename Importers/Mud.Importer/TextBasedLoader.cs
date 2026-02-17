@@ -4,7 +4,7 @@ using System.Text;
 namespace Mud.Importer;
 
 // TODO: Importer.Smaug, Importer.Rom, Importer.Merc, Importer.Classic, Importer.Circle Importer.DSA, Importer.OldMerc (see db.C)
-public abstract class TextBasedLoader
+public abstract class TextBasedLoader(ILogger<TextBasedLoader> logger)
 {
     private int _currentLine;
     private int _currentIndex;
@@ -12,12 +12,7 @@ public abstract class TextBasedLoader
 
     public string CurrentFilename { get; private set; } = default!;
 
-    protected ILogger<TextBasedLoader> Logger { get; }
-
-    protected TextBasedLoader(ILogger<TextBasedLoader> logger)
-    {
-        Logger = logger;
-    }
+    protected ILogger<TextBasedLoader> Logger { get; } = logger;
 
     public void Load(string filename)
     {
@@ -26,25 +21,23 @@ public abstract class TextBasedLoader
         Logger.LogDebug("Reading " + filename);
 
         CurrentFilename = filename;
-        using (TextReader tr = new StreamReader(filename))
-        {
-            _currentLine = 1;
-            _content = tr.ReadToEnd();
-            _currentIndex = 0;
-        }
+        using TextReader tr = new StreamReader(filename);
+        _currentLine = 1;
+        _content = tr.ReadToEnd();
+        _currentIndex = 0;
     }
 
     public abstract void Parse();
 
     protected void Warn(string format, params object[] parameters)
     {
-        string message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
+        var message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
         Logger.LogWarning(message);
     }
 
     protected void RaiseParseException(string format, params object[] parameters)
     {
-        string message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
+        var message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
         Logger.LogError(message);
         throw new ParseException(message);
     }
