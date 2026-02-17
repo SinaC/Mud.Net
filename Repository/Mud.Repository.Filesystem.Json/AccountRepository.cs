@@ -84,7 +84,7 @@ public class AccountRepository : IAccountRepository
             foreach (var filename in Directory.EnumerateFiles(AccountRepositoryPath, "*.json"))
             {
                 var accountData = Load(filename);
-                if (accountData != null && accountData.AvatarMetaDatas != null && accountData.AvatarMetaDatas.Any())
+                if (accountData != null && accountData.AvatarMetaDatas != null && accountData.AvatarMetaDatas.Length != 0)
                 {
                     foreach(var avatarMetaData in accountData.AvatarMetaDatas)
                         yield return avatarMetaData.Name;

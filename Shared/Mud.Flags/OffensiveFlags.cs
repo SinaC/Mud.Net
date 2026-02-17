@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class OffensiveFlags : DataStructures.Flags.Flags, IOffensiveFlags
+public class OffensiveFlags(params string[] flags) : DataStructures.Flags.Flags(flags), IOffensiveFlags
 {
-    public OffensiveFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

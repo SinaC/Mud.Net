@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class WiznetFlags : DataStructures.Flags.Flags, IWiznetFlags
+public class WiznetFlags(params string[] flags) : DataStructures.Flags.Flags(flags), IWiznetFlags
 {
-    public WiznetFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

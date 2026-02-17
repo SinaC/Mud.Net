@@ -25,7 +25,7 @@ public static class TypeExtensions
         {
             // check method parameters
             var methodParameters = initializeMethod.GetParameters();
-            bool isValid = true;
+            var isValid = true;
             for(var i = 0; i < parameterTypes.Length; i++)
             {
                 if (!parameterTypes[i].IsAssignableTo(methodParameters[i].ParameterType))
@@ -54,7 +54,7 @@ public static class TypeExtensions
         var validInitializeMethods = new List<MethodInfo>();
         foreach (var initializeMethod in initializeMethods)
         {
-            bool isValid = true;
+            var isValid = true;
             // check generic arguments
             var genericArguments = initializeMethod.GetGenericArguments();
             for (var i = 0; i < genericArguments.Length; i++)

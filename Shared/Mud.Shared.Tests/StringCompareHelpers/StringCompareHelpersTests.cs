@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Tests.StringCompareHelpers;
+﻿namespace Mud.Shared.Tests.StringCompareHelpers;
 
 [TestClass]
 public class StringCompareHelpersTests
@@ -12,7 +12,7 @@ public class StringCompareHelpersTests
     [DataRow(new string[] { "oldstyle", "jailer" }, new string[] { "jailer", "oldstyle" }, true)]
     public void AllStringsEquals(string[] keys, string[] parameters, bool expected)
     {
-        var result = Mud.Common.StringCompareHelpers.AllStringsEquals(keys, parameters);
+        var result = Common.StringCompareHelpers.AllStringsEquals(keys, parameters);
 
         Assert.AreEqual(expected, result);
     }
@@ -30,7 +30,7 @@ public class StringCompareHelpersTests
     [DataRow(new string[] { "oldstyle", "jailer" }, new string[] { "old" }, true)]
     public void AllStringsStartsWith(string[] keys, string[] parameters, bool expected)
     {
-        var result = Mud.Common.StringCompareHelpers.AllStringsStartsWith(keys, parameters);
+        var result = Common.StringCompareHelpers.AllStringsStartsWith(keys, parameters);
 
         Assert.AreEqual(expected, result);
     }

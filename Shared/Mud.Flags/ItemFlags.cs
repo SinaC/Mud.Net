@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class ItemFlags : DataStructures.Flags.Flags, IItemFlags
+public class ItemFlags(params string[] flags) : DataStructures.Flags.Flags(flags), IItemFlags
 {
-    public ItemFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class AuraFlags : DataStructures.Flags.Flags, IAuraFlags
+public class AuraFlags(params string[] flags) : DataStructures.Flags.Flags(flags), IAuraFlags
 {
-    public AuraFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

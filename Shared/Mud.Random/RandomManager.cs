@@ -35,9 +35,7 @@ public class RandomManager : IRandomManager
         => _random.Next(count, count*value + 1); // faster :)
 
     public int Range(int min, int max)
-    {
-        return _random.Next(min, max+1);
-    }
+        => _random.Next(min, max+1);
 
     // https://stackoverflow.com/questions/6651554/random-number-in-long-range-is-this-the-way
     public long Range(long min, long max)
@@ -47,7 +45,7 @@ public class RandomManager : IRandomManager
         if (min > max)
             return max;
         //Working with ulong so that modulo works correctly with values > long.MaxValue
-        ulong uRange = (ulong)(max - min);
+        var uRange = (ulong)(max - min);
 
         //Prevent a modulo bias; see https://stackoverflow.com/a/10984975/238419
         //for more information.
@@ -56,7 +54,7 @@ public class RandomManager : IRandomManager
         ulong ulongRand;
         do
         {
-            byte[] buf = new byte[8];
+            var buf = new byte[8];
             _random.NextBytes(buf);
             ulongRand = (ulong)BitConverter.ToInt64(buf, 0);
         } while (ulongRand > ulong.MaxValue - ((ulong.MaxValue % uRange) + 1) % uRange);
@@ -85,7 +83,7 @@ public class RandomManager : IRandomManager
     public T? Random<T>(IEnumerable<T> values) // https://stackoverflow.com/questions/648196/random-row-from-linq-to-sql/648240#648240
     {
         T? current = default;
-        int count = 0;
+        var count = 0;
         foreach (T element in values)
         {
             count++;
@@ -101,13 +99,13 @@ public class RandomManager : IRandomManager
     {
         var list = occurancies as IList<IOccurancy<T>> ?? occurancies.ToList();
 
-        int sum = list.Sum(x => x.Occurancy);
+        var sum = list.Sum(x => x.Occurancy);
         if (sum <= 0)
             return default;
 
-        int random = _random.Next(sum);
+        var random = _random.Next(sum);
 
-        int range = 0;
+        var range = 0;
         foreach (IOccurancy<T> occurancy in list)
         {
             range += occurancy.Occurancy;
@@ -135,13 +133,13 @@ public class RandomManager : IRandomManager
     {
         var list = occurancies as IList<T> ?? occurancies.ToList();
 
-        int sum = list.Sum(x => x.Occurancy);
+        var sum = list.Sum(x => x.Occurancy);
         if (sum <= 0)
             return default;
 
-        int random = _random.Next(sum);
+        var random = _random.Next(sum);
 
-        int range = 0;
+        var range = 0;
         foreach (T occurancy in list)
         {
             range += occurancy.Occurancy;

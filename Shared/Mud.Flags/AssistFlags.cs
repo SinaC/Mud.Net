@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class AssistFlags : DataStructures.Flags.Flags, IAssistFlags
+public class AssistFlags(params string[] flags) : DataStructures.Flags.Flags(flags), IAssistFlags
 {
-    public AssistFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

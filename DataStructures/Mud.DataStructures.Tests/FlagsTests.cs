@@ -466,10 +466,10 @@ public class FlagsTests
         IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
-        Assert.AreEqual(1, items.Count(x => x == "flag1"));
-        Assert.AreEqual(1, items.Count(x => x == "flag2"));
-        Assert.AreEqual(1, items.Count(x => x == "flag3"));
-        Assert.AreEqual(1, items.Count(x => x == "flag4"));
+        Assert.ContainsSingle(x => x == "flag1", items);
+        Assert.ContainsSingle(x => x == "flag2", items);
+        Assert.ContainsSingle(x => x == "flag3", items);
+        Assert.ContainsSingle(x => x == "flag4", items);
     }
 
     #endregion

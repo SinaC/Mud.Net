@@ -507,10 +507,10 @@ public class FlagsValuesTests
         IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
-        Assert.AreEqual(1, items.Count(x => x == "Blind"));
-        Assert.AreEqual(1, items.Count(x => x == "Charm"));
-        Assert.AreEqual(1, items.Count(x => x == "Hide"));
-        Assert.AreEqual(1, items.Count(x => x == "Berserk"));
+        Assert.ContainsSingle(x => x == "Blind", items);
+        Assert.ContainsSingle(x => x == "Charm", items);
+        Assert.ContainsSingle(x => x == "Hide", items);
+        Assert.ContainsSingle(x => x == "Berserk", items);
     }
 
     #endregion

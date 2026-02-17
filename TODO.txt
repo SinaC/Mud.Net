@@ -1,19 +1,10 @@
 INGOING
 DONE
-    base/current race
-    affect to modify race
-    BuildEquipmentSlots depends on current race
-        create/remove only missing/invalid slot
-    ExperienceByLevel, GetMaxAttribute, RecomputeKnownAbilities, MaxAllowedBasicAttribute: use base (and not current)
-    Initialize
-        equip as much items as possible with default equipment slots, keeping a list of unequipable items
-        recompute race and equipment slots
-        try to equip items that were unequipable in previous equip try
-            if cannot equip -> display already existing Wiznet
-        LearnedAbilities PlayableRace.Abilities
-    CharacterBodyFormsAffect, CharacterBodyPartsAffect
-    morph command (race+aff+irv+body+size, act/off/assist ?)
-    bug fixed in ApplyAffect(ICharacterIRVAffect affect) vulnerabilities affects were applied on resistances instead of vulnerabilities
+    migration to .net 10
+    spec thief bug fixed
+    move losses fixed (average were missing)
+    morph skill fixed to remove previous morph aura
+    no more error displayed when an ability cannot be loaded from data
 
 ==========
 == TODO ==

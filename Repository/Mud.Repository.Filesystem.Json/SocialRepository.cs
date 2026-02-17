@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Repository.Interfaces;
@@ -9,16 +8,9 @@ using System.Text.Json;
 namespace Mud.Repository.Filesystem.Json;
 
 [Export(typeof(ISocialRepository)), Shared]
-public class SocialRepository : ISocialRepository
+public class SocialRepository(ILogger<AccountRepository> logger, IOptions<FileRepositoryOptions> options) : ISocialRepository
 {
-    private ILogger<AccountRepository> Logger { get; }
-    private string SocialRepositoryPath { get; }
-
-    public SocialRepository(ILogger<AccountRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper)
-    {
-        Logger = logger;
-        SocialRepositoryPath = options.Value.SocialPath;
-    }
+    private string SocialRepositoryPath { get; } = options.Value.SocialPath;
 
     #region ISocialRepository
 
@@ -29,7 +21,7 @@ public class SocialRepository : ISocialRepository
         var socials = new List<SocialData>();
         foreach (var filename in Directory.EnumerateFiles(SocialRepositoryPath, "*.json"))
         {
-            Logger.LogInformation("Loading social data from file: {file}", filename);
+            logger.LogInformation("Loading social data from file: {file}", filename);
 
             using FileStream openStream = File.OpenRead(filename);
             var socialData = JsonSerializer.Deserialize<SocialData[]>(openStream);
@@ -48,6 +40,6 @@ public class SocialRepository : ISocialRepository
         if (directory != null)
             Directory.CreateDirectory(directory);
         else
-            Logger.LogError("Invalid directory in account path: {path}", SocialRepositoryPath);
+            logger.LogError("Invalid directory in account path: {path}", SocialRepositoryPath);
     }
 }

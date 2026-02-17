@@ -31,7 +31,7 @@ public class Thief : ISpecialBehavior
         // failed: funny message
         if (victim.Position >= Positions.Sleeping && RandomManager.OneOutOf(npc.Level))
         {
-            victim.Act(ActOptions.ToCharacter, "You discover $n's hands in your wallet!", npc);
+            victim.Act(ActOptions.ToCharacter, "You discover {0:n}'s hands in your wallet!", npc);
             npc.ActToNotVictim(victim, "{0:N} discovers {1:N}'s hands in {0:s} wallet!", victim, npc);
             return true;
         }

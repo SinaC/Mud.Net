@@ -1,3 +1,9 @@
+2026/02/17
+	- migration to .net 10 (#309)
+	- spec thief bug fixed (#309)
+	- move losses fixed (average were missing) (#309)
+	- morph skill fixed to remove previous morph aura (#309)
+	- no more error displayed when an ability cannot be loaded from data (#309)
 2026/02/13
 	- base/current race + race/body parts/body forms affect + doppleganger (#307)
 	- bug fixed in ApplyAffect(ICharacterIRVAffect affect) vulnerabilities affects were applied on resistances instead of vulnerabilities

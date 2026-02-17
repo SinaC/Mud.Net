@@ -2,10 +2,6 @@
 
 namespace Mud.Flags;
 
-public class IRVFlags : DataStructures.Flags.Flags, IIRVFlags
+public class IRVFlags(params string[] flags) : DataStructures.Flags.Flags(flags), IIRVFlags
 {
-    public IRVFlags(params string[] flags)
-        : base(flags)
-    {
-    }
 }

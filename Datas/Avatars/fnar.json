@@ -2,11 +2,11 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3051,
-  "SilverCoins": 10776876,
-  "GoldCoins": 6069,
+  "RoomId": 5250,
+  "SilverCoins": 10780198,
+  "GoldCoins": 6123,
   "Wimpy": 0,
-  "Experience": 24424,
+  "Experience": 57816,
   "Alignment": 1000,
   "Trains": 66,
   "Practices": 64,
@@ -16,6 +16,24 @@
   },
   "ActiveQuests": [],
   "LearnedAbilities": [
+    {
+      "Name": "dual wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "third wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "fourth wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
     {
       "Name": "bash",
       "Level": 1,
@@ -85,7 +103,7 @@
     {
       "Name": "enhanced damage",
       "Level": 1,
-      "Learned": 63,
+      "Learned": 64,
       "Rating": 3
     },
     {
@@ -435,24 +453,6 @@
       "Level": 22,
       "Learned": 75,
       "Rating": 2
-    },
-    {
-      "Name": "dual wield",
-      "Level": 1,
-      "Learned": 100,
-      "Rating": 1
-    },
-    {
-      "Name": "third wield",
-      "Level": 1,
-      "Learned": 100,
-      "Rating": 1
-    },
-    {
-      "Name": "fourth wield",
-      "Level": 1,
-      "Learned": 100,
-      "Rating": 1
     }
   ],
   "LearnedAbilityGroups": [
@@ -499,9 +499,9 @@
   ],
   "Conditions": {
     "Drunk": 0,
-    "Full": 36,
-    "Thirst": 45,
-    "Hunger": 44
+    "Full": 14,
+    "Thirst": 34,
+    "Hunger": 33
   },
   "Aliases": {
     "a": "cast \u0027colour spray\u0027",
@@ -519,7 +519,7 @@
       "Sex": "Neutral",
       "Size": "Medium",
       "CurrentResources": {
-        "HitPoints": 58,
+        "HitPoints": 180,
         "MovePoints": 100,
         "Mana": 100,
         "Psy": 0,
@@ -593,7 +593,7 @@
       "Sex": "Neutral",
       "Size": "Tiny",
       "CurrentResources": {
-        "HitPoints": 2558,
+        "HitPoints": 2660,
         "MovePoints": 100,
         "Mana": 0,
         "Psy": 0,
@@ -672,16 +672,16 @@
     }
   ],
   "Statistics": {
-    "NpcKill": 204,
+    "NpcKill": 230,
     "PcKill": 0,
     "NpcKilled": 2,
     "PcKilled": 0,
     "NoSourceKilled": 0,
     "MoneySpent": 14809,
-    "GoldEarned": 5398,
-    "GoldStolen": 0,
-    "SilverEarned": 8117399,
-    "SilverStolen": 0,
+    "GoldEarned": 5574,
+    "GoldStolen": 122,
+    "SilverEarned": 8121121,
+    "SilverStolen": 400,
     "RecallUsed": 7,
     "FoodEaten": 25,
     "BeveragesConsumed": 15,
@@ -699,7 +699,7 @@
     "PredefinedQuestsAbandoned": 0,
     "PredefinedQuestsTimedout": 0
   },
-  "ImmortalMode": "NoDeath",
+  "ImmortalMode": "NoDeath,Holylight",
   "CompletedQuests": [
     {
       "QuestId": 1,
@@ -722,17 +722,17 @@
   "Sex": "Male",
   "Size": "Large",
   "CurrentResources": {
-    "HitPoints": 447,
-    "MovePoints": 475,
-    "Mana": 268,
+    "HitPoints": 537,
+    "MovePoints": 488,
+    "Mana": 133,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 589,
-    "MovePoints": 493,
+    "HitPoints": 601,
+    "MovePoints": 523,
     "Mana": 310,
     "Psy": 100,
     "Energy": 0,
@@ -744,7 +744,7 @@
       "Slot": "Light",
       "Item": {
         "$type": "light",
-        "TimeLeft": 11663,
+        "TimeLeft": 11652,
         "ItemId": 3716,
         "Source": null,
         "ShortDescription": "a war banner",
@@ -1238,20 +1238,20 @@
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
-        "DiceCount": 2,
+        "DiceCount": 3,
         "DiceValue": 6,
-        "ItemId": 5100,
-        "Source": "Reset-E[5133]",
-        "ShortDescription": "a commoner\u0027s longsword",
-        "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
-        "Level": 11,
-        "Cost": 910,
+        "ItemId": 5105,
+        "Source": "Reset-E[5101]",
+        "ShortDescription": "a black longsword",
+        "Description": "A black longsword has been carelessly left here.",
+        "Level": 21,
+        "Cost": 2100,
         "DecayPulseLeft": 0,
-        "ItemFlags": "",
+        "ItemFlags": "Glowing,Magic",
         "Auras": [
           {
             "AbilityName": "",
-            "Level": 11,
+            "Level": 21,
             "PulseLeft": -1,
             "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
@@ -1259,13 +1259,13 @@
                 "$type": "characterAttribute",
                 "Operator": "Add",
                 "Location": "DamRoll",
-                "Modifier": 1
+                "Modifier": 2
               },
               {
                 "$type": "characterAttribute",
                 "Operator": "Add",
                 "Location": "HitRoll",
-                "Modifier": 1
+                "Modifier": 2
               }
             ]
           }
@@ -1277,98 +1277,59 @@
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
-        "DiceCount": 2,
-        "DiceValue": 6,
-        "ItemId": 5100,
-        "Source": "Reset-E[5133]",
-        "ShortDescription": "a commoner\u0027s longsword",
-        "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
-        "Level": 11,
-        "Cost": 910,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "",
-        "Auras": [
-          {
-            "AbilityName": "",
-            "Level": 11,
-            "PulseLeft": -1,
-            "AuraFlags": "NoDispel,Permanent,Inherent",
-            "Affects": [
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "DamRoll",
-                "Modifier": 1
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "HitRoll",
-                "Modifier": 1
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "Slot": "OffHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "",
-        "DiceCount": 2,
-        "DiceValue": 6,
-        "ItemId": 5100,
-        "Source": "Reset-E[5133]",
-        "ShortDescription": "a commoner\u0027s longsword",
-        "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
-        "Level": 11,
-        "Cost": 910,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "",
-        "Auras": [
-          {
-            "AbilityName": "",
-            "Level": 11,
-            "PulseLeft": -1,
-            "AuraFlags": "NoDispel,Permanent,Inherent",
-            "Affects": [
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "DamRoll",
-                "Modifier": 1
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "HitRoll",
-                "Modifier": 1
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "Slot": "OffHand",
-      "Item": {
-        "$type": "weapon",
-        "WeaponFlags": "",
         "DiceCount": 3,
-        "DiceValue": 5,
-        "ItemId": 3350,
-        "Source": "Reset-E[3040]",
-        "ShortDescription": "a standard issue sword",
-        "Description": "You see a standard issue sword here.",
-        "Level": 16,
-        "Cost": 1280,
+        "DiceValue": 6,
+        "ItemId": 5105,
+        "Source": "Reset-E[5150]",
+        "ShortDescription": "a black longsword",
+        "Description": "A black longsword has been carelessly left here.",
+        "Level": 21,
+        "Cost": 2100,
         "DecayPulseLeft": 0,
-        "ItemFlags": "Magic",
+        "ItemFlags": "Glowing,Magic",
         "Auras": [
           {
             "AbilityName": "",
-            "Level": 16,
+            "Level": 21,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel,Permanent,Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "DamRoll",
+                "Modifier": 2
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "HitRoll",
+                "Modifier": 2
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Slot": "OffHand",
+      "Item": {
+        "$type": "weapon",
+        "WeaponFlags": "",
+        "DiceCount": 2,
+        "DiceValue": 6,
+        "ItemId": 5100,
+        "Source": "Reset-E[5133]",
+        "ShortDescription": "a commoner\u0027s longsword",
+        "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
+        "Level": 11,
+        "Cost": 910,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 11,
             "PulseLeft": -1,
             "AuraFlags": "NoDispel,Permanent,Inherent",
             "Affects": [
@@ -1387,10 +1348,171 @@
             ]
           }
         ]
+      }
+    },
+    {
+      "Slot": "OffHand",
+      "Item": {
+        "$type": "shield",
+        "Armor": 17,
+        "ItemId": 5320,
+        "Source": "Oload[sinac]",
+        "ShortDescription": "an imperial shield",
+        "Description": "You see an imperial shield here.",
+        "Level": 10,
+        "Cost": 1190,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
       }
     }
   ],
   "Inventory": [
+    {
+      "$type": "shield",
+      "Armor": 24,
+      "ItemId": 5208,
+      "Source": "Reset-E[5250]",
+      "ShortDescription": "a sturdy iron shield",
+      "Description": "A small, but sturdy, iron shield has been left here.",
+      "Level": 24,
+      "Cost": 4400,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,AntiGood",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 24,
+          "PulseLeft": -1,
+          "AuraFlags": "Permanent,NoDispel,Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -2
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "armor",
+      "Bash": 7,
+      "Pierce": 7,
+      "Slash": 7,
+      "Exotic": 2,
+      "ItemId": 5223,
+      "Source": "Reset-E[5250]",
+      "ShortDescription": "a dark green cloak",
+      "Description": "A beautiful dark green cloak has been dropped by someone.",
+      "Level": 20,
+      "Cost": 1600,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,AntiGood",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 20,
+          "PulseLeft": -1,
+          "AuraFlags": "Permanent,NoDispel,Inherent",
+          "Affects": [
+            {
+              "$type": "characterResource",
+              "Operator": "Add",
+              "Location": "HitPoints",
+              "Modifier": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "shield",
+      "Armor": 24,
+      "ItemId": 5208,
+      "Source": "Reset-E[5250]",
+      "ShortDescription": "a sturdy iron shield",
+      "Description": "A small, but sturdy, iron shield has been left here.",
+      "Level": 24,
+      "Cost": 4400,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,AntiGood",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 24,
+          "PulseLeft": -1,
+          "AuraFlags": "Permanent,NoDispel,Inherent",
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -2
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": "Add",
+              "Location": "SavingThrow",
+              "Modifier": -2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "armor",
+      "Bash": 7,
+      "Pierce": 7,
+      "Slash": 7,
+      "Exotic": 2,
+      "ItemId": 5223,
+      "Source": "Reset-E[5250]",
+      "ShortDescription": "a dark green cloak",
+      "Description": "A beautiful dark green cloak has been dropped by someone.",
+      "Level": 20,
+      "Cost": 1600,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,AntiGood",
+      "Auras": [
+        {
+          "AbilityName": "",
+          "Level": 20,
+          "PulseLeft": -1,
+          "AuraFlags": "Permanent,NoDispel,Inherent",
+          "Affects": [
+            {
+              "$type": "characterResource",
+              "Operator": "Add",
+              "Location": "HitPoints",
+              "Modifier": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "DiceCount": 2,
+      "DiceValue": 6,
+      "ItemId": 9301,
+      "Source": "Reset-E[9322]",
+      "ShortDescription": "a comet\u0027s tail",
+      "Description": "A long, slender whip lies here.",
+      "Level": 10,
+      "Cost": 390,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Humming",
+      "Auras": []
+    },
     {
       "$type": "container",
       "MaxWeight": 230,
@@ -1403,24 +1525,8 @@
       "Description": "A floating black disc hangs in the air.",
       "Level": 23,
       "Cost": 0,
-      "DecayPulseLeft": 8160,
+      "DecayPulseLeft": 5520,
       "ItemFlags": "Magic,NoRemove,RotDeath,MeltOnDrop,BurnProof,NoUncurse",
-      "Auras": []
-    },
-    {
-      "$type": "corpse",
-      "Contains": [],
-      "IsPlayableCharacterCorpse": false,
-      "CorpseName": "The quinton",
-      "HasBeenGeneratedByKillingCharacter": true,
-      "ItemId": 10,
-      "Source": "RawKilled[The tiger[BId:3097]]",
-      "ShortDescription": "the corpse of The quinton",
-      "Description": "The corpse of The quinton is lying here.",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 720,
-      "ItemFlags": "",
       "Auras": []
     },
     {
@@ -1502,7 +1608,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 219120,
+      "DecayPulseLeft": 216480,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1531,7 +1637,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 139200,
+      "DecayPulseLeft": 136560,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1576,7 +1682,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 144480,
+      "DecayPulseLeft": 141840,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1589,7 +1695,7 @@
       "Description": "A pink potion stands here.",
       "Level": 13,
       "Cost": 1220,
-      "DecayPulseLeft": 148560,
+      "DecayPulseLeft": 145920,
       "ItemFlags": "",
       "Auras": []
     },
@@ -1705,206 +1811,13 @@
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
-    },
-    {
-      "$type": "shield",
-      "Armor": 17,
-      "ItemId": 5320,
-      "Source": "Oload[sinac]",
-      "ShortDescription": "an imperial shield",
-      "Description": "You see an imperial shield here.",
-      "Level": 10,
-      "Cost": 1190,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 3,
-      "DiceValue": 6,
-      "ItemId": 5105,
-      "Source": "Reset-E[5101]",
-      "ShortDescription": "a black longsword",
-      "Description": "A black longsword has been carelessly left here.",
-      "Level": 21,
-      "Cost": 2100,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 21,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel,Permanent,Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 2
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "HitRoll",
-              "Modifier": 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 3,
-      "DiceValue": 6,
-      "ItemId": 5105,
-      "Source": "Reset-E[5150]",
-      "ShortDescription": "a black longsword",
-      "Description": "A black longsword has been carelessly left here.",
-      "Level": 21,
-      "Cost": 2100,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "Glowing,Magic",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 21,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel,Permanent,Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 2
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "HitRoll",
-              "Modifier": 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 2,
-      "DiceValue": 6,
-      "ItemId": 5100,
-      "Source": "Reset-E[5133]",
-      "ShortDescription": "a commoner\u0027s longsword",
-      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
-      "Level": 11,
-      "Cost": 910,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 11,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel,Permanent,Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 1
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "HitRoll",
-              "Modifier": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 2,
-      "DiceValue": 6,
-      "ItemId": 5100,
-      "Source": "Reset-E[5133]",
-      "ShortDescription": "a commoner\u0027s longsword",
-      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
-      "Level": 11,
-      "Cost": 910,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 11,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel,Permanent,Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 1
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "HitRoll",
-              "Modifier": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$type": "weapon",
-      "WeaponFlags": "",
-      "DiceCount": 2,
-      "DiceValue": 6,
-      "ItemId": 5100,
-      "Source": "Reset-E[5133]",
-      "ShortDescription": "a commoner\u0027s longsword",
-      "Description": "A commoner\u0027s longsword made of adamantite has been left here.",
-      "Level": 11,
-      "Cost": 910,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": [
-        {
-          "AbilityName": "",
-          "Level": 11,
-          "PulseLeft": -1,
-          "AuraFlags": "NoDispel,Permanent,Inherent",
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "DamRoll",
-              "Modifier": 1
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": "Add",
-              "Location": "HitRoll",
-              "Modifier": 1
-            }
-          ]
-        }
-      ]
     }
   ],
   "Auras": [
     {
       "AbilityName": "armor",
-      "Level": 22,
-      "PulseLeft": 4792,
+      "Level": 17,
+      "PulseLeft": 2392,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1917,8 +1830,8 @@
     },
     {
       "AbilityName": "bless",
-      "Level": 23,
-      "PulseLeft": 6000,
+      "Level": 21,
+      "PulseLeft": 3600,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1937,8 +1850,8 @@
     },
     {
       "AbilityName": "fly",
-      "Level": 23,
-      "PulseLeft": 5300,
+      "Level": 19,
+      "PulseLeft": 2900,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1950,8 +1863,8 @@
     },
     {
       "AbilityName": "protection evil",
-      "Level": 23,
-      "PulseLeft": 4836,
+      "Level": 19,
+      "PulseLeft": 2436,
       "AuraFlags": "",
       "Affects": [
         {
@@ -1973,8 +1886,8 @@
     },
     {
       "AbilityName": "giant strength",
-      "Level": 24,
-      "PulseLeft": 5344,
+      "Level": 19,
+      "PulseLeft": 2944,
       "AuraFlags": "",
       "Affects": [
         {
