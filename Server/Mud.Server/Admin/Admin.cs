@@ -140,24 +140,24 @@ public class Admin : Player.Player, IAdmin
 
     #endregion
 
-    protected override bool ContextWiseExecuteCommand(string commandLine, string command, ICommandParameter[] parameters, bool forceOutOfGame)
+    protected override bool ContextWiseExecuteCommand(string commandLine, IParseResult parseResult)
     {
         // Execute command
         bool executedSuccessfully;
-        if (forceOutOfGame || (Impersonating == null && Incarnating == null))
+        if (parseResult.ForceOutOfGame || (Impersonating == null && Incarnating == null))
         {
             Logger.LogDebug("[{name}] executing [{command}]", DisplayName, commandLine);
-            executedSuccessfully = ExecuteCommand(commandLine, command, parameters);
+            executedSuccessfully = ExecuteCommand(commandLine, parseResult);
         }
         else if (Impersonating != null) // impersonating
         {
             Logger.LogDebug("[{name}]|[{impersonatingName}] executing [{command}]", DisplayName, Impersonating.DebugName, commandLine);
-            executedSuccessfully = Impersonating.ExecuteCommand(commandLine, command, parameters);
+            executedSuccessfully = Impersonating.ExecuteCommand(commandLine, parseResult);
         }
         else if (Incarnating != null) // incarnating
         {
             Logger.LogDebug("[{name}]|[{impersonatingName}] executing [{command}]", DisplayName, Incarnating.DebugName, commandLine);
-            executedSuccessfully = Incarnating.ExecuteCommand(commandLine, command, parameters);
+            executedSuccessfully = Incarnating.ExecuteCommand(commandLine, parseResult);
         }
         else
         {

@@ -987,6 +987,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         //TODO exit flags such as climb, ...
 
+        // trigger mob program (if any mob has a OnExit/OnExitAll mob program, this will not be able to move)
+        var blockMoving = false;
+        foreach (var npcInToRoom in Room.NonPlayableCharacters.Where(x => x != this))
+        {
+            blockMoving = npcInToRoom.OnExit(this, direction);
+            if (blockMoving)
+                break;
+        }
+        if (blockMoving)
+            return false;
+
         if (!CanMove)
             return false;
 
@@ -1103,6 +1114,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
             fromRoom.Recompute();
             toRoom.Recompute();
         }
+
+        // trigger mob program
+        (this as INonPlayableCharacter)?.OnEntry();
+        foreach (var npcInToRoom in Room.NonPlayableCharacters.Where(x => x != this))
+            npcInToRoom.OnGreet(this);
 
         return true;
     }
@@ -1342,6 +1358,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Logger.LogWarning("RawKilled: {name} is not valid anymore", DebugName);
             return null;
         }
+
+        // trigger mob program
+        (this as INonPlayableCharacter)?.OnDeath(killer);
 
         Send("%R%You have been KILLED!!%x%", true);
         Act(ActOptions.ToRoom, "{0:N} is dead.", this);
@@ -3032,7 +3051,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (Position >= Positions.Sleeping && !IsStunned)
         {
             if (Fighting == null)
+            {
                 StartFighting(victim);
+
+                // trigger mob program
+                (victim as INonPlayableCharacter)?.OnKill(this);
+            }
             StandUpInCombatIfPossible();
         }
         // Tell the victim to fight back!

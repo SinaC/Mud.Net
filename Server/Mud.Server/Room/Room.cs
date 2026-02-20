@@ -313,12 +313,14 @@ public class Room : EntityBase, IRoom
         if (!exitFound)
         {
             if (compact)
-                sb.AppendLine(" none");
+                sb.Append(" none");
             else
-                sb.AppendLine("None.");
+                sb.Append("None.");
         }
         if (compact)
             sb.AppendLine("]%x%");
+        else if (!exitFound)
+            sb.AppendLine("%x%");
         return sb;
     }
 

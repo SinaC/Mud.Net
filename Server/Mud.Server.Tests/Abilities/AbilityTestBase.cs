@@ -59,8 +59,8 @@ public abstract class AbilityTestBase : TestBase
                 break;
         }
 
-        new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object).ExtractCommandAndParameters(commandLine, out var command, out var parameters);
-        return new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
+        var parseResult = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object).Parse(commandLine);
+        return new ActionInput(gameActionInfo, actor, commandLine, parseResult!.Command, parseResult!.RawParameters, parseResult!.Parameters);
     }
 
     protected static IAbilityLearned BuildAbilityLearned(string name)

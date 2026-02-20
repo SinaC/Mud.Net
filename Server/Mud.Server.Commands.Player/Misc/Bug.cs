@@ -37,7 +37,7 @@ public class Bug : PlayerGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        Message = Parser.JoinParameters(actionInput.Parameters);
+        Message = actionInput.RawParameters;
 
         return null;
     }

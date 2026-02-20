@@ -1,0 +1,110 @@
+http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud
+
+-----------------------------------------------------------------------------
+trigger    argument and what must happen to activate trigger
+-----------------------------------------------------------------------------
+act        STRING      to match a message sent to the room
+social     STRING      to match a social that targets the mobile
+speech     STRING      to match in dialogue (say, tell) to mobile
+rand       PERCENT     chance to check whenever a PC is in the mobiles zone
+bribe      INTEGER     miminum amount of silver coins given to mobile
+give       OBJECT NAME, OBJECT VNUM or ALL to match when obj given to mobile
+greet      PERCENT     chance to check if visible char enters mobile's room
+grall      PERCENT     chance to check when any char enters mobile's room
+entry      PERCENT     chance to check when mobile moves to a new room
+exit       EXIT NUMBER    a visible char tries to exit mobile's room
+exall      EXIT NUMBER    any char tries to exit mobile's room
+kill       PERCENT     chance to check when the mobile begins fighting
+fight      PERCENT     chance to check at fight_pulse if mobile is fighting
+hpcnt      PERCENT     lower than mobile's hit/max_hit if mobile is fighting
+death      PERCENT     chance to check after mobile has been slain
+surr       PERCENT     chance to activate when a char surrenders to mobile
+delay      PERCENT     chance to trigger when a mob’s delay reaches 0
+surrender  PERCENT     chance to react to a player surrendering
+
+----------------------------------------------------------------------------
+variable           mobile actor victim random target    object 2nd_object
+-----------------------------------------------------------------------------
+name               $i     $n    $t     $r     $q        $o     $p
+shrt_desc/title    $I     $N    $T     $R     $Q        $O     $P
+he/she/it          $j     $e    $E     $J     $X        --     --
+him/her/it         $l     $m    $M     $L     $Y        --     --
+his/hers/its       $k     $s    $S     $K     $Z        --     --
+a/an               --     --    --     --     --        --     --
+
+----------------------------------------------------------------------------
+ifcheck    argument(s)    meaning
+-----------------------------------------------------------------------------
+rand       num            Is random percentage less than or equal to num
+mobhere    vnum           Is a NPC with this vnum in the room
+mobhere    name           Is a NPC with this name in the room
+objhere    vnum           Is an object with this vnum in the room
+objhere    name           Is an object with this name in the room
+mobexists  name           Does NPC 'name' exist somewhere in the world
+objexists  name           Does object 'name' exist somewhere in the world
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+people     ==   integer    Is the number of people in the room equal to integer
+players    ==   integer    Is the number of PCs in the room equal to integer
+mobs       ==   integer    Is the number of NPCs in the room equal to integer
+clones     ==   integer    Is the number of NPCs in the room with the same
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+isnpc      $*           Is $* an NPC
+ispc       $*           Is $* a PC
+isgood     $*           Does $* have a good alignment
+isneutral  $*           Does $* have a neutral alignment
+isevil     $*           Does $* have an evil alignment
+isimmort   $*           Is $* an immortal (level of $* > LEVEL_HERO)
+ischarm    $*           Is $* affected by charm
+isfollow   $*           Is $* a follower with their master in the room
+isactive   $*           Is $*'s position > POS_SLEEPING
+isdelay    $*           Does $* have a delayed MOBprogram pending
+isvisible  $*           Is $* visible to NPC who activated the program
+hastarget  $*           Does $* have a MOBprogram target in the room
+istarget   $*           Is $* the target of NPC who activated the program
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+affected   $*   'affect'   Is $* affected by 'affect'
+act        $*   'act'      Is $*'s ACT bit 'act' set
+off        $*   'off'      Is $*'s OFF bit 'off' set
+imm        $*   'imm'      Is $*'s IMM bit 'imm' set
+res        $*   'res'      Is $*'s RES bit 'res' set
+vuln       $*   'vuln'     Is $*'s VULN bit 'vuln' set
+carries    $*   'name'     Is $* carrying object 'name'
+wears      $*   'name'     Is $* wearing object 'name'
+has        $*   'type'     Does $* have object of item_type 'type'
+uses       $*   'type'     Is $* wearing object of item_type 'type'
+name       $*   'name'     Is $*'s name 'name'
+pos        $*   'position' Is $*'s position 'position' (sleeping etc.)
+clan       $*   'name'     Does $* belong to clan 'name'
+race       $*   'name'     Is $* of race 'name'
+class      $*   'name'     Is $*'s class 'name'
+objtype    $*   'type'     Is $*'s item_type 'type'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+vnum       $*      == integer Is $*'s virtual number equal to integer
+hpcnt      $*      == integer Is $*'s hitpoint percentage equal to integer
+room       $*      == integer Is vnum of the room $* is in equal to integer
+sex        $*      == integer Is $*'s sex equal to integer
+level      $*      == integer Is $*'s level equal to integer
+align      $*      == integer Is $*'s alignment equal to integer
+money      $*      == integer Does $* have money (in silver) equal to integer
+objval#    $*      == integer Is $*->value[#] equal to integer (# from 0-4)
+
+-----------------------------------------------------------------------------
+MOBcommand argument_list                            MOBcommand argument_list
+-----------------------------------------------------------------------------
+ASOUND     [text_string]                            ECHO       [text_string]
+GECHO      [text_string]                            ZECHO      [text_string]
+ECHOAT     [victim] [text_string]                   ECHOAROUND [victim] [text_string]
+MLOAD      [vnum]                                   OLOAD      [vnum] [level] {wear|room}
+KILL       [victim]                                 FLEE
+REMOVE     [victim] [vnum]                          JUNK   [object]
+REMOVE     [victim] [wear-loc] [none|room|get|inv]
+PURGE      [argument]                               AT         [dest] [command]
+GOTO       [dest]                                   TRANSFER   [victim] [dest]
+GTRANSFER  [victim] [dest]                          OTRANSFER  [object] [dest]
+FORCE      [victim] [command]                       GFORCE     [victim] [command]
+VFORCE     [vnum]   [command]                       CAST       [spell] [victim]
+DAMAGE     [victim] [min] [max] {lethal}
+DELAY                                               CANCEL
+REMEMBER   [victim]                                 FORGET
+CALL       [vnum] [victim] [target1] [target2]
+ACT        [act]                                    PEACE

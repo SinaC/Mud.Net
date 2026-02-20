@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using Mud.Server.GameAction;
 
 namespace Mud.Server.Tests;
 
@@ -36,328 +35,365 @@ public class CommandParsingTests : TestBase
     [TestMethod]
     public void NoArg()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test", out var command, out var parameters);
+        var parseResult = parser.Parse("test");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.IsEmpty(parameters);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.IsEmpty(parseResult.Parameters);
     }
 
     [TestMethod]
     public void SingleArg()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test arg1", out var command, out var parameters);
+        var parseResult = parser.Parse("test arg1");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.ContainsSingle(parameters);
-        Assert.IsNotNull(parameters[0]);
-        Assert.AreEqual("arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(1, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.ContainsSingle(parseResult.Parameters);
+        Assert.IsNotNull(parseResult.Parameters[0]);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(1, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
     }
 
     [TestMethod]
     public void SingleArg_2()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 'arg1 arg2 arg3 arg4'", out var command, out var parameters);
+        var parseResult = parser.Parse("test 'arg1 arg2 arg3 arg4'");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.ContainsSingle(parameters);
-        Assert.IsNotNull(parameters[0]);
-        Assert.AreEqual("arg1 arg2 arg3 arg4", parameters[0].RawValue);
-        Assert.AreEqual("arg1 arg2 arg3 arg4", parameters[0].Value);
-        Assert.AreEqual(1, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.ContainsSingle(parseResult.Parameters);
+        Assert.IsNotNull(parseResult.Parameters[0]);
+        Assert.AreEqual("arg1 arg2 arg3 arg4", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1 arg2 arg3 arg4", parseResult.Parameters[0].Value);
+        Assert.AreEqual(1, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
     }
 
     [TestMethod]
     public void MultipleArgs()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 'arg1' 'arg2' 'arg3' 'arg4'", out var command, out var parameters);
+        var parseResult = parser.Parse("test 'arg1' 'arg2' 'arg3' 'arg4'");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.HasCount(4, parameters);
-        Assert.AreEqual("arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(1, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
-        Assert.AreEqual("arg2", parameters[1].RawValue);
-        Assert.AreEqual("arg2", parameters[1].Value);
-        Assert.AreEqual(1, parameters[1].Count);
-        Assert.IsFalse(parameters[1].IsNumber);
-        Assert.IsFalse(parameters[1].IsLong);
-        Assert.IsFalse(parameters[1].IsAll);
-        Assert.AreEqual("arg3", parameters[2].RawValue);
-        Assert.AreEqual("arg3", parameters[2].Value);
-        Assert.AreEqual(1, parameters[2].Count);
-        Assert.IsFalse(parameters[2].IsNumber);
-        Assert.IsFalse(parameters[2].IsLong);
-        Assert.IsFalse(parameters[2].IsAll);
-        Assert.AreEqual("arg4", parameters[3].RawValue);
-        Assert.AreEqual("arg4", parameters[3].Value);
-        Assert.AreEqual(1, parameters[3].Count);
-        Assert.IsFalse(parameters[3].IsNumber);
-        Assert.IsFalse(parameters[3].IsLong);
-        Assert.IsFalse(parameters[3].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.HasCount(4, parseResult.Parameters);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(1, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
+        Assert.AreEqual("arg2", parseResult.Parameters[1].RawValue);
+        Assert.AreEqual("arg2", parseResult.Parameters[1].Value);
+        Assert.AreEqual(1, parseResult.Parameters[1].Count);
+        Assert.IsFalse(parseResult.Parameters[1].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[1].IsLong);
+        Assert.IsFalse(parseResult.Parameters[1].IsAll);
+        Assert.AreEqual("arg3", parseResult.Parameters[2].RawValue);
+        Assert.AreEqual("arg3", parseResult.Parameters[2].Value);
+        Assert.AreEqual(1, parseResult.Parameters[2].Count);
+        Assert.IsFalse(parseResult.Parameters[2].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[2].IsLong);
+        Assert.IsFalse(parseResult.Parameters[2].IsAll);
+        Assert.AreEqual("arg4", parseResult.Parameters[3].RawValue);
+        Assert.AreEqual("arg4", parseResult.Parameters[3].Value);
+        Assert.AreEqual(1, parseResult.Parameters[3].Count);
+        Assert.IsFalse(parseResult.Parameters[3].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[3].IsLong);
+        Assert.IsFalse(parseResult.Parameters[3].IsAll);
     }
 
     [TestMethod]
     public void MultipleArgs_2()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 'arg1 arg2' 'arg3 arg4'", out var command, out var parameters);
+        var parseResult = parser.Parse("test 'arg1 arg2' 'arg3 arg4'");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.HasCount(2, parameters);
-        Assert.AreEqual("arg1 arg2", parameters[0].RawValue);
-        Assert.AreEqual("arg1 arg2", parameters[0].Value);
-        Assert.AreEqual(1, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
-        Assert.AreEqual("arg3 arg4", parameters[1].RawValue);
-        Assert.AreEqual("arg3 arg4", parameters[1].Value);
-        Assert.AreEqual(1, parameters[1].Count);
-        Assert.IsFalse(parameters[1].IsNumber);
-        Assert.IsFalse(parameters[1].IsLong);
-        Assert.IsFalse(parameters[1].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.HasCount(2, parseResult.Parameters);
+        Assert.AreEqual("arg1 arg2", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1 arg2", parseResult.Parameters[0].Value);
+        Assert.AreEqual(1, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
+        Assert.AreEqual("arg3 arg4", parseResult.Parameters[1].RawValue);
+        Assert.AreEqual("arg3 arg4", parseResult.Parameters[1].Value);
+        Assert.AreEqual(1, parseResult.Parameters[1].Count);
+        Assert.IsFalse(parseResult.Parameters[1].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[1].IsLong);
+        Assert.IsFalse(parseResult.Parameters[1].IsAll);
     }
 
     [TestMethod]
     public void MultipleArgs_3()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 'arg1 arg2\" arg3 arg4", out var command, out var parameters);
+        var parseResult = parser.Parse("test 'arg1 arg2\" arg3 arg4");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.HasCount(3, parameters);
-        Assert.AreEqual("arg1 arg2", parameters[0].RawValue);
-        Assert.AreEqual("arg1 arg2", parameters[0].Value);
-        Assert.AreEqual(1, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
-        Assert.AreEqual("arg3", parameters[1].RawValue);
-        Assert.AreEqual("arg3", parameters[1].Value);
-        Assert.AreEqual(1, parameters[1].Count);
-        Assert.IsFalse(parameters[1].IsNumber);
-        Assert.IsFalse(parameters[1].IsLong);
-        Assert.IsFalse(parameters[1].IsAll);
-        Assert.AreEqual("arg4", parameters[2].RawValue);
-        Assert.AreEqual("arg4", parameters[2].Value);
-        Assert.AreEqual(1, parameters[2].Count);
-        Assert.IsFalse(parameters[2].IsNumber);
-        Assert.IsFalse(parameters[2].IsLong);
-        Assert.IsFalse(parameters[2].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.HasCount(3, parseResult.Parameters);
+        Assert.AreEqual("arg1 arg2", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1 arg2", parseResult.Parameters[0].Value);
+        Assert.AreEqual(1, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
+        Assert.AreEqual("arg3", parseResult.Parameters[1].RawValue);
+        Assert.AreEqual("arg3", parseResult.Parameters[1].Value);
+        Assert.AreEqual(1, parseResult.Parameters[1].Count);
+        Assert.IsFalse(parseResult.Parameters[1].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[1].IsLong);
+        Assert.IsFalse(parseResult.Parameters[1].IsAll);
+        Assert.AreEqual("arg4", parseResult.Parameters[2].RawValue);
+        Assert.AreEqual("arg4", parseResult.Parameters[2].Value);
+        Assert.AreEqual(1, parseResult.Parameters[2].Count);
+        Assert.IsFalse(parseResult.Parameters[2].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[2].IsLong);
+        Assert.IsFalse(parseResult.Parameters[2].IsAll);
     }
 
     [TestMethod]
     public void SingleArg_Count()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 3.arg1", out var command, out var parameters);
+        var parseResult = parser.Parse("test 3.arg1");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.ContainsSingle(parameters);
-        Assert.IsNotNull(parameters[0]);
-        Assert.AreEqual("3.arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(3, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.ContainsSingle(parseResult.Parameters);
+        Assert.IsNotNull(parseResult.Parameters[0]);
+        Assert.AreEqual("3.arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(3, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
     }
 
     [TestMethod]
     public void SingleArg_Count_2()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 2.'arg1'", out var command, out var parameters);
+        var parseResult = parser.Parse("test 2.'arg1'");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.ContainsSingle(parameters);
-        Assert.IsNotNull(parameters[0]);
-        Assert.AreEqual("2.arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(2, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.ContainsSingle(parseResult.Parameters);
+        Assert.IsNotNull(parseResult.Parameters[0]);
+        Assert.AreEqual("2.arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(2, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
     }
 
     [TestMethod]
     public void SingleArg_Count_3()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 2'.arg1'", out var command, out var parameters);
+        var parseResult = parser.Parse("test 2'.arg1'");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.ContainsSingle(parameters);
-        Assert.IsNotNull(parameters[0]);
-        Assert.AreEqual("2.arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(2, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.ContainsSingle(parseResult.Parameters);
+        Assert.IsNotNull(parseResult.Parameters[0]);
+        Assert.AreEqual("2.arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(2, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
     }
 
     [TestMethod]
     public void MultipleArgs_Count()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 2'.arg1' arg3", out var command, out var parameters);
+        var parseResult = parser.Parse("test 2'.arg1' arg3");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.HasCount(2, parameters);
-        Assert.AreEqual("2.arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(2, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
-        Assert.AreEqual("arg3", parameters[1].RawValue);
-        Assert.AreEqual("arg3", parameters[1].Value);
-        Assert.AreEqual(1, parameters[1].Count);
-        Assert.IsFalse(parameters[1].IsNumber);
-        Assert.IsFalse(parameters[1].IsLong);
-        Assert.IsFalse(parameters[1].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.HasCount(2, parseResult.Parameters);
+        Assert.AreEqual("2.arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(2, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
+        Assert.AreEqual("arg3", parseResult.Parameters[1].RawValue);
+        Assert.AreEqual("arg3", parseResult.Parameters[1].Value);
+        Assert.AreEqual(1, parseResult.Parameters[1].Count);
+        Assert.IsFalse(parseResult.Parameters[1].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[1].IsLong);
+        Assert.IsFalse(parseResult.Parameters[1].IsAll);
     }
 
     [TestMethod]
     public void MultipleArgs_Count_2()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 2.'arg1 arg2' 3.arg3 5.arg4", out var command, out var parameters);
+        var parseResult = parser.Parse("test 2.'arg1 arg2' 3.arg3 5.arg4");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.HasCount(3, parameters);
-        Assert.AreEqual("2.arg1 arg2", parameters[0].RawValue);
-        Assert.AreEqual("arg1 arg2", parameters[0].Value);
-        Assert.AreEqual(2, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
-        Assert.AreEqual("3.arg3", parameters[1].RawValue);
-        Assert.AreEqual("arg3", parameters[1].Value);
-        Assert.AreEqual(3, parameters[1].Count);
-        Assert.IsFalse(parameters[1].IsNumber);
-        Assert.IsFalse(parameters[1].IsLong);
-        Assert.IsFalse(parameters[1].IsAll);
-        Assert.AreEqual("5.arg4", parameters[2].RawValue);
-        Assert.AreEqual("arg4", parameters[2].Value);
-        Assert.AreEqual(5, parameters[2].Count);
-        Assert.IsFalse(parameters[2].IsNumber);
-        Assert.IsFalse(parameters[2].IsLong);
-        Assert.IsFalse(parameters[2].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.HasCount(3, parseResult.Parameters);
+        Assert.AreEqual("2.arg1 arg2", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1 arg2", parseResult.Parameters[0].Value);
+        Assert.AreEqual(2, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
+        Assert.AreEqual("3.arg3", parseResult.Parameters[1].RawValue);
+        Assert.AreEqual("arg3", parseResult.Parameters[1].Value);
+        Assert.AreEqual(3, parseResult.Parameters[1].Count);
+        Assert.IsFalse(parseResult.Parameters[1].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[1].IsLong);
+        Assert.IsFalse(parseResult.Parameters[1].IsAll);
+        Assert.AreEqual("5.arg4", parseResult.Parameters[2].RawValue);
+        Assert.AreEqual("arg4", parseResult.Parameters[2].Value);
+        Assert.AreEqual(5, parseResult.Parameters[2].Count);
+        Assert.IsFalse(parseResult.Parameters[2].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[2].IsLong);
+        Assert.IsFalse(parseResult.Parameters[2].IsAll);
     }
 
     [TestMethod]
     public void SingleArg_Count_Invalid()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test 2.", out var command, out var parameters);
+        var parseResult = parser.Parse("test 2.");
 
-        Assert.IsFalse(processed);
+        Assert.IsNull(parseResult);
     }
 
     [TestMethod]
     public void SingleArg_Count_Invalid_2()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test .", out var command, out var parameters);
+        var parseResult = parser.Parse("test .");
 
-        Assert.IsFalse(processed);
+        Assert.IsNull(parseResult);
     }
 
     [TestMethod]
     public void SingleArg_Count_4()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("test '2.arg1'", out var command, out var parameters);
+        var parseResult = parser.Parse("test '2.arg1'");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.ContainsSingle(parameters);
-        Assert.IsNotNull(parameters[0]);
-        Assert.AreEqual("2.arg1", parameters[0].RawValue);
-        Assert.AreEqual("arg1", parameters[0].Value);
-        Assert.AreEqual(2, parameters[0].Count);
-        Assert.IsFalse(parameters[0].IsNumber);
-        Assert.IsFalse(parameters[0].IsLong);
-        Assert.IsFalse(parameters[0].IsAll);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.ContainsSingle(parseResult.Parameters);
+        Assert.IsNotNull(parseResult.Parameters[0]);
+        Assert.AreEqual("2.arg1", parseResult.Parameters[0].RawValue);
+        Assert.AreEqual("arg1", parseResult.Parameters[0].Value);
+        Assert.AreEqual(2, parseResult.Parameters[0].Count);
+        Assert.IsFalse(parseResult.Parameters[0].IsNumber);
+        Assert.IsFalse(parseResult.Parameters[0].IsLong);
+        Assert.IsFalse(parseResult.Parameters[0].IsAll);
     }
 
     [TestMethod]
     public void NoArg_OutOfGame()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters("/test", out var command, out var parameters);
+        var parseResult = parser.Parse("/test");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.IsEmpty(parameters);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.IsEmpty(parseResult.Parameters);
     }
 
     [TestMethod]
     public void NoArg_DetectOutOfGame()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters(null, "/test", out var command, out var parameters, out var forceOutOfGame);
+        var parseResult = parser.Parse(null, "/test");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.IsEmpty(parameters);
-        Assert.IsTrue(forceOutOfGame);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.IsEmpty(parseResult.Parameters);
+        Assert.IsTrue(parseResult.ForceOutOfGame);
     }
 
     [TestMethod]
     public void NoArg_DetectOutOfGame_2()
     {
-        var Parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
 
-        var processed = Parser.ExtractCommandAndParameters(null, "test", out var command, out var parameters, out var forceOutOfGame);
+        var parseResult = parser.Parse(null, "test");
 
-        Assert.IsTrue(processed);
-        Assert.AreEqual("test", command);
-        Assert.IsEmpty(parameters);
-        Assert.IsFalse(forceOutOfGame);
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("test", parseResult.Command);
+        Assert.IsEmpty(parseResult.Parameters);
+        Assert.IsFalse(parseResult.ForceOutOfGame);
+    }
+
+    [TestMethod]
+    public void CommaCommandNoSpace()
+    {
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+
+        var parseResult = parser.Parse(null, "'toto");
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("'", parseResult.Command);
+        Assert.IsNotEmpty(parseResult.Parameters);
+        Assert.AreEqual("toto", parseResult.Parameters[0].Value);
+    }
+
+    [TestMethod]
+    public void CommaCommand()
+    {
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+
+        var parseResult = parser.Parse(null, "' toto");
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("'", parseResult.Command);
+        Assert.IsNotEmpty(parseResult.Parameters);
+        Assert.AreEqual("toto", parseResult.Parameters[0].Value);
+    }
+
+
+    [TestMethod]
+    public void CommaCommandWithCommaInParameters()
+    {
+        var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
+
+        var parseResult = parser.Parse(null, "' 'toto'");
+        Assert.IsNotNull(parseResult);
+        Assert.AreEqual("'", parseResult.Command);
+        Assert.IsNotEmpty(parseResult.Parameters);
+        Assert.AreEqual("toto", parseResult.Parameters[0].Value);
     }
 }

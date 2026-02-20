@@ -5,6 +5,8 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
 using Mud.Domain.SerializationData.Avatar;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Domain;
 
 namespace Mud.Server.Interfaces.Character;
 
@@ -42,6 +44,25 @@ public interface INonPlayableCharacter : ICharacter
 
     //
     bool CastSpell(string spellName, IEntity target);
+
+    // MobProgram triggers
+    int MobProgramDelay { get; }
+    void DecreaseMobProgramDelay();
+    void SetMobProgramDelay(int pulseCount);
+    bool OnAct(ICharacter triggerer, string text);
+    bool OnBribe(ICharacter triggerer, long amount);
+    bool OnGive(ICharacter triggerer, IItem item);
+    bool OnSocial(ICharacter triggerer, SocialDefinition socialDefinition);
+    bool OnSpeech(ICharacter triggerer, string text);
+    bool OnEntry();
+    bool OnGreet(ICharacter triggerer);
+    bool OnExit(ICharacter triggerer, ExitDirections direction);
+    bool OnKill(ICharacter triggerer);
+    bool OnDeath(ICharacter? killer);
+    bool OnFight(ICharacter fighting);
+    bool OnHitPointPercentage(ICharacter fighting);
+    bool OnRandom();
+    bool OnDelay();
 
     // Mapping
     PetData MapPetData();

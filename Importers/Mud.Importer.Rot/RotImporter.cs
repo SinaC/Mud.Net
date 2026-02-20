@@ -12,6 +12,8 @@ using Mud.Importer.Rot.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
 using System.Diagnostics;
+using Mud.Blueprints.MobProgram;
+using Mud.Common;
 
 namespace Mud.Importer.Rot;
 
@@ -109,9 +111,15 @@ public class RotImporter : IImporter
 
         foreach (var mobileData in loader.Mobiles)
         {
-            CharacterBlueprintBase characterBlueprint = ConvertMobile(mobileData, _roomBlueprints);
+            CharacterBlueprintBase characterBlueprint = ConvertMobile(mobileData, _roomBlueprints, loader.MobPrograms);
             if (characterBlueprint != null)
                 _characterBlueprints.Add(characterBlueprint);
+        }
+
+        foreach (var characterBlueprint in _characterBlueprints.Where(x => x.MobPrograms?.Count > 0))
+        {
+            foreach (var instruction in characterBlueprint.MobPrograms.SelectMany(x => x.Instructions))
+                Logger.LogInformation("INSTRUCTION: {instruction}", instruction);
         }
     }
 
@@ -1362,22 +1370,34 @@ public class RotImporter : IImporter
 
     #region Mobile
 
-    private CharacterBlueprintBase ConvertMobile(MobileData mobileData, IEnumerable<RoomBlueprint> roomBlueprints)
+    private CharacterBlueprintBase ConvertMobile(MobileData mobileData, IEnumerable<RoomBlueprint> roomBlueprints, IEnumerable<MobProgramData> mobProgramDatas)
     {
         if (_characterBlueprints.Any(x => x.Id == mobileData.VNum))
             RaiseConvertException("Duplicate mobile Id {0}", mobileData.VNum);
 
-        SchoolTypes schoolType = SchoolTypes.None;
-        string damageNoun = mobileData.DamType;
-        (string name, string noun, int damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == mobileData.DamType);
+        var schoolType = SchoolTypes.None;
+        var damageNoun = mobileData.DamType;
+        var attackTableEntry = AttackTable.FirstOrDefault(x => x.name == mobileData.DamType);
         if (!attackTableEntry.Equals(default))
         {
             schoolType = ConvertDamageType(attackTableEntry.damType, $"mob {mobileData.VNum}");
             damageNoun = attackTableEntry.noun;
         }
 
-        (IOffensiveFlags offensiveFlags, IAssistFlags assistFlags) = ConvertOffensiveFlags(mobileData.OffFlags);
-        (ICharacterFlags characterFlags, IShieldFlags shieldFlags) = ConvertCharacterFlagsAndShieldFlags(mobileData.AffectedBy, mobileData.ShieldedBy);
+        var (offensiveFlags, assistFlags) = ConvertOffensiveFlags(mobileData.OffFlags);
+        var (characterFlags, shieldFlags) = ConvertCharacterFlagsAndShieldFlags(mobileData.AffectedBy, mobileData.ShieldedBy);
+
+        var mobProgramBlueprints = new List<MobProgramBase>();
+        foreach (var mobProgramTrigger in mobileData.MobProgramTriggers)
+        {
+            var mobProgramData = mobProgramDatas.SingleOrDefault(x => x.VNum == mobProgramTrigger.VNum);
+            if (mobProgramData != null)
+            {
+                var mobProgramBlueprint = ConvertMobProgram(mobileData.VNum, mobProgramTrigger, mobProgramData);
+                if (mobProgramBlueprint != null)
+                    mobProgramBlueprints.Add(mobProgramBlueprint);
+            }
+        }
 
         // search a room flagged as pet_shop with mobile vnum in resets
         // sold pets are found in room vnum+1 (except for room 9621 which is linked to 9706!!)
@@ -1434,6 +1454,7 @@ public class RotImporter : IImporter
                     BodyForms = ConvertBodyForms(mobileData.Form),
                     BodyParts = ConvertBodyParts(mobileData.Parts),
                     Group = mobileData.Group,
+                    MobPrograms = mobProgramBlueprints,
                     //
                     PetBlueprintIds = petBlueprintIds,
                     ProfitBuy = mobileData.Shop?.ProfitBuy ?? 100,
@@ -1489,6 +1510,7 @@ public class RotImporter : IImporter
                 BodyParts = ConvertBodyParts(mobileData.Parts),
                 SpecialBehavior = mobileData.Special,
                 Group = mobileData.Group,
+                MobPrograms = mobProgramBlueprints,
             };
         }
         else 
@@ -1535,6 +1557,7 @@ public class RotImporter : IImporter
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
                 Group = mobileData.Group,
+                MobPrograms = mobProgramBlueprints,
                 //
                 BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),
                 ProfitBuy = mobileData.Shop.ProfitBuy,
@@ -2058,6 +2081,200 @@ public class RotImporter : IImporter
     private const long PART_HORNS = RotLoader.W;
     private const long PART_SCALES = RotLoader.X;
     private const long PART_TUSKS = RotLoader.Y;
+
+    #endregion
+
+    #region MobProgram
+
+    private MobProgramBase ConvertMobProgram(int mobVnum, MobProgramTrigger mobProgramTrigger, MobProgramData mobProgramData)
+    {
+        // http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud
+        var instructions = mobProgramData.Code.Split(["\n", "\r\n"], StringSplitOptions.RemoveEmptyEntries);
+        switch (mobProgramTrigger.TrigType)
+        {
+            case "ACT":
+                return new MobProgramAct
+                {
+                    Phrase = mobProgramTrigger.TrigPhrase,
+                    Instructions = instructions,
+                };
+            case "BRIBE":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var amount))
+                        Logger.LogError("BRIBE MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramBribe
+                        {
+                            Amount = amount,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "DEATH":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("DEATH MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramDeath
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "ENTRY":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("ENTRY MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramEntry
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "FIGHT":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("FIGHT MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramFight
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "GIVE":
+                {
+                    if (int.TryParse(mobProgramTrigger.TrigPhrase, out var objectId))
+                        return new MobProgramGive
+                        {
+                            ObjectId = objectId,
+                            Instructions = instructions,
+                        };
+                    else
+                        return new MobProgramGive
+                        {
+                            ObjectName = mobProgramTrigger.TrigPhrase,
+                            IsAll = StringCompareHelpers.StringEquals("all", mobProgramTrigger.TrigPhrase),
+                            Instructions = instructions,
+                        };
+                }
+            case "GREET":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("GREET MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramGreet
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "GRALL":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("GRALL MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramGreet
+                        {
+                            Percentage = percentage,
+                            IsAll = true,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "KILL":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("KILL MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramKill
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "HPCNT": // HIT POINT PERCENTAGE
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("HPCNT MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramHitPointPercentage
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "RANDOM":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("RANDOM MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramRandom
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "SOCIAL":
+                return new MobProgramSocial
+                {
+                    Social = mobProgramTrigger.TrigPhrase,
+                    Instructions = instructions,
+                };
+            case "SPEECH":
+                return new MobProgramSpeech
+                {
+                    Phrase = mobProgramTrigger.TrigPhrase,
+                    Instructions = instructions,
+                };
+            case "EXIT":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var rawDirection))
+                        Logger.LogError("EXIT MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramExit
+                        {
+                            Direction = (ExitDirections)rawDirection,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "EXALL":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var rawDirection))
+                        Logger.LogError("EXALL MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramExit
+                        {
+                            Direction = (ExitDirections)rawDirection,
+                            IsAll = true,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+            case "DELAY":
+                {
+                    if (!int.TryParse(mobProgramTrigger.TrigPhrase, out var percentage))
+                        Logger.LogError("DELAY MOB PROGRAM for {mobVnum}: cannot convert {trigPhrase} to int", mobVnum, mobProgramTrigger.TrigPhrase);
+                    else
+                        return new MobProgramDelay
+                        {
+                            Percentage = percentage,
+                            Instructions = instructions,
+                        };
+                    break;
+                }
+        }
+        return default!;
+    }
 
     #endregion
 

@@ -39,7 +39,7 @@ internal class MobileData
     // 'T'
     public string SayDescr { get; set; } = default!;
     // 'M'
-    public List<MobProg> MobProgs { get; set; } = [];
+    public List<MobProgramTrigger> MobProgramTriggers { get; set; } = [];
     // 'C'
     public string Clan { get; set; } = default!;
 
@@ -48,14 +48,11 @@ internal class MobileData
     public string Special { get; set; } = default!;
 }
 
-public class MobProg
+public class MobProgramTrigger
 {
-    // Read from #MOBILES
     public string TrigType { get; set; } = default!;
     public int VNum { get; set; }
     public string TrigPhrase { get; set; } = default!;
-    // Read from #MOBPROGS
-    public string Code { get; set; } = default!;
 }
 
 public class ShopData

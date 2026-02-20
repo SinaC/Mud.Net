@@ -126,14 +126,13 @@ public class Player : ActorBase, IPlayer
             }
 
             // Extract command and parameters
-            bool extractedSuccessfully = Parser.ExtractCommandAndParameters(
+            var parseResult = Parser.Parse(
                 isForceOutOfGame => isForceOutOfGame || Impersonating == null
                     ? Aliases
                     : Impersonating?.Aliases,
-                input,
-                out string command, out ICommandParameter[] parameters, out bool forceOutOfGame);
-            _lastCommand = command;
-            if (!extractedSuccessfully)
+                input);
+            _lastCommand = parseResult?.Command;
+            if (parseResult is null)
             {
                 Logger.LogWarning("Command and parameters not extracted successfully");
                 Send("Invalid command or parameters.");
@@ -141,7 +140,7 @@ public class Player : ActorBase, IPlayer
             }
 
             // Choose correct context to execute command and execute it (depends on Impersonating, Incarnting, force out of game, ...)
-            return ContextWiseExecuteCommand(input!, command, parameters, forceOutOfGame);
+            return ContextWiseExecuteCommand(input!, parseResult);
         }
     }
 
@@ -437,19 +436,19 @@ public class Player : ActorBase, IPlayer
 
     #endregion
 
-    protected virtual bool ContextWiseExecuteCommand(string commandLine, string command, ICommandParameter[] parameters, bool forceOutOfGame)
+    protected virtual bool ContextWiseExecuteCommand(string commandLine, IParseResult parseResult)
     {
         // Execute command
         bool executedSuccessfully;
-        if (forceOutOfGame || Impersonating == null)
+        if (parseResult.ForceOutOfGame || Impersonating == null)
         {
             Logger.LogDebug("[{name}] executing [{command}]", DisplayName, commandLine);
-            executedSuccessfully = ExecuteCommand(commandLine, command, parameters);
+            executedSuccessfully = ExecuteCommand(commandLine, parseResult);
         }
         else if (Impersonating != null) // impersonating
         {
             Logger.LogDebug("[{name}]|[{impersonatingName}] executing [{command}]", DisplayName, Impersonating.DebugName, commandLine);
-            executedSuccessfully = Impersonating.ExecuteCommand(commandLine, command, parameters);
+            executedSuccessfully = Impersonating.ExecuteCommand(commandLine, parseResult);
         }
         else
         {

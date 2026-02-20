@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.GameAction;
 namespace Mud.Server.Commands.Character.Communication;
 
 [CharacterCommand("emote", "Communication")]
+[Alias(",")]
 [Syntax("[cmd] <message>")]
 [Help(
 @"[cmd] is used to express emotions or actions.  Besides [cmd], there are
@@ -34,7 +35,7 @@ public class Emote : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        What = Parser.JoinParameters(actionInput.Parameters);
+        What = actionInput.RawParameters;
 
         return null;
     }

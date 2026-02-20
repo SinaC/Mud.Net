@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
+using Mud.Blueprints.MobProgram;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
@@ -278,8 +279,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public override string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false)
     {
         StringBuilder displayName = new();
-        var playableBeholder = beholder as IPlayableCharacter;
-        if (playableBeholder != null && IsQuestObjective(playableBeholder, true))
+        if (beholder is IPlayableCharacter playableBeholder && IsQuestObjective(playableBeholder, true))
             displayName.Append(StringHelpers.QuestPrefix);
         if (beholder.CanSee(this))
             displayName.Append(DisplayName);
@@ -438,8 +438,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (Master == null)
             return false;
         Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master, commandLine);
-        Parser.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
-        bool executed = ExecuteCommand(commandLine, command, parameters);
+        var parseResult = Parser.Parse(commandLine);
+        if (parseResult == null)
+            return false;
+        var executed = ExecuteCommand(commandLine, parseResult);
         return executed;
     }
 
@@ -468,6 +470,287 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         spellInstance.Execute();
         return true;
+    }
+
+    // MobProgram triggers
+    public int MobProgramDelay { get; private set; }
+
+    public void DecreaseMobProgramDelay()
+    {
+        MobProgramDelay = Math.Max(0, MobProgramDelay - 1);
+    }
+
+    public void SetMobProgramDelay(int pulseCount)
+    {
+        if (pulseCount > MobProgramDelay)
+        {
+            Logger.LogTrace("SETTING MobProgramDelay to {pulseCount} for {name}", pulseCount, DebugName);
+            MobProgramDelay = pulseCount;
+        }
+    }
+
+    public bool OnAct(ICharacter triggerer, string text)
+    {
+        // only PC can trigger this
+        if (triggerer is not IPlayableCharacter)
+            return false;
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramAct>())
+        {
+            if (StringCompareHelpers.StringContains(text, mobProgram.Phrase))
+            {
+                Logger.LogInformation("OnAct: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, mobProgram.Phrase);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer, text);
+        }
+        return triggered;
+    }
+
+    public bool OnBribe(ICharacter triggerer, long amount)
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramBribe>())
+        {
+            if (amount >= mobProgram.Amount)
+            {
+                Logger.LogInformation("OnBribe: {name}: {triggerer} {amount} >= {amountThreshold}", DebugName, triggerer.DebugName, amount, mobProgram.Amount);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer, amount);
+        }
+        return triggered;
+    }
+
+    public bool OnGive(ICharacter triggerer, IItem item)
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramGive>())
+        {
+            if (mobProgram.IsAll)
+            {
+                Logger.LogInformation("OnGive: {name}: IsAll {triggerer} {itemName}", DebugName, triggerer.DebugName, item.DebugName);
+                triggered = true;
+            }
+            else if (mobProgram.ObjectId is not null && mobProgram.ObjectId.Value == item.Blueprint.Id)
+            {
+                Logger.LogInformation("OnGive: {name}: objectId {objectId} {triggerer} {itemName}", DebugName, mobProgram.ObjectId.Value, triggerer.DebugName, item.DebugName);
+                triggered = true;
+            }
+            else if (mobProgram.ObjectName is not null && StringCompareHelpers.AnyStringEquals(item.Keywords, mobProgram.ObjectName))
+            {
+                Logger.LogInformation("OnGive: {name}: objectName {objectName} {triggerer} {itemName}", DebugName, mobProgram.ObjectName, triggerer.DebugName, item.DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer, item);
+        }
+        return triggered;
+    }
+
+    public bool OnSocial(ICharacter triggerer, SocialDefinition socialDefinition)
+    {
+        // only PC can trigger this
+        if (triggerer is not IPlayableCharacter)
+            return false;
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramSocial>())
+        {
+            if (StringCompareHelpers.StringEquals(socialDefinition.Name, mobProgram.Social))
+            {
+                Logger.LogInformation("OnSocial: {name}: {triggerer} {social}", DebugName, triggerer.DebugName, socialDefinition.Name);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer);
+        }
+        return triggered;
+    }
+
+    public bool OnSpeech(ICharacter triggerer, string text)
+    {
+        // only PC can trigger this
+        if (triggerer is not IPlayableCharacter)
+            return false;
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramSpeech>())
+        {
+            if (StringCompareHelpers.StringContains(text, mobProgram.Phrase))
+            {
+                Logger.LogInformation("OnSpeech: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, mobProgram.Phrase);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer, text);
+        }
+        return triggered;
+    }
+
+    public bool OnEntry()
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramEntry>())
+        {
+            if (RandomManager.Chance(mobProgram.Percentage))
+            {
+                Logger.LogInformation("OnEntry: {name}", DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram);
+        }
+        return triggered;
+    }
+
+    public bool OnGreet(ICharacter triggerer)
+    {
+        // only PC can trigger this
+        if (triggerer is not IPlayableCharacter)
+            return false;
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramGreet>())
+        {
+            if (!mobProgram.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
+            {
+                if (RandomManager.Chance(mobProgram.Percentage))
+                {
+                    Logger.LogInformation("OnGreet: {name}: {triggerer}", DebugName, triggerer.DebugName);
+                    triggered = true;
+                }
+            }
+            else if (mobProgram.IsAll)
+            {
+                if (RandomManager.Chance(mobProgram.Percentage))
+                {
+                    Logger.LogInformation("OnGreet: IsAll {name}: {triggerer}", DebugName, triggerer.DebugName);
+                    triggered = true;
+                }
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer);
+        }
+        return triggered;
+    }
+
+    public bool OnExit(ICharacter triggerer, ExitDirections direction)
+    {
+        // only PC can trigger this
+        if (triggerer is not IPlayableCharacter)
+            return false;
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramExit>().Where(x => x.Direction == direction))
+        {
+            if (!mobProgram.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
+            {
+                Logger.LogInformation("OnExit: {name}: {triggerer} {direction}", DebugName, triggerer.DebugName, direction);
+                triggered = true;
+            }
+            else if (mobProgram.IsAll)
+            {
+                Logger.LogInformation("OnExit: {name}: IsAll {triggerer} {direction}", DebugName, triggerer.DebugName, direction);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer, direction);
+        }
+        return triggered;
+    }
+
+    public bool OnKill(ICharacter triggerer)
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramKill>())
+        {
+            if (RandomManager.Chance(mobProgram.Percentage))
+            {
+                Logger.LogInformation("OnKill: {name}: {triggerer}", DebugName, triggerer.DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, triggerer);
+        }
+        return triggered;
+    }
+
+    public bool OnDeath(ICharacter? killer)
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramDeath>())
+        {
+            if (RandomManager.Chance(mobProgram.Percentage))
+            {
+                Logger.LogInformation("OnDeath: {name}: {killer}", DebugName, killer?.DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, killer);
+        }
+        return triggered;
+    }
+
+    public bool OnFight(ICharacter fighting)
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramFight>())
+        {
+            if (RandomManager.Chance(mobProgram.Percentage))
+            {
+                Logger.LogInformation("OnFight: {name}: {fighting}", DebugName, fighting?.DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram, fighting);
+        }
+        return triggered;
+    }
+
+    public bool OnHitPointPercentage(ICharacter fighting)
+    {
+        var triggered = false;
+
+        var hitpointPercentage = (100 * this[ResourceKinds.HitPoints]) / this.MaxResource(ResourceKinds.HitPoints);
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramHitPointPercentage>().Where(x => hitpointPercentage < x.Percentage))
+        {
+            Logger.LogInformation("OnHitPointPercentage: {name}: {fighting}", DebugName, fighting?.DebugName);
+            triggered = true;
+
+            ExecuteMobProgramInstructions(mobProgram, fighting);
+        }
+        return triggered;
+    }
+
+    public bool OnRandom()
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramRandom>())
+        {
+            if (RandomManager.Chance(mobProgram.Percentage))
+            {
+                Logger.LogInformation("OnRandom: {name}", DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram);
+        }
+        return triggered;
+    }
+
+    public bool OnDelay()
+    {
+        var triggered = false;
+        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramDelay>())
+        {
+            if (RandomManager.Chance(mobProgram.Percentage))
+            {
+                Logger.LogInformation("OnDelay: {name}", DebugName);
+                triggered = true;
+            }
+            if (triggered)
+                ExecuteMobProgramInstructions(mobProgram);
+        }
+        return triggered;
     }
 
     // Mapping
@@ -1054,6 +1337,74 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                     UseSkill("Bite", Parser.NoParameters);
                 break;
         }
+    }
+
+    private void ExecuteMobProgramInstructions(MobProgramBase mobProgram, params object?[] parameters)
+    {
+        // perform instructions
+        foreach (var instruction in mobProgram.Instructions)
+        {
+            Logger.LogDebug("EXECUTE INSTRUCTION: {instruction}", instruction);
+            // TODO: convert $n, $i, ...
+            // TODO: handle other keywords
+            if (StringCompareHelpers.StringStartsWith(instruction, "MOB"))
+            {
+                // TODO: mob instruction
+                var mobInstruction = instruction[3..].Trim();
+                var mobInstructionParseResult = Parser.Parse(mobInstruction);
+                if (mobInstructionParseResult is null)
+                    Logger.LogError("MOBPROGRAM: cannot execute mob instruction {mobInstruction}", mobInstruction);
+                else
+                {
+                    var mobInstructionExecuted = ExecuteMobInstruction(mobInstructionParseResult);
+                    if (!mobInstructionExecuted)
+                        Logger.LogError("MOBPROGRAM: cannot execute mob instruction: CMD={command} RAWPARAM={rawParameters}", mobInstructionParseResult.Command, mobInstructionParseResult.RawParameters);
+                }
+            }
+            else
+            {
+                var processed = ProcessInput(instruction);
+                if (!processed)
+                    Logger.LogError("MOBPROGRAM: cannot execute instruction {instruction}", instruction);
+            }
+        }
+    }
+
+    private bool ExecuteMobInstruction(IParseResult parseResult)
+    {
+        // TODO
+        return false;
+        /* ASOUND     [text_string]
+         * ECHO       [text_string]
+         * GECHO      [text_string]
+         * ZECHO      [text_string]
+         * ECHOAT     [victim] [text_string]
+         * ECHOAROUND [victim] [text_string]
+         * MLOAD      [vnum]
+         * OLOAD      [vnum] [level] {wear|room}
+         * KILL       [victim]
+         * FLEE
+         * REMOVE     [victim] [vnum]
+         * JUNK       [object]
+         * REMOVE     [victim] [wear-loc] [none|room|get|inv]
+         * PURGE      [argument]
+         * AT         [dest] [command]
+         * GOTO       [dest]
+         * TRANSFER   [victim] [dest]
+         * GTRANSFER  [victim] [dest]
+         * OTRANSFER  [object] [dest]
+         * FORCE      [victim] [command]
+         * GFORCE     [victim] [command]
+         * VFORCE     [vnum]   [command]
+         * CAST       [spell] [victim]
+         * DAMAGE     [victim] [min] [max] {lethal}
+         * DELAY
+         * CANCEL
+         * REMEMBER   [victim]
+         * FORGET
+         * CALL       [vnum] [victim] [target1] [target2]
+         * ACT        [act]
+         * PEACE */
     }
 
     //

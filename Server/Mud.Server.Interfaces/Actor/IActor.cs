@@ -10,7 +10,7 @@ public interface IActor
     IReadOnlyTrie<IGameActionInfo> GameActions { get; } // list of commands accessible to Actor (used by ExecuteCommand)
 
     bool ProcessInput(string input); // split commandLine into command and parameters, then call ExecuteCommand
-    bool ExecuteCommand(string commandLine, string command, params ICommandParameter[] parameters); // search command in Commands, then execute it
+    bool ExecuteCommand(string commandLine, IParseResult parseResult); // search command in Commands, then execute it
 
     void Send(string message, bool addTrailingNewLine); // send message to Actor
     void Send(string format, params object[] parameters); // send overload (this function will automatically add a trailing newline)

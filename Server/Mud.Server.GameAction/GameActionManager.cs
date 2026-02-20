@@ -65,7 +65,7 @@ public class GameActionManager : IGameActionManager
 
     public IEnumerable<IGameActionInfo> GameActions => _staticGameActionInfos;
 
-    public string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
+    public string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
         where TActor: IActor
     {
         var gameActionInstance = ServiceProvider.GetRequiredService(gameActionInfo.CommandExecutionType);
@@ -74,7 +74,7 @@ public class GameActionManager : IGameActionManager
             Logger.LogError("GameAction {name} cannot be created or is not {type}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");
             return "Something goes wrong.";
         }
-        var actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
+        var actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, rawParameters, parameters);
         var guardsResult = gameAction.CanExecute(actionInput);
         if (guardsResult != null)
             return guardsResult;
@@ -94,7 +94,7 @@ public class GameActionManager : IGameActionManager
         var parameters = commandLine == null
             ? Enumerable.Empty<ICommandParameter>().ToArray()
             : Parser.SplitParameters(commandLine).Select(Parser.ParseParameter).ToArray();
-        return Execute(gameActionInfo, actor, commandLine!, command, parameters);
+        return Execute(gameActionInfo, actor, commandLine!, command, commandLine!, parameters);
     }
 
     public string? Execute<TGameAction, TActor>(TActor actor, string? commandLine)

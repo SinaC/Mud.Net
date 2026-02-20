@@ -104,6 +104,9 @@ public class Give : CharacterGameAction
             Actor.Act(ActOptions.ToCharacter, "You give {0:N} {1} {2}.", Whom, Silver ?? Gold ?? 0, Silver.HasValue ? "silver" : "gold");
             Whom.Act(ActOptions.ToCharacter, "{0:N} gives you {1} {2}.", Actor, Silver ?? Gold ?? 0, Silver.HasValue ? "silver" : "gold");
             Actor.ActToNotVictim(Whom, "{0:N} gives {1:N} some coins.", Actor, Whom);
+
+            // trigger mob program
+            (Whom as INonPlayableCharacter)?.OnBribe(Actor, (Silver ?? 0) + (Gold ?? 0) * 100);
             return;
         }
 
@@ -115,5 +118,8 @@ public class Give : CharacterGameAction
         Actor.ActToNotVictim(Whom, "{0} gives {1} to {2}.", Actor, What, Whom);
         Whom.Act(ActOptions.ToCharacter, "{0} gives you {1}.", Actor, What);
         Actor.Act(ActOptions.ToCharacter, "You give {0} to {1}.", What, Whom);
+
+        // trigger mob program
+        (Whom as INonPlayableCharacter)?.OnGive(Actor, What);
     }
 }

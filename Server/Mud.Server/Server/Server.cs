@@ -1561,6 +1561,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                 }
                             }
                         }
+
+                        // trigger mob program
+                        npc?.OnFight(victim);
+                        npc?.OnHitPointPercentage(victim);
                     }
                 }
                 catch (Exception ex)
@@ -1652,6 +1656,24 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             npc.UpdateMoney(silver, gold);
                         }
                     }
+                }
+
+                // trigger mob program
+                if (npc.Blueprint.DefaultPosition == npc.Position)
+                {
+                    if (npc.MobProgramDelay > 0)
+                    {
+                        npc.DecreaseMobProgramDelay();
+                        if (npc.MobProgramDelay <= 0)
+                        {
+                            var delayMobProgramTriggered = npc.OnDelay();
+                            if (delayMobProgramTriggered)
+                                continue;
+                        }
+                    }
+                    var randomMobProgramTriggered = npc.OnRandom();
+                    if (randomMobProgramTriggered)
+                        continue;
                 }
 
                 // that's all for all sleeping/busy monsters

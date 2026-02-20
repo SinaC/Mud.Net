@@ -59,8 +59,8 @@ public abstract class EntityBase : ActorBase, IEntity
     public override bool ProcessInput(string input)
     {
         // Extract command and parameters
-        bool extractedSuccessfully = Parser.ExtractCommandAndParameters(input, out var command, out var parameters);
-        if (!extractedSuccessfully)
+        var parseResult = Parser.Parse(input);
+        if (parseResult is null)
         {
             Logger.LogWarning("Command and parameters not extracted successfully");
             Send("Invalid command or parameters");
@@ -68,7 +68,7 @@ public abstract class EntityBase : ActorBase, IEntity
         }
 
         Logger.LogDebug("[{name}] executing [{input}]", DebugName, input);
-        return ExecuteCommand(input, command, parameters);
+        return ExecuteCommand(input, parseResult);
     }
 
     public override void Send(string message, bool addTrailingNewLine)
