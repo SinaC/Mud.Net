@@ -1,9 +1,9 @@
-﻿using Mud.Domain;
-using Mud.Server.Domain.Attributes;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Guards.Interfaces;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -25,8 +25,8 @@ public class Wear : WearCharacterGameActionBase<ICharacter, ICharacterGameAction
 {
     protected override IGuard<ICharacter>[] Guards => [new RequiresMinPosition(Positions.Resting), new RequiresAtLeastOneArgument { Message = "Wear, wield or hold what ?" }];
 
-    public Wear(IWiznet wiznet)
-        : base(wiznet)
+    public Wear(ILogger<Wear> logger)
+        : base(logger)
     {
     }
 

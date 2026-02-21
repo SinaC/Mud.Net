@@ -11,4 +11,7 @@
     <ProjectReference Include="..\..\Shared\Mud.Flags.Interfaces\Mud.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MobProgram\Triggers\" />
+  </ItemGroup>
 </Project>

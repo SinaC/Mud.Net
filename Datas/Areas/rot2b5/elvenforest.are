@@ -240,6 +240,7 @@ ABCDEFGHIJKMV ABCDEFGHIJK small unknown
 F shd AHMV
 M SPEECH 5910 from~
 M ACT 5909 whaps~
+M SOCIAL 5909 whap~
 M GIVE 5916 5915~
 #5915
 flora the florist~
@@ -3137,8 +3138,9 @@ say say "fire' to the florist and he should give one to you.
 say then go back and give the flower to that awful old geezer of a cleric.
 cackle
 mob junk frog
-mob oload 5912
-mob otransfer guts 5958
+*mob oload 5913
+*mob otransfer guts 5958
+mob oload 5913 1 room
 ~
 #5912
 say ah so you want a fire flower?
@@ -3215,7 +3217,7 @@ mob junk coin
 ~
 #5919
 mob echo The bear rakes its claw across your chest!!!
-mob damage 50 500 lethal
+mob damage $n 50 500 lethal
 ~
 #0
 

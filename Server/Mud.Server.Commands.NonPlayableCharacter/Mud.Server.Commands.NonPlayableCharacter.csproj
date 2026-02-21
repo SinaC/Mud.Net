@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Server.Ability.Spell\Mud.Server.Ability.Spell.csproj" />
+    <ProjectReference Include="..\Mud.Server.Commands.Character\Mud.Server.Commands.Character.csproj" />
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
+    <ProjectReference Include="..\Mud.Server.Guards\Mud.Server.Guards.csproj" />
+  </ItemGroup>
+
+</Project>

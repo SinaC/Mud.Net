@@ -1,8 +1,7 @@
-﻿using Mud.Domain;
-using Mud.Flags;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -13,11 +12,11 @@ public abstract class WearCharacterGameActionBase<TCharacter, TCharacterGameActi
     where TCharacter: class, ICharacter
     where TCharacterGameActionInfo : class, ICharacterGameActionInfo
 {
-    private IWiznet Wiznet { get; }
+    protected ILogger<WearCharacterGameActionBase<TCharacter, TCharacterGameActionInfo>> Logger { get; }
 
-    protected WearCharacterGameActionBase(IWiznet wiznet)
+    protected WearCharacterGameActionBase(ILogger<WearCharacterGameActionBase<TCharacter, TCharacterGameActionInfo>> logger)
     {
-        Wiznet = wiznet;
+        Logger = logger;
     }
 
     protected virtual bool WearItem(IItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
@@ -132,7 +131,7 @@ public abstract class WearCharacterGameActionBase<TCharacter, TCharacterGameActi
                 };
             case EquipmentSlots.Float: return "{0:N} release{0:v} {1} to float next to {0:m}.";
             default:
-                Wiznet.Log($"Invalid EquipmentSlots {slot} for item {item.DebugName} character {Actor.DebugName}", new WiznetFlags("Bugs"), AdminLevels.Implementor);
+                Logger.LogError("Invalid EquipmentSlots {slot} for item {item} character {actor}", slot, item.DebugName, Actor.DebugName);
                 return "{0:N} wear{0:v} {1}.";
         }
     }

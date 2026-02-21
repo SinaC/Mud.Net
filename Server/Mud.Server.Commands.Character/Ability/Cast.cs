@@ -78,7 +78,7 @@ public class Cast : CharacterGameAction
         }
 
         var newParameters = actionInput.Parameters.Skip(1).ToArray();
-        var spellActionInput = new SpellActionInput(abilityDefinition, Actor, Actor.Level, newParameters);
+        var spellActionInput = new SpellActionInput(abilityDefinition, Actor, Actor.Level, true, newParameters);
         var spellInstanceGuards = SpellInstance.Setup(spellActionInput);
         return spellInstanceGuards;
     }

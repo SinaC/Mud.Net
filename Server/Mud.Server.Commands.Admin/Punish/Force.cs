@@ -1,4 +1,5 @@
-﻿using Mud.Flags;
+﻿using Mud.Common;
+using Mud.Flags;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
@@ -46,7 +47,10 @@ public class Force : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters[1].Value == "delete" || actionInput.Parameters[1].Value == "deleteavatar")
+        if (StringCompareHelpers.StringEquals("delete", actionInput.Parameters[1].Value)
+            || StringCompareHelpers.StringEquals("deleteavatar", actionInput.Parameters[1].Value))
+            return "That will NOT be done.";
+        if (StringCompareHelpers.StringStartsWith("mob", actionInput.Parameters[1].Value))
             return "That will NOT be done.";
 
         if (!actionInput.Parameters[0].IsAll)
@@ -59,6 +63,7 @@ public class Force : AdminGameAction
             if (Whom == Impersonating || Whom == Actor.Incarnating)
                 return "Aye aye, right away!";
         }
+
         What = Parser.JoinParameters(actionInput.Parameters.Skip(1));
         return null;
     }

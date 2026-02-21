@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.Commands.Character.Item;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.PlayableCharacterGuards;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -25,8 +25,8 @@ public class Outfit : WearCharacterGameActionBase<IPlayableCharacter, IPlayableC
     private IAbilityManager AbilityManager { get; }
     private Rom24Options Options { get; }
 
-    public Outfit(IWiznet wiznet, IItemManager itemManager, IAbilityManager abilityManager, IOptions<Rom24Options> options)
-        : base(wiznet)
+    public Outfit(ILogger<Outfit> logger, IItemManager itemManager, IAbilityManager abilityManager, IOptions<Rom24Options> options)
+        : base(logger)
     {
         ItemManager = itemManager;
         AbilityManager = abilityManager;

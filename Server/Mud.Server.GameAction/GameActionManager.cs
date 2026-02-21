@@ -159,6 +159,8 @@ public class GameActionManager : IGameActionManager
     {
         switch (commandAttribute)
         {
+            case NonPlayableCharacterCommandAttribute nonPlayableCharacterCommandAttribute:
+                return new NonPlayableCharacterGameActionInfo(type, nonPlayableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
                 return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case CharacterCommandAttribute characterCommandAttribute:

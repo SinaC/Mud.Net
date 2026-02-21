@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
-  "RoomId": 5940,
+  "RoomId": 5908,
   "SilverCoins": 111,
   "GoldCoins": 5000,
   "Wimpy": 0,
@@ -212,7 +212,7 @@
       "Sex": "Neutral",
       "Size": "Tiny",
       "CurrentResources": {
-        "HitPoints": 598,
+        "HitPoints": 605,
         "MovePoints": 100,
         "Mana": 0,
         "Psy": 0,
@@ -331,9 +331,9 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15930,
-    "MovePoints": 1353,
-    "Mana": 5423,
+    "HitPoints": 15938,
+    "MovePoints": 1369,
+    "Mana": 5430,
     "Psy": 100,
     "Energy": 100,
     "Rage": 0,
@@ -553,7 +553,7 @@
         {
           "AbilityName": "envenom",
           "Level": 1,
-          "PulseLeft": 14916,
+          "PulseLeft": 14832,
           "AuraFlags": "NoDispel",
           "Affects": [
             {
@@ -585,7 +585,7 @@
     {
       "AbilityName": "giant strength",
       "Level": 1,
-      "PulseLeft": 7444,
+      "PulseLeft": 7360,
       "AuraFlags": "",
       "Affects": [
         {
@@ -599,7 +599,7 @@
     {
       "AbilityName": "detect evil",
       "Level": 1,
-      "PulseLeft": 7640,
+      "PulseLeft": 7556,
       "AuraFlags": "",
       "Affects": [
         {
@@ -612,7 +612,7 @@
     {
       "AbilityName": "detect good",
       "Level": 1,
-      "PulseLeft": 7672,
+      "PulseLeft": 7588,
       "AuraFlags": "",
       "Affects": [
         {
@@ -625,7 +625,7 @@
     {
       "AbilityName": "detect invis",
       "Level": 1,
-      "PulseLeft": 7688,
+      "PulseLeft": 7604,
       "AuraFlags": "",
       "Affects": [
         {
@@ -638,7 +638,7 @@
     {
       "AbilityName": "detect hidden",
       "Level": 1,
-      "PulseLeft": 7744,
+      "PulseLeft": 7660,
       "AuraFlags": "",
       "Affects": [
         {
@@ -651,7 +651,7 @@
     {
       "AbilityName": "shock shield",
       "Level": 1,
-      "PulseLeft": 7444,
+      "PulseLeft": 7360,
       "AuraFlags": "",
       "Affects": [
         {
@@ -664,7 +664,7 @@
     {
       "AbilityName": "fire shield",
       "Level": 1,
-      "PulseLeft": 7244,
+      "PulseLeft": 7160,
       "AuraFlags": "",
       "Affects": [
         {
@@ -677,7 +677,7 @@
     {
       "AbilityName": "ice shield",
       "Level": 1,
-      "PulseLeft": 7044,
+      "PulseLeft": 6960,
       "AuraFlags": "",
       "Affects": [
         {
@@ -690,7 +690,7 @@
     {
       "AbilityName": "berserk",
       "Level": 1,
-      "PulseLeft": 2444,
+      "PulseLeft": 2360,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -721,7 +721,7 @@
     {
       "AbilityName": "protection evil",
       "Level": 1,
-      "PulseLeft": 3180,
+      "PulseLeft": 3096,
       "AuraFlags": "",
       "Affects": [
         {
@@ -744,7 +744,7 @@
     {
       "AbilityName": "protection good",
       "Level": 1,
-      "PulseLeft": 3224,
+      "PulseLeft": 3140,
       "AuraFlags": "",
       "Affects": [
         {

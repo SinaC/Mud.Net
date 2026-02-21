@@ -14,13 +14,15 @@ public class SpellActionInput : ISpellActionInput
     public int Level { get; }
     public CastFromItemOptions CastFromItemOptions { get; } = default!;
     public bool IsCastFromItem => CastFromItemOptions != null;
+    public bool SaySpell { get; }
 
-    public SpellActionInput(IAbilityDefinition abilityDefinition, ICharacter caster, int level, params ICommandParameter[] parameters)
+    public SpellActionInput(IAbilityDefinition abilityDefinition, ICharacter caster, int level, bool saySpell, params ICommandParameter[] parameters)
     {
         Caster = caster;
         Parameters = parameters;
         AbilityDefinition = abilityDefinition;
         Level = level;
+        SaySpell = saySpell;
     }
 
     public SpellActionInput(IAbilityDefinition abilityDefinition, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, params ICommandParameter[] parameters)
@@ -30,5 +32,6 @@ public class SpellActionInput : ISpellActionInput
         AbilityDefinition = abilityDefinition;
         Level = level;
         CastFromItemOptions = castFromItemOptions;
+        SaySpell = false;
     }
 }

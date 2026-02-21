@@ -23,6 +23,7 @@ public abstract class SpellBase : ISpell
     protected ICharacter Caster { get; private set; } = default!;
     protected int Level { get; private set; }
     protected ResourceCostToPay[] ResourceCostsToPay { get; private set; } = default!;
+    protected bool MustSaySpell { get; private set; }
 
     protected SpellBase(ILogger<SpellBase> logger, IRandomManager randomManager)
     {
@@ -142,6 +143,9 @@ public abstract class SpellBase : ISpell
         {
             ResourceCostsToPay = [];
         }
+
+        MustSaySpell = spellActionInput.SaySpell;
+
         return null;
     }
 
@@ -164,6 +168,9 @@ public abstract class SpellBase : ISpell
         var setTargetResult = SetTargets(spellActionInput);
         if (setTargetResult != null)
             return setTargetResult;
+
+        MustSaySpell = spellActionInput.SaySpell;
+
         return null;
     }
 
@@ -201,7 +208,8 @@ public abstract class SpellBase : ISpell
         }
 
         // 3) say spell if not ventriloquate
-        SaySpell();
+        if (MustSaySpell)
+            SaySpell();
 
         // 4) invoke spell
         Invoke();

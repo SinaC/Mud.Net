@@ -32,6 +32,7 @@ using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.MobProgram;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.Table;
@@ -53,14 +54,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
+    private IMobProgramProcessor MobProgramProcessor { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager, IMobProgramProcessor mobProgramProcessor)
         : base(logger, gameActionManager, parser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
         SpecialBehaviorManager = specialBehaviorManager;
-
+        MobProgramProcessor = mobProgramProcessor;
         ImmortalMode = new ImmortalModes();
     }
 
@@ -70,6 +72,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         Blueprint = blueprint;
 
+        MobProgramDelay = -1;
         Level = blueprint.Level;
         Position = Positions.Standing;
         BaseRace = RaceManager[blueprint.Race]!;
@@ -348,6 +351,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         return characters;
     }
 
+    public override bool IsAllowedToEnterTo(IRoom destination)
+        => !destination.RoomFlags.IsSet("NoMob");
+
     // Combat
     public override void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier) // 'this' starts a combat with 'victim'
     {
@@ -446,7 +452,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     }
 
     //
-    public bool CastSpell(string spellName, IEntity target)
+    public bool CastSpell(string spellName, IEntity? target)
     {
         var spellDefinition = AbilityManager[spellName];
         if (spellDefinition == null)
@@ -460,11 +466,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Logger.LogError("NPC:CastSpell: cannot create instance of spell {spellName}", spellDefinition.Name);
             return false;
         }
-        var spellActionInput = new SpellActionInput(spellDefinition, this, Level, new CommandParameter(target.Name, target.Name, 1));
+        var spellActionInput = target is not null
+            ? new SpellActionInput(spellDefinition, this, Level, false, new CommandParameter(target.Name, target.Name, 1))
+            : new SpellActionInput(spellDefinition, this, Level, false);
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);
         if (spellInstanceGuards != null)
         {
-            Logger.LogWarning("NPC:CastSpell: cannot setup spell {spellName} on target {targetName}: {spellInstanceGuards}", spellDefinition.Name, target.Name, spellInstanceGuards);
+            Logger.LogWarning("NPC:CastSpell: cannot setup spell {spellName} on target {targetName}: {spellInstanceGuards}", spellDefinition.Name, target?.DebugName, spellInstanceGuards);
             Send(spellInstanceGuards);
             return false;
         }
@@ -474,6 +482,11 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     // MobProgram triggers
     public int MobProgramDelay { get; private set; }
+
+    public void ResetMobProgramDelay()
+    {
+        MobProgramDelay = -1;
+    }
 
     public void DecreaseMobProgramDelay()
     {
@@ -489,6 +502,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
     }
 
+    public ICharacter? MobProgramTarget { get; private set; }
+
+    public void SetMobProgramTarget(ICharacter? target)
+    {
+        MobProgramTarget = target;
+    }
+
     public bool OnAct(ICharacter triggerer, string text)
     {
         // only PC can trigger this
@@ -500,10 +520,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (StringCompareHelpers.StringContains(text, mobProgram.Phrase))
             {
                 Logger.LogInformation("OnAct: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, mobProgram.Phrase);
+
+                MobProgramProcessor.Execute(this, mobProgram, triggerer, text);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer, text);
         }
         return triggered;
     }
@@ -516,10 +536,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (amount >= mobProgram.Amount)
             {
                 Logger.LogInformation("OnBribe: {name}: {triggerer} {amount} >= {amountThreshold}", DebugName, triggerer.DebugName, amount, mobProgram.Amount);
+
+                MobProgramProcessor.Execute(this, mobProgram, triggerer, amount);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer, amount);
         }
         return triggered;
     }
@@ -529,23 +549,27 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         var triggered = false;
         foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramGive>())
         {
+            var matchingMobProgramFound = false;
             if (mobProgram.IsAll)
             {
                 Logger.LogInformation("OnGive: {name}: IsAll {triggerer} {itemName}", DebugName, triggerer.DebugName, item.DebugName);
-                triggered = true;
+                matchingMobProgramFound = true;
             }
             else if (mobProgram.ObjectId is not null && mobProgram.ObjectId.Value == item.Blueprint.Id)
             {
                 Logger.LogInformation("OnGive: {name}: objectId {objectId} {triggerer} {itemName}", DebugName, mobProgram.ObjectId.Value, triggerer.DebugName, item.DebugName);
-                triggered = true;
+                matchingMobProgramFound = true;
             }
             else if (mobProgram.ObjectName is not null && StringCompareHelpers.AnyStringEquals(item.Keywords, mobProgram.ObjectName))
             {
                 Logger.LogInformation("OnGive: {name}: objectName {objectName} {triggerer} {itemName}", DebugName, mobProgram.ObjectName, triggerer.DebugName, item.DebugName);
+                matchingMobProgramFound = true;
+            }
+            if (matchingMobProgramFound)
+            {
+                MobProgramProcessor.Execute(this, mobProgram, triggerer, item);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer, item);
         }
         return triggered;
     }
@@ -561,10 +585,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (StringCompareHelpers.StringEquals(socialDefinition.Name, mobProgram.Social))
             {
                 Logger.LogInformation("OnSocial: {name}: {triggerer} {social}", DebugName, triggerer.DebugName, socialDefinition.Name);
+
+                MobProgramProcessor.Execute(this, mobProgram, triggerer);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer);
         }
         return triggered;
     }
@@ -580,10 +604,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (StringCompareHelpers.StringContains(text, mobProgram.Phrase))
             {
                 Logger.LogInformation("OnSpeech: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, mobProgram.Phrase);
+
+                MobProgramProcessor.Execute(this, mobProgram, triggerer, text);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer, text);
         }
         return triggered;
     }
@@ -596,10 +620,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (RandomManager.Chance(mobProgram.Percentage))
             {
                 Logger.LogInformation("OnEntry: {name}", DebugName);
+
+                MobProgramProcessor.Execute(this, mobProgram);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram);
         }
         return triggered;
     }
@@ -612,12 +636,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         var triggered = false;
         foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramGreet>())
         {
+            var matchingMobProgramFound = false;
             if (!mobProgram.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
             {
                 if (RandomManager.Chance(mobProgram.Percentage))
                 {
                     Logger.LogInformation("OnGreet: {name}: {triggerer}", DebugName, triggerer.DebugName);
-                    triggered = true;
+                    matchingMobProgramFound = true;
                 }
             }
             else if (mobProgram.IsAll)
@@ -625,11 +650,14 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 if (RandomManager.Chance(mobProgram.Percentage))
                 {
                     Logger.LogInformation("OnGreet: IsAll {name}: {triggerer}", DebugName, triggerer.DebugName);
-                    triggered = true;
+                    matchingMobProgramFound = true;
                 }
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer);
+            if (matchingMobProgramFound)
+            {
+                MobProgramProcessor.Execute(this, mobProgram, triggerer);
+                triggered = true;
+            }
         }
         return triggered;
     }
@@ -653,7 +681,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 triggered = true;
             }
             if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer, direction);
+                MobProgramProcessor.Execute(this, mobProgram, triggerer, direction);
         }
         return triggered;
     }
@@ -666,10 +694,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (RandomManager.Chance(mobProgram.Percentage))
             {
                 Logger.LogInformation("OnKill: {name}: {triggerer}", DebugName, triggerer.DebugName);
+
+                MobProgramProcessor.Execute(this, mobProgram, triggerer);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, triggerer);
         }
         return triggered;
     }
@@ -682,10 +710,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (RandomManager.Chance(mobProgram.Percentage))
             {
                 Logger.LogInformation("OnDeath: {name}: {killer}", DebugName, killer?.DebugName);
+
+                MobProgramProcessor.Execute(this, mobProgram, killer);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, killer);
         }
         return triggered;
     }
@@ -698,10 +726,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (RandomManager.Chance(mobProgram.Percentage))
             {
                 Logger.LogInformation("OnFight: {name}: {fighting}", DebugName, fighting?.DebugName);
+
+                MobProgramProcessor.Execute(this, mobProgram, fighting);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram, fighting);
         }
         return triggered;
     }
@@ -714,9 +742,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramHitPointPercentage>().Where(x => hitpointPercentage < x.Percentage))
         {
             Logger.LogInformation("OnHitPointPercentage: {name}: {fighting}", DebugName, fighting?.DebugName);
-            triggered = true;
 
-            ExecuteMobProgramInstructions(mobProgram, fighting);
+            MobProgramProcessor.Execute(this, mobProgram, fighting);
+            triggered = true;
         }
         return triggered;
     }
@@ -729,10 +757,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (RandomManager.Chance(mobProgram.Percentage))
             {
                 Logger.LogInformation("OnRandom: {name}", DebugName);
+
+                MobProgramProcessor.Execute(this, mobProgram);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram);
         }
         return triggered;
     }
@@ -745,10 +773,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (RandomManager.Chance(mobProgram.Percentage))
             {
                 Logger.LogInformation("OnDelay: {name}", DebugName);
+
+                MobProgramProcessor.Execute(this, mobProgram);
                 triggered = true;
             }
-            if (triggered)
-                ExecuteMobProgramInstructions(mobProgram);
         }
         return triggered;
     }
@@ -962,9 +990,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             return true;
         }
     }
-
-    protected override bool IsAllowedToEnterTo(IRoom destination)
-        => !destination.RoomFlags.IsSet("NoMob");
 
     protected override bool HasBoat
         => Inventory.OfType<IItemBoat>().Any() || (Master != null && Master.Inventory.OfType<IItemBoat>().Any());
@@ -1337,74 +1362,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                     UseSkill("Bite", Parser.NoParameters);
                 break;
         }
-    }
-
-    private void ExecuteMobProgramInstructions(MobProgramBase mobProgram, params object?[] parameters)
-    {
-        // perform instructions
-        foreach (var instruction in mobProgram.Instructions)
-        {
-            Logger.LogDebug("EXECUTE INSTRUCTION: {instruction}", instruction);
-            // TODO: convert $n, $i, ...
-            // TODO: handle other keywords
-            if (StringCompareHelpers.StringStartsWith(instruction, "MOB"))
-            {
-                // TODO: mob instruction
-                var mobInstruction = instruction[3..].Trim();
-                var mobInstructionParseResult = Parser.Parse(mobInstruction);
-                if (mobInstructionParseResult is null)
-                    Logger.LogError("MOBPROGRAM: cannot execute mob instruction {mobInstruction}", mobInstruction);
-                else
-                {
-                    var mobInstructionExecuted = ExecuteMobInstruction(mobInstructionParseResult);
-                    if (!mobInstructionExecuted)
-                        Logger.LogError("MOBPROGRAM: cannot execute mob instruction: CMD={command} RAWPARAM={rawParameters}", mobInstructionParseResult.Command, mobInstructionParseResult.RawParameters);
-                }
-            }
-            else
-            {
-                var processed = ProcessInput(instruction);
-                if (!processed)
-                    Logger.LogError("MOBPROGRAM: cannot execute instruction {instruction}", instruction);
-            }
-        }
-    }
-
-    private bool ExecuteMobInstruction(IParseResult parseResult)
-    {
-        // TODO
-        return false;
-        /* ASOUND     [text_string]
-         * ECHO       [text_string]
-         * GECHO      [text_string]
-         * ZECHO      [text_string]
-         * ECHOAT     [victim] [text_string]
-         * ECHOAROUND [victim] [text_string]
-         * MLOAD      [vnum]
-         * OLOAD      [vnum] [level] {wear|room}
-         * KILL       [victim]
-         * FLEE
-         * REMOVE     [victim] [vnum]
-         * JUNK       [object]
-         * REMOVE     [victim] [wear-loc] [none|room|get|inv]
-         * PURGE      [argument]
-         * AT         [dest] [command]
-         * GOTO       [dest]
-         * TRANSFER   [victim] [dest]
-         * GTRANSFER  [victim] [dest]
-         * OTRANSFER  [object] [dest]
-         * FORCE      [victim] [command]
-         * GFORCE     [victim] [command]
-         * VFORCE     [vnum]   [command]
-         * CAST       [spell] [victim]
-         * DAMAGE     [victim] [min] [max] {lethal}
-         * DELAY
-         * CANCEL
-         * REMEMBER   [victim]
-         * FORGET
-         * CALL       [vnum] [victim] [target1] [target2]
-         * ACT        [act]
-         * PEACE */
     }
 
     //

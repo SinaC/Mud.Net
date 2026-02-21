@@ -43,12 +43,15 @@ public interface INonPlayableCharacter : ICharacter
     bool Order(string commandLine);
 
     //
-    bool CastSpell(string spellName, IEntity target);
+    bool CastSpell(string spellName, IEntity? target);
 
     // MobProgram triggers
     int MobProgramDelay { get; }
+    void ResetMobProgramDelay();
     void DecreaseMobProgramDelay();
     void SetMobProgramDelay(int pulseCount);
+    ICharacter? MobProgramTarget { get; }
+    void SetMobProgramTarget(ICharacter? target);
     bool OnAct(ICharacter triggerer, string text);
     bool OnBribe(ICharacter triggerer, long amount);
     bool OnGive(ICharacter triggerer, IItem item);

@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.Actor\Mud.Server.Commands.Actor.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.Admin\Mud.Server.Commands.Admin.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.Character\Mud.Server.Commands.Character.csproj" />
+    <ProjectReference Include="..\..\Server\Mud.Server.Commands.NonPlayableCharacter\Mud.Server.Commands.NonPlayableCharacter.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.PlayableCharacter\Mud.Server.Commands.PlayableCharacter.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Commands.Player\Mud.Server.Commands.Player.csproj" />
     <ProjectReference Include="..\..\Server\Mud.Server.Domain\Mud.Server.Domain.csproj" />

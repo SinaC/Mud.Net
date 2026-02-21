@@ -7,6 +7,7 @@ public static class StringHelpers
 {
     public const string NotYetImplemented = "NOT YET IMPLEMENTED!!";
     public const string NotFound = "Not found.";
+    public const string LocationNotFound = "No such location.";
     public const string CharacterNotFound = "They aren't here.";
     public const string ItemNotFound = "You do not see that here.";
     public const string ItemInventoryNotFound = "You do not have that item.";

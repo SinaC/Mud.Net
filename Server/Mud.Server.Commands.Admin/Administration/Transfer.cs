@@ -56,7 +56,7 @@ public class Transfer : AdminGameAction
         else
             Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, actionInput.Parameters[1])!;
         if (Where == null)
-            return "No such location.";
+            return StringHelpers.LocationNotFound;
         if (Where.IsPrivate)
             return "That room is private right now.";
 

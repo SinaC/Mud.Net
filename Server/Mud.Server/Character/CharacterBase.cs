@@ -981,6 +981,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Move
+    public abstract bool IsAllowedToEnterTo(IRoom destination);
+
     public bool Move(ExitDirections direction, bool following, bool forceFollowers)
     {
         var fromRoom = Room;
@@ -1608,8 +1610,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         var wasInRoom = Room;
 
-        // Try 6 times to find an exit
-        for (int attempt = 0; attempt < 6; attempt++)
+        // Try 10 times to find an exit
+        for (var attempt = 0; attempt < 10; attempt++)
         {
             var randomExit = RandomManager.Random<ExitDirections>() ?? ExitDirections.North;
             var exit = Room[randomExit];
@@ -2150,8 +2152,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected abstract int CharacterTypeSpecificDamageModifier(int damage);
 
     protected abstract bool CanMove { get; }
-
-    protected abstract bool IsAllowedToEnterTo(IRoom destination);
 
     protected abstract bool HasBoat { get; }
 

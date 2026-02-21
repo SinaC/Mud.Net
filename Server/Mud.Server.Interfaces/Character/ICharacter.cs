@@ -194,6 +194,7 @@ public interface ICharacter : IEntity, IContainer
     bool ChangeShape(Shapes shape);
 
     // Move
+    bool IsAllowedToEnterTo(IRoom destination);
     bool Move(ExitDirections direction, bool following, bool forceFollowers);
     bool Enter(IItemPortal portal, bool following, bool forceFollowers);
     void ChangeRoom(IRoom destination, bool recompute);

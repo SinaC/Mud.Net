@@ -6,4 +6,6 @@ public interface IParseResult
     public string RawParameters { get; }
     public ICommandParameter[] Parameters { get; }
     public bool ForceOutOfGame { get; }
+
+    void ModifyCommand(string newCommand);
 }

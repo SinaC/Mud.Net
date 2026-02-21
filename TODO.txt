@@ -2,27 +2,68 @@ INGOING
     old mob programs
     triggers
         act        STRING      to match a message sent to the room
+    mob instructions
+        CALL       [vnum] [victim] [target1] [target2]
 DONE
-    triggers
-        give       OBJECT NAME, OBJECT VNUM or ALL to match when obj given to mobile
-        bribe      INTEGER     miminum amount of silver coins given to mobile
-        social     STRING      to match a social that targets the mobile
-        speech     STRING      to match in dialogue (say, tell) to mobile
-        greet      PERCENT     chance to check if visible char enters mobile's room
-        grall      PERCENT     chance to check when any char enters mobile's room
-        entry      PERCENT     chance to check when mobile moves to a new room
-        exit       EXIT NUMBER    a visible char tries to exit mobile's room
-        exall      EXIT NUMBER    any char tries to exit mobile's room
-        kill       PERCENT     chance to check when the mobile begins fighting
-        death      PERCENT     chance to check after mobile has been slain
-        hpcnt      PERCENT     lower than mobile's hit/max_hit if mobile is fighting
-        fight      PERCENT     chance to check at fight_pulse if mobile is fighting
-        delay      PERCENT     chance to trigger when a mob’s delay reaches 0
-        rand       PERCENT     chance to check whenever a PC is in the mobiles zone
+    admin at command
+    small refactoring in purge/goto/transfer/path/force/reset manager
+    additional methods in FindHelper
+    old mob programs
+        expand arguments ($i, $n, ...)
+        triggers
+            give       OBJECT NAME, OBJECT VNUM or ALL to match when obj given to mobile
+            bribe      INTEGER     miminum amount of silver coins given to mobile
+            social     STRING      to match a social that targets the mobile
+            speech     STRING      to match in dialogue (say, tell) to mobile
+            greet      PERCENT     chance to check if visible char enters mobile's room
+            grall      PERCENT     chance to check when any char enters mobile's room
+            entry      PERCENT     chance to check when mobile moves to a new room
+            exit       EXIT NUMBER    a visible char tries to exit mobile's room
+            exall      EXIT NUMBER    any char tries to exit mobile's room
+            kill       PERCENT     chance to check when the mobile begins fighting
+            death      PERCENT     chance to check after mobile has been slain
+            hpcnt      PERCENT     lower than mobile's hit/max_hit if mobile is fighting
+            fight      PERCENT     chance to check at fight_pulse if mobile is fighting
+            delay      PERCENT     chance to trigger when a mob’s delay reaches 0
+            rand       PERCENT     chance to check whenever a PC is in the mobiles zone
+        mob instructions
+            ASOUND     [text_string]
+            ECHO       [text_string]
+            GECHO      [text_string]
+            ZECHO      [text_string]
+            DELAY      [delay]
+            CANCEL
+            PEACE
+            KILL       [victim]
+            ASSIST     [victim]
+            JUNK       [object]
+            ECHOAROUND [victim] [text_string]
+            ECHOAT     [victim] [text_string]
+            FLEE
+            CAST       [spell] [victim]
+            MLOAD      [vnum]
+            OLOAD      [vnum] [level] {wear|room}
+            GOTO       [dest]
+            TRANSFER   [victim] [dest]
+            GTRANSFER  [victim] [dest]
+            OTRANSFER  [object] [dest]
+            REMEMBER   [victim]
+            FORGET
+            DAMAGE     [victim] [min] [max] {lethal}
+            FORCE      [victim] [command]
+            GFORCE     [victim] [command]
+            VFORCE     [vnum]   [command]
+            REMOVE     [victim] [vnum|all]
+            PURGE      [argument]
+            AT         [dest] [command]
 
 ==========
 == TODO ==
 ==========
+
+no source damage, to be used in plague/poison/mpdamage
+
+mfind/ofind should accept mob/item id
 
 replace Skill/Spell/... attribute with virtual properties ?
 
@@ -210,7 +251,6 @@ title
 pose
 
 admin
-    at(quite difficult to implement)
     most [MustBeImpersonated] command should work when incarnating
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)

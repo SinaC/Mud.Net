@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Importer.Rot.Domain;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Mud.Importer.Rot;
 

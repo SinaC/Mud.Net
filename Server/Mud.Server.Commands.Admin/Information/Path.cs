@@ -42,7 +42,7 @@ public class Path : AdminGameAction
 
         Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Impersonating, actionInput.Parameters[0])!;
         if (Where == null)
-            return "No such location.";
+            return StringHelpers.LocationNotFound;
 
         return null;
     }

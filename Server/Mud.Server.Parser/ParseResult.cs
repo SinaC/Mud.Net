@@ -8,4 +8,9 @@ public class ParseResult : IParseResult
     public required string RawParameters { get; set; } = default!;
     public required ICommandParameter[] Parameters { get; set; } = default!;
     public required bool ForceOutOfGame { get; set; } = default!;
+
+    public void ModifyCommand(string newCommand)
+    {
+        Command = newCommand;
+    }
 }
