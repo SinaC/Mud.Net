@@ -76,6 +76,8 @@ public class MobProgramEvaluator : IMobProgramEvaluator
                     Logger.LogInformation("MOBPROGRAM: {debugName} [MP id {MPId}] BREAK", ctx.Self.DebugName, ctx.MobProgramId);
                     shouldBreak = true;
                     return;
+
+                // EmptyNode, CommentNode are not evaluated
             }
         }
     }

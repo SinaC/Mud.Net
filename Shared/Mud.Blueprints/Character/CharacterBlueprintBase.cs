@@ -1,5 +1,4 @@
 ﻿using Mud.Blueprints.LootTable;
-using Mud.Blueprints.MobProgram;
 using Mud.Blueprints.MobProgram.Triggers;
 using Mud.Domain;
 using Mud.Flags.Interfaces;

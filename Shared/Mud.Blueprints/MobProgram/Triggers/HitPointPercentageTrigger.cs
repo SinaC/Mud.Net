@@ -3,4 +3,7 @@
 public class HitPointPercentageTrigger : MobProgramTriggerBase
 {
     public int Percentage { get; set; }
+
+    public override string ToString()
+        => $"HPCNT percentage: {Percentage}";
 }

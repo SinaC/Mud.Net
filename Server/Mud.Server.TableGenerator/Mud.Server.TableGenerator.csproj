@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
+    <ProjectReference Include="..\Mud.Server.MobProgram.Interfaces\Mud.Server.MobProgram.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

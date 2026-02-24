@@ -26,21 +26,22 @@ public class MobProgramParser : IMobProgramParser
         {
             var line = ctx.Lines[ctx.Index++].Trim();
 
-            if (string.IsNullOrWhiteSpace(line) || line.StartsWith('*'))
-                continue;
-
-            if (line.StartsWith("if ", StringComparison.OrdinalIgnoreCase))
-                nodes.Add(ParseIf(line[3..].Trim(), ctx));
+            if (string.IsNullOrWhiteSpace(line))
+                nodes.Add(new EmptyNode { Line = line });
+            else if (line.StartsWith('*'))
+                nodes.Add(new CommentNode { Line = line });
+            else if (line.StartsWith("if ", StringComparison.OrdinalIgnoreCase))
+                nodes.Add(ParseIf(line, line[3..].Trim(), ctx));
             else if (line.Equals("break", StringComparison.OrdinalIgnoreCase))
-                nodes.Add(new BreakNode());
+                nodes.Add(new BreakNode { Line = line });
             else
-                nodes.Add(new CommandNode { Command = line });
+                nodes.Add(new CommandNode { Line = line, Command = line });
         }
 
         return nodes;
     }
 
-    private IfNode ParseIf(string firstConditionLine, ParsingContext ctx)
+    private IfNode ParseIf(string ifLine, string firstConditionLine, ParsingContext ctx)
     {
         var conditionLines = new List<string> { firstConditionLine };
 
@@ -57,7 +58,7 @@ public class MobProgramParser : IMobProgramParser
         var fullCondition = string.Join(" ", conditionLines);
 
         var condition = ParseConditionExpression(fullCondition);
-        var ifNode = new IfNode { Condition = condition };
+        var ifNode = new IfNode { Line = ifLine,  Condition = condition };
 
         var currentBranch = ifNode.TrueBranch;
 
@@ -79,17 +80,17 @@ public class MobProgramParser : IMobProgramParser
 
             if (line.StartsWith("if ", StringComparison.OrdinalIgnoreCase))
             {
-                currentBranch.Add(ParseIf(line[3..].Trim(), ctx));
+                currentBranch.Add(ParseIf(line, line[3..].Trim(), ctx));
                 continue;
             }
 
             if (line.Equals("break", StringComparison.OrdinalIgnoreCase))
             {
-                currentBranch.Add(new BreakNode());
+                currentBranch.Add(new BreakNode { Line = line });
                 continue;
             }
 
-            currentBranch.Add(new CommandNode { Command = line });
+            currentBranch.Add(new CommandNode { Line = line, Command = line });
         }
 
         return ifNode;
