@@ -1,6 +1,4 @@
 INGOING
-    triggers
-        act        STRING      to match a message sent to the room
 DONE
     admin at command
     small refactoring in purge/goto/transfer/path/force/reset manager
@@ -13,6 +11,11 @@ DONE
 ==========
 == TODO ==
 ==========
+
+mob program:
+    triggers
+        act        STRING      to match a message sent to the room
+
 
 allow self when searching mob
 no source damage, to be used in plague/poison/mpdamage
