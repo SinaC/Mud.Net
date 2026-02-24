@@ -153,7 +153,15 @@ public class Cstat : AdminGameAction
             sb.AppendFormat("LongDescription: {0}", npcWhom.Blueprint.LongDescription);
         }
         sb.AppendFormat("Description: {0}", Whom.Description);
-
+        if (npcWhom?.Blueprint != null)
+        {
+            if (npcWhom.Blueprint.MobProgramTriggers.Count > 0)
+            {
+                sb.AppendFormat("MobPrograms:");
+                foreach (var trigger in npcWhom.Blueprint.MobProgramTriggers)
+                    sb.AppendFormatLine("Trigger: {0} MobProgram: {1}", trigger.ToString() ?? string.Empty, trigger.MobProgramId);
+            }
+        }
         if (pcWhom != null)
         {
             sb.Append("Conditions: ");

@@ -93,6 +93,9 @@ public class DynamicSocialCommand : CharacterGameAction
                 Victim.Act(ActOptions.ToCharacter, SocialDefinition.VictimFound, Actor, Victim);
             if (SocialDefinition.OthersFound is not null)
                 Actor.ActToNotVictim(Victim, SocialDefinition.OthersFound, Actor, Victim);
+
+            // trigger mob program
+            (Victim as INonPlayableCharacter)?.OnSocial(Actor, SocialDefinition);
         }
         // TODO: slaps ?
     }

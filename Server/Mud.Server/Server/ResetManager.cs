@@ -272,31 +272,40 @@ public class ResetManager : IResetManager
                             switch (doorReset.Operation)
                             {
                                 case DoorOperations.OpenedAndUnlocked:
-                                    Logger.LogDebug("Room {blueprintId}: D: set opened/unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                     if (exit.IsLocked)
+                                    {
+                                        Logger.LogDebug("Room {blueprintId}: D: set unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Unlock();
+                                    }
                                     if (exit.IsClosed)
+                                    {
+                                        Logger.LogDebug("Room {blueprintId}: D: set opened {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Open();
+                                    }
                                     break;
                                 case DoorOperations.ClosedAndUnlocked:
-                                    Logger.LogDebug("Room {blueprintId}: D: set closed/unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                     if (exit.IsLocked)
+                                    {
+                                        Logger.LogDebug("Room {blueprintId}: D: set unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Unlock();
+                                    }
                                     if (!exit.IsClosed)
                                     {
+                                        Logger.LogDebug("Room {blueprintId}: D: set closed {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         room.Act(room.People, "The {0} closes.", exit);
                                         exit.Close();
                                     }
                                     break;
                                 case DoorOperations.ClosedAndLocked:
-                                    Logger.LogDebug("Room {blueprintId}: D: set closed/locked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                     if (!exit.IsClosed)
                                     {
+                                        Logger.LogDebug("Room {blueprintId}: D: set closed {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         room.Act(room.People, "The {0} closes.", exit);
                                         exit.Close();
                                     }
                                     if (!exit.IsLocked)
                                     {
+                                        Logger.LogDebug("Room {blueprintId}: D: set locked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         room.Act(room.People, "The {0} clicks.", exit);
                                         exit.Lock();
                                     }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.LootTable;
+using Mud.Blueprints.MobProgram.Triggers;
 using Mud.Blueprints.Quest;
 using Mud.Blueprints.Room;
 using Mud.Common;
@@ -13,10 +14,8 @@ using Mud.Importer;
 using Mud.Network.Interfaces;
 using Mud.Random;
 using Mud.Server.Affects.Character;
-using Mud.Server.Aura;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -25,6 +24,7 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Loot.Interfaces;
+using Mud.Server.MobProgram.Interfaces;
 using Mud.Server.Options;
 using Mud.Server.Race.Interfaces;
 using Mud.WPFTestApplication;
@@ -873,7 +873,7 @@ public partial class ServerWindow : Window, INetworkServer
         {
             Id = 94,
             Name = "belt elf",
-            ShortDescription = "a elf belt",
+            ShortDescription = "an elf belt",
             Description = "an elf belt is here",
             WearLocation = WearLocations.Waist,
             Level = 1,
@@ -891,5 +891,72 @@ public partial class ServerWindow : Window, INetworkServer
         var elfCharacterRaceAffect = ServiceProvider.GetRequiredService<CharacterRaceAffect>();
         elfCharacterRaceAffect.Race = ServiceProvider.GetRequiredService<IRaceManager>()["elf"];
         auraManager.AddAura(elfBelt, elfBelt, 1, new AuraFlags("permanent", "inherent"), false, elfCharacterRaceAffect);
+
+        // some mobprograms
+        var mobProgramManager = ServiceProvider.GetRequiredService<IMobProgramManager>();
+        var mp1 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 1, Code = "mob call 2 $i" };
+        mobProgramManager.AddMobProgram(mp1);
+        var mp2 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 2, Code = @"
+mob oload 94
+drop belt
+mob echo test1" };
+        mobProgramManager.AddMobProgram(mp2);
+        var mp3 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 3, Code = "mob call 4 $n null null" };
+        mobProgramManager.AddMobProgram(mp3);
+        var mp4 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 4, Code = @"
+mob echoat $n $I explodes covering you in burning slime.
+mob echoaround $n $I explodes covering $n in burning slime.
+mob call 5 null null null" };
+        mobProgramManager.AddMobProgram(mp4);
+        var mp5 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 5, Code = "mob echo $I drifts in from $l journeys." };
+        mobProgramManager.AddMobProgram(mp5);
+        var mp6 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 6, Code = @"
+mob echo recursive
+mob call 6" };
+        mobProgramManager.AddMobProgram(mp6);
+        var mp7 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 7, Code = @"
+if name $n 'saphyre'
+or name $n 'sinac'
+or name $n 'ramoth'
+  say Why certainly, $N.
+  mob oload 3011
+  give bread $n
+else
+  if isimmort $n
+    say Sorry, better ask Saphyre to get that for you.
+  else
+    say I don't think so, $N.
+    mob kill $n
+  endif
+endif" };
+        mobProgramManager.AddMobProgram(mp7);
+        var mp8 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 8, Code = @"
+if istarget $n
+    say welcome back $N
+    if carries $q sword
+        say nice sword
+    endif
+else
+    say I'll choose someone at random
+    mob remember $r
+    if istarget $n
+        say I'll stay focus on you $N
+    else
+        say I'll remember you $Q
+    endif
+endif" };
+        mobProgramManager.AddMobProgram(mp8);
+        var mp9 = new Blueprints.MobProgram.MobProgramBlueprint { Id = 9, Code = @"
+say thanks for $O, $N !
+wave $n
+mob go 3011" };
+        mobProgramManager.AddMobProgram(mp9);
+        hassanBlueprint.MobProgramTriggers = [
+            new GreetTrigger { IsAll = true, Percentage = 100, MobProgramId = 1 },
+            new SpeechTrigger { Phrase = "test", MobProgramId = 3 },
+            new SpeechTrigger { Phrase = "rec", MobProgramId = 6 },
+            new SpeechTrigger { Phrase = "cond", MobProgramId = 7 },
+            new SpeechTrigger { Phrase = "rand", MobProgramId = 8 },
+            new GiveTrigger { IsAll = true, MobProgramId = 9 }];
     }
 }

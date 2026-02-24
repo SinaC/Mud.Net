@@ -27,14 +27,14 @@ public abstract class ActorBase : IActor
     public abstract void Send(string message, bool addTrailingNewLine);
     public abstract void Page(StringBuilder text);
 
-    public bool ExecuteCommand(string commandLine, string command, ICommandParameter[] parameters)
+    public bool ExecuteCommand(string commandLine, IParseResult parseResult)
     {
         var actorType = GetType();
         var gameActions = GameActionManager.GetGameActions(actorType);
         // Search for game action and invoke it
         if (gameActions != null)
         {
-            command = command.ToLowerInvariant(); // lower command
+            var command = parseResult.Command.ToLowerInvariant(); // lower command
             var entries = gameActions.GetByPrefix(command).ToList();
             var entry = entries.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting gameactions
             var gameActionInfo = entry.Value;
@@ -47,7 +47,7 @@ public abstract class ActorBase : IActor
                 }
                 if (gameActionInfo.CommandExecutionType != null)
                 {
-                    var executionResults = GameActionManager.Execute(gameActionInfo, this, commandLine, entry.Key, parameters);
+                    var executionResults = GameActionManager.Execute(gameActionInfo, this, commandLine, entry.Key, parseResult.RawParameters, parseResult.Parameters);
                     if (executionResults != null)
                     {
                         Send(executionResults);

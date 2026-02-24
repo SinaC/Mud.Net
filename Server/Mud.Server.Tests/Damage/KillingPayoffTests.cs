@@ -146,10 +146,10 @@ public class KillingPayoffTests
 
         var pc = new PlayableCharacter(pcLoggerMock.Object, null!, null!, messageForwardOptions, worldOptions, null!, randomManagerMock.Object, tableValuesMock.Object, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, flagsManagerMock.Object, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!, null!);
         pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
-        var pet = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!);
+        var pet = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!, null!, null!, null!);
         pet.Initialize(Guid.NewGuid(), petBlueprint, roomMock.Object);
         pc.AddPet(pet);
-        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!);
+        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!, null!, null!, null!);
         victim.Initialize(Guid.NewGuid(), victimBlueprint, roomMock.Object);
 
         victim.AbilityDamage(pet, 100000, SchoolTypes.Poison, "poison", false);
@@ -316,7 +316,7 @@ public class KillingPayoffTests
         pc2.Initialize(Guid.NewGuid(), pcData2, playerMock.Object, roomMock.Object);
         var group = new Group.Group(pc1);
         group.AddMember(pc2);
-        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!);
+        var victim = new NonPlayableCharacter(npcLoggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, lootManagerMock.Object, aggroManagerMock.Object, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, flagsManagerMock.Object, null!, null!, null!, null!);
         victim.Initialize(Guid.NewGuid(), victimBlueprint, roomMock.Object);
 
         victim.AbilityDamage(pc2, 100000, SchoolTypes.Poison, "poison", false);

@@ -52,6 +52,7 @@ public class RotLoader : TextBasedLoader
     private readonly List<MobileData> _mobiles;
     private readonly List<ObjectData> _objects;
     private readonly List<RoomData> _rooms;
+    private readonly List<MobProgramData> _mobPrograms;
 
     private int _lastAreaVnum;
 
@@ -63,6 +64,8 @@ public class RotLoader : TextBasedLoader
 
     internal IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
+    internal IReadOnlyCollection<MobProgramData> MobPrograms => _mobPrograms.AsReadOnly();
+
     public RotLoader(ILogger<RotLoader> logger)
         :base(logger)
     {
@@ -70,6 +73,7 @@ public class RotLoader : TextBasedLoader
         _mobiles = [];
         _objects = [];
         _rooms = [];
+        _mobPrograms = [];
     }
 
     public override void Parse()
@@ -248,13 +252,13 @@ public class RotLoader : TextBasedLoader
                 }
                 else if (letter == 'M')
                 {
-                    MobProg mobProg = new()
+                    MobProgramTrigger mobProg = new()
                     {
                         TrigType = ReadWord(),
                         VNum = (int)ReadNumber(),
                         TrigPhrase = ReadString(),
                     };
-                    mobileData.MobProgs.Add(mobProg);
+                    mobileData.MobProgramTriggers.Add(mobProg);
                 }
                 else if (letter == 'C')
                 {
@@ -774,25 +778,17 @@ public class RotLoader : TextBasedLoader
             if (vnum == 0)
                 break; // parsed
 
-            //if (_mobProgs.Any(x => x.VNum == vnum)) // don't store mob programs than call FixMobProgrs, do it immediately
-            //    RaiseParseException("ParseMobProgs: vnum {0} duplicated", vnum);
+            if (_mobPrograms.Any(x => x.VNum == vnum)) // don't store mob programs than call FixMobProgrs, do it immediately
+                RaiseParseException("ParseMobProgs: vnum {0} duplicated", vnum);
 
-            //bool found = false;
             var code = ReadString();
-            // TODO
-            //foreach (MobileData mobileData in _mobiles)
-            //{
-            //    foreach (MobProg mobProg in mobileData.MobProgs)
-            //    {
-            //        if (mobProg.VNum == vnum)
-            //        {
-            //            mobProg.Code = code;
-            //            found = true;
-            //        }
-            //    }
-            //}
-            //if (!found)
-            //    RaiseParseException("ParseMobProgs: vnum {0} was not found in mobile triggers", vnum);
+
+            var mobProgramData = new MobProgramData
+            {
+                VNum = vnum,
+                Code = code,
+            };
+            _mobPrograms.Add(mobProgramData);
         }
     }
 

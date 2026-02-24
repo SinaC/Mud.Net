@@ -1,4 +1,5 @@
 ﻿using Mud.Blueprints.LootTable;
+using Mud.Blueprints.MobProgram.Triggers;
 using Mud.Domain;
 using Mud.Flags.Interfaces;
 
@@ -97,6 +98,8 @@ public abstract class CharacterBlueprintBase
     public CharacterLootTable<int> LootTable { get; set; } = default!;
 
     public string ScriptTableName { get; set; } = default!;
+
+    public List<MobProgramTriggerBase> MobProgramTriggers { get; set; } = [];
 
     //
     public string[] Keywords => Name.Split([' '], StringSplitOptions.RemoveEmptyEntries);

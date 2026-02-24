@@ -18,6 +18,7 @@ using System.Text;
 namespace Mud.Server.Commands.Actor;
 
 [ActorCommand("help", Priority = 0)]
+[Alias("?")]
 [Syntax(
     "[cmd]",
     "[cmd] <topic>")]

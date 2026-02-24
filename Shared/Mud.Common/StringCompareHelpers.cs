@@ -2,6 +2,9 @@
 
 public static class StringCompareHelpers
 {
+    public static readonly Func<string, string, bool> StringContains = (s, s1)
+        => s.Contains(s1, StringComparison.InvariantCultureIgnoreCase);
+
     public static readonly Func<string, string, bool> StringEquals = (s, s1)
         => string.Equals(s, s1, StringComparison.InvariantCultureIgnoreCase);
 

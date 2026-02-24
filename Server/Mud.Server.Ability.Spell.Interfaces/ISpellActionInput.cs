@@ -14,6 +14,7 @@ public interface ISpellActionInput
     int Level { get; }
     CastFromItemOptions CastFromItemOptions { get; }
     bool IsCastFromItem { get; }
+    bool SaySpell { get; }
 }
 
 public class CastFromItemOptions

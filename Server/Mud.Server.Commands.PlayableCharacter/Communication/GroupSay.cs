@@ -11,6 +11,7 @@ namespace Mud.Server.Commands.PlayableCharacter.Communication;
 [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
 [Alias("gtell")]
 [Alias("gsay")]
+[Alias(";")]
 [Syntax("[cmd] <message>")]
 public class GroupSay : PlayableCharacterGameAction
 {
@@ -31,7 +32,7 @@ public class GroupSay : PlayableCharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        What = Parser.JoinParameters(actionInput.Parameters);
+        What = actionInput.RawParameters;
         return null;
     }
 

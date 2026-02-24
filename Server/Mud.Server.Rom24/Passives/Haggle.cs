@@ -51,7 +51,7 @@ public class Haggle : PassiveBase, IChangeCostPassive
             seller.CheckAbilityImprove(PassiveName, true, 4); // improve only if success
             var newPrice = sellPrice + (sellPrice / 2 * diceRoll / 100);
             newPrice = Math.Min(newPrice, buyPrice * 95 / 100);
-            var keeperWealth = keeper.GoldCoins * 100 + keeper.SilverCoins;
+            var keeperWealth = keeper.Wealth;
             newPrice = Math.Min(newPrice, keeperWealth);
             return newPrice;
         }

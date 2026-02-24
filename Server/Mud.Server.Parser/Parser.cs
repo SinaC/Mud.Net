@@ -2,16 +2,14 @@
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Server.Parser.Interfaces;
-using System.Text;
 
 namespace Mud.Server.Parser;
 
 [Export(typeof(IParser)), Shared]
-public class Parser : IParser
+public partial class Parser : IParser
 {
     private static readonly ICommandParameter[] _noParameters = Enumerable.Empty<ICommandParameter>().ToArray();
-
-    private static readonly CommandParameter EmptyCommandParameter = new(string.Empty, string.Empty, false, false);
+    private static readonly ICommandParameter EmptyCommandParameter = new CommandParameter(string.Empty, string.Empty, false, false);
 
     private ILogger<Parser> Logger { get; }
 
@@ -23,12 +21,10 @@ public class Parser : IParser
     public ICommandParameter[] NoParameters
         => _noParameters;
 
-    public bool ExtractCommandAndParameters(string input, out string command, out ICommandParameter[] parameters)
-    {
-        return ExtractCommandAndParameters(null, input, out command, out parameters, out _);
-    }
+    public IParseResult? Parse(string input)
+        => Parse(null, input);
 
-    public bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>?>? aliasesFunc, string? input, out string command, out ICommandParameter[] parameters, out bool forceOutOfGame)
+    public IParseResult? Parse(Func<bool, IReadOnlyDictionary<string,string>?>? aliasesFunc, string? input)
     {
         Logger.LogTrace("Extracting command and parameters [{input}]", input ?? "(none)");
 
@@ -36,16 +32,15 @@ public class Parser : IParser
         if (string.IsNullOrWhiteSpace(input))
         {
             Logger.LogWarning("Empty command");
-            command = default!;
-            parameters = default!;
-            forceOutOfGame = false;
-            return false;
+            return null;
         }
 
         // Split into command and remaining tokens
         var extractedCommandInfo = ExtractCommandAndTokens(input);
 
-        command = extractedCommandInfo.command;
+        var forceOutOfGame = false;
+        var command = extractedCommandInfo.command;
+        var rawParameters = extractedCommandInfo.rawParameters;
         IEnumerable<string> tokens = extractedCommandInfo.tokens;
         // Check if forcing OutOfGame
         if (command.StartsWith('/'))
@@ -53,8 +48,6 @@ public class Parser : IParser
             forceOutOfGame = true;
             command = command[1..]; // remove '/'
         }
-        else
-            forceOutOfGame = false;
 
         // Substitute by alias if found
         var aliases = aliasesFunc?.Invoke(forceOutOfGame);
@@ -66,66 +59,61 @@ public class Parser : IParser
                 // Extract command and raw parameters
                 var aliasExtractedCommandInfo = ExtractCommandAndTokens(alias);
                 command = aliasExtractedCommandInfo.command;
+                rawParameters = aliasExtractedCommandInfo.rawParameters;
                 tokens = aliasExtractedCommandInfo.tokens;
             }
         }
 
         // Parse parameter
-        parameters = tokens.Select(ParseParameter).ToArray();
+        var parameters = tokens.Select(ParseParameter).ToArray();
 
         if (parameters.Any(x => x == CommandParameter.InvalidCommandParameter))
         {
             Logger.LogWarning("Invalid command parameters");
-            return false;
+            return null;
         }
 
-        return true;
+        return new ParseResult
+        {
+            Command = command,
+            RawParameters = rawParameters,
+            Parameters = parameters,
+            ForceOutOfGame = forceOutOfGame
+        };
     }
 
-    private (string command, IEnumerable<string> tokens) ExtractCommandAndTokens(string commandLine)
+    private (string command, string rawParameters, IEnumerable<string> tokens) ExtractCommandAndTokens(string commandLine)
     {
         Logger.LogTrace("Extracting command [{command}]", commandLine);
 
-        // handle special case of ' command (alias for say)
-        var startsWithSimpleQuote = commandLine.StartsWith('\'');
-        // Split
-        string[] tokens = startsWithSimpleQuote
-            ? "\'".Yield().Concat(SplitParameters(commandLine[1..])).ToArray()
-            : SplitParameters(commandLine).ToArray();
-        // First token is the command
-        string command = tokens[0];
+        var (command, parameters) = SplitCommandAndParameters(commandLine);
+        var tokens = parameters.Tokenize(false).ToArray();
 
-        return (command, tokens.Skip(1)); // return command and remaining tokens
+        return (command, parameters, tokens);
     }
 
-    public IEnumerable<string> SplitParameters(string parameters)
+    private static char[] SpecialCommands { get; } = [',', '.', '\'', ':', ';', '?'];
+    private static (string command, string parameters) SplitCommandAndParameters(string commandLine)
     {
-        if (string.IsNullOrWhiteSpace(parameters))
-            yield break;
-        var sb = new StringBuilder();
-        bool inQuote = false;
-        foreach (char c in parameters)
+        var candidate = commandLine.Trim();
+
+        var index = -1;
+        for (var i = 0; i < candidate.Length; i++)
         {
-            if ((c == '"' || c == '\'') && !inQuote)
+            var c = candidate[i];
+            if (SpecialCommands.Contains(c) || char.IsWhiteSpace(c))
             {
-                inQuote = true;
-                continue;
-            }
-            if (c != '"' && c != '\'' && !(char.IsWhiteSpace(c) && !inQuote))
-            {
-                sb.Append(c);
-                continue;
-            }
-            if (sb.Length > 0)
-            {
-                var result = sb.ToString();
-                sb.Clear();
-                inQuote = false;
-                yield return result;
+                index = i;
+                break;
             }
         }
-        if (sb.Length > 0)
-            yield return sb.ToString();
+
+        if (index == -1)
+            return (commandLine, string.Empty);
+        else if (index == 0)
+            return (commandLine[0].ToString(), commandLine.Substring(1).Trim());
+        else
+            return (commandLine.Substring(0, index), commandLine.Substring(index + 1).Trim());
     }
 
     public ICommandParameter ParseParameter(string parameter)

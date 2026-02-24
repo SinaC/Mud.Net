@@ -32,7 +32,7 @@ public class Say : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        What = Parser.JoinParameters(actionInput.Parameters);
+        What = actionInput.RawParameters;
 
         return null;
     }
@@ -40,5 +40,9 @@ public class Say : CharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         Actor.Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%{1}%g%'%x%", Actor, What);
+
+        // trigger mob program
+        foreach (var target in Actor.Room.NonPlayableCharacters.Where(x => x != Actor && x.Blueprint.DefaultPosition == x.Position))
+            target.OnSpeech(Actor, What);
     }
 }

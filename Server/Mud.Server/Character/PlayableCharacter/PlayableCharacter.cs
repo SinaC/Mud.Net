@@ -483,6 +483,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return characters;
     }
 
+    public override bool IsAllowedToEnterTo(IRoom destination)
+        => true;
+
     // Combat
     public override void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier) // 'this' starts a combat with 'victim'
     {
@@ -1361,9 +1364,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     protected override bool CanMove => true;
-
-    protected override bool IsAllowedToEnterTo(IRoom destination)
-        => true;
 
     protected override bool HasBoat
         => Inventory.OfType<IItemBoat>().Any();

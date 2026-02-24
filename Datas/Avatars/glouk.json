@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
-  "RoomId": 3001,
+  "RoomId": 5908,
   "SilverCoins": 111,
   "GoldCoins": 5000,
   "Wimpy": 0,
@@ -17,79 +17,79 @@
   "ActiveQuests": [],
   "LearnedAbilities": [
     {
-      "Name": "Cat Form",
+      "Name": "cat form",
       "Level": 15,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Fourth Wield",
+      "Name": "fourth wield",
       "Level": 1,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Third Wield",
+      "Name": "third wield",
       "Level": 1,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Axe",
+      "Name": "axe",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Dagger",
+      "Name": "dagger",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Dual Wield",
+      "Name": "dual wield",
       "Level": 1,
       "Learned": 100,
       "Rating": 0
     },
     {
-      "Name": "Flail",
+      "Name": "flail",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Mace",
+      "Name": "mace",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Polearm",
+      "Name": "polearm",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Spear",
+      "Name": "spear",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Staff(weapon)",
+      "Name": "staff(weapon)",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Sword",
+      "Name": "sword",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Whip",
+      "Name": "whip",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
@@ -101,37 +101,37 @@
       "Rating": 0
     },
     {
-      "Name": "Claw",
+      "Name": "claw",
       "Level": 15,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Rake",
+      "Name": "rake",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Maul",
+      "Name": "maul",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Demoralizing Roar",
+      "Name": "demoralizing roar",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Ferocious Bite",
+      "Name": "ferocious bite",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Swipe",
+      "Name": "swipe",
       "Level": 25,
       "Learned": 100,
       "Rating": 1
@@ -212,7 +212,7 @@
       "Sex": "Neutral",
       "Size": "Tiny",
       "CurrentResources": {
-        "HitPoints": 553,
+        "HitPoints": 605,
         "MovePoints": 100,
         "Mana": 0,
         "Psy": 0,
@@ -233,7 +233,7 @@
       "Inventory": [],
       "Auras": [
         {
-          "AbilityName": "Haste",
+          "AbilityName": "haste",
           "Level": 40,
           "PulseLeft": -1,
           "AuraFlags": "Permanent",
@@ -256,7 +256,7 @@
           ]
         },
         {
-          "AbilityName": "Construct",
+          "AbilityName": "construct",
           "Level": 49,
           "PulseLeft": -1,
           "AuraFlags": "NoDispel,Permanent",
@@ -331,9 +331,9 @@
   "Sex": "Neutral",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15880,
-    "MovePoints": 1255,
-    "Mana": 5378,
+    "HitPoints": 15938,
+    "MovePoints": 1369,
+    "Mana": 5430,
     "Psy": 100,
     "Energy": 100,
     "Rage": 0,
@@ -438,6 +438,17 @@
   ],
   "Inventory": [
     {
+      "ItemId": 5903,
+      "Source": "Oload[sinac]",
+      "ShortDescription": "a mysterious gem",
+      "Description": "A sparkling gem makes you feel better by just being in the same room.",
+      "Level": 80,
+      "Cost": 50,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Humming",
+      "Auras": []
+    },
+    {
       "$type": "weapon",
       "WeaponFlags": "Vorpal,TwoHands",
       "DiceCount": 1,
@@ -540,9 +551,9 @@
       "ItemFlags": "Magic",
       "Auras": [
         {
-          "AbilityName": "Envenom",
+          "AbilityName": "envenom",
           "Level": 1,
-          "PulseLeft": 15396,
+          "PulseLeft": 14832,
           "AuraFlags": "NoDispel",
           "Affects": [
             {
@@ -572,9 +583,9 @@
   ],
   "Auras": [
     {
-      "AbilityName": "Giant Strength",
+      "AbilityName": "giant strength",
       "Level": 1,
-      "PulseLeft": 7924,
+      "PulseLeft": 7360,
       "AuraFlags": "",
       "Affects": [
         {
@@ -586,9 +597,9 @@
       ]
     },
     {
-      "AbilityName": "Detect Evil",
+      "AbilityName": "detect evil",
       "Level": 1,
-      "PulseLeft": 8120,
+      "PulseLeft": 7556,
       "AuraFlags": "",
       "Affects": [
         {
@@ -599,9 +610,9 @@
       ]
     },
     {
-      "AbilityName": "Detect Good",
+      "AbilityName": "detect good",
       "Level": 1,
-      "PulseLeft": 8152,
+      "PulseLeft": 7588,
       "AuraFlags": "",
       "Affects": [
         {
@@ -612,9 +623,9 @@
       ]
     },
     {
-      "AbilityName": "Detect Invis",
+      "AbilityName": "detect invis",
       "Level": 1,
-      "PulseLeft": 8168,
+      "PulseLeft": 7604,
       "AuraFlags": "",
       "Affects": [
         {
@@ -625,9 +636,9 @@
       ]
     },
     {
-      "AbilityName": "Detect Hidden",
+      "AbilityName": "detect hidden",
       "Level": 1,
-      "PulseLeft": 8224,
+      "PulseLeft": 7660,
       "AuraFlags": "",
       "Affects": [
         {
@@ -638,9 +649,9 @@
       ]
     },
     {
-      "AbilityName": "Shock Shield",
+      "AbilityName": "shock shield",
       "Level": 1,
-      "PulseLeft": 7924,
+      "PulseLeft": 7360,
       "AuraFlags": "",
       "Affects": [
         {
@@ -651,9 +662,9 @@
       ]
     },
     {
-      "AbilityName": "Fire Shield",
+      "AbilityName": "fire shield",
       "Level": 1,
-      "PulseLeft": 7724,
+      "PulseLeft": 7160,
       "AuraFlags": "",
       "Affects": [
         {
@@ -664,9 +675,9 @@
       ]
     },
     {
-      "AbilityName": "Ice Shield",
+      "AbilityName": "ice shield",
       "Level": 1,
-      "PulseLeft": 7524,
+      "PulseLeft": 6960,
       "AuraFlags": "",
       "Affects": [
         {
@@ -677,9 +688,9 @@
       ]
     },
     {
-      "AbilityName": "Berserk",
+      "AbilityName": "berserk",
       "Level": 1,
-      "PulseLeft": 2924,
+      "PulseLeft": 2360,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -708,9 +719,9 @@
       ]
     },
     {
-      "AbilityName": "Protection Evil",
+      "AbilityName": "protection evil",
       "Level": 1,
-      "PulseLeft": 3660,
+      "PulseLeft": 3096,
       "AuraFlags": "",
       "Affects": [
         {
@@ -726,14 +737,14 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectEvil"
+          "AffectName": "protectevil"
         }
       ]
     },
     {
-      "AbilityName": "Protection Good",
+      "AbilityName": "protection good",
       "Level": 1,
-      "PulseLeft": 3704,
+      "PulseLeft": 3140,
       "AuraFlags": "",
       "Affects": [
         {
@@ -749,12 +760,12 @@
         },
         {
           "$type": "noData",
-          "AffectName": "ProtectGood"
+          "AffectName": "protectgood"
         }
       ]
     },
     {
-      "AbilityName": "Haste",
+      "AbilityName": "haste",
       "Level": 49,
       "PulseLeft": -1,
       "AuraFlags": "Permanent",

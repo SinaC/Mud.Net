@@ -47,7 +47,7 @@ public class Goto : AdminGameAction
 
         Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Impersonating, actionInput.Parameters[0])!;
         if (Where == null)
-            return "No such location.";
+            return StringHelpers.LocationNotFound;
         if (Where.IsPrivate && Where.People.Count() > 1)
             return "That room is private right now.";
 

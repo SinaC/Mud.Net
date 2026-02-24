@@ -1,14 +1,26 @@
 INGOING
 DONE
-    migration to .net 10
-    spec thief bug fixed
-    move losses fixed (average were missing)
-    morph skill fixed to remove previous morph aura
-    no more error displayed when an ability cannot be loaded from data
+    admin at command
+    small refactoring in purge/goto/transfer/path/force/reset manager
+    additional methods in FindHelper
+    old mob programs
+    SplitParameters moved to StringExtensions
+    display mob program trigger in mstat/minfo
+    new command to dump mob program list and dump program instruction
 
 ==========
 == TODO ==
 ==========
+
+mob program:
+    triggers
+        act        STRING      to match a message sent to the room
+
+
+allow self when searching mob
+no source damage, to be used in plague/poison/mpdamage
+
+mfind/ofind should accept mob/item id
 
 replace Skill/Spell/... attribute with virtual properties ?
 
@@ -196,7 +208,6 @@ title
 pose
 
 admin
-    at(quite difficult to implement)
     most [MustBeImpersonated] command should work when incarnating
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)

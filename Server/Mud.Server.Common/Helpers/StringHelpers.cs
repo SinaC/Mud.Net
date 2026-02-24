@@ -7,6 +7,7 @@ public static class StringHelpers
 {
     public const string NotYetImplemented = "NOT YET IMPLEMENTED!!";
     public const string NotFound = "Not found.";
+    public const string LocationNotFound = "No such location.";
     public const string CharacterNotFound = "They aren't here.";
     public const string ItemNotFound = "You do not see that here.";
     public const string ItemInventoryNotFound = "You do not have that item.";
@@ -125,38 +126,40 @@ public static class StringHelpers
     {
         var levelDiff = targetLevel - characterLevel;
         if (levelDiff > 5)
-            return LightRed;
+            return ColorTags.LightRed;
         else if (levelDiff > 2 && levelDiff <= 5)
-            return Red;
+            return ColorTags.Red;
         else if (levelDiff >= -2 && levelDiff <= 2)
-            return Yellow;
+            return ColorTags.Yellow;
         else if (levelDiff >= -5 && levelDiff < -2)
-            return Green;
+            return ColorTags.Green;
         else if (levelDiff < -5)
-            return Gray;
-        return White;
+            return ColorTags.Gray;
+        return ColorTags.White;
     }
 
 
     #region Color tags
 
     // TODO: better tags such as <r> or #r for red
-
-    public static readonly string Reset = "%x%";
-    public static readonly string Red = "%r%";
-    public static readonly string Green = "%g%";
-    public static readonly string Yellow = "%y%";
-    public static readonly string Blue = "%b%";
-    public static readonly string Magenta = "%m%";
-    public static readonly string Cyan = "%c%";
-    public static readonly string Gray = "%w%";
-    public static readonly string LightRed = "%R%";
-    public static readonly string LightGreen = "%G%";
-    public static readonly string LightYellow = "%Y%";
-    public static readonly string LightBlue = "%B%";
-    public static readonly string LightMagenta = "%M%";
-    public static readonly string LightCyan = "%C%";
-    public static readonly string White = "%W%";
+    public static class ColorTags
+    {
+        public const string Reset = "%x%";
+        public const string Red = "%r%";
+        public const string Green = "%g%";
+        public const string Yellow = "%y%";
+        public const string Blue = "%b%";
+        public const string Magenta = "%m%";
+        public const string Cyan = "%c%";
+        public const string Gray = "%w%";
+        public const string LightRed = "%R%";
+        public const string LightGreen = "%G%";
+        public const string LightYellow = "%Y%";
+        public const string LightBlue = "%B%";
+        public const string LightMagenta = "%M%";
+        public const string LightCyan = "%C%";
+        public const string White = "%W%";
+    }
 
     #endregion
 }

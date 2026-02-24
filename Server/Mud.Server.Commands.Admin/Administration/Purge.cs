@@ -58,25 +58,22 @@ public class Purge : AdminGameAction
         }
 
         // Search NPC
-        Target = FindHelpers.FindNonPlayableChararacterInWorld(CharacterManager, Actor.Impersonating!, actionInput.Parameters[0])!;
-        if (Target != null)
-            return null;
-
-        // Search PC
-        Target = FindHelpers.FindPlayableChararacterInWorld(CharacterManager, Actor.Impersonating!, actionInput.Parameters[0])!;
-        if (Target != null)
+        var npc = FindHelpers.FindNonPlayableChararacterInWorld(CharacterManager, Actor.Impersonating!, actionInput.Parameters[0])!;
+        if (npc != null)
         {
-            if (Target == Actor.Impersonating)
-                return "Ho ho ho.";
+            if (npc.ActFlags.IsSet("NoPurge"))
+                return "It can't be purged.";
+            Target = npc;
             return null;
         }
 
         // Search Item
-        Target = FindHelpers.FindItemHere(Actor.Impersonating!, actionInput.Parameters[0])!;
-        if (Target == null)
+        var item = FindHelpers.FindItemHere(Actor.Impersonating!, actionInput.Parameters[0])!;
+        if (item == null)
             return StringHelpers.ItemNotFound;
-        if (((IItem) Target).ItemFlags.IsSet("NoPurge"))
+        if (item.ItemFlags.IsSet("NoPurge"))
             return "It can't be purged.";
+        Target = item;
 
         return null;
     }
@@ -90,9 +87,6 @@ public class Purge : AdminGameAction
                 break;
             case INonPlayableCharacter nonPlayableCharacter:
                 PurgeNonPlayableCharacter(nonPlayableCharacter);
-                break;
-            case IPlayableCharacter playableCharacter:
-                PurgePlayableCharacter(playableCharacter);
                 break;
             case IItem item:
                 PurgeItem(item);
@@ -116,24 +110,12 @@ public class Purge : AdminGameAction
         Actor.Send("Ok.");
     }
 
-    private void PurgeNonPlayableCharacter(INonPlayableCharacter nonPlayableCharacterVictim)
+    private void PurgeNonPlayableCharacter(INonPlayableCharacter npc)
     {
-        Wiznet.Log($"{Actor.DisplayName} purges npc {nonPlayableCharacterVictim.DebugName}.", new WiznetFlags("Punish"));
+        Wiznet.Log($"{Actor.DisplayName} purges npc {npc.DebugName}.", new WiznetFlags("Punish"));
 
-        nonPlayableCharacterVictim.Act(ActOptions.ToRoom, "{0} purge{0:v} {1}.", Actor.Impersonating!, nonPlayableCharacterVictim);
-        CharacterManager.RemoveCharacter(nonPlayableCharacterVictim);
-        Actor.Send("Ok.");
-    }
-
-    private void PurgePlayableCharacter(IPlayableCharacter playableCharacterVictim)
-    {
-        Wiznet.Log($"{Actor.DisplayName} purges player {playableCharacterVictim.DebugName}.", new WiznetFlags("Punish"));
-
-        playableCharacterVictim.Act(ActOptions.ToRoom, "{0} disintegrate{0:v} {1}.", Actor.Impersonating!, playableCharacterVictim);
-        playableCharacterVictim.StopFighting(true);
-        if (playableCharacterVictim.ImpersonatedBy != null)
-            playableCharacterVictim.StopImpersonation();
-        CharacterManager.RemoveCharacter(playableCharacterVictim);
+        npc.Act(ActOptions.ToRoom, "{0} purge{0:v} {1}.", Actor.Impersonating!, npc);
+        CharacterManager.RemoveCharacter(npc);
         Actor.Send("Ok.");
     }
 

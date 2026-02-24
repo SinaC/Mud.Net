@@ -1,11 +1,11 @@
 ﻿using Mud.Common;
-using Mud.Server.Parser.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Parser.Interfaces;
 
 namespace Mud.Server.Common.Helpers;
 
@@ -38,6 +38,7 @@ public static class FindHelpers
                 .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item)),
             parameter, perfectMatch);
     }
+
     public static T? FindItemHere<T>(ICharacter character, ICommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
         where T:IItem
     {
@@ -46,6 +47,31 @@ public static class FindHelpers
                 .Concat(character.Inventory.Where(character.CanSee).OfType<T>())
                 .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item).OfType<T>()),
             parameter, perfectMatch);
+    }
+
+    // Equipped item
+    public static IEquippedItem? FindEquippedItem(IEnumerable<IEquippedItem> items, ICommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+    {
+        return perfectMatch
+            ? items.Where(x => x.Item is not null && StringCompareHelpers.AllStringsEquals(x.Item.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
+            : items.Where(x => x.Item is not null && StringCompareHelpers.AllStringsStartsWith(x.Item.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
+    }
+
+    public static IEnumerable<IEquippedItem> FindAllEquippedItem(IEnumerable<IEquippedItem> items, ICommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+    {
+        return perfectMatch
+            ? items.Where(x => x.Item is not null && StringCompareHelpers.AllStringsEquals(x.Item.Keywords, parameter.Tokens))
+            : items.Where(x => x.Item is not null && StringCompareHelpers.AllStringsStartsWith(x.Item.Keywords, parameter.Tokens));
+    }
+
+    public static IEnumerable<IEquippedItem> Find(IEnumerable<IEquippedItem> list, ICommandParameter parameter, bool perfectMatch = false)
+    {
+        if (parameter.IsAll)
+            return !parameter.IsAllOnly
+                ? FindAllEquippedItem(list, parameter, perfectMatch)
+                : list;
+        else
+            return FindEquippedItem(list, parameter, perfectMatch)?.Yield() ?? Enumerable.Empty<IEquippedItem>();
     }
 
     // Players/Admin
@@ -102,21 +128,23 @@ public static class FindHelpers
             : list.Where(x => StringCompareHelpers.AnyStringStartsWith(x.Keywords, parameter));
     }
 
+    public static IEnumerable<T> Find<T>(IEnumerable<T> list, ICommandParameter parameter, bool perfectMatch = false)
+        where T: IEntity
+    {
+        if (parameter.IsAll)
+            return !parameter.IsAllOnly
+                ? FindAllByName(list, parameter, perfectMatch)
+                : list;
+        else
+            return FindByName(list, parameter, perfectMatch)?.Yield() ?? Enumerable.Empty<T>();
+    }
+
     //public static IEnumerable<IPlayer> FindAllByName(IEnumerable<IPlayer> list, CommandParameter parameter, bool perfectMatch = false)
     //{
     //    return perfectMatch
     //        ? list.Where(x => StringEquals(x.Name, parameter.Value))
     //        : list.Where(x => StringStartsWith(x.Name, parameter.Value));
     //}
-
-    public static T? FindByName<T, TEntity>(IEnumerable<T> collection, Func<T, TEntity> getItemFunc, ICommandParameter parameter, bool perfectMatch = false)
-        where T: notnull
-        where TEntity : IEntity
-    {
-        return perfectMatch
-            ? collection.Where(x => StringCompareHelpers.AllStringsEquals(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
-            : collection.Where(x => StringCompareHelpers.AllStringsStartsWith(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
-    }
 
     // FindLocation
     public static IRoom? FindLocation(IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, ICommandParameter parameter)

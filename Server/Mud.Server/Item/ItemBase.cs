@@ -43,6 +43,7 @@ public abstract class ItemBase: EntityBase, IItem
         RandomManager = randomManager;
         AuraManager = auraManager;
 
+        ItemType = GetType().Name.Replace("IItem", string.Empty).Replace("Item", string.Empty);
         ItemFlags = new ItemFlags();
     }
 
@@ -208,6 +209,8 @@ public abstract class ItemBase: EntityBase, IItem
     public IContainer ContainedInto { get; private set; } = null!;
 
     public ItemBlueprintBase Blueprint { get; private set; } = null!;
+
+    public string ItemType { get; private set; }
 
     public string Source { get; private set; } = null!;
 

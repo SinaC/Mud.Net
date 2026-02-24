@@ -8,7 +8,7 @@ public interface IGameActionManager
 {
     IEnumerable<IGameActionInfo> GameActions { get; }
 
-    string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
+    string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
         where TActor: IActor;
 
     string? Execute<TActor>(Type gameActionType, TActor actor, string? commandLine)

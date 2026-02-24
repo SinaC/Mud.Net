@@ -8,7 +8,6 @@ using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Ability.Interfaces;
 using Mud.Server.AbilityGroup.Interfaces;
 using Mud.Server.Class.Interfaces;
-using Mud.Server.Parser.Interfaces;
 using Mud.Server.Commands.Actor;
 using Mud.Server.Common;
 using Mud.Server.Domain;
@@ -17,6 +16,7 @@ using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Race.Interfaces;
 using Mud.Server.StateMachine.Interfaces;
 using Mud.Server.TableGenerator;
@@ -327,7 +327,7 @@ public class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationS
             return AvatarCreationStates.WeaponChoice;
         }
 
-        var tokens = Parser.SplitParameters(input).ToArray();
+        var tokens = input.Tokenize(false).ToArray();
         var command = tokens[0];
         var parameter = tokens.Length > 1
             ? string.Join(" ", tokens.Skip(1))

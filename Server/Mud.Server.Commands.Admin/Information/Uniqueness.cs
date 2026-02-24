@@ -25,7 +25,15 @@ public class Uniqueness : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        var sb = TableGenerators.UnavailableNamesTableGenerator.Value.Generate("Unavailable names", new TableGeneratorOptions { ColumnRepetionCount = 3 }, UniquenessManager.UnavailableNames);
+        var sb = UnavailableNamesTableGenerator.Value.Generate("Unavailable names", new TableGeneratorOptions { ColumnRepetionCount = 3 }, UniquenessManager.UnavailableNames);
         Actor.Page(sb);
     }
+
+
+    private static readonly Lazy<TableGenerator<string>> UnavailableNamesTableGenerator = new(() =>
+    {
+        TableGenerator<string> generator = new();
+        generator.AddColumn("Name", 20, x => x);
+        return generator;
+    });
 }

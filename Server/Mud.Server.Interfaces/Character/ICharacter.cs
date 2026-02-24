@@ -63,6 +63,7 @@ public interface ICharacter : IEntity, IContainer
     void SetStun(int pulseCount); // set daze delay (in pulse), can only increase
 
     // Money
+    long Wealth { get; }
     long SilverCoins { get; }
     long GoldCoins { get; }
     (long silverSpent, long goldSpent) DeductCost(long cost);
@@ -194,6 +195,7 @@ public interface ICharacter : IEntity, IContainer
     bool ChangeShape(Shapes shape);
 
     // Move
+    bool IsAllowedToEnterTo(IRoom destination);
     bool Move(ExitDirections direction, bool following, bool forceFollowers);
     bool Enter(IItemPortal portal, bool following, bool forceFollowers);
     void ChangeRoom(IRoom destination, bool recompute);

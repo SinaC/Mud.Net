@@ -9,6 +9,7 @@ using Mud.Server.Domain.Attributes;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
+using Mud.Server.MobProgram.Interfaces;
 using Mud.Server.Race.Interfaces;
 using System.Text;
 
@@ -16,13 +17,6 @@ namespace Mud.Server.TableGenerator;
 
 public static class TableGenerators
 {
-    public static readonly Lazy<TableGenerator<string>> UnavailableNamesTableGenerator = new(() =>
-    {
-        TableGenerator<string> generator = new();
-        generator.AddColumn("Name", 20, x => x);
-        return generator;
-    } );
-
     public static readonly Lazy<TableGenerator<IAbilityLearned>> LearnedAbilitiesTableGenerator = new(() =>
     {
         TableGenerator<IAbilityLearned> generator = new();

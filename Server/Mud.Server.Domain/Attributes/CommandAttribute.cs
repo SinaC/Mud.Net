@@ -39,6 +39,11 @@ public class CharacterCommandAttribute(string name, params string[] categories) 
 }
 
 [AttributeUsage(AttributeTargets.Class)]
+public class NonPlayableCharacterCommandAttribute(string name, params string[] categories) : CharacterCommandAttribute(name, categories) // Cannot have master/leader
+{
+}
+
+[AttributeUsage(AttributeTargets.Class)]
 public class PlayableCharacterCommandAttribute(string name, params string[] categories) : CharacterCommandAttribute(name, categories) // Must be impersonated
 {
 }

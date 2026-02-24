@@ -31,7 +31,7 @@ public class Yell : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        What = Parser.JoinParameters(actionInput.Parameters);
+        What = actionInput.RawParameters;
 
         return null;
     }

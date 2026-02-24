@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2020-06-14T19:17:42.1765039+02:00",
-  "RoomId": 3001,
+  "RoomId": 3365,
   "SilverCoins": 1051,
   "GoldCoins": 10,
   "Wimpy": 0,
@@ -231,16 +231,16 @@
   "Sex": "Male",
   "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 3892,
-    "MovePoints": 12045,
-    "Mana": 3234,
+    "HitPoints": 3894,
+    "MovePoints": 12049,
+    "Mana": 3237,
     "Psy": 100,
     "Energy": 0,
     "Rage": 0,
     "Combo": 0
   },
   "MaxResources": {
-    "HitPoints": 40070,
+    "HitPoints": 40438,
     "MovePoints": 13800,
     "Mana": 10000,
     "Psy": 100,
@@ -266,7 +266,7 @@
           {
             "AbilityName": "test",
             "Level": 1,
-            "PulseLeft": 15888,
+            "PulseLeft": 15864,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -362,76 +362,6 @@
       }
     },
     {
-      "Slot": "Ring",
-      "Item": {
-        "ItemId": 3364,
-        "Source": null,
-        "ShortDescription": "a city guard signet ring",
-        "Description": "a city guard signet ring",
-        "Level": 16,
-        "Cost": 0,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Magic",
-        "Auras": [
-          {
-            "AbilityName": "",
-            "Level": 16,
-            "PulseLeft": -1,
-            "AuraFlags": "NoDispel,Permanent,Inherent",
-            "Affects": [
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "SavingThrow",
-                "Modifier": -1
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "AllArmor",
-                "Modifier": -4
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "Slot": "Ring",
-      "Item": {
-        "ItemId": 3364,
-        "Source": null,
-        "ShortDescription": "a city guard signet ring",
-        "Description": "a city guard signet ring",
-        "Level": 16,
-        "Cost": 0,
-        "DecayPulseLeft": 0,
-        "ItemFlags": "Magic",
-        "Auras": [
-          {
-            "AbilityName": "",
-            "Level": 16,
-            "PulseLeft": -1,
-            "AuraFlags": "NoDispel,Permanent,Inherent",
-            "Affects": [
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "SavingThrow",
-                "Modifier": -1
-              },
-              {
-                "$type": "characterAttribute",
-                "Operator": "Add",
-                "Location": "AllArmor",
-                "Modifier": -4
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
       "Slot": "OffHand",
       "Item": {
         "$type": "wand",
@@ -448,6 +378,76 @@
         "DecayPulseLeft": 0,
         "ItemFlags": "",
         "Auras": []
+      }
+    },
+    {
+      "Slot": "Ring",
+      "Item": {
+        "ItemId": 3364,
+        "Source": null,
+        "ShortDescription": "a city guard signet ring",
+        "Description": "a city guard signet ring",
+        "Level": 16,
+        "Cost": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel,Permanent,Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Slot": "Ring",
+      "Item": {
+        "ItemId": 3364,
+        "Source": null,
+        "ShortDescription": "a city guard signet ring",
+        "Description": "a city guard signet ring",
+        "Level": 16,
+        "Cost": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": [
+          {
+            "AbilityName": "",
+            "Level": 16,
+            "PulseLeft": -1,
+            "AuraFlags": "NoDispel,Permanent,Inherent",
+            "Affects": [
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "SavingThrow",
+                "Modifier": -1
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": "Add",
+                "Location": "AllArmor",
+                "Modifier": -4
+              }
+            ]
+          }
+        ]
       }
     }
   ],
@@ -484,7 +484,7 @@
         {
           "AbilityName": "test",
           "Level": 1,
-          "PulseLeft": 30648,
+          "PulseLeft": 30624,
           "AuraFlags": "NoDispel",
           "Affects": [
             {
@@ -495,17 +495,6 @@
           ]
         }
       ]
-    },
-    {
-      "ItemId": 3430,
-      "Source": "Oload[sinac]",
-      "ShortDescription": "a silver key",
-      "Description": "You see a silver key here.",
-      "Level": 0,
-      "Cost": 0,
-      "DecayPulseLeft": 0,
-      "ItemFlags": "",
-      "Auras": []
     },
     {
       "$type": "weapon",
@@ -666,7 +655,7 @@
     {
       "AbilityName": "sanctuary",
       "Level": 1,
-      "PulseLeft": 70208,
+      "PulseLeft": 70184,
       "AuraFlags": "",
       "Affects": [
         {
@@ -679,7 +668,7 @@
     {
       "AbilityName": "shield",
       "Level": 5,
-      "PulseLeft": 11408,
+      "PulseLeft": 11384,
       "AuraFlags": "",
       "Affects": [
         {
@@ -693,7 +682,7 @@
     {
       "AbilityName": "berserk",
       "Level": 1,
-      "PulseLeft": 19408,
+      "PulseLeft": 19384,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -724,7 +713,7 @@
     {
       "AbilityName": "stone skin",
       "Level": 1,
-      "PulseLeft": 9528,
+      "PulseLeft": 9504,
       "AuraFlags": "",
       "Affects": [
         {
@@ -738,7 +727,7 @@
     {
       "AbilityName": "protection evil",
       "Level": 1,
-      "PulseLeft": 47968,
+      "PulseLeft": 47944,
       "AuraFlags": "",
       "Affects": [
         {
@@ -757,7 +746,7 @@
     {
       "AbilityName": "testroom",
       "Level": 10,
-      "PulseLeft": 61008,
+      "PulseLeft": 60984,
       "AuraFlags": "",
       "Affects": [
         {
@@ -780,7 +769,7 @@
     {
       "AbilityName": "plague",
       "Level": 8,
-      "PulseLeft": 9908,
+      "PulseLeft": 9884,
       "AuraFlags": "",
       "Affects": [
         {
@@ -803,7 +792,7 @@
     {
       "AbilityName": "poison",
       "Level": 19,
-      "PulseLeft": 10004,
+      "PulseLeft": 9980,
       "AuraFlags": "",
       "Affects": [
         {
@@ -877,7 +866,7 @@
     {
       "AbilityName": "giant size",
       "Level": 35,
-      "PulseLeft": 9888,
+      "PulseLeft": 9864,
       "AuraFlags": "",
       "Affects": [
         {
@@ -895,6 +884,23 @@
           "Operator": "Add",
           "Location": "HitPoints",
           "Modifier": 368
+        }
+      ]
+    },
+    {
+      "AbilityName": "protection evil",
+      "Level": 46,
+      "PulseLeft": -1,
+      "AuraFlags": "Permanent",
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": "Or",
+          "Modifier": "ProtectEvil"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "protectevil"
         }
       ]
     },

@@ -36,7 +36,7 @@ public class Reply : TellGameActionBase
         if (Actor.LastTeller == null)
             return StringHelpers.CharacterNotFound;
 
-        What = Parser.JoinParameters(actionInput.Parameters);
+        What = actionInput.RawParameters;
         return null;
     }
 
