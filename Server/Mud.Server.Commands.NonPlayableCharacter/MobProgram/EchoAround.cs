@@ -5,6 +5,7 @@ using Mud.Server.Guards.Interfaces;
 using Mud.Server.Guards.NonPlayableCharacterGuards;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Parser.Interfaces;
 
 namespace Mud.Server.Commands.NonPlayableCharacter.MobProgram;
 
@@ -15,7 +16,15 @@ public class EchoAround : NonPlayableCharacterGameAction
 {
     protected override IGuard<INonPlayableCharacter>[] Guards => [new RequiresAtLeastOneArgument()];
 
+    private IParser Parser { get; }
+
+    public EchoAround(IParser parser)
+    {
+        Parser = parser;
+    }
+
     private ICharacter Whom { get; set; } = default!;
+    private string What { get; set; } = default!;
 
     public override string? CanExecute(IActionInput actionInput)
     {
@@ -27,6 +36,8 @@ public class EchoAround : NonPlayableCharacterGameAction
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
 
+        What = Parser.JoinParameters(actionInput.Parameters.Skip(1));
+
         return null;
     }
 
@@ -34,6 +45,6 @@ public class EchoAround : NonPlayableCharacterGameAction
     {
         // send the message to every PC in the room other than the mob and victim
         foreach (var pc in Actor.Room.PlayableCharacters.Where(x => x != Actor && x != Whom))
-            pc.Send(actionInput.RawParameters);
+            pc.Send(What);
     }
 }

@@ -1,9 +1,8 @@
 INGOING
-    old mob programs
+    display mob program trigger in mstat/minfo
+    new command to dump mob program list and dump program instruction
     triggers
         act        STRING      to match a message sent to the room
-    mob instructions
-        CALL       [vnum] [victim] [target1] [target2]
 DONE
     admin at command
     small refactoring in purge/goto/transfer/path/force/reset manager
@@ -56,11 +55,13 @@ DONE
             REMOVE     [victim] [vnum|all]
             PURGE      [argument]
             AT         [dest] [command]
+            CALL       [vnum] [victim] [target1] [target2]
 
 ==========
 == TODO ==
 ==========
 
+allow self when searching mob
 no source damage, to be used in plague/poison/mpdamage
 
 mfind/ofind should accept mob/item id

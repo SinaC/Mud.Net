@@ -63,6 +63,7 @@ public interface ICharacter : IEntity, IContainer
     void SetStun(int pulseCount); // set daze delay (in pulse), can only increase
 
     // Money
+    long Wealth { get; }
     long SilverCoins { get; }
     long GoldCoins { get; }
     (long silverSpent, long goldSpent) DeductCost(long cost);

@@ -1,4 +1,6 @@
-﻿namespace Mud.Common;
+﻿using System.Text;
+
+namespace Mud.Common;
 
 public static class StringExtensions
 {
@@ -24,6 +26,41 @@ public static class StringExtensions
             return char.ToUpper(text[0]) + text.Substring(1);
 
         return text.ToUpper();
+    }
+
+    public static IEnumerable<string> Tokenize(this string expression, bool preserveQuote)
+    {
+        if (string.IsNullOrWhiteSpace(expression))
+            yield break;
+        var sb = new StringBuilder();
+        bool inQuote = false;
+        foreach (char c in expression)
+        {
+            if ((c == '"' || c == '\'') && !inQuote)
+            {
+                inQuote = true;
+                continue;
+            }
+            if (c != '"' && c != '\'' && !(char.IsWhiteSpace(c) && !inQuote))
+            {
+                sb.Append(c);
+                continue;
+            }
+            if (sb.Length > 0)
+            {
+                if (inQuote && preserveQuote)
+                {
+                    sb.Insert(0, '\'');
+                    sb.Append('\'');
+                }
+                var result = sb.ToString();
+                sb.Clear();
+                inQuote = false;
+                yield return result;
+            }
+        }
+        if (sb.Length > 0)
+            yield return sb.ToString();
     }
 
     public static string MaxLength(this string input, int length)

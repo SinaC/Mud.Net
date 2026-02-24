@@ -1,8 +1,8 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Blueprints.MobProgram;
+namespace Mud.Blueprints.MobProgram.Triggers;
 
-public class MobProgramExit : MobProgramBase
+public class ExitTrigger : MobProgramTriggerBase
 {
     public ExitDirections Direction { get; set; }
     public bool IsAll { get; set; }

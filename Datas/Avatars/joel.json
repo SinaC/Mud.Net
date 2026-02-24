@@ -2,7 +2,7 @@
   "Version": 1,
   "AccountName": "joel",
   "CreationTime": "2025-11-18T06:13:40.5024041+01:00",
-  "RoomId": 3001,
+  "RoomId": 3365,
   "SilverCoins": 0,
   "GoldCoins": 0,
   "Wimpy": 0,
@@ -10,230 +10,230 @@
   "Alignment": 0,
   "Trains": 18,
   "Practices": 37,
-  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
+  "AutoFlags": "Assist,Exit,Sacrifice,Gold,Split,Loot,Affect",
   "Currencies": {
     "QuestPoints": 0
   },
   "ActiveQuests": [],
   "LearnedAbilities": [
     {
-      "Name": "Detect Magic",
+      "Name": "detect magic",
       "Level": 2,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Detect Invis",
+      "Name": "detect invis",
       "Level": 3,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Chill Touch",
+      "Name": "chill touch",
       "Level": 4,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Continual Light",
+      "Name": "continual light",
       "Level": 6,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Faerie Fire",
+      "Name": "faerie fire",
       "Level": 6,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Armor",
+      "Name": "armor",
       "Level": 7,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Burning Hands",
+      "Name": "burning hands",
       "Level": 7,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Create Water",
+      "Name": "create water",
       "Level": 8,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Create Food",
+      "Name": "create food",
       "Level": 10,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Fly",
+      "Name": "fly",
       "Level": 10,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Floating Disc",
+      "Name": "floating disc",
       "Level": 10,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Detect Evil",
+      "Name": "detect evil",
       "Level": 11,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Detect Good",
+      "Name": "detect good",
       "Level": 11,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Blindness",
+      "Name": "blindness",
       "Level": 12,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Fireproof",
+      "Name": "fireproof",
       "Level": 13,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Create Spring",
+      "Name": "create spring",
       "Level": 14,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Faerie Fog",
+      "Name": "faerie fog",
       "Level": 14,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Farsight",
+      "Name": "farsight",
       "Level": 14,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Control Weather",
+      "Name": "control weather",
       "Level": 15,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Detect Hidden",
+      "Name": "detect hidden",
       "Level": 15,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Detect Poison",
+      "Name": "detect poison",
       "Level": 15,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Colour Spray",
+      "Name": "colour spray",
       "Level": 16,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Create Rose",
+      "Name": "create rose",
       "Level": 16,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Dispel Magic",
+      "Name": "dispel magic",
       "Level": 16,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Enchant Armor",
+      "Name": "enchant armor",
       "Level": 16,
       "Learned": 1,
       "Rating": 2
     },
     {
-      "Name": "Enchant Weapon",
+      "Name": "enchant weapon",
       "Level": 17,
       "Learned": 1,
       "Rating": 2
     },
     {
-      "Name": "Cancellation",
+      "Name": "cancellation",
       "Level": 18,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Curse",
+      "Name": "curse",
       "Level": 18,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Energy Drain",
+      "Name": "energy drain",
       "Level": 19,
       "Learned": 1,
       "Rating": 2
     },
     {
-      "Name": "Charm Person",
+      "Name": "charm person",
       "Level": 20,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Fireball",
+      "Name": "fireball",
       "Level": 22,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Call Lightning",
+      "Name": "call lightning",
       "Level": 26,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Acid Blast",
+      "Name": "acid blast",
       "Level": 28,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Chain Lightning",
+      "Name": "chain lightning",
       "Level": 33,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Calm",
+      "Name": "calm",
       "Level": 48,
       "Learned": 1,
       "Rating": 1
     },
     {
-      "Name": "Sneak",
+      "Name": "sneak",
       "Level": 1,
       "Learned": 100,
       "Rating": 1
     },
     {
-      "Name": "Hide",
+      "Name": "hide",
       "Level": 1,
       "Learned": 100,
       "Rating": 1
@@ -321,7 +321,9 @@
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "Name": "joel",
   "Race": "elf",
-  "Classes": ["mage"],
+  "Classes": [
+    "mage"
+  ],
   "Level": 41,
   "Sex": "Neutral",
   "Size": "Medium",
@@ -347,9 +349,9 @@
   "Inventory": [],
   "Auras": [
     {
-      "AbilityName": "Fly",
+      "AbilityName": "fly",
       "Level": 6,
-      "PulseLeft": 9916,
+      "PulseLeft": 9888,
       "AuraFlags": "",
       "Affects": [
         {
@@ -360,9 +362,9 @@
       ]
     },
     {
-      "AbilityName": "Detect Hidden",
+      "AbilityName": "detect hidden",
       "Level": 21,
-      "PulseLeft": 9404,
+      "PulseLeft": 9376,
       "AuraFlags": "",
       "Affects": [
         {
@@ -373,9 +375,9 @@
       ]
     },
     {
-      "AbilityName": "Detect Invis",
+      "AbilityName": "detect invis",
       "Level": 32,
-      "PulseLeft": 9600,
+      "PulseLeft": 9572,
       "AuraFlags": "",
       "Affects": [
         {

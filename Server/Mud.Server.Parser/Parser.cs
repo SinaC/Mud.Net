@@ -2,7 +2,6 @@
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Server.Parser.Interfaces;
-using System.Text;
 
 namespace Mud.Server.Parser;
 
@@ -88,20 +87,9 @@ public partial class Parser : IParser
         Logger.LogTrace("Extracting command [{command}]", commandLine);
 
         var (command, parameters) = SplitCommandAndParameters(commandLine);
-        var tokens = SplitParameters(parameters).ToArray();
+        var tokens = parameters.Tokenize(false).ToArray();
 
         return (command, parameters, tokens);
-
-        //// handle special case of ' command (alias for say)
-        //var startsWithSimpleQuote = commandLine.StartsWith('\'');
-        //// Split
-        //string[] tokens = startsWithSimpleQuote
-        //    ? "\'".Yield().Concat(SplitParameters(commandLine[1..])).ToArray()
-        //    : SplitParameters(commandLine).ToArray();
-        //// First token is the command
-        //string command = tokens[0];
-
-        //return (command, tokens.Skip(1)); // return command and remaining tokens
     }
 
     private static char[] SpecialCommands { get; } = [',', '.', '\'', ':', ';', '?'];
@@ -126,36 +114,6 @@ public partial class Parser : IParser
             return (commandLine[0].ToString(), commandLine.Substring(1).Trim());
         else
             return (commandLine.Substring(0, index), commandLine.Substring(index + 1).Trim());
-    }
-
-    public IEnumerable<string> SplitParameters(string parameters)
-    {
-        if (string.IsNullOrWhiteSpace(parameters))
-            yield break;
-        var sb = new StringBuilder();
-        bool inQuote = false;
-        foreach (char c in parameters)
-        {
-            if ((c == '"' || c == '\'') && !inQuote)
-            {
-                inQuote = true;
-                continue;
-            }
-            if (c != '"' && c != '\'' && !(char.IsWhiteSpace(c) && !inQuote))
-            {
-                sb.Append(c);
-                continue;
-            }
-            if (sb.Length > 0)
-            {
-                var result = sb.ToString();
-                sb.Clear();
-                inQuote = false;
-                yield return result;
-            }
-        }
-        if (sb.Length > 0)
-            yield return sb.ToString();
     }
 
     public ICommandParameter ParseParameter(string parameter)

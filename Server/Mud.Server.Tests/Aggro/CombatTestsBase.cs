@@ -59,7 +59,7 @@ public abstract class CombatTestsBase
             StartPosition = Positions.Standing,
         };
 
-        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManager, null!, null!, null!, null!, null!, null!, null!, null!, aggroManager, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, rageGeneratorMock.Object, null!, flagsManagerMock.Object, null!, null!);
+        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManager, null!, null!, null!, null!, null!, null!, null!, null!, aggroManager, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, rageGeneratorMock.Object, null!, flagsManagerMock.Object, null!, null!, null!, null!);
         npc.Initialize(Guid.NewGuid(), blueprint, room);
 
         return npc;

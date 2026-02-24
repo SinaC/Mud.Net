@@ -247,6 +247,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Money
+    public long Wealth => SilverCoins + GoldCoins * 100;
     public long SilverCoins { get; protected set; }
     public long GoldCoins { get; protected set; }
 

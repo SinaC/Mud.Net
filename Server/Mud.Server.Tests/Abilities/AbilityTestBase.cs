@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Interfaces;
-using Mud.Server.Parser.Interfaces;
 using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Parser.Interfaces;
 using Mud.Server.Tests.Mocking;
 using System.Reflection;
 
@@ -19,7 +20,7 @@ public abstract class AbilityTestBase : TestBase
     protected static ICommandParameter[] BuildParameters(string parameters)
     {
         var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
-        return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
+        return parameters.Tokenize().Select(parser.ParseParameter).ToArray();
     }
 
     protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)

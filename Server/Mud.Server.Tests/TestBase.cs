@@ -61,7 +61,7 @@ public abstract class TestBase
         tableValuesMock.Setup(x => x.HitBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-5);
         tableValuesMock.Setup(x => x.DamBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-20);
 
-        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!, null!);
+        var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, messageForwardOptions, null!, randomManagerMock.Object, tableValuesMock.Object, null!, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!, null!, null!, null!, null!);
         npc.Initialize(Guid.NewGuid(), blueprint, room);
 
         return npc;

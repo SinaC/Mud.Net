@@ -1,6 +1,6 @@
-﻿namespace Mud.Blueprints.MobProgram;
+﻿namespace Mud.Blueprints.MobProgram.Triggers;
 
-public class MobProgramGive : MobProgramBase
+public class GiveTrigger : MobProgramTriggerBase
 {
     public int? ObjectId { get; set; }
     public string? ObjectName { get; set; }

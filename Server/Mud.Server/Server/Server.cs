@@ -1646,7 +1646,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 // give some money to shopkeeper
                 if (npc.Blueprint is CharacterShopBlueprint)
                 {
-                    if (npc.SilverCoins + npc.GoldCoins * 100 < npc.Blueprint.Wealth)
+                    if (npc.Wealth < npc.Blueprint.Wealth)
                     {
                         long silver = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 5000000;
                         long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;

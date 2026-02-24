@@ -10,15 +10,19 @@
       "Name": "joel",
       "Version": 1,
       "Level": 41,
-      "Classes": ["Mage"],
+      "Classes": [
+        "Mage"
+      ],
       "Race": "Elf",
-      "RoomId": 3001
+      "RoomId": 3365
     },
     {
       "Name": "linh",
       "Version": 1,
       "Level": 3,
-      "Classes": ["Cleric"],
+      "Classes": [
+        "Cleric"
+      ],
       "Race": "Human",
       "RoomId": 3001
     }

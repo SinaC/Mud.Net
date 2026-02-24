@@ -75,7 +75,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
                 return "Number must be between 1 and 10";
             // can afford ?
             TotalCost = cost * Count.Value;
-            var wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
+            var wealth = Actor.Wealth;
             if (TotalCost > wealth)
             {
                 if (Count == 1)
@@ -125,7 +125,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
             var cost = GetBuyCost(ShopKeeper!, petShopBlueprint, PetBlueprint, true);
             // can afford ?
             TotalCost = cost;
-            var wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
+            var wealth = Actor.Wealth;
             if (TotalCost > wealth)
                 return Actor.ActPhrase("{0:N} tells you 'You can't afford to buy {1}'.", ShopKeeper!, PetBlueprint.ShortDescription);
         }

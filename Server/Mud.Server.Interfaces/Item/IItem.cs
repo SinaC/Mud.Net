@@ -26,6 +26,8 @@ public interface IItem : IEntity
 
     ItemBlueprintBase Blueprint { get; }
 
+    string ItemType { get; }
+
     string Source { get; }
 
     IEnumerable<ExtraDescription> ExtraDescriptions { get; }

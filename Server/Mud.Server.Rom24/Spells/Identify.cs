@@ -40,7 +40,7 @@ public class Identify : ItemInventorySpellBase
     protected override void Invoke()
     {
         StringBuilder sb = new ();
-        sb.AppendFormatLine("Object {0} is type {1}, extra flags {2}.", Item.DisplayName, Item.GetType().Name.Replace("IItem", string.Empty).Replace("Item", string.Empty), Item.ItemFlags.ToString() ?? "(none)");
+        sb.AppendFormatLine("Object {0} is type {1}, extra flags {2}.", Item.DisplayName, Item.ItemType, Item.ItemFlags.ToString() ?? "(none)");
         sb.AppendFormatLine("Weight is {0}, value is {1}, level is {2}.", Item.TotalWeight/10, Item.Cost, Item.Level);
 
         switch (Item)

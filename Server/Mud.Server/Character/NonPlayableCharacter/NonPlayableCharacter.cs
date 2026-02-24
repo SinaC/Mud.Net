@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
-using Mud.Blueprints.MobProgram;
+using Mud.Blueprints.MobProgram.Triggers;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
@@ -32,11 +32,12 @@ using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.MobProgram;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Loot.Interfaces;
+using Mud.Server.MobProgram;
+using Mud.Server.MobProgram.Interfaces;
 using Mud.Server.Options;
 using Mud.Server.Parser;
 using Mud.Server.Parser.Interfaces;
@@ -54,15 +55,19 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
-    private IMobProgramProcessor MobProgramProcessor { get; }
+    private ITimeManager TimeManager { get; }
+    private IMobProgramManager MobProgramManager { get; }
+    private IMobProgramEvaluator MobProgramEvaluator { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager, IMobProgramProcessor mobProgramProcessor)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, IParser parser, IOptions<MessageForwardOptions> messageForwardOptions, IAbilityManager abilityManager, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, ILootManager lootManager, IAggroManager aggroManager, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager, ITimeManager timeManager, IMobProgramManager mobProgramManager, IMobProgramEvaluator mobProgramEvaluator)
         : base(logger, gameActionManager, parser, messageForwardOptions, abilityManager, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet, lootManager, aggroManager)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
         SpecialBehaviorManager = specialBehaviorManager;
-        MobProgramProcessor = mobProgramProcessor;
+        TimeManager = timeManager;
+        MobProgramManager = mobProgramManager;
+        MobProgramEvaluator = mobProgramEvaluator;
         ImmortalMode = new ImmortalModes();
     }
 
@@ -480,7 +485,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         return true;
     }
 
-    // MobProgram triggers
+    // MobProgram
     public int MobProgramDelay { get; private set; }
 
     public void ResetMobProgramDelay()
@@ -509,20 +514,50 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         MobProgramTarget = target;
     }
 
+    public int MobProgramDepth { get; private set; }
+    
+    public void IncreaseMobProgramDepth()
+    {
+        MobProgramDepth++;
+    }
+
+    public void DecreaseMobProgramDepth()
+    {
+        MobProgramDepth = Math.Max(0, MobProgramDepth - 1);
+    }
+
+    // MobProgram triggers
+
     public bool OnAct(ICharacter triggerer, string text)
     {
         // only PC can trigger this
         if (triggerer is not IPlayableCharacter)
             return false;
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramAct>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<ActTrigger>())
         {
-            if (StringCompareHelpers.StringContains(text, mobProgram.Phrase))
+            if (StringCompareHelpers.StringContains(text, trigger.Phrase))
             {
-                Logger.LogInformation("OnAct: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, mobProgram.Phrase);
+                Logger.LogInformation("OnAct: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, trigger.Phrase);
 
-                MobProgramProcessor.Execute(this, mobProgram, triggerer, text);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+                        MobProgramId = trigger.MobProgramId,
+
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -531,14 +566,30 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnBribe(ICharacter triggerer, long amount)
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramBribe>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<BribeTrigger>())
         {
-            if (amount >= mobProgram.Amount)
+            if (amount >= trigger.Amount)
             {
-                Logger.LogInformation("OnBribe: {name}: {triggerer} {amount} >= {amountThreshold}", DebugName, triggerer.DebugName, amount, mobProgram.Amount);
+                Logger.LogInformation("OnBribe: {name}: {triggerer} {amount} >= {amountThreshold}", DebugName, triggerer.DebugName, amount, trigger.Amount);
 
-                MobProgramProcessor.Execute(this, mobProgram, triggerer, amount);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -547,28 +598,45 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnGive(ICharacter triggerer, IItem item)
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramGive>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<GiveTrigger>())
         {
             var matchingMobProgramFound = false;
-            if (mobProgram.IsAll)
+            if (trigger.IsAll)
             {
                 Logger.LogInformation("OnGive: {name}: IsAll {triggerer} {itemName}", DebugName, triggerer.DebugName, item.DebugName);
                 matchingMobProgramFound = true;
             }
-            else if (mobProgram.ObjectId is not null && mobProgram.ObjectId.Value == item.Blueprint.Id)
+            else if (trigger.ObjectId is not null && trigger.ObjectId.Value == item.Blueprint.Id)
             {
-                Logger.LogInformation("OnGive: {name}: objectId {objectId} {triggerer} {itemName}", DebugName, mobProgram.ObjectId.Value, triggerer.DebugName, item.DebugName);
+                Logger.LogInformation("OnGive: {name}: objectId {objectId} {triggerer} {itemName}", DebugName, trigger.ObjectId.Value, triggerer.DebugName, item.DebugName);
                 matchingMobProgramFound = true;
             }
-            else if (mobProgram.ObjectName is not null && StringCompareHelpers.AnyStringEquals(item.Keywords, mobProgram.ObjectName))
+            else if (trigger.ObjectName is not null && StringCompareHelpers.AnyStringEquals(item.Keywords, trigger.ObjectName))
             {
-                Logger.LogInformation("OnGive: {name}: objectName {objectName} {triggerer} {itemName}", DebugName, mobProgram.ObjectName, triggerer.DebugName, item.DebugName);
+                Logger.LogInformation("OnGive: {name}: objectName {objectName} {triggerer} {itemName}", DebugName, trigger.ObjectName, triggerer.DebugName, item.DebugName);
                 matchingMobProgramFound = true;
             }
             if (matchingMobProgramFound)
             {
-                MobProgramProcessor.Execute(this, mobProgram, triggerer, item);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+                        PrimaryObject = item,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -580,14 +648,30 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (triggerer is not IPlayableCharacter)
             return false;
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramSocial>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<SocialTrigger>())
         {
-            if (StringCompareHelpers.StringEquals(socialDefinition.Name, mobProgram.Social))
+            if (StringCompareHelpers.StringEquals(socialDefinition.Name, trigger.Social))
             {
                 Logger.LogInformation("OnSocial: {name}: {triggerer} {social}", DebugName, triggerer.DebugName, socialDefinition.Name);
 
-                MobProgramProcessor.Execute(this, mobProgram, triggerer);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -599,14 +683,30 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (triggerer is not IPlayableCharacter)
             return false;
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramSpeech>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<SpeechTrigger>())
         {
-            if (StringCompareHelpers.StringContains(text, mobProgram.Phrase))
+            if (StringCompareHelpers.StringContains(text, trigger.Phrase))
             {
-                Logger.LogInformation("OnSpeech: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, mobProgram.Phrase);
+                Logger.LogInformation("OnSpeech: {name}: {triggerer} {phrase}", DebugName, triggerer.DebugName, trigger.Phrase);
 
-                MobProgramProcessor.Execute(this, mobProgram, triggerer, text);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -615,14 +715,29 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnEntry()
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramEntry>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<EntryTrigger>())
         {
-            if (RandomManager.Chance(mobProgram.Percentage))
+            if (RandomManager.Chance(trigger.Percentage))
             {
                 Logger.LogInformation("OnEntry: {name}", DebugName);
 
-                MobProgramProcessor.Execute(this, mobProgram);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -634,29 +749,45 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (triggerer is not IPlayableCharacter)
             return false;
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramGreet>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<GreetTrigger>())
         {
-            var matchingMobProgramFound = false;
-            if (!mobProgram.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
+            var shouldTrigger = false;
+            if (!trigger.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
             {
-                if (RandomManager.Chance(mobProgram.Percentage))
+                if (RandomManager.Chance(trigger.Percentage))
                 {
                     Logger.LogInformation("OnGreet: {name}: {triggerer}", DebugName, triggerer.DebugName);
-                    matchingMobProgramFound = true;
+                    shouldTrigger = true;
                 }
             }
-            else if (mobProgram.IsAll)
+            else if (trigger.IsAll)
             {
-                if (RandomManager.Chance(mobProgram.Percentage))
+                if (RandomManager.Chance(trigger.Percentage))
                 {
                     Logger.LogInformation("OnGreet: IsAll {name}: {triggerer}", DebugName, triggerer.DebugName);
-                    matchingMobProgramFound = true;
+                    shouldTrigger = true;
                 }
             }
-            if (matchingMobProgramFound)
+            if (shouldTrigger)
             {
-                MobProgramProcessor.Execute(this, mobProgram, triggerer);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -668,20 +799,40 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (triggerer is not IPlayableCharacter)
             return false;
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramExit>().Where(x => x.Direction == direction))
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<ExitTrigger>().Where(x => x.Direction == direction))
         {
-            if (!mobProgram.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
+            var shouldTrigger = false;
+            if (!trigger.IsAll && CanSee(triggerer) && Blueprint.DefaultPosition == Position)
             {
                 Logger.LogInformation("OnExit: {name}: {triggerer} {direction}", DebugName, triggerer.DebugName, direction);
-                triggered = true;
+                shouldTrigger = true;
             }
-            else if (mobProgram.IsAll)
+            else if (trigger.IsAll)
             {
                 Logger.LogInformation("OnExit: {name}: IsAll {triggerer} {direction}", DebugName, triggerer.DebugName, direction);
-                triggered = true;
+                shouldTrigger = true;
             }
-            if (triggered)
-                MobProgramProcessor.Execute(this, mobProgram, triggerer, direction);
+            if (shouldTrigger)
+            {
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
+            }
         }
         return triggered;
     }
@@ -689,14 +840,30 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnKill(ICharacter triggerer)
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramKill>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<KillTrigger>())
         {
-            if (RandomManager.Chance(mobProgram.Percentage))
+            if (RandomManager.Chance(trigger.Percentage))
             {
                 Logger.LogInformation("OnKill: {name}: {triggerer}", DebugName, triggerer.DebugName);
 
-                MobProgramProcessor.Execute(this, mobProgram, triggerer);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = triggerer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -705,14 +872,30 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnDeath(ICharacter? killer)
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramDeath>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<DeathTrigger>())
         {
-            if (RandomManager.Chance(mobProgram.Percentage))
+            if (RandomManager.Chance(trigger.Percentage))
             {
                 Logger.LogInformation("OnDeath: {name}: {killer}", DebugName, killer?.DebugName);
 
-                MobProgramProcessor.Execute(this, mobProgram, killer);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = killer,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -721,14 +904,30 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnFight(ICharacter fighting)
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramFight>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<FightTrigger>())
         {
-            if (RandomManager.Chance(mobProgram.Percentage))
+            if (RandomManager.Chance(trigger.Percentage))
             {
                 Logger.LogInformation("OnFight: {name}: {fighting}", DebugName, fighting?.DebugName);
 
-                MobProgramProcessor.Execute(this, mobProgram, fighting);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+                        Triggerer = fighting,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -739,12 +938,28 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         var triggered = false;
 
         var hitpointPercentage = (100 * this[ResourceKinds.HitPoints]) / this.MaxResource(ResourceKinds.HitPoints);
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramHitPointPercentage>().Where(x => hitpointPercentage < x.Percentage))
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<HitPointPercentageTrigger>().Where(x => hitpointPercentage < x.Percentage))
         {
             Logger.LogInformation("OnHitPointPercentage: {name}: {fighting}", DebugName, fighting?.DebugName);
 
-            MobProgramProcessor.Execute(this, mobProgram, fighting);
-            triggered = true;
+            var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+            if (mobProgram == null)
+                Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+            else
+            {
+                var context = new MobProgramExecutionContext
+                {
+                    Self = this,
+                    Triggerer = fighting,
+
+                    MobProgramId = trigger.MobProgramId,
+                    RandomManager = RandomManager,
+                    TimeManager = TimeManager,
+                    CharacterManager = CharacterManager
+                };
+                MobProgramEvaluator.Evaluate(mobProgram, context);
+                triggered = true;
+            }
         }
         return triggered;
     }
@@ -752,14 +967,29 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnRandom()
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramRandom>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<RandomTrigger>())
         {
-            if (RandomManager.Chance(mobProgram.Percentage))
+            if (RandomManager.Chance(trigger.Percentage))
             {
                 Logger.LogInformation("OnRandom: {name}", DebugName);
 
-                MobProgramProcessor.Execute(this, mobProgram);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;
@@ -768,14 +998,29 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool OnDelay()
     {
         var triggered = false;
-        foreach (var mobProgram in Blueprint.MobPrograms.OfType<MobProgramDelay>())
+        foreach (var trigger in Blueprint.MobProgramTriggers.OfType<DelayTrigger>())
         {
-            if (RandomManager.Chance(mobProgram.Percentage))
+            if (RandomManager.Chance(trigger.Percentage))
             {
                 Logger.LogInformation("OnDelay: {name}", DebugName);
 
-                MobProgramProcessor.Execute(this, mobProgram);
-                triggered = true;
+                var mobProgram = MobProgramManager.GetMobProgram(trigger.MobProgramId);
+                if (mobProgram == null)
+                    Logger.LogError("Unknown program id {mobProgramId} for {debugName}", trigger.MobProgramId, DebugName);
+                else
+                {
+                    var context = new MobProgramExecutionContext
+                    {
+                        Self = this,
+
+                        MobProgramId = trigger.MobProgramId,
+                        RandomManager = RandomManager,
+                        TimeManager = TimeManager,
+                        CharacterManager = CharacterManager
+                    };
+                    MobProgramEvaluator.Evaluate(mobProgram, context);
+                    triggered = true;
+                }
             }
         }
         return triggered;

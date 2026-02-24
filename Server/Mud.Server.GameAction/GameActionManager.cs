@@ -93,7 +93,7 @@ public class GameActionManager : IGameActionManager
         var command = gameActionInfo.Name;
         var parameters = commandLine == null
             ? Enumerable.Empty<ICommandParameter>().ToArray()
-            : Parser.SplitParameters(commandLine).Select(Parser.ParseParameter).ToArray();
+            : commandLine.Tokenize(false).Select(Parser.ParseParameter).ToArray();
         return Execute(gameActionInfo, actor, commandLine!, command, commandLine!, parameters);
     }
 

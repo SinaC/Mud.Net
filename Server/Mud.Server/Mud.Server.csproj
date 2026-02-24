@@ -2,14 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Quest\**" />
-    <EmbeddedResource Remove="Quest\**" />
-    <None Remove="Quest\**" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Mud.Blueprints\Mud.Blueprints.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Common\Mud.Common.csproj" />
@@ -29,6 +25,8 @@
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\..\Shared\Mud.Random\Mud.Random.csproj" />
     <ProjectReference Include="..\Mud.Server.Loot.Interfaces\Mud.Server.Loot.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.MobProgram.Interfaces\Mud.Server.MobProgram.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.MobProgram\Mud.Server.MobProgram.csproj" />
     <ProjectReference Include="..\Mud.Server.Parser\Mud.Server.Parser.csproj" />
     <ProjectReference Include="..\Mud.Server.Quest\Mud.Server.Quest.csproj" />
     <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />

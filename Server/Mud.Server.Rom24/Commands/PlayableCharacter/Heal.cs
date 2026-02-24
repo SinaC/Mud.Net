@@ -79,7 +79,7 @@ public class Heal : PlayableCharacterGameAction
 
         // check cost
         TotalCost = SelectedHealSpellInfo.Cost * 100;
-        var wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
+        var wealth = Actor.Wealth;
         if (TotalCost > wealth)
             return Actor.ActPhrase("{0:N} says 'You do not have enough gold for my services.", Healer);
 
