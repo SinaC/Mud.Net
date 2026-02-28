@@ -1,6 +1,7 @@
-﻿using Mud.Server.Parser.Interfaces;
-using Mud.Server.Domain.Attributes;
+﻿using Mud.Blueprints.Item;
+using Mud.Server.Character;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.AdminGuards;
 using Mud.Server.Guards.Interfaces;
@@ -9,13 +10,16 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Parser.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
 [AdminCommand("ifind", "Information")]
 [Alias("ofind")]
-[Syntax("[cmd] <item>")]
+[Syntax(
+"[cmd] <item>",
+"[cmd] <id>")]
 public class Ifind : AdminGameAction
 {
     protected override IGuard<IAdmin>[] Guards => [new RequiresAtLeastOneArgument()];
@@ -27,7 +31,8 @@ public class Ifind : AdminGameAction
         ItemManager = itemManager;
     }
 
-    private ICommandParameter Pattern { get; set; } = default!;
+    private ItemBlueprintBase? Blueprint { get; set; }
+    private ICommandParameter? Pattern { get; set; } = default!;
 
     public override string? CanExecute(IActionInput actionInput)
     {
@@ -35,6 +40,16 @@ public class Ifind : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
 
+        if (actionInput.Parameters[0].IsNumber)
+        {
+            var blueprintId = actionInput.Parameters[0].AsNumber;
+            var blueprint = ItemManager.GetItemBlueprint(blueprintId);
+            if (blueprint == null)
+                return "Not found.";
+            Blueprint = blueprint;
+
+            return null;
+        }
         Pattern = actionInput.Parameters[0];
 
         return null;
@@ -43,9 +58,19 @@ public class Ifind : AdminGameAction
     public override void Execute(IActionInput actionInput)
     {
         StringBuilder sb = new();
-        sb.AppendLine($"Searching items '{Pattern.Value}'");
-        List<IItem> items = FindHelpers.FindAllByName(ItemManager.Items, Pattern).OrderBy(x => x.Blueprint.Id).ToList();
-        if (items.Count == 0)
+
+        List<IItem> items = null!;
+        if (Blueprint is not null)
+        {
+            sb.AppendLine($"Searching items id: '{Blueprint.Id}'");
+            items = ItemManager.Items.Where(x => x.Blueprint == Blueprint).ToList();
+        }
+        else if (Pattern is not null)
+        {
+            sb.AppendLine($"Searching items '{Pattern.Value}'");
+            items = FindHelpers.FindAllByName(ItemManager.Items, Pattern).OrderBy(x => x.Blueprint.Id).ToList();
+        }
+        if (items is null || items.Count == 0)
             sb.AppendLine("No matches");
         else
         {

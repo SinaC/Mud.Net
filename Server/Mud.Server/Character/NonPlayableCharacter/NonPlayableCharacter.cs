@@ -549,8 +549,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                     {
                         Self = this,
                         Triggerer = triggerer,
-                        MobProgramId = trigger.MobProgramId,
 
+                        MobProgramId = trigger.MobProgramId,
                         RandomManager = RandomManager,
                         TimeManager = TimeManager,
                         CharacterManager = CharacterManager

@@ -1,0 +1,5756 @@
+#AREADATA
+Name Vartan's Area~
+Builders Neisha~
+VNUMs 27000 27999
+Credits Vartan~
+Security 10
+End
+
+
+
+#MOBILES
+#27000
+canth pet dragon~
+{yCanth, {WVartan's {BDragon{x~
+Canth, Vartan's dragon is here.
+~
+~
+dragon~
+AIJKSTV DFJTVZ ACDEHNP 1000 0
+160 500 1d1+999999 1d1+39999 40d600+500 digestion
+-999 -999 -999 -999
+CFHIKLMN ABCDHIJKLMNOQ BEH 0
+stand stand male 10000
+ACDGHIJKLXZc ACDEFGHIJKLPQUVX giant unknown
+F vul FI
+#27001
+pet keeper~
+The Keeper of Immortal Pets~
+The Keeper of Immortal pets for All of the Immortal's
+~
+You see a Keeper of Dragons and Eagles, etc.
+~
+human~
+ABV 0 0 1000 0
+101 0 1d1+3999 1d1+499 1d1+40 magic
+-999 -999 -999 -999
+DEGH BCDEFG 0 0
+stand stand male 10
+AHMV ABCDEFGHIJK huge unknown
+#27002
+skylar~
+Skylar Ronni's pet Eagle.~
+You see Skylar here in his {GGlory{X.
+~
+You see a magnificent Eagle soaring in the air, keeping an {CEye{x on
+Ronni
+~
+human~
+ABIMV DF HN 1000 0
+152 108 1d1+29999 10d10+999 10d90+99 claw
+-999 -999 -999 -999
+ABFGHK ABCDEFGHIJKLMNOPQRS 0 0
+stand stand male 5000000
+AMV ABCDEFGHIJK small unknown
+#27003
+Sharik white tiger~
+{^Sharik{x, {CK{cira{x's pet {yt{Yi{yg{Ye{yr{x~
+{^Sharik{0, Kira's tiger is here on the guard.
+~
+You see a blindingly {7White{0 tiger with piercing {2emerald{0 eyes. He
+stands here, sworn to protect his mistress {^Kira{0 to his last roar. 
+{CPlease return if found{x
+{CI might be vicious.{x
+~
+tiegre~
+AIJKVbd CDEFGJLUVZc CDEH 1000 0
+159 102 999d999+20000 1d99+0 10d999+0 claw
+-400 -400 -400 -400
+CDEFHIKNO ABCDEFGHIJKLMNOPQRS LQS 0
+stand stand male 1000
+AGHMV ABCDEFGHIJKQUV huge unknown
+#27004
+Mieu kitten~
+Mieu~
+{^M{6ieu{7, Alys's Pet kitten sits here.
+~
+~
+cat~
+AIJKQRTVa JTV H 1000 0
+159 10000 1d1+29999 1d1+19999 1d11+999 claw
+-999 -999 -999 -999
+ACFHIMN ABCDHIJKLMNOQ BEH 0
+stand stand female 10000
+ACDGHIJKLVXZc ACDEFGHIJKLPQUVX giant unknown
+F aff Z
+#27005
+imm pet~
+imm pet~
+A blank short desc field
+~
+A blank long desc field
+~
+dragon~
+ABIQRTV DFJTVZc CDEH 1000 0
+152 101 1d1+29999 1d1+19999 1d1+999 claw
+-999 -999 -999 -999
+ACFHIMN ABCDEFHKLOPQ BEH FI
+stand stand male 10000
+ACDGHIJKLXZc ACDEFGHIJKLPQUVX huge unknown
+#27006
+shopkeeper overseer sam drucker~
+Sam Drucker~
+Sam Drucker the shopkeeper is here.
+~
+~
+human~
+ABMV DF 0 1000 0
+100 100 1d1+1999 1d1+999 1d1+99 divine
+-250 -250 -250 -250
+0 ABCDKLQ 0 0
+stand stand male 500000
+AHMV ABCDEFGHIJK large unknown
+#27007
+owen~
+A Gate Mob~
+Gate mob
+~
+~
+pig~
+AB 0 0 200 0
+15 15 4d4+24 4d3+20 2d2+4 none
+4 4 4 2
+0 D 0 0
+stand stand none 1842
+AGV ACDEFHJK medium unknown
+F for C
+#27008
+over healer kildare~
+Dr. Kildare~
+Dr. Kildare is here.
+~
+~
+human~
+ABGJKQRTVabcd DTUZ 0 1000 0
+180 0 1d1+10000 1d1+1000 1d1+100 magic
+-399 -399 -399 -399
+AGHO ABCDEFGHIJKLMNOPQRS 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK huge unknown
+#27009
+canth pet dragon~
+Canth~
+{#Canth {$F'nor's {&Dragon{0
+~
+~
+dragon~
+ABJKSTV DFJTVZ H 1000 0
+160 500 1d1+999999 1d1+39999 40d600+500 digestion
+-999 -999 -999 -999
+CFHIKLMN ABCDHIJKLMNOQ BEH 0
+stand stand male 10000
+ACDGHIJKLXZc ACDEFGHIJKLPQUVX giant unknown
+F vul FI
+M RANDOM 27011 2~
+M RANDOM 27009 3~
+M SPEECH 27010 go canth.~
+#27010
+none~
+no description~
+No description
+~
+~
+human~
+A 0 0 0 0
+0 0 1d1+1 0d0+0 1d1+1 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#27011
+bunbun pet~
+{%Bun{x-{%Bun{x the {!Killer {$Bunny{x~
+{%Bun{x-{%Bun{x the {!Killer {$Bunny{x glares at you menancingly.
+~
+~
+rabbit~
+AIJKPQRSTVb DFJTVZ 0 1000 0
+159 500 1d1+999999 1d1+39999 40d600+500 digestion
+-999 -999 -999 -999
+CFHIKLMN ABCDHIJKLMNOQ BEH 0
+stand stand male 10000
+ACDGHIJKLVXZc ACDEFGHIJKLPQUVX giant unknown
+#27012
+persian cat~
+A beautiful white persian cat~
+A beautiful white persian cat lies here sleeping peacefully.
+~
+You are looking at a beautiful white persian cat.  
+~
+feline~
+ACD P CDEH 1000 0
+110 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 ABCDEKLMNOPQRTXYZ BI H
+sleep sleep female 0
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F aff DFJLZ
+F off FK
+#27013
+dakota~
+{#D{3a{#k{3o{#t{3a{x~
+{#D{3a{#k{3o{#t{3a{x, Lyna's Pet kitty stands guard here.
+~
+Light glints off the crystalline form of a large, fierce cat.  Despite the
+hardness of its make the cat moves with the silent, dangerous grace of
+a killer.
+~
+cat~
+ABJ DFPVZ CDEH 0 0
+152 0 75d10+12000 1d10+650 8d6+34 flbite
+-35 -36 -34 -33
+DEFH AI J H
+stand stand male 0
+AGV ACDEFHJKQUV large 0
+#27014
+Amelya the Teddy Bear~
+{cAmelya{x the {wTeddy {mBear{x~
+{cAmelya{x the {wTeddy {mBear{x of the {YSunshine {bGoddess{x is here.
+~
+{M
+              ____               ____
+             /,,,,\_____________/,,,,\
+            |,(  )/,,,,,,,,,,,,,\(  ),|
+             \__,,,,___,,,,,___,,,,__/
+               /,,,/(')\,,,/(')\,,,\
+              |,,,,___ _____ ___,,,,|
+              |,,,/   \\o_o//   \,,,|
+              |,,|       |       |,,|
+              |,,|   \__/|\__/   |,,|
+                \__\___________/__/
+  ________________/,,,,,,,,,,,,,\________________
+ / \,,,,,,,,,,,,,,,,___________,,,,,,,,,,,,,,,,/ \
+(   ),,,,,,,,,,,,,,/           \,,,,,,,,,,,,,,(   )
+ \_/____________,,/             \,,____________\_/
+               /,/               \,\
+              |,|{C *H   U   G   S*{M |,|
+              |,|                 |,|
+              |,|                 |,|
+              |,|                 |,|
+               \,\       O       /,/
+               /,,\_____________/,,\
+              /,,,,,,,,,,,,,,,,,,,,,\
+             /,,,,,,,,_______,,,,,,,,\
+            /,,,,,,,,/       \,,,,,,,,\
+           /,,,,,,, /         \,,,,,,,,\
+          /_____,,,/           \,,,_____\
+         //     \,/             \,/     \\
+         \\_____//               \\_____//{x
+~
+cat~
+AIJKQRTVa DFJTVZ 0 1000 0
+152 10000 1d1+29999 1d1+19999 1d11+999 claw
+-999 -999 -999 -999
+ACFHIMN ABCDHIJKLMNOQ BEH 0
+stand stand female 10000
+ACDGHIJKLVXZc ACDEFGHIJKLPQUVX giant unknown
+#27015
+tambreet platypus von toet~
+the {!Platypus{x of {DDeath{x~
+The {RPlatypus{0 of {DDeath{x sits curled up in the corner.
+~
+{mDie Platypus von toet!  {w This is the {yPlatypus{7 of Death.  Her
+beautiful auburn fur has been combed out by Saphyre, and her toeclaws have
+been painted a lovely shade of {rred{7.  Her weapons are in a pack on her
+back.  She use to live with the {YLady Ramoth{7, but now spends her days
+being pampered by Saphyre and protecting Saphyre's home.{0  
+~
+water fowl~
+ABIMc DFJVZbc 0 1000 0
+200 10000 500d500+10000 100d100+100 1000d1000+10000 splash
+0 0 0 0
+CDEFIKN ABCDE 0 0
+stand stand female 1
+AGV ADEFGHJKQU small unknown
+F aff T
+F res R
+F for CW
+F par CP
+M ACT 27803 grabs hold of your neck~
+M SPEECH 27801 xyyzyz~
+M SPEECH 27800 holder, please.~
+M RANDOM 27802 3~
+M KILL 27803 100~
+#27016
+no name~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+#27018
+82400~
+{5Z{@y{#d{5e{@c{#o{5's {&J{%e{@s{#t{&e{%r{x~
+{5Z{@y{#d{5e{@c{#o{5's {&J{%e{@s{#t{&e{%r{x stands here, ready to help you {#PARTY{x
+~
+0~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+sit sit none 0
+0 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+#27030
+dale earnhardt spirit~
+{&The {*Spirit{x of {!Dale Earnhardt{x~
+{&The {*Spirit{x of {!Dale Earnhardt{x surrounds you.
+~
+The {*Man{x in {*Black{x stands before you with his open-faced helmet.  You can't
+see his eyes through his trademark sunglasses but you feel as though he is
+staring through you as his moustache quivers.  
+~
+giant~
+AIJKSTV DFJTVZ 0 -1000 0
+159 500 1d1+999999 1d1+39999 40d600+500 digestion
+-999 -999 -999 -999
+CFHIKLMN ABCDHIJKLMNOQ BEHI JP
+stand stand male 10000
+ACDGHIJKLMVXZc ABCDEFGHIJKLPQUVX giant unknown
+M SPEECH 27030 nnaassccaarr~
+M RANDOM 27030 2~
+#27100
+shopkeeper keeper flar~
+Flar~
+Flar the Roaming Apothecary Shop
+~
+Flar is from Benden Weyr on F'nors home world of Pern, and made a poor judgement
+call one day and hurt  F'nor terribly. So, now he is paying penance to F'nor
+by selling magical Items for {&F'nor{x.
+~
+human~
+ACd CDEFGJTUZ CDEHO 0 0
+110 110 1d1+50000 0d0+1 0d0+1 drain
+0 0 0 0
+0 ABCD 0 0
+stand stand male 50000
+AHMV BCDEFGHIJK huge unknown
+F par A
+M GREET 27808 100~
+M RANDOM 27342 10~
+#27110
+familiar pet dragon~
+a dragon~
+A {3Dr{1ag{3on {0is here with its {3Ma{1st{3er{0.
+~
+The Dragon follows its master.
+~
+dragon~
+ABCIMNUV DFJT CDEH 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 claw
+369 369 369 335
+EFHIK LQ BCEH FI
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+#27111
+familiar pet eagle~
+an eagle~
+A {3Ea{1g{3le {0is here with its {3Ma{1st{3er{0.
+~
+The Eagle follows its master.
+~
+dragon~
+ABCIMNUV DFJT CDEH 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 claw
+369 369 369 335
+EFHIK FLQ BCEH FI
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+#27112
+familiar pet bear~
+a Polar Bear~
+A {3Po{1l{3ar B{1ea{3r {0is here with its {3Ma{1st{3er{0.
+~
+The Polar Bear follows its master.
+~
+bear~
+ABCIMNUV DFJT CDEH 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 claw
+369 369 369 335
+DEFHIKO FLQ BCEHI FI
+stand stand none 0
+AGHVZ ABCDEFGHIJKPQUVX huge unknown
+#27113
+familiar pet panther~
+a panther~
+A {3Pa{1nth{3er {0is here with its {3Ma{1st{3er{0.
+~
+The Panther follows its master.
+~
+feline~
+ABCDIMNUV DFJLTZ CDEH 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 claw
+369 369 369 335
+EFHIK FLQ BCEHI FHI
+stand stand none 0
+ACGHMVZ ABCDEFGHIJKPQUVX huge unknown
+#27114
+familiar pet Gryphon~
+a Gryphon~
+A {3Gr{1yph{3on {0is here with its {3Ma{1st{3er{0.
+~
+A Gryphon is here with it's master.
+~
+dragon~
+ABCIMNUV DFJT CDEH 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 claw
+369 369 369 335
+EFHIK FLQ BCEH FI
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+#27115
+elemental pet air~
+An Air Elemental~
+An {4A{6ir {4E{6lemental{0 is floating in this room.
+~
+The Air elemental follows his Master.
+~
+dragon~
+ABCIMNUV DFJT P 0 0
+1 100 11d345+17345 1d1+1000 25d6+650 frbite
+369 369 369 335
+EFHIK FJLQ BCEH FI
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+#27116
+elemental fire pet~
+A Fire Elemental~
+A {1F{3ire {1E{3lemental{0 is burning brightly here.
+~
+The Fire elemental follows his Master.
+ 
+~
+dragon~
+ABCIMNUV DFJT D 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 none
+369 369 369 335
+EFHIK FHLQ BCEH I
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+F vul F
+#27117
+elemental earth pet~
+An Earth Elemental~
+An {3E{2arth {3E{2lemental{0 slowly moves by you.
+~
+The Earth Elemental follows his Master.
+~
+dragon~
+ABCIMNUV DFJ 0 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 none
+369 369 369 335
+EFHIK EFLQ BCEH I
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+F aff T
+F vul F
+#27118
+elemental water pet~
+A Water Elemental~
+A {6W{4ater {6E{4lemental{0 is here in the room.
+~
+The Water elemental follows his Master.
+~
+dragon~
+ABCIMNUV DFJ C 0 0
+1 100 11d345+17345 1d1+1000 25d6+65 acbite
+369 369 369 335
+EFHIK FHLQ BCEH I
+stand stand none 0
+ACHZ ACDEFGHIJKPQUVX huge unknown
+F aff T
+F vul F
+#27119
+pikachu pokemon pet~
+{YPik{Ra{Ychu{x~
+{YPik{Ra{Ychu{x, the {CCutest {RPokemon{x is here.
+~
+{YPik{Ra{Ychu{x is a small mouse {Rpokemon{x.  It is capable of very powerful
+electric attacks.  It is, by far, the {Ccutest {Bpokemon{x there is.
+~
+doll~
+AI CDEFGUVc CDEHP 1000 0
+158 900 500d1000+10000 150d10+100 200d200+1000 shock
+-120 -120 -120 -120
+0 CDILMNPQR ES GHJKO
+stand stand male 0
+CEJMc ABCGHK tiny unknown
+#27120
+Generic IMM Pet~
+Generic IMM Pet~
+Generic IMM Pet for your restringing pleasures is here
+~
+This pet follows its IMM master
+~
+cat~
+AIJKQRTVa DFJTVZ 0 1000 0
+152 10000 1d1+29999 1d1+19999 1d11+999 claw
+-999 -999 -999 -999
+ACFHIMN ABCDHIJKLMNOQ BEH 0
+stand stand female 10000
+ACDGHIJKLVXZc ACDEFGHIJKLPQUVX giant unknown
+#27326
+qwq8156~
+{GD{garla hovers in {yfront of you{x~
+{GDarla {gflits about the room{x
+~
+{gYou see {GDarla {gflitting about{x
+~
+pixie~
+ABa DEFJT H 1000 0
+400 10 5d5+5 2d50+50 2d2+2 slap
+-90 -90 -90 -90
+0 AB 0 J
+stand stand female 0
+AHMVW ABCDEFGHIJKP tiny glass
+F res BP
+F vul Z
+#27340
+empty~
+empty~
+{x
+~
+{x[{y.{R.{B.{M.{YG{WH{G.{x] A solid Diamond Couch sits here.~
+human~
+A 0 0 0 0
+0 0 1d1+1 1d1+1 1d1+1 slice
+0 0 0 0
+0 0 0 0
+stand stand male 5000
+AHMV ABCDEFGHIJK medium unknown
+#27341
+idiot lost forgotten~
+a lost idiot~
+A lost idiot in look of a poke.
+~
+A poor lost idiot, wanders with a vacant stare.  Moving from place to
+place with out ever a care, but be warned those who wish the idiot harm, the
+idiot is very capable in that department.  
+~
+human~
+AMOPQRSTUc DFJPTUVZc H 0 0
+200 10000 100d100+100 25d5+4000 10d10+1000 wiltstare
+-200 -200 -200 -400
+BCDFGHIJKNOV ABCDEL 0 0
+stand stand none 5000
+AIM BCDEFGHIJKVY huge flesh
+F for V
+F par A
+M ACT 27341 pokes you in~
+M RANDOM 27342 55~
+M KILL 27343 100~
+M FIGHT 27343 100~
+M SPEECH 27804 wiki~
+#27342
+Bleeth~
+Bleeth~
+Bleeth stands before the staircase with two swords in hand.
+~
+This orc is dressed in {8black{0 armor and wields a sword in each hand.  His
+tribe was added to the ranks {1Crimson Soldiers{0 by the word of Amaranth. 
+After going through the tribe, Helgriz and Kingston found Bleeth to be
+extremely cruel yet have more intellegence then most of the others.  He has
+been known to spy and take care of "special" situations.  His smell alone
+would seem to kill.  Bleeth has been posted to guarding the citadel as the
+invasion has begun.  
+~
+orc~
+ABGMST DFJVZc CDEHOQ -1000 29400
+200 250 1d1+350000 25d5+4000 110d110+200 slice
+-200 -200 -200 -400
+ACFGHIJNW ABELQ CD 0
+stand stand male 5000
+AHLMV ABCDEFGHIJK giant unknown
+F res Q
+F vul S
+F for C
+#27410
+jethro brother cousin~
+Brother Jethro~
+Brother Jethro, Brother John's distant cousin
+~
+He looks only a little like Brother John, and he's humming Garth Brooks.
+~
+human~
+ARTVc DFHJTU HN 100 0
+35 0 3d9+283 9d9+100 2d7+4 none
+-3 -3 -3 7
+0 ABCD 0 0
+stand stand male 250
+AHMV ABCDEF tiny 0
+F par GHIJK
+M ACT 27410 waves~
+M GRALL 27410 100~
+M RANDOM 27411 20~
+#27411
+jessamyn cousin~
+Jessamyn~
+Jessamyn, cousin to John and Jezebel.
+~
+She stares at you sidelong, with an evil curl to her lip.
+~
+human~
+ARTVc DFHJTU HN -100 0
+35 0 3d9+283 9d9+100 2d7+4 none
+-3 -3 -3 7
+0 ABCD 0 0
+stand stand female 250
+AHMVX ABCDEF tiny 0
+F par GHIJK
+M ACT 27412 waves~
+M GRALL 27412 100~
+M RANDOM 27411 100~
+#27412
+oldstyle jezebel sister quest master~
+{BS{Wister {BJ{Wezebel{}~
+{BS{Wister {BJ{Wezebel{}, Brother John's evil twin.
+~
+She looks back at you with undisguised contempt.
+You're fairly sure it's just transference from her 
+brother, whose singing is laughably bad.
+~
+human~
+ABGVXZ D CDEH -150 0
+35 0 3d9+283 9d9+100 2d7+4 none
+-3 -3 -3 7
+0 ABCD 0 0
+stand stand female 250
+AHMV ABCDEF tiny 0
+F par GHIJK
+#27501
+Remy~
+Remy LeBeau~
+Remy LeBeau looks at your valubles.
+~
+Long time thief from New Orleans.  He bears
+a striking resemblence to Gambit.
+ 
+He looks at your valubles licks his lips and smiles.
+~
+tiegre~
+AS FJVc CDEHP 1000 0
+152 318 20d20+3000 10d10+400 10d10+400 beating
+10 10 10 10
+CEFHKO B LQS 0
+stand stand male 500
+AGHMV ABCDEFGHIJKQUV medium unknown
+#27505
+none~
+no description~
+No description
+~
+~
+human~
+AB 0 0 0 0
+1 0 1d1+1 1d1+1 1d1+1 none
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+#27554
+al lan Mandragon shopkeeper~
+Al'Lan Mandragon~
+Al'Lan Mandragon is here to help you.
+~
+This once mighty warder has decided to allow Fate to take it's course,
+and return with his wife Nynaeve to our mighty clan. with his help, our
+clan shall destroy all that oppose it. He shall furnish you with all the
+weapons of destruction you shall require on your journeys, and perhaps he
+may be kind enough to lend you some advice on your journey. Take care what
+you say, for not only does he have a temper fit for a devil and the skills
+to back it up, his wife's wrath will come down on you ten fold if you dare
+attack this mighty man. 
+~
+human~
+ABMV DF 0 1000 0
+109 109 1d1+1999 1d1+999 1d1+99 divine
+-250 -250 -250 -250
+0 ABCD 0 0
+stand stand male 5000
+AHMV ABCDEFGHIJK large 0
+#27701
+none~
+no desc~
+No desc
+~
+~
+human~
+AB 0 0 0 0
+0 0 1d1+1 1d1+1 1d1+1 none
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AGHMV ABCDEFGHIJK medium unknown
+#27800
+goblin scout~
+a goblin scout~
+A goblin scout sneaks along in the shadows.
+~
+Big bulbous eyes and oversized ears mark this goblin as a top scout.  It
+skitters from shadow to shadow making copious notes to take back to its
+leaders.  
+~
+goblin~
+AHSTU DFJPVc NO 0 0
+30 105 7d28+75 5d12+100 3d7+120 bolt
+-10 -10 -10 -7
+FINU ABL P NSXY
+stand stand none 100
+ABHMV ABCDEFGHIJKU medium unknown
+M DEATH 27805 100~
+#27801
+soldier orc foot~
+an orc foot soldier~
+An orc foot soldier stands ready to attack.
+~
+Wearing piecemeal and ill-fighting armor the orc makes for a fiercely
+comedic spectacle.  The sword it wields looks deadly though.  
+~
+orc~
+ATU Jc NO 0 27800
+60 210 15d57+300 16d20+560 6d15+240 slash
+-21 -21 -21 -15
+CDFIKNU ABL CDQ S
+stand stand none 200
+BHMV ABCDEFGHIJK medium unknown
+F for C
+M DEATH 27805 100~
+#27802
+cyclops berserker~
+a cyclops berserker~
+A cyclops berserker looks around for its next target.
+~
+The cyclops' baleful eye stares out with hatred gleaming.  Its breath
+heavy and muscles bulging with energy.  It looks ready and more then capable
+of turning its enemies into jelly.  
+~
+cyclops~
+ARTU Vc EHNO 0 27800
+90 420 31d114+1200 10d52+800 12d30+480 smash
+-42 -42 -42 -30
+CDFHKNU ABL CDHI JP
+stand stand none 300
+ABHMV ABCDEFGHIJKW large unknown
+F aff a
+M DEATH 27805 100~
+#27803
+troll captain~
+a troll captain~
+A troll captain tries to keep its forces organized.
+~
+The troll doesnt happen to be the brightest torch in the world, but it is
+trusted with leadership of dragons' armies.  It tries valiantly to direct
+its troops to inflict maximum damage.  
+~
+troll~
+AQTU DFJPQUVc BDEHNO 0 27800
+120 630 47d171+2700 17d51+1000 18d45+720 fury
+-63 -63 -63 -45
+CDEFIKNU ABL BCDE HK
+stand stand none 400
+BHMV ABCDEFGIJKUV huge unknown
+M DEATH 27805 100~
+#27804
+heucuva assassin~
+a heucuva assassin~
+A heucuva assassin moves from shadow to shadow.
+~
+Its cloak blows in an unseen breeze.  Its eyes burn dimly barely exposing
+it from the shadows in which it hides.  
+~
+heucuva~
+AQRSTU PQVZc BCEHNO 0 27800
+150 840 63d228+4800 17d56+1400 24d60+960 sstars
+-84 -84 -84 -60
+CEFIKNU ABLMQ CDE NSY
+stand stand none 500
+ABCIMQ ABCGHIJK giant unknown
+F par V
+M DEATH 27805 100~
+#27805
+drow mage~
+a drow mage~
+A drow mage stands ready to unleash to assist as directed.
+~
+Standing tall, the drow fairly crackles with magical energy.
+~
+drow~
+AQRSTU JPTVc BCDEHNO 0 27800
+181 1057 79d286+7600 17d56+1400 30d75+1208 wiltstare
+-105 -105 -105 -75
+ACEFIKNU ABL BCDE SZ
+stand stand none 500
+ABHV ABCDEFGHIJK giant unknown
+M DEATH 27805 100~
+#27806
+drider cleric~
+a drider cleric~
+A drider cleric skitters about helping and hurting as necessary.
+~
+Perched on its many legs the drider adroitly helps its compatriots and
+hurts its foes.  
+~
+drider~
+AQRST JPTVc BCDEHNO 500 27800
+181 1057 79d286+7600 17d56+1400 30d75+1208 ray
+-105 -105 -105 -75
+ACEFIKNU ABL CDEM NSZ
+stand stand none 4000000
+ABCHOP ABCDEFGHIJKUV giant unknown
+M DEATH 27805 100~
+#27807
+dragon general~
+a dragon general~
+A dragon general directs the overall army.
+~
+Towering above its troops and most enemies it manages to lead them
+forward and direct their movements.  
+~
+dragon~
+AQRTU DFJPQTVc CDEHNO 0 27800
+300 2100 157d570+30000 40d50+1000 60d150+2400 melody
+-210 -210 -210 -150
+CDEFHIKN AB BCDEH FI
+stand stand none 50
+BCHZ ACDEFGHIJKPQUVWX giant unknown
+M DEATH 27805 100~
+#27997
+sha'tayan mashiara sedai~
+{^s{6ha'{^T{6ayan {^M{6ashiara {^S{6edai{x~
+The {^s{6ha'{^T{6ayan {^M{6ashiara {^S{6edai{x favors you with a warm smile.
+~
+A beautiful woman stands before you, smiling down at you from
+a crystalline pedestal. Her eyes are of a warm gold and speak of the
+gentleness within her soul. Long copper curls cascade down her back
+to her waist, and are held back from her forehead by a thin silver
+band. Her smile is soft and elegant, dulcet and pure, and instantly puts
+you at ease. Silken robes, intricately embroidered with leaves, vines
+and flowers, embrace her body, cinched at the waist with a silver-linked
+belt. Delicate pale hands reach out to you, imploringly, seeking to
+heal and comfort, to bless and succor.
+The {^s{6ha'{^T{6ayan{^ is in the eternal service of her lord and master,
+Kurr DelaCruz.
+~
+human~
+ABJKZab DFJLPZ ACDEHP 0 0
+300 0 1d1+1 0d0+0 0d0+0 none
+0 0 0 0
+EFHIJKLMNO BDEFGHIKLMNOPQRSTXYZ 0 0
+stand stand female 999999999
+AGHMV ABCDEFGHIJK medium flesh
+#27998
+Lady of Death~
+the {^Lady{0 of {8Death{0~
+The {^Lady{0 of {8Death{0 winks at you with an evil grin.
+~
+{0
+{0A beautiful woman stands here examining a painting in progress.  She is
+wearing a form fitting outfit made of {1blood red{0 leather.  Her hair, the
+color of {!fire{0, is tied in a braid and draped over her shoulder.  She looks
+at you.  Her eyes, a piercing {@green{0, freeze you in place.  She walks over to
+you measuring you with her eyes and hands before pulling you over to an
+assortment of {8torture devices{0 that will hold you in place as she finishes
+her painting of your {8death{0.  
+ 
+~
+human~
+ARc CDEFGJLPTUVc CDEHNOP 0 0
+330 10000 1d1+1 30d30+999999 1d1+1 none
+-1000 -1000 -1000 -1000
+ABDFHIJKNO ABCDELQ 0 0
+stand stand female 0
+C ABCDEGHI medium unknown
+F for AMV
+F par FJK
+M RANDOM 27990 75~
+M SPEECH 27992 the box, please.~
+M DELAY 27991 100~
+#27999
+m3l0d13~
+A beautiful white persian cat~
+A beautiful white persian cat lies here sleeping peacefully.
+~
+You are looking at a beautiful white persian cat.  
+~
+feline~
+ACD DFJLPZ CDEH 1000 0
+110 0 1d1+1 1d1+1 4d4+4 none
+0 0 0 0
+FK ABCDEKLMNOPQRTXYZ BI H
+sleep sleep female 0
+ACGHMV ABCDEFGHIJKQUV medium unknown
+#0
+
+
+
+#OBJECTS
+#27000
+Vartan's Refrigerator~
+vartan's Refrigerator~
+You see Vartan's Kenmore here.~
+porcelain~
+container A 0
+50 AC 0 10 100
+0 0 0 G
+#27001
+sandwich f'nors~
+a sandwich~
+F'nors Ham and Cheese on rye looks delicious.~
+food~
+food 0 A
+100 90 0 0 0
+0 1 50 P
+#27002
+ring of knowledge special quest ring (20 items or more) approved by laniessa 1/13/2011~
+{YS{yp{wa{Wr{Dk{Wl{wi{yn{Yg {YR{yi{Wn{wg {Do{yf {YK{yn{wo{Ww{Dl{We{wd{yg{Ye{x~
+You  see a ring that is absolutely Humming with energy.~
+gold~
+armor ABIOTYcef AB
+35 35 35 36 1000
+151 10 100000 P
+A
+13 200
+F
+S 0 0 CDEH
+A
+19 100
+A
+18 100
+#27003
+circlet f'nors~
+{&F'nors Circlet{x~
+You  see a finely crafted gold circlet here.~
+gold~
+armor ABIMOT AE
+0 0 0 0 1000
+152 10 500000 P
+F
+A 13 15000 CDEFGc
+A
+19 200
+A
+18 200
+#27004
+molson beer~
+Molson Beer~
+A bottle of Molson~
+glass~
+drink 0 A
+64 64 'ale' 0 0
+159 30 80 P
+#27005
+f'nors desk~
+F'nors Desk~
+You see a massive desk with drawers here.~
+oldstyle~
+container AB 0
+1000 ABCD 27006 100 100
+159 0 0 P
+#27006
+key vartan~
+vartan Key~
+A key with the Letter {DV{x standped on it.~
+oldstyle~
+key F A
+0 0 0 0 0
+152 0 0 P
+#27008
+globe~
+{YGl{yow{Rin{rg G{Ylo{ybe{x~
+A {bglowing{x globe floats here.~
+etherealness~
+light ABGT A
+0 0 999 0 0
+0 40 0 P
+A
+19 60
+A
+18 40
+A
+5 20
+A
+4 20
+A
+1 20
+A
+3 20
+F
+A 0 0 LZ
+#27009
+bed canopy~
+a finely made Canopy bed fit for a Queen~
+A Canopy Bed is here.~
+wood~
+furniture 0 0
+2 400 EHK 500 500
+0 0 0 P
+#27010
+dresser~
+A dresser crafted by hand from the Elven Woodworkers.~
+A hand-crafted dresser is here.~
+wood~
+container AB 0
+1000 ABCD 27006 1000 100
+0 0 0 P
+#27011
+f'nors wedding band~
+{!F'nors {&Wedding{x {$Band{x~
+You see a very finely crafted band with the name {!F'nor{x inscribed in it.~
+diamond~
+armor ABIOST AB
+500 500 500 500 500
+152 1 9999999 P
+A
+20 -600
+A
+19 750
+A
+18 750
+#27012
+ring wedding~
+wedding {bRing{x~
+You see a very finely crafted Wedding Ring.~
+diamond~
+armor ABIOST AB
+500 500 500 500 500
+152 1 9999999 P
+A
+20 -600
+A
+18 750
+A
+19 750
+#27013
+bed~
+a large comfortable bed fit for Gods~
+A large padded bed that looks comfortable enough for Gods lays here~
+wood~
+furniture 0 0
+4 15000 BEHKN 3000 3000
+100 200 0 P
+#27014
+jacuzzi~
+A Magical Jacuzzi~
+A big Magical Jacuzzi sits here.~
+marble~
+furniture AB 0
+10 5000 FIL 800 800
+0 0 0 P
+#27015
+brook~
+a babbling brook .~
+a mountain brook flows here.~
+water~
+fountain G 0
+10000 10000 'water' 0 0
+0 0 0 P
+#27016
+bed~
+{%A King-sized {@Canopy {#Bed{x~
+{%A King-sized {@Canopy {#Bed {xsits here, hung with {5M{@a{#r{5d{@i {#G{5r{@a{#s{x-colored linens.~
+wood~
+furniture 0 0
+4 15000 BEHKN 3000 3000
+100 200 0 P
+#27017
+jacuzzi~
+{!Z{1y{!d{1e{!c{1o{!'s {&M{7a{&g{7i{&c{7a{&l {^J{6a{^c{6u{^z{6z{^i{x~
+{!Z{1y{!d{1e{!c{1o{!'s {&M{7a{&g{7i{&c{7a{&l {^J{6a{^c{6u{^z{6z{^i{x bubbles and steams...~
+marble~
+furniture AB 0
+5 1000 FIL 0 0
+0 0 0 P
+#27018
+fountain crawfish~
+a {!C{1rawfish{x-shaped {^F{6ountain{x ~
+A {!C{1rawfish{x-shaped {^F{6ountain{x is gurgling merrily here.~
+marble~
+fountain G 0
+10000 100000 'firebreather' 0 0
+0 0 0 P
+#27019
+zydie gift cajun fireball~
+{5Z{@y{#d{5i{@e{#'s {&Gift{x~
+{5Z{@y{#d{5i{@e{#'s {&Gift{x, a {!C{1a{!j{1u{!n F{1i{!r{1e{!b{1a{!l{1l{x, provides unending alcohol (very important for {5M{@a{#r{5d{@i {#G{5r{@a{#s{x!!!)~
+fire~
+fountain GORSTYc AO
+10000 10000 'firebreather' 0 0
+0 0 0 P
+#27020
+sneaky leggings~
+silky Spandex Leggings~
+A pile of shiny black leather is here.~
+kid leather~
+armor F AF
+45 45 45 45 0
+0 2 5000 P
+F
+A 0 0 P
+#27021
+Magical Token~
+{BM{ba{Cg{ci{Bc{ba{cl {CT{Bo{bk{ce{Cn{x~
+You have won 1 stance point or 10 Platinum!~
+unknown~
+treasure TY AO
+0 0 0 0 0
+0 0 0 P
+#27022
+cheat token~
+an {&I {!CHEATED{& Token{x~
+You tried to cheat...guess what, it didn't work!~
+unknown~
+treasure HYZ AO
+0 0 0 0 0
+0 0 0 P
+#27023
+cheat token~
+an {&I {!CHEATED{& Token{x~
+You tried to cheat...guess what, it didn't work!~
+unknown~
+treasure HYZ AO
+0 0 0 0 0
+0 0 0 P
+#27024
+fountain milk~
+{!Z{1y{!d{1e{!c{1o{!'s {^Fountain {xof {&Milk{x~
+{!Z{1y{!d{1e{!c{1o{!'s {^Fountain {xof {&Milk{x gurgles merrily in the corner.~
+marble~
+fountain GR P
+100000 100000 'milk' 0 0
+0 200 0 P
+#27025
+quest king cake~
+a {^genuine {5K{@i{#n{5g {@C{#a{5k{@e{x~
+A {^Genuine Paul's New Orleans-style {5K{@i{#n{5g {@C{#a{5k{@e{x tempts your palate.~
+cake~
+pill AGHTYa A
+110 'quest pill' '' '' ''
+0 1 0 P
+#27030
+coke fountain~
+a {!C{&o{!k{&e {6Bottle {^Fountain{x~
+A {^Fountain{x shaped like a giant {!C{&o{!k{&e {6Bottle{x is here.~
+glass~
+fountain A 0
+100000 100000 'cola' 0 0
+50 7 600 P
+#27031
+pit wall~
+{*A {@P{*i{@t {*W{@a{*l{@l{x~
+{*A {@P{*i{@t {*W{@a{*l{@l{x is here.~
+diamond~
+furniture AB 0
+25 50000 EHK 1000 1000
+0 0 0 P
+#27032
+crew chief box~
+{@JGR {*C{@r{*e{@w {*C{@h{*i{@e{*f {@B{*o{@x{x~
+{@JGR {*C{@r{*e{@w {*C{@h{*i{@e{*f {@B{*o{@x{x sits here.~
+marble~
+furniture AB 0
+5 1000 FIL 0 0
+0 0 0 P
+#27033
+JGR key~
+{*A {@JGR {*Key{x~
+{*A {@JGR {*Key to the {!NAS{$CAR{* Trailer{x is here~
+unknown~
+key APUY A
+0 0 0 0 0
+1 10 10000 P
+#27040
+slow screw comfortable~
+{YA {Mslow comfortable {Rscrew up {Gagainst the wall{x~
+{YA {Mslow comfortable {Rscrew up {Gagainst the wall{x lies here.~
+liquid~
+drink 0 A
+8 8 'southern comfort' 0 0
+1 0 50 P
+#27041
+clone holder~
+clone holder~
+Someone has lost their clone holder.~
+leather~
+container HPYdef A
+5 AC 0 1 100
+0 45 0 P
+#27042
+clone template~
+a clone template~
+A clone template has been lost here.~
+crystal~
+gem Yef A
+0 0 0 0 0
+0 1 0 P
+#27049
+elsie cow~
+{WE{Dl{Ws{Di{We {Dt{Wh{De {WC{Do{Ww{x~
+{WE{Dl{Ws{Di{We {Dt{Wh{De {WC{Do{Ww{x provides an endless supply of milk.  Moo!~
+beef~
+fountain AGSTY A
+100000000 100000000 'milk' 0 0
+0 4 0 P
+#27050
+wedding cake~
+a slice of {&wedding{0 {$cake{0~
+A Slice of {&Wedding {$Cake{0, celebrating a new marriage.~
+unknown~
+food N A
+20 20 0 0 0
+1 2 30 P
+#27051
+champagne fountain~
+a fountain full of {yBubbly{x~
+Here stands a fountain of {YChampagne{x~
+unknown~
+fountain A 0
+100000 100000 'champagne' 0 0
+0 0 0 P
+#27052
+sword redemption~
+{DS{Ww{wo{Wr{Dd {wof {rR{Re{Wd{we{Dmp{wt{Wi{Ro{rn{x~
+The {DS{Ww{wo{Wr{Dd {wof {rR{Re{Wd{we{Dmp{wt{Wi{Ro{rn{x lies here.~
+fire~
+weapon ABGHIORSTYZc AN
+sword 12 25 flame ADE
+1 0 0 P
+A
+18 65
+A
+19 65
+#27053
+decanter endless water~
+a decanter of endless water~
+A Decanter, holding an endless supply of water, lies here~
+fire~
+fountain GORSTYc AO
+10000 10000 'water' 0 0
+0 0 0 P
+#27054
+magical translucent cloud~
+a magical translucent cloud~
+A Magical, Translucent cloud is floating here~
+mist~
+furniture GORTc AO
+1 1000 BEHK 400 400
+1 0 0 P
+#27055
+diamond~
+a diamond~
+A Diamond is here~
+marble~
+treasure P A
+0 0 0 0 0
+0 0 0 P
+#27056
+ruby~
+a ruby~
+A Ruby is here~
+marble~
+treasure P A
+0 0 0 0 0
+0 0 0 P
+#27057
+emerald~
+a emerald~
+A Emerald is here~
+marble~
+treasure P A
+0 0 0 0 0
+0 0 0 P
+#27058
+opal~
+an opal~
+An Opal is here~
+marble~
+treasure P A
+0 0 0 0 0
+1 1 1 P
+#27059
+amethyst stone~
+an amethyst stone~
+An Amethyst stone is here~
+marble~
+treasure P A
+0 0 0 0 0
+1 1 1 P
+#27073
+dagger redemption~
+{rDagger {wof {rR{Re{Wd{we{Dmp{wt{Wi{Ro{rn{x~
+The {rDagger {wof {rR{Re{Wd{we{Dmp{wt{Wi{Ro{rn{x lies here.~
+fire~
+weapon ABGHIORSTYZc AN
+dagger 10 25 flame ADE
+1 0 0 P
+A
+18 65
+A
+19 65
+#27074
+lance redemption~
+{DL{Wa{wn{Wc{De {wof {rR{Re{Wd{we{Dmp{wt{Wi{Ro{rn{x~
+The {DL{Wa{wn{Wc{De {wof {rR{Re{Wd{we{Dmp{wt{Wi{Ro{rn{x lies here.~
+fire~
+weapon ABGHIORSTYZc AN
+polearm 10 25 flame ADE
+1 0 0 P
+A
+18 65
+A
+19 65
+#27075
+frost  knife~
+{CKnife{x of {bF{Br{co{Cs{Wt{x~
+The {CKnife{x of {bF{Br{co{Cs{Wt{x lies here.~
+frost~
+weapon ABGHIORSTYZc AN
+dagger 12 25 frbite BDE
+1 0 0 P
+A
+18 65
+A
+19 65
+#27076
+frost polearm~
+{CPolearm{x of {bF{Br{co{Cs{Wt{x~
+The {CPolearm{x of {bF{Br{co{Cs{Wt{x lies here.~
+frost~
+weapon ABGHIORSTYZc AN
+polearm 10 25 frbite BDE
+1 0 0 P
+A
+18 65
+A
+19 65
+#27077
+frost brand redemption~
+{BF{br{co{Cs{wt {BB{br{ca{Cn{wd{x~
+The {BF{br{co{Cs{wt {BB{br{ca{Cn{wd {Wof {BR{be{cd{Ce{Wmp{Ct{ci{bo{Bn {wlies here.{x~
+frost~
+weapon ABGHIORSTYZc AN
+sword 12 25 frbite BDE
+1 0 0 P
+A
+18 65
+A
+19 65
+#27078
+frost power frpower redemption~
+{BF{br{co{Cs{wt {BP{bo{cw{Ce{wr {Wof {BR{be{cd{Ce{wm{Bp{bt{ci{Co{wn{x~
+A {4freezing{0 weapon of a Hero lies here.~
+frost~
+weapon ABGHIOSYZc AN
+exotic 12 56 frbite BCD
+151 0 0 P
+A
+13 100
+A
+18 100
+A
+19 100
+A
+20 -40
+A
+23 -10
+#27079
+flaming power redemption flpower flamining power~
+{rF{Rl{wa{ym{Ye {rP{Ro{ww{ye{Yr {wof {rR{Re{wd{ye{Ym{rp{Rt{yi{Yo{wn{x~
+A {1flaming{0 weapon of a Hero lies here.~
+fire~
+weapon ABGHIOSYZc AN
+exotic 12 56 flbite ACD
+151 0 0 P
+A
+23 -10
+A
+20 -40
+A
+19 100
+A
+18 100
+A
+13 100
+#27080
+table~
+a table~
+Ten large round tables sit around a dance floor.~
+wood~
+furniture 0 0
+100 100000 D 0 0
+1 0 0 P
+#27081
+shocking power redemption shpower~
+{yS{Yh{wocki{Yn{yg P{Yo{ww{ye{Yr {Wof {yR{Ye{wd{Wempt{wi{Yo{yn{x~
+A {yshocking{x weapon of a Hero lies here.~
+electricity~
+weapon ABGHIOSYZc AN
+exotic 12 56 shbite CDG
+151 0 0 P
+A
+23 -10
+A
+20 -40
+A
+19 100
+A
+18 100
+A
+13 100
+#27082
+shocking rod redemption~
+{YS{yh{wo{Wck{wi{yn{Yg {YR{yod {wof {YR{ye{wd{We{Dmp{Wt{wi{yo{Yn{x~
+The {YS{yh{wo{Wck{wi{yn{Yg {YR{yod {wof {YR{ye{wd{We{Dmp{Wt{wi{yo{Yn{x lies here.~
+electricity~
+weapon ABGHIORSTYZc AN
+exotic 12 25 shock DEG
+1 0 0 P
+A
+18 65
+A
+19 65
+#27083
+kris redemption~
+the {CFrost{x Kris~
+The {CFrost{x Kris lies here.~
+cold~
+weapon ABGHIORSTYZc AN
+dagger 15 23 frbite BDE
+101 0 0 P
+A
+19 80
+A
+18 80
+A
+20 -30
+#27084
+blade redemption~
+the {RF{rlaming{x Blade~
+The {RF{rlaming{x Blade lies here.~
+fire~
+weapon ABGHIORSTYZc AN
+sword 15 23 flbite ADE
+101 0 0 P
+A
+19 80
+A
+18 80
+A
+20 -30
+#27085
+staff redemption~
+the {YS{yhocking{x Staff~
+The {YS{yhocking{x Staff lies here.~
+light~
+weapon ABGHIORSTYZc AN
+staff 15 23 shbite DEG
+101 0 0 P
+A
+19 80
+A
+18 80
+A
+20 -30
+#27086
+armor etcher dagger low end quest item redemption~
+{GA{grmor {GE{gtcher {wof {GR{ge{wd{We{Dmp{Wt{wi{go{Gn{x~
+The {GA{grmor {GE{gtcher {wof {GR{ge{wd{We{Dmp{Wt{wi{go{Gn{x lies here.~
+acid~
+weapon ABGHIORSTYZc AN
+exotic 10 25 cburn DEI
+1 0 0 P
+A
+18 65
+A
+19 65
+#27087
+metal etcher dagger mid range quest item redemption~
+{GM{getal {GE{gtcher {wof {GR{ge{Wd{we{Dmp{wt{Wi{go{Gn{x~
+The {GM{getal {GE{gtcher {wof {GR{ge{Wd{we{Dmp{wt{Wi{go{Gn{x lies here.~
+acid~
+weapon ABGHIORSTYZc AN
+exotic 15 23 corrosion DEI
+101 0 0 P
+A
+20 -30
+A
+19 80
+A
+18 80
+#27088
+acidic acpower power redemption~
+{GAc{gid{Yic {GP{gow{Yer {wof {GR{ge{Yd{Ge{gmp{Gt{Yi{go{Gn{x~
+The {GAc{gid{Yic {GP{gow{Yer {wof {GR{ge{Yd{Ge{gmp{Gt{Yi{go{Gn{x lies here.~
+acid~
+weapon ABGHIORSTYZc AN
+exotic 12 56 dissolvent CDI
+151 0 0 P
+A
+20 -40
+A
+19 100
+A
+18 100
+A
+13 100
+A
+23 -10
+#27089
+helm of abraxas~
+{BH{we{Dl{Cm {Bo{Wf {DA{Bb{Wr{Ca{Dx{wa{Bs{x~
+The {BH{we{Dl{Cm {Bo{Wf {DA{Bb{Wr{Ca{Dx{wa{Bs{x glistens here.~
+titanium~
+armor ABGHIORSTYZc AE
+50 50 50 48 0
+151 10 5000 P
+F
+A 0 0 E
+F
+A 0 0 F
+F
+A 0 0 D
+A
+19 30
+A
+18 30
+A
+13 350
+#27090
+circlet knowledge~
+{GC{Wi{Dr{Gc{Wl{De{Gt {Wo{Df {GK{Dn{Wo{Gw{Dl{Ge{Dd{Wg{Ge{x~
+A {GC{Wi{Dr{Gc{Wl{De{Gt {Wo{Df {GK{Dn{Wo{Gw{Dl{Ge{Dd{Wg{Ge{x glimmers here.~
+alien~
+armor ABGHIORSTYZc AE
+50 50 50 48 0
+1 10 5000 P
+A
+13 350
+A
+20 -40
+A
+12 500
+F
+A 0 0 D
+F
+A 0 0 F
+F
+A 0 0 E
+#27100
+remove curse potion vial~
+a potion that {$Removes Curses{x~
+a {bpowerful{x potion vial lies here.
+~
+wood~
+potion AB A
+200 'remove curse' 'remove curse' 'cancellation' 'cancellation'
+0 5 40000 P
+#27101
+disease plague remedy potion~
+a potion of {!Plague Remedy{x~
+a {1curative{x potion lies here.
+~
+wood~
+potion AB A
+100 'cure disease' 'cure disease' 'cure poison' 'cure blindness'
+20 5 40000 P
+#27102
+shields potion elemental~
+a potion of {@Elemental Shielding{x~
+A {#Glowing{x potion lies here, that can be used only by Mages, Clerics, and 
+Druids, and 2nd tiers similar Classes.
+~
+wood~
+potion AB A
+100 'iceshield' 'fireshield' 'shockshield' 'sanctuary'
+20 5 50000 P
+#27103
+bless potion~
+a potion of {&Angels Blessing{x~
+A {&Blessed{x potion lies here.
+~
+air~
+potion AB A
+105 'bless' 'protection evil' 'armor' 'stone skin'
+25 5 40000 P
+#27104
+scroll dispel magic~
+a magical {$Scroll of Dispelling{x~
+A {^Powerful Scroll{x lies here.
+~
+wood~
+scroll AB AO
+60 'dispel magic' 'dispel evil' 'dispel magic' 'dispel evil'
+50 0 9000 P
+#27105
+wand detect invis~
+a wand of {%Detect Invisibility{x~
+A glowing wand lies here~
+wood~
+wand AB AO
+50 25 25 'detect invis' 0
+0 5 10000 P
+#27106
+deadly slow fairie fire scroll~
+a {!DEADLY{x scroll~
+A {$powerful{x scrap of parchment lies here.~
+air~
+scroll ABG AO
+90 'slow' 'faerie fire' '' ''
+80 10 5000 P
+#27107
+acid blast scroll~
+a {4Acid Blast{x scroll~
+A {#powerful{x scroll written on parchment rests here.~
+air~
+scroll ABG AO
+90 'acid blast' 'stomp' 'acid blast' 'acid rain'
+80 10 8000 P
+#27108
+ash wand negation~
+an {%ash{x wand~
+A small wand of ash wood lies here.~
+wood~
+wand ABC AO
+260 1 1 'cancellation' 0
+20 10 18000 P
+#27109
+potion cure critical scintillating~
+a {#Scintillating{x potion~
+A small glass vial with a {3scintillating{x liquid lies here.~
+slime~
+potion ABG AO
+85 'cure critical' 'cure critical' 'cure critical' ''
+20 10 7500 P
+#27110
+scroll scrap parchment plague~
+a torn scrap of Parchment~
+A small scrap of {3parchment{x lies here.~
+parchment~
+scroll ABG AO
+90 'plague' 'plague' 'plague' 'plague'
+80 10 5000 P
+#27111
+bright gold potion~
+a bright {#gold{x {3potion{x~
+A bright {#gold{x {3potion{x has been left here.~
+air~
+potion ABC A
+201 'cure poison' 'cure disease' 'cure blindness' 'heal'
+20 10 18000 P
+#27112
+green potion blindness~
+a luminescent {@green {2potion{0~
+A powerful potion lies here.~
+water~
+potion 0 AO
+201 'cure blindness' 'cure blindness' 'heal' 'heal'
+125 1 19500 P
+#27130
+pearl~
+An exquisite black pearl~
+A well formed Black pearl~
+ebony~
+demon_stone 0 AO
+BD 0 0 0 0
+60 6 650 P
+#27131
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{X {%FISHING{X FOR a blue steel helm~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27132
+go fish card~
+a {$Go{X {%Fish{x Card~
+{$GO{X {%FISHING{x FOR a dark blue domino mask~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27133
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR a garland of {&sparkly{x {#lights{x and {%baubles{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27134
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a {!red{x {1lightbulb{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27135
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR an {8Obsidian{x {$Earring{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27136
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a glittering {$((+*+)){x earring~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27137
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{X {%FISHING{X FOR a jade necklace~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27138
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHINGH{x FOR The Cape of {4Superman{x ~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27139
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR the Wushu Uniform~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27140
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a {4blue{x and {#gold{x insignia{x patch~
+paper~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#27141
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a black silk robe~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27142
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR  sleeves of Knowledge~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27143
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR a golden wristlet~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27144
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a {8Cartier{x {#gold{x watch~
+paper ~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27145
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR blue gloves~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27146
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a ring of children's teeth~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27147
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR amethyst ring~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27148
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR a blue belt with a red x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27149
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{x FOR Green Scrub Pants~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27150
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR a ruby anklet~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27151
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR a gold anklet with a tiny jade bell~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27152
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR the little serf's shoes~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27153
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR a floating orb~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27154
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR {!Life{1bane{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27155
+go fish card~
+a {$Go{x {%Fish{x Card~
+{$GO{x {%FISHING{X FOR {%Tiger{^Fang{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27156
+go fish card~
+a {$Go{x {%Fish{x Card~
+{!INSTANT WINNER{x  FREE SPELL UP Anytime can only use one redeemed by {4Kelarrah{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27157
+go fish card~
+a {$Go{x {%Fish{x Card~
+{!INSTANT WINNER{x FREE TRANS  Anytime can only use one redeemed by {4Kelarrah{x~
+unknown~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+#27158
+deck cards~
+a deck of {$GO{x {%FISH{x cards~
+A box with a fish on it lies here. The words on the box read {$GO{x {%FISH{x~
+cardboard~
+container 0 AO
+800 AE 0 50 0
+2 1 0 P
+#27200
+table grand~
+A grand buffet table~
+A {#Grand Buffet Table{x~
+wood~
+furniture G 0
+0 2000 N 0 0
+0 0 0 P
+#27231
+Claw~
+{CCanth's {^Claw{x~
+A claw lies here glowing~
+bone~
+weapon AI AN
+dagger 99 99 none ACGH
+0 2 5000 P
+#27301
+tower portal~
+a portal to High Sorcery~
+A {$ Tower of Sorcery{x portal~
+glass~
+portal B 0
+0 0 0 1312 0
+0 0 0 P
+#27306
+leifab bolt lightning~
+leifab's {YBolt {wof {WL{Ci{Dg{Ch{wt{Wn{Ci{wn{Dg{x~
+Leifab's {YBolt {wof {WL{Ci{Dg{Ch{wt{Wn{Ci{wn{Dg{x is here pulsating.~
+Electricity~
+weapon ABGHIMT AN
+dagger 1000 1000 shock ACDEGH
+153 0 1000000 P
+#27308
+portal hell~
+a portal to the bank~
+A Portal to New Thalos Savings and Trust~
+fire~
+portal 0 0
+0 0 0 9800 0
+0 0 0 P
+#27310
+portal hell~
+a portal to hell~
+A {!Portal{0 to the {!Land {0of {!Hell{0.~
+fire~
+portal 0 0
+0 0 0 10404 0
+0 0 0 P
+#27311
+administration portal hell~
+administration portal~
+A {!Portal{0 to the {!Administration {0of {!Hell{0.~
+fire~
+portal 0 0
+0 0 0 10500 0
+0 0 0 P
+#27312
+titan village portal~
+a portal to Titan Village~
+A {!Portal{x to the {!Titan Village{x.~
+fire~
+portal 0 0
+0 0 0 18069 0
+0 0 0 P
+#27313
+olympus portal~
+portal to olympus~
+A {!Portal{0 to the {!Olympus{0.~
+fire~
+portal 0 0
+0 0 0 904 0
+0 0 0 P
+#27314
+drakyri isle portal~
+portal to drakyri isle~
+A {!Portal{0 to the {!Drakyri Isle{0.~
+fire~
+portal 0 0
+0 0 0 11702 0
+0 0 0 P
+#27316
+Arcane Sanctum clan patch~
+{&+ Ar{7ca{^ne {6Sa{7nc{&tum +{x~
+{&+ Ar{7ca{^ne {6Sa{7nc{&tum +{7 clan patch lies here.{x~
+energy~
+armor 0 AU
+0 0 0 0 0
+1 4 5000 P
+A
+5 2
+A
+1 2
+A
+20 -7
+A
+13 150
+#27325
+Portal Kamirno Isle Floor 7~
+{1Kamirno Isle Portal{0~
+A {RPortal {xto {RKamirno Isle {x(Floor 7)~
+wood~
+portal 0 0
+0 0 0 585 0
+140 10 10 P
+#27326
+key~
+a {GMy{wsti{ycal {MKey{x ~
+A {GMy{wsti{ycal {MKey{x lies here~
+unknown~
+key ABCFGHUd A
+0 0 0 0 0
+0 0 0 P
+#27327
+fireplace~
+{RFire{rplace{x~
+{RFire{rplace{x is here.~
+wood~
+furniture AB 0
+0 0 0 0 0
+0 0 0 P
+#27328
+key stone~
+a small stone key~
+A small stone key lies here.~
+stone~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#27329
+cnedra bed canopy~
+{cA huge {Wcanopy {Bbed {cdraped in {WWhite {cand {BBlue {8silks{x'~
+{cA huge {Wcanopy {Bbed {cdraped in {WWhite {cand {BBlue {8silks{c is off to your right.{x'~
+unknown~
+furniture MR P
+2 99999 BEHK 1000 1000
+0 0 0 P
+#27330
+oak dresser~
+an {yoak{x dresser~
+An old {yOaken dresser{x is against the wall.~
+oak~
+container 0 0
+0 AC 27334 0 0
+0 0 0 P
+#27331
+whirlpool whirl pool~
+{ya {Rsteaming {BWhi{8rlpo{Bol{x~
+{ya {Rsteaming {BWhi{8rlpo{Bol{x~
+marble~
+furniture ABR P
+20 20000 FIL 100 100
+0 400 0 P
+#27332
+emerald bench~
+{ga {wgleaming {Gemerald {wbench {x~
+{ga {wgleaming {Gemerald {wbench {gfor your comfort is here{x~
+diamond~
+furniture ABO 0
+25 50000 EHK 1000 1000
+0 0 0 P
+#27333
+swing doitin~
+{ga glowing {yswing {gcrafted from the finest {yash{x~
+{ga glowing hand crafted {yswing {g is here{x ~
+emerald~
+furniture ABOR 0
+2 50000 EHK 5000 5000
+0 0 0 P
+#27334
+key~
+{8a key{x~
+A {yglowing{x key lies here~
+unknown~
+key ABCFGHQUd A
+0 0 0 0 0
+0 0 0 P
+#27335
+couch~
+a {GGleaming {WSparkling {YCouch{x ~
+A {GGleaming {WSparkling {YCouch{x is here too rest on.~
+diamond~
+furniture AB 0
+25 50000 BCEFHIKL 1000 1000
+0 0 0 P
+#27336
+magic fountain~
+the {CMajestic {cFountain{x~
+A {CMajestic {cFountain {Wcascades {xhere.~
+unknown~
+fountain A 0
+1000 1000 'tea' 0 0
+0 0 0 P
+#27339
+instrument case~
+a travel worn instrument case~
+A [Bards] instrument case lies here.~
+leather~
+container GSY AX
+1000 AC 0 1000 30
+25 50 2500 P
+F
+A 0 0 U
+#27340
+mabinog bards clan patch~
+{B}{{}{{{WM{wabinog{B}{{}{{{x~
+{B}{{}{{{WM{wabinog{B}{{}{{{x~
+wood~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27341
+brehon bards clan patch~
+{y}{{}{{{WB{wrehon{y}{{}{{{x~
+{y}{{}{{{WB{wrehon{y}{{}{{{x~
+wood~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27342
+derwydd bards clan patch~
+{R}{{}{{{WD{werwydd{R}{{}{{{x~
+{R}{{}{{{WD{werwydd{R}{{}{{{x~
+wood~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27343
+penderwydd bards clan leader patch~
+{Y}{{}{{{WP{wenderwydd{Y}{{}{{{x~
+{Y}{{}{{{WP{wenderwydd{Y}{{}{{{x~
+wood~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27344
+seeker forsaken clan patch ~
+{B(>{WSeeker{B<){0~
+{B(>{WSeeker{B<){0~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27345
+glintsword forsaken clan patch~
+{y\>{WG{wlintsword{y</{0~
+{y\>{WG{wlintsword{y</{0~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27346
+soulblade forsaken clan patch~
+{R/\>{wS{Doulblade{R</\{0~
+{R/\>{wS{Doulblade{R</\{0~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27347
+soulblade forsaken clan leader patch~
+{Y/\>{DSoulblade{Y</\{0~
+{Y/\>{DSoulblade{Y</\{0~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27348
+patch waves child clan leviathan~
+{CC{child {xof the {BW{baves{x~
+{CC{child {xof the {BW{baves{x~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27349
+lieutenant crimson_soldier clan patch~
+{yLieutenant{x~
+{yLieutenant{x~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+E
+lieutenant~
+{yLieutenant{x - You are the natural born leaders.  You are an assest in
+directing troops on the battle field.  You are the men and women that are
+feared by foes and friends alike.  The immortals will come for you first.  
+ 
+{yStarker Standplatz - Stand strong.{x
+~
+#27350
+major crimson_soldier clan patch~
+{RMajor{x~
+{RMajor{x~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+E
+major~
+{RMajor{x - You are a distinguished warrior among warriors.  Your personal
+hatred and fight for the fall of Phoenix is one to be respected and imitated.
+Most men will never reach your abilities in their lifetime.  From your example,
+legneds are created.  
+ 
+{RBringen Sie uns in Tod - Lead us into {Ddeath{R.{x
+~
+#27351
+patch leviathan child leader clan~
+{W{CC{child {xof {cL{Ce{Bv{biat{Bh{Ca{cn{x~
+{W{CC{child {xof {cL{Ce{Bv{biat{Bh{Ca{cn{x{x~
+unknown~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27352
+leader bluerose clan patch~
+{c<={D*{BLeader{D*{c=>{0~
+A simple patch with a blue rose embroidered on it.~
+sapphire~
+gem ABGHNPSYZ AU
+0 0 0 0 0
+15 0 0 P
+A
+12 150
+A
+13 150
+#27353
+rose bluerose clan patch~
+{@-'-,({$@{0~
+A simple patch with a blue rose embroidered on it.~
+sapphire~
+gem ABGHNPSYZ AU
+0 0 0 0 0
+15 10 1000 P
+A
+12 150
+A
+13 150
+#27354
+council bluerose clan patch~
+{6<={8*{$Council{8*{6=>{0~
+A simple patch with a blue rose embroidered on it.~
+sapphire~
+gem ABGHNPSYZ AU
+0 0 0 0 0
+15 0 0 P
+A
+12 150
+A
+13 150
+#27355
+high council bluerose clan patch~
+{c<={D*{BHigh Council{D*{c=>{x~
+A simple patch with a blue rose embroidered on it.~
+sapphire~
+gem ABGHNPSYZ AU
+0 0 0 0 0
+15 0 0 P
+A
+12 150
+A
+13 150
+#27356
+alcoholic proud drinking_crew clan patch~
+{@Proud Alcoholic{0~
+A patch of a drunken man lies here.~
+sapphire~
+gem ABGHNPSYZ AU
+0 0 0 0 0
+15 0 0 P
+A
+12 150
+A
+13 150
+#27357
+intoxication raging drinking_crew clan patch~
+{@Raging Intoxication{0~
+A patch of a drunken man lies here.~
+sapphire~
+gem ABGHNPSYZ AU
+0 0 0 0 0
+15 0 200 P
+A
+12 150
+A
+13 150
+#27358
+darkness patch glyph clan void~
+{DDarkness {mG{Dlyph{x~
+{DDarkness {mG{Dlyph{x~
+void~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27359
+emptiness glyph patch clan void~
+{DEmptyness {mG{Dlyph{x~
+{DEmptyness {mG{Dlyph{x~
+void~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27360
+suppression glyph patch clan void~
+{DSupression {mG{Dlyph{x~
+{DSupression {mG{Dlyph{x~
+void~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27361
+void glyph patch clan leader~
+{mV{Doid {mG{Dlyph{x~
+{mV{Doid {mG{Dlyph{x~
+void~
+gem ABGHPSYZ AU
+0 0 0 0 0
+25 0 1000 P
+A
+12 150
+A
+13 150
+#27400
+jar immortal~
+a glass jar that holds Immortals~
+A Glass Jar lies here~
+glass~
+trash ABG A
+0 0 0 0 0
+151 0 0 P
+#27401
+catnip cajun~
+{!C{1a{!J{1u{!N {^Cat{#Nip{x~
+Some {!Hot {!C{1a{!J{1u{!n {^Cat{#Nip{x~
+bread~
+food 0 A
+20 10 0 0 0
+0 0 100 P
+#27402
+plain catnip~
+{^Cat{#Nip{x~
+Some {^Cat{#nip{x lies here.~
+bread~
+food 0 A
+20 10 0 0 0
+0 0 100 P
+#27403
+nest~
+a {YL{ya{wr{Wg{Ye {GS{gq{wu{Wi{Gr{gr{we{Wl{Gs {WN{west{0~
+A {YL{ya{wr{Wg{Ye {GS{gq{wu{Wi{Gr{gr{we{Wl{Gs {WN{west sits in the middle of the room{0.~
+unknown~
+furniture MRY P
+5 9999 CFIL 100 100
+0 0 0 P
+#27404
+deranged fountain~
+{RD{De{Rr{Da{Rn{Dg{Re{Dd {MF{Co{Mu{Cn{Mt{Ca{Mi{Cn{0~
+You see a {RD{De{Rr{Da{Rn{Dg{Re{Dd {MF{Co{Mu{Cn{Mt{Ca{Mi{Cn{x.~
+unknown~
+fountain 0 0
+-1 -1 'cola' 0 0
+0 0 0 P
+#27405
+liveing desk squirrel~
+{Ya {Dl{bi{Dv{be{Di{bn{Dg {GS{Rq{Cu{Gi{Rr{Cr{Ge{Rl{Cs {BD{be{Bs{bk{x~
+You see {Ya {Dl{bi{Dv{be{Di{bn{Dg {GS{Rq{Cu{Gi{Rr{Cr{Ge{Rl{Cs {BD{be{Bs{bk{x.~
+unknown~
+furniture 0 0
+1 999999999 D 100 100
+0 0 0 P
+#27412
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message from Brother John to his cousin Jethro.~
+parchment~
+trash HRZa A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#27413
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message to Brother John from his cousin Jethro.~
+parchment~
+trash RZ A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#27414
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message from Sister Jezebel to her cousin Jessamyn.~
+parchment~
+trash HRZa A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#27415
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message to Sister Jezebel from her cousin Jessamyn.~
+parchment~
+trash RZ A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#27416
+bag~
+a bag~
+A generic bag generates the VNUM for the 'make bag' spell.~
+flesh~
+container Yef AO
+5 A 0 10 100
+0 10 0 P
+#27499
+gambit key~
+{!G{1a{!m{1b{!i{1t{!'{!s {$K{^e{$y{x~
+A key {!g{1l{!i{1t{!t{1e{!r{1'{!s{x in the dust.~
+unknown~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#27500
+gleaming white throne~
+{ca {ygleaming {Wwhite {Bthrone{x~
+{CVartan's {ygleaming {wwhite {Bthrone {Cis floating near the balcony.{x~
+bone~
+furniture A 0
+1 2500 EH 2000 2000
+0 0 0 P
+E
+gleaming white throne~
+It appears to be made of some weird glowing substance.. strangely like
+polished bone.
+~
+#27501
+diamond couch~
+a comfortable couch~
+A solid Diamond Couch sits here.~
+diamond~
+furniture AB 0
+25 50000 EHK 1000 1000
+0 0 0 P
+#27502
+brook~
+{ca {Bbabbling {Bbrook{x~
+{ca {Bbabbling {Bbrook {cflows here.{x~
+water~
+fountain G 0
+10000 10000 'water' 0 0
+0 0 0 P
+#27503
+shot vodka~
+a shot of vodka~
+A tiny glass of chilled vodka.~
+unknown~
+drink 0 AO
+2 2 'vodka' 0 0
+30 1 95 P
+#27504
+bottle san miguel~
+a bottle of {RS{Yan {RM{Yiguel{x~
+A bottle of {RS{Yan {RM{Yiguel{x, popular with the locals.~
+unknown~
+drink 0 AO
+25 25 'beer' 0 0
+20 1 50 P
+#27505
+glass whisky~
+a large glass of whisky~
+A large glass of whisky on the rocks.~
+unknown~
+drink 0 AO
+5 5 'whisky' 0 0
+40 1 75 P
+#27506
+four sisters special~
+a {GF{gour {GS{gisters {RSpecial{x~
+A {GF{gour {GS{gisters {RSpecial{x to revitalise those dead bits!~
+unknown~
+drink A AO
+5 5 'aquavit' 0 0
+50 1 100 P
+#27507
+portal~
+a portal~
+{x~
+magic~
+portal 0 A
+1 0 CE 3 0
+152 0 0 P
+#27508
+fireplace~
+a fireplace~
+A fireplace made from stone is set against the east wall.~
+oldstyle~
+container 0 0
+200 0 0 200 100
+0 0 0 P
+E
+fireplace~
+It is fashioned from stones of various sizes that have been stacked on top of
+each other and fastened with mortar.  Its chimney is constructed likewise and
+leads the smoke out through the low cabin ceiling.
+~
+#27509
+NASCAR Patch~
+{Da {RNAS{BCAR {DPatch{0~
+{DA {RNAS{BCAR {DPatch {xhas been left behind.~
+unknown~
+trash STY A
+0 0 0 0 0
+0 0 0 P
+#27510
+coffin~
+your coffin~
+Your coffin sits against a nearby wall.~
+wood~
+furniture O 0
+5 20000 CFI -1 -1
+0 0 0 P
+#27511
+flask tequila~
+a flask of tequila~
+A flask is lying here.~
+unknown~
+drink 0 A
+100 100 'firebreather' 0 0
+0 1 0 P
+#27512
+ale~
+a mug of ale~
+A mug of ale is sitting here.~
+unknown~
+drink 0 A
+100 100 'ale' 0 0
+0 0 0 P
+#27513
+pint beer kronenbourg~
+a pint of {RK{bronenbourg {x1664~
+A pint of {RK{bronenbourg {x1664 looks really refreshing.~
+unknown~
+drink 0 AO
+50 50 'dark ale' 0 0
+30 4 60 P
+#27514
+jacuzzi~
+{!G{1a{!m{1b{!i{1t{!'s {$M{4a{$g{4i{$c{4a{$l {^J{6a{^c{6u{^z{6z{^i{x ~
+{!G{1a{!m{1b{!i{1t{!'s {$M{4a{$g{4i{$c{4a{$l {^J{6a{^c{6u{^z{6z{^i{x sits here invitingly...~
+marble~
+furniture AB 0
+5 1000 FIL 0 0
+0 0 0 P
+#27515
+hammock~
+a comfortable hammock~
+A hammock lies here, swinging softly in the gentle breeze.~
+cotton~
+furniture 0 0
+2 0 FILP 1000 1000
+0 0 0 P
+#27550
+desk (kurr)~
+an exquisite {rt{yea{rk{x writing desk~
+An exquisite looking teak writing desk is here, in the corner.~
+unknown~
+furniture O P
+3 10000 DH 4000 4000
+0 0 0 P
+#27551
+Stardust bed~
+{YS{yt{Da{Wrd{Du{ys{Yt{x~
+A glimmering pool of stardust floats here, it looks solid enough to sleep on.~
+unknown~
+furniture O P
+100 44444 CFIL 4000 4000
+0 0 0 P
+#27552
+none~
+no description~
+No description~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#27553
+beam of moonlight~
+a {wbeam{x of {WMoonl{Yi{Wght{x~
+A {Wsilver{x beam of moonlight rains down on soft velvet.~
+unknown~
+portal AG 0
+-2 H H 27995 0
+0 0 0 P
+#27554
+jacuzzi blood~
+{1Blood Filled {4Jacuzzi{0~
+{1Blood Filled {4Jacuzzi{0 awaits you here.~
+softwood~
+furniture AB 0
+24 10000 BFIL 0 500
+0 0 0 P
+#27555
+fountain ebony coffee~
+a {2F{8ountain {0of {2C{8offee{0~
+An {2E{8bony {2F{8ountain{0 is here gushing a black liquid.~
+marble~
+fountain G 0
+10000 100000 'coffee' 0 0
+0 0 0 P
+#27556
+green potion blindness~
+a luminescent {@green {2potion{0~
+A powerful potion lies here.~
+water~
+potion Y AO
+201 'cure blindness' 'cure blindness' 'heal' 'heal'
+125 1 19500 P
+#27557
+potion invisibility~
+a Magical Potion of Invisibility~
+A potion lies here in the dirt.~
+glass~
+potion AB AO
+50 'invisibility' 'pass door' 'fly' 'haste'
+20 2 1660 P
+#27558
+Diamond Warpstone~
+a {&Diamond{x {@W{$a{@r{$p{@s{$t{@o{$n{@e{x~
+A gleaming stone floats here.~
+diamond~
+warp_stone SY AO
+0 0 0 0 0
+25 1 4000 P
+#27559
+box delivery LoD~
+a {^L{0o{8D{0 delivery box~
+A delivery box from the {^Lady{0 of {8Death{0.~
+cut glass~
+container 0 A
+10000 0 0 10000 100
+0 0 0 P
+#27600
+Newbie backpack~
+{RN{re{Yw{yb{Ri{re {YB{ya{Rc{rk{Yp{ya{Rc{rk {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x ~
+A leather backpack is here.~
+oldstyle~
+container ABGYef AOX
+1000 A 0 50 50
+0 90 1000 P
+A
+13 10
+#27601
+pizza slice~
+a slice of pizza~
+A slice of pizza is here looking very tasty.~
+oldstyle~
+food 0 A
+15 15 0 0 0
+0 10 10 P
+E
+pizza slice~
+Ahh!  Round Table pizza!  How appropriate.  Any root beer?
+~
+#27602
+newbie brooch~
+{RN{re{Yw{yb{Ri{re {YB{yr{Ro{ro{Yc{yh {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+An ornate brooch was carelessly left here.~
+oldstyle~
+armor AB AC
+8 8 8 5 0
+13 100 1140 P
+A
+4 1
+A
+3 1
+A
+12 40
+A
+13 10
+A
+18 1
+A
+19 1
+#27603
+newbie stone strength~
+{RN{re{Yw{yb{Ri{re {YS{yt{Ro{rn{Ye {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x {D-STR-{x~
+A stone of strength lies here.~
+stone~
+armor AB AQ
+1 1 1 1 0
+1 1 5000 P
+A
+1 2
+#27604
+newbie mace turtleshell~
+{RN{re{Yw{yb{Ri{re {YT{yu{Rr{rt{Yl{ye{Rs{rh{Ye{yl{Rl {rM{Ya{yc{Re {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A mace made from a turtle's shell lies here.
+~
+stone~
+weapon AB AN
+mace 5 11 pound C
+25 10 500 P
+A
+13 20
+A
+19 3
+A
+18 3
+#27605
+thieve's gloves~
+{RN{re{Yw{yb{Ri{re {YG{yl{Ro{rv{Ye{ys {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A pair of thin leather gloves rests on the ground.~
+lether~
+armor ABG AH
+6 6 6 1 2
+16 30 989 P
+A
+2 2
+A
+18 2
+A
+19 4
+#27606
+newbie sleeves~
+{RN{re{Yw{yb{Ri{re {YS{yl{Re{re{Yv{ye{Rs {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+Newbie sleeves lie here discarded.~
+air~
+armor ABG AI
+10 7 7 7 0
+25 3 2800 P
+A
+24 -2
+A
+19 2
+A
+5 1
+A
+13 10
+#27607
+newbie helmet~
+{RN{re{Yw{yb{Ri{re {YH{ye{Rl{rm{Ye{yt {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie helmet lies here.~
+silver~
+armor AG AE
+6 6 6 1 4
+15 5 1500 G
+A
+4 1
+A
+3 2
+A
+13 10
+E
+helmet~
+You see an Island Helmet.  Imprinted on the side is: Gapcio Industries
+~
+#27608
+newbie shield~
+{RN{re{Yw{yb{Ri{re {YS{yh{Ri{re{Yl{yd {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A shield has been dropped here.~
+steel~
+armor ABG AJ
+6 6 6 1 5
+15 100 2000 G
+A
+13 10
+A
+3 2
+E
+shield island~
+You see an Island Shield.  Imprinted on the side is: Gapcio Industries
+~
+#27609
+newbie staff~
+{RN{re{Yw{yb{Ri{re {YS{yt{Ra{rf{Yf {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x ~
+A staff with druidic marks have been left here.~
+ash~
+weapon AB AN
+staff 6 9 pound G
+25 4 10 P
+A
+20 -2
+A
+18 2
+E
+staff stick~
+Then staff is about 5 ft long, engraved with mythical signs and figures.
+Otherwise the staff seems of no real interest.
+~
+#27610
+newbie stone wisdom~
+{RN{re{Yw{yb{Ri{re {YS{yt{Ro{rn{Ye {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x {D-WIS-{x~
+A stone of wisdom lies here.~
+stone~
+armor AB AQ
+1 1 1 1 0
+1 1 5000 P
+A
+4 2
+#27611
+map redemption~
+{RM{ra{Yp {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A rolled up piece of parchment is here.~
+parchment~
+map AB A
+0 0 0 0 0
+0 0 0 P
+E
+map~
+A strange map this one.  The very roads, forests, deserts, villages,
+cities, and other land marks move and rearrange themselves seemingly at
+will.  The only constant on the map is the city of Midgaard.  
+
+Along the bottom of the map are the instructions on how to use the map.  
+
+The most current list of areas available to explore can be found by typing
+'{Rarea{x'.  This list also provides some indication of the type and level of
+adventurer needed.  
+
+To get directions to a particular location type '{Rmap <area name>{x', though
+please note that {R<area name>{x can also be a variation of the area's name.  
+~
+#27612
+newbie dagger redemption~
+{RN{re{Yw{yb{Ri{re {YD{ya{Rg{rg{Ye{yr {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+You see a newbie dagger here.~
+steel~
+weapon ABG AN
+dagger 2 5 pierce 0
+15 20 590 P
+A
+18 1
+A
+19 1
+E
+dagger~
+You see a dagger of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#27613
+newbie leggings redemption~
+{RN{re{Yw{yb{Ri{re {YL{ye{Rg{rg{Yi{yn{Rg{rs {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A pair of newbie leggings lies here.~
+kid leather~
+armor AB AF
+6 6 6 3 0
+15 50 100 P
+A
+5 2
+A
+13 10
+#27614
+newbie belt~
+{RN{re{Yw{yb{Ri{re {YB{ye{Rl{rt {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie belt lies here.~
+silver~
+armor AB AL
+6 6 6 3 0
+10 50 100 P
+A
+5 2
+A
+13 10
+A
+18 1
+A
+19 1
+#27615
+newbie sword~
+{RN{re{Yw{yb{Ri{re {YS{yw{Ro{rr{Yd {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A black hilted sword with engravings on the blade lie here.~
+steel~
+weapon ABG AN
+sword 5 11 slice 0
+28 7 280 P
+A
+23 -1
+A
+19 5
+A
+18 3
+E
+sword~
+The blade of the sword is a full meter long, and straight as an arrow, with
+lightly fluted sides. Both edges keened down to perfect lines, invisibly
+sharp. Perfection like this could of only been forged by a god. The black
+hilt is contrasted only by the faint symbol of a dragon head.
+Apon the blade is engraved a poem:
+
+                      Dragonslicer, Dragonslicer, how d'you slay?
+                      Reaching for the heart in behind the scales.
+                      Dragonslicer, Dragonslicer, where do you stay?
+                      In the belly of the giant that my blade impales.
+
+~
+#27616
+newbie intelligence stone~
+{RN{re{Yw{yb{Ri{re {YS{yt{Ro{rn{Ye {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x {D-INT-{x~
+A stone of intelligence lies here.~
+stone~
+armor AB AQ
+1 1 1 1 0
+1 1 5000 P
+A
+3 2
+#27617
+newbie imperial mace~
+{RN{re{Yw{yb{Ri{re {YI{ym{Rp{re{Yr{yi{Ra{rl {rM{Ya{yc{Re {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+You see an imperial mace here.~
+oldstyle~
+weapon ABG AN
+mace 2 7 pound 0
+29 50 1180 P
+A
+19 2
+A
+18 2
+E
+mace~
+You see a mace of great craftsmanship.  Imprinted on the side is:
+Merc Industries
+~
+#27618
+newbie ring~
+{RN{re{Yw{yb{Ri{re {YR{yi{Rn{rg {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie ring lies here.~
+iron~
+armor AB AB
+4 4 4 2 0
+7 40 100 P
+A
+1 1
+A
+3 1
+A
+13 10
+#27619
+newbie jacket~
+{RN{re{Yw{yb{Ri{re {YJ{ya{Rc{rk{Ye{yt {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie jacket lies here.~
+none~
+armor AB AD
+10 10 10 5 0
+30 5 100 P
+A
+13 30
+A
+18 1
+A
+19 1
+#27620
+newbie boots~
+{RN{re{Yw{yb{Ri{re {YB{yo{Ro{rt{Ys {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A sturdy pair of travelling boots lies here.~
+oldstyle~
+armor ABG AG
+5 6 6 2 0
+23 20 880 P
+A
+14 50
+A
+13 10
+#27621
+newbie bracelet~
+{RN{re{Yw{yb{Ri{re {YB{yr{Ra{rc{Ye{yl{Re{rt {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie bracelet lies here.~
+oldstyle~
+jewelry ABG AM
+0 0 0 0 0
+5 80 550 P
+A
+5 2
+A
+17 -9
+A
+13 10
+#27622
+newbie knife~
+{RN{re{Yw{yb{Ri{re {YK{yn{Ri{rf{Ye {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie knife lies here.~
+acid~
+weapon BGI AN
+dagger 5 11 frbite B
+19 3 4400 P
+A
+19 3
+A
+18 3
+A
+13 20
+#27623
+lava lamp~
+{RL{ra{Ym{yp {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A lamp that glows with a red glowing light has been dumped here.~
+oldstyle~
+light A A
+0 0 999 0 0
+0 40 250 P
+A
+4 1
+#27624
+newbie water jug~
+{RN{re{Yw{yb{Ri{re {YW{ya{Rt{re{Yr {yJ{Ru{rg {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x ~
+A large but surprisingly light jug of water stands here.~
+oldstyle~
+drink AB A
+850 850 'water' 0 0
+0 20 200 P
+#27625
+Newbie Robe~
+{RN{re{Yw{yb{Ri{re {YR{yo{Rb{re {Dof {RR{re{Yd{ye{Dmp{yt{Yi{ro{Rn{x~
+A newbie robe lies here discarded.~
+cloth~
+armor ABG AK
+1 2 1 1 1
+13 50 780 G
+A
+4 1
+A
+12 5
+A
+13 10
+A
+2 2
+E
+robe linen~
+It radiates an aura of peace and wisdom.  The perfect garb for a teacher.
+~
+#27701
+camel filter cigarette ByKrys~
+a {yCamel {BF{bilter {wCigarette{x~
+A Camel Filter Cigarette lies here, begging to be smoked.~
+tobacco~
+potion ASTY AO
+101 'heal' 'cure critical' 'cure critical' 'cure critical'
+95 5 5000 P
+#27707
+soft velvet pile~
+a soft pile of {wve{%l{^v{wet{x~
+A deliciously soft pile of velvet invites you to relax.~
+velvet~
+furniture ABGY 0
+2 400 BHKN 1000 1000
+1 100 100 P
+#27708
+elegant crystal fountain~
+an elegant {^c{wr{^y{ws{^t{wa{^l{x fountain~
+A strangely shaped crystal fountain gives forth orange liquid.~
+crystal~
+fountain ABG 0
+100000 100000 'orange juice' 0 0
+1 500 5000 P
+E
+crystal~
+~
+E
+fountain~
+Carved of the purest M'jinni crystal, this fountain seems to be in
+the shape of two souls, forever entwined. Each time you blink, they
+seem to have moved, twisting further around each other.
+~
+E
+elegant~
+Carved of the purest M'jinni crystal, this fountain seems to be in
+the shape of two souls, forever entwined. Each time you blink, they
+seem to have moved, twisting further around each other.
+~
+#27777
+quest token~
+a {YQ{GU{CE{MS{BT  {WTOKEN{x~
+A {YT{GO{CK{ME{BN{x lies here.~
+air~
+jewelry ABT AO
+0 0 0 0 0
+1 0 0 P
+#27778
+pill vartan quest~
+a {DV{Gartan{x {wQ{Mu{Ce{Gs{Yt{x pill~
+This is a {DV{Gartan{x {wQ{Mu{Ce{Gs{Yt{x pill~
+jelly~
+pill AGHTa A
+161 'quest pill' 'iceshield' 'fireshield' 'shockshield'
+0 1 0 P
+#27800
+teapot~
+a teapot~
+A steaming pot of tea rests on the table.~
+china~
+fountain 0 0
+-1 -1 'camomile tea' 0 0
+1 100 100 P
+#27801
+futon~
+a futon~
+A giant, {1red{0 leather futon sits diagonally facing the south wall.~
+leather~
+furniture 0 0
+4 100000 BEHK 600 600
+1 100 100 P
+#27802
+shard holder <sjv>~
+a {7s{&h{7a{&r{7d{0 holder~
+A small pouch has been dropped here.~
+demon hair~
+container SYd A
+500 ABCD 0 100 0
+0 50 0 P
+E
+holder~
+The pouch phases in and out of existence.
+~
+#27803
+shard1 soul shadowy token <<qsv>> quest~
+{7a {8shadowy{7 {6s{$h{6a{$r{6d{7 of your {8soul{0~
+A {8shadowy{0 object lies on the ground {&p{#u{&l{#s{&i{#n{&g{0 faintly.~
+ethreal mist~
+trash STYd A
+0 0 0 0 0
+0 10 0 P
+E
+token~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+E
+shard~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+E
+soul~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+#27804
+shard2 soul shadowy token <<qsv>> quest~
+{7a {8shadowy {5s{1h{5a{1r{5d{7 of your {8soul{x~
+A {8shadowy{0 object lies on the ground {&p{#u{&l{#s{&i{#n{&g{0 faintly.~
+ethreal mist~
+trash STYd A
+0 0 0 0 0
+0 10 0 P
+E
+token~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+E
+shard~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+E
+soul~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+#27805
+shard4 soul shadowy token <<qsv>> quest~
+{7a {8shadowy {#s{3h{#a{3r{#d{7 of your {8soul{x~
+A {8shadowy{0 object lies on the ground {&p{#u{&l{#s{&i{#n{&g{0 faintly.~
+ethreal mist~
+trash STYd A
+0 0 0 0 0
+0 10 0 P
+E
+token~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+E
+shard~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+E
+soul~
+Staring into the shard, three choices on what to do with the shard are
+apparent: Trade it to Saphyre; Sell it to the highest bidder; or Sacrifice
+to the god of your choice.  
+~
+#27806
+sign shard quest~
+a shard quest sign~
+A {&s{7h{&a{7r{&d {7sign{0 is planted here.~
+bone~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+E
+shard~
++--------------------------------------------------------------------+
+ |  {&S{7h{&a{7r{&d {7Quest Informational Sign{0                                    |
+ |                                                                    |
+ |  Well, shards have been given out to the various mobs throughout   |
+ |  the Realms.  There are three types of shards to be found.  They   |
+ |  range in value from 1 to 4.  Identifing or loring a shard will    |
+ |  show something like the following: 'shard? soul shadowy token     |
+ |  <<qsv>> quest'.  Whatever the x equals is the value of the shard. |
+ |  They are also color coded as follows:                             |
+ |                                                                    |
+ |           {6s{$h{6a{$r{6d {0= {^1{0  |  {5s{1h{5a{1r{5d{0 = {^2{0  |  {#s{3h{#a{3r{#d{0 = {^4{0                    |
+ |                                                                    |
+ |  Here is the trade-in table for shards.  If taking iqps, nothing   |
+ |  applies there after.  Please note that it takes 4 shards to       |
+ |  start and three of the item above to get the next item in the     |
+ |  table.                                                            |
+ |                                                                    |
+ |   4 shards = a '{6S{$h{6a{$r{6d{7 Collector{0' patch (rp) or a {6S{$h{6a{$r{6d{0 ankel       |
+ |                cheyne (ankle) or 1 iqp                             |
+ |  12 shards = a '{6S{$h{6a{$r{6d{7 Lover{0' hood (head) or a {6S{$h{6a{$r{6d{0 fragment (ear) |
+ |  36 shards = a '{6S{$h{6a{$r{6d{7 Junkie{0' shirt (torso) or a {6S{$h{6a{$r{6d{0 coat-of-arms|
+ |                                                    (back)          |
+ | 108 shards = a {6S{$h{6a{$r{6d{0 sliver (cp) or a {6S{$h{6a{$r{6d{0 tattoo (wrist)         |
+ | 324 shards = a {6S{$h{6a{$r{6d{0 of {$%p{4layer's{7 soul{0 (floater)*                  |
+ | 648 shards = {7the {1Devoir{7 of {$%p{4layer's{8 Soul{0 or {7the {4Cupidity {7of{0       |
+ |                {!%p{1layer's{8 Soul{0                                      |
+ |              (grand prize - avg 550 dagger, pierce damage, vorpal, |
+ |                 vampiric, poison, sharp, +10 hit/damroll)          |
+ |                                                                    |
+ |  * Only 2 floaters are required for the grand prize not 3.         |
+ |                                                                    |
+ |  Ex. 4 shards get you 1 patch.  3 patches get you 1 hood, and so   |
+ |      on and so forth.                                              |
+ |                                                                    |
+ |  Happy Hunting.                    say: list, please.              |
+ +--------------------------------------------------------------------+
+~
+E
+sign~
++--------------------------------------------------------------------+
+ |  {&S{7h{&a{7r{&d {7Quest Informational Sign{0                                    |
+ |                                                                    |
+ |  Well, shards have been given out to the various mobs throughout   |
+ |  the Realms.  There are three types of shards to be found.  They   |
+ |  range in value from 1 to 4.  Identifing or loring a shard will    |
+ |  show something like the following: 'shard? soul shadowy token     |
+ |  <<qsv>> quest'.  Whatever the x equals is the value of the shard. |
+ |  They are also color coded as follows:                             |
+ |                                                                    |
+ |           {6s{$h{6a{$r{6d {0= {^1{0  |  {5s{1h{5a{1r{5d{0 = {^2{0  |  {#s{3h{#a{3r{#d{0 = {^4{0                    |
+ |                                                                    |
+ |  Here is the trade-in table for shards.  If taking iqps, nothing   |
+ |  applies there after.  Please note that it takes 4 shards to       |
+ |  start and three of the item above to get the next item in the     |
+ |  table.                                                            |
+ |                                                                    |
+ |   4 shards = a '{6S{$h{6a{$r{6d{7 Collector{0' patch (rp) or a {6S{$h{6a{$r{6d{0 ankel       |
+ |                cheyne (ankle) or 1 iqp                             |
+ |  12 shards = a '{6S{$h{6a{$r{6d{7 Lover{0' hood (head) or a {6S{$h{6a{$r{6d{0 fragment (ear) |
+ |  36 shards = a '{6S{$h{6a{$r{6d{7 Junkie{0' shirt (torso) or a {6S{$h{6a{$r{6d{0 coat-of-arms|
+ |                                                    (back)          |
+ | 108 shards = a {6S{$h{6a{$r{6d{0 sliver (cp) or a {6S{$h{6a{$r{6d{0 tattoo (wrist)         |
+ | 324 shards = a {6S{$h{6a{$r{6d{0 of {$%p{4layer's{7 soul{0 (floater)*                  |
+ | 648 shards = {7the {1Devoir{7 of {$%p{4layer's{8 Soul{0 or {7the {4Cupidity {7of{0       |
+ |                {!%p{1layer's{8 Soul{0                                      |
+ |              (grand prize - avg 550 dagger, pierce damage, vorpal, |
+ |                 vampiric, poison, sharp, +10 hit/damroll)          |
+ |                                                                    |
+ |  * Only 2 floaters are required for the grand prize not 3.         |
+ |                                                                    |
+ |  Ex. 4 shards get you 1 patch.  3 patches get you 1 hood, and so   |
+ |      on and so forth.                                              |
+ |                                                                    |
+ |  Happy Hunting.                    say: list, please.              |
+ +--------------------------------------------------------------------+
+~
+O SPEECH 27806 list, please.~
+#27807
+list shard prize~
+a shard prize list~
+A list of the shard prize exchange rates is here.~
+bone~
+trash SUY A
+0 0 0 0 0
+0 1 0 P
+E
+list~
++--------------------------------------------------------------------+
+ |  {&Shard Exchange List{0                                               |
+ |                                                                    |
+ |     {6s{$h{6a{$r{6d {0= {^1{0 shard  |  {5s{1h{5a{1r{5d{0 = {^2{0 shards  |  {#s{3h{#a{3r{#d{0 = {^4{0 shards      |
+ |                                                                    |
+ |   4 shards = a '{6S{$h{6a{$r{6d{7 Collector{0' patch (rp) or a {6S{$h{6a{$r{6d{0 ankel       |
+ |                cheyne (ankle) or 1 iqp                             |
+ |  12 shards = a '{6S{$h{6a{$r{6d{7 Lover{0' hood (head) or a {6S{$h{6a{$r{6d{0 fragment (ear) |
+ |  36 shards = a '{6S{$h{6a{$r{6d{7 Junkie{0' shirt (torso) or a {6S{$h{6a{$r{6d{0 coat-of-arms|
+ |                                                    (back)          |
+ | 108 shards = a {6S{$h{6a{$r{6d{0 sliver (cp) or a {6S{$h{6a{$r{6d{0 tattoo (wrist)         |
+ | 324 shards = a {6S{$h{6a{$r{6d{0 of {$%p{4layer's{7 soul{0 (floater)*                  |
+ | 648 shards = {7the {1Devoir{7 of {$%p{4layer's{8 Soul{0 or {7the {4Cupidity {7of{0       |
+ |                {!%p{1layer's{8 Soul{0                                      |
+ |              (grand prize - avg 550 dagger, pierce damage, vorpal, |
+ |                 vampiric, poison, sharp, +10 hit/damroll)          |
+ |                                                                    |
+ |  * Only 2 floaters are required for the grand prize not 3.         |
+ |                                                                    |
+ |  Ex. 4 shards get you 1 patch.  3 patches get you 1 hood, and so   |
+ |      on and so forth.                                              |
+ +--------------------------------------------------------------------+
+~
+E
+prize~
++--------------------------------------------------------------------+
+ |  {&Shard Exchange List{0                                               |
+ |                                                                    |
+ |     {6s{$h{6a{$r{6d {0= {^1{0 shard  |  {5s{1h{5a{1r{5d{0 = {^2{0 shards  |  {#s{3h{#a{3r{#d{0 = {^4{0 shards      |
+ |                                                                    |
+ |   4 shards = a '{6S{$h{6a{$r{6d{7 Collector{0' patch (rp) or a {6S{$h{6a{$r{6d{0 ankel       |
+ |                cheyne (ankle) or 1 iqp                             |
+ |  12 shards = a '{6S{$h{6a{$r{6d{7 Lover{0' hood (head) or a {6S{$h{6a{$r{6d{0 fragment (ear) |
+ |  36 shards = a '{6S{$h{6a{$r{6d{7 Junkie{0' shirt (torso) or a {6S{$h{6a{$r{6d{0 coat-of-arms|
+ |                                                    (back)          |
+ | 108 shards = a {6S{$h{6a{$r{6d{0 sliver (cp) or a {6S{$h{6a{$r{6d{0 tattoo (wrist)         |
+ | 324 shards = a {6S{$h{6a{$r{6d{0 of {$%p{4layer's{7 soul{0 (floater)*                  |
+ | 648 shards = {7the {1Devoir{7 of {$%p{4layer's{8 Soul{0 or {7the {4Cupidity {7of{0       |
+ |                {!%p{1layer's{8 Soul{0                                      |
+ |              (grand prize - avg 550 dagger, pierce damage, vorpal, |
+ |                 vampiric, poison, sharp, +10 hit/damroll)          |
+ |                                                                    |
+ |  * Only 2 floaters are required for the grand prize not 3.         |
+ |                                                                    |
+ |  Ex. 4 shards get you 1 patch.  3 patches get you 1 hood, and so   |
+ |      on and so forth.                                              |
+ +--------------------------------------------------------------------+
+~
+#27808
+sign Ramoth token quest~
+a quest sign~
+A {#Ramoth's{0 token quest sign is here.~
+wood~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+E
+ramoth~
+{!Notice to all:{0
+{!Rammie Prizes have been given out.  Collect as many as you{0
+{!can before turning them in.  The prize list follows.{0
+{7Rammie Prizes:  1-3 = Rammie Hugs,  4 = Bonus Teapot Patch{0
+{7                8 = Patch and IMMQP, 10 = Patch and Restring Token{0
+{7                12 = Patch and a chance to draw from the Card Deck{0
+{7Ramoth's Bonus List{0
+{7Three Patches = Bonus Shirt   Three Shirts = Bonus Floater   {0
+{7Three Floaters = Bonus Shard  Three Shards = Bonus Surprise   {0
+{7-{#Lady Ramoth{0   (Questions?  Note Ramoth.)
+You may {!NOT{0 sell Rammie Eq.
+You may sell Rammie Prizes.
+{!Failure to keep the rules will result in you being EATEN!!{0
+~
+E
+token~
+{!Notice to all:{0
+{!Rammie Prizes have been given out.  Collect as many as you{0
+{!can before turning them in.  The prize list follows.{0
+{7Rammie Prizes:  1-3 = Rammie Hugs,  4 = Bonus Teapot Patch{0
+{7                8 = Patch and IMMQP, 10 = Patch and Restring Token{0
+{7                12 = Patch and a chance to draw from the Card Deck{0
+{7Ramoth's Bonus List{0
+{7Three Patches = Bonus Shirt   Three Shirts = Bonus Floater   {0
+{7Three Floaters = Bonus Shard  Three Shards = Bonus Surprise   {0
+{7-{#Lady Ramoth{0   (Questions?  Note Ramoth.)
+You may {!NOT{0 sell Rammie Eq.
+You may sell Rammie Prizes.
+{!Failure to keep the rules will result in you being EATEN!!{0
+~
+E
+sign~
+{!Notice to all:{0
+{!Rammie Prizes have been given out.  Collect as many as you{0
+{!can before turning them in.  The prize list follows.{0
+{7Rammie Prizes:  1-3 = Rammie Hugs,  4 = Bonus Teapot Patch{0
+{7                8 = Patch and IMMQP, 10 = Patch and Restring Token{0
+{7                12 = Patch and a chance to draw from the Card Deck{0
+{7Ramoth's Bonus List{0
+{7Three Patches = Bonus Shirt   Three Shirts = Bonus Floater   {0
+{7Three Floaters = Bonus Shard  Three Shards = Bonus Surprise   {0
+{7-{#Lady Ramoth{0   (Questions?  Note Ramoth.)
+You may {!NOT{0 sell Rammie Eq.
+You may sell Rammie Prizes.
+{!Failure to keep the rules will result in you being EATEN!!{0
+~
+O SPEECH 27807 list, please.~
+#27809
+list Rammie prize~
+a {#Rammie{0 prize list~
+A {#Rammie{0 prize list has been dropped here.~
+paper~
+trash SUY A
+0 0 0 0 0
+0 1 0 P
+E
+list~
+{&Prize List{0
+{7Rammie Prizes:  1-3 = Rammie Hugs,  4 = Bonus Teapot Patch{0
+{7                8 = Patch and IMMQP, 10 = Patch and Restring Token{0
+{7                12 = Patch and a chance to draw from the Card Deck{0
+{7Ramoth's Bonus List{0
+{7Three Patches = Bonus Shirt   Three Shirts = Bonus Floater   {0
+{7Three Floaters = Bonus Shard  Three Shards = Bonus Surprise {0
+You may {!NOT{0 sell Rammie Eq.
+You may sell Rammie Prizes.
+{!Failure to keep the rules will result in you being EATEN!!{0
+~
+E
+prize~
+{&Prize List{0
+{7Rammie Prizes:  1-3 = Rammie Hugs,  4 = Bonus Teapot Patch{0
+{7                8 = Patch and IMMQP, 10 = Patch and Restring Token{0
+{7                12 = Patch and a chance to draw from the Card Deck{0
+{7Ramoth's Bonus List{0
+{7Three Patches = Bonus Shirt   Three Shirts = Bonus Floater   {0
+{7Three Floaters = Bonus Shard  Three Shards = Bonus Surprise {0
+ 
+You may {!NOT{0 sell Rammie Eq.
+You may sell Rammie Prizes.
+{!Failure to keep the rules will result in you being EATEN!!{0
+~
+#27810
+rose red~
+a {Rred{x rose~
+A {Rred{x rose is here.~
+unknown~
+treasure 0 AO
+0 0 0 0 0
+0 0 0 P
+#27811
+sign quest nascar skyy~
+a NASCAR sign~
+A NASCAR sign floats here.~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+E
+quest~
+Seems someone stole my {!NAS{$CAR{x  patches and distributed them among the
+mobs of phoenix.  Feel free to collect as many as you wish before claiming
+your prize.
+{x
+Here is a list of prizes:
+{x
+4 patches = 1 imm quest point
+6 patches = {!NAS{$CAR {DTire{x
+8 patches = {!NAS{$CAR{x Restring Token
+15 patches = {!NAS{$CAR{x  Collectors Patch to be restrung with driver of
+{x             your choice and colors.
+26 patches = {!NAS{$CAR{x Collector Patch and token for Free pump on weapon
+{x             not to exceed the 3rd pump.
+{x
+There are a couple of bonuses:
+{x
+Turn in 3 Tires = A Coke Bottle with driver of your choice and neverending Coke.
+Turn in 6 Tires = Token to add Flag to weapon of your choice.
+{x
+{&Grand Prize{x, 50 {&Tires{x =
+{x
+For Hero: {!NAS{$CAR {*Tire Iron{x: damage 18d50
+For 101 and above: {!NAS{$CAR {*Lugnut{x: damage 15d23
+For under 101: {!NAS{$CAR{* Tire Jack{x: damage 10d25
+{x
+Skyy, {DResident {!NAS{$CAR{* Freak{x.
+~
+E
+nascar~
+Seems someone stole my {!NAS{$CAR{x  patches and distributed them among the
+mobs of phoenix.  Feel free to collect as many as you wish before claiming
+your prize.
+{x
+Here is a list of prizes:
+{x
+4 patches = 1 imm quest point
+6 patches = {!NAS{$CAR {DTire{x
+8 patches = {!NAS{$CAR{x Restring Token
+15 patches = {!NAS{$CAR{x  Collectors Patch to be restrung with driver of
+{x             your choice and colors.
+26 patches = {!NAS{$CAR{x Collector Patch and token for Free pump on weapon
+{x             not to exceed the 3rd pump.
+{x
+There are a couple of bonuses:
+{x
+Turn in 3 Tires = A Coke Bottle with driver of your choice and neverending Coke.
+Turn in 6 Tires = Token to add Flag to weapon of your choice.
+{x
+{&Grand Prize{x, 50 {&Tires{x =
+{x
+For Hero: {!NAS{$CAR {*Tire Iron{x: damage 18d50
+For 101 and above: {!NAS{$CAR {*Lugnut{x: damage 15d23
+For under 101: {!NAS{$CAR{* Tire Jack{x: damage 10d25
+{x
+Skyy, {DResident {!NAS{$CAR{* Freak{x.
+~
+E
+sign~
+Seems someone stole my {!NAS{$CAR{x  patches and distributed them among the
+mobs of phoenix.  Feel free to collect as many as you wish before claiming
+your prize.
+{x
+Here is a list of prizes:
+{x
+4 patches = 1 imm quest point
+6 patches = {!NAS{$CAR {DTire{x
+8 patches = {!NAS{$CAR{x Restring Token
+15 patches = {!NAS{$CAR{x  Collectors Patch to be restrung with driver of
+{x             your choice and colors.
+26 patches = {!NAS{$CAR{x Collector Patch and token for Free pump on weapon
+{x             not to exceed the 3rd pump.
+{x
+There are a couple of bonuses:
+{x
+Turn in 3 Tires = A Coke Bottle with driver of your choice and neverending Coke.
+Turn in 6 Tires = Token to add Flag to weapon of your choice.
+{x
+{&Grand Prize{x, 50 {&Tires{x =
+{x
+For Hero: {!NAS{$CAR {*Tire Iron{x: damage 18d50
+For 101 and above: {!NAS{$CAR {*Lugnut{x: damage 15d23
+For under 101: {!NAS{$CAR{* Tire Jack{x: damage 10d25
+{x
+Skyy, {DResident {!NAS{$CAR{* Freak{x.
+~
+#27812
+raven tattoo wrist <sjv>~
+{wa {Dblack{W, {wr{Da{wv{De{wn tattoo{x~
+A {Dblack{W, {wr{Da{wv{De{wn tattoo{x almost looks alive waiting to spring forth.~
+flesh~
+armor CEGS AM
+30 30 30 30 0
+152 1 10 P
+A
+14 -500
+A
+12 250
+A
+13 250
+A
+19 35
+A
+18 35
+O SPEECH 27801 limins~
+#27813
+super quest point <caelestio>~
+{MThis is 1 {RSuper {MQuest Point{x~
+{MThis is 1 {RSuper {MQuest Point.{x~
+unknown~
+trash Tc AO
+0 0 0 0 0
+1 10 0 P
+#27814
+shard squirrel~
+a {GS{gq{Gu{gi{Gr{gr{Ge{gl {Rs{rhar{Rd{x~
+You see a token left by Codders.~
+unknown~
+trash TY AO
+0 0 0 0 0
+0 0 0 P
+#27815
+shard squirrel~
+a Squirrel Shard Sign~
+You see a Squirrel Shard Sign thats been left.~
+unknown~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+E
+sign~
+{x+------------------------------------------------------+
+{x|  Prize List                  {G       S{gq{Gu{gi{Gr{gr{Ge{gl{x {Rs{rhar{Rd{x's |
+{x+------------------------------------------------------+
+{G{x|  {GMark {ROf {CC{co{Cd{cd{Ce{cr{Cs{x (Chest Patch)              4{G        {x|
+{x|  {bOfficial "{GS{gq{Gu{gi{Gr{gr{Ge{gl{Gy {RH{re{Rr{ro {CE{cQ{W{b"{W Bag{x (bag){x     9        |
+{W{x|  {GS{gquirrel {CR{cing{x (Ring)                       13       |
+{x|  {GS{Cq{Gu{Ci{Gr{Cr{Ge{Cl {cEars{x (head)                       21       |
+{x|  {CR{cabid {GS{gq{Gu{gi{Gr{gr{Ge{gl{x {DT{x{battoo{x (Relig Patch)        30       |
+{x|  {Ra {Gpair {Yof {BSquirrel {MP{Ca{Ww{Ds{x (feet)             50       |
+{x|  A {CS{cquirrel'{Cs {Rw{reapon {G"{Ban {xacorn{G"{x (weapon)    648      |
+{x|                                                      |
+{x|  (grand prize - avg 550 dagger, pierce damage,       |
+{x|  vorpal, vampiric, poison, sharp, +11 hit/damroll)   |
+{x+------------------------------------------------------+
+~
+#27816
+fox tattoo~
+a fox~
+A tribal symbol of a fox is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+12 50
+A
+13 50
+#27817
+wolf tattoo~
+a wolf~
+A tribal symbol of a wolf is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+12 100
+A
+13 100
+#27818
+bear tattoo~
+a bear~
+A tribal symbol of a bear is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+12 150
+A
+13 150
+#27819
+tiger tattoo~
+a tiger~
+A tribal symbol of a tiger is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+12 200
+A
+13 200
+#27820
+dragon tattoo~
+a dragon~
+A tribal symbol of a dragon is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+12 250
+A
+13 250
+#27821
+king snake tattoo~
+a king snake~
+An accurate depiction of a king snake is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+18 5
+A
+19 5
+#27822
+viper tattoo~
+a viper~
+An accurate depiction of a viper is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+18 10
+A
+19 10
+#27823
+rattlesnake tattoo~
+a rattlesnake~
+An accurate depiction of a rattlesnake is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+18 15
+A
+19 15
+#27824
+asp tattoo~
+an asp~
+An accurate depiction of an asp is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+18 20
+A
+19 20
+#27825
+sea snake tattoo~
+a sea snake~
+An accurate depiction of a sea snake is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+A
+18 25
+A
+19 25
+#27826
+flame tattoo~
+a {rf{Yl{ra{Ym{re{x~
+A {rd{Ya{rn{Yc{ri{Yn{rg {Yf{rl{Ya{rm{Ye{x is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+F
+R 0 0 H
+A
+19 100
+A
+18 100
+#27827
+snowflake tattoo~
+a {Ws{Cn{Bo{bw{Bf{Cl{Wa{Ck{Be{x~
+A {Wd{Cr{Bi{bf{Bt{Ci{Wn{Cg {Bs{bn{Bo{Cw{Wf{Cl{Ba{bk{Be{x is tattooed on your skin.~
+flesh~
+trash HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+F
+R 0 0 I
+#27828
+lightning bolt tattoo~
+a {Yl{yi{wg{Wh{wt{yn{Yi{yn{wg {Wb{wo{yl{Yt{x~
+A {Y{Yl{yi{wg{Wh{wt{yn{Yi{yn{wg {Wb{wo{yl{Yt{x{x is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+F
+R 0 0 J
+A
+17 -30
+#27829
+acid tattoo~
+an {Ga{gc{Gi{gd {Bf{cl{Ba{cs{Bk{x~
+An {Ga{gc{Gi{gd {Bf{cl{Ba{cs{Bk{x is tattooed on your skin.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+17 -30
+F
+R 0 0 K
+#27830
+flesh skin tattoo~
+bare skin~
+A piece of bare skin waiting for a tattoo.~
+flesh~
+gem HMYZbdef AY
+0 0 0 0 0
+0 0 0 P
+A
+19 10
+A
+18 10
+A
+12 50
+A
+13 50
+A
+17 -30
+#27990
+desk chair~
+a swivel-back chair~
+A beautiful wooden desk sits against the eastern wall.~
+oak~
+furniture 0 0
+1 100000 BFI 600 600
+0 0 0 P
+E
+desk~
+A beautiful oak desk offsets the otherwise averageness of the room.  It
+has a strange carving on it.  
+~
+E
+carving~
+The carving seems to be long strings of cryptic text that magically
+change and scroll at the will of Falion.  
+~
+E
+chair~
+The chair is well-worn from use, and looks particularly comfortable.  
+~
+#27991
+mug coffee pot~
+a steaming mug~
+A pot and a mug sit on a small stand next to the desk.~
+porecelain~
+fountain 0 0
+-1 -1 'cappuccino' 0 0
+0 0 0 P
+E
+pot~
+It seems to be a magic pot.  It makes whooshing and sighing noises.  
+~
+E
+mug~
+It is an averge looking mug the handle and surface worn smooth from use. 
+It is filled with steaming, foamy, creamy liquid.  
+~
+#27992
+cot~
+a large cot~
+A large cot sits against the north wall.~
+canvas~
+furniture 0 0
+10 100000 EHK -1 -1
+0 0 0 P
+E
+cot~
+The cot looks particularly soft, but has seen little use.  It like it was
+used more for a catchall for odds and ends.  
+~
+#27994
+onyx statue~
+{DOnyx {xthe {!R{@A{#N{$D{%O{^M {&IMM{x~
+A statue of Onyx stands here with his arms stretched out and a {!s{@p{#a{$t{%u{^l{&a{x resting between his hands.~
+granite~
+furniture AIOR 0
+100 100000 BEHK 1000 1000
+0 25000 0 P
+E
+spatula~
+{DThis poem is courtesy of our very own Bahamut.  Thank you!
+{x
+Always there with a smile
+never traveling with a frown
+looking to see the best of things
+not letting it get him down
+{x
+Whenever he would log in
+people would greet him with smiles
+loved and appriciated very much
+his kindness could go for miles
+{x
+Chock full of jokes
+and filled to the brim with charm
+he gave everybody a chance
+and a fly he would never harm
+{x
+Mesmerized by one look in his eyes
+just like Count Dracula
+only his weapon wasn't fangs
+but his giant trusty {!s{@p{#a{$t{%u{^l{&a
+{x
+It's truly a shame that he had to leave
+he was off to a best of starts
+but one thing is for damn sure
+he'll always live on in our hearts
+{x
+{ROnyx, Wolfshade, Tony... so many names did you go by.
+{RI love you and miss you terribly, as does everyone who knew you.
+{RThe last line of the above poem is so true...
+{YYou will ALWAYS live on in our {rhearts{Y.{x
+{x
+My love always,
+{rNessa{x/{rMichelle{x
+~
+#27995
+Invitation~
+{WA Personal Invitation to {RBrand{W and {YRamoths {WWedding{x~
+{WA Personal Invitation to {RBrand{W and {YRamoths {WWedding{x lies here.~
+unknown~
+gem 0 AO
+0 0 0 0 0
+0 0 0 P
+E
+engraving~
+{Y                  Ramoth
+{W            The Dragon of {BFate
+{W                    and
+{G                   Brand
+{W           The Half-Orc of {bLoner
+{W     Invite you to share their joining
+{W       in wedded pfile-merging bliss
+ 
+{W         Ceremony is to be held on 
+{W      Wednesday, May 12th at 8 pm CST
+ 
+{R**********************************************
+{xYou are also invited to the couples' Bachelor 
+and Bachelorette parties to be held on Tuesday
+night at 8 pm CST.  Place to be announced.
+~
+#27996
+Vartan's Dagger~
+{DV{Gartan's{x {RDagger{x~
+An exquisite, yet very deadly looking dagger is here.~
+flame~
+weapon ABHIMOSYZ AN
+dagger 450000 450000 digestion ABCDEGH
+161 750 0 P
+#27997
+comforter~
+a comfortable paisley down comforter~
+A pretty paisley goose down comforter lise here.~
+unknown~
+furniture 0 AD
+2 0 EHKL 0 0
+0 0 0 P
+#27998
+leather couch~
+a big green leather couch~
+A big green leather couch looks very comfortable.~
+unknown~
+furniture 0 0
+2 100000 EHK 0 0
+0 0 0 P
+#27999
+piano~
+a beautiful white grand piano~
+A beautiful white grand piano stands here, begging to be played.~
+unknown~
+furniture 0 0
+2 0 BDH 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#27995
+{BAstrid's A{bvg {RR{room{x~
+An average sized room decorated with an off-{7white{0 wallpaper with {4navy{0
+stripes.  Pictures and paintings hang from the walls.  Several small oil
+lamps {3light{0 the room with a {#f{&l{#i{&c{#k{&e{#r{&i{#n{&g{0 light.  A bay window covered with a
+{1red satin{0 curtains is inset in the western wall.  A small bookcase is built
+under the window.  
+~
+0 533004 0
+E
+bookshelf~
+The bookshelf is packed with books.  The books have strange titles, like
+'Mud Coding while Sleep Deprived', 'Dummy's Guide on How to Build', etc. 
+Some books are well browsed with dog-earred pages and cracked bindings. 
+Others are in some strange mystical language.  
+~
+D3
+~
+~
+1 0 3014
+D5
+A hatch which is bolted and welded shut leads down into the unknown.  A
+small slit allows food and water to be brought into and removed from the
+room.  
+~
+hatch~
+4 0 14402
+S
+#27996
+{WO{wu{Yt{ys{Di{yd{Ye{w o{Wf{Y R{ye{Da{yl{Yi{wt{Wy{x~
+With an odd twinge, followed by a pop, you find yourself standing in a
+dimly lit, smokey room. Elaborately inlaid teak floor panels rest under
+your feet, bearing not a single scratch. Gold flecked black marble tiles
+line the walls, almost seeming to absorb the already dim light - you can't
+even see your reflection, though you're sure the tiles are polished. Strange
+incense fills your nose, making your head spin ever so softly. As your eyes
+adjust to the dark you can make out furniture.  A few chairs, and a desk in
+the corner.  Candles light fill the room with their fragile glow, soft yellow,
+blue, and orange light spraying faint ephemeral color everywhere. As you look
+up, you notice a gaping hole in the roof, crystals arranged around the rim.
+Moonlight seems to gather there, beaming the light down into a pool that
+collects on dais covered with soft velvet cushions.
+~
+0 67634184 0
+D0
+~
+~
+4 0 27015
+D2
+~
+~
+4 0 27999
+M 1000 H 1000
+S
+#27997
+{YO{yve{Dr the {ySt{Ya{Wr{Ys{x~
+{DThe doorway you had just walked through disappeared.  You stand in an
+infinite void.  The glittering stars of eternity glimmer below you, so
+faintly.  You have to choke back a tear every time you stare down at it.  A
+choking sense of emptiness fills you, and you long to be close to someone. 
+{x 
+~
+0 1545 0
+D3
+~
+~
+0 0 27999
+S
+#27998
+{eThe {^Lady{e of {8Death's{e Art Gallery{0~
+You stand in the center of an art gallery.  The floor is comprised of {1red{0
+{1tiles{0 with {1small grates{0 placed in the low parts of the floor.  The ceiling
+is {8black{0 as the {8night {4sky{0, and seems to pull {&li{7gh{8t{0 to it.  Strange devices
+are scattered around the room, some of them have received more use then
+others.  The walls are adorned with large, beautiful paintings {8ill{7umin{&ated{0
+by large {8black{0 and {!red{0 candles.  The paintings though beautiful depict
+extremely painful deaths at the hands of a beautiful woman.  There appears
+to be a new painting in the process of being created.  It even has your face. 
+~
+0 532748 0
+S
+#27999
+Melodie's Secret Room~
+Somehow you've entered Melodie's private room.  You hear an Italian Opera
+aria playing in the background.  The walls are covered in a light pink
+satin, and there is a window on the north wall looking out onto La Coeur de
+la Mer.  Under the window stands an oversized couch overflowing with
+pillows.  There is a beautiful white grand piano in the corner with pictures
+in intricate frames along the lid.  In the opposite corner stands a
+high-backed rosewood chair with violet velvet cushions.  Next to the chair
+is a table with some books on it.  At a closer glance you realize that they
+are not ordinary books - they are scores from different operas and musicals.
+You hear a soft vibrating coming from the piano.  Looking at the bench, you
+see a cute little white cat curled up, sleeping.  
+~
+0 271372 0
+E
+music~
+There is some sheet music lying on the piano: The classics, such as
+Mozart, Beethoven and Liszt are present, as well as some "newer" composers
+such as David Lanz and Yanni.  
+~
+E
+picture1~
+This picture shows Melodie in a beautiful sundress.  She is sitting on
+the grass with her cute little kitty in her lap.  She looks happy and
+healthy - always a plus!  
+~
+D0
+~
+~
+4 0 27996
+D1
+~
+~
+0 0 27997
+S
+#27000
+Fnor's Cave deep inside Benden Weyr~
+You are in an ancient cavern deep inside of Pern,with massive stone walls and
+no windows whatsoever.  A very old ladder leads upwards, and downwards.
+~
+0 8204 0
+D3
+You see Melodie's Chamber
+~
+~
+0 0 27006
+D4
+The ladder leads to the celestial dome.
+~
+~
+0 -1 27002
+D5
+The ladder leads to the Fnor's Room.
+~
+~
+0 -1 14401
+S
+#27001
+{rV{Ra{wr{Wt{Da{rn{R's {DS{Wt{wu{Rd{ry{x~
+You are in a small, comfortable study room.  The walls are lined with
+bookcases filled with dusty volumes of all sizes.  In the ancient 
+granite fireplace burns a crackling fire that makes the room warm and
+cozy, and in front of an oakwood reading desk is a large very old chair.
+~
+0 8204 0
+E
+bookcase bookcases volume volumes book books~
+Most of the books are heavy, leatherbound and covered in a thin layer of dust.
+There are many titles on  conjuring and other spheres of Magick,
+but also some on computer science, ^basic ??^ (although these seem to be VERY dusty
+indeed) and a fair collection of horror literature, ranging from Bram Stoker
+and Anne Rice to Stephen King.
+~
+E
+fireplace~
+The fireplace is quite huge, but the fire crackles with a warmth and
+comfortable feeling to it.
+~
+E
+desk~
+It is very massive and but looks worn from many years of use.
+~
+E
+chair~
+It is big and seems very ancient, but quite comfortable nevertheless.
+~
+D2
+The corridor leads south to the hall.
+~
+~
+0 -1 27004
+S
+#27002
+{CV{ca{Dr{Wt{wa{cn{C's {CC{ce{Dl{We{ws{Ct{ci{Da{wl {WD{Do{cm{Ce{x~
+You are in a room filled with shelves containing all sorts of weird equipment.
+Looking up you see a span of stars showing the Pern Universe, and the path
+of the red star Rukbat, in it's elliptical orbit.  In his quest to end the
+planet free of the deadly Thread.
+An old shaky ladder leads downwards.
+d
+~
+0 8200 0
+E
+rukbat~
+The planet Rukbat circles F'nors home planet of Pern, in it elliptical
+orbit that causes Thread to fall on it, in a very confusing pattern that
+has eluded Astronomers for years.
+~
+E
+shelves~
+The shelves contain a mass of bottles, jars and boxes of different shapes and
+sizes, of which some contain powders and liquids in various colours.  Others
+contain dragon's claws, griffon's eyes, hare's ears and other body parts of
+different monsters.
+~
+E
+desk~
+On the desk is a peculiar apparatus of glass bottles and flasks connected by
+small tubes.  The blue liquid inside the apparatus' flasks and tubes is
+bubbling steadily.
+~
+D1
+To the east is the magical view.
+~
+~
+4 -1 27003
+D3
+To the west is the hall.
+~
+~
+0 -1 27004
+D4
+~
+~
+0 0 27010
+D5
+The old, collapsing ladder leads down.
+~
+~
+0 -1 27000
+S
+#27003
+{yVartan's Balcony{x~
+You are on a transparent balcony hanging in mid-air.  You notice a faint blue
+glow surrounding everything, even yourself, making it seem as transparent as
+the balcony itself.  From here, you have a terrific view of the whole Forest
+of Elven Valley.
+A transparent, and translucent {RSphere{X has been bolted to the balcony railing.
+~
+0 8712 0
+E
+balcony railing~
+Quite transparent, but visible anyway, because of the blue glow that surrounds
+the whole balcony.
+~
+E
+sphere~
+The transparent, and translucent sphere looks quite strange, but the engraved 
+letters are quite easy to read, nevertheless :-
+ 
+                Fnor's Invisible Balcony
+ 
+                   Do not {zlean{x out!
+ 
+  Please do not try to attract the attention of any
+      adventurers in the forest, as you are not
+         really in existence at the moment.
+ 
+        (This could possibly mess up Reality,
+      and we wouldn't want to do that, would we?)
+~
+E
+forest elven mystic valley view~
+Through the tree crowns, you see fellow adventurers walking around in the
+forest, and slaying all kinds of beasts, and generally having a good time,
+off to the east you see Midgaard, to the west you see a Mystic tower,
+looking back to the north you see a valley.
+~
+D3
+The Celestial Dome.
+~
+~
+4 -1 27002
+S
+#27004
+{YV{ya{wr{Wt{ya{Yn's {WH{wa{yl{Yl{x~
+You are in sparsely decorated and quite dusty hall.  Old wooden doors lead
+north, east and south and to the west is Fnor's Room.
+An old mirror hangs on the wall.
+~
+0 8200 0
+E
+mirror~
+You see a panoramic view of yourself.
+~
+D0
+The study is to the north.~
+~
+0 -1 27001
+D1
+The celestial dome is to the east.~
+~
+0 0 27002
+D2
+The kitchen is to the south.~
+~
+0 0 27005
+C GODS~
+S
+#27005
+{gV{Ga{wr{Wt{Da{Gn{g's {gK{Gi{Dt{Wc{wh{Ge{gn{x~
+You are in an old-fashioned kitchen, tucked away on shelves you see
+various types of strange items.
+~
+0 8200 0
+D0
+The hall is to the north.~
+~
+0 -1 27004
+S
+#27006
+{WF'{wnors {GG{guest {YR{yoom{x~
+You are in a enormous bed room. The walls apear to made from Diamonds and 
+other fabulous gems.  In the center of the room is a Giant canopy bed and 
+the floor is carpeted with the softest Material known to man or Gods.
+In the corner is a small chest of drawers with a mirror fit for a Queen. 
+~
+0 8712 0
+E
+mirror~
+You see a reflection of Yourself
+~
+D0
+~
+~
+0 0 27012
+D1
+You see a chamber
+~
+~
+0 0 27000
+D3
+You see a patio
+~
+~
+0 0 27007
+S
+#27007
+{WF{w'nors {YP{yatio{x~
+You step out onto a patio with a view of the City of Midgaard, looking to
+the north you see the Mountain of Olympus, and the spires of Solace,
+to the west You can see the Tower of Sorcery, Fanatic's keep and the 
+Vonblazen keep, to the south is Mahn-Tor, and Miden'nir Forest.
+~
+0 8712 0
+D1
+You see F'nors Guest Room
+~
+~
+0 0 27006
+S
+#27008
+Flar's room~
+this is the room for Flar to load into :-)
+~
+0 0 0
+D0
+~
+~
+0 0 10416
+D1
+~
+~
+0 0 23465
+D2
+~
+~
+0 0 2307
+D3
+~
+~
+0 0 12832
+D4
+~
+~
+0 0 3054
+D5
+~
+~
+0 0 3502
+S
+#27009
+{&F'nors {^Hideaway{x~
+This is Fnor's Private Hideaway, you see Canth standing over to the side of
+the room, watching carefully what you are doing here. There is also a
+large bed fit for God's usage. The walls show the eccentric orbit of the
+Red Star Rukbat, so Fnor can track the thread fall on his home Planet of
+Pern (tm). The floor shines and is made out of solid Gold.
+~
+0 8 0
+D0
+~
+~
+0 0 9502
+D2
+~
+~
+4 0 27016
+D5
+~
+~
+0 0 3014
+M 1200 H 1200
+S
+#27010
+Immortal Pet Shop~
+This shop is for IMMs only! 
+~
+0 12296 0
+D5
+~
+~
+0 0 27002
+S
+#27011
+pet storage room~
+Immortals pets are stored here
+~
+0 8204 0
+S
+#27012
+Melodie's Secret Room~
+Somehow you've entered Michi's private room.  You hear an Italian Opera
+aria playing in the background.  The walls are covered in a light pink
+satin, and there is a window on the north wall looking out onto La Coeur de
+la Mer.  Under the window stands an oversized couch overflowing with
+pillows.  There is a beautiful white grand piano in the corner, with
+pictures in intricate frames along the lid.  In the opposite corner stands a
+high-backed rosewood chair with violet velvet cushions.  Next to the chair
+is a table with some books on it.  At a closer glance you realize that they
+are not ordinary books - they are scores from different operas and musicals.
+You hear a soft vibrating coming from the piano.  Looking at the bench, you
+see a cute little white cat curled up, sleeping.  
+~
+0 16396 0
+E
+picture1~
+This picture shows Melodie in a beautiful sundress.  She is sitting on
+the grass with her cute little kitty in her lap.  She looks happy and
+healthy - always a plus!  
+~
+E
+music~
+There is some sheet music lying on the piano: The classics, such as
+Mozart, Beethoven and Liszt are present, as well as some "newer" composers
+such as David Lanz and Yanni.  
+~
+D2
+~
+~
+0 0 27006
+O michi~
+S
+#27013
+None~
+~
+0 4 0
+M 1000 H 1000
+S
+#27014
+None~
+~
+0 4 0
+S
+#27015
+{5Z{@y{#d{5e{@c{#o{5's {@Party {%Place{x~
+~
+0 8 0
+D0
+~
+~
+0 0 27018
+D2
+~
+~
+4 0 27996
+D4
+~
+~
+0 0 27016
+D5
+~
+~
+0 0 3014
+S
+#27016
+{5Z{@y{#d{5e{@c{#o{5's {&Retreat{x~
+A cool, humid breeze wafts through the curtained balcony windows bringing
+in the sounds of the French Quarter outside.  The room is tastefully
+decorated.  Pictures and paintings dot the walls, and a bowl of beads sit
+next to the balcony doors.  An ornately decorated screen blocks the view of
+one corner of the room behind which is only a closet and large dresser. 
+Muted sounds of a large party drift up the staircase.  
+~
+0 1544 0
+D0
+~
+~
+4 0 27009
+D5
+~
+~
+0 0 27015
+S
+#27017
+{WInari {CShrine{x~
+Inside the {Cshrine{x a sense of peace and welcome pervades the {wair{x.  The
+room itself is lit up by a {Rflame{x that burns steadily in a sacred brazier in
+the center of the room.  Prayer {ymats{x circle the brazier, looking inviting to
+those who wish to kneel and enjoy the calm away from the worries of the
+realm.  Ever so faintly, a faint trickle of flowing water can be heard by
+those of keen hearing.  There is a feeling of something watching, but it
+does not seem to be offering harm, more like it is curious as to why you are
+here.  
+~
+0 532492 0
+M 1000 H 1000
+S
+#27018
+{%Party {@Portal {#Type {&Room{x~
+~
+0 0 0
+D2
+~
+~
+0 0 27015
+S
+#27026
+{CGa{cte{Dwa{wy T{Wo {wPl{Dea{csu{Cre{x~
+~
+0 4 0
+S
+#27030
+{*Official {!NAS{$CAR {*Trailer{x~
+A round table in the middle of the room awaits you.  You notice the wall
+is covered with pictures of racetracks and faces.  There is a distinguished
+list that catches your eye.  As you move closer, you notice the names of
+champions like {@Bobby Labonte{x, {!Dale Earnhardt{x, and {$Richard Petty{x.  You wonder
+why you are here.  
+~
+0 1036 0
+D1
+~
+~
+0 0 27502
+S
+#27050
+The Reception Hall~
+Long tables run up and down the hall.  Floor to celing windows allow a
+breathtaking view of Phoenix.  Simple garland is strung from a few columns. 
+The floor is marble, and perfect for dancing.  Waiters and Waitresses run to
+and fro, aiding guests with their needs.  
+~
+0 263436 0
+D1
+~
+~
+0 0 62903
+M 1000 H 1000
+S
+#27060
+Laniessa Room~
+Several humongous piles of {yshoes{x lie about the floor.
+~
+0 1032 0
+D5
+~
+~
+4 0 27062
+S
+#27061
+unoccupied immortal room~
+~
+0 525324 0
+S
+#27062
+Laniessa's Pit~
+~
+0 524300 0
+S
+#27306
+Leifab's Room~
+You step into a large room.  There are {Ylightning{x bolts hanging on the walls,
+with warnings on them saying {RDEADLY{x.  You can tell a very powerful very large 
+{CDragon{x resides here.  You can see furniture on one side of the room with 
+{mimportant{x looking papers strewn about, suggesting that Leifab stays quite busy 
+working on important Phoenix business.  On the other side you see a quaint 
+table, surrounded by {rroses{x in a {yromantic{x setting.  Maybe you should think
+about {gleaving here before the {cdragon{x comes back and gets mad at your presence, 
+unless you are invited.  If that is so then feel free to {ykick{x back, await 
+{CLeifab's{x return and {Drelax{x.  
+~
+0 25612 0
+O leifab~
+S
+#27307
+Gigi's Den~
+You enter a cozy {Rwarm{x den.  There are lots of things to do with {YSunshine{x
+and bright colors all around you.  In the corner you see a small table with
+pieces of {Ysunshine{x strewn about it.  You see a couch against the wall.  And
+a bed in the corner.  There is a note on the table saying if you are invited
+come on in.  If you are uninvited stay at you own {RRisk{x.  
+~
+0 1548 0
+S
+#27326
+{GC'en{ged{Gra's {cand {WW{wolfyn's {MH{mealing {YC{yave{x~
+{MMaroon{x carpeting lines this {yhallway{x, the walls are carved out of beautiful
+{yoaken{x pillars.  
+~
+0 8200 0
+D0
+~
+~
+0 0 27329
+D1
+~
+~
+0 0 27327
+D2
+~
+~
+4 27328 3393
+M 1000 H 1000
+S
+#27327
+{GC'en{ged{Gra's {cand {WW{wolfyn's {GG{garden{x~
+This {rluscious{x {ggarden{x fills your {csoul{x with almost a {chea{wven{cly{x scent, rows of
+{YTulips{x and {RRoses{x surround the outer edges of the {ggarden{x.  {yVines of {mli{wla{mcs{x
+meet in the center forming a natural arch in this unbelievable {ggarden{x. 
+Running steadily through this {Ggar{gden{x is a {Cc{woo{Cl{x refreshing {Bb{brook{x, tempting
+all who see it to {rremove{x all and jump in!  
+~
+0 8200 0
+D3
+~
+~
+0 0 27326
+D5
+~
+~
+0 0 27328
+M 1000 H 1000
+S
+#27328
+{GC'en{ged{Gra's {cand {WW{wolfyn's {YP{yatio{x~
+{gYou have stepped back in time to {YE{yarly {GP{gern, there is many gaseous {Wv{8ent's{x
+{gspewing forth.  Nestled in a back corner, is a {BWhirl{8pool{g filling from the
+brook above, and a {WS{8team {Wv{8ent {gbeneath it.  
+~
+0 8 0
+D4
+~
+~
+0 0 27327
+M 1000 H 1000
+R RANDOM 27328 50~
+S
+#27329
+{GC'en{ged{Gra's {cand {WW{wolfyn's {YC{yave{x~
+{GE{gm{Ge{gr{Ga{gl{Gd'{gs{x jut out in varies spots in this {YC{yave{x, creating a {Ysp{yar{Yki{yng{x
+almost surreal sitting room.  A enormous {Mco{mu{Mch{x lies against the Northern
+wall, and a natural spring {Cfo{Wun{cta{Cin{x graces the center of the room.  
+~
+0 8200 0
+D2
+~
+~
+0 0 27326
+D5
+~
+~
+0 27326 27330
+M 1000 H 1000
+S
+#27330
+{GC'en{ged{Gra's {cand {WW{wolfyn's {MSle{yep{Ming {YC{yavern{x~
+~
+0 550400 0
+D4
+~
+~
+0 27326 27329
+M 1000 H 1000
+S
+#27501
+Gambits Room~
+This is where Gambit hangs out.  There is a photocopier in the corner. 
+DO NOT photocopy your buttocks.  Official use only.  There is a fax maching
+too...  But no one had figured out how to clear the errors yet.  Maybe
+someday.  
+~
+0 1036 0
+D0
+~
+~
+0 0 27503
+D1
+~
+~
+0 0 27501
+D2
+~
+~
+4 27499 27504
+D3
+~
+~
+0 0 27501
+D4
+~
+~
+0 0 27503
+D5
+~
+~
+0 0 27504
+S
+#27502
+{mBehind {GP{Di{Gt {DW{Ga{Dl{Gl{0~
+This room seems to be cluttered with new tires, tool boxes, a air
+compressor, a diagnostic machine, and fuel canisters.  
+~
+0 4 0
+D3
+~
+~
+0 0 27030
+D4
+~
+~
+4 27033 3014
+S
+#27503
+{RG{ra{Rm{rb{Ri{rt{x and {MA{my{Bn{Ci{Ma{m'{Bs{x Balcony~
+This beautiful balcony captures the beauty of the World of Phoenix in a
+single glance.  The wondrous solemnity of Haven Lake can be seen, as well as
+the mystery of Mystic Landscape.  The balcony itself is not without beauty
+of its own.  The balcony railing is made from the most solid oak, which has
+been polished and stained to absolute perfection.  Off to the left is a
+little hammock to catch a quick nap in while surrounded by such beauty.  The
+door leading between the house and the balcony has an intricately ornate
+stained glass window depicting the moon rising over the sun.  There is a
+sense of peace and calm to all who enter here.  
+~
+0 1544 0
+D0
+~
+~
+0 0 27504
+D1
+~
+~
+0 0 27503
+D2
+~
+~
+0 0 27501
+D3
+~
+~
+0 0 27503
+D4
+~
+~
+0 0 27504
+D5
+~
+~
+0 0 27501
+S
+#27504
+Gambit's Basement~
+You got lost in this topsey turvey place.  Where to now?
+This basement is huge.  It seems to go off forever.
+Oh well
+~
+0 1032 0
+D0
+~
+~
+0 0 27501
+D1
+~
+~
+0 0 27504
+D2
+~
+~
+0 0 27503
+D3
+~
+~
+0 0 27504
+D4
+~
+~
+0 0 27501
+D5
+~
+~
+0 0 27503
+S
+#27505
+Saphyre's Workshop~
+A smallish room with a work bench against one wall.  Parts of mobs,
+items, and furniture clutter up the space.  
+~
+0 524301 0
+D4
+~
+~
+4 0 27506
+O saphyre~
+S
+#27506
+{WS{8aphyre's {WH{8aunt{}~
+A large square room with {8dark-grey{0 marbled walls is dimly lit by the
+sunlight sneaking through the edges of the heavy, {1red{0 curtains.  A rug with
+an intricate design of {!reds{0 and {$blues{0 covers most of the hardwood floor.  A
+{#gold{0 hatch sits flush with the floor to the left of the door.  A {&glowing
+pair of humming swords{0 hang above the door, drawing your attention briefly. 
+Several paintings hang hang on the north wall framing a large glass case.  A
+soothing melody echoes through the room.  The combination of the melody and
+the quietness serves to relax the mind and spirit and lift the worries of
+the world.  
+~
+0 524297 0
+E
+hatch~
+The hatch is so that the {yPlatypus{} of Death can slip in and out of the
+room as she wants to.  
+~
+E
+pair~
+These are a pair of the legendary Swords of Truth.  They have long since
+disappeared from the Realms except for this pair which have been magically
+bound to the wall above the door.  
+~
+E
+rug~
+A longer study of the rug rewards you with the revelation that it is a
+masterful reproduction of the Mor Cylch.  
+~
+E
+birdcage~
+Upon peeking into the cage a {Yyellow{} bird with a {yp{re{ya{rc{yh{}
+chest starts squawking at you.  She looks a little upset with being
+disturbed by you.  
+~
+E
+paintings~
+The paintings on the northern wall are of her family: Atryou, her
+grandfather; Atmos, her father; and Kastina, her mother.  The paintings on
+the western wall are of her and her friends: the {yPlatypus{}, Ramoth,
+Edhelan, Oex, and Opio.  
+~
+E
+glass~
+The case appears to contain a collection of bottled souls from various
+mobs from throughout the Realms.  
+~
+E
+table~
+The table bears trinkets from her various adventures.  The music seems to
+be coming from a small magic box.  
+~
+D3
+A curtained window fills the western wall.
+~
+curtain~
+4 0 14400
+D5
+~
+~
+4 0 27505
+S
+#0
+
+
+
+#SPECIALS
+M 27800 spec_basic_stances
+M 27801 spec_all_stances
+M 27802 spec_tiger_stance
+M 27803 spec_advanced_stances
+M 27804 spec_advanced_stances
+M 27805 spec_high_mage
+M 27806 spec_high_cleric
+M 27807 spec_breath_any
+M 27997 spec_cast_adept
+M 27000 spec_breath_any
+M 27002 spec_breath_any
+M 27004 spec_breath_any
+M 27008 spec_cast_adept
+M 27009 spec_breath_any
+M 27011 spec_breath_any
+M 27014 spec_breath_any
+M 27030 spec_breath_any
+M 27120 spec_breath_any
+M 27326 spec_cast_darla
+M 27340 spec_high_cleric
+M 27342 spec_high_cleric
+S
+
+
+
+#RESETS
+D 0 27995 3 1
+D 0 27995 5 2
+D 0 27996 0 1
+D 0 27996 2 1
+D 0 27999 0 1
+D 0 27002 1 2
+D 0 27003 3 2
+D 0 27009 2 2
+D 0 27015 2 1
+D 0 27016 0 2
+D 0 27060 5 2
+D 0 27326 2 2
+D 0 27501 2 2
+D 0 27502 4 2
+D 0 27505 4 2
+D 0 27506 3 2
+D 0 27506 5 2
+O 0 27991 0 27995
+O 0 27990 0 27995
+O 0 27992 0 27995
+O 0 27708 0 27996
+M 0 27997 1 27996 1
+O 0 27553 0 27996
+O 0 27550 0 27996
+O 0 27551 0 27997
+O 0 27510 0 27998
+M 0 27998 1 27998 1
+E 0 27996 0 16
+O 0 27999 0 27999
+O 0 27998 0 27999
+M 0 27999 1 27999 1
+O 0 27005 0 27001
+P 0 27002 1 27005 1
+O 0 27500 0 27003
+O 0 27501 0 27003
+O 0 27502 0 27003
+M 0 27009 1 27003 1
+O 0 27000 0 27005
+P 0 27001 50 27000 30
+P 0 27004 -1 27000 12
+O 0 27010 0 27006
+M 0 27100 1 27008 1
+G 0 27112 0
+G 0 27100 0
+G 0 27101 0
+G 0 27103 0
+G 0 27104 0
+G 0 27105 0
+G 0 27108 0
+G 0 27109 0
+G 0 27111 0
+O 0 27013 0 27009
+O 0 27014 0 27009
+O 0 27015 0 27009
+O 0 27000 0 27009
+P 0 27001 4 27000 4
+M 0 27006 1 27009 1
+M 0 27001 1 27010 1
+M 0 27003 1 27011 1
+M 0 27004 1 27011 1
+M 0 27000 1 27011 1
+M 0 27120 1 27011 1
+M 0 27011 1 27011 1
+M 0 27013 1 27011 1
+M 0 27014 1 27011 1
+O 0 27017 0 27015
+O 0 27018 0 27015
+O 0 27017 0 27016
+O 0 27016 0 27016
+O 0 27024 0 27016
+M 0 27018 1 27018 1
+M 0 27030 1 27030 1
+O 0 27030 0 27030
+O 0 27031 0 27030
+O 0 27032 0 27030
+O 0 27080 0 27050
+O 0 27708 0 27062
+O 0 27014 0 27062
+M 0 27326 1 27326 1
+G 0 27334 0
+O 0 27335 0 27326
+O 0 27333 0 27327
+O 0 27335 0 27327
+O 0 27331 0 27328
+O 0 27336 0 27329
+O 0 27329 0 27330
+O 0 27327 0 27330
+O 0 27330 0 27330
+P 0 27328 1 27330 1
+O 0 27514 0 27501
+M 0 27501 1 27501 1
+O 0 27515 0 27503
+O 0 27800 0 27506
+O 0 27801 0 27506
+M 0 27015 1 27506 1
+G 0 27802 0
+P 0 27803 25 27802 25
+P 0 27804 20 27802 20
+P 0 27805 5 27802 5
+R 0 27506 2
+S
+
+
+
+#SHOPS
+27001 32 0 0 0 0 100 0 0 23
+27006 3 5 32 9 4 100 85 0 23
+27100 5 6 7 9 32 110 95 0 23
+0
+
+
+
+#MOBPROGS
+#27009
+if hour >= 20
+or hour <= 4
+ if rand 50
+  mob echo $I grumbles softly in $l sleep.
+ else
+  mob echo $I opens an eye whirling a {!reddish glow{0 before going back to sleep.
+ endif
+endif
+if hour >= 5
+and hour <= 8
+ if rand 50
+  mob echo $I slowly wakes up as the {8mo{7rn{3ing {#sun's rays{0 warm $k.
+ else
+  mob echo $I moves from the {8shadows{0 into the {8mo{7rn{3ing {#sunlight{0.
+ endif
+endif
+if hour >= 9
+and hour <= 11
+ if rand 50
+  mob echo $I takes wing from the balcony in search of food.
+ else
+  mob echo $I growls at the fact there is no food here.
+ endif
+endif
+if hour >= 12
+and hour <= 13
+ if rand 50
+  mob echo $I swoops in looking satiated and smug with $kself.
+ else
+  mob echo $I grumbles and moves to stay in the afternoon {#sun{0.
+ endif
+endif
+if hour >= 14
+and hour <= 17
+ if rand 50
+  mob echo $I snoozes in the afternoon {#sun{0.
+ else
+  mob echo $I takes to the air, and wings off to the distant {Bocean{0 for a swim.
+ endif
+endif
+if hour >= 18
+and hour <= 19
+ if rand 50
+  mob echo $I {!roars{0 at the {#se{3tt{%in{5g {1sun{0, and takes off after it.
+ else
+  mob echo $I curls around the throne, and watches the {&moon{0 and {&stars{0 appear.
+ endif
+endif
+~
+#27010
+if name $q  'Fnor'
+mob remeber $r
+if isnpc $q
+or isimmort $q
+ mob forget
+ mob call 27010
+else
+ mob echoat $q $I {z{!roars{0 at you, before attacking you.
+ mob echoaround $q $I {z{!roars{0 at $q, before attacking $q.
+ mob force $q 'remove all'
+ mob echoaround $q $I breathes fire at $q encompassing $q and turning $q into charcoal.
+ mob echoat $n $I breathes fire at you encompassing you and turning you into charcoal.
+ mob damage $q lethal
+ get all
+ drink
+ mob at $q mob echoat $q $I swoops in and drops your corpse at your feet.
+ mob at $q mob echoaround $q $I swoops in and drops $q's corpse at $q's feet.
+ mob at $q drop corpse
+ mob forget
+endif
+else
+ mob echoat $n $I {z{!roars{0 at you.
+ mob echoaround $n $I {z{!roars{0 at $n.
+endif
+~
+#27011
+if hour >= 20
+or hour <= 4
+ if rand 50
+  mob echo $I rolls against the throne almost toppling it.
+ else
+  mob echo $I watches the {&stars{0 make their journey across the {4night {8sky{0.
+ endif
+else
+ if rand 50
+  mob echo $I flys away to the north and returns with a wherry.
+  mob echo $j finishes eating the wherry.
+ else
+  if rand 50
+   mob echo $I looks thirsty and takes a long drink.
+   drink
+  else
+   mob echo $I's scales are grungy and dirty and $j heads off to the Cargan Ruins and the acid pool, and returns all shiny and clean.
+  endif
+ endif
+endif
+~
+#27030
+if objhere 27507
+ if has $i 'trash'
+  enter portal
+  if mobs > 1
+   mob remember $r
+   if ispc $q
+   or carries $q 'prize'
+   or carries $q 'shard2'
+   or carries $q 'shard4'
+   or carries $q 'NASCAR'
+   or carries $q 'quest'
+   or carries $q 'shard1'
+    mob forget
+break
+   else
+    give NASCAR $q
+    sac portal
+    mob forget
+    mob go 27030
+    mob echo $I drifts in from $l journeys.
+break
+   endif
+  else
+   mob forget
+break
+  endif
+ else
+  mob oload 27509 
+  mob call 27030 null null null
+break
+ endif
+else
+ mob oload 27507 1 room
+ mob call 27030 null null null
+break
+endif
+~
+#27305
+~
+#27341
+if carries $i 'quest point'
+ give qp $n
+ mob gecho $I says, "Me caught by $N was I."
+ mob oload 27507 1 room
+ enter portal
+ mob purge
+else
+ mob goto 27506
+ mob gecho I says, "All out folks. Catcha later."
+ mob purge $i
+endif
+~
+#27342
+sac portal
+if rand 50
+ if rand 50
+  if rand 50
+   north
+  else
+   south
+  endif
+ else
+  if rand 50
+   east
+  else
+   west
+  endif
+ endif
+else
+ if rand 10
+  if rand 50
+   up
+  else
+   down
+  endif
+ else
+  mob cast 'teleport' $i
+ endif
+endif
+~
+#27343
+mob echoat $n $I's eyes suddenly focus on you with a gleam of madness in them.
+mob echoaround $n $I's eyes suddenly focus on $n.
+mob damage $n 1000000 1000000 lethal
+mob cast 'teleport' $i
+mob purge
+~
+#27410
+if carries $n 27412
+ if isvisible $n
+  say Greetings, $n!  Is that a message from my dear cousin?  How is he doing?
+  mob remove $n 27412
+  mob echo $i reads the message, then scribbles another one.
+  mob junk message
+  mob oload 27413
+  give message $n
+  say Thank you for waiting.  Please take my reply back quickly!
+  mob echo Cousin Jethro slips away when you aren't looking.
+  mob purge $i
+ else
+  mob echo $I peers vaguely in your direction.
+  say Is somebody there?
+  mob echo Perhaps you should leave and come back in a way he can see.
+ endif
+endif
+~
+#27411
+if rand 20
+ if rand 50
+  up
+ else
+  down
+ endif
+else
+ if rand 50
+  if rand 50
+   north
+  else
+   south
+  endif
+ else
+  if rand 50
+   east
+  else
+   west
+  endif
+   endif
+endif
+~
+#27412
+if carries $n 27414
+if isvisible $n
+vis
+say So who did my dear cousin send to me this time?  Give me that!
+mob echo $i practically grabs the message out of your hands.
+mob remove $n 27414
+mob junk message
+mob oload 27415
+give message $n
+say You're still here?  Then do something useful and take this message back.
+mob echo Jessamyn tosses something at your feet and disappears in a cloud of smoke.
+  mob purge $i
+else
+mob echo $i peers vaguely in your direction, then shakes her head.
+mob echo Perhaps you should leave and come back in a way he can see.
+endif
+~
+#27800
+if name $n 'saphyre'
+or name $n 'fnor'
+or name $n 'ramoth'
+  say Why certainly, $N.
+  give holder $n
+else
+  if isimmort $n
+    say Sorry, better ask Saphyre to get that for you.
+  else
+    say I don't think so, $N.
+    mob kill $n
+  endif
+endif
+~
+#27801
+if objhere 27507
+ if has $i 'trash'
+  enter portal
+  if mobs > 1
+   mob remember $r
+   if ispc $q
+   or carries $q 'prize'
+   or carries $q 'shard2'
+   or carries $q 'shard4'
+   or carries $q 'quest'
+   or carries $q 'shard1'
+    mob forget
+    break
+   else
+    give <<qsv>> $q
+    mob forget
+    get portal
+    mob go 27506
+    mob echo $I waddles in from $l journeys.
+     drop all.portal
+    break
+   endif
+  else
+   mob forget
+   break
+  endif
+ else
+  if rand 25
+   mob oload 27803
+  else
+   if rand 25
+    mob oload 27804
+   else
+    mob oload 27805
+   endif
+  endif
+  mob call 27801 null null null
+  break
+ endif
+else
+ mob oload 27507 1 room
+ mob call 27801 null null null
+ break
+endif
+~
+#27802
+if hour >= 20
+or hour <= 5
+  if rand 50
+    mob echo $I {5murmurs{0 in $l sleep.
+  else
+    mob echo $I {6opens{0 an {4e{8y{4e{0 and looks around.
+  endif
+endif
+if hour >= 6
+and hour <= 8
+  if rand 10
+    mob echo $I {^slips{0 out the hatch to get breakfeast.
+  else
+    mob echo $I pulls out her {1w{8e{1a{8p{1o{8n{1s{0 and goes through $k {#morn{&ing{0 exercises.
+  endif
+endif
+if hour >= 9
+and hour <= 11
+  if rand 50
+    mob echo $I pulls a {1curtain{0 open and curls up in a spot of {#sun{&light{0.
+  else
+    mob echo $I {5walks{0 around {5straightening{0 up the room.
+  endif
+endif
+if hour == 12
+  mob echo $I {^slips out the hatch and brings back a {&f{7i{&s{7h{0.
+  mob oload 16050
+  eat fish
+endif
+if hour >= 13
+and hour <= 16
+  if rand 10
+    mob echo $I curls up for a nap.
+  else
+    mob echo $I goes out for a quick {Bswim{0.
+  endif
+endif
+if hour >= 17
+and hour <= 19
+  if rand 10
+    mob echo $I {^slips{0 out the hatch and brings back a {&f{7i{&s{7h{0.
+    mob oload 16050
+    eat fish
+  else
+    mob echo $I {5opens{0 a {1curtain{0 and watches the {#sun{%set{0.
+  endif
+endif
+~
+#27803
+say You really shouldn't have done that $n.
+shake
+mob echoat $n $I unsheathes her weapons and prepares for your demise.
+mob echoaround $n $I unsheathes her weapons and prepares for $n's demise.
+mob damage $n 1000000 1000000 lethal
+~
+#27804
+mob force kira quit
+mob goto 2
+~
+#27805
+if name $i 'scout'
+ if level $n > 15
+  mob call 27806 $n null null
+  mob damage $n 7000 8000 lethal
+  mob goto 1
+ else
+  mob call 27807 null null null
+ endif
+endif
+if name $i 'soldier'
+ if level $n > 30
+  mob call 27806 $n null null
+  mob damage $n 7000 8000 lethal
+  mob goto 1
+ else
+  mob call 27807 null null null
+ endif
+endif
+if name $i 'berserker'
+ if level $n > 60
+  mob call 27806 $n null null
+  mob damage $n 7000 8000 lethal
+  mob goto 1
+ else
+  mob call 27807 null null null
+ endif
+endif
+if name $i 'captain'
+ if level $n > 90
+  mob call 27806 $n null null
+  mob damage $n 7000 8000 lethal
+  mob goto 1
+ else
+  mob call 27807 null null null
+ endif
+endif
+if name $i 'assassin'
+ if level $n > 120
+  mob call 27806 $n null null
+  mob damage $n 7000 8000 lethal
+  mob goto 1
+ else
+  mob call 27807 null null null
+ endif
+endif
+if name $i 'mage'
+ if level $n > 150
+  mob call 27806 $n null null
+  mob damage $n 7000 8000 lethal
+  mob goto 1
+ else
+  mob call 27807 null null null
+ endif
+endif
+if name $i 'general'
+or name $i 'cleric'
+ mob call 27807 null null null
+endif
+~
+#27806
+mob echoat $n $I explodes covering you in burning slime.
+mob echoaround $n $I explodes covering $n in burning slime.
+~
+#27807
+if rand 50
+ if rand 50
+  if rand 50
+   if rand 50
+    mob oload 3422 1
+   else
+    mob oload 27803 1
+   endif
+  else
+   if rand 50
+    mob oload 23440 1
+   else
+    mob oload 27803 1
+   endif
+  endif
+ else
+  if rand 50
+   if rand 50
+    mob oload 15111 1
+   else
+    mob oload 27804 1
+   endif
+  else
+   if rand 50
+    mob oload 15447 1
+   else
+    mob oload 27109 1
+   endif
+  endif
+ endif
+else
+ if rand 50
+  if rand 50
+   if rand 50
+    mob oload 1333 1
+   else
+    mob oload 27805 1
+   endif
+  else
+   if rand 50
+    mob oload 62227 1
+   else
+    mob oload 20006 1
+   endif
+  endif
+ else
+  if rand 50
+   if rand 50
+    mob oload 3376 1
+   else
+    mob oload 3386 1
+   endif
+  else
+   if rand 50
+    mob oload 5032 1
+   else
+    mob oload 50 1
+   endif
+  endif
+ endif
+endif
+~
+#27808
+grumble
+mob echo mutters under his breath, "... another ... found me ... never end."
+mob echoat $n $I turns towards you and smiles bitterly.
+mob echoaround $n $I turns towards $n and smiles bitterly.
+say Hello $n.  So what do you need?
+~
+#27809
+if name $n 'othax'
+ say I don't feel like killing you at the moment so scram.
+ mob echoat $n $I gives you the BOOT!
+ mob echoaround $N $I gives $n the BOOT!
+ mob transfer $n 3014
+ mob at $n mob echoaround $n $N comes flying through the air from the north.
+else
+ break
+endif
+~
+#27810
+if mobs <= 6
+ mob echo $I screams for help and reenforcements arrive.
+ mob mload 27801
+ mob mload 27801
+ mob mload 27801
+ mob mload 27802
+ mob mload 27803
+else
+ say Foward, subjects.  We shall overcome.
+endif
+~
+#27811
+if rand 50
+ if mobs < 4
+  mob echo $I calls for reenforcements and they come sliding in from all directions.
+  mob mload 27802
+  mob mload 27801
+  mob mload 27801
+  mob mload 27801
+  mob mload 27801
+  mob mload 27802
+ else
+  say Put your slime into it.
+ endif
+else
+ grumble
+endif
+~
+#27990
+if isdelay $i
+ break
+else
+ if players >= 1
+  mob remember $r
+  if isnpc $q
+  or isimmort $q
+   mob forget
+  else
+   say {!Hello, $q. Be right with you. Please have a seat.{0
+   mob force $q rest coffin
+   mob delay 5
+  endif
+ endif
+endif
+~
+#27991
+if hastarget $i
+ if sex $q == 0
+  comfort $q
+  say {!You poor thing, not sure if you are male or female.  Let me help you decide.{0
+  strip $q
+ else
+  if sex $q == 1
+   french $q
+   say {!Ummm... so handsome, I know just the pose for you.{0
+   strip $q
+  else
+   rub $q
+   say {!It has been so long since I have had a model of your beauty, please don't be nervous.{0
+   strip $q
+  endif
+ endif
+ mob force $q remove all
+ mob force $q stand
+mob force $q stance
+ mob echoat $q $I straps you into a torture device and after what seem like eons, you pass into the beyond.
+ mob echoaround $q $I straps $q into a torture device and after a few moments of excruciating pain. $q passes into the beyond.
+ mob damage $q 1000000 1000000 lethal
+ mob gecho $I finished a new painting of $q's death.
+ get all
+ get all corpse
+ drink
+ mob at $q mob force $q look
+ mob at $q say {!$q, you left this behind.{0
+ mob at $q give corpse $q
+ mob forget
+else
+ mob forget
+endif
+mob oload 27559
+put all box
+~
+#27992
+if isimmort $n
+ give box $n
+ drop all
+ say If I have anything else, you will have to kill me or fix it so I can drop it.
+else
+ say I think not fool.  You have just hastened your end.
+ mob remember $n
+ mob call 27991
+endif
+~
+#27997
+~
+#0
+
+#OBJPROGS
+#27801
+if carries $n 'raven tattoo'
+or wears $n 'raven tattoo'
+if name $n 'saphyre'
+ obj echoat $n Your {Dblack{W, {wr{Da{wv{De{wn tattoo{x becomes real, and quickly grows to monstrous proportions, and carries you off.
+  obj echoaround $n $n's {Dblack{W, {wr{Da{wv{De{wn tattoo{x becomes real, and quickly grows to monstrous proportions, and carries $m off.{x
+{x                                                                                                                 {x
+ obj transfer $n 27506
+else
+ if isimmort $n
+  obj echoat $n The {Dblack{W, {wr{Da{wv{De{wn tattoo{x becomes real, and quickly grows to monstrous proportions, and carries you home.
+  obj echoaround $n $n's {Dblack{W, {wr{Da{wv{De{wn tattoo{x becomes real, and quickly grows to monstrous proportions, and carries $m off.{x
+{x                                                                                                                 {x
+  obj force $n goto
+ else
+  obj echoaround $n The {Dblack{W, {wr{Da{wv{De{wn tattoo{x lets out a soul-crushing caw, and rips off of $n.
+  obj echoat $n The {Dblack{W, {wr{Da{wv{De{wn tattoo{x lets out a soul-crushing caw, and rips off of you.
+{x                                                                                                                 {x
+  obj damage $n 1000 1000 lethal
+  obj remove $n 27812 
+ endif
+endif
+else
+ break
+endif
+~
+#27806
+if carries $n 'list shard prize'
+ obj echo $n A grumbling sound comes form the sign, '{5You already have one, $n. Don't be greedy.{0'
+else
+ obj echo A grinding and crackling sound is produced by the sign and a small piece of bone drops from it.
+ obj oload 27807
+ obj force $n get list
+endif
+~
+#27807
+if carries $n 'list Rammie prize'
+ obj echo The prize list disappears from the sign and a melodic sound issues forth from it: '{5Don't be greedy, $n.  Only 1 per person.{0'
+else
+ obj echoat $n You reach foward and pull off a copy of the Rammie prize list.
+ obj echoaround $n $N Reaches foward and pulls off a copy of the Rammie prize list.
+ obj oload 27809
+ obj force $n get list
+endif
+~
+#0
+
+#ROOMPROGS
+#27003
+~
+#27328
+if hour >= 0
+and hour <= 2
+  room echo {xA {mgeyser{x bursts fandth form the ground.
+endif
+if hour >= 3
+and hour <= 4
+  room echo {xA {bgeyser{x bursts forth form the ground.
+endif
+if hour >= 5
+and hour <= 6
+  room echo {xA {ygeyser{x bursts forth from the ground.
+endif
+if hour >= 7
+and hour <= 8
+  room echo {xA {rgeyser{x bursts forth from the ground.
+endif
+if hour >= 9
+and hour <= 10
+  room echo {xA {Wgeyser{x bursts forth from the ground.
+endif
+if hour >= 11
+and hour <= 12
+  room echo {xA {ggeyser{x bursts forth from the ground.
+endif
+if hour >= 13
+and hour <= 14
+  room echo {xA {cgeyser{x bursts forth from the ground.
+endif
+if hour >= 15
+and hour <= 16
+  room echo {xA {Dgeyser{x bursts forth from the ground.
+endif
+if hour >= 17
+and hour <= 18
+  room echo {xA {Ygeyser{x bursts forth from the ground.
+endif
+if hour >= 19
+and hour <= 20
+  room echo {xA {Cgeyser{x bursts forth from the ground.
+endif
+if hour >= 21
+and hour <= 22
+  room echo {xA {Mgeyser{x bursts forth from the ground.
+endif
+if hour >= 23
+  room echo {xA {Rgeyser{x bursts forth from the ground.
+endif
+~
+#0
+
+#$

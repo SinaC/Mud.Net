@@ -36,7 +36,7 @@ public abstract class AbilityTestBase
     protected static ICommandParameter[] BuildParameters(string parameters)
     {
         var parser = new Parser.Parser(new Mock<ILogger<Parser.Parser>>().Object);
-        return parameters.Tokenize().Select(parser.ParseParameter).ToArray();
+        return parameters.Tokenize(false).Select(parser.ParseParameter).ToArray();
     }
 
     protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)

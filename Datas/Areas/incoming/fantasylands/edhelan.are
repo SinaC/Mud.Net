@@ -1,0 +1,229 @@
+#AREADATA
+Name EdhelansArea~
+Builders None~
+VNUMs 65100 65399
+Credits [ -ALL- ] Edhelan  AutoQuest~
+Security 9
+End
+
+
+
+#MOBILES
+#65100
+jethro brother cousin~
+Brother Jethro~
+Brother Jethro, Brother John's distant cousin
+~
+He looks only a little like Brother John, and he's humming Garth Brooks.
+~
+human~
+ARTVc DFHJTU HN 100 0
+35 0 3d9+283 9d9+100 2d7+4 none
+-3 -3 -3 7
+0 ABCD 0 0
+stand stand male 250
+AHMV ABCDEF tiny 0
+F par GHIJK
+M ACT 65100 waves~
+M GRALL 65100 100~
+M RANDOM 65101 100~
+M ACT 65100 waves~
+#65101
+jessamyn cousin~
+Jessamyn~
+Jessamyn, cousin to John and Jezebel.
+~
+She stares at you sidelong, with an evil curl to her lip.
+~
+human~
+ARTVc DFHJTU HN -100 0
+35 0 3d9+283 9d9+100 2d7+4 none
+-3 -3 -3 7
+0 ABCD 0 0
+stand stand female 250
+AHMVX ABCDEF tiny 0
+F par GHIJK
+M RANDOM 65101 100~
+M ACT 65102 waves~
+M GREET 65102 100~
+#65102
+oldstyle jezebel sister quest master~
+{BS{Wister {BJ{Wezebel{}~
+{BS{Wister {BJ{Wezebel{}, Brother John's evil twin.
+~
+She looks back at you with undisguised contempt.
+You're fairly sure it's just transference from her 
+brother, whose singing is laughably bad.
+~
+human~
+ABGVXZ D CDEH -150 0
+35 0 3d9+283 9d9+100 2d7+4 none
+-3 -3 -3 7
+0 ABCD 0 0
+stand stand female 250
+AHMV ABCDEF tiny 0
+F par GHIJK
+#0
+
+
+
+#OBJECTS
+#65100
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message from Brother John to his cousin Jethro.~
+parchment~
+trash HRZa A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#65101
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message to Brother John from his cousin Jethro.~
+parchment~
+trash RZ A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#65102
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message from Sister Jezebel to her cousin Jessamyn.~
+parchment~
+trash HRZa A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#65103
+secret message scrap paper~
+A seemingly worthless scrap of paper~
+It's a secret message to Sister Jezebel from her cousin Jessamyn.~
+parchment~
+trash RZ A
+0 0 0 0 0
+0 1 0 P
+E
+secret message~
+This clan must have its own secret language.  It is impossible to decipher.
+~
+#65105
+no name~
+(no short description)~
+(no description)~
+unknown~
+portal 0 0
+0 AC B 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#65100
+Brother Jethro's Chamber of Death~
+You really don't want to be here.  You see, this is where
+Brother Jethro suicides every time someone delivers a
+message to him.  There's nothing to do here.
+~
+0 1037 0
+S
+#0
+
+
+
+#SPECIALS
+M 65102 spec_questmaster
+S
+
+
+
+#RESETS
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#65100
+if carries $n 65100
+ if isvisible $n
+  say Greetings, $n!  Is that a message from my dear cousin?  How is he doing?
+  mob remove $n 65100
+  mob echo $i reads the message, then scribbles another one.
+  mob junk message
+  mob oload 65101
+  give message $n
+  say Thank you for waiting.  Please take my reply back quickly!
+  mob echo Cousin Jethro slips away when you aren't looking.
+  mob goto 65100
+ else
+  mob echo $I peers vaguely in your direction.
+  say Is somebody there?
+  mob echo Perhaps you should leave and come back in a way he can see.
+ endif
+endif
+~
+#65101
+if rand 50
+ if rand 50
+  up
+ else
+  down
+ endif
+else
+ if rand 50
+  if rand 50
+   north
+  else
+   south
+  endif
+ else
+  if rand 50
+   east
+  else
+   west
+  endif
+   endif
+endif
+~
+#65102
+if carries $n 65102
+if isvisible $n
+vis
+say So who did my dear cousin send to me this time?  Give me that!
+mob echo $i practically grabs the message out of your hands.
+mob remove $n 65102
+mob junk message
+mob oload 65103
+give message $n
+say You're still here?  Then do something useful and take this message back.
+mob echo Jessamyn tosses something at your feet and disappears in a cloud of smoke.
+mob goto 65100
+else
+mob echo $i peers vaguely in your direction, then shakes her head.
+mob echo Perhaps you should leave and come back in a way he can see.
+endif
+~
+#0
+
+#OBJPROGS
+#0
+
+#ROOMPROGS
+#0
+
+#$

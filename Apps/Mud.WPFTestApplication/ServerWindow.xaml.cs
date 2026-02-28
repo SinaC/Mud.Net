@@ -56,12 +56,13 @@ public partial class ServerWindow : Window, INetworkServer
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
     private IItemManager ItemManager { get; }
+    private IMobProgramManager MobProgramManager { get; }
     private IQuestManager QuestManager { get; }
     private IRandomManager RandomManager { get; }
     private ImportOptions ImportOptions { get; }
     private WorldOptions WorldOptions { get; }
 
-    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager,
+    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IMobProgramManager mobProgramManager, IQuestManager questManager, IRandomManager randomManager,
         IOptions<ImportOptions> importOptions, IOptions<WorldOptions> worldOptions)
     {
         Logger = logger;
@@ -74,6 +75,7 @@ public partial class ServerWindow : Window, INetworkServer
         RoomManager = roomManager;
         CharacterManager = characterManager;
         ItemManager = itemManager;
+        MobProgramManager = mobProgramManager;
         QuestManager = questManager;
         RandomManager = randomManager;
         ImportOptions = importOptions.Value;
@@ -350,6 +352,10 @@ public partial class ServerWindow : Window, INetworkServer
         // Items
         foreach(var blueprint in importer.Items)
             ItemManager.AddItemBlueprint(blueprint);
+
+        // Mobprograms
+        foreach (var blueprint in importer.MobPrograms)
+            MobProgramManager.AddMobProgram(blueprint);
 
         // Custom blueprint to test
         ItemQuestBlueprint questItem1Blueprint = new()

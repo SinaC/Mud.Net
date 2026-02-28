@@ -10,7 +10,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.MobProgram.Interfaces;
 using Mud.Server.Options;
-using Mud.Server.Parser.Interfaces;
 using System.Text;
 
 namespace Mud.Server.MobProgram;
@@ -110,7 +109,6 @@ public class MobProgramEvaluator : IMobProgramEvaluator
     // =========================
     // SIMPLE CONDITION ENGINE
     // =========================
-
     public bool EvaluateSimpleCondition(string cond, IMobProgramExecutionContext ctx)
     {
         var tokens = cond.Tokenize(false).ToArray();
@@ -213,7 +211,6 @@ public class MobProgramEvaluator : IMobProgramEvaluator
     // =========================
     // COMMAND EXECUTION
     // =========================
-
     private void ExecuteCommand(string command, IMobProgramExecutionContext ctx)
     {
         command = ReplaceVariables(command, ctx);
@@ -225,7 +222,6 @@ public class MobProgramEvaluator : IMobProgramEvaluator
     // =========================
     // VARIABLE RESOLUTION
     // =========================
-
     private ICharacter? ResolveCharacterVariable(string name, IMobProgramExecutionContext ctx)
     {
         return name switch
@@ -372,6 +368,9 @@ public class MobProgramEvaluator : IMobProgramEvaluator
         return valueBySex[character.Sex];
     }
 
+    // =========================
+    // CONDITION DECLARATION
+    // =========================
     private void RegisterConditions()
     {
         // single argument
@@ -437,7 +436,12 @@ public class MobProgramEvaluator : IMobProgramEvaluator
         _twoArgumentsConditions["has"] = (ctx, var, itemType) => ResolveCharacterVariable(var, ctx)?.Inventory.Any(x => StringCompareHelpers.StringEquals(x.ItemType, itemType)) == true;
         _twoArgumentsConditions["uses"] = (ctx, var, itemType) => ResolveCharacterVariable(var, ctx)?.Equipments.Any(x => x.Item is not null && StringCompareHelpers.StringEquals(x.Item.ItemType, itemType)) == true;
         _twoArgumentsConditions["name"] = (ctx, var, name) => StringCompareHelpers.AnyStringEquals(ResolveEntityVariable(var, ctx)?.Keywords ?? [], name) == true;
-        _twoArgumentsConditions["pos"] = (ctx, var, position) => StringCompareHelpers.StringEquals(ResolveCharacterVariable(var, ctx)?.Position.ToString() ?? string.Empty, position);
+        _twoArgumentsConditions["pos"] = (ctx, var, position) =>
+        {
+            if (StringCompareHelpers.StringEquals(position, "fighting")) // special case for pos_fighting
+                return ResolveCharacterVariable(var, ctx)?.Fighting != null;
+            return StringCompareHelpers.StringEquals(ResolveCharacterVariable(var, ctx)?.Position.ToString() ?? string.Empty, position);
+        };
         _twoArgumentsConditions["clan"] = (ctx, var, clanName) => false; // TODO
         _twoArgumentsConditions["race"] = (ctx, var, raceName) => StringCompareHelpers.StringEquals(ResolveCharacterVariable(var, ctx)?.Race?.Name ?? string.Empty, raceName);
         _twoArgumentsConditions["class"] = (ctx, var, className) => StringCompareHelpers.AnyStringEquals(ResolveCharacterVariable(var, ctx)?.Classes?.Select(x => x.Name) ?? [], className);
@@ -445,6 +449,9 @@ public class MobProgramEvaluator : IMobProgramEvaluator
         _twoArgumentsConditions["objtype"] = (ctx, item, itemType) => StringCompareHelpers.StringEquals(ResolveItemVariable(item, ctx)?.ItemType ?? string.Empty, itemType);
     }
 
+    // =========================
+    // FUNCTION DECLARATION
+    // =========================
     private void RegisterFunctions()
     {
         _parameterLessIntegerFunctions["rand"] = (ctx) => ctx.RandomManager.Next(100);

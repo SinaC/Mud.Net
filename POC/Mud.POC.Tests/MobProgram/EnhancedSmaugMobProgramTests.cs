@@ -252,4 +252,33 @@ endif";
         var interpreter = new Interpreter();
         interpreter.Execute(statements, context);
     }
+
+    [TestMethod]
+    public void Sample5()
+    {
+        var program = @"
+if ispc($n)
+  say Hello $n!
+elseif isnpc($n)
+  say I only talk to players.
+else
+  say I see nothing.
+endif
+";
+
+        var parser = new Parser();
+        var statements = parser.Parse(program);
+
+        var context = new MobContext
+        {
+            Self = new Character
+            {
+                IsNpc = false,
+                Name = "joel",
+            }
+        };
+
+        var interpreter = new Interpreter();
+        interpreter.Execute(statements, context);
+    }
 }

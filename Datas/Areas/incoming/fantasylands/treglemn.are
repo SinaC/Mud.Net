@@ -1,0 +1,2215 @@
+#AREADATA
+Name Tregle's Manor~
+Builders None~
+VNUMs 62200 62299
+Credits [ 70  90] Lorelei  Tregle's Manor~
+Security 9
+End
+
+
+
+#MOBILES
+#62200
+weed thorny~
+A {yweed{x covered in {rthorns{x~
+A {rthorny {yweed{x dominates this area.
+~
+Once this plant was thriving, full of health.  Its blooms drew crowds
+from all around, but now it has been sucked dry of life.  Listless and
+forgotten.
+~
+human~
+ACG D 0 -1000 0
+100 500 12d808+3640 2d50+50 16d20+500 wiltstare
+-52 -52 -52 -52
+FN I M H
+stand stand none 500
+D M small none
+F for AMV
+F par ABCDEFGHIJK
+#62201
+butler tregle~
+{8Tregle's {0butler~
+{DTregle's{x butler is here to assist.
+~
+With his pale skin and blood shot eyes, this {8butler{0 looks quite frightening.
+~
+human~
+A D H -1000 0
+105 525 12d877+3885 2d50+50 16d21+551 mindbend
+-55 -55 -55 -55
+CFIK A M N
+stand stand male 1000
+AHV ABCDEFGHIJK medium flesh
+F for M
+M RANDOM 62219 5~
+M SPEECH 62211 yes~
+M GREET 62200 100~
+#62202
+will wisp globe~
+{8A {7pale{8 globe{0~
+A {wpale{D globe{x lights up the room here
+~
+Using trickery to fool the unawares, the will-o-wisp waits for an
+opportune moment to strike.
+~
+bat~
+AB CDTZ 0 0 0
+105 525 12d877+3885 2d50+50 16d21+525 scintillation
+-55 -55 -55 -55
+FH 0 N DS
+stand stand none 1000
+AGV ACDEFHJKP tiny none
+#62203
+master torturer~
+The {4master {!t{1or{!t{1urer{0~
+A man who enjoys his {Rw{rork{x stand here waiting.
+~
+He grins evilly back at you.  Dressed all in black, he wields the tools
+of his trade with expertise.  
+~
+human~
+ABF DFac Q -1000 0
+110 550 12d949+4135 2d50+50 16d22+550 cburn
+-58 -58 -58 -58
+DEFIK A M 0
+stand stand male 1000
+AHV ABCDFGHIJK medium flesh
+F for M
+F par E
+M RANDOM 62218 5~
+M GREET 62201 100~
+#62204
+chest small mimic~
+A small {3chest{0~
+A small {ychest{x has been pushed up against the foot of the bed.
+~
+It looks like a chest...  
+~
+modron~
+ABC DFJV 0 0 0
+110 550 12d949+4135 2d50+50 16d22+550 corrosion
+-58 -58 -58 -58
+CI ABLPQ I K
+stand stand none 2000
+DHJ LMNV medium none
+F off QR
+F imm MN
+F res HK
+F par ABCGHJK
+#62205
+Harkis beast demonlord~
+Harkis, Lord of {8Darkness{0~
+A hulking {8beast{0 that resembles those found on the coverings.
+~
+{0Before you stands {8Harkis{0, Lord and Master of the {8Darkenbeasts{0
+of Vannorz.  Known for his love of bloodsheed and carnage, he desires
+nothing more than to kill you slowly.  {0 
+~
+demon~
+ABCF DFJTUZ HOQ -1000 0
+115 575 12d1023+4390 2d50+50 16d22+575 darkness
+-61 -61 -61 -61
+EFIKM M C NS
+stand stand male 3000
+ACEHMV ABCDEFGHIJKPQUVW huge flesh
+F res M
+M SPEECH 62212 no~
+M DEATH 62206 100~
+M KILL 62204 100~
+M GRALL 62202 100~
+#62206
+hydra three head~
+a {!three{0 headed {3hydra{0~
+A {Rthree{x headed {yhydra{x is talking to itself.
+~
+It seems to be carrying on a conversation with itself, totally ignoring
+your presence for now.  
+~
+dragon~
+ABCT JT CHQ -1000 0
+115 575 12d1023+4390 2d50+50 16d22+575 chord
+-61 -61 -61 -61
+CDFIKMN A BE H
+stand stand none 1000
+ACHZ ACDEFGHIJKPQUVX huge none
+F res H
+F vul FI
+M GREET 62203 100~
+#62207
+thief trapped~
+a {8trapped {1thief{0~
+This {rwoman{x looks to be {Dtrapped{x in her worst nightmare.
+~
+Having heard about the riches to be found in this manor, she snuck her
+way inside only to find that some things are better left alone.
+~
+human~
+ABCHS DFPV B 0 0
+103 515 12d849+3785 2d50+50 16d21+515 stab
+-54 -54 -54 -54
+BFIJKN A F P
+stand stand female 4000
+AHMV ABCDEFGHIJK medium flesh
+M RANDOM 62205 5~
+#62208
+Harkis underling~
+An underling of {8Harkis{0~
+One of {DHarkis'{x many minions is here to assist.
+~
+This small demon looks like it got into a fight with a {1meat{0
+grinder...  And lost.  
+~
+demon~
+AF DFJU O -1000 0
+105 525 12d877+3885 2d50+50 16d21+525 gloom
+-55 -55 -55 -55
+CDNPU M C NS
+stand stand none 100
+ACEHMV ABCDEFGHIJKPQUVW small none
+F res M
+#62209
+Guardian~
+The {Dguardian{x~
+A statue carved out of {Dobsidian{x stands guard here.
+~
+Perhaps he is the carven image of the master of this manor?
+~
+human~
+AB DFPQVZ HNP 0 0
+120 600 13d1015+4650 2d50+50 16d23+600 eclipse
+-65 -65 -65 -65
+DFKN ABLPQRT ES 0
+stand stand male 0
+EHJM ABCDEFGHIJK medium none
+F for AV
+M RANDOM 62220 5~
+M GREET 62207 100~
+M SPEECH 62208 yes~
+#62210
+plate armor~
+A set of {Dfull plate{x~
+A well crafted set of {Dfull plate{x reflects the {Wlight{x.
+~
+It seems to have been designed to be worn by someone the size of a human.
+Strange symbols are carved upon the chest plate.  
+~
+human~
+AB DFZ 0 -1000 0
+110 550 12d949+4135 2d50+50 16d22+550 beating
+-58 -58 -58 -58
+FG Y XZ N
+stand stand none 0
+CJ 0 large silver
+F for AMV
+F par ABCDEFGHIJK
+#62211
+chandra maiden~
+{^C{6handra{0~
+The lady of the {rroses{x wanders the garden here.
+~
+{0With her long {#blonde{0 hair and vivid {@green{0 eyes. Lady {^C{6handra{0
+is quite striking indeed. Once known throughout the realm for
+her beauty and grace, she has been cursed by the lord of the manor
+because she refused his offer of marriage.
+~
+human~
+AB CDFGc HNP 1000 0
+152 1400 13d1514+6580 2d50+50 17d56+1400 slap
+-120 -120 -120 -100
+CDFGHIKNO AB CD M
+stand stand female 100
+ADV ABCDEFGHIJK medium none
+F for M
+M SPEECH 62213 have~
+M SPEECH 62213 finished~
+M GRALL 62209 100~
+M SPEECH 62217 no~
+M SPEECH 62210 yes~
+#62212
+cook tregle's~
+the {rhead {Wcook{x~
+The {rhead {Wcook{x is standing around, yelling at his helpers.
+~
+A thin lean man, he seems to be very good at his work.
+~
+human~
+AB DF D -1000 0
+95 475 12d743+3405 2d50+50 16d20+475 digestion
+-46 -46 -46 -46
+EIK 0 H S
+stand stand none 400
+AHMV ABCDEFGHIJK medium flesh
+#62213
+cooks helper~
+a {Wcook's{w helper{x~
+A {Wcook's {whelper{x is helping with the preparations
+~
+She looks like she hasnt had a break in hours.
+~
+human~
+A DF C -1000 0
+90 450 12d679+3175 2d50+50 16d20+450 chop
+-51 -51 -51 -51
+FK 0 I 0
+stand stand female 50
+AHMV ABCDEFGHIJK medium flesh
+#62214
+Tregle~
+{8Tregle{0~
+The {DMaster{x of the manor stands here.
+~
+Once a man of great reknown, he was repected and admired by many. It
+all changed when the fair maiden Chandra refused his offer of marriage. 
+Driven mad by his desire for her, he willingly traveled the path of evil and
+offered his very essence to the demon lord Harkis and eventually even
+sacrificed the one he loved in order to hold her close to him for all
+eternity.  
+~
+human~
+AQ CDFG HQ -1000 0
+120 600 13d1166+5190 2d50+50 16d23+600 shade
+-65 -65 -65 -65
+CEFIJK AM BH N
+stand stand male 3000
+AHMV ABCDEFGHIJK medium flesh
+M GRALL 62214 100~
+M DEATH 62206 100~
+#62215
+maid tregle~
+a {Wmaid{x~
+She must be one of the ones who keep this manor so {7clean{0.
+~
+Looking more like a corpse dressed in a maids uniform.  She mumbles to
+herself constantly about the dust and pests that plague her daily job.  
+~
+human~
+AC DF 0 -1000 0
+108 540 12d920+4035 2d50+50 16d22+540 dust
+-57 -57 -57 -57
+FK B Q O
+stand stand female 500
+AHMV ABCDEFGHIJK medium flesh
+#62216
+moaning soul~
+a {Rm{ro{ra{Rn{ri{rn{Rg {bs{Do{bu{Dl{x~
+A {Rm{ro{ra{Rn{ri{rn{Rg {bs{Do{bu{Dl{x twitches on the {Drack{x before the {rpit{x.
+~
+A helpless soul, he moans in pain.  Burns and cuts cover his body, the
+handiwork of the master torturer.  
+~
+human~
+AG V 0 0 0
+95 475 12d743+3405 2d50+50 16d21+475 erosion
+55 55 55 55
+CDIJKN A BPT Z
+stand stand male 1000
+HM ABCDEFGHIJK medium flesh
+F for AV
+M GREET 62216 25~
+#0
+
+
+
+#OBJECTS
+#62200
+fountain birdbath tainted~
+the {3hunters {7fountain{0~
+A {&marble{7 fountain{0 carved into the shape of a {3hunter{0 gurgles here~
+marble~
+fountain 0 0
+-1 0 'slime mold juice' 0 0
+1 0 0 P
+E
+hunter~
+A mighty {3hunter{0, his arrow pointed up toward the {4sky{0 as if ready
+to shot down the very {&stars{0.  
+~
+#62201
+the massive black gates~
+a MASSIVE {Dblack{x iron gate~
+A MASSIVE {Dblack{x iron gate blocks the way~
+Iron~
+portal 0 0
+0 0 A 62202 0
+45 0 0 P
+#62202
+key tregle manor~
+a large {Ykey{x shaped like a {ylion{x~
+A large {Ykey{x shaped like a {ylion{x with {Rrubies{x for eyes.~
+metal~
+key P AO
+0 0 0 0 0
+50 0 3000 P
+A
+13 50
+A
+1 2
+A
+3 -3
+E
+key~
+This key is made out of solid {#gold{0 and encrusted with gems of high
+quality.  
+~
+E
+lion~
+The whole {#key{0 was crafted to look like a {3lion{0 about to leap, its
+maw opened wide in a silent snarl of {1anger{0.  
+~
+E
+eyes~
+They {4glare{0 balefully at you, their {1f{!I{1e{!R{1y{0 depths
+glittering with {1malice{0.  
+~
+#62203
+rose crystalline vase~
+a {Wcrystalline{w vase{x with a single {Rrose{x~
+A {&crystalline{7 vase{0 with a single {!rose{0 rests atop the table.~
+gem~
+furniture ES 0
+0 0 0 0 0
+50 0 1000 P
+E
+rose~
+The rose is actually carved from a single large {!ruby.{0
+~
+E
+vase~
+It is crafted from the finest {&crystal{0.
+~
+#62204
+carved stand~
+a beautifully carved {3stand{0~
+A beautifully carved {3stand{0~
+mahogony~
+container 0 0
+10 ABCD 62206 1000 10
+50 0 10000 P
+E
+stand~
+Carved from the finest {Dmahogany{x, this is probably a costly piece of
+{yfurniture{x.
+~
+#62205
+chandra heart~
+{^C{6handra's {!H{1eart{0~
+{CS{che{x longs for her release.~
+magic~
+key GY A
+0 0 0 0 0
+50 0 0 P
+E
+heart~
+It still beats within its glassy prison.
+~
+E
+chandra~
+Cursed by Tregle, she cannot rest until she has been freed from her chains.
+~
+#62206
+key wooden carved~
+a small {3wooden{0 key~
+A small key carved from a single piece of {3wood{0.~
+wood~
+key 0 A
+0 0 0 0 0
+50 0 0 P
+#62207
+key gallery silver~
+{0a small {8silver{0 key~
+A small key crafted from {Dsilver{x has been dropped here.~
+silver~
+key 0 A
+0 0 0 0 0
+10 0 0 P
+#62208
+small wooden door~
+a {3wooden{0 door.~
+A small {3wooden{0 door that looks out of place here.~
+magic~
+portal 0 0
+0 0 BE 62200 0
+60 0 0 P
+#62209
+life drinker~
+{!L{1i{!f{1e {$D{4rinker{0~
+A {!w{1hip{0 made out of human {3skin{0 has been carelessly tossed aside here.~
+leather~
+weapon EIS AN
+whip 10 17 drain BCG
+80 0 100 P
+A
+19 9
+A
+18 9
+A
+1 3
+O wear 62201 100~
+O FIGHT 62200 25~
+#62210
+fire pit~
+a {!f{1i{!e{1r{!y{1 pit{0~
+A {Rf{ri{Re{rr{Ry{r pit{x burns with deceptive cheerfulness.~
+flames~
+container 0 0
+100 0 0 100 1
+50 0 0 P
+#62211
+chandra tormented soul~
+{^C{6handra's {!t{1o{!r{1m{!e{1n{!t{1e{!d {^s{6oul{0~
+A key to {CC{chandra's{x freedom is floating here.~
+magic~
+key GI A
+0 0 0 0 0
+50 0 0 P
+#62212
+bed large~
+a {8large{0 bed~
+A {Dlarge{x bed covered in {Rred{x satin takes up most of the room here.~
+wood~
+furniture 0 0
+4 1000 BEHK 400 400
+50 0 0 P
+#62213
+torturer key~
+a small {8metal{0 key~
+A small {Dmetal{x key to someones bedroom rests here.~
+metal~
+key 0 A
+0 0 0 0 0
+50 0 0 P
+#62214
+black altar harkis~
+the {8Black Altar of Harkis{0~
+A {8black altar{0 dominates the center of this room.~
+obsidion~
+portal E 0
+0 0 A 62233 0
+0 0 0 P
+#62215
+touch darkness harkis~
+a {8Touch{0 of {8Darkness{0~
+A {DTouch{x of {DDarkness{x sucks the light from the room.~
+darkness~
+armor CFGISTY AW
+20 20 20 16 0
+80 0 0 P
+A
+18 10
+A
+19 10
+A
+13 20
+O wear 62203 100~
+#62216
+chandra innocence~
+{^C{6handra's {%I{5nnocence{0~
+Another piece of {CH{cer{x fate is waiting to be unfold.~
+magic~
+key 0 A
+0 0 0 0 0
+0 0 0 P
+E
+chandra~
+Cursed by Tregle, she cannot rest until she has been freed from her chains.
+~
+E
+innocence~
+It was offered up to this powerful demonlord in exchange for power.
+~
+#62217
+chandra painting prison portal~
+a painting~
+A painting of a {6beautiful{0 woman sitting in a {5garden{0~
+magic~
+portal 0 0
+0 0 A 62256 0
+10 0 0 P
+E
+woman~
+Perhaps this is Chandra?
+~
+#62218
+book plants~
+a {3book{0 on {@plants{0~
+A {3book{0 on {@plants{0 rests on the {3book{0shelf here~
+paper~
+warp_stone 0 AO
+0 0 0 0 0
+80 0 0 P
+A
+25 -10
+E
+book~
+This book seems to detail the workings of a transport spell using plants.
+~
+#62219
+sword plain~
+{0a sword~
+A simple {8sword{0 with a plain {3hilt{0 seems out of place here~
+steel~
+weapon GI AN
+exotic 0 0 none 0
+80 0 0 P
+#62220
+a small steel key~
+{0a small {8steel{0 key~
+A small key crafted from {Dsteel{x has been dropped here.~
+steel~
+key 0 A
+0 0 0 0 0
+0 0 0 P
+#62221
+key gallery gold~
+{0a small {#golden{0 key~
+A small {Ygolden{x key has been dropped here.~
+gold~
+key 0 A
+0 0 0 0 0
+0 0 0 P
+#62222
+small pouch leather gallery~
+{0a small {3leather{0 pouch~
+A small pouch made from the finest {yleather{x has been dropped here.~
+leather~
+container Y A
+10 0 0 4 0
+10 0 0 P
+#62223
+hidden chest gallery~
+a hidden {ychest{x~
+{0~
+oak~
+container 0 0
+10 AC 0 10 0
+40 0 0 P
+#62224
+chandra ashes~
+{^C{6handra's {8Ashes{0~
+These {Dashes{x have been hidden here for a very long time.~
+unknown~
+key 0 A
+0 0 0 0 0
+40 0 0 P
+E
+ashes~
+These are Chandra's ashes, one of the clues needed to free her from her
+terrible curse.  
+~
+#62225
+garden marble bench~
+a {&m{7a{&r{7b{&l{7e{& bench{0~
+A small {Wm{wa{Wr{wb{Wl{we{W bench{x is nestled in the midst of the {rroses{x.~
+marble~
+furniture 0 0
+2 10000 BEHKN 500 500
+0 0 0 P
+#62226
+shelves shelf~
+{0serveral {3shelves{0~
+Several {yshelves{x are resting up against the walls here.~
+wood~
+container 0 0
+1000 0 0 100 0
+0 0 0 P
+#62227
+herb garlic~
+dried {7garlic{0~
+A long strand of {7garlic{0 takes up the far {3shelf{0 here~
+plant~
+pill 0 A
+80 'restore mana' 'cure disease' 'refresh' 'gas breath'
+75 0 0 P
+#62228
+herb basil~
+dried {@basil{0~
+Some dried {@basil{0 has been stored on one of the {3shelves{0~
+plant~
+pill 0 A
+80 'bless' 'cure poison' '' ''
+70 0 0 P
+#62229
+herb anise~
+some {8anise{0~
+A small jar of {8anise{0 has been tucked away in the corner here~
+plant~
+pill 0 A
+80 'giant strength' 'detect invis' 'detect hidden' 'pass door'
+75 0 0 P
+#62230
+painting tregle~
+a painting of {8Tregle{0~
+A painting of the {8master{0 of this manor hangs over the mantle here~
+canvas~
+portal 0 0
+0 0 A 62271 0
+40 0 0 P
+E
+painting~
+He would be good looking if it werent for the sneer that graces his
+features and the aura of evilness that seems to cling to him.  
+~
+#62231
+tainted soul tregle~
+a {8Tainted {&Soul{0~
+Something {Dtaints{x the ground here.~
+magic~
+weapon CEGHIMTY AN
+exotic 15 16 darkness CEH
+90 0 0 P
+A
+19 10
+A
+18 10
+A
+13 50
+#62232
+{0chandra key freedom~
+{^C{6handra's {%F{5reedom{0~
+The last {Mp{miece{x of the {Cp{cuzzle{x has been droppped here.~
+magic~
+key 0 A
+0 0 0 0 0
+40 0 0 P
+#62233
+rose patch~
+{@----{2`{@-{2,{@-{!@{0~
+A {G---{g`{G-{g,{G-{R@{x is {ywilting{x away here.~
+roses~
+armor HIMPSYZ AV
+18 14 14 18 0
+95 0 0 P
+A
+12 100
+A
+20 -10
+A
+18 15
+A
+13 100
+E
+rose~
+Crafted from a single {Rred{x rose,  it is a gift from the {CL{cady{x
+of the {RRoses{x to show her gratitude for her freedom. 
+~
+O wear 62202 100~
+#62234
+portal freedom~
+a {Dportal{x to freedom~
+A {Dportal{x to freedom glimmers in and out of the {Dshadows{x.~
+darkness~
+portal 0 0
+1 0 B 62234 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#62200
+{8A winding, {@weed{8 choked trail.{0~
+{8A faint trail can be seen in the patches visible through the {@weed{8
+choked growth.  Ahead in the distance the outline of a massive gate is
+visible.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 62201
+D2
+~
+~
+0 0 3144
+S
+#62201
+{8A winding, {@weed{8 choked trail.{0~
+{DA light {wfog{D begins to form, wispy figures seem to dance just beyond
+reach.  Suddenly something dark looms up out of the mist...  MASSIVE black
+gates bar the way.{x
+~
+0 0 0
+D2
+~
+~
+0 0 62200
+S
+#62202
+{DGravelly path{x~
+{8Gravel crunches underfoot, disturbing the eerie silence.  Tendrils of
+{7mist{8 seem to reach out as if to touch.  The grass and weeds here are
+{3withered{8 and {3dry{8 as if all the life has been sucked out of them.  {DThe main
+entrance to the manor is vaguely visible.  {x 
+~
+0 4 2
+D0
+~
+~
+1 62202 62205
+D1
+~
+~
+0 0 62203
+D3
+~
+~
+0 0 62204
+S
+#62203
+{8Wandering in the {3weeds.{0~
+{8Wandering about amidst the {3weeds{8 reveals that they are as lifeless
+as they look.  Your movements causing the {7mist{8 to {7s{8w{7i{8r{7l{8
+about angrily with each step.  {0 
+~
+0 0 0
+D3
+~
+~
+0 0 62202
+S
+#62204
+{8Wandering in the {3weeds.{0~
+{8Wandering about amidst the {3weeds{8 reveals that they are as lifeless
+as they look.  Your movements causing the {7mist{8 to {7s{8w{7i{8r{7l{8
+about angrily with each step.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 62202
+S
+#62205
+{8Master Foyer{0~
+{8The {7mist{8 swirls in at the opening of the door.  The {&air{8 is
+{7stale{8, revealing just how long it has been since someone has moved
+through these halls.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62208
+D1
+~
+~
+0 0 62206
+D2
+~
+~
+1 62202 62202
+D3
+~
+~
+0 0 62207
+S
+#62206
+{8Master Foyer{0~
+{7Pale{8 globes {7f{8l{7i{8c{7k{8e{7r{8 along the walls, their wane
+{7light{8 casting shadows across the {&ivory{8 pillars.{x  
+~
+0 8200 0
+D0
+~
+~
+0 0 62209
+D3
+~
+~
+0 0 62205
+S
+#62207
+{8Master Foyer{0~
+{wPale{D globes {wf{Dl{wi{Dc{wk{De{wr{D along the walls, their wane{x
+{wlight{D casting shadows across the {Wivory{D pillars. {x
+~
+0 8200 0
+D0
+~
+~
+0 0 62210
+D1
+~
+~
+0 0 62205
+S
+#62208
+{8Master Foyer{0~
+{8More and more of the strange {7lights{8 begin to {&glow{8, pushing back the
+darkness.  Faint movement can be seen through the doorway to the north.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62211
+D1
+~
+~
+0 0 62209
+D2
+~
+~
+0 0 62205
+D3
+~
+~
+0 0 62210
+S
+#62209
+{8Master Foyer{0~
+{7Pale{8 globes {7f{8l{7i{8c{7k{8e{7r{8 along the walls, their wane
+{7light{8 casting shadows across the {&ivory{8 pillars.{x  
+~
+0 8200 0
+D2
+~
+~
+0 0 62206
+D3
+~
+~
+0 0 62208
+S
+#62210
+{8Master Foyer{0~
+{7Pale{8 globes {7f{8l{7i{8c{7k{8e{7r{8 along the walls, their wane
+{7light{8 casting shadows across the {&ivory{8 pillars.{x  
+~
+0 8200 0
+D1
+~
+~
+0 0 62208
+D2
+~
+~
+0 0 62207
+S
+#62211
+{8Great Hall{0~
+{DWhoever built this manor must have had a lot of {gmoney{D.  The vaulted
+ceiling is covered with painted figures that resemble {Wangels{D and {Cfairies{D. 
+There is no sign of dust or disuse, no {ws{Dp{wi{Dd{we{Dr{ww{De{wb{Ds or cracked tiles. 
+Everything {Ygleams{D like new.  {x 
+~
+0 8200 0
+D0
+~
+~
+0 0 62218
+D1
+~
+~
+0 0 62212
+D2
+~
+~
+0 0 62208
+D3
+~
+~
+0 0 62213
+S
+#62212
+{8Great Hall{0~
+{8A large pillar made of {7m{&a{7r{&b{7l{&e{8 dominates this part of the
+hall.  Another one of those {7pale{8 globes seems to float at about eye
+level.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62217
+D1
+~
+~
+0 0 62215
+D3
+~
+~
+0 0 62211
+S
+#62213
+{8Great Hall{0~
+{8A large pillar made of {7m{&a{7r{&b{7l{&e{8 dominates this part of the
+hall.  Another one of those {7pale{8 globes seems to float at about eye
+level.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62219
+D1
+~
+~
+0 0 62211
+D3
+~
+~
+0 0 62214
+S
+#62214
+{8Great Hall{0~
+{DThe pale light {wglitters{D off the {reyes{D of the strange beast-like
+creatures carved into the wall.  Their {reyes{D seem to gleam with malice as
+they stare out over this massive hall.  To the west a shadow filled corridor
+can barely be seen.{x
+~
+0 8200 0
+D0
+~
+~
+0 0 62220
+D1
+~
+~
+0 0 62213
+D3
+~
+~
+0 0 62226
+S
+#62215
+{8Great Hall{0~
+{DThe pale light {wglitters{D off the {reyes{D of the strange beast-like
+creatures carved into the wall.  Their {reyes{D seem to gleam with malice as
+they stare out over this massive hall.  Almost out of place here is a
+beautifully carved {ystand{D that rests up against the wall.{x
+~
+0 8200 0
+D0
+~
+~
+0 0 62216
+D3
+~
+~
+0 0 62212
+S
+#62216
+{8Great Hall{0~
+{DThe pale light {wglitters{D off the {reyes{D of the strange beast-like
+creatures carved into the wall.  Their {reyes{D seem to gleam with malice as
+they stare out over this massive hall.  To the east a well lit hallway can
+be seen.{x
+~
+0 8200 0
+D0
+~
+~
+0 0 62225
+D1
+~
+~
+0 0 62251
+D2
+~
+~
+0 0 62215
+D3
+~
+~
+0 0 62217
+S
+#62217
+{8Great Hall{0~
+{8A large pillar made of {7m{&a{7r{&b{7l{&e{8 dominates this part of the
+hall.  Another one of those {7pale{8 globes seems to float at about eye
+level.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62224
+D1
+~
+~
+0 0 62216
+D2
+~
+~
+0 0 62212
+D3
+~
+~
+0 0 62218
+S
+#62218
+{8Great Hall{0~
+{8 A magnificent {1c{!h{1a{!n{1d{!e{1l{!i{1e{!r{8 dominates the center of the
+Great Hall. Hundreds of {!rubies{8 cast a {1red{8 glare upon the area
+as they reflect the {#light{8 all around it.{0
+~
+0 8200 0
+D0
+~
+~
+0 0 62223
+D1
+~
+~
+0 0 62217
+D2
+~
+~
+0 0 62211
+D3
+~
+~
+0 0 62219
+S
+#62219
+{8Great Hall{0~
+{8A large pillar made of {7m{&a{7r{&b{7l{&e{8 dominates this part of the
+hall.  Another one of those {7pale{8 globes seems to float at about eye
+level.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62222
+D1
+~
+~
+0 0 62218
+D2
+~
+~
+0 0 62213
+D3
+~
+~
+0 0 62220
+S
+#62220
+{8Great Hall{0~
+{DThe pale light {wglitters{D off the {reyes{D of the strange beast-like
+creatures carved into the wall.  Their {reyes{D seem to gleam with malice as
+they stare out over this massive hall.  A small table rests up against the
+wall with a small crystalline vase holding a single {rrose{D atop it.{x
+~
+0 8200 0
+D0
+~
+~
+0 0 62221
+D1
+~
+~
+0 0 62219
+D2
+~
+~
+0 0 62214
+S
+#62221
+{8Great Hall{0~
+{DThe pale light {wglitters{D off the {reyes{D of the strange beast-like
+creatures carved into the wall.  Their {reyes{D seem to gleam with malice as
+they stare out over this massive hall.  A large {Wmirror{D hangs in the
+center of wall...  {x
+~
+0 8200 0
+E
+mirror~
+As you take a closer look...    {REEEKKKKK RUUUUN!!!!!{x   oh wait.. 
+It's just a distorted reflection of...  Yourself!  
+~
+D1
+~
+~
+0 0 62222
+D2
+~
+~
+0 0 62220
+S
+#62222
+{8Great Hall{0~
+{8A large pillar made of {7m{&a{7r{&b{7l{&e{8 dominates this part of the
+hall.  Another one of those {7pale{8 globes seems to float at about eye
+level.  {0 {8Almost hidden by the pillar is a dark hallway heading north. 
+{0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62235
+D1
+~
+~
+0 0 62223
+D2
+~
+~
+0 0 62219
+D3
+~
+~
+0 0 62221
+S
+#62223
+{8Great Hall{0~
+{8The mosaic arches over a small, {3wooden{8 door that looks quite out of
+place in its rather opulent surroundings.  {0 
+~
+0 8 0
+D1
+~
+~
+0 0 62224
+D2
+~
+~
+0 0 62218
+D3
+~
+~
+0 0 62222
+S
+#62224
+{8Great Hall{0~
+{8A large pillar made of {7m{&a{7r{&b{7l{&e{8 dominates this part of the
+hall.  Another one of those {7pale{8 globes seems to float at about eye
+level.  {0 
+~
+0 8200 0
+D1
+~
+~
+0 0 62225
+D2
+~
+~
+0 0 62217
+D3
+~
+~
+0 0 62223
+S
+#62225
+{8Great Hall{0~
+{DThe pale light {wglitters{D off the {reyes{D of the strange beast-like
+creatures carved into the wall.  Their {reyes{D seem to gleam with malice as
+they stare out over this massive hall.  Suddenly a sound seems to disturb
+the silence from somewhere close by...  It almost sounds like someone... 
+Whispering?{x
+~
+0 8200 0
+D0
+~
+~
+1 0 62239
+D2
+~
+~
+0 0 62216
+D3
+~
+~
+0 0 62224
+S
+#62226
+{8Moaning Halls{0~
+{8Although not as well lit as one would like, there is still plenty of
+light to see the {!bloody{8 scenes of what looks like a hunt.{x
+~
+0 8200 0
+E
+bloody~
+This scene shows the hunting party forming..  Dark riders mill around on
+beasts that vaguely resemble horses while at their feet a large pack of
+massive hounds with glowing red eyes mingle.
+~
+D0
+~
+~
+1 0 62230
+D1
+~
+~
+0 0 62214
+D2
+~
+~
+3 62213 62231
+D3
+~
+~
+0 0 62227
+S
+#62227
+{8Moaning Halls{0~
+{8 Perhaps the owners intended for these halls to be so dark and gloomy.
+More {!bloody{8 scenes decorate the walls.{0
+~
+0 8200 0
+E
+bloody~
+More scenes of the hunt, the hounds have cornered their prey while the
+dark riders circle around like sharks before the kill.  
+~
+D0
+~
+~
+0 0 62228
+D1
+~
+~
+0 0 62226
+D2
+~
+~
+3 0 62232
+S
+#62228
+{8Moaning Halls{0~
+{DLamp light barely pierces the shadows here as the atmosphere seems to
+become chilly. The feeling that something or someone is watching is strong.
+The {Rbloody{D hunt continues.{x
+~
+0 8200 0
+E
+bloody~
+The dark riders have pierced their prey with their arrows and spears, the
+hounds snarl in bloodlust and hunger as they tear at the remains.  
+~
+D2
+~
+~
+0 0 62227
+D3
+~
+~
+0 0 62229
+S
+#62229
+{8Moaning Halls{0~
+{8The hallways ends before a blank wall, there seems to be no other doors
+or exits. Just the same feeling of watchfulness. The {!bloody{8 hunt has
+drawn to an end.{0
+~
+0 8200 0
+E
+bloody~
+The dark riders seem to be staring back at you... perhaps you're next?
+~
+D0
+~
+~
+3 0 62234
+D1
+~
+~
+0 0 62228
+S
+#62230
+{8Torture Chamber{0~
+{8Various tools and instruments line the walls. A large rack rests in one
+corner, across from it a {!f{3i{#r{!e{8 burns in a small iron pit. A large
+ black executioner's mask hangs from a hook on the wall.{0
+~
+0 8200 0
+D2
+~
+~
+1 0 62226
+S
+#62231
+{8A bedroom{0~
+{8A large bed takes up most of the space in this room with a small chest
+nestled at the foot of it.  To the left of the bed is a large wardrobe.  {0 
+~
+0 8200 0
+D0
+~
+~
+3 62213 62226
+S
+#62232
+{8Temple of Harkis{0~
+{8Two black candles flicker, casting shadows upon the altar in the center
+of the room.  Black coverings adorn the walls, each featuring scenes of
+carnage and hideous demons.  {0 
+~
+0 8 0
+D0
+~
+~
+3 0 62227
+S
+#62233
+{8Harkis' Domain{0~
+{8Darkness welcomes you...  {0 
+~
+0 8197 0
+S
+#62234
+{8 Storage room{0~
+{8Shelves line the walls and boxes clutter the floor.  The air has that
+musty taint of a room that has been forgotten, however, there is not a speck
+of dust to be found.  {0 
+~
+0 8200 0
+D2
+~
+~
+3 0 62229
+S
+#62235
+{8Whispering Halls{0~
+{8Pale lights flicker and dance as if caught up in a breeze.  Suddenly a
+soft sound carries throughout the hallway, almost as if someone was
+whispering...  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62236
+D2
+~
+~
+0 0 62222
+D3
+~
+~
+0 0 62240
+S
+#62236
+{8Whispering Halls{0~
+{DThe whispering grows louder and the pale globes of light seem to lose
+their brightness with each step.{x
+~
+0 8200 0
+D2
+~
+~
+0 0 62235
+D3
+~
+~
+0 0 62237
+S
+#62237
+{8Whispering Halls{0~
+{DThe whispering has grown louder to the point of almost becoming
+understandable.  Now it is obvious that there are at least three different
+voices whispering at the same time.{x
+~
+0 8200 0
+D1
+~
+~
+0 0 62236
+D3
+~
+~
+0 0 62238
+S
+#62238
+{8Whispering Halls{0~
+{8 The whispering voices seem to be coming from the direction of the
+stairway.  The pale globes have flickered out beyond this point, leaving the
+path in total darkness.  {0 
+~
+0 8200 0
+D1
+~
+~
+0 0 62237
+D5
+~
+~
+0 0 62241
+S
+#62239
+{8Hidden Hall{0~
+{8Hidden behind the moasic is another hallway.  Unlike the rest of the
+manor, the dust is thick and cobwebs are scattered here and there.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62244
+D2
+~
+~
+1 0 62225
+S
+#62240
+{8A small study{0~
+{8A small desk is nestled in one corner with various writing instruments
+scattered about on its surface.  Across from it rests a small bookcase with
+books on plant life and animals.  {0 
+~
+0 8200 0
+D1
+~
+~
+0 0 62235
+S
+#62241
+{8Dark Stairway{0~
+{8 Down..  Down...  Down...  The stairway seem to spiral down into the
+darkness with no end in sight.  {0 
+~
+0 8200 0
+D4
+~
+~
+0 0 62238
+D5
+~
+~
+0 0 62242
+S
+#62242
+{8Dark Stairway{0~
+{8At last the stairs seem to have come to an end, a large opening to the
+south can be seen.  Several voices seem to be arguing about something.  {0 
+~
+0 8200 0
+D2
+~
+~
+0 0 62243
+D4
+~
+~
+0 0 62241
+S
+#62243
+{8 Whispering Chamber{0~
+{DThe chamber is quite large, and seems to have been hand-carved out of
+stone.  The {wair{D is damp, with just a touch of {Cchill{D. {x
+~
+0 8200 0
+D0
+~
+~
+0 0 62242
+S
+#62244
+{8Hidden Hall{0~
+{DThe dust here must be over an inch thick, no other footsteps have
+disturbed it...  until now.{x
+~
+0 8200 0
+D0
+~
+~
+0 0 62245
+D2
+~
+~
+0 0 62239
+S
+#62245
+{8Hidden Hall{0~
+{8The {7cobwebs{8 are extremely thick here, requiring some effort to
+force your way through only to find yourself brought up short by a wall.  {0
+~
+0 8200 0
+D2
+~
+~
+0 0 62244
+D4
+~
+~
+3 0 62246
+S
+#62246
+{8Hidden Gallery{0~
+{8It seems that someone went to a lot of trouble to hide this place.  The
+furnishings are of high quality although a bit on the gaudy side.  The walls
+are covered with an assortment of paintings.  {0 
+~
+0 8200 0
+D1
+~
+~
+3 62221 62248
+D2
+~
+~
+3 62220 62249
+D3
+~
+~
+3 62207 62250
+D5
+~
+~
+3 0 62245
+S
+#62247
+{8Hidden Gallery{0~
+{DThere are various small paintings covering the wall artfully set up to
+draw the viewers eye to the largest one.  Done up in vivid colors it is
+truly a work of art.{x
+~
+0 12 0
+S
+#62248
+{8Hidden Gallery{0~
+{DThis room seems almost plain compared to the others.  Only a few pieces
+of furniture have been scattered here and there, mostly just a few chairs
+and a chest.  Perhaps someone had discovered this place and acquired a few
+pieces.  {x 
+~
+0 8200 0
+D3
+~
+~
+3 62221 62246
+S
+#62249
+{8Hidden Gallery{0~
+{DThis room seems to have been dedicated to displaying various weapons of
+different shapes and sizes.  Although they seem to look like nothing more
+than decorative pieces, a closer look reveals that they are as sharp as
+their plainer versions.{x
+~
+0 8200 0
+D0
+~
+~
+3 62220 62246
+S
+#62250
+{8Hidden Gallery{0~
+{DThis room seems devoted to displaying a rather large collection of
+different types of armor.  Each piece is of exceptional quality and detail.{x 
+~
+0 8200 0
+D1
+~
+~
+3 62207 62246
+S
+#62251
+{8East Wing{0~
+{8The walls are covered with carved {3wooden{8 panels and the lofty ceiling
+has chandeliers with numerous globes of {&light{8 glinting like tiny
+diamonds.  A luxurious {!red{8 carpet muffles any footsteps.{0
+~
+0 8204 0
+E
+panel~
+It looks like a language long forgotten, consisting mostly of glyphs and
+symbols.  
+~
+D1
+~
+~
+0 0 62252
+D3
+~
+~
+0 0 62216
+S
+#62252
+{8East Wing{0~
+{DThe hallway branches off in serveral directions.  To the north a very
+grand looking staircase can be seen.  To the east the hallway seems to
+continue.  While from the south a tantalizing smell beckons.{x
+~
+0 8200 0
+D0
+~
+~
+0 0 62253
+D1
+~
+~
+0 0 62254
+D2
+~
+~
+0 0 62255
+D3
+~
+~
+0 0 62251
+S
+#62253
+{8Spiraling Staircase{0~
+{DA large formal staircase spirals upwards into the dim {wlight{D above. 
+The steps are made out of what looks like {wpale marble{D at first, but upon
+closer inspection seems to be a type of {Wwhite {wash{D.  The handrail is
+crafted from a {ydark maple{D, truly this is a work of art.{x
+~
+0 8204 0
+D2
+~
+~
+0 0 62252
+D4
+~
+~
+0 0 62258
+S
+#62254
+{8Servants Wing{0~
+{8While not as grand as the rest of the Manor, this hallway seems to lead
+to various servant quarters.  {0 
+~
+0 8200 0
+D0
+~
+~
+1 0 62268
+D1
+~
+~
+0 0 62257
+D2
+~
+~
+1 0 62269
+D3
+~
+~
+0 0 62252
+S
+#62255
+{8Banquet Hall{0~
+{DThis hallway seems to go towards the banquet hall.  Tantalizing smells
+linger in the air and various servants scurry about as if preparing for a
+feast.{x
+~
+0 8204 0
+D0
+~
+~
+0 0 62252
+D2
+~
+~
+0 0 62262
+S
+#62256
+{^C{6handra's {5Garden{0~
+{3A soft {8breeze{3 blows past, carrying the scent of {!roses{3. The air is
+{#warm{3 and the {1flowers{3 are covered with fine droplets of {6water{3 as if
+a small {^r{6a{^i{6n{&s{7h{&o{7w{&e{7r{3 had just passed.  A young women is tending
+to the {1flowers{3. Dressed in a flowing gown of palest {%pink{3, she smiles
+in welcome.{0
+~
+0 533516 0
+S
+#62257
+{8Servants Wing{0~
+{8While not as grand as the rest of the Manor, this hallway seems to lead
+to various servant quarters.  {0 
+~
+0 8192 0
+D0
+~
+~
+1 0 62266
+D2
+~
+~
+1 0 62267
+D3
+~
+~
+0 0 62254
+S
+#62258
+{8Quiet Hall{0~
+{DIt is silent...  almost eerily so, even the {rheaviest{D of tread is
+muted.  The hallway seems to go on forever with a {ydoor{D scattered here
+and there.  The only {Ylight{D here is the one that you have brought, and
+even then it seems to be {wdimmer{D than normal.{x
+~
+0 8201 0
+D3
+~
+~
+0 0 62259
+D5
+~
+~
+0 0 62253
+S
+#62259
+{8Quiet Hall{0~
+{DIt is silent...  almost eerily so, even the {rheaviest{D of tread is
+muted.  The hallway seems to go on forever with a {ydoor{D scattered here
+and there.  The only {Ylight{D here is the one that you have brought, and
+even then it seems to be {wdimmer{D than normal.{x
+~
+0 8201 0
+D1
+~
+~
+0 0 62260
+D3
+~
+~
+0 0 62260
+S
+#62260
+{8Quiet Hall{0~
+{DIt is silent...  almost eerily so, even the {rheaviest{D of tread is
+muted.  The hallway seems to go on forever with a {ydoor{D scattered here
+and there.  The only {Ylight{D here is the one that you have brought, and
+even then it seems to be {wdimmer{D than normal.{x
+~
+0 8201 0
+D1
+~
+~
+0 0 62258
+D3
+~
+~
+0 0 62261
+S
+#62261
+{8Quiet Hall{0~
+{DIt is silent...  almost eerily so, even the {rheaviest{D of tread is
+muted.  The hallway seems to go on forever with an ornate {ydoor{D to the north.  The only {Ylight{D here is the one that you have brought, and
+even then it seems to be {wdimmer{D than normal.{x
+~
+0 8201 0
+D0
+~
+~
+3 0 62270
+D1
+~
+~
+0 0 62259
+D3
+~
+~
+0 0 62260
+S
+#62262
+{8Banquet Hall{0~
+{8The room to the south is brightly lit, while the clanging and
+clattering of dishes can be heard from the east.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62255
+D1
+~
+~
+0 0 62264
+D2
+~
+~
+0 0 62263
+S
+#62263
+{8Banquet Room{0~
+{#Gold{8 plates gleam and {&crystal{8 glasses reflect the light like
+diamonds.  A magnificent banquet has been prepared, it would seem the lord
+of this manor is expecting a celebration.  {0 
+~
+0 8200 0
+D0
+~
+~
+0 0 62262
+S
+#62264
+{8Kitchen{0~
+{8Several people are busy here in the kitchen.  Servants are scurrying
+past, carrying heavy plates of food.  The head cook shouts at one of his
+helpers before brushing past, muttering to himself{0 
+~
+0 8200 0
+D1
+~
+~
+1 0 62265
+D3
+~
+~
+0 0 62262
+S
+#62265
+{8Pantry{0~
+{8Various dried herbs and plants are scattered about.  Upon the shelves
+are jars filled with strange substances.  {0 
+~
+0 8200 0
+D3
+~
+~
+1 0 62264
+S
+#62266
+{8A small bedroom{0~
+{DA small {wbed{D is pushed up against the wall, at the foot of it rests
+a large {ywooden{D chest.  Across from the bed is a medium sized
+{ydresser{D with a small box on top of it.  {CW{cords{D have been scratched into
+the wall beside the {wbed{D, perhaps they warrent a closer look?{x
+~
+0 8200 0
+E
+words~
+Five keys to freedom
+~
+D2
+~
+~
+1 0 62257
+S
+#62267
+{8A small bedroom{0~
+{8All the {3furniture{8 in this room has been smashed into pieces.  It
+looks like some wild animal was turned loose and went on a {1violent{8
+rampage.  Scattered amidst the mess are pieces of {7pottery{8.  {0 
+~
+0 8200 0
+D0
+~
+~
+1 0 62257
+S
+#62268
+{8A small bedroom{0~
+{DA small {wbed{D rests up against the wall with a large {ydresser{D
+positioned just across from it.  A {ynightstand{D is within easy reach of
+the {wbed{D and resting upon it is a small basin and bowl for washing.  The
+room doesn't look like it's used much.{x
+~
+0 8200 0
+D2
+~
+~
+1 0 62254
+S
+#62269
+{8A small bedroom{0~
+{8This room is quite bare with just a small {7bed{8, {3nightstand{8, and
+{3wardrobe{8.  The remains of a candle can be seen from the wax drippings
+upon the {3nightstand{8 There are no other items which might give a hint to
+the room's occupant.  {0 
+~
+0 8200 0
+D0
+~
+~
+1 0 62254
+S
+#62270
+{0{8Master Bedroom{0~
+{8Dark drapes covered a massive bed which dominates the center of this
+room. A large {!f{1i{#r{!e{8 flickers inside a {7granite fireplace{8. Hanging
+over the mantle is a large picture of someone who looks important, perhaps
+the owner of this house?{0
+~
+0 8 0
+D2
+~
+~
+3 0 62261
+S
+#62271
+{8Tregle's Domain{0~
+{8Perhaps it was unwise for you to have ventured into his domain.  Tregle
+seems to radiate an aura of pure evil, for he has given his soul to darkness
+so that he could hold the fair lady under his spell for all eternity.  {0 
+~
+0 8196 0
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 62202 0 2
+D 0 62205 2 2
+D 0 62225 0 1
+D 0 62226 0 1
+D 0 62226 2 2
+D 0 62227 2 1
+D 0 62229 0 1
+D 0 62230 2 1
+D 0 62231 0 2
+D 0 62232 0 1
+D 0 62234 2 1
+D 0 62239 2 1
+D 0 62245 4 1
+D 0 62246 1 2
+D 0 62246 2 2
+D 0 62246 3 2
+D 0 62246 5 1
+D 0 62248 3 2
+D 0 62249 0 2
+D 0 62250 1 2
+D 0 62254 0 1
+D 0 62254 2 1
+D 0 62257 0 1
+D 0 62257 2 1
+D 0 62261 0 1
+D 0 62264 1 1
+D 0 62265 3 1
+D 0 62266 2 1
+D 0 62267 0 1
+D 0 62268 2 1
+D 0 62269 0 1
+D 0 62270 2 1
+O 0 62201 0 62201
+O 0 62200 0 62203
+M 0 62200 1 62204 1
+E 0 62202 0 17
+M 0 62202 6 62212 1
+M 0 62202 6 62213 1
+O 0 62204 0 62215
+P 0 62205 1 62204 1
+M 0 62202 6 62217 1
+M 0 62201 1 62218 1
+E 0 62206 0 27
+M 0 62202 6 62219 1
+O 0 62203 0 62220
+M 0 62202 6 62222 1
+O 0 62208 0 62223
+M 0 62202 6 62224 1
+M 0 62203 1 62230 1
+E 0 62209 0 16
+O 0 62210 0 62230
+P 0 62211 1 62210 1
+M 0 62216 1 62230 1
+E 0 62213 0 17
+O 0 62212 0 62231
+M 0 62204 1 62231 1
+O 0 62214 0 62232
+M 0 62205 1 62233 1
+E 0 62216 0 17
+E 0 62215 0 28
+M 0 62207 1 62239 1
+O 0 62218 0 62240
+M 0 62206 1 62243 1
+M 0 62209 1 62246 1
+E 0 62222 0 17
+P 0 62207 1 62222 1
+P 0 62220 1 62222 1
+P 0 62221 1 62222 1
+O 0 62217 0 62247
+O 0 62223 0 62248
+P 0 62224 1 62223 1
+M 0 62210 1 62250 1
+O 0 62225 0 62256
+M 0 62211 1 62256 1
+M 0 62213 3 62263 3
+M 0 62212 1 62264 1
+M 0 62213 1 62264 4
+O 0 62226 0 62265
+P 0 62227 1 62226 1
+P 0 62228 1 62226 1
+P 0 62229 1 62226 1
+M 0 62215 1 62266 4
+M 0 62215 1 62268 4
+M 0 62215 1 62269 4
+O 0 62230 0 62270
+M 0 62214 1 62271 1
+E 0 62231 0 16
+E 0 62232 0 17
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#62200
+if ispc $n
+ say Welcome to the Tregle Manor, $N.  Are you lost?
+endif
+~
+#62201
+if ispc $n
+ say Ah, I see my newest soul has arrived!
+ grin $n
+endif
+~
+#62202
+if ispc $n
+ say Have you brought me more gifts to slake my hunder, $n?
+ cackle
+endif
+~
+#62203
+if ispc $n
+ babble $n
+endif
+~
+#62204
+mob echo $I summons an underling to assist $k.
+mob mload 62208
+mob force underling kill $n
+~
+#62205
+if ispc $n
+ cackle self
+ mob echo whispers, '{DDeath... death... paintings...{x'
+endif
+~
+#62206
+mob echo A glimmering portal forms above the collapsing corpse of $I.
+mob oload 62234 1 room
+~
+#62207
+if ispc $n
+ say Have you come to free the maiden?
+endif
+~
+#62208
+mob echoat $n $I directs your path through the gallery leaving you in a particular room.
+mob echoaround $n $I {Ydirects $n's path through the gallery leaving $n in a {x{Yparticular room.{x
+mob gtransfer $n 62247
+~
+#62209
+if ispc $n
+ smile $n
+ say Welcome to my garden, $n.  May I ask a boon of thee?
+endif
+~
+#62210
+thank $n
+say Please... to free me from my curse you must find that which Tregle has stolen from me.
+say Return to me when you have them and tell me you have them.
+say I can not be free til you collect and return them all to me.
+mob echoat $n $I shows you a winding path through the garden that leads out.
+mob echoaround $n $I shows $n a winding path through the garden that leads out.
+mob gtransfer $n 62200
+~
+#62211
+say Then here, let me show you to the door, $N.
+mob echoat $n The butler shows you out of the manor.
+mob echoaround $n The butler shows $n out of the manor.
+mob gtransfer $n 62200
+mob at $n mob echoaround $n $N is shown the door of the manor.
+~
+#62212
+say FOOL!  How dare you come into my presence without an offering.  Now you must satiate my hunger with your soul. 
+mob kill $n
+~
+#62213
+if carries $n 62205
+and carries $n 62211
+and carries $n 62216
+and carries $n 62224
+and carries $n 62232
+ say Thank you, $n for releasing me from this prison.
+ mob echo $I gently whispers to a rose bush which suddenly blossoms.
+ mob oload 62233 1 room
+ say Take this rose... as a token of my gratitude.
+ mob force $n get rose
+ mob remove $n 62205
+ mob remove $n 62211
+ mob remove $n 62216
+ mob remove $n 62224
+ mob remove $n 62232
+ mob junk all
+ mob echoat $n $I leads you on the winding path from the garden.
+ mob echoaround $n $I leads $n on the winding path from the garden.
+ mob gtransfer $n 62200
+ mob goto $n
+ mob echo $I walks away from the manor and disappears into the distance.
+ mob purge $i
+else
+ say Don't tease me, $n, in such a cruel fashion.
+ say You know the way out.  Now go!
+ mob echoat $n You follow the winding path out.
+ mob echoaround $n $n follows the winding path out.
+ mob gtransfer $n 62200
+endif
+~
+#62214
+if isgood $n
+or isneutral $n
+ mob kill $n
+endif
+~
+#62215
+give all $N
+~
+#62216
+mob echo $I {Rt{rw{Ri{rt{Rc{rh{Re{rs{x and {bm{Do{ba{Dn{bs{x upon the {Drack{x.
+~
+#62217
+say I am glad and sorry to hear that, for now I have a companion in the garden, but still no way out.
+~
+#62218
+if objexists 'chandra tormented soul'
+ break
+else
+ mob oload 62211
+ put soul pit
+endif
+~
+#62219
+if objexists 'chandra heart'
+ break
+else
+ mob oload 62205 1
+ mob at 62215 unlock stand
+ mob at 62215 open stand
+ mob at 62215 put heart stand
+ mob at 62215 close stand
+ mob at 62215 lock stand
+endif
+~
+#62220
+if objexists 'chandra ashes'
+ break
+else
+ mob at 62248 open chest
+ mob oload 62224 1
+ mob at 62248 put ashes chest
+ mob at 62248 close chest
+endif
+~
+#0
+
+#OBJPROGS
+#62200
+obj echo $I {Wflares {0with {Dnegative energy{0 burns $n!
+obj damage $n 50 100
+~
+#62201
+obj echo $I says, '{mI will slay those who attempt to oppose $n{0'
+~
+#62202
+obj echo $I begins to move as if alive as the scent of {Rroses{x fills the air.
+~
+#62203
+obj echo $I seems to {Dabsorb{x the {Ylight{x from all around.
+~
+#62204
+~
+#0
+
+#ROOMPROGS
+#0
+
+#$

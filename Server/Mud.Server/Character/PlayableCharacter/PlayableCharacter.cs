@@ -386,6 +386,20 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return displayName.ToString();
     }
 
+    public override bool CanSee(IItem? target)
+    {
+        if (ImmortalMode.IsSet("Holylight"))
+            return true;
+        if (target is IItemQuest questItem)
+        {
+            // See only if on this quest
+            if (questItem.IsQuestObjective(this, false)) // we don't care if the objective is completed or not
+                return true;
+            return false;
+        }
+        return base.CanSee(target);
+    }
+
     public override bool CanSee(ICharacter? victim)
     {
         if (victim == null)
@@ -839,18 +853,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         IncrementStatistics(AvatarStatisticTypes.SilverStolen, stolenSilver);
         IncrementStatistics(AvatarStatisticTypes.GoldStolen, stolenGold);
         return (stolenSilver, stolenGold);
-    }
-
-    public override bool CanSee(IItem? target)
-    {
-        if (target is IItemQuest questItem)
-        {
-            // See only if on this quest
-            if (ImmortalMode.IsSet("Holylight") || questItem.IsQuestObjective(this, false)) // we don't care if the objective is completed or not
-                return true;
-            return false;
-        }
-        return base.CanSee(target);
     }
 
     // Loot

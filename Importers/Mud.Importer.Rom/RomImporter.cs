@@ -1,17 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Mud.Common.Attributes;
-using Mud.Domain;
 using Mud.Blueprints.Area;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
+using Mud.Blueprints.Item.Affects;
+using Mud.Blueprints.MobProgram;
 using Mud.Blueprints.Reset;
 using Mud.Blueprints.Room;
+using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
-using System.Diagnostics;
 using Mud.Importer.Rom.Domain;
-using Mud.Blueprints.Item.Affects;
+using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Mud.Importer.Rom;
@@ -30,6 +31,7 @@ public class RomImporter : IImporter
     public IReadOnlyCollection<RoomBlueprint> Rooms => _roomBlueprints.AsReadOnly();
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
+    public IReadOnlyCollection<MobProgramBlueprint> MobPrograms => [];
 
     public RomImporter(ILogger<RomImporter> logger, IServiceProvider serviceProvider)
     {

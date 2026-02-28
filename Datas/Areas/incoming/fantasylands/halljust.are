@@ -1,0 +1,1439 @@
+#AREADATA
+Name Halls of Justice~
+Builders None~
+VNUMs 40000 40499
+Credits alys~
+Security 9
+End
+
+
+
+#MOBILES
+#40400
+snickerdoodle~
+A solid white cat~
+A beautiful solid white cat is cleaning her fur.
+~
+~
+feline~
+ACD DFJLZ 0 0 0
+1 60 100d100+100000 1d21+30 400d400+1000 claw
+0 0 0 0
+FK BDEFHIKMPQTX BI 0
+sleep sleep female 0
+ACGHMV ABCDEFGHIJKQUV medium fur
+F imm L
+F vul H
+#40420
+ylx~
+a sweet sleeping kitty~
+An adorable little kitten lies curled up on the edge of the ledge.
+~
+~
+feline~
+ACD DFJLZ BCDEHP 0 0
+1 60 100d100+100000 1d21+30 400d400+1000 claw
+0 0 0 0
+FK BDEFHIKMPQTX BI 0
+sleep sleep female 0
+ACGHMV ABCDEFGHIJKQUV medium fur
+F imm L
+F vul H
+#40435
+plant horrible horror~
+a {rhorrible {gplant{x~
+A {rhorrible {gplant {xis here, screaming "{RFEED ME{x"
+~
+It looks at you with its horrible eyestalks, almost as if it is sizing
+you up for dinner.  You see drool dripping out of its mouth...  
+~
+human~
+AB DFV HNO -1000 0
+152 0 1d1+0 1d1+100 100d100+100 slash
+100 100 100 100
+0 BCD 0 0
+stand stand none 0
+AB EMNQ large plant
+F for MV
+F par ABCDFGHIJK
+#40436
+#!lag~
+a {GL{gag {RM{ronster{x~
+A very slow moving {GL{gag {RM{ronster{x is here, messing with your link
+~
+~
+human~
+AB Id 0 -500 0
+1 0 1000d1000+1 100d100+1 1000d1000+1000 none
+0 0 0 0
+0 ABCD 0 0
+stand stand none 0
+D 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+#40437
+herd pack horses~
+a pack of horses~
+A pack of horses is here, each one a different color of the rainbow
+~
+~
+human~
+AB DFV H 0 0
+152 0 100d100+100 100d100+100 100d100+100 none
+0 0 0 0
+0 BCD 0 0
+stand stand none 0
+V EHJQ medium unknown
+F for AM
+F par ABCDFGIK
+#40438
+cattle herd spotted~
+a {Wherd{x of {DSp{Wot{Dte{Wd C{Dat{Wtl{De{x~
+A {Wherd{x of {DSp{Wot{Dte{Wd C{Dat{Wtl{De{x is here, grazing peacefully
+~
+~
+human~
+AB 0 0 0 0
+152 0 100d100+100 0d0+0 100d100+100 none
+0 0 0 0
+0 BCD 0 0
+stand stand none 0
+V ACDEFHJK medium unknown
+F for AM
+F par BGI
+#40439
+cantina boy~
+Wrath's cantina boy~
+A boy is here serving drinks
+~
+~
+human~
+AB DF 0 0 0
+152 0 1d1+1000 1d1+1000 1d1+1000 beating
+0 0 0 0
+0 ABCD 0 0
+stand stand male 0
+0 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+#40440
+horse noname petwrath~
+a horse with no name~
+A horse with no name is standing here
+~
+He's cute...but he doesn't have a name
+~
+human~
+AI DFU CDEHP 0 0
+152 0 1000d1000+100000 100d100+100 1000d1000+1000 bite
+0 0 0 0
+CI A 0 0
+stand stand none 0
+V ACDEF medium unknown
+F for AM
+F par BGHIJK
+#40450
+Dragonling~
+the {GD{gragonling {}~
+The {GD{gragonling {}is ready to help you.
+~
+{YLady Ramoth's{} older {GD{gragonling{} is ready to help you with your {GUltimate
+Battle{} souvenir.  
+~
+dragon~
+AB JT 0 0 0
+1 0 1d1+1 1d1+1 1d1+1 none
+0 0 0 0
+0 ABCDEFGHIJKLMNOPQRSTXYZa BEH FI
+stand stand male 25000
+ACHMVZ ABCDEFGHIJKPQUVX medium flesh
+#40469
+none~
+no desc~
+No desc
+~
+~
+human~
+AD 0 0 0 0
+0 0 1d1+1 1d1+1 1d1+1 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJKQU medium unknown
+#40495
+platypus von toet~
+the {$Platypus{0 of {8Death{0~
+The {$Platypus{0 of {8Death{0 sits curled up in the corner.
+~
+{5Die Platypus von toet!  {7 This is the {0Platypus{7 of Death.  His beautiful
+auburn fur has been combed out by Saphyre, and his toeclaws have been
+sharpened.  His weapons are in a pack on his back.  He lives with the {#Lady
+Ramoth{7, but now spends his days visiting his love.  {0 
+~
+water fowl~
+ABMc DFJVZbc 0 1000 0
+200 10000 500d500+10000 100d100+100 1000d1000+10000 slice
+0 0 0 0
+CDEFIKN ABCDE 0 0
+stand stand male 1
+ACGV ADEFGHJKQU small none
+F aff T
+F res R
+F for W
+F par CP
+M SPEECH 40495 zyyxyx~
+M SPEECH 40497 the box, please.~
+M ACT 40496 point~
+#0
+
+
+
+#OBJECTS
+#40409
+rammie sugar cube 125 <do not alter me>~
+{CSugar Cube{} for a {GCup of Tea{}~
+A cup of tea? From a TEAPOT no doubt!~
+sugar~
+armor HIOYZc AQ
+50 50 50 50 0
+125 1 1 P
+A
+13 400
+A
+12 200
+A
+19 15
+A
+18 15
+#40410
+narthon action figure Ramoth Assistant~
+{RN{rarthon{} {BAction Figure{} (with optional {yfilecase{} and {gPhone Headset{})~
+A small Tiegre action figure is holding a filecase and wearing a Phone headset.~
+glass~
+trash Tc AO
+0 0 0 0 0
+1 1 1 P
+#40411
+rammie bonus teapot shard glass hero do{RNOT{Xpump~
+{wA {GShard{w of {CBroken Teapot{}~
+A shard lies here.~
+cotton~
+weapon HIOZc AN
+exotic 18 50 acbite D
+151 0 0 P
+A
+19 75
+A
+18 75
+A
+12 200
+A
+13 300
+#40412
+platypus egg~
+a {8silver{} {GPlatypus {8Egg{}~
+A {8silver{} {GPlatypus {8Egg{} lies on the ground.~
+glass~
+treasure OTYc A
+0 0 0 0 0
+1 10 100000 P
+#40413
+platypus egg~
+a {8silver{} {GPlatypus {8Egg{}~
+A {8silver{} {GPlatypus {8Egg{} lies on the ground.~
+glass~
+treasure OTYc A
+0 0 0 0 0
+1 10 100000 P
+#40414
+necklace of grace love ramoth surprise~
+{8P{Cl{8a{Ct{8i{Cn{8u{Cm {8N{Ce{8c{Ck{8l{Ca{8c{Ce {wof {YGrace {wand {RLove{}~
+A beautiful {8necklace{} of {RLove{} and {CGrace{} from a {YDragon Queen{}.~
+glass~
+armor HMTUYZc AC
+100 100 100 100 0
+152 1 20000 P
+A
+13 750
+A
+12 750
+A
+18 150
+A
+19 150
+#40415
+rammie bonus teapot shard glass <do{RNOT{}pumpme>~
+{wA {GShard{w of {CBroken Teapot{}~
+A shard lies here.~
+cotton~
+weapon IOUZ AN
+exotic 16 25 none D
+70 0 0 P
+A
+20 -35
+A
+13 300
+#40416
+rammie bonus shirt teapot 20~
+{CBonus Teapot{G Shirt{}~
+A funny looking shirt lies here.~
+cotton~
+armor PUc AD
+15 15 15 15 0
+20 0 0 P
+A
+13 100
+A
+18 20
+A
+19 20
+#40417
+rammie bonus teapot shirt 100~
+{CBonus Teapot {GShirt{}~
+A funny looking shirt lies here.~
+cotton~
+armor PUc AD
+25 25 25 25 0
+100 0 0 P
+A
+13 250
+A
+19 50
+A
+18 50
+#40418
+rammie bonus teapot shirt hero 151~
+{CBonus Teapot {GShirt{}~
+A funny looking shirt lies here.~
+cotton~
+armor PUc AD
+33 33 33 33 0
+151 1 0 P
+A
+13 350
+A
+19 80
+A
+18 80
+#40419
+rammie's bonus teapot patch~
+{CBonus Teapot {GPatch{}~
+A small patch shaped like a teapot rests here.~
+cotton~
+armor PU AV
+10 10 10 10 0
+1 0 0 P
+A
+13 100
+#40420
+prize lady ramoth new rammie~
+a {#NEW-STYLE{0 {^Rammie{0 Prize~
+Return me to {#Lady Ramoth{0 for a reward!~
+glass~
+warp_stone Td AOP
+0 0 0 0 0
+1 10 0 P
+#40421
+rammie sugar cube <do not alter me>~
+{CSugar Cube{} for a {GCup of Tea{}~
+A cup of tea? From a TEAPOT no doubt!~
+sugar~
+armor HIOYZc AQ
+20 20 20 20 0
+70 1 1 P
+A
+18 7
+A
+19 7
+A
+12 100
+A
+13 300
+#40422
+king size canopy bed~
+a canopy bed~
+A huge oak canopy bed sits against the southern wall.~
+unknown~
+furniture M 0
+2 9999 EHK 100 100
+1 0 0 P
+#40423
+table bedside~
+a bedside table~
+A bedside table made of oak has a silver picture frame on top.~
+wood~
+furniture M 0
+0 0 N 0 0
+1 0 0 P
+#40424
+couch comfortable~
+a comfortable couch~
+A comfortable long couch sits along two walls.~
+diamond~
+furniture AB 0
+25 50000 BCEFHIKL 0 0
+0 0 0 P
+#40425
+fridge refrigerator~
+a fridge~
+A large fridge hums quietly.~
+oldstyle~
+container BM 0
+500 AC 0 1000 100
+1 0 0 P
+#40426
+Pool Table~
+a {gpool table{}~
+A {gPool Table{} is in the center of the room.~
+felt~
+furniture MO 0
+10 50000 BEK 100 100
+1 100 100 P
+#40427
+fridge refrigerator~
+a fridge~
+A small fridge sits in the corner.~
+oldstyle~
+container BM 0
+500 AC 0 1000 100
+1 0 0 P
+#40428
+a twin-sized bed of feathers~
+a twin-sized bed of feathers~
+A comfortable twin-sized, feather stuffed bed.~
+feathers~
+furniture 0 0
+3 1500 EHK 125 125
+1 750 45000 P
+#40429
+peach schnapps~
+a bottle of Peach Schnapps.~
+A bottle of Peach Schnapps sits here.~
+beer~
+drink 0 AO
+5 5 'schnapps' 0 0
+5 5 0 P
+#40430
+skin Xanthurokus~
+the tanned skin of a Xanthurokus~
+The tanned skin of the Xanthurokus lies in the middle of the floor.~
+skin~
+furniture 0 A
+10 1000000 EHKN 0 0
+1 1 1 P
+#40431
+marble desk~
+Marble Desk~
+A dragonsized carved Marble desk sits in the room.~
+marble~
+container M 0
+15000 AC 0 1000 0
+0 1 1 P
+#40432
+leather chair desk~
+a large desk chair~
+A Leather chair sits behind the desk.~
+leather~
+furniture M 0
+1 500000 EH 0 0
+153 0 0 P
+#40433
+arm chair waiting~
+a leather arm chair~
+Two chairs sit in front of the desk, for visitors of Ramoth.~
+leather~
+furniture M 0
+2 500000 EH 0 0
+1 0 0 P
+#40435
+water trough~
+a water trough~
+A {ywooden{x trough is here, filled with {Ccrystal{x clear {Bwater{x~
+wood~
+furniture O 0
+20 2147483647 BFH 200 200
+0 0 0 P
+#40436
+peanut bag~
+{Ra {wb{Ra{wg {Ro{wf {ypeanuts{}~
+A {Rbag{} of {ypeanuts{} lies here.~
+flesh~
+food 0 A
+1 1 0 0 0
+1 1 10 P
+#40437
+coke~
+a {Rcan{} of {yCoca-a-Cola{}~
+A {Rcan{} of {yCoca-a-Cola{} lies here.~
+flesh~
+drink 0 A
+3 3 'cola' 0 0
+1 2 15 P
+#40438
+german beer~
+a bottle of {gGerman Beer{}~
+A bottle of {gGerman Beer{} has been discarded.~
+flesh~
+drink 0 A
+3 3 'cola' 0 0
+1 2 25 P
+#40439
+foam finger~
+{GUltimate Battle {RFoam Finger{}~
+An {GUltimate Battle {RFoam Finger{} is lying here.~
+flesh~
+armor 0 AB
+0 0 0 0 0
+1 1 30 P
+#40440
+fan shirt ultimate battle~
+{GUltimate Battle's {YUltimate Fan{} Shirt~
+A shirt lies here in the dirt.~
+hoodie~
+armor AB AD
+12 11 11 11 0
+1 1 50 P
+A
+13 200
+A
+18 60
+A
+19 60
+A
+20 -30
+#40450
+none~
+no description~
+No description~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 2 0 P
+#40451
+strip poker face~
+a {!Strip Poker{x {#Face{x~
+A {!Strip Poker{x {#Face{x is lying on the ground winking at you.~
+oak~
+armor GI AR
+40 40 35 35 0
+2 0 1000 P
+A
+13 200
+A
+18 75
+A
+20 -14
+A
+4 3
+A
+19 60
+#40452
+poker table~
+a wooden poker table~
+A {3wooden{x poker table is here waiting for someone to do a little dance on it.~
+wood~
+furniture 0 0
+1000 120000 BDG 100 100
+0 10 0 P
+#40469
+none~
+no desc~
+No desc~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#40470
+none~
+no desc~
+No desc~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#40471
+none~
+no desc~
+No desc~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#40472
+none~
+no desc~
+No desc~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#40473
+none~
+no desc~
+No desc~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#40491
+canopy bed~
+a huge canopy bed with {&white{7 satin drapped across the top{x~
+A huge canopy bed with {&white{7 satin drapped across the top is here.{x~
+unknown~
+furniture MR P
+4 9999 BEHK 0 0
+0 0 0 P
+#40492
+couch white~
+a {&White {7couch{x ~
+A Large {&White {7couch{x sits here.~
+velvet~
+furniture Y 0
+10 20000000 BEHKO 1000 1000
+152 2 200 P
+#40493
+jacuzzi~
+a {!J{1acuzzi{0~
+A huge {RJ{racuzzi{x sits here ready to warm your soul.~
+unknown~
+furniture 0 0
+100 1000000 CFIL 1000 1000
+0 0 0 P
+#40494
+hole portable~
+a portable hole~
+A Portable Hole is here.~
+unknown~
+container AHIY AU
+100000 0 0 100000 100
+0 0 0 P
+A
+5 5
+A
+4 5
+A
+3 5
+A
+2 5
+A
+1 5
+A
+0 0
+F
+A 0 0 CDEFGLU
+A
+18 150
+A
+19 150
+A
+20 -50
+A
+17 -100
+#40495
+patch worshiper~
+an official "{GG{god{x {RW{rorshiper{x" patch~
+An official "{GG{god{x {RW{rorshiper{x" patch sits here.~
+crystal~
+armor ABMYZef AV
+44 44 44 40 0
+151 50 7900 P
+A
+13 150
+A
+18 55
+A
+13 150
+A
+19 55
+A
+20 -20
+#40496
+fountain milk~
+a fountain of Milk~
+A fountain is here, spouting fresh milk.~
+marble~
+fountain G 0
+-1 -1 'milk' 0 0
+0 0 0 P
+#40497
+key immortal~
+a immortal key~
+A key belonging to some immortal lies here.~
+oldstyle~
+armor F A
+0 0 0 0 0
+1 0 0 P
+#40498
+desk oak~
+an oak desk~
+A Large Oak Desk is Here.~
+oldstyle~
+container AB 0
+1000 ABCD 40497 100 100
+159 0 0 P
+#40499
+chair leather~
+a Leather Chair~
+A Soft Leather Chair is here.~
+leather~
+furniture AB 0
+2 1000000 BCEFHIKL 1000 1000
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#40400
+None~
+~
+0 4 0
+S
+#40401
+None~
+~
+0 4 0
+S
+#40402
+None~
+~
+0 4 0
+S
+#40420
+{YGate Room{}~
+This is a small ledge, leading out to the {BLands of Redemption{}.  A solid
+rock staircase leads down to the Weyr.  
+~
+0 8 0
+D4
+~
+hidden~
+1 0 40435
+D5
+~
+~
+0 0 40421
+S
+#40421
+{yLiving Room{}~
+This is the largest cavern in the weyr.  Carved straight into the side of
+a mountain, there is a large window, and a door to the west.  To the south
+lies the Master Bedroom, you can see a bit of color through the cracked
+doorway.  The northern wall holds a doorway, propped open.  The smell of
+fresh stew wafts in.  A huge archway frames the hallway to the east.  There
+is a large oval rug on the floor.  Hovering at the ceiling are balls of
+lights.  The tiny glass balls look as if they have powerful fireflies living
+in them, and they emit a steady glow brightening up the cavern.  
+~
+0 8 0
+D0
+~
+~
+0 0 40422
+D1
+~
+~
+0 0 40426
+D2
+~
+~
+0 0 40424
+D3
+~
+~
+0 0 40423
+D4
+~
+~
+0 0 40420
+S
+#40422
+{8K{wi{8t{wc{8h{we{8n{}~
+The floor is hand-polished marble squares brought in from Italy.  A
+fireplace sits in the corner, with a large pot of stew boiling on it.  Racks
+of supplies sit on shelves to the south, with bags of fresh vegetables
+hanging from the ceiling.  A table runs along oe wall, with room for Ramoth
+and a varying number of guests (depending on their size).  
+~
+0 9224 0
+D2
+~
+~
+0 0 40421
+S
+#40423
+Balcony~
+A wide ledge jutts out, making a nice party area.  A magical barrier
+prevents people from falling over the side, and the stone above covers the
+area to keep rain out.  A grill pit is clean and ready for the next Wherry
+Bar-B-Que.  Up leads to the Redemption Party Room!  
+~
+0 9224 0
+D0
+~
+~
+0 0 40432
+D1
+~
+~
+0 0 40421
+D4
+~
+~
+0 0 40433
+S
+#40424
+{YMaster Bedroom{}~
+A warm and inviting room, the Master Bedroom is decorated with items Lady
+Ramoth has picked up in her travels.  Deep Forest Colored quilts hang on the
+walls, and a small fire roars quietly in the stone fireplace.  A braided rug
+lies under the bed, to keep her claws from touching the cold stone floor
+during the winter.  A huge canopy bed sits against a wall, with sheer
+curtians hanging down.  Paintings hang in the empty spaces, and a small
+table sits beside her bed, holding a silver framed picture.  
+~
+0 9736 0
+E
+paintings~
+Five paintings labeled "Falconsbane", "Assassins", "Hand of Fate",
+"Home", and "Family" hang for you to look at.  
+~
+E
+picture~
+A small silver frame holds a picture of a Cowboy, leaning against a tree.
+He has his hat tilted back, and his eyes are searching the fields.  The tree
+has a carving of a "W" and an "R" with a + between them inside a heart.  
+~
+E
+home~
+A simple painting, Lady Ramoth as a younger dragon and Lessa her rider
+are playing in a cove.  If you look closely you can almost see the water
+splashing and hear the bugles from Ramoth and the fire lizards.  
+~
+E
+assassins~
+A crowded painting, but one well done, every Assassin ever with Lady
+Ramoth is pictured.  Tybin and Lucafer stand out in the front, and towards
+the back there is a large Shadow dragon wearing the Dark Knight Emblem. 
+Juwann stands next to Tanis while Cecil and Qolat show off their collection
+of scalps.  Many, many more crowd the picture, even some who came after the
+Lady of Grace, like Rastigi.  Hovering above them all is Lady Ramoth, her
+wings spread out as if she was in flight, her eyes looking down on them
+lovingly, and hanging onto her tail the one known as Ifryn.  
+~
+E
+hand~
+Lady Ramoth stands between Ironhawke and Dargoth, the two strongest
+leaders of Hand of Fate.  
+~
+E
+falconsbane~
+The Lady Ramoth is curled on the ground with her tail around her body.  A
+tiegre sits on her back, with rows and rows of quest weapons lying before
+them.  Huge grins mark their faces and a pile of clan patches lie to the
+side.  
+~
+E
+family~
+A tall gold dragon stands on all fours, with a much smaller brown dragon
+beside her.  Each has a look of dedication on their faces.  The brown looks
+off into the distance and the gold looks upon her son with a slight hint of
+a smile.  
+~
+D0
+~
+~
+0 0 40421
+D3
+~
+~
+0 0 40425
+S
+#40425
+Private Balcony{}~
+A smaller, private balcony, this is angled away from the Weyr, so no one
+can see.  Below is a beautiful view of Redemption.  Colors and textures blend
+together in Lady Ramoth's adopted home.  This is where she comes for
+privacy.  
+~
+0 9736 0
+D1
+~
+~
+0 0 40424
+S
+#40426
+Hallway~
+A long dark hallway leads to the back of Ramoth's home.  A doorway sits
+to the north.  One also sits to the south.  
+~
+0 8200 0
+D0
+~
+~
+0 0 40430
+D1
+~
+~
+0 0 40427
+D2
+~
+~
+0 0 40431
+D3
+~
+~
+0 0 40421
+S
+#40427
+Hallway~
+A long dark hallway leads to the back of Ramoth's home.  A doorway sits
+to the north.  One also sits to the south.  
+~
+0 8200 0
+D0
+~
+~
+0 0 40428
+D2
+~
+~
+0 0 40429
+D3
+~
+~
+0 0 40426
+S
+#40428
+Study~
+WOW!  How many books does one Dragon need?  Three of the four stone walls
+are carved into bookshelves, and every single spare shelf is filled with
+leatherbound books of every shape and size.  This is where Ramoth comes to
+work.  It looks like a normal office, except it's Dragon-sized.  
+~
+0 8200 0
+D2
+~
+~
+0 0 40427
+S
+#40429
+Meeting Room~
+This room is empty, save for the skin of "A Very Large Xanthurokus" on
+the floor.  The walls are left stone, and the room has a ancient feel to it.
+Small puddles of wax on the walls and floors are the only signs of the
+mysterious rituals that must take place here.  
+~
+0 533000 0
+D0
+~
+~
+0 0 40427
+S
+#40430
+Guest Bedroom~
+This is a small, but comfortable room, set up for guests of the family.  
+~
+0 8716 0
+D2
+~
+~
+0 0 40426
+S
+#40431
+Storage Room~
+Shelf upon shelf hang from the walls.  Jars, cans, boxes, and bags are
+all neatly labeled and organized.  Three large chests are on the floor,
+tightly locked.  Fresh herbs are hanging upside down from the ceiling to
+dry.  A small freezer is in the corner, holding Ramoth's favorite ice cream
+flavor and meat from past hunts.  
+~
+0 8204 0
+D0
+~
+~
+0 0 40426
+S
+#40432
+{gT{Gr{ge{Ge{gH{Go{gu{Gs{ge{}~
+Welcome to the TreeHouse.  It's a secret clubhouse for Ramoth's friends. 
+There is a tiny mirror, just right for a Pixie to admire herself in.  A
+small chest sits under the mirror and holds an array of very fashionable,
+yet very tiny, clothes.  A {yrope{} swing hangs from the ceiling in the
+corner.  A bookshelf holds some books, and a small CD Player sits on top.  A
+small futon with a {rvelvet pillow{} has a lamp beside it, and a
+{rq{Ru{ri{Rl{rt{} on it.  I wonder who sleeps here?  
+~
+0 12 0
+D2
+~
+~
+0 0 40423
+S
+#40433
+{WParty Room{}~
+This room has all the makings of a great night.  A dartboard hangs on the
+wall with a bunch of darts stuck in it.  A cabinet holds pool cues and
+balls.  A tiny fridge in the corner is full of good beer.  
+~
+0 9228 0
+D4
+~
+~
+0 0 3014
+D5
+~
+~
+0 0 40423
+S
+#40434
+{8Cast Iron Pot{}~
+It's a little warm in here.  You are floating in a pot of water and can't
+seem to get out.  
+~
+0 8204 0
+S
+#40435
+{gWrath's Little Ranch in the Sky{x~
+You are in what appears to be a serene country ranch.  Horses, cattle,
+and a few more exotic mobs are grazing peacefully.  There are a few shade
+trees and a water trough, and the whole area is surrounded by a wooden
+fence.  A tranquil feeling feels the ranch.  There is a wheatfield to the
+east, and a house to the west.  To the south is a pool, and to the north
+there is a malevolent looking shack.  
+~
+0 0 2
+E
+carving~
+There is a heart carved on a tree, containing only the letters 'W' and
+'R' with a '+' between them.  No doubt some cowboy's claim of love for his
+woman.  
+~
+E
+trees~
+The trees are tall and proud.  One of them has something carved on it.  
+~
+D0
+~
+shack~
+4 18200 40436
+D1
+~
+~
+0 0 40438
+D2
+~
+~
+0 0 40439
+D3
+~
+gate~
+3 0 40437
+D5
+~
+hidden~
+1 0 40420
+S
+#40436
+{rWrath's Little Shop of Horrors{x~
+This appears to be a madman's room - there is a bloody torturer's rack
+near the back wall, and the walls are lined with many instruments of torture
+and pain.  Maybe the worst thing is the horrible plant sitting in the corner
+screaming at you.  What IS it?  
+~
+0 12300 0
+E
+torture~
+Whoa...  No telling what these things are.  But one thing's for sure,
+they're all {rbloody{x...  
+~
+D2
+~
+shack~
+4 18200 40435
+S
+#40437
+{YFront Porch{x~
+This place is very welcoming.  The porch overlooks the peaceful ranch to
+the east.  There are several chairs and a swing, as well as several ashtrays
+and a few half-full packs of various kinds of cigarettes.  A door goes into
+the house to the west, and next to the door is a refrigerator.   
+~
+0 524296 0
+E
+ashtrays~
+The astrays are old and well used, but seem to be cleaned on a regular
+basis.  
+~
+E
+cigarettes~
+There are packs of cigarettes laying all over the place.  You see
+familiar names such as Camel and Lucky Strike, and a few not so familiar,
+such as a pack of Sampoerna Extras.  
+~
+D1
+~
+~
+3 0 40435
+D3
+~
+~
+1 0 40440
+S
+#40438
+{yWheatfield{x~
+The stalks of wheat seem to dance in the wind, bringing memories of all
+the old legends.  Something almost seems to be dancing around between them. 
+To the west is a field full of animals.  
+~
+0 0 2
+E
+fairy~
+You almost see something - you're reminded of the most beautiful and
+innocent woman you have ever seen.  You hear playful laughter 
+~
+D3
+~
+~
+0 0 40435
+S
+#40439
+{BS{bw{Ci{cm{Bm{bi{Cn{cg {BP{bo{Co{cl{x and {RC{ra{Mn{mt{Ri{rn{Ma{x~
+There is a big {Bpool{x here, with plenty of lounge chairs to sun
+yourself in on the outside.  A waiter runs around making sure everyone has
+drinks.  
+~
+0 0 0
+E
+chairs~
+They're full of all kinds of happy people sunning themselves.  
+
+~
+E
+pool~
+The pool is {CCrystal{x clear, people are swimming happily and lounging
+on floaty chairs.  
+~
+D0
+~
+~
+0 0 40435
+S
+#40440
+{yWrath's Humble Abode{x~
+This is Wrath's home - there's not a whole lot here.  Pictures line the
+walls, and you see plaques reading "Tempered Knights", "Chaos", and "Hand of
+Fate".  In the middle of the room is a bed, and in the corner is a couch. 
+The floor is covered with {Bbaby blue{x shag carpet.  In the back corner is
+a large desk.  
+~
+0 524800 0
+E
+carpet~
+{BBaby blue{x shag carpet, fuzzy underfoot.
+~
+E
+plaque~
+All the plaques are lovingly polished and well taken care of.  
+~
+E
+pictures~
+All the pictures are hung methodically, in no apparent order.  First is a
+picture of a ferocious feline warrior - the label at the bottom reads
+"Tanda".  Second is a picture of a beautiful golden dragon - this label
+reads "Ramoth".  Next is a picture of a elderly but still tough-looking
+half-orc - the label reads "Amaranth".  Next is a picture of a mysterious
+looking Tiger-like individual - the label reads "Falconsbane".  Lastly there
+is a picture of an attractive human woman: this picture appears to have been
+handled more than the others, you can barely make out the label "Lessa" on
+the bottom of it.  
+~
+D1
+~
+~
+1 0 40437
+S
+#40450
+Unoccupied~
+~
+0 4 0
+S
+#40451
+Unoccupied~
+~
+0 4 0
+S
+#40469
+None~
+~
+0 4 0
+S
+#40470
+None~
+~
+0 4 0
+S
+#40471
+None~
+~
+0 4 0
+S
+#40472
+{&A{7ngels {$R{4oom{x~
+This is {&Angels{7 bedroom, it is painted light pink.  White drapes hang
+from the windows.  Her toys are put up neatly in her toy chest in the
+corner.  Beautiful fur carpet covers her bedroom.  Her bed sits in the
+center of the room.  
+~
+0 12 0
+S
+#40473
+None~
+~
+0 4 0
+S
+#40494
+unused bedroom~
+~
+0 8 0
+D1
+~
+~
+0 0 40495
+S
+#40495
+unused immortal room~
+~
+0 8 0
+E
+picture~
+You see several Pictures on the wall.  One is a Picture of Alys and Lyna
+Skiing.  Another shows a picture of Lyna in the Famed city of Olympus. 
+Another shows Alys standing over the Corpse of a Xanthurokus.  
+~
+D1
+~
+~
+0 0 40499
+D3
+~
+~
+0 0 40494
+S
+#40496
+{GAp{gpl{Geo{gni{Ga's{x {YJ{yacuzzi{x {DR{woom{x~
+~
+0 8 0
+D3
+~
+~
+0 0 40498
+S
+#40497
+{GAp{gpl{Geo{gni{Ga's{x {YC{yloset{x~
+You are standing in Appleonia's Bedroom Closet.  There are piles of shoes
+and dresses hung on racks.  Up above you see boxes of all shapes and sizes. 
+~
+0 3080 0
+D0
+~
+~
+0 0 40498
+S
+#40498
+{GAp{gpl{Geo{gni{Ga's{x {YB{yedroom{x~
+You are standing in Appleonia's bedroom.  There is soft {Mvelvet{x curtans on
+the walls and a huge King Size waterbed.  Somewhere in the backround soft
+music is playing.  
+~
+0 1544 0
+D1
+~
+~
+0 0 40496
+D2
+~
+~
+0 0 40497
+D5
+~
+~
+0 0 40499
+S
+#40499
+{GAp{gpl{Geo{gni{Ga's{x {YS{yitting{x {DR{woom{x~
+You are standing in Appleonia's Sitting room.  All around you are soft
+velvet carpets, and velvet plush pillows.  There is a Large Desk in the
+corner with various papers strewn about it's surface.  
+~
+0 271372 0
+D3
+~
+~
+4 0 40495
+D4
+You see Alys' Private bedroom....  You BETTER not go in there!  
+~
+~
+0 0 40498
+D5
+~
+~
+4 40497 3025
+M 1000 H 1000
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 40420 4 1
+D 0 40435 0 2
+D 0 40435 3 1
+D 0 40435 5 1
+D 0 40436 2 2
+D 0 40437 1 1
+D 0 40437 3 1
+D 0 40440 1 1
+D 0 40499 3 2
+D 0 40499 5 2
+M 0 40495 1 40420 1
+O 0 40424 0 40421
+M 0 40400 1 40421 1
+O 0 40425 0 40422
+O 0 40422 0 40424
+O 0 40423 0 40424
+O 0 40431 0 40428
+O 0 40432 0 40428
+O 0 40433 0 40428
+O 0 40430 0 40429
+M 0 40450 1 40429 1
+G 0 40439 0
+G 0 40440 0
+G 0 40436 0
+G 0 40437 0
+G 0 40438 0
+O 0 40428 0 40430
+O 0 40426 0 40433
+O 0 40427 0 40433
+P 0 40429 1 40427 1
+P 0 40429 1 40427 1
+M 0 40436 1 40435 1
+M 0 40437 1 40435 1
+M 0 40438 1 40435 1
+O 0 40435 0 40435
+O 0 15737 0 40436
+M 0 40435 1 40436 1
+M 0 40440 1 40437 1
+O 0 13122 0 40437
+O 0 13124 0 40437
+O 0 16103 0 40437
+M 0 40439 1 40439 1
+G 0 13061 0
+G 0 27511 0
+G 0 30006 0
+O 0 40473 0 40440
+O 0 40492 0 40440
+O 0 40498 0 40440
+O 0 40491 0 40494
+O 0 40496 0 40495
+O 0 40492 0 40495
+O 0 40493 0 40496
+O 0 40496 0 40496
+O 0 40473 0 40498
+O 0 40498 0 40499
+P 0 40497 1 40498 1
+O 0 40499 0 40499
+O 0 40496 0 40499
+S
+
+
+
+#SHOPS
+40437 32 0 0 0 32 100 0 0 23
+40439 0 0 0 0 0 100 0 0 23
+40450 0 0 0 0 0 100 100 0 23
+0
+
+
+
+#MOBPROGS
+#40495
+if objhere 27507
+ if has $i 'warpstone'
+  enter portal
+  if mobs > 1
+   mob remember $r
+   if ispc $q
+   or carries $q 'shard1'
+   or carries $q 'shard2'
+   or carries $q 'shard4'
+   or carries $q 'quest'
+   or carries $q 'prize'
+    mob forget
+    break
+   else
+    give prize $q
+    mob forget
+    purge portal
+    mob go 40420
+    mob echo $I waddles in from $l journeys.
+   endif
+  else
+   mob forget
+   break
+  endif
+ else
+  mob oload 40420
+  mob call 40495 null null null
+  break
+ endif
+else
+ mob oload 27507 1 room
+ mob call 40495 null null null
+ break
+endif 
+~
+#40496
+if isimmort $n
+ if isimmort $t
+  tickle $t
+ else
+  if ispc $t
+   nod $n
+   mob echoat $t $I pulls $l swords and severs your head from your body with a quick slash.
+   mob echoaround $t $I pulls $l swords and severs $t's head from $S body with a quck slash.
+   mob damage $t 10000000 10000000 lethal
+   get all
+   mob oload 27559 1
+   put all box
+  else
+   sayno $n
+  endif
+ endif
+else
+ break
+endif
+~
+#40497
+if isimmort $n
+ say Certainly, $n.
+ give box $n
+else
+ mob kill $n
+endif
+~
+#0
+
+#OBJPROGS
+#0
+
+#ROOMPROGS
+#0
+
+#$
