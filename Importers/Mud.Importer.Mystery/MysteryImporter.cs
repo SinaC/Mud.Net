@@ -4,13 +4,14 @@ using Mud.Blueprints.Area;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Item.Affects;
+using Mud.Blueprints.MobProgram;
 using Mud.Blueprints.Reset;
 using Mud.Blueprints.Room;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Importer.Mystery.Domain;
 using Mud.Flags;
 using Mud.Flags.Interfaces;
+using Mud.Importer.Mystery.Domain;
 using System.Diagnostics;
 
 namespace Mud.Importer.Mystery;
@@ -27,6 +28,7 @@ public class MysteryImporter(ILogger<MysteryImporter> logger, IServiceProvider s
     public IReadOnlyCollection<RoomBlueprint> Rooms => _roomBlueprints.AsReadOnly();
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
+    public IReadOnlyCollection<MobProgramBlueprint> MobPrograms => [];
 
     public void ImportByList(string path, string areaLst)
     {

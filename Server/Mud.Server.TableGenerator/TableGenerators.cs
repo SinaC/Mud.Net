@@ -302,7 +302,7 @@ public static class TableGenerators
         generator.AddColumn("Prio", 5, x => ConvertPriority(x.Priority));
         generator.AddColumn("SHFN", 6, x => ConvertSHFN(x));
         //generator.AddColumn("Method", 50, x => GetMethodName(x));
-        generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName ?? "???");
+        generator.AddColumn("Method", 50, x => ConvertExecutionType(x.CommandExecutionType));
         return generator;
     });
 
@@ -330,6 +330,15 @@ public static class TableGenerators
         sb.Append(ConvertBool(actionInfo.AddCommandInParameters));
         sb.Append(ConvertBool(!string.IsNullOrWhiteSpace(actionInfo.Help)));
         return sb.ToString();
+    }
+
+    private static string ConvertExecutionType(Type executionType)
+    {
+        var fullName = executionType.FullName;
+        if (fullName is null)
+            return executionType.Name;
+        var parts = fullName.Split('.');
+        return string.Join(".", parts.Skip(Math.Max(0, parts.Length - 3)));
     }
 
     //private static string GetMethodName(IGameActionInfo gameActionInfo)

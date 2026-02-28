@@ -1,0 +1,5276 @@
+#AREADATA
+Name Wonderland~
+Builders None~
+VNUMs 75100 75299
+Credits [115 135] Jackfros Wonderland~
+Security 9
+End
+
+
+
+#MOBILES
+#75100
+rabbit white~
+{0the {&White {0Rabbit~
+{7A large {&white {7rabbit in an overcoat is here glancing at a {3po{#ck{3et{#wa{3tch{7.{0
+~
+{0The rabbit is nervously eyeing a large {8hole {0in the ground.  He looks as
+if he's running late for something.  
+~
+silver-dragon~
+ABG DFLTZ 0 1000 0
+1 1 1000d1+1 0d0+0 1d1+1 chomp
+-100 -100 -100 -100
+CFGIKN ABCDIPQ BCQ H
+stand stand male 0
+ACHZ ABCDEFGHIJKPQUVWX medium flesh
+F aff J
+M DELAY 75102 100~
+M GRALL 75101 100~
+#75101
+Jack Kerouac~
+{8J{&a{8ck {8K{&e{8rou{&a{8c{0~
+{8J{&a{8ck {8K{&e{8rou{&a{8c{0 sits in the {8corner {0reading.
+~
+{0A worn copy of {&On the Road {0is sitting at his feet.  A picture of {&Alan
+Ginsburg {0reading poetry in the Village is stapled to the wall above.  
+ 
+~
+elf~
+ABGTV DJZ 0 1000 0
+1 100 100000d1+5 1000d100+1 5d12+10 slash
+10 10 10 10
+0 ACD B Z
+stand stand male 10000
+ACHIMV ABCDEFGHIJK medium flesh
+#75102
+smile large~
+{7a {4l{$a{4rge smi{$l{4e{0~
+{7A {4l{$a{4rge smi{$l{4e{0 {7fl{4oa{7ts{4 gr{7in{4ni{7ng {4in {7th{4e a{7ir{0.
+~
+The smile floats in mid-air grinning at the hilarity of itself and the world.
+~
+feline~
+ABGQ DFJLZ 0 1000 0
+1 40 1000d4+10 1000d4+10 4d10+5 bite
+10 10 10 10
+FK ACDL BI H
+stand stand none 0
+ACGHMV ABCDEFGHIJKQUV medium flesh
+M DELAY 75104 100~
+M GRALL 75103 100~
+#75104
+footman fish~
+{7a {5f{%o{5o{8t{5m{%a{5n{0~
+{7A rather ugly {5f{%o{5o{8t{5m{%a{5n {7sits on the doorstep.{0
+~
+A footman in livery sits on the stoop.  He has a large round face and
+eyes like a fish.  
+~
+feline~
+ABGP DFJLZ 0 1000 0
+50 50 1000d5+10 1000d5+10 25d5+7 bite
+0 0 0 0
+FK ACDL BI H
+stand stand male 0
+ACGHMV ABCDEFGHIJKQUV medium flesh
+M GRALL 75105 100~
+M SPEECH 75120 knock knock knock~
+M SPEECH 75106 open sesame~
+#75105
+velvet hat~
+{0a {5v{%e{5l{%v{5e{%t {0lined {1h{!a{1t{0~
+{0a {5v{%e{5l{%v{5e{%t {0lined {1h{!a{1t{0 sits on the floor.
+~
+The hat sits on the floor looking a touch dreary.  It's velvet lining has
+faded with age and its brim has been crushed upwards.  It's all together
+depressing.  
+~
+feline~
+ABGP DFJLVZ C 400 0
+170 300 17000d1+125 125d1+15 45d235+325 wrath
+-100 -100 -100 -100
+FK AL BI H
+stand stand male 300
+ACGHMV ABCDEFGHIJKQUV medium none
+#75106
+hat felt~
+{7a {3f{#e{3l{#t {7lined {1h{!a{1t{0~
+{7a {3f{#e{3l{#t {7lined {1h{!a{1t{0 hangs on a rack.
+~
+This hat looks a little angry at the endless procession of being worn and
+hung on racks.  It looks ready to snap.  
+~
+feline~
+ABGQ DFJLZ H 400 0
+172 225 18000d1+125 6000d1+35 32d170+325 wrath
+-70 -70 -70 -70
+FK AL BI H
+stand stand female 10000
+ACGHMV ABCDEFGHIJKQUV medium none
+#75107
+hat wool~
+{7a {&wo{7o{&l {7lined {1h{!a{1t{0~
+{7a {&wo{7o{&l {7lined {1h{!a{1t{0 sits in the corner.
+~
+A hat of wool rests quietly in the corner.  It looks like it would be
+quite warm.  
+~
+feline~
+ABG DFJLVZ 0 400 0
+175 250 19000d1+125 275d1+35 36d174+350 wrath
+-100 -100 -100 -100
+CFK AL BI I
+stand stand male 500
+ACGHMV ABCDEFGHIJKQUV medium none
+F vul H
+#75108
+leather hat~
+{7a {4l{$e{4a{$t{4h{$e{4r {7lined {1h{!a{1t{0~
+{7a {4l{$e{4a{$t{4h{$e{4r {7lined {1h{!a{1t{7 rests on the ground.{0
+~
+A hat lined in leather sits idly waiting for someone to pick it up.  It's
+smooth faded blue surface shines with an opulant glow.  
+~
+feline~
+ABGQ DFJLVZ H 400 0
+178 260 20000d1+125 2000d1+125 40d175+365 wrath
+-110 -110 -110 -110
+FK AL BI I
+stand stand female 50000
+ACGHMV ABCDEFGHIJKQUV medium none
+F vul H
+#75109
+barbed hat~
+{7a {1b{!a{1r{!b{1ed-w{!i{1r{!e {7lined {1h{!a{1t{0~
+{wA {rb{Ra{rr{Rb{red-w{Ri{rr{Re {wlined {rh{Ra{rt{w sits here.{x
+~
+This hat is curled up in spines of steel.  Its armor glistens as it rests
+gently on the ground.  Do you realize that everyone you know someday will
+die?  
+~
+feline~
+ABGP DFJLZ 0 1000 0
+180 200 25000d1+65 300d1+60 15d200+850 wrath
+-100 -100 -100 -52
+FK ABHL BI H
+stand stand male 1000
+ACGHMV ABCDEFGHIJKQUV medium none
+#75110
+duchess~
+the {4Du{$che{4ss{0~
+{7The {4Du{$che{4ss {7sits on a {6s{^t{6ool {7nursing a very {5pink{7, crying baby.{0
+~
+{^The Duchess is hideous by all accounts.  Her giant sour face is unkind and
+{2l{@oa{2t{@hs{2o{@me{^.  Her squinting {4e{$y{4e{$s {^survey the room looking for a {!vi{1ctim {^to
+berate.  {0 
+~
+feline~
+ABGa DFJLVZa CDEH -1000 0
+155 1000 100000d25+100 10000d5+50 30d200+1000 slap
+-100 -100 -100 -100
+FK CDL BI H
+stand stand female 0
+ACGHMV ABCDEFGHIJKQUV medium flesh
+M RANDOM 75113 25~
+M RANDOM 75126 30~
+#75111
+frog bullfrog~
+{7a {2b{@ul{2lf{@ro{2g{0~
+{7a large {2b{@ul{2lf{@ro{2g{7 sits idley, ribbeting and catching flies.{0
+~
+The frog ribbets loudly, apparently for its own pleasure. Its long tongue flicks out every few seconds.
+~
+feline~
+AGT DFJLVZ O 400 0
+175 250 19000d1+125 275d1+45 36d174+350 wrath
+-100 -100 -100 -85
+FK AL BI H
+stand stand female 10000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+#75112
+mongoose~
+{&a {&mo{7ng{&oo{7se{0~
+{WA mo{wng{Woo{wse{x {wskurries by headed anywhere that you are not.{x
+~
+The mongoose is spotted with tiny circular scars.  Each set of punctures
+tells a story of desperate courageous battle.  
+~
+feline~
+AG DFJLVZ O 400 0
+176 350 18000d1+125 275d1+45 50d245+350 bite
+-100 -100 -100 -85
+FHK AL BI H
+stand stand none 500
+ACGHMV ABCDEFGHIJKQUV medium unknown
+#75113
+opossum~
+{7an {4o{$p{&oss{$u{4m{0~
+{7A {4o{$p{&oss{$u{4m {7blinks at you and bears its sharp teeth.{0
+~
+The opossum is a true creature of the night.  He bathes in the darkness
+where his eyes are sharp.  
+~
+feline~
+ABFG DFJLVZa H 400 0
+178 250 19500d1+125 275d1+45 36d174+350 bite
+-100 -100 -100 -85
+FK AL BI H
+stand stand none 10000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+#75114
+peculiar path~
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0
+~
+{^The Path is fed up of being walked on and treaded over like so much dirt.
+Its leaves stand up in wavy tufts of anger and its bright {@green {^moss pulses
+with a frustrated gleam.  {0 
+~
+feline~
+ABFG DFJLVZ C 400 0
+175 250 19500d1+125 6000d1+45 36d174+350 slime
+-100 -100 -100 -85
+FK AL BI H
+stand stand none 5000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+#75115
+moth~
+{7a large {8s{&p{8o{&t{8t{&e{8d {7moth{0~
+{7A {8m{&ot{8h {7flies about meditating the meaning of {3l{#i{3ght{7.{0
+~
+{^The moth buzzes around a {3l{#a{3mp {^perhaps thinking of smashing itself against
+it or maybe asking it for forgiveness.  {0 
+~
+feline~
+AG DFJLTVZ 0 400 0
+175 250 19500d1+130 6000d1+45 36d174+350 sting
+-100 -100 -100 -85
+FK L BI H
+stand stand none 5000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+#75116
+egg~
+{7an {#e{&g{3g{0~
+{7an {3e{&g{#g {7runs by screaming.{0
+~
+The egg runs by screaming something about a crisis of yolks.  He is
+dressed in a sharp 3 piece suit and a fancy bowler cap adorns his head.  He
+is of no relation to a certain enjoyer of walls.  
+~
+giant~
+AGO JV E 1000 0
+175 245 19000d1+130 6000d1+45 36d174+350 crush
+-100 -100 -100 -85
+0 A HIL CJP
+stand stand none 2000
+CHMV ABCDEFGHIJKQ medium unknown
+#75117
+mad hatter~
+{7the {!M{1ad Hatte{!r{0~
+{7the {!M{1ad Hatte{!r {7sits on a chair sipping tip.{0
+~
+The mad hatter is wearing a tophat and a velvet blue suit.  He's
+chain-sipping tea and talking incessently.  {0 
+~
+elf~
+ABGT DFJLVZ CDEH 1000 0
+180 270 21000d1+145 6000d1+100 36d175+375 beating
+-100 -100 -100 -85
+K ABLM BI HNPSXYZ
+stand stand male 1000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+M RANDOM 75110 35~
+M GRALL 75107 100~
+#75118
+march hare~
+{7the {^M{6arch Har{^e{0~
+{7The {^M{6arch Har{^e {7peers over the top of a tea cup.{0
+~
+The March Hare has an air of madness buzzing around him.  His crushed
+velvet suit is stained with spilt tea.  
+~
+feline~
+ABGT DFJLVZ CDH 1000 0
+190 265 21000d1+142 6000d1+50 37d175+360 charge
+-100 -100 -100 -85
+CK AL BI HI
+stand stand none 100000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F off F
+M GRALL 75109 100~
+M HPCNT 75112 5~
+#75119
+dormouse~
+{7a {4do{$rm{4ou{$se{0~
+{wa {bdo{Brm{bou{Bse {wis fast asleep in a chair.{x
+~
+The dormouse looks very much like a squirrel.  He has a long tail, soft
+sleek fur, and his little paws are wrapped around a tea cup.  He is talking
+in his sleep.  
+~
+feline~
+ABG DFJLVZ C 1000 0
+175 265 20000d1+140 6000d1+100 36d175+355 bite
+-100 -100 -100 -85
+FK AL BI H
+stand stand male 50000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+M RANDOM 75111 45~
+M GRALL 75108 100~
+#75120
+cook~
+{7a {&cook{0~
+{7A {&cook {7is sturring a pot on the stove, oblivious to the racket.{0
+~
+The cook is dumping a massive amount of pepper into a boiling pot.  He is
+utterly wrapped up in what he's doing.  
+~
+goblin~
+ABGT JV D 400 0
+175 250 19500d1+125 6000d1+100 36d175+350 punch
+-90 -90 -90 -90
+CK A P NSXY
+stand stand male 2000
+AHMV ABCDEFGHIJKU medium unknown
+M RANDOM 75125 25~
+M RANDOM 75116 30~
+#75121
+fish footman~
+{7a {3f{#o{3o{8t{3m{#a{3n{0~
+{7A rather ugly {3f{#o{3o{8t{3m{#a{3n{7 sits with his head in his hands.{0
+~
+A footman sits on the floor with his head in his hands.  His face is
+large and round and strongly resembles a fish.  
+~
+goblin~
+ABGP JV C 400 0
+175 250 20000d1+125 6000d1+100 37d180+365 punch
+-90 -90 -90 -90
+0 A P NSXY
+stand stand none 2000
+AHMV ABCDEFGHIJKU medium unknown
+#75122
+caterpillar~
+{7the {4ca{$te{4rp{$il{4lar{0~
+{7a large {4b{$l{4ue {7caterpillar sits smoking a long hookah.{0
+~
+The caterpillar sits like an ancient guru calmly puffing smoke rings. 
+His eyes are far away.  
+~
+feline~
+ABG DFJLZ CDEH 1000 0
+150 50 50000d1+55 400d1+5 15d50+5 none
+-100 -100 -100 -100
+FK ACDL BI H
+stand stand none 50000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+M RANDOM 75114 5~
+M GRALL 75121 90~
+#75123
+gardner card diamond~
+{7a card shaped {1gar{!d{1ner{0~
+{7a {!d{1ia{!m{1on{!d {7suited gardner is tending the flowers.{0
+~
+~
+troll~
+AGT FJVc E -400 0
+175 250 20000d1+150 6000d1+100 40d180+365 chop
+-90 -90 -90 -90
+DF A BE HK
+stand stand none 10000
+HMV ABCDEFGIJKUV medium unknown
+#75124
+gardner card heart~
+{7a card shaped {1gar{!d{1ner{0~
+{7a {1he{!a{1rt {7suited gardner is tending the flowers.
+~
+A little gardner waddles here and there seeing to the flowers.  He is
+completel enwrapped in his work.  His deft hands move easily despite their
+considerable shortness.  
+~
+feline~
+AG DFJLZ D -400 0
+180 275 22000d1+160 6000d1+100 41d180+375 chop
+-100 -100 -100 -100
+CK AL BI H
+stand stand none 10000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F off F
+#75125
+gardner card spades~
+{7a card shaped {8gar{&d{8ner{0 ~
+{7a {8sp{&a{8de {7suited gardner is tending the flowers.{0
+~
+The gardner is busy cutting and arranging flowers.  He is completely flat
+except for his head, arms, and legs.  
+~
+feline~
+AG DFJLVZ CDEH -400 0
+180 275 21500d1+155 6000d1+100 40d180+370 chop
+-100 -100 -100 -100
+DK AL BHI HJP
+stand stand male 2000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F off F
+#75126
+gardner card clubs~
+{7a card shaped {8gar{&d{8ner{0~
+{wa {Dc{Wl{Dub {wsuited gardner is tending the flowers.{x
+~
+A gardner deftly tends the flowers.  His flat body is covered in a white
+suit with black clubs dotting it.  He looks rather nervous.  
+~
+feline~
+AGQ DFJLVZ D -400 0
+175 250 20000d1+150 300d1+50 40d180+365 chop
+-90 -90 -90 -90
+CK AL BI H
+stand stand male 5000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F off F
+#75127
+10 hearts~
+{7The {&10 {7of {1H{!ea{1rts{0~
+{7The {&10 {7of {1H{!ea{1rts {7walks around overseeing the gardening.{0
+~
+The head gardner walks around stiffly surveying the work.  The other
+cards avoid his glare.  His suit is marked with an axe over a heart.  {0 
+~
+feline~
+ABGPS DFJLVZ CDEH -400 0
+183 270 22000d1+150 6000d1+100 40d175+380 chop
+-110 -110 -110 -110
+V AL BI H
+stand stand male 10000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F off FK
+#75128
+king hearts~
+{7the {1K{!i{1ng {7of {1He{!ar{1ts{0~
+{7the {1K{!i{1ng {7of {1He{!ar{1ts{0 {7sits on a {#gol{3den {7throne.{0
+~
+The King of Hearts sits proudly on his throne of gold.  Years of being
+berated by the Queen have left him completely detached from everything but
+tarts and jam.  
+~
+feline~
+ABGT DFJLVZ CDE -400 0
+185 300 24000d1+175 6000d1+100 40d175+385 chop
+-120 -120 -120 -120
+C AHL BI HI
+stand stand male 100000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+F off FK
+M GRALL 75124 75~
+#75129
+queen hearts~
+{7the {1Q{!ue{1en {7of {1H{!ea{1rts{0~
+{7the {1Q{!ue{1en {7of {1H{!ea{1rts {7paces about shouting orders.{0
+~
+The Queen is wearing a dress covered in hearts.  Her round, fat face
+glares menacingly in every direction at once.  Her majesty is decked in
+rubies and saphyres.  She impatiantly waits for an execution.  {0 
+~
+feline~
+ABGPQRST DFJLVZ H -400 0
+185 350 30000d1+200 6000d1+100 40d180+400 chop
+-120 -120 -120 -100
+CFK AHL BI HI
+stand stand female 50000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+M GRALL 75123 95~
+#75130
+white rabbit~
+the {&White {7Rabbit{0~
+{7The {&White {7Rabbit stands here {5ne{%rv{5ou{%sl{5y {7looking about.{0
+~
+{^The {&White {^Rabbit is standing here looking oddly unhurried.  His {3po{#ck{3et{#wa{3tch
+{^is in its respective pocket and {^he looks rather {4s{$a{4d {^as if having nothing to
+be late for is wearing on him fiercly.  {0 {^His {5ve{%lv{5et {^shortcoat is rumpled as
+if it has been down one too many rabbit {8holes{^.  {0 
+~
+feline~
+ABG DFJLZ H 1000 0
+200 300 100d1+100 50d1+350 50d150+350 bite
+-1000 -1000 -1000 -1000
+FK CDL BI H
+stand stand none 40000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+M SPEECH 75200 got it~
+M GRALL 75199 100~
+#75131
+Miracle ~
+a miracle~
+A miracle happens
+~
+Miracle.  On 32nd street?  No.  
+~
+feline~
+AGT DFJLVZ 0 400 0
+175 250 19000d1+125 275d1+45 36d174+350 wrath
+-100 -100 -100 -85
+FK ACDL BI H
+stand stand female 10000
+ACGHMV ABCDEFGHIJKQUV medium unknown
+M SPEECH 75127 give~
+#75200
+contridiction walking~
+a walking contridiction~
+A contridiction walks by
+~
+~
+silver-dragon~
+ABG JTV CDE 400 0
+195 5 500d1+25 6d1+1 5d2+2 claw
+0 0 0 0
+DFK AI BCQ HZ
+stand stand male 100000000
+ACHMVZ ABCDEFGHIJKPQUVWX medium unknown
+#0
+
+
+
+#OBJECTS
+#75100
+tooth crocodile~
+{0a {2Cr{@oc{2od{@il{2e {&To{8o{&th{0~
+A sharp bright white object lies here.~
+bone~
+weapon AB AN
+sword 13 12 sting BF
+1 1 5 P
+#75101
+gloves ~
+{0a {5t{%i{5ny {0pair of {&k{8i{&d {0gl{&ov{0es~
+{0a {5t{%i{5ny {0pair of {&k{8i{&d {0gl{&ov{0es lies here.~
+wool~
+gem 0 A
+0 0 0 0 0
+1 1 1 P
+#75102
+stream~
+{7a mountain {4s{$t{4ream{0~
+{wA babbling {bs{Bt{bream {wis born from a rushing {bw{Bat{ber{Bfa{bll {winside the oaks.{x~
+water~
+fountain 0 0
+-2 -2 'mineral water' 0 0
+0 0 0 P
+#75103
+stream~
+{7a mountain {4s{$t{4ream{0~
+{7A merry, bubbling {4s{$t{4ream {7slides east into the {8dark {2o{@a{2k f{@or{2est{7.{0 ~
+water~
+fountain 0 0
+10000 10000 'mineral water' 0 0
+0 0 0 P
+#75104
+stream~
+{7a mountain {4s{$t{4ream{0~
+{7A {4s{$t{4ream {7flows gently across the field of {3da{#is{3ies{7.{0~
+water~
+portal 0 0
+0 0 0 75246 0
+0 0 0 P
+#75105
+cupboard~
+{0an intricate {4g{$l{4a{$s{4s {^cup{6board{0~
+{7A {^cup{6board {7falls {6s{^l{6owly {7by.{0~
+wood~
+container A 0
+1000 0 0 0 0
+1 0 0 P
+#75106
+book~
+{0a {6b{^oo{6k {0on how to {6f{^a{6ll {0properly{0~
+{0a nicely {6b{^o{6u{^n{6d {6b{^oo{6k {0full of words is sitting here.~
+paper~
+trash B A
+0 0 0 0 0
+1 5 5 P
+E
+book~
+{x {x {x {x {x {x {x {x {0
+{0 {0 {0 {0 {^<{6>{4o{6<{^>{4o{^<{6>{4o{6<{^>{4o{6<{^>{4o{6<{^>{4o{^<{6>{4o{6<{^>{^<{6>{4o{6<{^>{4o{^<{6>{4o{6<{^>{4o{6<{^>{4o{6<{^>{4o{^<{6>{4o{6<{^>{0
+{0 {0 {0 {0 {0 {x {x {x {x
+{0 {0 {0 {^- {^W{0hen {^f{0alling {^o{0ne {^m{0ust {^r{0emember at all {^t{0imes to {^k{0now the {^w{0hereabouts
+{0 of the {^h{0ead as {^i{0t is the {^t{0ool {^u{0sed to {^d{0etermine
+{0 {#r{8igh{#t{8-{#s{8id{#e{8-{#u{8pnes{#s {0from {#w{8ron{#g{8-{#s{8id{#e{8-{#d{8ownes{#s{0.
+{0 {0 {^- {^O{0ne should also not forget to {5t{%a{5ste {0as {^o{0ne's {^f{0all {^p{0rogresses.
+{0 {^T{0he {^t{0aste of the {8fall {0will {^g{0radually {^b{0ecome {^b{0etter {^d{0efined.
+{0 {^I{0t can {^r{0ange {^f{0rom {^l{0icorice, {^t{0o {1ra{!sb{1er{!ry {5j{%a{5m{0,
+{0 to {^b{0uttered {^h{0am and on {^s{0pecial {^o{0ccasion to {^b{0aked {^p{0otatoes 
+{0 {^a{0nd {1r{!o{1se w{!i{1ne{0.
+{0 {^- {^L{0astly it {^m{0ust be {^m{0entioned {^t{0hat while {^f{0alling
+{0 is {^v{0ery {^e{0xciting for {^m{0any, there {^a{0re those 
+{0 {^w{0ho {^t{0ake it {^q{0uite {^s{0eriously.
+{0 When {^o{0ne {^f{0inds {^o{0neself {^f{0alling in {^l{0arge {^p{0arties {2r{@e{2f{@r{2a{@i{2n
+{0 from {^y{0elling, {^p{0laying {^f{0all-{^c{0roquet, and {6w{^i{6ld{^l{6y {^w{0restling about.
+{0 {^T{0hese {^a{0ctivites, {^w{0hile enjoyable, can {^d{0etract from the {^e{0xperience {^f{0or
+{0 more {^s{0erious {^f{0allers {^w{0ho may {^s{0imply,
+{0 {^w{0ant to {^c{0url up and {^q{0uietly {^r{0ead.
+{x {x {x {x {x {x {x {x {0
+{0 {0 {0 {0 {^<{6>{4o{6<{^>{4o{^<{6>{4o{6<{^>{4o{6<{^>{4o{6<{^>{4o{^<{6>{4o{6<{^>{^<{6>{4o{6<{^>{4o{^<{6>{4o{6<{^>{4o{6<{^>{4o{6<{^>{4o{^<{6>{4o{6<{^>{0
+{x {x {x {x {x {x {x {x {0
+~
+#75107
+bed leaves sticks pile~
+{0the {5p{%l{5ush {8bed {0of {@lea{2ves {0and {0sticks{0.~
+{0A {8soft {0pile of {@lea{2ves {0and {8sticks {0cushions the floor.~
+leaves~
+furniture 0 0
+5 1000 IL 400 400
+0 0 0 P
+#75108
+table~
+{0a {6t{^i{6ny {0three-legged {6t{^a{6ble{0~
+{7A three-legged {6tab{^l{6e {7made all of {6g{^l{6ass {7sits in the middle of the hall.{0~
+glass~
+container 0 0
+1000 0 0 0 0
+0 0 0 P
+#75109
+cake small~
+{8a {2s{@m{2all {2c{@a{2ke{0~
+{RE{rA{RT ME{x.~
+cake~
+pill 0 A
+10 'detect invis' 'reserved' 'reserved' 'reserved'
+1 3 3 P
+#75110
+bottle little~
+{0a {5l{%i{5ttle {4b{$o{4ttle{0~
+{RDR{rI{RNK ME{x.~
+glass~
+potion 0 A
+10 'detect hidden' 'reserved' 'reserved' 'reserved'
+1 3 3 P
+#75111
+key tiny~
+{0a {3t{#i{3ny {3g{#o{3lden {0key~
+{0a {3t{#i{3ny {3g{#o{3lden {0key lies here.~
+gold~
+key ACFU A
+0 0 0 0 0
+1 2 0 P
+#75112
+vent~
+{7the {8vent{0~
+{7An open {8vent {7leads down into {8darkness{7.{0~
+stone~
+portal 0 0
+0 0 0 75219 0
+1 0 0 P
+#75113
+hole~
+{7a {8hole{0~
+{7A {8hole {7leads down through the platform and into {8darkness{7.{0~
+wood~
+portal 0 0
+0 0 0 75244 0
+0 0 0 P
+#75114
+hole ceiling~
+a {8hole {7in the ceiling~
+{7A {8hole {7in the ceiling allows pale {3l{#i{3ght {7to fill the room.{0~
+wood~
+portal 0 0
+0 0 0 75113 0
+0 0 0 P
+#75115
+hollow~
+a {8s{7ec{8re{7t h{8id{7in{8g {8p{7la{8ce{0~
+{7A {8h{&ol{8low {7has been carved into the trunk.{0~
+wood~
+container 0 0
+1000 0 0 1000 1000
+0 100 0 P
+#75116
+paper1 worn~
+{0a {8w{7o{8rn {0piece of {&paper{0~
+A frayed piece of {Wpaper {xspeaks of {bd{Ba{bys {xgone by.~
+paper~
+trash A A
+0 0 0 0 0
+0 1 0 P
+E
+paper~
+{x {x {x {x {x             {x {x {x {x
+{x {x {x {x {x             {x {x {x {x
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {1<{!1{1>{0 {0 {0 {0
+{0 {0 {0 {0{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0 {0 {0       {0 {0 {0 {0
+{0 {0 {0All in the {3g{#o{3l{#d{3en {0afternoon
+{0 {0 {0Full leisurely we glide;
+{0 {0 {0For both our oars, with little skill,
+{0 {0 {0 {0By little arms are plied,
+{0 {0 {0While little hands make vain pretence
+{0 {0 {0 {0Our {4wand{$er{4ings {0to guide.
+{x {x {x {x {x             {x {x {x {x
+{0 {0 {0 {0{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{x {x {x {x {x             {x {x {x {x
+{x {x {x {x {x             {x {x {x {x
+~
+#75117
+grub worm~
+{7a {1wr{!i{1gg{!l{1in{!g {3g{#r{3u{#b {7worm{0~
+{wA tasty looking {yg{Yr{yu{Yb {wworm is squirming on the ground.{x~
+flesh~
+food 0 A
+5 5 0 0 0
+1 1 1 P
+#75118
+hollow~
+{0the {1n{!i{1t{!c{1h {0in the clay~
+{0a {1h{!o{1ll{!o{1w {0in the clay~
+clay~
+container 0 0
+1 0 0 1000 1000
+0 0 0 P
+#75119
+paper2 ragged~
+{0a {8ragged {0piece of {&paper{0~
+A {Dragged {xpiece of paper speaking of {bd{Ba{bys {xgone by lies here.~
+paper~
+trash A A
+0 0 0 0 0
+1 0 0 P
+E
+paper~
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {6<{^2{6>{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 Ah, cruel Three! In such an hour.
+{0 Beneath such {5d{%r{5e{%a{5my {0weather,
+{0 {0 To beg a tale of breath too weak
+{0 To stir the tiniest feather!
+{0 {0 Yet what can one poor voice avail
+{0 Against three {1t{!o{1ngues {0together?
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {0      {x {x {x {x
+~
+#75120
+tunnel~
+{7back into the {1l{!i{1g{!h{1t{7.{0~
+{7A {1t{!u{1n{!n{1e{!l {7leads upwards into {1d{!a{1ylig{!h{1t{7.{0~
+unknown~
+portal 0 0
+0 0 0 75104 0
+0 0 0 P
+#75121
+panel~
+{7beh{8ind {7the {&panel{0~
+{wA lo{Dose {Wpanel {Do{wn th{De {Wwall {wj{Duts {wout {Dsli{wght{Dly{x.~
+wood~
+container 0 0
+5 0 0 1000 1000
+0 0 0 P
+#75122
+paper3 tattered~
+{8a ta{7tte{8red {7pie{8ce o{7f {&paper{0~
+{DA ta{wtte{Dred {wpie{Dce o{wf {Wpaper {wli{Des o{wn th{De gr{woun{Dd{x.~
+paper~
+trash 0 A
+0 0 0 0 0
+1 0 0 P
+E
+paper~
+{0 {0 {0 {0             {x {x {x {x
+{0 {0 {0 {0             {x {x {x {x
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {4<{$3{4>{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0             {x {x {x {x
+{0 {7Imp{8eri{7ous {8Pri{7ma f{8las{7hes {8for{7th{0
+{0 {0 {8Her {7edi{8ct {0"{8t{7o be{8gin {7it{0":
+{0 {7In g{8ent{7ler {8ton{7es S{8ecu{7nda {8hop{7es{0
+{0 {0 "{8The{7re w{8ill {7be n{8ons{7ens{8e in {7it{0!"
+{0 {7Whi{8le T{7ert{8ia i{7nte{8rru{7pts th{7e ta{8le{0
+{0 {0 {8Not {5more {7tha{8n on{7ce a {8min{7ute{0.
+{0 {0 {0 {0             {x {x {x {x
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0             {x {x {x {x
+{0 {0 {0 {0             {x {x {x {x
+~
+#75123
+paper4 disheveled~
+{4a d{7is{4hev{7ele{4d pie{7ce o{4f {&paper{0~
+An old piece of {bpa{Br{bch{Bm{bent {xlies here.~
+paper~
+trash 0 A
+0 0 0 0 0
+1 1 1 P
+E
+paper~
+{0 {0 {0 {0           {x {0 {0 {x
+{0 {0 {0 {0           {x {0 {0 {x
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {4<{$4{4>{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0           {x {0 {0 {x
+{0 {4A{$n{4o{$n {0to sudden {8silence {0won,
+{0 {0 In fancy {4t{$h{4ey {0persue
+{0 The dream-child moving through a land
+{0 {0 Of wonders {4w{$i{4ld {0and {4n{$e{4w{0,
+{0 In friendly chat with bird or beast-
+{0 {0 And half {4b{$e{4li{$e{4ve {0its true.
+{0 {0 {0 {0           {x {0 {0 {x
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0           {x {0 {0 {x
+{0 {0 {0 {0           {x {0 {0 {x
+~
+#75124
+tree split~
+{0the {4c{$u{4r{$i{4o{$u{4s {7soft {8b{7l{8a{7ck{8ne{7s{8s{7.{0~
+{7A {5s{%p{5lit {7in the ancient tree leads into {8blackness{7.{0~
+wood~
+portal 0 0
+0 0 0 75137 0
+1 0 0 P
+#75125
+mailbox~
+a mailbox~
+{7A small mailbox {7stands on the southern edge of the {7r{2o{7a{2d{7.{0~
+wood~
+container 0 0
+50 ABCD 75132 200 200
+1 50 0 P
+E
+mailbox~
+{0 {0 {0 {0 
+{0 {0 {0 {0 {0 {0 {0 {1[{!] {0 {&W. Rabbit {![{1] {0 {0 {0 {0
+{0 {0 {0 {0
+{0 {0 {0 {0 {4<{$> {$32 Winding Road {$<{4> {0 {0 {0 {0
+{0 {0 {0 {0
+{0 {0 {0 {0 {0 {0 {0 {![{1] {1W{!o{1n{4d{$e{4r{$l{1a{!n{1d {1[{!] {0 {0 {0 {0
+{0 {0 {0 {0 
+~
+#75126
+moonlight sonata piece music~
+{!Bee{1t{!h{1o{^v{6e{^n'{6s {^M{6o{!onl{1i{!g{1h{!t So{^n{6at{^a{0~
+{wA {mp{Mi{me{Mc{me {Bo{bf {Bcl{bas{Msi{mc{Mal {ym{Yu{ys{Yi{yc {Wfl{Doa{Wts {win the {ca{Ci{cr{x.~
+wood~
+furniture B 0
+10 1000 FIL 10000 10000
+1 50 0 P
+#75127
+paper5 old~
+{7an {1o{!l{1d {7weather-stained piece of {&paper{0~
+{wA {Dfraying {wpiece of {Wpaper {wlies here.{x~
+paper~
+trash 0 A
+0 0 0 0 0
+1 1 1 P
+E
+paper~
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {5<{%5{5>{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 And ever, as the story drained
+{0 {7The {4w{$e{4l{$l{4s {7of fancy dry,{0
+{0 {0 {7And faintly strove that little one{0
+{0 {7To put the subject by,{0
+{0 {0 "The rest next time-" "It {5is {7next time!"
+{0 {7The {3h{#a{3p{#p{3y {7voices cry.{0
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0 {0      {x {x {x {x
+{0 {0 {0 {0 {0      {x {x {x {x
+~
+#75128
+carrot key~
+{7a carrot shaped {4k{$e{4y{0~
+{wA carrot lies here and it looks like it could {bu{Bn{blo{Bc{bk {wsomething.{x~
+gold~
+key A A
+0 0 0 0 0
+1 1 1 P
+#75129
+pendant~
+{7a {6s{^p{6a{^r{6k{^l{6i{^n{6g g{^l{6a{^s{6s {4pen{$d{4ant{0~
+{wA {bp{Be{bnda{Bn{bt {wof {xg{Cl{xa{Cs{xs {wshines like a {Ys{Wta{Yr{x.~
+glass~
+jewelry AGI AC
+0 0 0 0 0
+1 1 1 P
+#75130
+small bed~
+a small {3b{#e{3d{0~
+{7A rather small {3b{#e{3d {7sits in the {8corner{7.{0~
+wood~
+furniture 0 0
+2 50000 EHK 5 2000
+1 200 0 P
+#75131
+table silver~
+{7a {7si{&lv{7er {7gi{&lde{7d table{0~
+{7A {7si{&lv{7er {7gi{&lde{7d {7square table sits in the window.{0~
+wood~
+container 0 0
+300 AC 0 500 200
+1 0 0 P
+#75132
+key~
+{7a {1r{!us{1ty {7si{&lv{7er mailbox key{0~
+A bent rusty key looks like a skeleton smile.~
+wood~
+key 0 A
+0 0 0 0 0
+1 10 1000 P
+#75133
+wooden box~
+{7a wooden box{0~
+A wooden box sits amidst many others.~
+wood~
+container 0 0
+200 A 0 500 300
+1 0 0 P
+#75134
+book~
+{7a weary {!le{1ather bou{!nd {7booklet{0~
+{wA {Rle{rather bou{Rnd {wbook is lying here in the very personification of age.{x~
+unknown~
+trash 0 A
+0 0 0 0 0
+1 5 300 P
+E
+booklet~
+{0 {0 {0 {0 {6W{^h{6isker {7and {6F{^u{6r {7Management {6f{^o{6r {7Up-{6a{^n{6d{7-Comers{0
+{0 {0 {0 {0
+{0 {0 Welcome back good sirs to this world renowned line of books detailing the proper ways to 
+{0 maintain your professional image.
+{0 This book gives step-by-step instructions into the multi-faceted relm of 
+{0 whiskers and fur.
+{0 Before we begin lets look at the 4 basic principles.
+{0 {0 - Whisker straightners and crocodile-toothed combs are your best companion.
+{0 {0 - Practice makes perfect. Pretending there's a tea with the Queen is good motivation.  
+{0 {0 - Write down your thoughts about grooming. (before bed-time is recommended)
+{0 {0 - Lastly, instead of focusing on one particular area step back and take in the big picture.
+{0 {0 Now of course these may seem obvious to you dear reader but one can never
+{0 underestimate the power of positive reinforcement. 
+{0 And remember, it only takes one grooming mishap to tarnish ones professional image.
+{0 Now let us begin in ernest. The first chapter will focus entirely on the 
+{0 image as seen in a mirror. As you all know, it can be very misleading! So 
+{0 without further adeu, I present to you - the beginning. (Unless you are reading this book backwards in which case it would be the end.)
+{0 {0 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+~
+#75135
+hole~
+{7a small {4h{$o{4le {7in the {6g{^l{6ass{0~
+{7A {3b{#e{3am {7of {3l{#i{3ght {7shoots out of a circular {4h{$o{4le {7in the {6g{^l{6ass{7.{0~
+glass~
+container 0 0
+100 0 0 100 200
+1 50 0 P
+#75136
+fireplace~
+{7a {1fi{!re{1pl{!ac{1e{0~
+{7A {1fi{!re{1pl{!ac{1e{0 {7is neatly prepared for its next use.{0~
+brick~
+container 0 0
+299 0 0 300 400
+1 40 0 P
+#75137
+ash ashes pile~
+{7a pile of as{8h{7es{0~
+{wa pile of fragile as{Dh{wes wait for a strong wind.{x~
+unknown~
+pill U A
+150 'burning hands' 'cheal' 'heat metal' 'reserved'
+100 20 10000 P
+#75138
+key~
+{wfloor {r({R2{r) {wkey{x~
+A little key sits here.~
+unknown~
+key 0 A
+0 0 0 0 0
+1 5 100 P
+#75139
+key~
+{wfloor {r({R3{r) {wkey{x~
+A tiny key with the number (3) engraved in its side sits here.~
+unknown~
+key 0 A
+0 0 0 0 0
+1 5 0 P
+#75140
+key~
+{wfloor {r({R4{r) {wkey{x~
+A tiny key with the number (4) engraved in its side sits here.~
+unknown~
+key 0 A
+0 0 0 0 0
+1 5 0 P
+#75141
+no name~
+{wfloor {r({R5{r) {wkey{x~
+A tiny key with the number (5) engraved in its side sits here.~
+unknown~
+key 0 A
+0 0 0 0 0
+1 5 0 P
+#75142
+house key~
+{7a {^h{6ouse ke{^y{0~
+The key to the home of the march hare is lying here contritely.~
+unknown~
+key 0 A
+0 0 0 0 0
+1 5 0 P
+#75143
+stream upside down~
+{7an {6up{^si{6de {^do{6wn {4s{$t{4ream{0~
+{7An {6up{^si{6de {^do{6wn {7stream washes across the {1p{2a{1t{2h{7.{0~
+unknown~
+fountain 0 0
+1000 1000 'tea' 0 0
+1 0 0 P
+#75144
+waterfall falls~
+{7an oddly {5s{%w{5eet {7tasting {4w{$at{4er{$fa{4ll{0~
+{7Mighty, roaring {4f{$al{4ls {7rush down into a bottmless gorge.{0~
+unknown~
+fountain 0 0
+1000 1000 'tea' 0 0
+0 0 0 P
+#75145
+hole tree~
+{7a fallen tree{0~
+{wThe {bw{wi{bn{wd{bi{wn{bg {wr{bo{wa{bd {wpeeks through a h{Wol{we in a gigantic fallen tree.{x~
+unknown~
+portal 0 0
+0 0 0 75196 0
+0 0 0 P
+#75146
+hole tree~
+{7a fallen tree{0~
+{wThe {bw{wi{bn{wd{bi{wn{bg {wr{bo{wa{bd {wpeeks through a h{Wol{we in a gigantic fallen tree.{x~
+unknown~
+portal 0 0
+0 0 0 75195 0
+0 0 0 P
+#75147
+hat tophat velvet~
+{7a {5v{1e{!lv{1e{5t {5t{1o{!ph{1a{5t{0~
+A hat made of velvet has an air of madness clinging to it.~
+cotton~
+armor IT AE
+30 30 30 22 0
+130 17 15000 P
+A
+18 20
+A
+21 -1
+A
+25 -5
+A
+4 -5
+A
+13 225
+#75148
+marble fountain~
+a marble {6fou{^nt{6ain{0~
+{wA {cfou{Cnt{cain {wcarved from marble lies encircled by {cf{Cl{co{Cw{ce{Cr{cs{x.~
+marble~
+fountain 0 0
+1000 1000 'water' 0 0
+1 0 0 P
+#75149
+marble fountain~
+a marble {5fou{%nt{5ain{0~
+{wA {mfou{Mnt{main {wcarved from marble lies encircled by {mf{Ml{mo{Mw{me{Mr{ms{x.~
+marble~
+fountain 0 0
+1000 1000 'water' 0 0
+1 0 0 P
+#75150
+oak table~
+{7a polished {3o{#a{3k t{#a{3ble{0~
+{wA long, polished {yo{Ya{yk t{Ya{yble {wstands here in ruin.{x~
+unknown~
+furniture 0 0
+5 500 EHK 200 200
+1 0 0 P
+#75151
+garden key~
+{7a {5k{%e{5y {7to the {1Q{!ue{1en's {7garden{0~
+A key made of wood lies here. It has flowers carved into it.~
+unknown~
+key B A
+0 0 0 0 0
+1 5 1000 P
+#75152
+livery~
+{7a suit of pale {3g{#o{3ld {7livery{0~
+A suit of livery is plated with shining pale gold.~
+gold~
+armor A AD
+35 30 35 35 0
+130 20 500 P
+A
+13 250
+A
+19 25
+A
+18 25
+#75153
+bag pepper~
+a big tin of black {8pepper{0~
+A tin of pepper is filled to the brim.~
+unknown~
+pill 0 A
+115 'frenzy' 'reserved' 'reserved' 'reserved'
+115 3 500 P
+#75154
+blue white mushroom~
+{7a {4b{$l{4ue {7and {&white {7spotted {$m{&u{4s{&h{$r{&o{4o{&m{0~
+A little mushroom is dotted with blue and white.~
+unknown~
+pill N A
+115 'haste' 'stone skin' 'reserved' 'reserved'
+115 5 12000 P
+#75155
+red green mushroom~
+{7a {2g{@r{2een {7and {1r{!e{1d {7spotted {1m{@u{1s{@h{1r{@o{1o{@m{0~
+A little {rm{Gu{rs{Gh{rr{Go{ro{Gm{x is dotted {gg{Gr{geen {xand {rr{Re{rd{x.~
+unknown~
+pill N A
+115 'cure all' 'armor' 'sanctuary' 'reserved'
+115 2 14000 P
+#75156
+hookah tube~
+{7a {$Ho{4okah Tu{$be{0~
+A long clear tube with resin caked inside lies curled up like a snake.~
+glass~
+armor N AL
+30 30 30 25 0
+115 5 100000 P
+A
+19 10
+A
+18 10
+A
+13 350
+F
+A 0 0 d
+F
+A 0 0 T
+A
+3 -5
+A
+4 -5
+A
+2 -5
+A
+12 -100
+#75157
+marble fountain~
+a marble {1fou{!nt{1ain{0~
+{wA {rfou{Rnt{rain {wcarved from marble lies encircled by {rf{Rl{ro{Rw{re{Rr{rs{x.~
+marble~
+fountain 0 0
+1000 1000 'water' 0 0
+1 0 0 P
+#75158
+marble fountain~
+a marble {7fou{&nt{7ain{0~
+{wA fou{Wnt{wain carved from {Wwhite {wma{Wrb{wle lies encircled by f{Wl{wo{Ww{we{Wr{ws{x.~
+unknown~
+fountain 0 0
+1000 1000 'water' 0 0
+1 0 0 P
+#75159
+gate gateway~
+{7the {1Q{!ue{1en's {5h{%ea{5rt{0~
+{7An enormous {1h{!ea{1rt {7shaped {3g{#a{3te {7stands here.{0~
+unknown~
+portal 0 0
+0 0 0 75266 0
+1 0 0 P
+#75160
+leggings spade~
+{8sp{&a{8de {7suited {4le{$gg{4ings{0~
+A pair of fine leather leggings have a spade branded on both legs.~
+leather~
+armor AI AF
+40 40 40 40 0
+130 5 15000 P
+A
+20 -9
+A
+14 -200
+A
+19 40
+A
+13 200
+#75161
+guillotine~
+{7a {1gu{!il{1lo{!ti{1ne{0~
+{wA {rgu{Ril{rlo{Rti{rne {wrests menacingly on a small platform{x.~
+unknown~
+furniture 0 0
+10 500 FI 100 100
+0 0 0 P
+#75162
+crown hearts~
+{7the crown of {1h{!ea{1rts{0~
+A crown lies here interlaced by large heart shaped rubies.~
+unknown~
+armor AB AE
+40 40 5 40 0
+135 10 10000 P
+A
+21 -10
+A
+20 -10
+A
+5 -5
+A
+13 300
+E
+crown~
+The crown of the {1R{!e{1d Q{!ue{1en{7 was forged in a volcano across Wonderland's
+eastern ocean.  It was commissioned by the Queen as a present originally to
+the Queen of Spades.  The present was never received as the Queen of Spade's
+head now lies somewhere distinctly seperate from her body.  It is a crown of
+blood, one of mystery, and of sadness.  
+~
+#75163
+throne emerald gold~
+{7an {2e{@me{2r{2ald {7ringed throne{0~
+{wAn {ge{Gme{grald {wringed throne of {yg{Yo{yld {wsits with quiet grace.{x~
+unknown~
+furniture 0 0
+1 200 EHK -1 -1
+1 10000 0 P
+#75164
+lamp ~
+{7a {3l{#a{3mp{0~
+{wA tall standing {yl{Ya{ymp {wflickers from its s{Wi{blv{We{wr stand{x.~
+silver~
+light 0 0
+0 0 999 0 0
+5 5 0 P
+E
+lamp~
+The stand is covered in a silver worked vine of climbing hearts.
+Every heart gives forth a smaller vine leading to 4 more hearts.
+The candle flickers in the lamp making the floor and wall dance.
+~
+#75165
+sign~
+{7a {4s{$i{4gn{0~
+{7A {4s{$i{4gn {7carved from dark {4b{$l{4ue {7marble rises from a glass pedestal.{0~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+E
+sign~
+{7The winding road was constructed by her royal majesty the Queen of {1H{!ea{1rts{7. 
+{0 {7Any tampering of any kind will bring immediate punishment in the form {7of a
+beheading.  Please enjoy the {5sc{%en{5ery{7.  {0 
+~
+#75166
+cup tea~
+{7a {5c{%u{5p {7of {5t{%e{5a{0~
+A cup of tea sends up its pleasant fragrance.~
+unknown~
+potion 0 A
+151 'heal' 'cure critical' 'heal' 'reserved'
+135 5 400 P
+#75167
+golden throne~
+{7a {3g{#o{3lden {7throne{0~
+{wA {yg{Yo{ylden {wthrone laced in {rh{Rea{rrt {wshaped {rr{Ru{rbies {wstands proudly.{x~
+unknown~
+container 0 0
+5000 0 0 5000 5000
+1 0 0 P
+#75168
+bag seeds~
+{7a {5b{%a{5g {7of {3s{#e{3eds{0~
+{7An open {5b{%a{5g {7lies facedown spilling {3s{#e{3eds{7.{0~
+unknown~
+container 0 0
+500 0 0 500 500
+0 0 0 P
+#75169
+paper6 crumpled~
+{7a {2cr{@um{2pled {7piece of {&paper{0~
+A crumpled piece of paper has some writing on it.~
+unknown~
+trash 0 A
+0 0 0 0 0
+1 5 10000 P
+E
+paper~
+{0 {0 {0 {0
+{0 {0 {0 {0
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {2<{@6{2>{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0
+{0 {0 {7Thus grew the {4t{$a{4le {7of {5Wo{%nd{5er{%la{5nd{0:
+{0 Thus slowly, one by one,{7
+{0 {0 Its quaint events were hammered out-
+{0 And now the tale is done,
+{0 {0 And home we steer, a merry crew,
+{0 {7Beneith the setting {3s{#u{3n{7.{0
+{0 {0 {0 {0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0
+{0 {0 {0 {0
+~
+#75170
+paper7 crisp~
+{7a {5c{%ri{5sp {7piece {7of {&paper{0~
+{wA {mc{Mri{msp {wpiece of {Wpaper {whas some writing on it.{x~
+unknown~
+trash ABI A
+0 0 0 0 0
+1 5 10000 P
+E
+paper~
+{0 {0 {0 {0
+{0 {0 {0 {0
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {5<{%7{5>{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0
+{0 {0 {5A{%li{5ce{7! A childhood story take,{0
+{0 And, with a gentle hand,
+{0 {0 Lay it where Childhood's dreams are twined
+{0 In Memory's mystic band,
+{0 {0 Like pilgrim's wither'd wreath of flowers
+{0 Pluck'd in a far-off {5l{%a{5nd{7.{0
+{0 {0 {0 {0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{0
+{0 {0 {0 {0
+{0 {0 {0 {0
+{0 {0 {0 {0 {0 {0 {0 {1L.C.{0
+~
+#75171
+sign heart-shaped~
+{7a {1h{!ea{1rt{7-{1s{!ha{1ped {5s{%i{5gn{0~
+{7A {1h{!ea{1rt{7-{1s{!ha{1ped {5s{%i{5gn {7leans against the wall.{0~
+unknown~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+E
+sign~
+{0
+{7Let it be known.  The garden {5k{%e{5y {7was stolen by a {1H{!at{1ter {7formerly residing
+at 146 {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{7, {5Wo{%nd{5er{%la{5nd{7.  He was last seen in the company of a {6H{^a{6re{7.
+{7Anyone found in the company of said suspects will be subject to her {1Ma{!je{1sty
+{7the {1Qu{!ee{1n's {7fair and just punishment.  {0 
+{0{0 {!N{1o{!te{7: Suspects are considered to be armed and {1M{!a{1d{7.{0
+{0 {0
+{0 {0                   {!Proceed with caution!{0
+{0 {0
+~
+#75172
+paper slip~
+a crumpled slip of {4p{$a{&p{$e{4r{0~
+A slip of crumpled paper lies here.~
+unknown~
+trash A A
+0 0 0 0 0
+1 5 1000 P
+E
+paper~
+{x {x {x {x
+{0 {0     {5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{0
+{0 {0     {%|  {4I{$N {4T{$H{4I{$S {&S{4T{$Y{4L{&E  {%|{0
+{0 {0     {%|                 {%|{0
+{0 {0     {%|                 {%|{0
+{0 {0     {%|      {!10/6       {%|{0
+{0 {0     {%|                 {%|{0
+{0 {0     {%|                 {%|{0
+{0 {0     {%|  {4I{$N {4T{$H{4I{$S {&S{4T{$Y{4L{&E  {%|{0
+{0 {0     {5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{%-{5-{0
+~
+#75173
+oak stump~
+{7An {2o{@a{2k s{@tu{2mp{0~
+{wA massive {go{Ga{gk s{Gtu{gmp {wmakes a sort of table.{x~
+unknown~
+furniture 0 0
+2 500 EHK 300 300
+1 0 0 P
+#75174
+stray color~
+{$A {4bi{%t of st{!ray {1col{5o{#r{0~
+{$A {4bi{%t of st{!ray {1col{5o{#r {5l{#i{5e{#s {5on t{@h{2e {@g{2r{@o{^und.{0~
+unknown~
+pill 0 A
+151 'colour spray' 'reserved' 'reserved' 'reserved'
+151 1 100000 P
+#75175
+sign~
+{7a {4s{$i{4gn{0~
+{7A {3s{#i{3gn {7sticks up from the roadside in a less than {3s{#tr{3aight {7manner.{0~
+unknown~
+trash 0 0
+0 0 0 0 0
+5 100 0 P
+E
+sign~
+{0{0          {!.{7
+{5T{%h{5is w{%a{5y {!/_\ {5l{%e{5ads t{%h{5at w{%a{5y{7.{7
+{0 {0         {!|{7
+{0 {0         {!|{7
+{0{0    
+{0{0    
+{6Go h{^e{6re {!<--- {6to g{^e{6t t{^h{6ere{7.{7
+{0{0        
+{0{0    
+{3T{#h{3at w{#a{3y {!| {3t{#a{3kes y{#o{3u t{#h{3is w{#a{3y{7.{7
+{0 {0        {!|{7
+{0 {0       {!_|_{7
+{0 {0       {!\ /{7
+ {0 {0       {!*{7
+{0{0    
+{0{0    
+{2Go h{@i{2ther {!----> {2to g{@e{2t y{@o{2nder{7.{7
+{0{0   
+~
+#75176
+painting field~
+{7the {3BR{#IG{3HT{#NE{3SS{0~
+{7A {5p{%ai{5nt{%in{5g {7of a bright field of {3da{#isi{3es {7hangs on the wall.{0~
+unknown~
+portal 0 0
+0 0 0 75103 0
+0 0 0 P
+#75177
+painting~
+a horribly realistic {5p{%ai{5nt{%in{5g{0~
+{7A brilliant {5p{%ai{5nt{%in{5g {7of a pile of sticks and leaves hangs on the wall.{0~
+unknown~
+portal 0 0
+0 0 0 75129 0
+1 0 0 P
+#75178
+basket~
+{7a growing basket{0~
+{7Covered baskets grow from twisty {2v{@i{2nes {7sprouting from the soft earth.{0  ~
+unknown~
+container 0 0
+1000 0 0 1000 1000
+0 1000 0 P
+#75179
+mango~
+{7a fresh {3m{#an{3go{0~
+{wA perfectly ripe yellow {ym{Yan{ygo {wsmells of the tropical lands.{x~
+unknown~
+food 0 A
+15 15 0 0 0
+1 5 10000 P
+#75180
+root~
+{wone of the {go{Ga{gk's {whuge {yr{#o{yots{x~
+{7A huge gnarled {3r{#o{3ot {7rises from the path like a wooden rainbow.{0~
+unknown~
+furniture 0 0
+2 1000 EHK 200 200
+1 0 0 P
+#75200
+axe~
+{7the {1Qu{!ee{1n's Beh{!ea{1ding A{!x{1e{0~
+{wAn axe with a {rh{Rea{rrt {wshaped handle shines with an unpleasant {rr{Re{rd {wgleam.{x~
+unknown~
+weapon ABI AN
+axe 20 19 chop DEG
+125 30 300000 P
+A
+0 -1
+A
+20 -5
+A
+13 200
+A
+18 50
+A
+19 50
+F
+R 0 -1 K
+E
+axe~
+The {1Q{!ue{1en {7of {1H{!ea{1rt's {7official axe of beheading was forged inside of an
+active volcano on an island far away in {5Wo{%nd{5er{%la{5nd's {7dreaded Sea of
+Curiosity.  {0 {0It was stolen by the Queen of {8Spades {7and used in the execution
+of 52 gardeners that were found guilty of blinking more often than is
+sociably acceptable.  It was stolen back by the quiet but brave Bill the
+{2Li{@za{2rd {7and was given into the loyal {&White {7Rabbit's care.  {0 
+~
+#0
+
+
+
+#ROOMS
+#75100
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{7A field blooms with life in the forest clearing.  Daisies grow wild in
+tangles of {3y{#e{3llow{7.  The sound of gurgling water floats in from the north.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75105
+D2
+~
+~
+0 0 75281
+D3
+~
+~
+0 0 75101
+S
+#75101
+{7a Peaceful Field of {3Da{#is{3ies{0~
+Grass grows in tufts of {2g{@re{2en {7showered in {3y{#e{3llow {7daisies.  The {8dark
+{7forest to the south is full of the sounds of chirping birds.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75104
+D1
+~
+~
+0 0 75100
+D3
+~
+~
+0 0 75102
+S
+#75102
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{7The soft {2g{@r{2ass {7grows thick in places, making small {2b{@e{2ds {7for sleepy
+travelers in far off lands.  {0 {7A huge tree trunk makes a flat table.  It
+stands testiment to how in life it must have soared above the forest's other
+{2t{@re{2es{7.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75103
+D1
+~
+~
+0 0 75101
+S
+#75103
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{7A small {4s{$t{4ream {7babbles its way through the field.  A waterfall splashes
+down on sharp rocks to the west creating a shimmering pool of {4w{$a{4ter{7.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75108
+D1
+~
+~
+0 0 75104
+D2
+~
+~
+0 0 75102
+R GRALL 75104 75~
+S
+#75104
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{0The {$str{4eam's {0mu{4rmer {0spil{4ls fo{0rth w{4ith a {0soft {4yet i{0nten{4sly s{0educ{4tive
+{6me{^lo{6dy{0.  {0The {6br{^ee{6ze {0com{4es si{0ghin{4g in o{0n tip{4-toe{0s quie{4tly {0soo{4thin{0g, cal{4ling
+{0wear{4y tra{0vell{4er's e{0yes t{4o clo{0se an{4d all{0ow sl{4eep t{0o com{4e on t{0he {&s{0i{4lv{0e{&r {0wi{4ngs
+o{0f {1dr{!ea{1ms{0...  
+ 
+~
+0 0 2
+D0
+~
+~
+0 0 75107
+D1
+~
+~
+0 0 75105
+D2
+~
+~
+0 0 75101
+D3
+~
+~
+0 0 75103
+D5
+~
+~
+0 0 75115
+R GRALL 75123 75~
+S
+#75105
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{7A {4s{$t{4ream {7rolls in from the west and disappears under a cluster of trees
+on the forest's edge.  Water lilies grow from the {2m{@o{2ssy {7entrance and in the
+soft grass above a bird has built a nest.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75106
+D2
+~
+~
+0 0 75100
+D3
+~
+~
+0 0 75104
+S
+#75106
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{2Wi{@ll{2ows {7grow west across the field's northern border.  The swaying limbs
+form hiding places for the field's little creatures.  From the south drifts
+the sound of a moving {4s{$t{4ream{7.  {0 
+~
+0 0 2
+D2
+~
+~
+0 0 75105
+D3
+~
+~
+0 0 75107
+R GRALL 75107 75~
+S
+#75107
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{0 {0 {0 {0
+{7A line of {2wi{@ll{2ows {7from the east and west turn north making a path between
+them.  {8Shadows {7fall across the path's beginning.  {7The {8dark {2wi{@ll{2ows {7are a
+mysterious presence in the bright field of {3da{#is{3ies{7.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75109
+D1
+~
+~
+0 0 75106
+D2
+~
+~
+0 0 75104
+D3
+~
+~
+0 0 75108
+S
+#75108
+{7a Peaceful Field of {3Da{#is{3ies{0~
+{2Wi{@ll{2ows {7stretch east, dancing and swaying like graceful women.  The
+sighing wind brings the smell of {3ho{#ne{3ys{#uc{3kle {7wafting in.  {0 
+~
+0 0 2
+D1
+~
+~
+0 0 75107
+D2
+~
+~
+0 0 75103
+S
+#75109
+{7a Path Between Two Rows of {8Dark {2W{@ee{2ping W{@il{2lows{0~
+{7The willow {7branches hang low, sweeping the ground.  {8Darkness {7lies in
+silent waiting within the {2wi{@ll{2ow's {7outstretched arms.  The path leads north
+through the sighing rows.  {7 
+~
+0 0 3
+D0
+~
+~
+0 0 75110
+D2
+~
+~
+0 0 75107
+S
+#75110
+{7a Path Between Two Rows of {8Dark {2W{@ee{2ping W{@il{2lows{0~
+{7The willows march north and south in majestic parallel rows.  Their
+branches cast flickering, {8shadowy {4si{$lh{4ou{$et{4tes {7upon the soft {2g{@ra{2ssy {7path. 
+Animals stur quietly from inside the {8darkness {7of the trees.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75111
+D2
+~
+~
+0 0 75109
+R GRALL 75105 75~
+S
+#75111
+{7a Path Between Two Rows of {8Dark {2W{@ee{2ping W{@il{2lows{0~
+{7The path is filled with the {8ghostly {7sound of wind sighing through thin,
+streaming {2br{@an{2ches{7.  It echoes between the {2r{@o{2ws {7in a sighing wave of sound. 
+{7 
+~
+0 0 3
+D0
+~
+~
+0 0 75112
+D2
+~
+~
+0 0 75110
+S
+#75112
+{7Outside a Tow{8er{7ing {2Wi{@ll{2ow{0~
+{7The giant of a {2t{@r{2ee {7stands tall and alone, blocking the path.  Its huge
+sweeping {2br{@an{2ches {7encircle it in a ring.  The {8darkness {7within sends unknown
+mystery seeping forth.  {0 
+ 
+~
+0 0 3
+D0
+~
+~
+0 0 75150
+D2
+~
+~
+0 0 75111
+S
+#75113
+{7a Platform on the {2Wi{@ll{2ow's {7Bow{0~
+{7A panerama of the {@f{2i{@e{2l{@d {7peeks in through the rustling branches.  The
+platform moves back and forth as if pushed by {8i{7n{8v{7i{8s{7i{8b{7l{8e {7hands.  {0 
+~
+0 0 0
+D5
+~
+~
+0 0 75150
+S
+#75114
+~
+~
+0 4 0
+S
+#75115
+{5D{%o{5wn {7the {5R{%a{5bbit H{%o{5le{0~
+A {4tunnel {0just big enough for {5c{%r{5aw{%l{5i{%n{5g{0 through runs under the field.  It
+is, needless to say, very {4dark{0.  
+~
+0 0 0
+D2
+~
+~
+0 0 75151
+S
+#75116
+{2D{@o{2wn {7the {2R{@a{2bbit H{@o{2le{0~
+{0The {4tunnel {0winds its way downward.  Just ahead to the south the {&white
+rabbit {0pops briefly into {2v{@ie{2w{0 before racing off around the next bend.  
+~
+0 0 0
+D1
+~
+~
+0 0 75151
+D2
+~
+~
+0 0 75117
+S
+#75117
+{1D{!o{1wn {7the {1R{!a{1bbit H{!o{1le{0~
+{0The {4tunnel {0heads steadily downwards.  {4Deeper {0and {4deeper {0into the earth it
+goes.  The {1c{!oo{1l {0floor is hard packed {4clay{0.  
+~
+0 0 0
+D0
+~
+~
+0 0 75116
+D1
+~
+~
+0 0 75118
+S
+#75118
+{6D{^o{6wn {7the {6R{^a{6bbit H{^o{6le{0~
+{0The {4tunnel {0wraps and bends its way further and further in.  How {6f{^a{6r{0 down
+can it go?  
+~
+0 0 0
+D2
+~
+~
+0 0 75119
+D3
+~
+~
+0 0 75117
+S
+#75119
+{4D{$o{4wn {7the {4R{$a{4bbit H{$o{4le{0~
+The earth here has never seen the {4s{$u{4n{0.  The {4br{$igh{4tness{0 of day is only a
+whisper of a {4n{&i{4ght{&m{4are{0.  Bathed in darkness, it basks in eternal {4night.  {0And
+the {4tun{&n{4el {0stretches ever onward through it.  
+~
+0 0 0
+D0
+~
+~
+0 0 75118
+D2
+~
+~
+0 0 75120
+S
+#75120
+{8D{&o{8wn {7the {8R{&a{8bbit H{&o{8le{0~
+{0Now the {4decent {0becomes more rapid.  Small pebbles of dirt find their way
+rolling downward in tiny {0av{&al{0an{&ch{0es.  {4Deeper {0and {4Deeper {7it goes.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75119
+D5
+~
+~
+0 0 75121
+S
+#75121
+{3D{#o{3wn {7the {3R{#a{3bbit H{#o{3le{0~
+{0The {4pebbles {0pick up intensity, joined by more and more from above.  The
+{4tunnel {0continues its ever plodding {3d{#e{3cent{0.  {4Deeper {0and {4deeper{0.  
+~
+0 0 0
+D4
+~
+~
+0 0 75120
+D5
+~
+~
+0 0 75122
+R GRALL 75108 75~
+S
+#75122
+{5D{%o{5wn {7the {5R{%a{5bbit H{%o{5le{0~
+{4Down{0, {4down{0, {4down{0, the {4tunnel {0continues.  {0Still {4deeper{0.  
+~
+0 0 0
+D4
+~
+~
+0 0 75121
+D5
+~
+~
+0 0 75123
+S
+#75123
+{1Fa{!ll{1ing{!!{0~
+The {4tunnel {0very suddenly dips {4downward {0and now the ground has {!disapp{1eared
+{0completely.  There's {4nothing {0to grab on to.  No way but {!do{1wn{1!  {0 
+~
+0 0 0
+D5
+~
+~
+0 0 75124
+S
+#75124
+{4Fa{$ll{4ing{${0~
+The {4gravity {0this far down in the {4earth {0must be less than on the {$sur{4face
+{0or this is a {$V{4ER{$Y {0long fall because it is happening rather too slowly.  
+~
+0 0 0
+D5
+~
+~
+0 0 75125
+R GRALL 75109 75~
+S
+#75125
+{6Fa{^ll{6ing{0~
+{0The {7sides {0of the well (or whatever this {6h{^o{6le {0is) appear to be covered
+with bookshelves and cupboards.  The {6f{^a{6ll {0must be quite slow indeed.  
+~
+0 0 0
+D5
+~
+~
+0 0 75126
+S
+#75126
+{5Fa{%ll{5ing{0~
+{7Pictures {0and {7paintings {0on {7pegs {0cover the walls.  One is of a {%carp{5enter
+{0and a {%wal{5rus{0.  Another of a deck of cards.  The {5fa{%ll {0continues.  
+~
+0 0 0
+D5
+~
+~
+0 0 75127
+R GRALL 75110 75~
+S
+#75127
+{2Fa{@ll{2ing{0~
+{0Onward through {7empty {0space the {@fa{2ll {0merrily goes.  Scrawled onto the wall
+is a handwritten {#message{0.  Peculiarly, instead of rushing up, the {2a{@i{2r {0seems
+to be rushing {7downwards {0and as if in chase, slowly downward the {2we{@ll
+{0follows.  
+~
+0 0 0
+E
+message~
+{x
+{0 {0 {0 {0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{3<{#>{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{3<{#>{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{3<{#>{0
+{0 {x
+{0 {0 {0 {0 {0 {0 {5I wonder how many miles I've fallen by this time?{0
+{0 {0 {0 {0 {5I must be getting somewhere near the centre of the earth.{0
+{0 {0 {0 {0 {0 {5Let me see: that would be four thousand miles down,{0
+{0 {0 {0 {0 {0 {0 {0 {5I think, -yes, that's about the right distance{0
+{0 {0 {0 {0 {0 {5-but I wonder what Latitude or Longitude I've got to?{0
+{0
+{0 {0 {0 {0 {#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{3<{#>{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{3<{#>{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{#<{3>{4o{3<{#>{4o{3<{#>{0
+{x
+{x {0 {0 {x
+~
+D5
+~
+~
+0 0 75128
+S
+#75128
+{3Fa{#ll{3ing{0~
+The well {0persists along its way down.  Falling can be a very tiring
+activity but there are no beds and sleeping on {8thin {0air is widely reguarded
+to be a {3d{#a{3ngerous {0activity.  So on with the falling.  
+~
+0 0 0
+D5
+~
+~
+0 0 75129
+S
+#75129
+{7T{&h{7e {4F{$a{4ll {7Ab{&ru{7pt{&ly {7E{&n{7ds{0~
+{!*{1PH{!OO{1PH{!* {0A bed of dried {@lea{2ves {0and {7sticks {0rests luckily in the middle of
+the room which is at the end of a long passage seemingly connected to many
+more.  Upwards is {7pitch darkness{0.  
+~
+0 0 0
+D1
+~
+~
+0 0 75130
+D3
+~
+~
+0 0 75291
+S
+#75130
+{7Al{&o{7ng a {4Pa{$ss{4ag{$ew{4ay{0~
+{7The passageway {7perserveres on to the {4east{7.  {4Darkness {7shrowds the high
+ceilings, making them seem {&i{7n{&vi{7sib{&le{0 
+~
+0 0 0
+D1
+~
+~
+0 0 75131
+D3
+~
+~
+0 0 75129
+R GRALL 75114 75~
+S
+#75131
+{7Al{&o{7ng a {5Pa{%ss{5ag{%ew{5ay{0~
+{7The long hallow passage marc{%h{5es {4east and west in a par{5ad{%e {7of walls and
+floor.  The carpeting is velvety soft and seems almost very quite like
+grass.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75132
+D3
+~
+~
+0 0 75130
+S
+#75132
+{7Al{&o{7ng a {3Pa{#ss{3ag{#ew{3ay{0~
+The ceiling grows higher and hig{#h{3er {4till it disappears {3ou{#t {7of sight.  The
+walls are adorned with strange paintings.  {0 Cards, flamingos, and salt
+shakers stare down with stony glares.  
+~
+0 0 0
+D1
+~
+~
+0 0 75133
+D3
+~
+~
+0 0 75131
+S
+#75133
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+~
+0 0 0
+D0
+~
+~
+0 0 75137
+D1
+~
+~
+4 0 75236
+D2
+~
+~
+0 0 75134
+R GRALL 75113 75~
+S
+#75134
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+~
+0 0 0
+D0
+~
+~
+0 0 75133
+D1
+~
+~
+4 0 75237
+D2
+~
+~
+0 0 75135
+D3
+~
+~
+4 0 75241
+S
+#75135
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+~
+0 0 0
+D0
+~
+~
+0 0 75134
+D1
+~
+~
+4 75111 75140
+D2
+~
+~
+0 0 75136
+D3
+~
+~
+4 0 75240
+R GRALL 75112 50~
+S
+#75136
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+~
+0 0 0
+D0
+~
+~
+0 0 75135
+D1
+~
+~
+4 0 75238
+D3
+~
+~
+4 0 75239
+S
+#75137
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+~
+0 0 0
+D0
+~
+~
+0 0 75138
+D1
+~
+~
+4 0 75235
+D2
+~
+~
+0 0 75133
+D3
+~
+~
+4 0 75242
+S
+#75138
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+~
+0 0 0
+D0
+~
+~
+0 0 75139
+D1
+~
+~
+4 0 75234
+D2
+~
+~
+0 0 75137
+D3
+~
+~
+4 75111 75243
+S
+#75139
+{8a {2L{@o{2ng {6Na{^rr{6ow {2Ha{@l{2l{0~
+{2A do{4or t{2o th{4e we{2st h{4as a {#keyhole {2jus{4t bi{2g en{4oug{2h to {3l{#o{3ok {4thr{2oug{4h{0.  
+~
+0 0 0
+E
+keyhole~
+{0 {0 {0
+{0 {0 {0
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {%<{5>{4o{5<{%>{4o{%<{5>{4o{5<{%>{4o{%<{5>{4o{5<{%>{4o{%<{5>{4o{5<{%>{0
+{0 {0 {0
+{0 {0     {0 {0 {0 {8M{3a{8r{3b{8l{3e {5f{%ou{5nt{%ai{5ns {7rise amidst rows of {8f{3l{8o{3w{8e{3r{8s{7.{0
+{0 {0 {0  {6G{8a{6r{8d{6n{8e{6r{8s {7in large flat {2s{@u{2i{@t{2s {7move about tending the {6g{8a{6r{8d{6e{8n.{0
+{0 {0 {0 {0
+{0 {0           {5I{8n{5t{8o{5x{8i{5c{8a{5t{8i{5n{8g {5s{%me{5lls {7drift out in {5w{8a{5v{8e{5s{7.{0
+{0 {0 {0 {0
+{0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {0 {%<{5>{4o{5<{%>{4o{%<{5>{4o{5<{%>{4o{%<{5>{4o{5<{%>{4o{%<{5>{4o{5<{%>{0
+{0 {0 {0 {0
+{0 {0 {0 {0
+~
+D1
+~
+~
+4 0 75233
+D2
+~
+~
+0 0 75138
+D3
+~
+~
+4 75151 75152
+R GRALL 75111 75~
+S
+#75140
+{7A {1W{7i{1n{7d{1i{7n{1g {7R{1o{7a{1d{0~
+The world looks new and fresh like it has just been born.  The road is
+soft colored brick, smooth and uncracked.  A sign protrudes from the soft
+earth of the roadside.  {0 
+~
+0 0 4
+D1
+~
+~
+0 0 75141
+S
+#75141
+{7A {1W{7i{1n{7d{1i{7n{1g {7R{1o{7a{1d{0~
+{7A startling jumble of {1la{!nd{1sc{!ap{1e {0assaults the senses from every {7direction{0.
+Fields {0of {4b{$l{4ue {7and {1r{!e{1d {0cascade across the open land.  The air is wonderfully
+crisp {0and sweet smells of growing things cut through it like {4w{$a{4ter {0through
+{7sh{&ee{7ts {0of {7el{&ec{7tr{&ic{7it{&y{0.  
+~
+0 0 4
+D1
+~
+~
+0 0 75142
+D3
+~
+~
+0 0 75140
+S
+#75142
+{7A {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{0~
+{7Away to the south, a clear {6sh{^im{6me{^ri{6ng {7lake lies encircled by a ring of
+small {1b{!r{1ick {7houses.  A few {3m{#an{3go {7trees grow in a small grove along the
+roadside.  {0 
+~
+0 0 4
+D2
+~
+~
+0 0 75143
+D3
+~
+~
+0 0 75141
+R GRALL 75115 75~
+S
+#75143
+{7A {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{0~
+{7A little {&wh{7it{&e c{7lo{&ud {7drifts lathargically across the sky.  It transforms
+slowly from the shape of a salt shaker, into a {2ka{@ty{2did{7, and at last a {1h{!ea{1rt{7
+before beginning all over.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75142
+D2
+~
+~
+0 0 75144
+S
+#75144
+{7A {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{0~
+{0A forest of {2g{@r{2e{@e{2n {0rises to the {4west {0and {4south{0.  The {7r{4o{7a{4d {0abruptly ends
+and becomes a thin little path into the thick {2g{@r{2e{@e{2n {8dar{4kn{8ess{0.  
+~
+0 0 4
+D0
+~
+~
+0 0 75143
+D3
+~
+~
+0 0 75145
+S
+#75145
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7This part of the {@fo{2rest {7smells faintly of the {^oc{6ean{7.  {7Sh{&a{7dows {7flicker on
+the ground {7making shapes of {7whales {7and {$ca{4rgo line{$rs{7.  {7The {7pa{&t{7h {7bends
+gracefully to the {7north {7but it looks on the verge of giving up as if its
+very tired of being walked on.  
+~
+0 0 3
+D0
+~
+~
+0 0 75146
+D1
+~
+~
+0 0 75144
+R GRALL 75116 75~
+S
+#75146
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A few stretches of the path are not well kept up.  Leaves and sticks
+cover large sections.  Something moves deep inside the {2fo{@re{2st{7.  {0 
+~
+0 0 3
+D1
+~
+~
+0 0 75147
+D2
+~
+~
+0 0 75145
+S
+#75147
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A small stone walkway leads north towards a tiny house in a {2f{@or{2est
+{7clearing.  A {#song {7floats out, blending with a metallic clattering sound. 
+{2H{@e{2dges {7line the walkway.  {0 
+~
+0 0 3
+E
+song~
+{0 {0 {0 {0         {0 {0 {x {0
+{0 {0 {0 {0 {^"Speak {1r{!ou{1ghly{^ to your little boy,
+{0 {0 {0 {0 {^And beat him when he {1sn{!ee{1zes{^:
+{0 {0 {0 {0 {^He {1o{!n{1ly{^ does it to annoy,
+{0 {0 {0 {0 {^Because he {1k{!no{1ws{^ it teases."{0
+{0 {0 {0 {0         {0 {0 {x {0
+~
+D0
+~
+~
+0 0 75212
+D1
+~
+~
+0 0 75148
+D3
+~
+~
+0 0 75146
+S
+#75148
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7The path bends angrily to the south.  Small {2sa{@pl{2ings {7and sprouting bushes
+grow in the center.  Rocks and sticks litter the fringe.  {0 
+~
+0 0 3
+D2
+~
+~
+0 0 75149
+D3
+~
+~
+0 0 75147
+R GRALL 75117 80~
+S
+#75149
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7Fallen trees and jagged rocks make the path less than desirable to travel
+on.  The {2fo{@re{2st {7is {8dark {7and things move loudly in its depths.  The path is
+old and weary from travelers treading feet.  {1R{!e{1d {7moss grows in patches.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75148
+D2
+~
+~
+0 0 75188
+R GRALL 75118 85~
+S
+#75150
+{7Inside the {2Wi{@ll{2ow's {8Dark {7Grasp{0~
+{7The huge {8space {7under the branches is very dimly lit by {3s{#t{3reams {7of light
+fighting their way in.  An ancient platform has been built onto the bow of
+the {2wi{@ll{2ow's {7trunk.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75112
+D4
+~
+~
+0 0 75113
+R GRALL 75106 75~
+S
+#75151
+{6D{^o{6wn {7the {6R{^a{6bbit {6H{^o{6le{0~
+{7The {4darkness {6s{^l{6eeps{7.  {4Black {7floating {6t{^r{6acers {7dance to the rhythm of eternal
+{4night{0.  
+~
+0 0 0
+D0
+~
+~
+0 0 75115
+D3
+~
+~
+0 0 75116
+S
+#75152
+{4T{$h{4e {2Q{@ue{2en's {4Gar{$de{4n{0~
+{7Row{8s up{7on r{8ows {7of {%f{!l{^o{$w{!e{&r{0s {7s{8pan {7onw{8ard{7s th{8rou{7gh t{8he {@ga{2rden{0.  {8L{7ove{0, {8ski{7ll{0,
+{7a{8nd p{7rec{8ici{7on a{8re e{7qua{8lly {7app{8are{7nt i{8n ea{7ch b{8ril{7lia{8nt {%f{!l{^o{$w{!e{&r{0's {@gr{2owth{0.  
+
+This row is one of {$da{4rk bl{$ue {0wild flowers usually {2l{@o{2ners {0 in wide open
+{@fi{2elds {0but here grown in bunches unevenly but {4p{$e{4rfe{$c{4t {0in their disarray. 
+The {4s{$m{4ell {4is o{$f {4a {$m{4ou{$n{4tain {2fore{@s{2t {0at {8dawn{0, clear, sweet, and crisp.  
+~
+0 0 2
+D0
+~
+~
+0 0 75153
+D1
+~
+~
+4 75151 75139
+D2
+~
+~
+0 0 75156
+D3
+~
+~
+0 0 75170
+S
+#75153
+{6T{^h{6e {2Q{@ue{2en's {6Gar{^de{6n{0~
+{0Flowers usually never seen outside the {^de{6sert {0grow up from sandy beds.  The
+{6l{^i{6gh{^t {6b{^l{6u{^e {0petals look fragile but like and travel toughened {6b{^a{6rds{0 {0they have
+the strength to withstand the wiltering desert {6h{^e{6at{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75154
+D2
+~
+~
+0 0 75152
+D3
+~
+~
+0 0 75166
+S
+#75154
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{0Roses of {1r{!e{1d {0grow in a bright slash of {1c{!r{1imson {0through the growing
+garden.  Under the elogant beauty silent {1s{!o{1ldiers {0wait with drawn swords to
+prick and scar.  
+~
+0 0 2
+D0
+~
+~
+0 0 75155
+D2
+~
+~
+0 0 75153
+D3
+~
+~
+0 0 75162
+S
+#75155
+{5T{%h{5e {2Q{@ue{2en's {5Gar{%de{5n{0~
+Wild {5V{%i{5o{%l{5e{%t{5s {0lull about {2d{@r{2inking {0in the soft flowing air of the garden. 
+They lounge around like a {2c{@r{2ew {0of rowdy {5s{%a{5il{%o{5rs{0, tangled, twisty, and unruly
+yet precicely placed and perfectly organized underneith.  
+~
+0 0 2
+D2
+~
+~
+0 0 75154
+D3
+~
+~
+0 0 75158
+D5
+~
+~
+1 0 75284
+S
+#75156
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{1R{!e{1d {0Roses grow in gleaming splendor {7westward {0through the {@ga{2rden{0.  The
+glistening {7t{&h{7orns {0seem {1f{!o{1rsaken {0of mercy set against the harsh {1r{!e{1d {0beauty.  
+~
+0 0 2
+D0
+~
+~
+0 0 75152
+D2
+~
+~
+0 0 75157
+D3
+~
+~
+0 0 75174
+S
+#75157
+{7T{&h{7e {2Q{@ue{2en's {7Gar{&de{7n{0~
+{0The da{&zz{0ling {7Wh{&it{7e R{&os{7es {0ca{&l{0l attention to their {&pale {0f{&r{0a{&g{0i{&l{7e {&beau{0ty,
+softly growing their way up to the sky.  Many appear to have been
+deliberately painted {1r{!e{1d{0.  One red {1r{!o{1se {0is {0streaked with {&b{7r{&i{7g{&ht {7w{&h{7i{&t{7e{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75156
+D3
+~
+~
+0 0 75178
+S
+#75158
+{5T{%h{5e {2Q{@ue{2en's {5Gar{%de{5n{0~
+{0 {0 {0A {5r{%e{5verie {0of {5p{%u{5rple {0flowers grow tangled in a {8r{&o{8w{0.
+{0 {0The violet {5d{%r{5ea{%m{5s {0like earth-bound {5mo{&on{5be{&am{5s{0,
+{0 Bright {5shadows {0of the garden's {5g{%l{5ow{0.
+~
+0 0 2
+D1
+~
+~
+0 0 75155
+D2
+~
+~
+0 0 75162
+D3
+~
+~
+0 0 75159
+S
+#75159
+{5T{%h{5e {2Q{@ue{2en's {5Gar{%de{5n{0~
+{0Violets grow in tangles of {2g{@r{2een {0and brilliant {5p{%u{5rple{0.  The untended look
+is purposely exact.  
+~
+0 0 2
+D1
+~
+~
+0 0 75158
+D2
+~
+~
+0 0 75163
+D3
+~
+~
+0 0 75160
+S
+#75160
+{5T{%h{5e {2Q{@ue{2en's {5Gar{%de{5n{0~
+{0A row of {5v{%i{5olets {0runs along the lush, short-cut {2g{@r{2ee{@n g{2ra{@s{2s{0.  {5V{%i{5ola o{%d{5ora{%t{5a
+{0the symbol of ancient Athens, ancient flowers of the wild grow here in
+splendid silence, solumn splendor, peace, and light.  
+~
+0 0 2
+D1
+~
+~
+0 0 75159
+D2
+~
+~
+0 0 75164
+D3
+~
+~
+0 0 75161
+S
+#75161
+{3T{#h{3e {2Q{@ue{2en's {3Gar{#de{3n{0~
+{0Open {3p{#e{3tals {0grasp the air and hang on with determined beauty.  The {#Yel{3low
+Ro{#ses {0grow {7southward {0cutting a shining {#yel{3low {0luminance through the {@ga{2rden{0. 
+~
+0 0 2
+D1
+~
+~
+0 0 75160
+D2
+~
+~
+0 0 75165
+D3
+~
+~
+0 0 75187
+S
+#75162
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{0 {0 Violent {1r{!o{1se {0of the wild,
+{0 {0 {0A carpet of long dark {1r{!e{1d{0
+{0 {0 {0Innocent like the sleeping child,
+{0 {0 Curled in a warm soft bed.
+{0 {0 Wi{&nt{0er hath no fury,
+{0 {0 Like the {1p{!a{1in {0of your sticking thorns.
+{0 {0 In transcendent beauty,
+{0 {0 You stand with drawn sword.
+~
+0 0 2
+D0
+~
+~
+0 0 75158
+D1
+~
+~
+0 0 75154
+D2
+~
+~
+0 0 75166
+D3
+~
+~
+0 0 75163
+S
+#75163
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+A long row of {1r{!e{1d r{!o{1ses {7stretch east and west through the garden.  The
+precision with which they are tended is breathtaking.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75159
+D1
+~
+~
+0 0 75162
+D2
+~
+~
+0 0 75167
+D3
+~
+~
+0 0 75164
+S
+#75164
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{1R{!e{1d {0roses grow tended to perfection.  Proceeding {8east {0and {8west {0they grow in
+{1c{!r{1i{!m{1s{!o{1n {0splendor.  Someone's given their {1b{!l{1ood {0and tears into the noble
+procession.  
+~
+0 0 2
+D0
+~
+~
+0 0 75160
+D1
+~
+~
+0 0 75163
+D2
+~
+~
+0 0 75168
+D3
+~
+~
+0 0 75165
+S
+#75165
+{3T{#h{3e {2Q{@ue{2en's {3Gar{#de{3n{0~
+{0In bloom the Yellow Roses bathe the {@ga{2rden {0in sensual melodic beauty. 
+Great patience has been given to inspire the gentle {#flo{3wers {0to leave the
+ground and thrive.  
+~
+0 0 2
+D0
+~
+~
+0 0 75161
+D1
+~
+~
+0 0 75164
+D2
+~
+~
+0 0 75169
+D3
+~
+~
+0 0 75186
+S
+#75166
+{6T{^h{6e {2Q{@ue{2en's {6Gar{^de{6n{0~
+{0 {0 From the desert bloom the {6f{^l{6ow{^e{6r {0grooms,
+{0 {0 in shades of {6l{^i{6ght {0like rainbows cast,
+{0 {0 {0Their {6b{^r{6ide {0falls down amongst the dunes,
+{0 {0 As they {6bl{^oo{6m {0to life beneith the {6m{^o{6on{0.
+~
+0 0 2
+D0
+~
+~
+0 0 75162
+D1
+~
+~
+0 0 75153
+D2
+~
+~
+0 0 75170
+D3
+~
+~
+0 0 75167
+S
+#75167
+{6T{^h{6e {2Q{@ue{2en's {6Gar{^de{6n{0~
+{7A sprinkling of sand covers the ground with a yellow glow.  The beautiful
+{6l{^i{6ght b{^l{6ue {7flowers smell like the desert.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75163
+D1
+~
+~
+0 0 75166
+D2
+~
+~
+0 0 75171
+D3
+~
+~
+0 0 75168
+S
+#75168
+{6T{^h{6e {2Q{@ue{2en's {6Gar{^de{6n{0~
+{0Sand lined desert {6f{^l{6ow{^e{6rs {0grow from out of the pristine {2g{@r{2a{@s{2s{0.  {6B{^l{6u{^e
+{^P{6ha{^c{6il{^i{6a {0and {6D{^e{6se{^r{6t W{^i{6ll{^o{6w {0look all the more brilliant against the stark
+yellow sand.  
+~
+0 0 2
+D0
+~
+~
+0 0 75164
+D1
+~
+~
+0 0 75167
+D2
+~
+~
+0 0 75172
+D3
+~
+~
+0 0 75169
+S
+#75169
+{3T{#h{3e {2Q{@ue{2en's {3Gar{#de{3n{0~
+{0A tangle of roses light a row of radiance through the rows of flowers. 
+As still as soldiers at attention they send forth their fragrance for the
+garden to drink in.  
+~
+0 0 2
+D0
+~
+~
+0 0 75165
+D1
+~
+~
+0 0 75168
+D2
+~
+~
+0 0 75173
+D3
+~
+~
+0 0 75185
+S
+#75170
+{4T{$h{4e {2Q{@ue{2en's {4Gar{$de{4n{0~
+{0 {0 Flowers of the wild, the color of {4s{$k{4y{0, pirouette like dancers of glass.
+{0 {0 Underneith, an affair of {4n{$a{4tu{$r{4e's {2h{@a{2ir {0comforts weary feet.
+{0 {0 {0Waves of {4b{$l{4ue {0cascade anew in calm disarray {0they bask.
+{0 {0 {0They {2g{@r{2ow {0in ancient {4c{$o{4l{$o{4rs {0old and in winter {4s{$l{4eep {0at last.
+~
+0 0 2
+D0
+~
+~
+0 0 75166
+D1
+~
+~
+0 0 75152
+D2
+~
+~
+0 0 75174
+D3
+~
+~
+0 0 75171
+S
+#75171
+{4T{$h{4e {2Q{@ue{2en's {4Gar{$de{4n{0~
+{4B{$l{4ue {7wild flowers grow in intricate patterns.  They bask in the {2g{@a{2rdens
+{7growing light.  The care put into them is extrodinary.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75167
+D1
+~
+~
+0 0 75170
+D2
+~
+~
+0 0 75175
+D3
+~
+~
+0 0 75172
+S
+#75172
+{4T{$h{4e {2Q{@ue{2en's {4Gar{$de{4n{0~
+{$Bl{4ue Ve{$r{4va{$in {0and {4H{$a{4r{$e{4b{$e{4ll {0grow forth from the {2g{@r{2a{@s{2s{0.  Long creeping {2s{@t{2ems
+{0and {@vi{2nes {0tangle around the base.  The wild flowers {4g{$l{4ow {0with {4b{$e{4au{$t{4y{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75168
+D1
+~
+~
+0 0 75171
+D2
+~
+~
+0 0 75176
+D3
+~
+~
+0 0 75173
+S
+#75173
+{3T{#h{3e {2Q{@ue{2en's {3Gar{#de{3n{0~
+{0A {3Pa{#l{3e {#yel{3low {0line of roses marches {4north {0and {4south {0through the
+other tiers of flowers.  They stand at salute to the sun as if recalling
+their childhood as bulbs freshly removed from the {4s{4o{4il {0and the first warming
+{3r{#a{3ys {0from the sky.  
+~
+0 0 2
+D0
+~
+~
+0 0 75169
+D1
+~
+~
+0 0 75172
+D2
+~
+~
+0 0 75177
+D3
+~
+~
+0 0 75184
+S
+#75174
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{0 {0 {1R{!o{1ses {0of {1r{!e{1d{0, growing ascew,
+{0 {0 The {1B{!l{1o{!o{1d {0from their {1p{!e{1ta{!l{1s{0,
+{0 {0 Giving life to the dew.
+{0 {0 {1R{!o{1ses {0of {1r{!e{1d{0, coming forth into birth,
+{0 {0 With {2s{@w{2or{@d{2s {0out and drawn,
+{0 {0 Pledging their {1l{!i{1ves {0for the earth.
+~
+0 0 2
+D0
+~
+~
+0 0 75170
+D1
+~
+~
+0 0 75156
+D2
+~
+~
+0 0 75178
+D3
+~
+~
+0 0 75175
+S
+#75175
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{7The {1r{!o{1ses {7grow in rows of brilliant design.  Their petals glisten and
+shine with life.  The {2g{@r{2ass {7grows up around them like peasants crowding
+their monarchs.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75171
+D1
+~
+~
+0 0 75174
+D2
+~
+~
+0 0 75179
+D3
+~
+~
+0 0 75176
+S
+#75176
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{0Roses of {1r{!e{1d {0grow {7west {0and {7east {0in a row of dark {1c{!r{1imson{0.  They smell of
+a field at {4dusk {0on the first real day of {2f{@a{2ll{0.  In splendid order they grow,
+well cared for and tended with love and devotion.  
+~
+0 0 2
+D0
+~
+~
+0 0 75172
+D1
+~
+~
+0 0 75175
+D2
+~
+~
+0 0 75180
+D3
+~
+~
+0 0 75177
+S
+#75177
+{3T{#h{3e {2Q{@ue{2en's {3Gar{#de{3n{0~
+{0Roses of dark {3y{#e{3llow {0criss-cross the rows of flowers.  In {&go{7lden {0beauty
+they dance elogantly through the {@ga{2rden{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75173
+D1
+~
+~
+0 0 75176
+D2
+~
+~
+0 0 75181
+D3
+~
+~
+0 0 75183
+S
+#75178
+{7T{&h{7e {2Q{@ue{2en's {7Gar{&de{7n{0~
+{0 {0 {&Pal{0e as {&the {0ful{&l mo{0on's {&sof{0t li{&ght{0,
+{0 {0 {0Pal{&e as {0the {&mil{0k th{&at g{0ive{0s li{&fe t{0o th{&e ni{0ght,
+{0 {0 {&Pal{0e as {&the {0dre{&ams {0of a {&man {0los{&t at {0sea,
+{0 {0 {0Pal{&e as {0col{&d de{0ath {&in its d{0ark {&rev{0erie.
+~
+0 0 2
+D0
+~
+~
+0 0 75174
+D1
+~
+~
+0 0 75157
+D3
+~
+~
+0 0 75179
+S
+#75179
+{7T{&h{7e {2Q{@ue{2en's {7Gar{&de{7n{0~
+{&Whi{7te ros{&es {7the color of {&milk {7grow up towards the heavens from their
+perfectly set rows.  The brown earth feeds them and comforts their tired
+roots.  {0 
+~
+0 0 2
+D0
+~
+~
+0 0 75175
+D1
+~
+~
+0 0 75178
+D3
+~
+~
+0 0 75180
+S
+#75180
+{7T{&h{7e {2Q{@ue{2en's {7Gar{&de{7n{0~
+{0Roses of p{&a{0le {&w{0h{&i{0t{&e {0grow in a row.  Someone has dev{&ou{0tly tended them into
+marvelous or{&d{0er and {&s{0ymm{&e{0tr{&y{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75176
+D1
+~
+~
+0 0 75179
+D3
+~
+~
+0 0 75181
+S
+#75181
+{3T{#h{3e {2Q{@ue{2en's {3Gar{#de{3n{0~
+{0Roses of {3y{#e{3llow {0tended with great care grow {4north {0in a {3co{#ll{3on{#ad{3e {0through
+the many other {3s{#u{3ite{#s {0of flowers.  Their {3p{#a{3le {#yel{3low {3p{#e{3tals {0could sing many
+songs about the {#lig{3ht {0and the {2r{@a{2in{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75177
+D1
+~
+~
+0 0 75180
+D3
+~
+~
+0 0 75182
+S
+#75182
+{7T{&h{7e {2Q{@ue{2en's {7Gar{&de{7n{0~
+{0Unus{&u{0ally la{&r{0ge {0Wh{&it{0e R{&os{0es {0gr{&o{0w in a row {4east{0.  Out of their la{&r{0ge cu{&pp{0ed
+{&pe{0ttl{&es {0drift mis{&ty {0ten{&dr{0ils of {&p{7a{&le {&f{0rag{&r{0anc{&e{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75183
+D1
+~
+~
+0 0 75181
+S
+#75183
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{0Roses of a shade of {1r{!e{1d {0reserved for the life-{1b{!l{1ood {0inside the veins of
+living creatures grow {7eastward{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75184
+D1
+~
+~
+0 0 75177
+D2
+~
+~
+0 0 75182
+S
+#75184
+{4T{$h{4e {2Q{@ue{2en's {4Gar{$de{4n{0~
+{0Someone with a lot of {4t{$i{4me {0on their hands has planted sparkling {4b{$l{4ue
+{$f{4lo{$w{4er{4s {0in rows.  They have been captured from the {4w{$i{4ld {0and placed in
+symetrical disorder.  
+~
+0 0 2
+D0
+~
+~
+0 0 75185
+D1
+~
+~
+0 0 75173
+D2
+~
+~
+0 0 75183
+S
+#75185
+{6T{^h{6e {2Q{@ue{2en's {6Gar{^de{6n{0~
+{0The grass is sprinkled with sand along this row.  {6D{^e{6se{^r{6t L{^a{6ve{^n{6d{^e{6r {0and
+{6M{^o{6ja{^v{6e A{^s{6t{^e{6r {0grow up in tufts of {6l{^i{6ght {0blue brilliance.  
+~
+0 0 2
+D0
+~
+~
+0 0 75186
+D1
+~
+~
+0 0 75169
+D2
+~
+~
+0 0 75184
+S
+#75186
+{1T{!h{1e {2Q{@ue{2en's {1Gar{!de{1n{0~
+{7Eastward {0grows a row of roses.  The pallid {1b{!l{1o{!o{1d-r{!e{1d {0splendor hath no
+equal upon the face of the deep wild growing world.  Red leaps forth from
+the garden in {!violent {0fits sending out a deep spectral {7glow{0.  
+~
+0 0 2
+D0
+~
+~
+0 0 75187
+D1
+~
+~
+0 0 75165
+D2
+~
+~
+0 0 75185
+S
+#75187
+{5T{%h{5e {2Q{@ue{2en's {5Gar{%de{5n{0~
+{5V{%i{5olets {7grow in purple showers.  They stand with dignity awaiting the
+refreshment of rain.  {0 
+~
+0 0 2
+D1
+~
+~
+0 0 75161
+D2
+~
+~
+0 0 75186
+S
+#75188
+{2A {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A brown stripe of dirt lies where a {1p{2a{1t{2h {7might have once been.  The {2fo{@re{2st
+{7is thin and streaming {3l{#i{3ght {7filters in from the east.  A yellow brick
+{3w{7i{3n{7d{3i{7n{3g {7r{3o{7a{3d {7starts at the {2fo{@re{2st {7edge.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75149
+D1
+~
+~
+0 0 75189
+S
+#75189
+{7A {5W{7i{5n{7d{5i{7n{5g {7R{5o{7a{5d{0~
+{7A winding road of clean swept {5p{%ur{5ple {7brick heads steeply uphill to the
+east, through Wonderland.  To the west a {5dark {7forest grows.  {0 
+~
+0 0 4
+D1
+~
+~
+0 0 75190
+D3
+~
+~
+0 0 75188
+S
+#75190
+{7A {5W{7i{5n{7d{5i{7n{5g {7R{5o{7a{5d{0~
+{7Curiously, si{&lv{7er {6s{&p{7oo{&n{6s{7, {6f{&o{7r{&k{6s{7, and {6k{&n{7iv{&e{6s {7grow along the sides of the
+road.  They are the product of careless utinsel handling to the highest
+degree.  The {5b{%r{5ick {7road bends sharply south and heads downhill to the west. 
+{0 
+~
+0 0 4
+D2
+~
+~
+0 0 75191
+D3
+~
+~
+0 0 75189
+R GRALL 75119 75~
+S
+#75191
+{7A {5W{7i{5n{7d{5i{7n{5g {7R{5o{7a{5d{0~
+{7The {7r{5o{7a{5d {7winds {1s{!te{1eply {7upward in spiraling loops and arcs.  Large rocks
+form shelfs rising in a natural staircase.  The northern view is of a wide
+rolling {4r{$i{4ver {7gashing through the open countryside.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75190
+D2
+~
+~
+0 0 75192
+S
+#75192
+{7A {2W{7i{2n{7d{2i{7n{2g {7R{2o{7a{2d{0~
+{7The road drops off on both sides overlooking a deep, deep {8gorge{7.  {&Cl{7ou{&ds
+{7float lazily hundreds of feet below.  A little man sits cross-legged on a
+rock shelf many yards below.  
+~
+0 0 4
+D0
+~
+~
+0 0 75191
+D2
+~
+~
+0 0 75193
+R GRALL 75120 75~
+S
+#75193
+{7A {2W{7i{2n{7d{2i{7n{2g {7R{2o{7a{2d{0~
+{7Rocks rise high above the western side of the road.  A {$wat{4erfall {7arcs
+over and splashes down, down, down into a gorge.  The water smells
+suspiciously like tea.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75192
+D1
+~
+~
+0 0 75194
+S
+#75194
+{7A {2W{7i{2n{7d{2i{7n{2g {7R{2o{7a{2d{0~
+{7The summit of the rising land is covered by a huge stretch of flat land. 
+A path turns south towards a small {2g{@r{2een {7building.  The road winds east and
+west in confusing turns and criss-crosses.  {0 
+~
+0 0 4
+D1
+~
+~
+0 0 75195
+D2
+~
+~
+0 0 75216
+D3
+~
+~
+0 0 75193
+S
+#75195
+{7A {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{0~
+{7A fallen tree blocks the road.  Someone has cut a good hole in the side
+big enough for walking through.  A tiny patch of {8b{&a{8b{&y {8g{&r{8a{&n{8d {&p{8i{&a{8n{&o{8s {7grow in
+the soft soil of the decaying wood.  {0 
+~
+0 0 4
+D3
+~
+~
+0 0 75194
+S
+#75196
+{7A {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{0~
+{7The road carries on {4eastward{7.  A little {&cloud {7is hovering over the road
+raining down {@em{2erald gre{@en {7droplets of water but they evaporate before
+touching the earth.  {0 
+~
+0 0 4
+D1
+~
+~
+0 0 75197
+S
+#75197
+{7A {4W{7i{4n{7d{4i{7n{4g {7R{4o{7a{4d{0~
+A {1l{!i{1ne {7of {1r{!e{1d {7ants march busily by on some deathly important project or
+another.  Curiously, the winding line appears to spell out the oddly
+apropriate words {&Really, what is the point of all this{7.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75198
+D3
+~
+~
+0 0 75196
+S
+#75198
+{7A {1W{7i{1n{7d{1i{7n{1g {7R{1o{7a{1d{0~
+A book tree grows in the soft earth on the roadside.  Books of every
+shape and size grow from its wordy branches.  Some seem ripe for picking
+while others are just little baby noveletes.  {0 
+~
+0 0 4
+D2
+~
+~
+0 0 75197
+D3
+~
+~
+0 0 75199
+S
+#75199
+{7A {1W{7i{1n{7d{1i{7n{1g {7R{1o{7a{1d{0~
+{7This part of the {1r{7o{1a{7d {7is spinning around and around.  A sign with arrows
+pointing various directions points {1m{!a{1d{!l{1y {7in {4EV{$E{4RY {7direction.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75200
+D1
+~
+~
+0 0 75193
+D2
+~
+~
+0 0 75196
+D3
+~
+~
+0 0 75198
+R GRALL 75122 65~
+S
+#75200
+{7A {1W{7i{1n{7d{1i{7n{1g {7R{1o{7a{1d{0~
+{1N{!o {4d{$n{4a {1n{!o {4d{$n{4a {1n{!o {4d{$n{4a {1n{!o {7depmats petstoof tnaig a ekil epacsdnal eht revo
+sedirts yliraew ti {%sdr{5awrof {7dna {5sdrawk{%caB {7.  Drawno swollaw {7d{1a{7o{1r {7ehT 
+~
+0 0 4
+D2
+~
+~
+0 0 75199
+D3
+~
+~
+0 0 75201
+S
+#75201
+{7A {6W{7i{6n{7d{6i{7n{6g {7R{6o{7a{6d{0~
+{7Mu{&si{7c b{&ox{7es grow in rows bordering the {6r{7o{6a{7d.  A few in {!bl{1oom {7tinkle and
+sing in rhythm.  The music is soft and sweet.  
+~
+0 0 4
+D1
+~
+~
+0 0 75200
+D2
+~
+~
+0 0 75202
+S
+#75202
+{7A {6W{7i{6n{7d{6i{7n{6g {7R{6o{7a{6d{0~
+{7Someones written something in yellow {#chalk {7on the road.  {4B{$l{4ue {7mountains
+ringed in {&snow {7rise far to the {4south{7.  And beyond that?  {0 
+~
+0 0 4
+E
+chalk~
+{0 {0 {0 {0 {&I am the Calliflower Squire.{0
+{0 {0 {0 {&My kingdom is a funeral pire.{0
+{0 {0 {0 {0 {&I was the Turnip King{0
+{0 {0 {0 {0 {&I could do anything.{0
+~
+D0
+~
+~
+0 0 75201
+D2
+~
+~
+0 0 75203
+S
+#75203
+{@a w{1indi{%ng r{#oad{0~
+{1Colo{$r {4s{^e{4e{^m{4s {@({3a{@t least f{6or the m{#o{1m{#e{1n{$t{@) {&t{!o {%h{!a{&v{!e {&g{!o{&n{!e {&a {!t{&o{#u{$ch {!mad{7.  {@It{1'{$s lo{#st
+{6in {#a t{6id{#al w{5av{@e o{5f {6c{!r{6a{!s{$hi{#ng {5and {&b{2l{&e{2n{$di{#ng{7.  {1The {$r{5e{$b{5e{$lo{#us {4co{@lor {^dips {@and
+{^dodges, {%up{&, down, ever{2y {$w{5a{$y {5b{$u{5t {$t{5h{$e {5w{$a{5y {$i{5t {$s{5h{$o{5u{$l{%d.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75202
+D1
+~
+~
+0 0 75218
+D2
+~
+~
+0 0 75204
+S
+#75204
+{7A {3W{7i{3n{7d{3i{7n{3g {7R{3o{7a{3d{0~
+{7Onward through {1Wo{!nd{1er{!la{1nd {7marches the winding {3r{&o{3a{&d{7.  The {#ye{3llow {7brick is
+cool and strangely soft.  The air smells like {6m{^i{6st {7in early morning when
+waking early to go off on a holiday.  {0 To the {4east {7a {@fo{2rest {7begins.  A path
+leads bravely through it.  
+~
+0 0 0
+D0
+~
+~
+0 0 75203
+D1
+~
+~
+0 0 75205
+S
+#75205
+{2A {1N{2o{1t {2Q{1u{2i{1t{2e {1s{2o {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A {@tr{2ee {7several stories tall rises to the {4east{7.  A canalope tree grows by
+the path near the upsidedown stream that once more washes over the path in a
+bath of {4non{7-{$rig{4hts{$ide{7-{4upn{$ess{0.  
+~
+0 0 3
+D1
+~
+~
+0 0 75206
+D3
+~
+~
+0 0 75204
+S
+#75206
+{2A {1N{2o{1t {2Q{1u{2i{1t{2e {1s{2o {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A little {&dream {7lies curled up in a patch of soft {@gr{2een gra{@ss{7.  Its tired
+little head rests in its arms.  It must have gotten lost along the way. 
+{1Tea{!rdr{1op{7-{6po{^in{6se{^tt{6es {7have grown up around it.  
+~
+0 0 3
+D1
+~
+~
+0 0 75207
+D3
+~
+~
+0 0 75205
+S
+#75207
+{2A {1N{2o{1t {2Q{1u{2i{1t{2e {1s{2o {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A pair of {3Ja{#ck{7-{3in{7-{#th{3e{7-{3B{#ox{3es {7sit on the ground.  They appear to be
+scaring one another.  Except that every time one springs out, the other is
+safely inside.  They look as if they could keep it up for a LONG time.  
+~
+0 0 3
+D1
+~
+~
+0 0 75208
+D3
+~
+~
+0 0 75206
+S
+#75208
+{7A {2Cr{@os{2sr{@oa{2ds{0~
+{0A mighty twisted {2t{@re{2e {0grows upwards from the {7dead {0center of the
+{7cross{&roads{0.  A little way up, the massive {7trunk {0splits and grows apart
+making two formidable trunks and a large comfortable looking bow.  
+~
+0 0 3
+D0
+~
+~
+0 0 75223
+D1
+~
+~
+0 0 75209
+D2
+~
+~
+0 0 75226
+D3
+~
+~
+0 0 75207
+S
+#75209
+{2A {1N{2o{1t {2Q{1u{2i{1t{2e {1s{2o {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7The path turns briefly to soft warm sand.  A few small crabs scuttle hear
+and there.  Lovely shells lie drowsily around.  
+~
+0 0 3
+D2
+~
+~
+0 0 75250
+D3
+~
+~
+0 0 75208
+S
+#75210
+{2A {1N{2o{1t {2Q{1u{2i{1t{2e {1s{2o {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+{7A {2t{@r{2ee {0towers high above the others to heights even hawks fear to tread. 
+At the base the gnarled ancient {3t{#r{3unk {7splits, creating a {8hole {7big enough to
+walk through standing up.  
+~
+0 0 3
+D3
+~
+~
+0 0 75250
+S
+#75211
+{2J{@ac{2kF{@ro{2st's {4S{$t{4or{$a{4ge {&Facility{0 ~
+Beau Gilley you are a nut.  Why drive yourself crazy when you can walk? 
+Well thats why God made feet.  To walk with?  No to push the gas pedal. 
+Thank you I'm hear all week.  Redemption, you kept me going when my soul felt
+dry and cold.  This area is for you and all you were, are, and will be.  I'm
+socially inept but that was ok most of the time curled up inside a ball of
+text and love.  I could never carry on conversations with people in the same
+room as myself.  I would feel distinctly uncomfortable.  Isn't that odd? 
+This is getting long and the day is getting on.  SO why not pack my things
+and head on down the road.  Where tommorrow will find me.  I'll never know 
+ 
+BG dec.16.2002
+~
+0 8954880 0
+D1
+~
+~
+0 0 75136
+O jackfrost ~
+S
+#75212
+{7A {3Wa{#lk{3way {7Lined with {2S{@hr{2ubs{0~
+{7The walkway is lined with high, twisting {2shr{@ubb{2ery {7art.  On the left, a
+{2b{@e{2ar {7stands at full height surveying the passage with silent majesty.  The
+walk continues to the north.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75213
+D2
+~
+~
+0 0 75147
+S
+#75213
+{7The {3F{#r{3ont S{#t{3ep {7of a House{0~
+{7A little house lies north.  A shrub to the right has been sculpted into a
+giant {2to{@rt{2oise{7.  Its eyes look wize and full of sadness.  {0 
+~
+0 0 3
+D2
+~
+~
+0 0 75212
+S
+#75214
+{7A {2Ki{@tc{2hen {7Filled with {8Smoke{0~
+{0The huge kitchen is filled with {8smoke {0from one end to the other.  A table
+in the corner provides a counter for countless saucepans, plates, and
+dishes.  The roof is rather badly patched and in several places the sky is
+visible.  
+~
+0 1024 0
+D3
+~
+~
+0 0 75215
+R GRALL 75101 100~
+S
+#75215
+{7A {2Ki{@tc{2hen {7Filled with {8Smoke{0~
+A large fireplace takes up one wall.  {8Smoke {0billows around the room in
+great sheets.  A cauldron of soup bubbles on an iron stove.  
+~
+0 0 0
+D1
+~
+~
+0 0 75214
+S
+#75216
+{7A {1B{!ri{1ck {7Path{0~
+{7A little home sprouts up to the south.  The path's side are lined with
+pretty if not quite extravagant flowers.  The tiny front garden shows signs
+of work.  Potatos and carrots are beginning to make their way up from the
+earth.  {0 
+~
+0 0 4
+D0
+~
+~
+0 0 75194
+D2
+~
+~
+0 0 75217
+R GRALL 75121 75~
+S
+#75217
+{7Th{7e F{&ro{7nt S{&t{7ep of a S{&ma{7ll H{&ou{7se{0~
+{7A rather noticably small house grows up from the rolling landscape.  The
+bright blue {4r{$oo{4f {7contrasts pleasantly with the soft {2g{@r{2een {7of the walls.  A
+brass {#plate {7is mounted on the tiny door.  {7 
+~
+0 0 4
+E
+plate~
+{0 {0 {0 {0         {0 {0 {x {0
+{0 {0 {0 {0         {0 {0 {x {0
+{0 {0 {0 {0 {0 {0 {$<{4><{$>{#<{3><{#><><><><><><>{#<{3><{#>{$<{4><{$>{0
+{0 {0 {0 {0 {0 {0 {$<{4><{$>{#<{3><{#> {0 {&W. RABB{&IT {#<{3><{#>{$<{4><{$>{0
+{0 {0 {0 {0 {0 {0 {$<{4><{$>{#<{3><{#><><><><><><>{#<{3><{#>{$<{4><{$>{0
+{0 {0 {0 {0         {0 {0 {x {0
+{0 {0 {0 {0         {0 {0 {x {0
+~
+D0
+~
+~
+0 0 75216
+D1
+~
+~
+1 0 75251
+S
+#75218
+{2un{@de{2r a {@mu{2sh{@ro{2om{0~
+{7A large {1m{#u{1s{2h{@r{1o{#o{1m {7protrudes upwards from the soft earth.  It's cap from
+underneith is a network of ribbed veins.  The stalk is splattered with {@green
+{7and {&white {7dots.  {0 
+~
+0 0 0
+D3
+~
+~
+0 0 75203
+D4
+~
+~
+0 0 75265
+S
+#75219
+{0a {8tunnel {0underground~
+A little tunnel carries on to the south.  The walls are clean {$da{4rk{7-{4bl{$ue
+{7marble.  Cool fresh air wafts by from somewhere ahead.  
+~
+0 0 0
+D2
+~
+~
+0 0 75220
+S
+#75220
+{0a {8tunnel {0underground~
+The air drifting from the south is fresh and clean.  The marble floor
+here is slightly {7dif{#f{7erent{7.  It doesn't quite match.  
+~
+0 0 0
+D0
+~
+~
+0 0 75219
+D2
+~
+~
+0 0 75221
+D5
+~
+~
+3 0 75259
+S
+#75221
+{0a {8tunnel {0underground~
+The tunnel bends and light pours in softly from the east.  The marble
+changes to a brilliant {@green{7.  
+~
+0 0 0
+D0
+~
+~
+0 0 75220
+D1
+~
+~
+0 0 75222
+S
+#75222
+{0a {8tunnel {0underground~
+The outside peers down.  The marble walls spiral upwards becoming part of
+the earth.  Several large roots provide a natural ladder back above.  
+~
+0 0 0
+D3
+~
+~
+0 0 75221
+D4
+~
+~
+0 0 75147
+S
+#75223
+{5Th{#e P{5at{#h t{5o a {#Ho{5us{#e{0~
+{7Slips of crumpled up paper litter the ground.  The path winds in a not
+entirely sane manner continuing its journey north and south.  {0 A tall narrow
+building rises up to the north.  
+~
+0 0 3
+D0
+~
+~
+0 0 75224
+D2
+~
+~
+0 0 75208
+S
+#75224
+{5Th{#e P{5at{#h t{5o a {#Ho{5us{#e{0~
+{7A large {!top hat {7dotted with windows lies just ahead to the north.  {2He{@dg{2es
+{7grow along the side of the path.  They have been grown into strange
+creatures.  A {2wi{@ng{2ed l{@i{2on {7looks down with sad eyes.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75225
+D2
+~
+~
+0 0 75223
+S
+#75225
+{7The {1T{!o{1p H{!a{1t{7: floor {!1{0~
+The walls are adorned with pictures of hats and hat accessories.  A
+{4s{$ta{4ir{$ca{4se {7winds upwards.  {0 The soft blue carpeting is covered with crumpled
+slips.
+{0 {0             _
+{0 {0            / \
+{0 {0           /   \
+{0 {0          /  |  \
+{0 {0             |  
+{0 {0             |  
+{0 {0             |  
+{0 {0             |  
+~
+0 0 0
+D2
+~
+~
+0 0 75224
+D4
+~
+~
+4 75138 75229
+S
+#75226
+{5Th{$e P{5at{$h t{5o a {$Ho{5us{$e{0~
+{7The grass around the house has grown up covering the windows.  A rather
+large patch is dedicated to a graveyard of broken saucers and cups.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75208
+D2
+~
+~
+0 0 75227
+S
+#75227
+{5Th{$e P{5at{$h t{5o a {$Ho{5us{$e{0~
+A large house to the south has been built to look like a hare of some
+sort.  Its sides are thatched to look like fur and from the top sprout two
+ear shaped {1ch{!im{1ne{!y{1s.  {0 
+~
+0 0 3
+D0
+~
+~
+0 0 75226
+D2
+~
+~
+0 0 75228
+S
+#75228
+{%O{5n a Ste{%p{0~
+{7The {2g{@r{2ass {7parts enough to give a glimpse into the {#window{7.  {8Smoke {7rises
+from the two {1c{!hi{1mn{!ey{1s {7in merry {8streams{7.  {0 
+~
+0 0 3
+E
+window~
+{7A {2k{@it{2chen {7stands in a state of disorder.  Cups and cakes tossed random
+about cover the counter and floor.  {0 
+~
+D0
+~
+~
+0 0 75227
+D3
+~
+~
+4 75142 75264
+S
+#75229
+{7The {1T{!o{1p H{!a{1t{7: floor {!2{0~
+{7A second floor window looks out on the crossroads.  The {4st{$ai{4rc{$as{4e
+{7continues upwards to the third floor.  {0 
+~
+0 0 0
+D4
+~
+~
+4 75139 75230
+D5
+~
+~
+4 75138 75225
+S
+#75230
+{7The {1T{!o{1p H{!a{1t{7: floor {!3{0~
+{7The third floor is a kitchen of sorts.  The barest necessities line an
+open cupboard built into the wall.  A sink without a faucet lies
+disreguarded on the tile floor.  {0 
+~
+0 0 0
+D4
+~
+~
+4 75139 75231
+D5
+~
+~
+4 75139 75229
+S
+#75231
+{7The {1T{!o{1p H{!a{1t{7: floor {!4{0~
+{7The top floor is a little bedroom.  A huge empty {3h{#a{3t r{#a{3ck {7takes up one
+entire wall.  A flamingo {7shaped {3l{#a{3mp {7lies broken on the floor.  The bed is
+made and a thick layer of dust covers everything.  
+~
+0 0 0
+D5
+~
+~
+4 75139 75230
+S
+#75232
+{1In{7si{1de {7th{1e {2h{@o{2me {1o{7f t{1he {!M{1ad H{1atte{!r{0~
+~
+0 4 0
+S
+#75233
+{7the {2g{@re{2en {7room{0~
+~
+0 32768 0
+D3
+~
+~
+4 0 75139
+S
+#75234
+{7the {1r{!e{1d {7room{0~
+~
+0 32768 0
+D3
+~
+~
+4 0 75138
+S
+#75235
+{7the {4b{$l{4ue {7room{0~
+~
+0 32768 0
+D3
+~
+~
+4 0 75137
+S
+#75236
+{7the {3ye{#ll{3ow {7room{0~
+~
+0 32768 0
+D3
+~
+~
+4 0 75133
+S
+#75237
+{7the {1r{@a{3i{$n{5b{^o{1w {7room~
+~
+0 32768 0
+D3
+~
+~
+4 0 75134
+S
+#75238
+the Inn of the Spitting Goose~
+This inn is balanced on the head of a needle.  Patrons go hither and
+yonder as if being balanced precariously on the head of a needle is really
+nothing to worry about.  
+~
+0 32768 0
+D3
+~
+~
+4 0 75136
+S
+#75239
+The lying thistle ~
+The last great inn of wonderland stands brilliantly as it has for time
+out of mind.  The inn is run by a lovely child of great beauty and
+enchantment.  The child is said to be the last decendent of the one time
+Queen Alice.  
+~
+0 32768 0
+D1
+~
+~
+4 0 75136
+S
+#75240
+Jack's room~
+~
+0 32768 0
+D1
+~
+~
+4 0 75135
+S
+#75241
+{7the {6c{^y{6an {7room{0~
+~
+0 32768 0
+D1
+~
+~
+4 0 75134
+S
+#75242
+{7the {5vi{%ol{5et {7room{0~
+~
+0 32768 0
+D1
+~
+~
+4 0 75137
+S
+#75243
+{7The {8BLACK {7Room{0~
+{8This room's walls are painted black.  A single tiny hole from above casts
+a slender column of pale {3l{#i{3g{#h{3t {8onto the {#ce{3nt{#er{0 {8of the {3f{#loo{3r{7  
+~
+0 0 0
+D1
+~
+~
+4 75111 75138
+D5
+~
+~
+1 0 75248
+S
+#75244
+{7Inside the {2Wi{@ll{2ow's {7Tr{8u{7nk{0~
+{7The crawlspace opens out into a room just big enough to sit in.  A
+lantern, long out of use, is hung on a {1n{!a{1il{7.  A sense of childhood fairy
+tales invades the room with feeling.  {0 
+~
+0 0 0
+D5
+~
+~
+0 0 75245
+S
+#75245
+{7The Very Bottom of the {2Wi{@ll{2ow's {7Trunk{0~
+The trunk's hollow tunnel ends at a crack that gives a tiny view of the
+outside world.  {7The sweet, musky smell of the {2li{@vi{2ng {7willow {7fills the hollow
+trunk with a warm fragrance.  {0 
+~
+0 0 0
+D4
+~
+~
+0 0 75244
+S
+#75246
+{0inside the {1s{!t{1ream {0bed~
+{8The bank forms a dry hidden {1t{!u{1nnel {8that leads right down into the {1s{!t{1ream
+{8bed{7.  {8The sound of rushing {1w{!a{1ter {8reverberates the sides{7.  {0 {8Hard clay packs
+the walls of this {1s{!e{1cret {8place{7, {8a place of memories forgotten{7, {8of dreams
+remembered{7.  
+~
+0 0 0
+D3
+~
+~
+0 0 75247
+S
+#75247
+{7under the {1s{!t{1re{!a{1m {7bed{0~
+{8The rushing sound of {1w{!a{1t{!e{1r {8echoes from above.  A few tangles of wispy {1m{!o{1ss
+{8have managed to grow from the hard {1c{!l{1a{!y {8walls.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75246
+S
+#75248
+{8The {&WHITE {8Room{0~
+{&The walls here are brilliant white.  A lantern covered in white paper
+hangs from a nail.  The light flickers blending the floor, walls, and
+ceiling into one.  {0 
+~
+0 0 0
+D4
+~
+~
+1 0 75243
+S
+#75249
+~
+~
+0 4 0
+S
+#75250
+{2A {1N{2o{1t {2Q{1u{2i{1t{2e {1s{2o {4Pe{$cu{4liar {1P{2a{1t{2h {1T{2h{1r{2o{1u{2g{1h a {2D{1a{2r{1k {2Fo{@re{2st{0~
+The not quite so peculiar path is covered with a soft velvet {2m{@o{2ss{0.  It is
+very much like the peculiar path through a forest only not quite as
+peculiar.  It is still peculiar but just not quite so.  
+~
+0 0 3
+D0
+~
+~
+0 0 75209
+D1
+~
+~
+0 0 75210
+S
+#75251
+{7A Small Oval {2F{@o{2y{@e{2r{0~
+{7A {#sta{3rfish {7shaped {3l{#am{3p {7hangs down from the ceiling giving the foyer a dancing
+{3g{#lo{3w{7.  There's a tiny bedroom to the {4north {7and a cheerful glow coming from the room to the
+{4south{7.  {4East {7leads down a small {$hal{4lway{7.  {0 
+~
+0 0 0
+D0
+~
+~
+1 0 75252
+D1
+~
+~
+0 0 75253
+D2
+~
+~
+1 0 75255
+D3
+~
+~
+1 0 75217
+S
+#75252
+{7A Miniature Sized {2B{@ed{2ro{@o{2m{0~
+{0A small bed takes up one {8corner{0.  A {3l{#am{3p {0hanging from the ceiling {#gl{3ows
+{0merrily.  {0A pair of {5ve{%l{5vet {0slippers lie neatly discarded under a miniature
+but superbly crafted desk.  
+~
+0 0 0
+D2
+~
+~
+1 0 75251
+S
+#75253
+{7A Narrow {4H{$all{4way{0~
+{7The {$hal{4lway {7bends and heads {4south{7.  A {%co{5lorful painti{%ng {7of a fat, very {3e{#g{3g
+{7shaped person sitting on a {1w{!al{1l{7, hangs lopsided on a peg.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75254
+D3
+~
+~
+0 0 75251
+S
+#75254
+{7A Narrow {4H{$all{4way{0~
+{7The hallway stops.  Several small doors lead to other places in the
+house.  The wall above the doors is painted a lustrious {4b{$l{4ue{7.  A painting of
+an elderly rabbit in a top-hat adorns one wall.  
+~
+0 0 0
+D0
+~
+~
+0 0 75253
+D4
+~
+~
+1 0 75256
+S
+#75255
+{7A Tiny but Cozy {2D{@e{2n{0~
+{7The den looks like a cheerful sort of place to relax.  A tidy fireplace
+takes up most of one wall.  Neat stacks of wood sit in a box in the {8corner{7. 
+The den is lit by two {3g{#o{3ld {7colored flamingo shaped lamps.  {0 
+~
+0 0 0
+D0
+~
+~
+1 0 75251
+S
+#75256
+{7Inside a Tidy {2A{@tt{2ic{0~
+{7The warm smell of age hangs comfortingly in the air.  Dark, dusty wooden
+slats peek down into the rooms below.  Boxes and crates are neatly stacked
+against the walls.  Dreamy, floating dust particles dance like schools of
+fish.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75257
+D5
+~
+~
+1 0 75254
+S
+#75257
+{7Inside a Tidy {2A{@tt{2ic{0~
+{7The tidy little attic has a large {6b{^a{6y w{^in{6dow {7overlooking a {8dark {7green
+{2f{@o{2rest {7to the east.  A little winding road disappears into the trees.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75256
+D3
+~
+~
+0 0 75258
+S
+#75258
+{7Inside a Tidy {2A{@tt{2ic{0~
+{7Boxes with overflowing items fill the attic.  The bedroom lies below
+peeking up through the wooden slats that make up the floor.  
+~
+0 0 0
+D1
+~
+~
+0 0 75257
+S
+#75259
+{7A {6R{^o{6om {7Made Entirely of {6G{^l{6ass{0~
+{7The walls, ceiling, and floor are made entirely of light-blue tinted
+{6g{^l{6ass{7.  A beam of {3l{#i{3ght {7angles from one wall to the other, upwards to the
+ceiling, and down to the floor before starting over at a slightly different
+angle.  It continues on and on.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75260
+D4
+~
+~
+3 0 75220
+S
+#75260
+{7A {6R{^o{6om {7Made Entirely of {6G{^l{6ass{0~
+{7The {6g{^l{6ass {7room sends a beam of {3l{#i{3ght {7into refractions and reflections. 
+It looks like it changes directions and angles as if moving, but each has
+been set precisely to bring the affect alive.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75259
+S
+#75261
+{7A {1T{!e{1a P{!ar{1ty {7in {5P{#r{5o{#g{5r{#e{5s{#s{0~
+The walls are splattered with tea that has somehow gone arry.  Its
+original destination most likely being someones mouth.  Saucers and plates
+lie stacked to the ceiling.  The air is heavy with the smell of brewing tea.
+~
+0 0 0
+D1
+~
+~
+0 0 75263
+D3
+~
+~
+0 0 75262
+S
+#75262
+{7A {1T{!e{1a P{!ar{1ty {7in {5P{#r{5o{#g{5r{#e{5s{#s{0~
+The western end of the long table is littered with suger cubes and
+teaspoons of varying sizes.  The long table is made of polished oak.  The
+floor is sticky with spilt tea.  
+~
+0 0 0
+D0
+~
+~
+0 0 75264
+D1
+~
+~
+0 0 75261
+S
+#75263
+{7A {1T{!e{1a P{!ar{1ty {7in {5P{#r{5o{#g{5r{#e{5s{#s{0~
+{7The eastern end of the long table is piled high with cakes and crumpets. 
+Tea-pots bremming with steaming tea stand in disarray amidst the rubble of
+less fortunate tea-pots.  {0 
+~
+0 0 0
+D3
+~
+~
+0 0 75261
+S
+#75264
+{7a {@ki{2tchen {7of {2sor{@ts{0~
+This seems to be the staging area for the party.  4 kettles of water
+bubble on the big stove top.  Several more are to the side steeping tea
+bags.  Suger cubes, crumpets, and cakes lie all around in various states of
+cooking.  
+~
+0 0 0
+D1
+~
+~
+4 75142 75228
+D2
+~
+~
+0 0 75262
+R GRALL 75100 100~
+S
+#75265
+{1on {#to{1p o{#f a {1la{#rg{1e m{#us{1hr{#oo{1m{0~
+{7The mushrooms cap is soft and squishy.  Its covered in lustrious {1red {7and
+{#yellow {7dots.  {0 {7It looks as if someones taken several bites.  {0 
+~
+0 0 4
+D5
+~
+~
+0 0 75218
+S
+#75266
+{7a {#hall{3way {7in the {1Q{!ue{1en's {3Pal{#ace{0~
+{7A long {3hall{#way {7leads inward to the {1Q{!ue{1en's {7inner throneroom.  The hallway
+is carpeted in plush {1r{!e{1d {7velvet.  The walls are covered in {1r{!e{1d {7silk.  {3L{#a{3mps
+{7set in heart shaped holders light the way through the quiet hall.  
+~
+0 0 0
+D3
+~
+~
+0 0 75267
+S
+#75267
+{7a {#hall{3way {7in the {1Q{!ue{1en's {3Pal{#ace{0~
+{7A rush of cool air is soaring in from a vent overhead.  With it, sounds
+of fighting issue forth from deep inside the palace.  The lamps flicker
+slightly making the dark {1r{!e{1d {7walls seem to move.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75266
+D3
+~
+~
+0 0 75268
+S
+#75268
+{7a {#hall{3way {7in the {1Q{!ue{1en's {3Pal{#ace{0~
+{7All is quiet in the {3hall{#way {7leading to the {1Q{!ue{1en {7of {1H{!ea{1rt's {7throneroom. 
+The soft carpet and walls seem to be growing smaller as the hallway
+progresses.  The ceiling, once quite high, is now within hand's reach.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75267
+D3
+~
+gate~
+0 0 75269
+S
+#75269
+{7a {#hall{3way {7in the {1Q{!ue{1en's {3Pal{#ace{0~
+{7The hallway has shrunk indeed.  The {1g{!a{1te {7into the throneroom is now
+barely large enough to step through.  The hallway is rather too small to
+stand in.  The way back is invitingly well {3l{#i{3t{7.  The way ahead is one of
+{8dark {7unknowing.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75268
+D3
+~
+gate~
+1 0 75270
+S
+#75270
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7The throneroom is lit by {3l{#a{3mps {7set on long {7s{&i{4lv{&e{7r {7sticks.  Scenes
+sculpted in {3g{#o{3ld {7make the walls seem to crawl with life.  The air is heavy
+as before a storm.  
+~
+0 0 0
+D0
+~
+~
+0 0 75279
+D1
+~
+~
+1 0 75269
+D2
+~
+~
+0 0 75271
+D3
+~
+~
+0 0 75275
+S
+#75271
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7The carpeting is bright clean {&white {7covered with {1r{!e{1d h{!ea{1rts{7.  Windows of
+stained glass send skewed rainbows of light down from high upon the walls.  {0
+~
+0 0 0
+D0
+~
+~
+0 0 75270
+D2
+~
+~
+0 0 75272
+D3
+~
+~
+0 0 75274
+S
+#75272
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7A little platform raised above the floor holds a large seemingly well used
+{1gu{!il{1lo{!ti{1ne{7.  The {&carpeting {7has been removed and the stone floor under the
+platform funnels down into a drain.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75271
+D3
+~
+~
+0 0 75273
+S
+#75273
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7The {3g{#o{3ld {7worked walls depict strange unearthly scenes of battle.  Flat
+soldiers in armor fight one another in a ghastly realism.  In one scene, {8sp{&a{8de
+{7clad soldiers lie all about as if tossed by a giant hand or perhaps folded. 
+{0 
+~
+0 0 0
+D0
+~
+~
+0 0 75274
+D1
+~
+~
+0 0 75272
+S
+#75274
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7Etched in the western wall is a large scene strangely out of place amidst
+the raging battles.  It's of a croquet game played with hedgehogs and
+flamingos.  A little girl stands in confusion as a beautiful Queen in a gown
+of {1he{!ar{1ts {7raises her hands in victory.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75275
+D1
+~
+~
+0 0 75271
+D2
+~
+~
+0 0 75273
+S
+#75275
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7The {1s{!t{1a{&i{1n{!e{1d {6g{^l{6ass {7high above is a strange scene picturing a {&white {7rabbit, a
+{2li{@za{2rd{7, and a {3d{#o{3do{7.  They stand looking in rapture at a small house.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75276
+D1
+~
+~
+0 0 75270
+D2
+~
+~
+0 0 75274
+S
+#75276
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+The western wall shows a scene filled with fantastic creatures: a
+gloriously huge {1gr{!yp{1hon {7flying, a {2tu{@rt{2le {7with the head of a cow, and of a
+rather large {1lo{!bs{1ter {7observing himself in the mirror.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75277
+D1
+~
+~
+0 0 75279
+D2
+~
+~
+0 0 75275
+S
+#75277
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7Above the King's throne is a scene giving life to a bright field of
+{#dai{3sies{7.  A pretty {$str{4eam {7slides serenely through and off in the distance
+are {8dark {7hanging {@wil{2lows{7.  The picture seems to grow and twist in the
+flickering {3l{#a{3mp {7light.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75282
+D1
+~
+~
+0 0 75280
+D2
+~
+~
+0 0 75276
+S
+#75278
+~
+~
+0 4 0
+S
+#75279
+{7the {1Q{!ue{1en's {5th{%ro{5ne {5ro{%om{0~
+{7The {3g{#o{3ld {7worked walls show scenes of fierce battles between soldiers of
+various suits.  In the center is a scene showing four figures at a long
+table madly enjoying a tea.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75280
+D2
+~
+~
+0 0 75270
+D3
+~
+~
+0 0 75276
+S
+#75280
+{wthe {rQ{Rue{ren's {mth{Mro{mne ro{Mom{x~
+{7Adorning the wall above the {1Q{!ue{1e{1n's {7throne is a mammoth painting of her
+majesty.  The painting is rather unlifelike as her face in the painting is
+rather quite tolerably not ugly.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75279
+D3
+~
+~
+0 0 75277
+S
+#75281
+{7a Squishy {2M{@o{2ss {7Path{0~
+{7As if coming through a long {8dark {7tunnel, {3l{#i{3ght {7pours down in {3w{#a{3ves {7on the
+edge of a clearing.  To the south the {2m{@o{2ssy {7path dips silently back into
+shadow.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75100
+D2
+~
+~
+0 0 75287
+R GRALL 75103 75~
+S
+#75282
+{7a {#hall{3way {7in the {1Q{!ue{1en's {3Pal{#ace{0~
+{7The {7hallway is shrowded in {8shadow{7.  It leads back behind the throne room
+where a massive {4c{$l{4ock {7stands in the corner of the bend.  It's face is lazily
+stuck at 13 o'clock.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75277
+D3
+~
+~
+0 0 75283
+S
+#75283
+{7a {#hall{3way {7in the {1Q{!ue{1en's {3Pal{#ace{0~
+{7The hallway dead-ends as if the builders simply decided to quit.  The
+walls are covered with giant pictures of various scenes.  One is of a ship
+at {4s{$e{4a {7in a raging storm.  A beam of {3l{#i{3ght {7cracks forth from the clouds
+illuminating the little vessel in the stormy {8darkness{7.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75282
+S
+#75284
+{7A {5S{%to{5ne T{%un{5nel {7Under the Garden{0~
+~
+0 0 0
+D4
+~
+~
+1 0 75155
+D5
+~
+~
+0 0 75285
+S
+#75285
+{7A {5S{%to{5ne T{%un{5nel {7Under the Garden{0~
+~
+0 0 0
+D3
+~
+~
+0 0 75286
+D4
+~
+~
+0 0 75284
+S
+#75286
+{7Her {1Ma{!jes{1ties {3S{#e{3ed {7Room{0~
+{7The {1Q{!ue{1en {7of {1H{!ea{1rt's {7stock room is full of every kind of seed needed to
+make the garden above grow.  Bags and bags of {3s{#ee{3ds {7are stacked to the
+ceiling and line the walls.  {0 
+~
+0 0 0
+D1
+~
+~
+0 0 75285
+S
+#75287
+{7a Squishy {2M{@o{2ss {7Path{0~
+{7Tall {2o{@a{2k {7trees border both sides of the path.  Thick {2g{@re{2en m{@o{2ss {7makes a
+natural, squishy carpet through the trees.  To the north a soft {3l{#i{3ght
+{7filters in.  The south leads into the deep {8darkness {7of the silent {2o{@a{2ks{7.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75281
+D2
+~
+~
+0 0 75288
+S
+#75288
+{7a Squishy {2M{@o{2ss {7Path{0~
+{7The {8dark{7, silent {2f{@or{2est {7grows in ancient volumes of massive {2o{@a{2k {7trees. 
+No birds chirp nor rustling animals move.  Gnarled roots rise from the paths
+{2m{@o{2ssy {7floor.  Growing trees and dark brown earth fill the {2fo{@re{2st's {7eternal
+{8night {7with musky fragrance.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75287
+D1
+~
+~
+0 0 75289
+S
+#75289
+{7a Squishy {2M{@o{2ss {7Path{0~
+{7The {2f{@or{2est {7is one of the wild places of the great world.  {2O{@a{2ks {7stare down
+from solumn heights like sentries protecting the {2m{@o{2ssy {7road through their
+kingdom.  The forest breaths in living silence broken only by the soft
+pattering of falling leaves.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75290
+D3
+~
+~
+0 0 75288
+R GRALL 75102 75~
+S
+#75290
+{7on the Border of a Huge {8Dark {2F{@o{2rest{0~
+{7A path of velvety soft {2m{@o{2ss {7leads north into a huge {8dark {7forest.  The
+{8darkness {7inside is almost complete and like a tunnel through the side of a
+mountain the path begins its brave journey into the silent growing {2t{@r{2ees{7.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75289
+D3
+~
+~
+0 0 333
+S
+#75291
+{7Al{&o{7ng a {6Pa{^ss{6ag{^ew{6ay{0~
+{7{6P{^ai{6nt{^in{6gs {7hang crooke{^d{6ly {4on the sligh{6tl{^y {7slanted walls.  One {7is of a cup
+of tea.  Another of a little girl sitting on a rather large mushroom deep in
+thought.  {0 
+~
+0 0 0
+D0
+~
+~
+0 0 75292
+D1
+~
+~
+0 0 75129
+S
+#75292
+{7Al{&o{7ng a {2Pa{@ss{2ag{@ew{2ay{0~
+{7Instead of ending with the hall, the vel{@v{2et {4carpet climbs strai{2gh{@t {7up the
+face and continues in a strip all the way up into the ceiling's {8shrouded
+{7darkness{7.  {0 
+~
+0 0 0
+D2
+~
+~
+0 0 75291
+S
+#0
+
+
+
+#SPECIALS
+M 75106 spec_cast_cleric
+M 75107 spec_impale
+M 75108 spec_cast_cleric
+M 75109 spec_cast_undead
+M 75112 spec_janitor
+M 75117 spec_cast_mage
+M 75126 spec_breath_any
+M 75129 spec_cast_undead
+S
+
+
+
+#RESETS
+D 0 75133 1 2
+D 0 75134 1 2
+D 0 75134 3 2
+D 0 75135 1 2
+D 0 75135 3 2
+D 0 75136 1 2
+D 0 75136 3 2
+D 0 75137 1 2
+D 0 75137 3 2
+D 0 75138 1 2
+D 0 75138 3 2
+D 0 75139 1 2
+D 0 75139 3 2
+D 0 75152 1 2
+D 0 75155 5 1
+D 0 75217 1 1
+D 0 75220 5 1
+D 0 75225 4 2
+D 0 75228 3 2
+D 0 75229 4 2
+D 0 75229 5 2
+D 0 75230 4 2
+D 0 75230 5 2
+D 0 75231 5 2
+D 0 75233 3 2
+D 0 75234 3 2
+D 0 75235 3 2
+D 0 75236 3 2
+D 0 75237 3 2
+D 0 75238 3 2
+D 0 75239 1 2
+D 0 75240 1 2
+D 0 75241 1 2
+D 0 75242 1 2
+D 0 75243 1 2
+D 0 75243 5 1
+D 0 75248 4 1
+D 0 75251 0 1
+D 0 75251 2 1
+D 0 75251 3 1
+D 0 75252 2 1
+D 0 75254 4 1
+D 0 75255 0 1
+D 0 75256 5 1
+D 0 75259 4 1
+D 0 75264 1 2
+D 0 75269 3 1
+D 0 75270 1 1
+D 0 75284 4 1
+M 0 75112 4 75101 1
+M 0 75112 2 75102 1
+O 0 75173 0 75102
+O 0 75102 0 75103
+M 0 75111 4 75103 1
+M 0 75100 1 75104 1
+O 0 75104 0 75104
+O 0 75103 0 75105
+M 0 75111 4 75105 1
+M 0 75112 4 75106 1
+M 0 75112 4 75108 1
+O 0 75113 0 75113
+O 0 75105 0 75125
+P 0 75106 1 75105 1
+P 0 75129 0 75105 1
+O 0 75107 0 75129
+O 0 75108 0 75137
+P 0 75110 1 75108 1
+P 0 75109 1 75108 1
+P 0 75111 1 75108 1
+O 0 75171 0 75139
+O 0 75165 0 75140
+O 0 75178 0 75142
+P 0 75179 1 75178 1
+M 0 75113 1 75150 1
+M 0 75125 10 75152 1
+M 0 75126 10 75153 1
+M 0 75124 10 75154 1
+M 0 75126 10 75155 1
+O 0 75149 0 75155
+M 0 75123 10 75156 1
+M 0 75124 10 75157 1
+M 0 75123 10 75158 1
+M 0 75126 10 75159 1
+M 0 75123 10 75160 1
+M 0 75126 10 75161 1
+M 0 75125 10 75162 1
+M 0 75124 10 75163 1
+M 0 75125 10 75164 1
+M 0 75124 10 75165 1
+M 0 75123 10 75166 1
+M 0 75126 10 75167 1
+M 0 75123 10 75168 1
+O 0 75148 0 75168
+M 0 75126 10 75169 1
+M 0 75124 10 75170 1
+M 0 75127 1 75171 1
+E 0 75160 0 7
+M 0 75124 10 75172 1
+M 0 75125 10 75173 1
+M 0 75126 10 75174 1
+M 0 75123 10 75175 1
+M 0 75126 10 75176 1
+O 0 75157 0 75176
+M 0 75123 10 75177 1
+M 0 75125 10 75178 1
+M 0 75124 10 75179 1
+M 0 75125 10 75180 1
+M 0 75124 10 75181 1
+M 0 75125 10 75182 1
+O 0 75158 0 75182
+M 0 75126 10 75183 1
+M 0 75124 10 75184 1
+O 0 75159 0 75184
+M 0 75123 10 75185 1
+M 0 75125 10 75186 1
+M 0 75123 10 75187 1
+M 0 75114 1 75188 1
+O 0 75144 0 75193
+O 0 75125 0 75194
+P 0 75127 1 75125 1
+O 0 75145 0 75195
+O 0 75146 0 75196
+O 0 75175 0 75199
+O 0 75174 0 75203
+O 0 75143 0 75205
+M 0 75102 1 75208 1
+O 0 75124 0 75210
+M 0 75101 1 75211 1
+G 0 75100 0
+G 0 75101 0
+O 0 75126 0 75211
+M 0 75104 1 75213 1
+M 0 75110 1 75214 1
+M 0 75120 1 75214 1
+G 0 75153 0
+O 0 75112 0 75215
+M 0 75121 1 75215 1
+E 0 75152 0 5
+M 0 75116 1 75220 1
+O 0 75172 0 75223
+M 0 75105 1 75225 1
+G 0 75138 0
+M 0 75106 1 75229 1
+G 0 75139 0
+M 0 75107 1 75230 1
+G 0 75140 0
+M 0 75108 1 75231 1
+G 0 75142 0
+M 0 75109 1 75232 1
+G 0 75142 0
+O 0 75117 0 75244
+O 0 75114 0 75244
+O 0 75115 0 75245
+P 0 75116 1 75115 1
+O 0 75120 0 75246
+O 0 75118 0 75247
+P 0 75119 1 75118 1
+O 0 75121 0 75248
+P 0 75122 1 75121 1
+O 0 75130 0 75252
+O 0 75136 0 75255
+P 0 75137 1 75136 1
+M 0 75115 6 75256 2
+O 0 75131 0 75257
+M 0 75115 5 75257 2
+P 0 75132 1 75131 1
+O 0 75133 0 75258
+P 0 75134 1 75133 1
+M 0 75115 6 75258 2
+O 0 75135 0 75260
+P 0 75123 1 75135 1
+O 0 75150 0 75261
+M 0 75119 1 75261 1
+G 0 75166 0
+M 0 75118 1 75262 1
+O 0 75150 0 75262
+M 0 75117 1 75263 1
+G 0 75151 0
+E 0 75147 0 6
+O 0 75150 0 75263
+M 0 75122 1 75265 1
+G 0 75154 0
+G 0 75155 0
+G 0 75156 0
+O 0 75164 0 75271
+O 0 75161 0 75272
+M 0 75121 2 75273 1
+O 0 75164 0 75274
+O 0 75163 0 75277
+M 0 75128 1 75277 1
+O 0 75167 0 75280
+M 0 75129 1 75280 1
+E 0 75162 0 6
+P 0 75170 1 75167 1
+M 0 75130 1 75282 1
+O 0 75176 0 75283
+O 0 75168 0 75286
+P 0 75169 1 75168 1
+O 0 75180 0 75288
+O 0 75177 0 75292
+S
+
+
+
+#SHOPS
+75101 5 32 5 32 10 150 75 0 23
+75122 0 0 0 0 0 150 75 0 23
+0
+
+
+
+#MOBPROGS
+#75100
+mob delay 1
+mob echo The white rabbit looks nervously down to a gold pocketwatch.
+mob goto 75104
+~
+#75101
+if isdelay $i
+ twitch
+else
+ Say I'm so dreadfully late, oh how time flies!!
+ mob delay 10
+ mob echo $I darts down a {8hole {0and {5va{%ni{5sh{%es{0.
+ mob goto 75211
+endif
+~
+#75102
+say devils were laughing so loud, I couldn't hear the radio.
+mob echo $I flies up and away
+mob goto 75104
+mob echo $I glances nervously down at a {3g{#o{3ld po{#ck{3et{#wa{3tch{0.
+~
+#75103
+if isdelay $i
+yawn
+else
+ mob delay 5
+say In that direction...
+ mob echo {7the {5s{%m{5i{%l{5e {0points {4north{0,'
+say lives a {!Hat{1ter{0:
+say and in that direction...
+ mob echo {7the {5s{%m{5i{%l{5e {0says, {0pointing {4south{0,'
+say lives a {^M{6arch Har{^e{0.
+yawn
+say visit either you like: they're both mad.
+mob echo $I grins {4wider {0and {4wider {0till it simply {5di{%sa{5pp{%ea{5rs{0.
+ mob goto 75211
+endif
+~
+#75104
+say devils were laughing so loud, I couldn't hear the radio.
+mob echo $I flies up and away
+mob goto 75208
+mob echo $I {4suddenly {0and rather {4slowly {0appears from {4nowhere {0at all.
+~
+#75105
+say You'd like inside I suppose. Everyone wants inside. 
+say Why can't someone want outside every once or a while?
+say Well as you can see there's no knocker.
+say Maybe you could say knock knock knock out loud.
+say I'm just a footman though, what do I know?
+stare self
+~
+#75106
+say Don't bother knocking to get back outside. I shall be too busy sitting here and looking around.
+mob echo a {6cl{^ic{6ki{^ng {0sound of turning {6wh{^ee{6ls {0greets the {6pa{^ss{6wo{^rd{0.
+mob transfer $n 75214
+~
+#75107
+say Why is a raven like a writing desk?
+stare $n
+~
+#75108
+say Twinkle Twinkle little bat!
+say How I wonder what you're at!
+snore
+~
+#75109
+say When Time goes by...
+say Would you stop it and ask it for some more butter please?
+toast $n
+~
+#75110
+mob echo {7The {!M{1ad Hatte{!r {7tries to pass you a tea cup but drops it.{0
+~
+#75111
+hiccup
+say twinkle, twinkle, twinkle, twinkle- 
+snore
+~
+#75112
+say I do wish you'd stop and have some tea. This IS a party afterall.
+~
+#75113
+mob echo {7A {6c{^ry{6stal {7saucepan shatters against the wall.{0
+cough
+~
+#75114
+if rand 50
+ mob echo {wA {xy{Ye{xll{Yo{xw {Dsmoke {wring appears and forms into a {xbu{Ytt{xer{Yfl{xy{w.{x
+else
+ if rand 50
+  mob echo {WA {wpuff of {mpu{Mr{mple {Dsmoke {wbecomes the words {mW{MH{mO {wthen {mA{MR{mE {wand finally {mY{MO{mU{w.{x
+ else
+  mob echo {wA large {Dsmoke {wring forms and slowly evolves into an {gal{Gli{gga{Gto{gr{w.{x
+ endif
+endif
+~
+#75115
+mob echo {&A {7puff of {5pu{%r{5ple {8smoke {7becomes the words {5W{%H{5O {7then {5A{%R{5E {7and finally {5Y{%O{5U{7.{0
+~
+#75116
+mob echo {7Si{&lv{7er{&wa{7re, {7d{&is{7hes{7, and p{&la{7tes {5s{%l{5am{7, {5c{%r{5ash{7, and {5e{%xp{5lode {7all around.{0
+~
+#75120
+say There's no sort of use in knocking and that for two reasons.
+say First, because I'm on the same side of the door as you are:
+say secondly, because they're making such a noise inside, no one could possibly hear you.
+say I shall sit here on and off for days, just sitting and looking around.
+say Why don't you say open sesame. I recall it working for someone else once.
+stare self
+~
+#75121
+say WHO are YOU?
+mob echo It puffs contentedly on a long hookah.
+~
+#75122
+mob echo {7A large {8smoke {7ring forms and slowly evolves into an {2al{@li{2ga{@to{2r{7.{0
+~
+#75123
+say And who might you be? 
+say You have an ugly face. It reminds me of a bat. 
+say I do not like bats OR cats OR any other ats you can think of.
+say Off with their head!
+~
+#75124
+snore
+say yes dear, ok sweetums, off with their head, ok, ok dear. Yes you're quite right.
+mumble
+~
+#75125
+mob echo {7The {&cook {7dumps a tin of {8black {7pepper into a bubbling cauldron of soup.{0
+~
+#75126
+sneeze
+sneeze
+sneeze
+~
+#75127
+mob oload 75200
+give axe $n
+say It's a miracle!
+~
+#75199
+if ispc $n
+sob
+say Oh, this is dreadful.
+say I have lost my favorite poem along my way to see the Queen.
+say And to make things worse the sky may begin to fall today.
+say I heard that from a very reliable source. 
+say About the poem,
+say If you've 'got it' please say so rather loudly.
+say My ears are not what they once were I'm afraid.
+say I had it divided into 7 neat stanzas.
+say If you return it to me I shall give you the best thing I can.
+say And please, if you speak to the sky today,
+say Ask it kindly not to fall on my tulips!
+smile $n
+endif
+~
+#75200
+if ispc $n
+ and carries $n 'paper1'
+ and carries $n 'paper2'
+  and carries $n 'paper3'
+ and carries $n 'paper4'
+  and carries $n 'paper5'
+ and carries $n 'paper6'
+ and carries $n 'paper7'
+say My favorite poem! This means so very much you know.
+say I knew a little girl once...
+say Well that's neither here nor now and I shan't bore you with it.
+say This axe has been the cause of more trouble than it is worth.
+say But if you want it, it's yours.
+mob oload 75200
+give axe $n
+You are welcome for tea anytime you like. Bring the biscuits and...
+mob echo The {&white {7rabbit falls fast asleep.
+snore
+mob remove $n 75116
+mob remove $n 75119
+mob remove $n 75122
+mob remove $n 75123
+mob remove $n 75127
+mob remove $n 75169
+mob remove $n 75170
+endif
+~
+#0
+
+#OBJPROGS
+#0
+
+#ROOMPROGS
+#75100
+room echo {7a tea pot {1CRA{!S{1HES {7to the floor.{0
+~
+#75101
+room echo {7A very {5pink {7baby sneezes loudly and begins to howl.{0
+~
+#75102
+room echo {7The silence is gently broken by the sound of falling {2l{@e{2aves{7.{0
+~
+#75103
+room echo {3L{#i{3ght {7shines down in a wave, breaking the {2f{@o{2rest's {8dark {7grip.{0
+~
+#75104
+{0 {0 {0
+{0 {0 {0
+{0 {0 {0
+room echo {7The {4s{Bt{4ream {7bubbles and gullops sleepily over smooth rocks.{0
+~
+#75105
+room echo {7The {2w{@il{2low {7branches sigh as a dreamy breeze rustles softly by.{0
+~
+#75106
+room echo {7Streams of {3l{#i{3ght {7filter down through the {2w{@il{2low's {7many arcing branches.{0
+~
+#75107
+room echo {7The fragrance of growing {3fl{#ow{3ers {7wafts lazily across the sleepy field.{0
+~
+#75108
+room echo {7Sliding chunks of dirt and pebbles kick downwards into {8darkness{7.{0
+~
+#75109
+room echo {7The {bf{Ba{bll {7slowly decreases its pace, bravely defying gravity's hold.{0
+~
+#75110
+room echo The {5f{%a{5ll {7has almost given up, seemingly forgetting its original purpose.{0
+~
+#75111
+room echo {7The sweet smell of growing {!f{@l{3o{Bw{%e{^r{!s {7seeps forth from a {#keyhole{7.{0
+~
+#75112
+room echo {7Hardy {3l{#i{3ght {7seeps in from a crack in the eastern wall.{0
+~
+#75113
+room echo {7The sweet aroma of {bw{Bi{bld f{Bl{bowers {7drifts through the {6n{^a{6rrow {2h{@a{2ll{7.{0 
+~
+#75114
+room echo {8Silence {7echos down the long {bpa{Bss{bag{Bew{bay{7.{0
+~
+#75115
+room echo {7The dazzling smell of fresh {3m{#an{3go {7fills the open air with sweetness.{0
+~
+#75116
+room echo {7Soft {bm{Bi{bst {7falls down as the distant, crashing noise of the ocean sounds from far away.{0 
+~
+#75117
+room echo {7A quiet {1gr{!um{1bl{!in{1g {7noise issues up from somewhere deep in the path.{0
+~
+#75118
+room echo {7A loud {1n{!oi{1se {7rises from deep in the path, rattling the rocks and sticks.{0
+~
+#75119
+room echo {bR{Bo{bcks {7and {bp{Be{bbbles {7roll frantically uphill to the south.{0
+~
+#75120
+room echo {7Cliff birds call shrilly up from the {8deep{7, {8deep {7sides of the mighty {3g{#o{3rge{7.{0 
+~
+#75121
+room echo {7The earthy smell of growing {2ve{@ge{2ta{@bl{2es {7wafts invitingly by.{0
+~
+#75122
+room echo {7The {7r{1o{7a{1d {7spins slowly round as if prisoner of {5v{%i{5rtigo{7.{0
+~
+#75123
+room echo {7A cool breeze blows, ruffling the {2g{@r{2ass {7away from a tunnel under the {bst{Bre{bam{Bbe{bd{7.{0
+~
+#75265
+~
+#0
+
+#$

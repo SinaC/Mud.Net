@@ -1,0 +1,4536 @@
+#AREADATA
+Name Redemption Hospital~
+Builders None~
+VNUMs 10000 10199
+Credits [130 151] Gigi     Redemption Hospital~
+Security 9
+End
+
+
+
+#MOBILES
+#10000
+Hospital Administrator~
+{wHospital {rAdministrator{x~
+An important man in a nice business suit is wandering around here.
+~
+Although a nice looking man, a busy one he is.  He may not in fact notice
+that you have stopped to look at him.  His suit appears to have just come
+from the cleaners completely in place and pressed.  
+~
+human~
+AGTU Va HO -1000 0
+215 1400 107d322+15560 10d1200+3000 44d209+1400 claw
+-150 -150 -150 -140
+CEFIKN AB CMN 0
+stand stand male 10
+ABHVc ABCEGHIJ medium flesh
+F for M
+F par DFK
+#10001
+Administrative Secretary~
+a Secretary~
+A busy looking woman goes through papers and answers phones here.
+~
+A short small statured woman the secretary glares back at you.  It feels
+as if she is peering right to your soul and looking for what you want with
+her.  
+~
+human~
+ABTU V HNO 0 0
+175 583 87d262+11656 8d1200+4000 30d145+524 claw
+-85 -85 -85 -80
+0 P CD 0
+stand stand female 5
+AHV ABCDFGHIJ small Flesh
+F for M
+F par EK
+#10002
+Office Worker Woman~
+an Office Worker~
+A busy woman rushing around carrying files scurries around here
+~
+Dazed and confused by the busy surroundings before you, she only pauses a
+moment to see who is looking at her.  
+~
+human~
+ABTU V HNO 0 0
+170 583 87d262+11656 8d1200+5000 30d145+524 pound
+0 0 0 0
+CFIJKN 0 CD 0
+stand stand female 0
+AHV ABCDEFGHI medium Flesh
+F for M
+F par JK
+#10003
+Cafeteria Worker~
+the {mCafeteria{x Worker~
+A fair looking woman stands here waiting to serve you.
+~
+Awaiting the orders of hungry vistors, she stops only a moment to ask you
+if you need anything.  
+~
+human~
+ABTU V HNO 0 0
+175 583 87d262+11656 10d1000+700 30d145+524 thwack
+-85 -85 -85 -80
+CDEFIK AB CD 0
+stand stand none 50
+ABHV ABCDEFGHI medium flesh
+F for M
+F par JK
+M GIVE 10002 ph2~
+#10004
+Austin Pharmacist~
+{RAustin{x, the {WPharmacist{x~
+A man dispensing drugs stands here.
+~
+Towering over you, his eyes look weary and his skin looks pale.  The
+badge he is wearing says his name is Austin and is a pharmacist.  
+~
+human~
+ABTU DV HO 0 0
+175 584 87d262+11656 10d544+5000 30d145+524 claw
+-85 -85 -85 -80
+CEFIK LPQ CD 0
+stand stand male 15000
+AHV ABCDEFGHI large unknown
+F for M
+F par JK
+M GIVE 10001 ph1~
+#10005
+Male Patient~
+{gMale {cPatient{x~
+A sickly looking man awaits medicine here.
+~
+Covered in cuts and sores, the sickly man stares back at you.  He smiles
+and ask: What are you in for?  
+~
+human~
+ATU MVa HNO 0 0
+175 583 87d262+11656 10d1200+3000 30d145+524 pound
+-85 -85 -85 -80
+CEFGIK L CD 0
+stand stand male 15000
+0 ABCDEFGHI medium flesh
+F for AMV
+F par JK
+#10006
+Female Patient~
+{gFemale {cPatient{x~
+A sickly looking woman awaits medicine here.
+~
+Covered in cuts and sores, the sickly woman stares back at you.  She
+smiles and ask: What are you in for?  
+~
+human~
+ATU V HNO 0 0
+175 583 87d262+11656 10d1200+3000 30d145+524 pound
+-85 -85 -85 -80
+CEI L CD 0
+stand stand female 0
+0 ABCDEFGHI medium unknown
+F for AMV
+F par JK
+#10007
+Nurse~
+a {MCute {CNurse{x~
+Dressed in Scrubs a nurse stands here peering wondering what is needed of her.
+~
+Doing her many duties, the look of worry and concern can be seen upon her
+face.  She reeks of hard work and not enough sleep.  
+~
+human~
+ATU Vc HNO 0 10000
+193 934 96d289+13312 10d100+5000 36d186+900 pound
+-100 -100 -100 -95
+CEGIKRU AB CD 0
+stand stand female 1000
+AHV ABCDEFGHI small unknown
+F for M
+F par JK
+#10008
+Doctor~
+{BDoctor{x~
+Standing there in his white lab coat, the doctor awaits time to go home.
+~
+A large man in size, one can tell by looking into his eyes his heart is
+made of gold.  His warming smile greets you with a warm welcome.  
+~
+human~
+AGQU V HNO 0 10000
+215 1400 107d322+15560 10d100+5000 33d209+1600 divine
+-150 -150 -150 -135
+CDEFGIKRU AB CD 0
+stand stand male 15000
+AHV ABCDEFGHI medium Flesh
+F for M
+F par JK
+#10009
+Crazy Jane~
+{BCrazy {MJane{x~
+Crazy Jane awaits some company here.
+~
+Hair all messed up, and bags under her eyes, Jane looks at you and says,
+"I can Fly".  
+~
+human~
+ABTU TV CHNO -1000 0
+215 1400 107d322+15560 10d150+5000 44d209+1400 pound
+-150 -150 -150 -140
+CEFIKN 0 CD 0
+stand stand female 1500
+AHV ABCDEFGHI medium flesh
+F for M
+F par JK
+#10010
+Insane Bob~
+{rInsane {yBob{x~
+Unable to move an insane Bob looks at you for help.
+~
+With a crazed look in his eyes the gentle look man looks at you and says
+I can run anywhere, what to come?  
+~
+human~
+ABTU V CEHNO 0 0
+215 1400 107d322+15560 10d150+5000 44d209+1400 pound
+-150 -150 -150 -140
+CEFIKN 0 CD P
+stand stand male 1500
+AHV ABCDEFGHI medium flesh
+F for M
+F par JK
+#10011
+Nutty Becky~
+{gNutty {mBecky{x~
+A sad looking individual is sitting in the corner here.
+~
+Eyes filled with sadness Becky looks up and say, "I have nothing, nothing
+without him.  How am I suppose to live like this?"  
+~
+human~
+ABT Va CEHNO 0 0
+215 1400 107d322+15560 10d50+3000 44d209+1400 pound
+-150 -150 -150 -140
+CEFIK 0 CD P
+stand stand none 5000
+AHV ABCDEFGHI medium unknown
+F for M
+F par JK
+#10104
+no name~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+#0
+
+
+
+#OBJECTS
+#10000
+Desk~
+a {ywooden{x desk.~
+A wooden desk sits in the middle of the floor here.~
+Wood~
+furniture R 0
+0 0 0 0 0
+0 0 0 P
+#10001
+Business Suit~
+{xA {BBusiness{x Suit{x~
+A smooth looking silk suit is lying here~
+Silk~
+armor FI AX
+45 45 45 40 0
+145 1 25000 P
+A
+13 150
+A
+12 100
+A
+18 20
+A
+19 5
+#10002
+Blue Skirt~
+a {bBlue{x Skirt~
+A sharp looking mini-skirt lies here on the ground~
+unknown~
+armor ABI AF
+35 35 35 30 0
+145 1 15000 P
+A
+13 50
+A
+19 10
+A
+18 15
+A
+12 100
+#10003
+Beautiful Fountain~
+a Fountain~
+A {WBeautiful{x many tier fountain {belegantly{x stands here~
+marble~
+fountain R 0
+-1 -1 'water' 0 0
+0 500 0 P
+#10004
+Stone Bench~
+{xA {DStone{x Bench~
+A stone bench with angels and flowers carved into it awaits someone to sit on it.~
+stone~
+furniture R 0
+10 50000 BEHK 0 0
+0 5000 0 P
+#10005
+Stethoscope~
+{wCold {bStethoscope{x~
+A long shiney and black object lies here waiting to be picked up.~
+unknown~
+armor AI AC
+32 32 32 30 0
+151 1 2500 P
+A
+19 15
+A
+18 50
+A
+12 100
+A
+13 150
+#10006
+ID Badge~
+{XAn {mID{x Badge~
+A plastic card lies here on the ground.~
+unknown~
+armor ABI AW
+30 30 30 28 0
+151 1 1800 P
+A
+12 30
+A
+13 60
+A
+19 10
+A
+18 20
+#10007
+Lab Coat~
+{WLab Coat{x~
+A long white garment lies on the ground here waiting to be worn.~
+unknown~
+armor ABI AK
+45 45 45 40 0
+145 1 1500 P
+A
+12 100
+A
+19 10
+A
+18 10
+A
+13 50
+#10008
+Wrist Guard~
+{XA strong {gwrist {wguard{x~
+A strong looking piece of leather lies here.~
+unknown~
+armor I AM
+45 45 45 40 0
+145 1 500 P
+A
+19 15
+A
+18 15
+A
+13 100
+#10009
+Ring of Innocence~
+{wRing of {cInnocence{x~
+A bright peice of metal lies here on the ground.~
+unknown~
+armor KM AB
+45 45 45 40 0
+151 1 1500 P
+A
+13 100
+A
+12 50
+A
+19 25
+A
+18 50
+#10010
+Lead Boots~
+{DLead {BBoots{x~
+A pair of heavy looking boots sits upon the ground.~
+unknown~
+armor BI AG
+50 50 50 45 0
+151 1 500 P
+A
+13 50
+A
+19 25
+A
+18 25
+A
+14 -100
+#10011
+Belt of Nothingness~
+{WBelt {wof {DNothingness{x~
+A belt lies here upon the ground inviting someone to pick it up and wear it.~
+unknown~
+armor 0 AL
+45 45 45 40 0
+151 1 1000 P
+A
+18 10
+A
+19 5
+A
+12 50
+A
+13 150
+#10012
+Colorful Couch~
+{rC{mo{rl{wo{gr{bf{cu{ml{x {WCouch{x~
+A {rC{mo{rl{wo{gr{bf{cu{ml{x {WCouch{x sits here.~
+unknown~
+furniture 0 0
+100 500000 BEHK 0 0
+0 500 15000 P
+#10013
+Gigi's Sanity~
+{MGigi's {CSanity{x~
+A bit of sanity lies on the ground here.~
+unknown~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#10014
+slip paper prescription ph1~
+a prescription~
+A slip of paper with some scrawled writing on it.~
+unknown~
+trash 0 A
+0 0 0 0 0
+151 0 0 P
+#10015
+prescription medication~
+a bottle of prescription medication~
+A bottle of prescription medications sits here.~
+unknown~
+potion b A
+151 'feeble mind' 'fly' 'faerie fire' 'energy drain'
+130 0 0 P
+#10016
+prescription medication~
+a bottle of prescription medication~
+A bottle of prescription medications sits here.~
+unknown~
+potion b A
+151 'cheal' 'heal' 'curse' 'sleep'
+0 0 0 P
+#10017
+prescription medication~
+a bottle of prescription medication~
+A bottle of prescription medication sits here.~
+unknown~
+potion b A
+0 '' '' '' ''
+0 0 0 P
+#10018
+cafeteria food requisition form ph2~
+a food requisition form~
+A signed and dated slip of paper redeemable for food in the cafeteria.~
+unknown~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#10019
+hospital cafeteria food~
+some unidentified food~
+A tray of hospital food lies here cooling into a brick.~
+unknown~
+food 0 A
+50 50 0 0 0
+0 0 0 P
+#10020
+hospital cafeteria food~
+some unidentified food~
+A tray of hospital food lies here cooling into a brick.~
+unknown~
+food 0 A
+50 50 0 A 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#10000
+Entrance Way to the Lobby~
+Walking through the front doors of the hospital one finds themselves in a
+large entryway.  A rack of newpapers sit off the the side here.  An out of
+order snack machine is against the far wall.  A sign on the wall says:
+{RPlease NO smoking in this building.  {x There is a bin of plastic covers for
+umbrella users to wrap their wet umbrellas in on rainy days sitting to the
+right.  
+~
+0 8 0
+D0
+~
+~
+0 0 10001
+D1
+~
+~
+1 0 12995
+S
+#10001
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  
+~
+0 8 0
+D0
+~
+~
+0 0 10002
+D2
+~
+~
+0 0 10000
+S
+#10002
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  
+~
+0 8 0
+D0
+~
+~
+0 0 10003
+D2
+~
+~
+0 0 10001
+S
+#10003
+Center of the Lobby~
+One side of a large stone fountain astounds the mind here.  Standing 10
+feet high, it's an elegantly crafted fountain with many tiers of circles
+overflowing with water.  The gleam of the coins that people have thrown in
+to make wishes catches the eye.  The slight spray of water coming from the
+shooting spout at the top of the water barely gets the busy people passing
+by wet.  To the the north east and west the lobby contiues.  To the south
+the beginning part of the lobby can be seen.  
+~
+0 8 0
+D0
+~
+~
+0 0 10004
+D1
+~
+~
+0 0 10010
+D2
+~
+~
+0 0 10002
+D3
+~
+~
+0 0 10028
+S
+#10004
+Center of the Lobby~
+One side of a large stone fountain astounds the mind here.  Standing 10
+feet high, it's an elegantly crafted fountain with many tiers of circles
+overflowing with water.  The gleam of the coins that people have thrown in
+to make wishes catches the eye.  The slight spray of water coming from the
+shooting spout at the top of the water barely gets the busy people passing
+by wet.  
+~
+0 8 0
+D0
+~
+~
+0 0 10005
+D1
+~
+~
+0 0 10009
+D2
+~
+~
+0 0 10003
+D3
+~
+~
+0 0 10027
+S
+#10005
+Gift Shop~
+Shelves lined with stuffed animals, coffee cups, magazines, books and toys
+are about here creating a couple of small isles.  A glass counter with a
+register is towards the back of the store.  There are all kinds of rings and
+earrings in the glass display case.  To the south you see the fountain and
+hear laughter.  
+~
+0 8 0
+D2
+~
+~
+0 0 10004
+S
+#10006
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10042
+D3
+~
+~
+0 0 10035
+S
+#10007
+Front Offices~
+A receptionist's desk sits in the middle of a large cold room.  Important
+looking papers and files are strewn about the desk.  An appointment book
+lies open, full of important meetings and dates marked in color coded
+sections.  There is a sign on the desk that says please be seated I will be
+with you soon.  To the east you see a smaller office with a couple of desk
+in it.  To the south a larger office with a large desk can be seen.  
+~
+0 8 0
+D0
+~
+~
+0 0 10010
+D1
+~
+~
+0 0 10013
+D2
+~
+~
+1 0 10008
+S
+#10008
+Registration Office~
+A sign by the door ask: Please pick up a clip board and fill out the
+paper work while you wait.  Large oversized comfortable looking couches line
+the wall that is on the side of the room that the door is on.  While a large
+Oak desk sits in front of a window on the opposite side.  Oak straight back
+chairs line either side of the room.  The only exit is back to the
+receptionist's area to the north.  
+~
+0 8 0
+D0
+~
+~
+1 0 10007
+S
+#10009
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  To the east and south the lobby continues.  To the North you
+see the cafeteria.  
+~
+0 8 0
+D0
+~
+~
+0 0 10012
+D1
+~
+~
+0 0 10015
+D3
+~
+~
+0 0 10004
+S
+#10010
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  To the west the spray from the fountain in the center lobby can
+be heard.  To the east more comfy looking couches and chairs can be seen. 
+To the south you see a door marked Adminstration offices.  
+~
+0 8 0
+D1
+~
+~
+0 0 10016
+D2
+~
+~
+0 0 10007
+D3
+~
+~
+0 0 10003
+S
+#10011
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10121
+D3
+~
+~
+0 0 10092
+S
+#10012
+Cafeteria~
+The east side of the room is consumed by big metal food bars.  There is a
+registers staion to the right of the food bar.  Hmm smells like pizza and
+french fries today.  The west side of the room have drink machines and an
+Ice Cream freezer.  Center of the room and the north side of the room are
+consumed by tables.  To the south you see the Lobby.  
+~
+0 8 0
+D2
+~
+~
+0 0 10009
+S
+#10013
+A Smaller Office~
+Lots of partitioned off desk areas are here.  It's very cold in this
+room, maybe the source of heat is broken.  The sounds of people sobbing can
+be heard coming from some of the cubicles.  Busy little runners keep rushing
+by you brushing against you occasionally.  You see the exit back out to the
+main office back to the west.  The cublicles continue to the east.  
+~
+0 8 0
+D1
+~
+~
+0 0 10014
+D3
+~
+~
+0 0 10007
+S
+#10014
+A Smaller Office~
+Lots of partitioned off desk areas are here.  It's very cold in this
+room, maybe the source of heat is broken.  The sounds of people sobbing can
+be heard coming from some of the cubicles.  Busy little runners keep rushing
+by you brushing against you occasionally.  You see the exit back out to the
+west into the first room of cubicles.  
+~
+0 8 0
+D3
+~
+~
+0 0 10013
+S
+#10015
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwritting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  To the west and south the lobby contiues.  To the east a stair
+well door can be seen.  
+~
+0 8 0
+D1
+~
+~
+1 0 10036
+D2
+~
+~
+0 0 10016
+D3
+~
+~
+0 0 10009
+S
+#10016
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  To the west and north the lobby contiues.  To the east the
+Elevators can be seen.  
+~
+0 8 0
+D0
+~
+~
+0 0 10015
+D1
+~
+~
+1 0 10029
+D3
+~
+~
+0 0 10010
+S
+#10017
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10092
+D3
+~
+~
+0 0 10111
+S
+#10018
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10035
+D3
+~
+~
+0 0 10199
+S
+#10019
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10194
+D1
+~
+~
+0 0 10022
+D3
+~
+~
+0 0 10196
+S
+#10020
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north and east, a hopital room can be seen.  To the south and west, the
+hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10191
+D1
+~
+~
+0 0 10189
+D2
+~
+~
+0 0 10024
+D3
+~
+~
+0 0 10021
+S
+#10021
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10192
+D1
+~
+~
+0 0 10020
+D3
+~
+~
+0 0 10022
+S
+#10022
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10193
+D1
+~
+~
+0 0 10021
+D3
+~
+~
+0 0 10019
+S
+#10023
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east you see a supply closet.  The hallway contiues north and south.  
+~
+0 8 0
+D0
+~
+~
+0 0 10024
+D1
+~
+~
+0 0 10187
+D2
+~
+~
+0 0 10042
+S
+#10024
+Hallway in the Hospital~
+Walls painted of a baby blue and white tile floors surround a person
+here.  The smell of ammonia is prevalently lingering here.  Moans and
+screams from patients that are in agony can be heard coming from rooms up
+and down the hallway.  To the east a slightly opened doors lets the sounds
+from with in the rooms be heard.  To the west the nurses station sits.  The
+hallway contiues north and south.  
+~
+0 8 0
+D0
+~
+~
+0 0 10020
+D1
+~
+~
+0 0 10188
+D2
+~
+~
+0 0 10023
+D3
+~
+~
+0 0 10184
+S
+#10025
+Administration Offices~
+On top of a large desk is a bowl with goldfish in it.  Next to the
+goldfish bowl is a stack of applications and resumes that need to be given
+to the higher ups for consideration.  A cup of lukewarm coffee sits on the
+desktop suggesting that whomever was drinking it has gotten busy with work. 
+To the north the hustle and bustle of the lobby can be heard.  To the south
+a door marked ADMINISTRATOR can be seen.  To the west a smaller door can be
+seen with occupants working busily.  
+~
+0 8 0
+D0
+~
+~
+0 0 10028
+D2
+~
+~
+1 0 10026
+D3
+~
+~
+0 0 10031
+S
+#10026
+Administrators Office~
+A large cherry corner desk sits Under a window here.  There are a
+stack of paychecks laying upon the left corner of the desk.  A photo frame
+upon the desk here has a picture of a rather large man with a frail woman
+and two small children.  You notice that the door to the north is the only
+way you see out of here.  
+~
+0 8 0
+D0
+~
+~
+1 0 10025
+S
+#10027
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  To the east the sounds of coins hitting the stone bottom of the
+fountain can be heard.  To the west you see more couches and charis.  The To
+the far south the hustle and bustle of business life can be heard.  To the
+north a door marked Pharmacy can be seen.  
+~
+0 8 0
+D0
+~
+~
+1 0 10030
+D1
+~
+~
+0 0 10004
+D2
+~
+~
+0 0 10028
+D3
+~
+~
+0 0 10033
+S
+#10028
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  To the east the sounds of coins hitting the stone bottom of the
+fountain can be heard.  To the west you see more couches and charis.  The
+sounds of the busy front office can be heard through the door to the south. 
+~
+0 8 0
+D0
+~
+~
+0 0 10027
+D1
+~
+~
+0 0 10003
+D2
+~
+~
+0 0 10025
+D3
+~
+~
+0 0 10034
+S
+#10029
+Elevator~
+Surrounded completly by brass the pearl buttons stick out like a sore
+thumb here.  There is a sign besides the stange buttons.  It reads: To go to
+Floor 1 press south, To go to Floor 2 press East, To go to Floor 3 Press Up,
+To go to Floor 4 Press North, To go to Floor 5 Press down.  
+~
+0 8 0
+D0
+~
+~
+0 0 10143
+D1
+~
+~
+0 0 10057
+D2
+~
+~
+0 0 10029
+D3
+~
+~
+1 0 10016
+D4
+~
+~
+0 0 10100
+D5
+~
+~
+0 0 10186
+S
+#10030
+Hospital Pharmacy~
+Large shelves stocked with all kinds of drugs are lined up in rows here. 
+Several very large refrigeration units can be seen here.  Several
+Pharmacist and technicians can be seen scurrying about filling orders that
+patients need to get better.  A large sign hangs on counter that is before
+you.  The sign reads if you need a prescription filled please ring the bell
+and we will be with you as soon as we can.  
+~
+0 8 0
+D2
+~
+~
+1 0 10027
+S
+#10031
+A Smaller Office~
+Lots of partitioned off desk areas are here.  It's very cold in this
+room, maybe the source of heat is broken.  The sounds of people sobbing can
+be heard coming from some of the cubicles.  Busy little runners keep rushing
+by you brushing against you occasionally.  You see the exit back out to the
+main office to the east, while the row of cubicles continue to the west.  
+~
+0 8 0
+D1
+~
+~
+0 0 10025
+D3
+~
+~
+0 0 10032
+S
+#10032
+A Smaller Office~
+Lots of partitioned off desk areas are here.  It's very cold in this
+room, maybe the source of heat is broken.  The sounds of people sobbing can
+be heard coming from some of the cubicles.  Busy little runners keep rushing
+by you brushing against you occasionally.  You see the exit back out to the
+main office far towards the east.  
+~
+0 8 0
+D1
+~
+~
+0 0 10031
+S
+#10033
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  A coffee machine set up on a table here rests against the west
+wall.  There is a sign on the table that says, Free Coffee while you wait? 
+To the east the sitting area continues.  To the south more coffee and
+seating can be seen.  
+~
+0 8 0
+D1
+~
+~
+0 0 10027
+D2
+~
+~
+0 0 10034
+S
+#10034
+In the Lobby of the Hospital~
+In this part of the lobby the ceiling is raised.  There are angels
+painted on the ceiling with Bible verses that give hope written in fancy
+handwriting beside them.  Flowers and shrubs in huge rectangle flower beds
+surround a sitting area here.  In the sitting area, you see couches and
+chairs inviting the weary to sit down and take a load off while waiting on
+loved ones.  A coffee machine set up on a table here rests against the west
+wall.  There is a sign on the table that says, Free Coffee while you wait? 
+To the east the sitting area continues.  To the north a second coffee
+machine and more seating can be seen.  
+~
+0 8 0
+D0
+~
+~
+0 0 10033
+D1
+~
+~
+0 0 10028
+S
+#10035
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the north is the janitorial/supply closet.
+~
+0 8 0
+D0
+~
+~
+0 0 10190
+D1
+~
+~
+0 0 10006
+D3
+~
+~
+0 0 10018
+S
+#10036
+The Stairs~
+A sudden rush of cool air hits as the door to the stairwell is opened. 
+The stairs lead up from here.  A blue rain is the only hint of color in this
+stone stair well.  To the west you see the door back out into the lobby.  
+~
+0 8 0
+D3
+~
+~
+1 0 10015
+D4
+~
+~
+0 0 10058
+S
+#10037
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and south are hospital rooms with their doors open.  The hallway
+continues north and east.
+~
+0 8 0
+D0
+~
+~
+0 0 10199
+D1
+~
+~
+0 0 10038
+D2
+~
+~
+0 0 10179
+D3
+~
+~
+0 0 10177
+S
+#10038
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10039
+D2
+~
+~
+0 0 10180
+D3
+~
+~
+0 0 10037
+S
+#10039
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10040
+D2
+~
+~
+0 0 10181
+D3
+~
+~
+0 0 10038
+S
+#10040
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10041
+D2
+~
+~
+0 0 10182
+D3
+~
+~
+0 0 10039
+S
+#10041
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+south, an opened door into a hospital room.  The the east, a bathroom marked
+for men or women.  To the west and north the hallway continues. 
+~
+0 8 0
+D0
+~
+~
+0 0 10042
+D1
+~
+~
+0 0 10185
+D2
+~
+~
+0 0 10183
+D3
+~
+~
+0 0 10040
+S
+#10042
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  The
+elevator can be seen to the east.  The hallway continues north and south. 
+To the west you see the nurses station.
+~
+0 8 0
+D0
+~
+~
+0 0 10023
+D1
+~
+~
+0 0 10186
+D2
+~
+~
+0 0 10041
+D3
+~
+~
+0 0 10006
+S
+#10043
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10049
+D3
+~
+~
+0 0 10068
+S
+#10044
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10067
+S
+#10045
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10068
+S
+#10046
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10069
+S
+#10047
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10070
+S
+#10048
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.  
+~
+0 8 0
+D1
+~
+~
+0 0 10071
+S
+#10049
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the south is the janitorial/supply closet.
+~
+0 8 0
+D1
+~
+~
+0 0 10061
+D2
+~
+~
+0 0 10085
+D3
+~
+~
+0 0 10043
+S
+#10050
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway.  
+~
+0 8 0
+D0
+~
+~
+0 0 10071
+S
+#10051
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway.  
+~
+0 8 0
+D0
+~
+~
+0 0 10072
+S
+#10052
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10073
+S
+#10053
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10074
+S
+#10054
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway.
+~
+0 8 0
+D0
+~
+~
+0 0 10075
+S
+#10055
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10076
+D3
+~
+~
+0 0 10084
+S
+#10056
+The Bathroom~
+This is a spacious bathroom as it is designed to be handicap accesible. 
+One wall houses a sink and paper towl dispenser while the opposing wall
+houses a chaning table for mothers with babies.  The wall directly opposite
+of the door is the wall that the toilet is against.  
+~
+0 8 0
+D3
+~
+~
+0 0 10075
+S
+#10057
+Elevator~
+Surrounded completly by brass the pearl buttons stick out like a sore
+thumb here.  There is a sign besides the stange buttons.  It reads: To go to
+Floor 1 press south, To go to Floor 2 press East, To go to Floor 3 Press Up,
+To go to Floor 4 Press North, To go to Floor 5 Press down.  
+~
+0 8 0
+D0
+~
+~
+0 0 10143
+D1
+~
+~
+0 0 10057
+D2
+~
+~
+0 0 10029
+D3
+~
+~
+1 0 10076
+D4
+~
+~
+0 0 10100
+D5
+~
+~
+0 0 10186
+S
+#10058
+The Stairs~
+A sudden rush of cool air hits as the door to the stairwell is opened. 
+The stairs lead down from here.  A blue rain is the only hint of color in this
+stone stair well.  To the west you see the door back out into the Hallway.  
+~
+0 8 0
+D3
+~
+~
+1 0 10077
+D5
+~
+~
+0 0 10036
+S
+#10059
+Hospital Room~
+~
+0 8 0
+D3
+~
+~
+0 0 10121
+S
+#10060
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the west, the door back to the hallway.  Looking out the
+window, part of the realms can be seen.
+~
+0 8 0
+D3
+~
+~
+0 0 10079
+S
+#10061
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10078
+D3
+~
+~
+0 0 10049
+S
+#10062
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10079
+S
+#10063
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10080
+S
+#10064
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10081
+S
+#10065
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10082
+S
+#10066
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.  
+~
+0 8 0
+D2
+~
+~
+0 0 10067
+S
+#10067
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east and south the hallway continues.  To the north and west you see
+hospital rooms.
+~
+0 8 0
+D0
+~
+~
+0 0 10066
+D1
+~
+~
+0 0 10082
+D2
+~
+~
+0 0 10068
+D3
+~
+~
+0 0 10044
+S
+#10068
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10067
+D1
+~
+~
+0 0 10043
+D2
+~
+~
+0 0 10069
+D3
+~
+~
+0 0 10045
+S
+#10069
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a slightly open door leading into a patients room.  
+~
+0 8 0
+D0
+~
+~
+0 0 10068
+D2
+~
+~
+0 0 10070
+D3
+~
+~
+0 0 10046
+S
+#10070
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10069
+D1
+~
+~
+0 0 10083
+D2
+~
+~
+0 0 10071
+D3
+~
+~
+0 0 10047
+S
+#10071
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and south are hospital rooms with their doors open.  The hallway
+continues north and east.  
+~
+0 8 0
+D0
+~
+~
+0 0 10070
+D1
+~
+~
+0 0 10072
+D2
+~
+~
+0 0 10050
+D3
+~
+~
+0 0 10048
+S
+#10072
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.  
+~
+0 8 0
+D1
+~
+~
+0 0 10073
+D2
+~
+~
+0 0 10051
+D3
+~
+~
+0 0 10071
+S
+#10073
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10074
+D2
+~
+~
+0 0 10052
+D3
+~
+~
+0 0 10072
+S
+#10074
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10075
+D2
+~
+~
+0 0 10053
+D3
+~
+~
+0 0 10073
+S
+#10075
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+south, an opened door into a hospital room.  The the east, a bathroom marked
+for men or women.  To the west and north the hallway continues.  
+~
+0 8 0
+D0
+~
+~
+0 0 10076
+D1
+~
+~
+0 0 10056
+D2
+~
+~
+0 0 10054
+D3
+~
+~
+0 0 10074
+S
+#10076
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  The
+elevator can be seen to the east.  The hallway continues north and south.  
+~
+0 8 0
+D0
+~
+~
+0 0 10077
+D1
+~
+~
+1 0 10057
+D2
+~
+~
+0 0 10075
+D3
+~
+~
+0 0 10055
+S
+#10077
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east you see the stairs.  The hallway continues north and south.  
+~
+0 8 0
+D0
+~
+~
+0 0 10078
+D1
+~
+~
+1 0 10058
+D2
+~
+~
+0 0 10076
+S
+#10078
+Hallway in the Hospital~
+Walls painted of a baby blue and white tile floors surround a person
+here.  The smell of ammonia is prevalently lingering here.  Moans and
+screams from patients that are in agony can be heard coming from rooms up
+and down the hallway.  To the west you see a nurses station.  
+~
+0 8 0
+D0
+~
+~
+0 0 10079
+D2
+~
+~
+0 0 10077
+D3
+~
+~
+0 0 10061
+S
+#10079
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north and east, a hopital room can be seen.  To the south and west, the
+hallway continues.  
+~
+0 8 0
+D0
+~
+~
+0 0 10062
+D1
+~
+~
+0 0 10060
+D2
+~
+~
+0 0 10078
+D3
+~
+~
+0 0 10080
+S
+#10080
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10063
+D1
+~
+~
+0 0 10079
+D3
+~
+~
+0 0 10081
+S
+#10081
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10064
+D1
+~
+~
+0 0 10080
+D3
+~
+~
+0 0 10082
+S
+#10082
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues. 
+~
+0 8 0
+D0
+~
+~
+0 0 10065
+D1
+~
+~
+0 0 10081
+D3
+~
+~
+0 0 10067
+S
+#10083
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10084
+D3
+~
+~
+0 0 10070
+S
+#10084
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the north is the janitorial/supply closet.
+~
+0 8 0
+D0
+~
+~
+0 0 10085
+D1
+~
+~
+0 0 10055
+D3
+~
+~
+0 0 10083
+S
+#10085
+Supply/Janitorial Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D0
+~
+~
+0 0 10049
+D2
+~
+~
+0 0 10084
+S
+#10086
+Gigi's Residence~
+You enter a {rwarmly{x lit room.  You see several pictures of {YSunshine{x on the
+walls.  There are also a few books on the sun lying about.  In the corner
+you see a small table with {Rred roses{x on it.  You see a large {rc{mo{rl{wo{gr{bf{cu{ml{x couch
+here that looks as if it could seat many people.  A note catches your eye. 
+It reads : If you are here as an invited guest please kick back and relax,
+if you are here without invitation stay at your own {Rrisk{x.  
+~
+0 533512 0
+D5
+~
+~
+4 10013 10104
+S
+#10087
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10110
+S
+#10088
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10111
+S
+#10089
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10112
+S
+#10090
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10113
+S
+#10091
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10114
+S
+#10092
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the south is the janitorial/supply closet.
+~
+0 8 0
+D1
+~
+~
+0 0 10011
+D2
+~
+~
+0 0 10098
+D3
+~
+~
+0 0 10017
+S
+#10093
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10114
+S
+#10094
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10115
+S
+#10095
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10116
+S
+#10096
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10117
+S
+#10097
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10118
+S
+#10098
+Supply/Janitorial Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D0
+~
+~
+0 0 10092
+D2
+~
+~
+0 0 10127
+S
+#10099
+The Bathroom~
+This is a spacious bathroom as it is designed to be handicap accesible. 
+One wall houses a sink and paper towl dispenser while the opposing wall
+houses a chaning table for mothers with babies.  The wall directly opposite
+of the door is the wall that the toilet is against.  
+~
+0 8 0
+D3
+~
+~
+0 0 10118
+S
+#10100
+Elevator~
+Surrounded completly by brass the pearl buttons stick out like a sore
+thumb here.  There is a sign besides the stange buttons.  It reads: To go to
+Floor 1 press south, To go to Floor 2 press East, To go to Floor 3 Press Up,
+To go to Floor 4 Press North, To go to Floor 5 Press down.  
+~
+0 8 0
+D0
+~
+~
+0 0 10143
+D1
+~
+~
+0 0 10057
+D2
+~
+~
+0 0 10029
+D3
+~
+~
+0 0 10119
+D4
+~
+~
+0 0 10100
+D5
+~
+~
+0 0 10186
+S
+#10101
+Supply Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D3
+~
+~
+0 0 10120
+S
+#10102
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the west, the door back to the hallway.  Looking out the
+window, part of the realms can be seen.
+~
+0 8 0
+D3
+~
+~
+0 0 10121
+S
+#10103
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the west, the door back to the hallway.  Looking out the
+window, part of the realms can be seen.  
+~
+0 8 0
+D3
+~
+~
+0 0 10122
+S
+#10104
+Gigi's Padded Room~
+The walls are a pale shade of pink rubber.  There is a rubber padded
+table and chair here.  You see a door going up that is locked and shut tight
+so that the insane can not go up to get out of here.  The temperature is
+quite warm in here, leading one to believe Gigi is a cold natured person.  
+~
+0 524296 0
+D4
+~
+~
+4 10013 10086
+D5
+~
+~
+4 10013 10190
+S
+#10105
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10122
+S
+#10106
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10123
+S
+#10107
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10124
+S
+#10108
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10125
+S
+#10109
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10110
+S
+#10110
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east and south the hallway continues.  To the north and west you see
+hospital rooms.
+~
+0 8 0
+D0
+~
+~
+0 0 10109
+D1
+~
+~
+0 0 10125
+D2
+~
+~
+0 0 10111
+D3
+~
+~
+0 0 10087
+S
+#10111
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10110
+D1
+~
+~
+0 0 10017
+D2
+~
+~
+0 0 10112
+D3
+~
+~
+0 0 10088
+S
+#10112
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a slightly open door leading into a patients room.
+~
+0 8 0
+D0
+~
+~
+0 0 10111
+D2
+~
+~
+0 0 10114
+D3
+~
+~
+0 0 10089
+S
+#10113
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10112
+D1
+~
+~
+0 0 10126
+D2
+~
+~
+0 0 10114
+D3
+~
+~
+0 0 10090
+S
+#10114
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and south are hospital rooms with their doors open.  The hallway
+continues north and east.
+~
+0 8 0
+D0
+~
+~
+0 0 10113
+D1
+~
+~
+0 0 10115
+D2
+~
+~
+0 0 10093
+D3
+~
+~
+0 0 10091
+S
+#10115
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10116
+D2
+~
+~
+0 0 10094
+D3
+~
+~
+0 0 10114
+S
+#10116
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10117
+D2
+~
+~
+0 0 10095
+D3
+~
+~
+0 0 10115
+S
+#10117
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10118
+D2
+~
+~
+0 0 10096
+D3
+~
+~
+0 0 10116
+S
+#10118
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+south, an opened door into a hospital room.  The the east, a bathroom marked
+for men or women.  To the west and north the hallway continues. 
+~
+0 8 0
+D0
+~
+~
+0 0 10119
+D1
+~
+~
+0 0 10099
+D2
+~
+~
+0 0 10097
+D3
+~
+~
+0 0 10117
+S
+#10119
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  The
+elevator can be seen to the east.  The hallway continues north and south. 
+To the west you see the nurses station.  
+~
+0 8 0
+D0
+~
+~
+0 0 10120
+D1
+~
+~
+0 0 10100
+D2
+~
+~
+0 0 10118
+D3
+~
+~
+0 0 10128
+S
+#10120
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east you see a supply closet.  The hallway contiues north and south.
+~
+0 8 0
+D0
+~
+~
+0 0 10121
+D1
+~
+~
+0 0 10101
+D2
+~
+~
+0 0 10119
+S
+#10121
+Hallway in the Hospital~
+Alls painted of a baby blue and white tile floors surround a person here.
+The smell of ammonia is prevalently lingering here.  Moans and screams from
+patients that are in agony can be heard coming from rooms up and down the
+hallway.  To the east you see a slightly opened door leading into a room. 
+The hallyway continues north and south.  
+~
+0 8 0
+D0
+~
+~
+0 0 10122
+D1
+~
+~
+0 0 10102
+D2
+~
+~
+0 0 10120
+D3
+~
+~
+0 0 10011
+S
+#10122
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north and east, a hopital room can be seen.  To the south and west, the
+hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10105
+D1
+~
+~
+0 0 10103
+D2
+~
+~
+0 0 10121
+D3
+~
+~
+0 0 10123
+S
+#10123
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10106
+D1
+~
+~
+0 0 10122
+D3
+~
+~
+0 0 10124
+S
+#10124
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10107
+D1
+~
+~
+0 0 10123
+D3
+~
+~
+0 0 10125
+S
+#10125
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10108
+D1
+~
+~
+0 0 10124
+D3
+~
+~
+0 0 10110
+S
+#10126
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10127
+D3
+~
+~
+0 0 10113
+S
+#10127
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the north is the janitorial/supply closet.
+~
+0 8 0
+D0
+~
+~
+0 0 10098
+D1
+~
+~
+0 0 10128
+D3
+~
+~
+0 0 10126
+S
+#10128
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10119
+D3
+~
+~
+0 0 10127
+S
+#10129
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the south is the janitorial/supply closet.
+~
+0 8 0
+D1
+~
+~
+0 0 10147
+D2
+~
+~
+0 0 10135
+D3
+~
+~
+0 0 10141
+S
+#10130
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10153
+S
+#10131
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10154
+S
+#10132
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10155
+S
+#10133
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10156
+S
+#10134
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the east, the hustle and bustle in the hallway can be heard. 
+Looking out the window, a fountain can be seen with little kids making
+wishes in it.
+~
+0 8 0
+D1
+~
+~
+0 0 10157
+S
+#10135
+Supply/Janitorial Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D0
+~
+~
+0 0 10129
+D2
+~
+~
+0 0 10170
+S
+#10136
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10157
+S
+#10137
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10158
+S
+#10138
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10159
+S
+#10139
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10160
+S
+#10140
+Hospital Room~
+The walls here are covered in flowered yellow wallpaper, while the floors
+are green and white marble.  A couch leans against the back wall, while a
+bed sits in the middle of the room.  There are machines lining the wall
+behind the bed.  A window on the south wall over looks a portion of the
+realms.  The door opens to the north back into the hallway. 
+~
+0 8 0
+D0
+~
+~
+0 0 10161
+S
+#10141
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10129
+D3
+~
+~
+0 0 10154
+S
+#10142
+The Bathroom~
+This is a spacious bathroom as it is designed to be handicap accesible. 
+One wall houses a sink and paper towl dispenser while the opposing wall
+houses a chaning table for mothers with babies.  The wall directly opposite
+of the door is the wall that the toilet is against.  
+~
+0 8 0
+D3
+~
+~
+0 0 10161
+S
+#10143
+Elevator~
+Surrounded completly by brass the pearl buttons stick out like a sore
+thumb here.  There is a sign besides the stange buttons.  It reads: To go to
+Floor 1 press south, To go to Floor 2 press East, To go to Floor 3 Press Up,
+To go to Floor 4 Press North, To go to Floor 5 Press down.  
+~
+0 8 0
+D0
+~
+~
+0 0 10143
+D1
+~
+~
+0 0 10057
+D2
+~
+~
+0 0 10029
+D3
+~
+~
+1 0 10162
+D4
+~
+~
+0 0 10100
+D5
+~
+~
+0 0 10186
+S
+#10144
+Supply Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D3
+~
+~
+0 0 10163
+S
+#10145
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the west, the door back to the hallway.  Looking out the
+window, part of the realms can be seen.
+~
+0 8 0
+D3
+~
+~
+0 0 10164
+S
+#10146
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the west, the door back to the hallway.  Looking out the
+window, part of the realms can be seen.
+~
+0 8 0
+D3
+~
+~
+0 0 10165
+S
+#10147
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10164
+D3
+~
+~
+0 0 10129
+S
+#10148
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10165
+S
+#10149
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10166
+S
+#10150
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10167
+S
+#10151
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10168
+S
+#10152
+Hospital Room~
+The walls are covered in flowered yellow wallpaper, and the floors are
+green and white marble.  A couch rests against the back wall, while a bed
+sits in the middle of the room.  There are machines lining the wall behind
+the bed.  To the south, the door back to the hallway.  Looking out the
+window you see the glorious view of the parking garage.
+~
+0 8 0
+D2
+~
+~
+0 0 10153
+S
+#10153
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east and south the hallway continues.  To the north and west you see
+hospital rooms.
+~
+0 8 0
+D0
+~
+~
+0 0 10152
+D1
+~
+~
+0 0 10168
+D2
+~
+~
+0 0 10154
+D3
+~
+~
+0 0 10130
+S
+#10154
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10153
+D1
+~
+~
+0 0 10141
+D2
+~
+~
+0 0 10155
+D3
+~
+~
+0 0 10131
+S
+#10155
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a slightly open door leading into a patients room.
+~
+0 8 0
+D0
+~
+~
+0 0 10154
+D2
+~
+~
+0 0 10156
+D3
+~
+~
+0 0 10132
+S
+#10156
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10155
+D1
+~
+~
+0 0 10169
+D2
+~
+~
+0 0 10157
+D3
+~
+~
+0 0 10133
+S
+#10157
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and south are hospital rooms with their doors open.  The hallway
+continues north and east.
+~
+0 8 0
+D0
+~
+~
+0 0 10156
+D1
+~
+~
+0 0 10158
+D2
+~
+~
+0 0 10136
+D3
+~
+~
+0 0 10134
+S
+#10158
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10159
+D2
+~
+~
+0 0 10137
+D3
+~
+~
+0 0 10157
+S
+#10159
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10160
+D2
+~
+~
+0 0 10138
+D3
+~
+~
+0 0 10158
+S
+#10160
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west and east the hallway continues.  To the south a slightly closed door
+into a patients room awaits entry.
+~
+0 8 0
+D1
+~
+~
+0 0 10161
+D2
+~
+~
+0 0 10139
+D3
+~
+~
+0 0 10159
+S
+#10161
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+south, an opened door into a hospital room.  The the east, a bathroom marked
+for men or women.  To the west and north the hallway continues. 
+~
+0 8 0
+D0
+~
+~
+0 0 10162
+D1
+~
+~
+0 0 10142
+D2
+~
+~
+0 0 10140
+D3
+~
+~
+0 0 10160
+S
+#10162
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  The
+elevator can be seen to the east.  The hallway continues north and south. 
+To the west you see the nurses station.
+~
+0 8 0
+D0
+~
+~
+0 0 10163
+D1
+~
+~
+1 0 10143
+D2
+~
+~
+0 0 10161
+D3
+~
+~
+0 0 10171
+S
+#10163
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east you see a supply closet.  The hallway contiues north and south.
+~
+0 8 0
+D0
+~
+~
+0 0 10164
+D1
+~
+~
+0 0 10144
+D2
+~
+~
+0 0 10162
+S
+#10164
+Hallway in the Hospital~
+Alls painted of a baby blue and white tile floors surround a person here.
+The smell of ammonia is prevalently lingering here.  Moans and screams from
+patients that are in agony can be heard coming from rooms up and down the
+hallway.  The hallway continues north and south.  To the west you see the
+nurses station, and to the east a slightly open door invites you into a
+hospital room.  
+~
+0 8 0
+D0
+~
+~
+0 0 10165
+D1
+~
+~
+0 0 10145
+D2
+~
+~
+0 0 10163
+D3
+~
+~
+0 0 10147
+S
+#10165
+Hallway in the hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north and east, a hopital room can be seen.  To the south and west, the
+hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10148
+D1
+~
+~
+0 0 10146
+D2
+~
+~
+0 0 10164
+D3
+~
+~
+0 0 10166
+S
+#10166
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10149
+D1
+~
+~
+0 0 10165
+D3
+~
+~
+0 0 10167
+S
+#10167
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10150
+D1
+~
+~
+0 0 10166
+D3
+~
+~
+0 0 10168
+S
+#10168
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+north you see a hospital room.  To the east and west the hallway continues.
+~
+0 8 0
+D0
+~
+~
+0 0 10151
+D1
+~
+~
+0 0 10167
+D3
+~
+~
+0 0 10153
+S
+#10169
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10170
+D3
+~
+~
+0 0 10156
+S
+#10170
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the north is the janitorial/supply closet.
+~
+0 8 0
+D0
+~
+~
+0 0 10135
+D1
+~
+~
+0 0 10171
+D3
+~
+~
+0 0 10169
+S
+#10171
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10162
+D3
+~
+~
+0 0 10170
+S
+#10172
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east with the
+hallway to the west.
+~
+0 8 0
+D1
+~
+~
+0 0 10178
+D3
+~
+~
+0 0 10197
+S
+#10173
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the east you see the door you came in.  
+~
+0 8 0
+D1
+~
+~
+0 0 10196
+S
+#10174
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the east you see the door you came in.  
+~
+0 8 0
+D1
+~
+~
+0 0 10197
+S
+#10175
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the east you see the door you came in.  
+~
+0 8 0
+D1
+~
+~
+0 0 10198
+S
+#10176
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the east you see the door you came in.  
+~
+0 8 0
+D1
+~
+~
+0 0 10199
+S
+#10177
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the east you see the door you came in.  
+~
+0 8 0
+D1
+~
+~
+0 0 10037
+S
+#10178
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the east and west.  To
+the south is the janitorial/supply closet.
+~
+0 8 0
+D1
+~
+~
+0 0 10184
+D2
+~
+~
+0 0 10190
+D3
+~
+~
+0 0 10172
+S
+#10179
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the north you see the door you came in.  
+~
+0 8 0
+D0
+~
+~
+0 0 10037
+S
+#10180
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the north you see the door you came in.  
+~
+0 8 0
+D0
+~
+~
+0 0 10038
+S
+#10181
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the north you see the door you came in.  
+~
+0 8 0
+D0
+~
+~
+0 0 10039
+S
+#10182
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the north you see the door you came in.  
+~
+0 8 0
+D0
+~
+~
+0 0 10040
+S
+#10183
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the north you see the door you came in.  
+~
+0 8 0
+D0
+~
+~
+0 0 10041
+S
+#10184
+Nurses Station~
+A long desk covered with files, folders and papers runs along the wall. 
+Comfortable desk chairs are neatly aligned in a row except for the ones with
+nurses in them.  The nurses' station continues off to the west with the
+hallway to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 10024
+D3
+~
+~
+0 0 10178
+S
+#10185
+The Bathroom~
+This is a spacious bathroom as it is designed to be handicap accesible. 
+One wall houses a sink and paper towl dispenser while the opposing wall
+houses a chaning table for mothers with babies.  The wall directly opposite
+of the door is the wall that the toilet is against.  
+~
+0 8 0
+D3
+~
+~
+0 0 10041
+S
+#10186
+Elevator~
+Surrounded completly by brass the pearl buttons stick out like a sore
+thumb here.  There is a sign besides the stange buttons.  It reads: To go to
+Floor 1 press south, To go to Floor 2 press East, To go to Floor 3 Press Up,
+To go to Floor 4 Press North, To go to Floor 5 Press down.  
+~
+0 8 0
+D0
+~
+~
+0 0 10143
+D1
+~
+~
+0 0 10057
+D2
+~
+~
+0 0 10029
+D3
+~
+~
+0 0 10042
+D4
+~
+~
+0 0 10143
+D5
+~
+~
+0 0 10186
+S
+#10187
+Supply Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D3
+~
+~
+0 0 10023
+S
+#10188
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+Back to the west you see the door you came in through.  
+~
+0 8 0
+D3
+~
+~
+0 0 10024
+S
+#10189
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+Back to the west you see the door you came in through.  
+~
+0 8 0
+D3
+~
+~
+0 0 10020
+S
+#10190
+Supply/Janitorial Closet~
+Large shelves stocked with band-aids, ace wraps, medicines, cleaning
+supplies, sheets, and blankets, along with countless other items are side by
+side in this small room.  Walk ways are small because the shelves take up so
+much room in here.  You notice a sign on the wall that says please wear
+gloves when handling any type of medicine or when dealing with blood.  Under
+the sign you see boxes full of various sizes of gloves.  
+~
+0 8 0
+D0
+~
+~
+0 0 10178
+D2
+~
+~
+0 0 10035
+D4
+~
+~
+4 10013 10104
+S
+#10191
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the South you see the door you came through.  
+~
+0 8 0
+D2
+~
+~
+0 0 10020
+S
+#10192
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the South you see the door you came through.  
+~
+0 8 0
+D2
+~
+~
+0 0 10021
+S
+#10193
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the South you see the door you came through.  
+~
+0 8 0
+D2
+~
+~
+0 0 10022
+S
+#10194
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the South you see the door you came through.  
+~
+0 8 0
+D2
+~
+~
+0 0 10019
+S
+#10195
+Padded Hospital Room~
+Stepping inside is like stepping into an alternate univerise.  Where the
+walls, floors and Ceilings are white padding.  Where you have no windows and
+your idividual bathroom is locked with a key.  There is a nurse call button
+built into the wall here that is surronded totally by rubber and padding. 
+To the South you see the door you came through.  
+~
+0 8 0
+D2
+~
+~
+0 0 10196
+S
+#10196
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+east and south the hallway continues.  To the north and west you see
+hospital rooms.  
+~
+0 8 0
+D0
+~
+~
+0 0 10195
+D1
+~
+~
+0 0 10019
+D2
+~
+~
+0 0 10197
+D3
+~
+~
+0 0 10173
+S
+#10197
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station.  
+~
+0 8 0
+D0
+~
+~
+0 0 10196
+D1
+~
+~
+0 0 10172
+D2
+~
+~
+0 0 10198
+D3
+~
+~
+0 0 10174
+S
+#10198
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a slightly open door leading into a patients room.
+~
+0 8 0
+D0
+~
+~
+0 0 10197
+D2
+~
+~
+0 0 10199
+D3
+~
+~
+0 0 10175
+S
+#10199
+Hallway in the Hospital~
+Walls painted a baby blue, and white tile floors surround a person here. 
+The smell of ammonia lingers in the air.  Moans and screams from patients,
+in agony, can be heard coming from rooms up and down the hallway.  To the
+west you see a half open door into a hospital room.  To the east you see the
+nurses station. 
+~
+0 8 0
+D0
+~
+~
+0 0 10198
+D1
+~
+~
+0 0 10018
+D2
+~
+~
+0 0 10037
+D3
+~
+~
+0 0 10176
+S
+#0
+
+
+
+#SPECIALS
+M 10008 spec_high_cleric
+S
+
+
+
+#RESETS
+D 0 10000 1 1
+D 0 10007 2 1
+D 0 10008 0 1
+D 0 10015 1 1
+D 0 10016 1 1
+D 0 10025 2 1
+D 0 10026 0 1
+D 0 10029 3 1
+D 0 10036 3 1
+D 0 10057 3 1
+D 0 10058 3 1
+D 0 10076 1 1
+D 0 10077 1 1
+D 0 10086 5 2
+D 0 10104 4 2
+D 0 10104 5 2
+D 0 10143 3 1
+D 0 10162 1 1
+D 0 10190 4 2
+O 0 10003 0 10003
+O 0 10003 0 10004
+O 0 10004 0 10004
+M 0 10007 30 10006 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10001 2 10007 1
+G 0 10018 0
+E 0 10002 0 7
+O 0 10000 0 10007
+O 0 10000 0 10008
+M 0 10000 5 10008 1
+E 0 10001 0 28
+O 0 10004 0 10009
+O 0 10004 0 10010
+M 0 10007 30 10011 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10003 2 10012 2
+M 0 10002 10 10013 5
+M 0 10002 10 10014 5
+O 0 10004 0 10015
+O 0 10004 0 10016
+M 0 10007 30 10017 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10007 30 10018 1
+E 0 10005 0 3
+E 0 10006 0 27
+O 0 10000 0 10025
+M 0 10001 1 10025 1
+E 0 10002 0 7
+M 0 10000 5 10026 1
+E 0 10001 0 28
+O 0 10000 0 10026
+O 0 10004 0 10027
+O 0 10004 0 10028
+M 0 10004 1 10030 1
+M 0 10002 10 10031 0
+M 0 10002 10 10032 0
+O 0 10004 0 10033
+O 0 10004 0 10034
+M 0 10008 1 10035 1
+E 0 10007 0 12
+E 0 10008 0 14
+M 0 10007 30 10043 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10005 50 10045 1
+M 0 10006 50 10047 1
+M 0 10005 50 10048 1
+M 0 10008 10 10049 1
+E 0 10007 0 12
+E 0 10008 0 15
+M 0 10005 50 10050 1
+M 0 10005 50 10053 1
+M 0 10005 50 10054 1
+M 0 10007 30 10055 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10005 50 10060 1
+M 0 10007 30 10061 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10005 50 10063 2
+M 0 10006 2 10064 50
+M 0 10006 50 10065 2
+M 0 10005 50 10066 1
+M 0 10007 30 10083 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10008 10 10084 1
+E 0 10007 0 12
+E 0 10008 0 15
+O 0 10012 0 10086
+M 0 10006 50 10088 1
+M 0 10008 10 10092 1
+E 0 10007 0 12
+E 0 10008 0 14
+M 0 10006 50 10093 1
+M 0 10005 50 10095 1
+M 0 10005 50 10096 1
+M 0 10005 1 10102 50
+M 0 10005 50 10106 1
+M 0 10005 50 10107 1
+M 0 10005 50 10109 1
+M 0 10007 30 10126 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10008 10 10127 1
+E 0 10007 0 12
+E 0 10008 0 14
+M 0 10007 30 10128 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10008 10 10129 1
+E 0 10007 0 12
+E 0 10008 0 15
+M 0 10006 50 10133 1
+M 0 10005 50 10136 1
+M 0 10005 50 10137 1
+M 0 10005 50 10139 1
+M 0 10007 30 10141 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10005 50 10145 1
+M 0 10007 30 10147 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10006 50 10149 1
+M 0 10006 50 10151 1
+M 0 10006 50 10152 1
+M 0 10007 30 10169 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10008 10 10170 1
+E 0 10007 0 12
+E 0 10008 0 15
+M 0 10007 30 10171 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10007 30 10172 1
+E 0 10005 0 3
+E 0 10006 0 27
+M 0 10011 2 10175 1
+E 0 10011 0 13
+M 0 10008 1 10178 1
+E 0 10007 0 12
+E 0 10008 0 14
+G 0 10014 0
+M 0 10010 3 10180 1
+E 0 10010 0 8
+M 0 10010 1 10182 1
+M 0 10007 30 10184 1
+E 0 10005 0 3
+E 0 10006 0 27
+E 0 10005 0 3
+E 0 10006 0 27
+E 0 10011 0 13
+M 0 10011 1 10185 1
+M 0 10009 2 10191 1
+E 0 10009 0 2
+M 0 10010 2 10193 1
+E 0 10010 0 8
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#10001
+if ispc $n
+ if rand 50
+  if rand 50
+   mob oload 10015
+   give medication $n
+   say There you go just what the Doc prescribed.
+  else
+   mob oload 10016
+   give medication $n
+   say There you go just what the Doc prescribed.
+  endif
+ else
+  if rand 50
+   mob oload 10017
+   give medication $n
+   say There you go just what the Doc prescribed.
+  else
+   say Sorry, can't make out the Doc's Handwriting.
+  endif
+ endif
+else
+ mob junk slip
+endif
+mob junk slip
+~
+#10002
+if ispc $n
+ if rand 50
+  mob oload 10019
+  give food $n
+  say There you go.  Nice fresh food.
+ else
+  if rand 50
+   mob oload 10020
+   give food $n
+   say There you go.  Nice fresh food.
+  else
+   say Sorry, this requisition expired yesterday.
+  endif
+ endif
+else
+ mob junk ph2
+endif
+mob junk ph2
+~
+#0
+
+#OBJPROGS
+#0
+
+#ROOMPROGS
+#0
+
+#$

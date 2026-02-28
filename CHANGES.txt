@@ -1,9 +1,20 @@
-2026/02/24
+2026/02/28
+    - mobprogram read from areas added in world available mobprograms (#313)
+    - mpfind admin command (#313)
+    - CanSee(item) fixed: holylight was not checked (#313)
+    - mob program condition pos fixed to handle fighting (#313)
+    - mfind/ofind now accepts id as argument (#313)
+    - smaug mob program parser/evaluator started (#313)
+    - dump commands table updated (#313)
+    - additional parameter in SplitParameters to preserve or not quote (#313)
+    - poc for deferred actions (#313)
+    - additional areas smaug format and also from fantasy lands (#313)
+2026//02/24
     - old mob program (ROT compatible) (#311)
-    - admin at command
-    - small refactoring in purge/goto/transfer/path/force/reset manager
-    - additional methods in FindHelper
-    - SplitParameters moved to StringExtensions
+    - admin at command (#311)
+    - small refactoring in purge/goto/transfer/path/force/reset manager (#311)
+    - additional methods in FindHelper (#311)
+    - SplitParameters moved to StringExtensions (#311)
 2026/02/17
     - migration to .net 10 (#309)
     - spec thief bug fixed (#309)

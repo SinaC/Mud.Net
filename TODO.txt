@@ -1,12 +1,15 @@
 INGOING
 DONE
-    admin at command
-    small refactoring in purge/goto/transfer/path/force/reset manager
-    additional methods in FindHelper
-    old mob programs
-    SplitParameters moved to StringExtensions
-    display mob program trigger in mstat/minfo
-    new command to dump mob program list and dump program instruction
+    mpfind admin command
+    mobprogram read from areas added in world available mobprograms
+    CanSee(item) fixed: holylight was not checked
+    mob program condition pos fixed to handle fighting
+    mfind/ofind now accepts id as argument
+    smaug mob program parser/evaluator started
+    dump commands table updated
+    split parameters moved to string extensions
+    poc for deferred actions
+    additional areas smaug format and also from fantasy lands
 
 ==========
 == TODO ==
@@ -15,7 +18,6 @@ DONE
 mob program:
     triggers
         act        STRING      to match a message sent to the room
-
 
 allow self when searching mob
 no source damage, to be used in plague/poison/mpdamage
@@ -138,8 +140,6 @@ when a player connects, if no avatar found -> switch to avatar create state mach
 compatibility must only be in blueprint loading
 check usage of OnCleaned/OnRemoved
 stop cloning list and stop removing while iterating -> flag the entity as soft deleted and remove them in Cleanup phase
-
-missing help: use dumpcommands
 
 UNIT TESTS
 use xunit + moq
@@ -311,6 +311,7 @@ http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/
 
 area:
 https://github.com/vedicveko/Mud-Areas
+https://smaugmuds.afkmods.com/files/search/
 
 old mobprogram
 http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud

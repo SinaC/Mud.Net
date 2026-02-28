@@ -1,0 +1,2053 @@
+#AREADATA
+Name Azoun's Project~
+Builders None~
+VNUMs 32000 32099
+Credits [01-40] <FR> Azoun Candlekeep Forests~
+Security 20
+Recall 3001
+AQpoints 0
+Realm 1
+End
+
+
+
+#MOBILES
+#32000
+Smelly Kobold~
+A {1Ko{!bo{1ld{x~
+A smelly {1Ko{!bo{1ld {xis resting here.
+~
+Barely clearing three feet in height, the {1ko{!bo{1ld{x has a
+rust brown scaly hide.  He smells of damp dog and stagnant
+water.  His eyes {!glow{x like a bright red spark and it
+has two tan horns protruding from its head.  He wears 
+tattered clothing and has a rat-like tail.
+~
+kobold~
+AB J 0 -100 0
+20 4 7d6+5 1d1+1 3d4+4 slash
+3 4 3 4
+0 0 L CE
+stand stand none 60
+ABHMV ABCDEFGHIJKQ small unknown
+D ~
+T ~
+M DEATH 32004 100~
+#32001
+Tomb Guardian~
+The Tomb Guardian~
+The Guardian of the tomb is standing here.
+~
+{7The Guardian of the Tomb is a large Death Knight.  
+He is wearing {8jet black{7 field plate, that no light
+will reflect off of.  From the inside of his mask the only
+two things visable are the {1red embers{7 of his eternal 
+eyes.  He stands over six feet tall, and has an average yet
+undeterminable build.  He carrys a large morning-star.{x 
+~
+human~
+AB FV O -500 0
+20 46 20d16+15 1d1+1 5d7+4 pound
+0 0 -1 0
+CE ALQR IMX NSY
+stand stand none 100
+I ABCDEF large unknown
+D A Guardian of the Tomb falls to the ground dead!~
+T ~
+F for AHMV
+F par GHIJK
+#32002
+Bob the Halfling~
+A small Halfling ~
+A small Halfling, is walking around
+~
+He stands a little over three feet tall, and has strewn about
+{3sandy {xcolored hair.  He wears a small {@f{2o{1re{2s{@t {xcolored tunic,
+under his leather armor.  The color in his {^eyes{x, are reflected
+by the {^b{6a{^n{6d{^a{6n{^a{x which he wears.
+~
+halfling~
+AY FJLTU H 500 0
+25 22 13d21+100 1d1+1 5d7+9 pierce
+0 0 -1 0
+FHJ A ILQ S
+stand stand male 500
+AHMV ABCDEFGHIJKP small unknown
+D ~
+T ~
+M GRALL 32005 100~
+M SPEECH 32003 job~
+#32003
+pool mob~
+pool mob~
+(invisible)pool mob
+~
+~
+human~
+ABI DFJLa P 0 0
+10 2 1d1+1 1d1+1 1d1+1 slice
+0 0 0 0
+0 ABIL CDHLPQ ENPRSXY
+stand stand none 0
+AHMV ABCDEFGHIJKW medium unknown
+D ~
+T ~
+M SPEECH 32002 go for a swim~
+#32004
+KuaToa fishman~
+KuaToa~
+{7A Large {BF{6ish{BM{6an{7, is standing here.{x 
+~
+{&This large fishlike creature, might actual resemble and overweight
+human from a distance.  Upon a closer inspection you notice that his
+head is that of a fish's, his hands and feet are webbed claws.  slimy
+scales line his entire body, and he has a small tail hanging off
+its back.  Strapped to its back it has a seaweed-mesh harness for his
+deadly harpoon.
+~
+water fowl~
+ABT Jb 0 -200 0
+35 15 20d6+220 1d1+1 3d4+8 pierce
+0 0 0 0
+0 A LQR 0
+stand stand male 200
+AGHMVW ABCDEFGHIJKP medium Flesh
+D ~
+T ~
+F aff T
+#32005
+Bear~
+A Bear~
+{7A large {#C{3ave {#B{3ear{7, is in deep slumber.{x
+~
+{3This lagre mammal is covered with thick fur.  It walks around on 
+all fours.  Each paw ends with large viscous claws.  Its oversized 
+head carries with it a very powerfull bite.  
+{x
+~
+bear~
+ABT DVa 0 0 0
+45 9 50d3+400 1d1+1 4d4+2 claw
+-12 -12 -12 -12
+DO ABPQ DEI C
+stand stand none 200
+AGHMV ABCDEFGHIJKLNUV medium unknown
+D ~
+T ~
+F off E
+#32006
+invisible tree~
+Invisible Tree~
+An invisible tree
+~
+~
+human~
+ABIT JZ P 0 0
+1 1 1d1+5000 1d1+1 1d1+1 slice
+0 0 0 0
+0 A 0 0
+stand stand none 1
+AHMV ABCDEFGHIJK medium unknown
+D ~
+T ~
+M SPEECH 32001 climb the tree~
+#32007
+Kobold Leader Fat~
+{7Fat {1Ko{!bo{1ld{x~
+{7Standing here looking stupid, is a fat {1Ko{!bo{1ld{x
+~
+{7This {1Ko{!bo{1ld {7looks like all the rest of his kind, except 
+that he is slightly taller, and a lot fatter.  He also wears quite
+an impressice suite of leather armor.{x
+~
+kobold~
+ABT J 0 -200 0
+48 22 5d5+450 1d1+1 6d6+6 claw
+-1 -1 -1 -1
+0 A L C
+stand stand male 500
+ABHMV ABCDEFGHIJKQ medium unknown
+D ~
+T ~
+#32008
+Flind flind ~
+A flind~
+A Stout Flind is resting on the ground.
+~
+The flind is similar to a gnoll in body style, though it is a
+little shorter, and broader.  They are more muscular than their
+cousins.  Short, dirty, brown and red fur covers thier body.  Their
+foreheads do not slope back as far, and their ears are rounded, but
+still animal like.  
+~
+gnoll~
+ABFT FZ 0 0 0
+60 55 10d8+465 0d0+0 5d4+7 none
+0 0 0 0
+CEFHILNR 0 0 FY
+stand stand male 5000
+AHMV ABCDEFGHIJKUV medium unknown
+D ~
+T Who dares disturb me?~
+#32009
+Gibberling gibberling~
+a gibberling~
+A Gibberling is chittering away to itself.
+~
+This awkward creature is actually a hunchbacked humanoid, with
+pointed canine ears, a black mane that surrounds it hideous face.  Its
+eyes are black, and shine with a maniacal gleam.  They carry short
+swords in their overly long arms.  
+~
+human~
+ABS 0 0 0 0
+42 6 4d6+375 1d1+1 3d5+3 slash
+-15 -15 -15 -15
+0 0 0 0
+stand stand none 200
+AHMV ABCDEFGHIJK medium unknown
+D ~
+T ~
+#32010
+Worg worg~
+a worg~
+A large Worg stalks around the room.
+~
+The Worg is a variation of a wolf.  It is a little bit larger than
+its cousin and has a more coarse coat of dark grey hair.  
+~
+wolf~
+AE Z 0 0 0
+48 13 5d5+500 1d1+1 2d10+2 bite
+-15 -15 -15 -3
+D 0 0 0
+stand stand none 0
+AGV ACDEFJKQV medium unknown
+D ~
+T ~
+F off FH
+#32055
+Gnoll gnoll~
+A Gnoll~
+A Tall Gnoll stands around snarling.
+~
+While the body of a gnoll is shaped like that of a large human, he
+details are those of a hyena.  They stand erect on two legs and have
+hands that can manipulate as well as those of any human.  They have
+greenish gray skin, darker near the muzzle, with a short reddish gray
+to a dull yellow mane.  
+~
+gnoll~
+ABFT FZ 0 0 0
+45 35 7d6+440 1d1+1 4d4+6 pound
+-15 -15 -15 -15
+EHNR LQ HI FJY
+stand stand male 1000
+AHMV ABCDEFGHIJKPQUV medium unknown
+D ~
+T ~
+#32099
+Bdell~
+An Old Man ~
+{7A {8Skeletal {7like Old Man, is standing about{x
+~
+~
+heucuva~
+ABT Z 0 -1000 0
+1 20 1d1+100 1d1+100 1d1+100 none
+0 0 0 0
+0 LMQ D SY
+stand stand none 100
+AHMV ABCGHIJK medium unknown
+D ~
+T ~
+M ACT 32097 blows the horn~
+#0
+
+
+
+#OBJECTS
+#32000
+Onyx MorningStar~
+morningstar of the {8To{7m{&b Gu{7ard{*ian{x~
+A large morning-star is resting here.~
+unknown~
+weapon EGIJ AU
+mace 7 6 pound 0
+30 3 4500 P
+L This Magically crafted morningstar comes from The Guardian of the Tomb of Asundral~
+#32001
+A Dagger~
+a {bD{6a{7gg{6e{br{x~
+A quest pill is here~
+unknown~
+weapon AGI AN
+dagger 4 8 pierce 0
+25 3 5000 P
+A
+18 5
+A
+2 1
+E
+dagger~
+The dagger appears nothing out of the ordinary, it is four
+inches long, has a double edge and is made out of common steel.
+It has a simple leather hilt, with a shinny steel ball on 
+the end.  It is well looked after and has recently been polished
+~
+L This magical dagger was taken from Bob the Halfling~
+#32002
+A potion~
+a {5p{8o{7ti{8o{5n{x~
+A swirling {5p{8o{7ti{6o{5n{x, is on the ground~
+unknown~
+potion AG AO
+25 'cure serious' 'cure poison' '' ''
+20 3 3000 P
+E
+potion~
+The potion is in a small glass vial.  It can only be used once
+and when you do you simply break the top of the vial, and quaff.
+The contents of the potion swirl around in many different {5c{8o{7lo{8r{5s{x.
+~
+L This potion was created by a halfling alchemist~
+#32003
+Bed~
+a small bed~
+There is a small Bed here~
+unknown~
+furniture 0 0
+1 10000 EIL 100 100
+1 3 0 P
+E
+bed~
+This normal bed is made from a wooden frame, it is covered with 
+a large wool blanket
+~
+#32004
+Water Barrel~
+a {^w{6a{^t{6e{^r{x barrel~
+A {^w{6a{^t{6e{^r{x barrel is leaning up against the wall~
+unknown~
+fountain 0 0
+10000 10000 'water' 0 0
+1 3 500 P
+#32005
+Wooden Table~
+a wooden table~
+A wooden table is here~
+unknown~
+furniture 0 0
+2 3000 DGJ 50 20
+1 5 500 P
+#32006
+Worn Chair~
+a {!c{1h{8a{1i{!r{x~
+A worn-in old {!c{1h{8a{1i{!r{x is sitting here~
+leather~
+furniture 0 0
+1000 1000 FIL 200 200
+1 3 500 P
+E
+chair~
+This old worn in chair has seen many days.  It is large and made of
+a red dyed cotton, and a soft relaxing material.  
+~
+#32007
+Ancient Tree~
+an {1A{8n{7c{&e{7i{8n{1t {@T{2re{@e{x~
+Here bends an {1A{8n{7c{&e{7i{8n{1t {@T{2re{@e{x.~
+wood~
+furniture 0 0
+5 100000 ADGJ 100 100
+101 1000 0 P
+L This ancient tree shouldn't be lored...If it is please consult an immortal~
+#32008
+Stagnant pool~
+a {3St{2ag{1n{2a{3nt {^P{6oo{^l{x~
+The water from a {3St{2ag{1n{2a{3nt {^P{6oo{^l{x, ripple calmly.~
+water~
+furniture 0 0
+0 0 0 0 0
+1 10000 0 P
+#32009
+{1W{3ooden {1S{3ign{x~
+wooden Sign~
+{7An old {1W{3ooden {1S{3ign {7has been set into the dirt.{x~
+wood~
+furniture 0 0
+0 0 0 0 0
+10 100 1 P
+E
+sign~
+{#+{3----------------------------------{#+
+{#+{3Don't be afraid to 'go for a swim'.{#+
+{#+                                  {#+
+{#+                                  {#+
+{#+{3The water is really nice!         {#+
+{#+{3----------------------------------{#+
+~
+#32010
+Harpoon~
+a {3Ha{1r{!p{1o{3on{x~
+A long jagged harpoon, is stuck in the ground.~
+wood~
+weapon BI AN
+polearm 6 7 pierce F
+3 3 1000 P
+A
+19 2
+E
+harpoon~
+The Harpoon has a long wooden shaft, which ends with a long oval
+scale which is barbed for maximal damage.
+~
+L This un-common weapon was crafted by a Kuo-Toa fishman.  In the deep depths of the ocean.~
+#32011
+Cave~
+{&A small {8C{7a{8v{7e{x~
+In hole~
+rock~
+portal 0 0
+0 0 0 32026 0
+104 1000 1 P
+#32012
+Pile of Gold~
+{&A Pile of {#Gold{x~
+{&Scatterred around the room, are {#gold {&coins.{x~
+gold~
+money 0 A
+2000 0 0 0 0
+1 5 0 P
+#32013
+Flower~
+flowers~
+{&Growing around the tree, are some colorfull {Bf{!l{#o{^w{#e{!r{Bs{x~
+organic~
+trash 0 0
+0 0 0 0 0
+1 1 1 P
+L This collection of flowers, was hand picked from a forest north of Waterdeep~
+#32014
+Kobold Head~
+{1Ko{!bo{1ld {3Head{x~
+{7The {!Se{1v{&e{1r{!ed {3Head {7of a {1Ko{!bo{1ld{x~
+flesh~
+trash 0 AO
+0 0 0 0 0
+2 0 0 P
+#32015
+studded leather armor~
+{8S{7t{8u{7d{8d{7e{8d {3L{5e{3a{5t{3h{5e{3r {5A{3r{5m{3o{5r{x~
+{7 Tossed away like garbage is some {3L{5e{3a{5t{3h{5e{3r {5A{3r{5m{3o{5r{x~
+leather~
+armor G AD
+4 4 4 5 0
+12 3 1500 P
+A
+2 1
+L The origin of this finely crafted armor is unknown.~
+#32016
+hide tent ~
+hide Tent~
+{7A small makeshift, {3hide tent {7has been erected here.{x~
+hide~
+portal 0 0
+1000 0 0 32065 0
+10 100 1000 P
+#32031
+flindbar flind bar~
+a FlindBar~
+Twin steel bars connected with a short length of chain, have been tossed to the ground.~
+steel~
+weapon 0 AN
+flail 5 7 pound 0
+15 7 8000 P
+A
+18 4
+A
+2 1
+L This weapon is fashioned by Flind's a offshoot of Gnoll's~
+#32080
+dagger lifestealer~
+{8Dagger of {!Li{1fe{7S{&te{7a{1li{!ng{x~
+A dagger still dripping with blood is here.~
+unknown~
+weapon AGI AN
+dagger 11 15 pierce CJ
+102 20 20 P
+A
+12 250
+A
+13 250
+#32081
+shield eternity~
+{6Sh{7ie{6ld {&of {$Et{^erni{$ty{x~
+A bright shield is here.~
+unknown~
+armor 0 AJ
+35 35 35 35 0
+102 2 20 P
+A
+20 -5
+A
+12 200
+A
+13 250
+#32082
+axe beheading~
+{8A{7x{8e {7of {!B{&e{!H{&eadin{!g{x~
+A large axe is here~
+steeal~
+weapon M AN
+axe 3 112 cleave DEF
+20 1 20 P
+#32083
+healing potion~
+potion of Healing~
+A potion bottle lies here~
+liquid~
+potion 0 AO
+101 'heal' 'reserved' 'reserved' 'reserved'
+20 3 2 P
+#32084
+potion mana~
+a potion of Mana Restoration.~
+A potion bottle lies here.~
+liquid~
+potion 0 AO
+101 'restore mana' 'restore mana' 'reserved' 'reserved'
+20 1 1000 P
+#32085
+potion anticancel~
+{&A potion of Anti-Cancel{x~
+A potion of white liquid lies here~
+liquid~
+potion 0 AO
+20 'anticancel' 'sanctuary' 'reserved' 'reserved'
+20 20 20 P
+#32090
+boots stealth~
+{*Sh{7ad{&ow B{7oo{8ts{7, Crafted by Elorien himself.~
+Some {8dark {xboots have been dropped here.~
+cloth~
+armor G AG
+25 25 25 25 0
+30 1 1000 P
+A
+13 200
+A
+12 150
+#32091
+podrikev battle armor~
+{7P{8odrikev {7B{8attle {7A{8rmor{x~
+Some dusty platemail, remains half buried in the ground.~
+steel~
+armor G A
+50 50 50 12 0
+30 8 1000 P
+A
+13 300
+A
+12 200
+#32092
+gaunlets weapon expertise~
+{#G{3aunlets {#O{3f {#W{3epon {#E{3xpertise{x~
+Some leather gaunlets have been discarded like trash.~
+leather~
+armor AGI AH
+20 20 20 20 0
+30 1 5 P
+A
+19 45
+A
+18 45
+#32093
+pendant mana~
+{%P{5endant {&of {%M{5ana{x~
+(no description)~
+bronze~
+armor 0 AC
+20 20 20 20 0
+30 1 20 P
+A
+12 500
+#32094
+sphere influence~
+{$Sp{4he{&re{7 Of {$In{4fl{&ue{7nce{x~
+A glowing sphere has been dropped.~
+magic~
+armor ABGI AQ
+0 0 0 0 0
+30 3 200000 P
+A
+13 300
+A
+12 300
+A
+19 15
+A
+18 15
+#32095
+Extraplanar bag~
+{1E{3xtra{!P{#lanar {1B{#a{!g{x~
+A fuzzy bag, is on the ground.~
+cloth~
+container AGI AD
+1000 0 0 1000 10
+20 1 10 P
+#32096
+magic forcefield~
+{%Ma{#g{%ic {#For{%ceFi{#eld{x~
+A magical field eminate here.~
+force~
+armor AGI AY
+20 20 20 20 0
+20 1 25 P
+A
+12 250
+A
+13 300
+A
+20 -5
+#32097
+crown titan~
+{#Crown Of The Titans{x~
+A crown has been dropped here.~
+gold~
+armor AGI AE
+30 30 30 30 0
+20 1 20 P
+A
+18 15
+A
+19 15
+A
+13 250
+A
+12 250
+#32098
+thunder hammer~
+{#Th{3u{&n{3d{#er {#H{3a{&mm{3e{#r{x~
+A shinny hammer beams face up.~
+lightening~
+weapon AGI AN
+mace 10 20 pound G
+20 3 10000 P
+A
+18 20
+A
+19 20
+#32099
+shortsword backstabbing~
+{8ShortSword {&of {8BackStabbing{x~
+An odd looking sword absorbs the light.~
+steel~
+weapon AGI AN
+sword 13 16 slash DH
+20 2 20 P
+A
+18 20
+A
+19 15
+#0
+
+
+
+#ROOMS
+#32000
+Tomb of Asundral~
+{&As you enter into the giant chamber the cave opens up into a 
+large vault.  The smell is that of old parchments and small 
+dead rodents.  {7Pale {&stagalmites give off the only light.  You
+cannot see the roof for the light doesn't extend far enough.  
+About thirty-five feet inwards, you notice a large {8stone{& box 
+inlined with thousands of runes created with a time long before 
+yours.  All around the tomb there are golden trinkets and valued 
+items of whoever rests inside the crypt.  As you near the tomb 
+itself you notice that there is one message that everyone can 
+read.  It is illuminated in a {3g{8l{3o{8o{3m{8y {&irridesence, and says this 'Here 
+Lay Asundral, Pillager of all!'{x  
+~
+0 12 0
+S
+#32001
+Begining of the field~
+As you enter onto the plains you see many things, first 
+of all there is the {#golden wheat {xblowing in the wind. 
+The trodden path that you follow is worn in and because 
+of lack ot rain the path is very dry.  Small {2shrubbery{x
+grows all around you.  In the distance to the east you can
+see the mountains.  To the west looms CandleKeep, the north
+beholds the Friendly Arm Inn, and to the south lies Bergost.
+~
+0 0 2
+D0
+~
+~
+0 0 32002
+D2
+~
+~
+0 0 346
+S
+#32002
+Continuing down a field~
+As you continue through the {#golden {xfield, you notice a wide
+variety of birds happily chirpping as they go about their daily
+business.  The path is begining to widen yet it still leads
+onwards toward the north. 
+~
+0 4 2
+D0
+~
+~
+0 0 32003
+D2
+~
+~
+0 0 32001
+S
+#32003
+{7Fork in the {#P{3ath{x ~
+The single path from before splits off into two seperate paths.
+The path to the north continues through the field, yet the path
+to the east enters an area where the shrubs start to dominate.
+The birdsong is coming from the east, and a small trail of 
+whispy {8smoke{x is coming from the north.
+~
+0 0 2
+D0
+~
+~
+0 0 32027
+D1
+~
+~
+0 0 32004
+D2
+~
+~
+0 0 32002
+S
+#32004
+{7A Trodden {#P{3ath{x~
+The wheat from the field has died down, and large green shrubs
+have shot up all over the place.  The chirping of the birds is
+getting louder as you walk on.  The path is slightly muddy
+from rain.  The beggining of small hills are visible to the 
+north east.
+~
+0 0 11
+D1
+~
+~
+0 0 32005
+D3
+~
+~
+0 0 32003
+S
+#32005
+{7Turn in the Trodden {#P{3ath{x~
+As you continue down the path, it turns north abrubtly.  The 
+thickening shrubs, small plants, and now even small trees
+clutter the ground like a thin forest.  The trail has many
+footprints in it now, some animal, others not.  The birds which
+are now visible seem to be enjoying every moment of their life.
+~
+0 0 11
+D0
+~
+~
+0 0 32006
+D3
+~
+~
+0 0 32004
+S
+#32006
+{7Along the Trodden {#P{3ath{x~
+As you walk down the path that is begining to narrow, the fresh
+smell of pine is being wafted all around.  The {@t{2r{1e{2e{@s{x are closer
+together, and the ground is covered with {@p{2l{@a{2n{@t{@l{2i{@f{2e{x.  Small 
+human footprints can be made out quite clearly on this part
+of the path.
+~
+0 0 11
+D0
+~
+~
+0 0 32007
+D2
+~
+~
+0 0 32005
+S
+#32007
+{7Along the Trodden {#P{3ath{x~
+At yet another bend in the trail, you come across a deep set 
+small sized human footprint.  It is easily destigishable, and 
+is leading towards the eastern part of the forest.  The warm 
+morning {#l{3i{7g{3h{#t{x, glistens off of the {^dew {xcovered 
+{@g{2r{@a{2s{@s{x.  The birds sing cheerfull melodies, and 
+flutter about carelessly.
+~
+0 0 11
+D1
+~
+~
+0 0 32008
+D2
+~
+~
+0 0 32006
+S
+#32008
+{7Fork in the {*Road{x~
+This a large three-way fork in the road, the dirt path leads north,
+south, and east.  The small footprints unmistakabley go east.
+To the north the forest is thickening.  Here the light shines 
+through the skinny trees, the early morning fog is thinning, and
+the whole area has the effect of just being on fire.
+~
+0 0 11
+D0
+~
+~
+0 0 32013
+D1
+~
+~
+0 0 32009
+D3
+~
+~
+0 0 32007
+S
+#32009
+Front of a Hill~
+The small hill here has been cleared of almost all trees.  The path
+you have been following all day ends, as soon as it touches the grass.
+The small little footprints are all over the place here.  The grass
+that grows on the hill isn't too tall, as if it was maintained.
+There are no other exits, except the one of which you entered this
+part of the land.
+~
+0 0 4
+D3
+~
+~
+0 0 32008
+D5
+~
+~
+32776 0 32010
+S
+#32010
+Entrance to a house~
+This small house is filled with the stench of stale air.  It is 
+quite chill, and very little natural light, lights up the room.
+a small semi-circle shaped window.  {@G{2r{@e{2e{@n{2 g{@r{2a{@s{2s{x and {^s{7k{^y{x is all that
+you can see out of it.  The room is layed out in three main portions
+the first is where you stand, there is a floor mat and a wall hook
+and a wooden closet.  Deeper in the room there is a small fireplace,
+by the {!f{1i{#r{3e{7p{3l{#a{1c{!e{x sits an old worn-in {!c{1h{8a{1i{!r{x.  A picture of an old
+halfling is the only decoration that adorns the walls.  There seem
+to be more rooms to the east, and south. 
+~
+0 8 0
+D1
+~
+~
+0 0 32062
+D2
+~
+~
+0 0 32011
+D4
+~
+~
+32776 0 32009
+S
+#32011
+Small Bedroom~
+The small room is outlined by lantern light shows for small concaving
+walls.  A small bed is on the farthest side from the door.  There
+is a night-table beside the bed, and a wodden dresser beside the 
+door.  
+~
+0 0 0
+D0
+~
+~
+0 0 32010
+S
+#32012
+~
+~
+0 4 0
+S
+#32013
+{7A Trodden {#P{3ath{x~
+Further along the path, the trees begin to grow closer and 
+closer together.  The worn dirt path continues straight to the 
+north, and heads deeper into the forest.  To the northwest, the 
+vast rockface is still visible.
+~
+0 0 11
+D0
+~
+~
+0 0 32014
+D2
+~
+~
+0 0 32008
+S
+#32014
+{7Turn in the {#P{3ath{x~
+Large fur trees line the valley.  Taller than the eye can see spread
+out amongst you like giant pillars.  Their sweet smell wafting up
+your nose.  The sun's rays are breaking through in certain places
+casting shadows to and fro.  The path twists to the east, deeper
+still into the forest.
+~
+0 0 11
+D1
+~
+~
+0 0 32015
+D2
+~
+~
+0 0 32013
+S
+#32015
+{7Entrance to the {@F{2o{@r{2e{@s{2t{x~
+For some reason the trail ends.  Small unused paths continue to the
+south, and east.  The trees block out everything else, small plants
+clutter the ground in front of you, and the rest of the forest bed.
+~
+0 0 3
+D1
+~
+~
+0 0 32017
+D2
+~
+~
+0 0 32016
+D3
+~
+~
+0 0 32014
+S
+#32016
+{7Corner of the {@F{2o{@r{2e{@s{2t{x~
+Gigantic trees tower over all the lesser plant life.  Shrubs and 
+ferns pop up all over the place.  Grass grows in a scattered, and
+uncontrolled fashion.  A small game trail crisscrosses, and cuts
+toward the east.  
+~
+0 0 3
+D0
+~
+~
+0 0 32015
+D1
+~
+~
+0 0 32018
+S
+#32017
+{7In The {@F{2o{@r{2e{@s{2t{x~
+The forest thickens, and vines begin to protrude from the trees.
+Large amounts of fungi have begun growing in this region.  Small
+rocks and stones jut up all over the place.  Moss droops off 
+branches like, drool from a dog, gently swaying with the calm
+breeze.
+~
+0 0 3
+D1
+~
+~
+0 0 32020
+D2
+~
+~
+0 0 32018
+D3
+~
+~
+0 0 32015
+S
+#32018
+{7Depth's of the {@F{2o{@r{2e{@s{2t{x~
+The sun is shining brightly through the tips of the trees.  The scent
+of pine, sticks in the air, as it does on the trees.  Small birds
+and squirrels are darting here and there, chatting in their own 
+dialect.  A patch of beautiful flowers grow in a semi-circle around
+a stunted tree.
+~
+0 0 3
+D0
+~
+~
+0 0 32017
+D1
+~
+~
+0 0 32021
+D2
+~
+~
+0 0 32019
+D3
+~
+~
+0 0 32016
+S
+#32019
+{7Corner of a {@F{2o{@r{2e{@s{2t{x~
+The small trail that deftly twists between trees doesn't seem to go 
+very far.  The south, and west is completely blocked off by dense
+walls of thorns, and thistles.  The wall is so thick any sort of 
+further travel would be impossible.
+~
+0 0 3
+D0
+~
+~
+0 0 32018
+D1
+~
+~
+0 0 32022
+S
+#32020
+{7In The {@F{2o{@r{2e{@s{2t{x~
+The trees here have grown in a similar fashion to the rest, except
+for one incredibly large tree that surpasses all the others.  
+The tree grows up normally, but then bends to shoot between many
+other trees in this part of the forest.  The bark on the top side
+of the bend seems to be slightly worn.
+ 
+A phrase has been carved into the trunk if the tree, it reads:
+{3"For a great view simply, 'climb the tree'"{x
+~
+0 0 3
+D1
+~
+~
+0 0 32023
+D2
+~
+~
+0 0 32021
+D3
+~
+~
+0 0 32017
+S
+#32021
+{7Depth's of the {@F{2o{@r{2e{@s{2t{x~
+Trees and plants grow alike, in the ussual fashion.  Trails lead off
+in every which direction.  There is a small patch where the shrubbery
+has been supressed.  The patch is muddy, with tracks all around it.
+On close expection speckles of blood can be spotted.
+~
+0 0 3
+D0
+~
+~
+0 0 32020
+D1
+~
+~
+0 0 32024
+D2
+~
+~
+0 0 32022
+D3
+~
+~
+0 0 32018
+S
+#32022
+{7Walking through a {@F{2o{@r{2e{@s{2t{x~
+All about you the trees tower like giants.  Just staring down from
+their anceint branches.  These trees have seen many men come and go.
+many more will pass them by.  If they could they would laugh, not
+because of their vast lifespan, but having the knowledge that they
+are captive.  Stuck for all eternity.
+~
+0 0 3
+D0
+~
+~
+0 0 32021
+D1
+~
+~
+0 0 32025
+D3
+~
+~
+0 0 32019
+S
+#32023
+{7The End Of The {3P{#at{3h{x~
+The Interwinding trees become so thick that it is no longer possible
+to continue on to the east.  The small slightly worn in path now
+goes onto the south.  There is a large bird nest in one of the trees,
+the nest is about the size of a dwarf'd kenku.
+~
+0 0 3
+D2
+~
+~
+0 0 32024
+D3
+~
+~
+0 0 32020
+S
+#32024
+{7Deep In The {@F{2o{@r{2e{@s{2t{x~
+Again the forest is too cluttered for anymore easterly travel.  The
+trees are just as tall here as in the rest of the forest.  To the side
+there is a stagnant pool of water.  It is big enough to swim in, 
+although the water doesn't look very inviting.
+~
+0 0 3
+D0
+~
+~
+0 0 32023
+D2
+~
+~
+0 0 32025
+D3
+~
+~
+0 0 32021
+S
+#32025
+{&Before A {8C{7a{8v{7e{x~
+{7The trees spread open like a gaping mouth as the path widens before
+a cave.  The entrance is large and it is too dark to tell if anything
+dwells inside.  You notice no tracks in the area, a strange smell
+does seem to be swifting around on the currents of air.  Making it hard
+to discern exactly where it is coming from.  
+~
+0 0 3
+D0
+~
+~
+0 0 32024
+D2
+~
+~
+0 0 32026
+D3
+~
+~
+0 0 32022
+S
+#32026
+{&Inside The {8C{7a{8v{7e{x~
+{8The cave is about 20 feet high.  It doesn't go in very deep.  But 
+it is fairly wide. Darkness surrounds everything, because no outside
+light seeps in.  The air is musty and smells of wet dog.  The cavern
+floor is flat, and has been cleared of all rough, or jagged rocks.
+{x
+~
+0 9 20
+D0
+~
+~
+0 0 32025
+S
+#32027
+{#P{3ath {7between the {#F{3i{&el{3d{#s{x~
+As you walk along the path, not much is visible.  Long stalks of wheat
+sprout up in the fields to either side of you.  No side trails appear,
+and the road seems well travelled.
+~
+0 0 2
+D0
+~
+~
+0 0 32028
+D2
+~
+~
+0 0 32003
+S
+#32028
+{7Following the {#P{3ath{x~
+As you continue down there is still no change.  The tall fields
+flow back and forth with the wind.  You cannot tell what is past or
+beside you.  Abruptly as you are passing by, a small path is visible
+to the west.  It is not a real path, more of an intrusion in the field.
+The path is not cut, it appears as if someone just walked right
+through it.
+~
+0 0 2
+D0
+~
+~
+0 0 32037
+D2
+~
+~
+0 0 32027
+D3
+~
+~
+0 0 32029
+S
+#32029
+{7Stumbling Through the {#F{3i{&e{3l{#d{x~
+Like walking through a hedge maze, it is hard to understand what you
+are doing.  The small path you are following doesn't go in just one
+direction.  It goes here, then there, then back here again.  Not
+alowing any chance to gain a good bearing.  It is hard to see where
+you are going.  Wheat still completely encompasses everything around
+you.  It as if you were in a vast see or white, and gold.
+~
+0 0 2
+D1
+~
+~
+0 0 32028
+D3
+~
+~
+0 0 32030
+S
+#32030
+{7Sharp Bend in the {#F{3i{&e{3l{#d{x~
+After following the path, it switches back due south.  The wheat stalks
+still prohibit any new observations about your surrounding area.  
+~
+0 0 2
+D1
+~
+~
+0 0 32029
+D2
+~
+~
+0 0 32031
+S
+#32031
+{8Rocks {7in the {#F{3i{&e{3l{#d{x~
+For some unknown reason, whoever farms these fields has neglected
+to remove many large rocks which lay all about this portion of the field.
+They don't really get in the way.  But where the rocks are, there
+isn't any wheat.  The path continues onward in an abstract fashion, 
+everthing other than your close reality, is blocked out by the field.
+~
+0 0 2
+D0
+~
+~
+0 0 32030
+D3
+~
+~
+0 0 32032
+S
+#32032
+{7SomeWhere in a {#F{3i{&e{3l{#d{x~
+Nothing changes, the path weaves in and around nothing.  The wheat makes
+a feeble yet unchallenged barrier.  Nothing else is predeterminable.
+~
+0 0 2
+D1
+~
+~
+0 0 32031
+D3
+~
+~
+0 0 32034
+S
+#32034
+{7Corner in a {#F{3i{&e{3l{#d{x~
+Another switchback, again the path twists to the southwest.  Still
+nothing new can be seen.  A light smell of smoke travels with the wind.
+~
+0 0 2
+D1
+~
+~
+0 0 32032
+D2
+~
+~
+0 0 32035
+S
+#32035
+{7Walking in a {#F{3i{&e{3l{#d{x~
+At last the small path seems to stabalize.  It heads in one steady 
+direction.  Still nothing has changed, except now you can see small
+wisps of smoke coming from further down the path.
+~
+0 0 2
+D0
+~
+~
+0 0 32034
+D2
+~
+~
+0 0 32036
+S
+#32036
+{7Clearing in a {#F{3i{&e{3l{#d{x~
+{7This large circular area of the field has been cleared.  A makeshift
+camp has been set up.  There is one poorly structured hide tent, and
+plenty of bedrolls strewn about a large firepit.  A couple buckets of
+water have even been brought in from a nearby stream.  The only way
+out of the camp, is back to the north where you came from.
+{x
+~
+0 0 2
+D0
+~
+~
+0 0 32035
+S
+#32037
+{7End of the {#F{3ield{x~
+As the worn path continues, the {#golden {xfield does not.  The further
+north you walk the less and less remains.  The soil appears to be dry
+and poorly irrigated.  There is no aparent attempt as to anyone farming
+this part of the land.  The path continues north, to south.
+~
+0 0 11
+D0
+~
+~
+0 0 32038
+D2
+~
+~
+0 0 32028
+S
+#32038
+{7Turn in the {3Path{x~
+No harvest will come from this area of land.  The ground is too
+dry, and the soil very poor.  Instead, small {2shrubs{x, and stalks of
+{@grass{x have shot up all over the place.  The rocky path seems to wind
+northward into the closest mountains in the area, and runs south into
+the field.  
+~
+0 0 11
+D1
+~
+~
+0 0 32039
+D2
+~
+~
+0 0 32037
+S
+#32039
+{7Along the {3Path{x~
+Another twist in the path show nothing new, the scenary is the same
+as it was before.  Low rolling hills, accompannied by a dusty trail to
+the north that leads into the begining of the mountains.  South of course
+would take a man to the {#wheat{x fields.  
+~
+0 0 11
+D0
+~
+~
+0 0 32040
+D3
+~
+~
+0 0 32038
+S
+#32040
+{3Shack {7along the {3Path{x~
+At the side of the path there is an abandoned shack.  The shack is
+run down and broken.  The roof is missing shingles and sags in various
+places.  The siding of the house has rotted away, beams hang down 
+from the ceiling, the inside has been overun by vegitation.  It all
+stands undisturbed.  The path still goes North to South.
+~
+0 0 11
+D0
+~
+~
+0 0 32041
+D2
+~
+~
+0 0 32039
+S
+#32041
+{7Turn on a {2H{@ill{x~
+As you crest the hill, both sides of the path are now visible.  To
+the south the vast fields of {3wheat{x sway with the wind, an old 
+shack is visible as well.  To the North some jagged landmass's have
+seemingly risen from the ground.  The {8stone{x mounds making travel
+a little more difficult.
+~
+0 0 4
+D2
+~
+~
+0 0 32040
+D3
+~
+~
+0 0 32042
+S
+#32042
+{3Bridge {7at the {bC{Br{^e{6e{7k{x~
+On this side of the hill, a small creek trickles through a natural
+ditch running to the East.  A small wooden bridge has been constructed
+to ensure safe passage.  The bridge appears to be in good condition, 
+and is wide enough for a trade caravan.  To the North the begining
+of a rocky path can be seen.
+~
+0 0 11
+D0
+~
+~
+0 0 32043
+D1
+~
+~
+0 0 32041
+S
+#32043
+{8J{7agged {8Rocks{x~
+Two Jagged rocks tower above you.  They have been leaned up against
+each other to form a large upside-down V.  This landmark is the begining
+of the path through the mountains.  Lose rock topples beneath your feet
+as you clamber up under the V, before you stands a gray void, the air
+is dry and arid, vegitation has abruptly come to an end.  Rocks, and
+hills are all that is visible to the North.
+~
+0 0 5
+D0
+~
+~
+0 0 32055
+D2
+~
+~
+0 0 32042
+S
+#32044
+{7Fork in the {8Mountains{x~
+{7An unclimbable crest is directly North-West of here.  A path has
+been worn into the mountain side leading East to West, and another
+winding off to the North.  Small {3marmots {7skitter around, running from
+hole to hole.  {x 
+~
+0 0 5
+D0
+~
+~
+0 0 32049
+D1
+~
+~
+0 0 32055
+D3
+~
+~
+0 0 32045
+S
+#32045
+{8Mountain {7Path{x~
+{7The worn path runs East to West between two large ridges.  The path
+is fairly narrow, and movement is somewhat hindered by the rocky
+terrain.  Small {3marmots{7 dash in and out of little wholes on the sides
+of the ridges.  {x 
+~
+0 0 5
+D1
+~
+~
+0 0 32044
+D3
+~
+~
+0 0 32046
+S
+#32046
+{7Around the {8R{7idge{x~
+{7The path narrows even more, as one slope drops away, and the other
+steepens.  Loose rock tumbles about as you walk.  A swift breeze
+threatens to carry you down the bank, to certain death.  
+~
+0 0 5
+D0
+~
+~
+0 0 32047
+D1
+~
+~
+0 0 32045
+S
+#32047
+{7Switchback Through the {8Mountains{x~
+{7A Sharp bend on the mountain trail suddenly turns steep.  Loose rocks
+and previous slide marks from other travelers are visibly apparent.
+A swift {Bbreeze{7 whistles its way, causing cloaks to flap, and 
+making the climb even more tedious.
+{x
+~
+0 0 5
+D1
+~
+~
+0 0 32048
+D2
+~
+~
+0 0 32046
+S
+#32048
+{7Tight Squeeze{x~
+{7The trail abruptly goes between to very close pieces of rock.  The
+rock peices are each larger than two giants.  The space in between
+is so small that even a gnome would have a difficult time fitting his
+way past the barricade.  The rock formations are almost sheer making
+it so only an expert mountaineer could scale them.{x
+~
+0 0 5
+D1
+~
+~
+0 0 32049
+D3
+~
+~
+0 0 32047
+S
+#32049
+{7Fork in the {8Mountains{x~
+{7The well worn trail that runs North to South looks nothing like 
+its smaller counterpart that runs off to the West.  To the East the
+path dips between to large boulders, making it a fairly tight fit.  
+The Northern mountain wall is fast aproaching, it is now clearly visible.
+One small jagged rock sticks out in the middle of the path.  A hazard
+to the weary or hasty traveler.
+~
+0 0 5
+D0
+~
+~
+0 0 32050
+D2
+~
+~
+0 0 32044
+D3
+~
+~
+0 0 32048
+S
+#32050
+{7Cliff {8Wall{x~
+{7The path turns against the large mountainside.  The rockface is 
+vertical, small ledges and handholds jut out in awkward places making
+the climb possible, but unlikely.  The actuall path itself is no longer
+loose gravel but medium sized boulders that have been flattened, and
+ground into the dirt.{x
+~
+0 0 5
+D1
+~
+~
+0 0 32052
+D2
+~
+~
+0 0 32049
+S
+#32051
+~
+~
+0 4 0
+S
+#32052
+{7Along the {8Wall{x~
+{7The path slopes up to its uneven peak, and then slopes back down. 
+Upon looking down from the ledge, it is discernable that to fall would
+certainly be death.  Jagged rocks pount out at frequent intervals. 
+The height of the fall itself would be difficult for a simple mortal
+to survive.  The uneven mountain floor below would not lend any
+comfort to the whole ordeal.  {x 
+~
+0 0 5
+D1
+~
+~
+0 0 32053
+D3
+~
+~
+0 0 32050
+S
+#32053
+{7Down to the Valley~
+{7The cliff wall comes back down to the path, and then hits a
+switchback.  The terrain is easy to travel, and is mostly just gravel.
+Ocasional tuffs of grass have sprouted up through the areas of loose
+rock, althought these small patches do not appear to be in the best of
+condition.  They are plauged with discoloration, from lack of water. 
+The trail then leads to slope down to the South.  {x 
+~
+0 0 5
+D2
+~
+~
+0 0 32056
+D3
+~
+~
+0 0 32052
+S
+#32054
+~
+~
+0 4 0
+S
+#32055
+{7Into the {8M{7ountains{x~
+{7This is the crest of the hill, from here you can go in every direction.
+The hill is bare and offers no trouble concerning navigation.  To the
+{!N{1orth{7 a {@ravine{7 is the only thing that is visible.{x
+ 
+{3An old sign reads {&"{#Be wary of Gnolls, these mountains are infested!{&"{x
+~
+0 0 5
+D0
+~
+~
+0 0 32066
+D1
+~
+~
+0 0 32057
+D2
+~
+~
+0 0 32043
+D3
+~
+~
+0 0 32044
+S
+#32056
+{7Western end of the Valley~
+{7On the West, the large mountain hinders all path, it also creates
+the Western peak of the Valley.  As you descend deeper into the
+Valley, more vegitation sprouts up.  Trees and shrubs are more common,
+There is also an increase in humidity, Unlike the barren mountains, a
+sweet smell of life whispers through the air.  A slight trickle
+of water can be heard from the East.  {x 
+~
+0 0 5
+D0
+~
+~
+0 0 32053
+D1
+~
+~
+0 0 32058
+D2
+~
+~
+0 0 32057
+S
+#32057
+{7Entrance to the Valley{x~
+{7 To the West lies the junction of the mountain entrance.  To the
+North there is a large rock, easily mistaken for a mountain.  The
+temperature is cool, and the sun hits the foilage creating lots of
+shade.  A small {^stream{7 trickles, and runs off to the east.  The ground
+is well worn, made up mostly of dirt, with rocks, and boulders jutting
+out irregularily.  {x 
+~
+0 0 5
+D0
+~
+~
+0 0 32056
+D1
+~
+~
+0 0 32059
+D3
+~
+~
+0 0 32055
+S
+#32058
+{7North of the {^Creek{x~
+{7In the middle of the valley, you are surrounded by trees, and
+bushes.  The {^creek{7 that gives life to the greenery of the valley, is
+on your south side.  The path through the trees seem worn in from use.
+There are strange markings on one of the trees.  It is the sign of a
+Ranger.  A sweet breeze stirs the leaves on the ground, and causes the
+tall grass to sway.  {x 
+~
+0 0 5
+D1
+~
+~
+0 0 32060
+D3
+~
+~
+0 0 32056
+S
+#32059
+South of the {^Creek{x~
+{7Here on the South side of the {^creek{7, There isn't enough room to
+make camp.  The trees have grown too close together, and most of the
+ground is muddy from a past washout of the {^creek{7.  Nonetheless their
+is a squirrel that is singing to its hearts content, obviously
+enjoying himself while he forages for his nest.  {x 
+~
+0 0 5
+D1
+~
+~
+0 0 32061
+D3
+~
+~
+0 0 32057
+S
+#32060
+{7Corner of the Valley~
+{7Here in the corner of the Valley, it is very seculive.  A large
+grove of trees have rooted themselves tightly in the small area. 
+Shortly to the SouthWest, there is a small creek.  It is that very
+creek which gives life to the whole valley.  It is possible to
+navigate through the trees either to the South, or to the West.  {x 
+~
+0 0 5
+D2
+~
+~
+0 0 32061
+D3
+~
+~
+0 0 32058
+S
+#32061
+{7East of the {^Creek{x~
+{7On the East side, where the mountain rises up to hinder your path,
+it is very damp.  Because of the large trees, and other foilage, the
+rock is very damp, and in most places is covered in moss.  The shallow
+{^creek{7 that comes in from the North, swings West, while continuing its
+path South.  The {^creek{7 appears to contain very clean water.  A
+refreshing site for the weary traveller.  Remains of past camps can be
+seen on the valley floor.  Old fire pits, and cleared areas for
+bedrolls mark this as a popular spot.  {x 
+~
+0 0 5
+D0
+~
+~
+0 0 32060
+D3
+~
+~
+0 0 32059
+S
+#32062
+Small Kitchen~
+This small room is used to make a poor excuse for a kitchen.  On
+the backside of the fireplace, a hot-plate, and kettle rack have
+been set up.  There is a wooden table beside a large waterbarrel.
+A few pots and pans are hung on the wall, wooden cupboards are 
+hung on the opposite wall of the pots.  This room is illuminated
+by a single flickering lantern. 
+~
+0 0 0
+D3
+~
+~
+0 0 32010
+S
+#32063
+{7Top of a {@T{2r{@e{2e{x~
+The bark on the top of this giant tree is quite worn.  It is easy to
+walk upon, and shows an incredible view of the area.  You can see
+the vast forest in all directions, a small cave to the south.  The
+many fields of wheat to the far east, and the begining of a rocky 
+path to the north.
+~
+0 0 3
+D5
+~
+~
+0 0 32020
+S
+#32064
+UnderWater Cavern~
+{8This is a small alcoved room.  The ceiling lies seven feet above the
+uneven floor.  Jags, and crags stick out from everywhere.  Small
+flickerings of {#light {8protrude from the pool floor.  The stone
+walls look solid, and don't seem to have ever been worked.  The
+naturally formed room doesn't lead anywhere else.{x
+~
+0 8 20
+D4
+~
+~
+0 0 32024
+S
+#32065
+{7Inside the {3Hide Tent{x~
+{7The inside of the tent is quite messy.  Bedrolls, and packs are
+strewn about the room.  dirty clothing has been tossed about, and the
+stench of decay sit contently in the confinement of the small space.
+The door to the tent is on the east wall.
+~
+0 0 0
+D1
+~
+~
+0 0 32036
+S
+#32066
+{3Deep {@R{2a{@v{2i{@n{2e{x~
+{7The crest of the first hill in the mountains leads into a deep ravine.
+It is not very hazardous, as the terrain isn't too steep.  The vegitation
+is minimum, and it is mostly made up of loos dirt, and granite {8rocks{7,
+apparently the ravine leads nowhere.  The {^stream{7 which would have
+created such a wonderfull spectacle has long since dried up.{x
+~
+0 0 20
+D2
+~
+~
+0 0 32055
+S
+#32097
+Path the the Shattered keep~
+~
+0 0 0
+D2
+~
+~
+0 0 32099
+S
+#32098
+The FAR side of the lake~
+~
+0 4 0
+S
+#32099
+Shattered Keep side of the lake~
+~
+0 0 0
+D0
+~
+~
+0 0 32097
+S
+#0
+
+
+
+#SPECIALS
+M 32006 spec_cast_mage
+S
+
+
+
+#RESETS
+D 0 32009 5 1
+D 0 32010 4 1
+M 0 32001 1 32000 1
+E 0 32000 0 16
+M 0 32000 2 32002 1
+M 0 32000 2 32002 1
+M 0 32000 1 32003 1
+M 0 32000 1 32005 1
+M 0 32000 1 32007 1
+O 0 32006 0 32010
+M 0 32002 1 32010 1
+E 0 32001 0 16
+G 0 32002 0
+O 0 32003 0 32011
+M 0 32000 1 32013 1
+M 0 32010 1 32015 1
+M 0 32010 1 32018 1
+O 0 32013 0 32018
+M 0 32010 1 32019 1
+M 0 32006 1 32020 1
+O 0 32007 0 32020
+M 0 32010 1 32021 1
+M 0 32010 1 32023 1
+O 0 32009 0 32024
+M 0 32003 1 32024 1
+O 0 32008 0 32024
+M 0 32010 1 32025 1
+O 0 32012 0 32026
+M 0 32005 1 32026 1
+M 0 32000 1 32027 1
+M 0 32000 1 32029 1
+M 0 32000 1 32031 1
+M 0 32000 1 32032 1
+M 0 32000 1 32035 1
+M 0 32000 2 32036 1
+M 0 32000 2 32036 1
+O 0 32016 0 32036
+M 0 32007 1 32036 1
+E 0 32015 0 5
+M 0 32000 1 32037 1
+M 0 32009 1 32038 1
+M 0 32009 1 32039 1
+M 0 32009 1 32041 1
+M 0 32009 1 32043 1
+M 0 32055 1 32046 1
+M 0 32055 1 32048 1
+M 0 32055 1 32050 1
+M 0 32055 1 32053 1
+M 0 32055 1 32057 1
+M 0 32055 1 32058 1
+M 0 32055 1 32061 1
+O 0 32004 0 32062
+O 0 32005 0 32062
+M 0 32004 1 32064 1
+E 0 32010 0 16
+M 0 32008 1 32066 1
+E 0 32031 0 16
+M 0 32055 2 32066 1
+M 0 32055 2 32066 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#32001
+mob echoat $n {7You begin to scramble up the tree.  As you get to the bend you easily hoist yourself up.
+mob echoaround $n {7$n begins scrambling up the tree, he disapears over the bend.
+mob transfer $n 32063
+~
+#32002
+mob echoat $n {&You dive into the water and begin swimming around, after a moment or two you are pulled into the pool by a strong current.
+mob echoat $n {7As you reach the surface you immediately notice you are now in a small underground cavern.
+mob transfer $n 32064
+~
+#32003
+say Yea, come to think of it I just might have a job for ye!
+say It appears, kobolds have been parading around the wheat fields..
+peer
+say That makes my journey's a little too dangerous for my own likings.
+say If you could bring me any of their heads..I could give you a little
+say something or other!  Good luck.
+~
+#32004
+mob echoat $n {7As the {1Ko{!bo{1ld {7falls to the groud, you decapitate him, his {!se{1v{&e{1r{!ed {3head {7falls to the ground.{x
+mob echoaround $n {7As the {1Ko{!bo{1ld {7falls to the groud, $n decapitates it, its {!se{1v{&e{1r{!ed {3head {7falls to the ground.{x
+mob oload 32014 1 room
+~
+#32005
+if carries $n 'kobold head'
+say Ahh good, you have brought me the head of a vile kobold!
+say Maybe this will help ou on your journey.
+mob oload 32001 1
+give dagger $n
+mob force $n give head half
+mob junk head
+else
+say Hey there, have I got a job for you!
+endif
+~
+#32006
+if clan ClanStrife
+say Hail Fellow Cyricist!  May Cyric be with you!
+mob cast 'full heal' $n
+else
+say HERETEC!  Through Cyrics will you must be purged!
+say $n, you must die!
+mob kill $n 
+endif
+~
+#32007
+emote {7calls upon powers of the mighty {%C{5y{8r{5i{%c{x
+mob echo {7 The {%In{5qu{8is{5it{%or {7reaches spins around and slashes you.{x
+damage 'all' 1000 4000 lethal
+~
+#32008
+if clan $n 'Zhentarim'
+say Hail Zhent.
+else
+say You are not a Zhent.
+endif
+~
+#32010
+say If you are here you must leave immidiately,  This is a closed area!
+mob transfer $n 3014
+~
+#32097
+mob echoat $n {7As you finish blowing the horn, {8grey{7 mists begin to{x
+mob echoat $n {7swirl up and before you affears a skiff made from the{x
+mob echoat $n {7skull of a dead {3Gol{3de{&n D{#ra{3gon{7. 
+mob echoat $n As you settle onto the skull, you begin travelling across 
+mob echoat $n the lake.  It becomes so {8f{7o{&g{7g{8y{7 that you can no
+mob echoat $n longer see anything around you.  By the time it clears you
+mob echoat $n are on the other side of the leg.  As soon as you step off
+mob echoat $n of the skull, the mist forms and it drifts away.
+mob echoaround $n {7As $n, finishes blowing the horn, {8grey{7 mists begin to
+mob echoaround $n swirl up and before you appears a skiff made from the
+mob echoaround $n skull of a {3Gol{3de{&n D{#ra{3gon{7.  As soon
+mob echoaround $n as $n steps onto the skull, it begins to float across
+mob echoaround $n the lake.  You can see it go until it is envelopped
+mob echoaround $n in {8f{7o{8g{7.{x
+mob transfer $n 32098
+~
+#32098
+say So you want to cross the lake do ya?  I can take care of that!
+mob echo {7Bdell steps on to a skiff made purely of {8bone{7.
+mob echoat $n He beckons you forward, as soon as you step onto the skiff {8gray mist{x 
+mob echoat $n {7swirls up all around you.  As soon as the {8mist{7 clears you notice
+mob echoat $n you are on the other side of the lake.
+mob echoaround $n {7He beckons $n forward, as soon as $n steps on to the skiff, {8grey 
+mob echoaround $n mists {7swirl up and when they vanish Bdell, $n, and the skiff are gone.
+mob transfer $n 32098
+mob goto 32098
+say Ahh your welcome for the ride, may {%C{5y{8r{5i{%c{5 shine upon you!
+mob echo {7The {8mist{7 reapears, and when is it gone, so is Bdell.
+mob goto 32099
+mob echo {7The {8mist{7 reapears, and so does Bdell.  You do not see $n on the skiff.
+~
+#32099
+echoat $n {%The Old Man Says {@'{5Ahh young one, how goes your day?  You can call{@'
+echoat $n {%The Old Man Says {@'{5me Bdell.  I've been in the service of Cyric{@'
+echoat $n {%Bdell Says {@'{5for longer than you've been alive!  These days I be{@'
+echoat $n {%Bdell Says {@'{5tak'in you people back and forth across this here{@'
+echoat $n {%Bdell Says {@'{5lake.  If you need a ride, just say so!{@'{x
+~
+#0
+
+#$
